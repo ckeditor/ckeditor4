@@ -44,30 +44,32 @@ if ( !CKEDITOR.event ) {
 		var eventProto = CKEDITOR.event.prototype;
 
 		for ( var prop in eventProto ) {
-			if ( targetObject[ prop ] == null )
+			if ( targetObject[ prop ] == null ) {
 				targetObject[ prop ] = eventProto[ prop ];
+			}
 		}
 	};
 
 	CKEDITOR.event.prototype = ( function() {
 		// Returns the private events object for a given object.
 		var getPrivate = function( obj ) {
-				var _ = ( obj.getPrivate && obj.getPrivate() ) || obj._ || ( obj._ = {} );
-				return _.events || ( _.events = {} );
-			};
+			var _ = ( obj.getPrivate && obj.getPrivate() ) || obj._ || ( obj._ = {} );
+			return _.events || ( _.events = {} );
+		};
 
 		var eventEntry = function( eventName ) {
-				this.name = eventName;
-				this.listeners = [];
-			};
+			this.name = eventName;
+			this.listeners = [];
+		};
 
 		eventEntry.prototype = {
 			// Get the listener index for a specified function.
 			// Returns -1 if not found.
 			getListenerIndex: function( listenerFunction ) {
 				for ( var i = 0, listeners = this.listeners; i < listeners.length; i++ ) {
-					if ( listeners[ i ].fn == listenerFunction )
+					if ( listeners[ i ].fn == listenerFunction ) {
 						return i;
+					}
 				}
 				return -1;
 			}
@@ -157,12 +159,14 @@ if ( !CKEDITOR.event ) {
 					var listeners = event.listeners;
 
 					// Fill the scope.
-					if ( !scopeObj )
+					if ( !scopeObj ) {
 						scopeObj = this;
+					}
 
 					// Default the priority, if needed.
-					if ( isNaN( priority ) )
+					if ( isNaN( priority ) ) {
 						priority = 10;
+					}
 
 					var me = this;
 
@@ -247,14 +251,14 @@ if ( !CKEDITOR.event ) {
 				// Create the function that marks the event as stopped.
 				var stopped = 0;
 				var stopEvent = function() {
-						stopped = 1;
-					};
+					stopped = 1;
+				};
 
 				// Create the function that marks the event as canceled.
 				var canceled = 0;
 				var cancelEvent = function() {
-						canceled = 1;
-					};
+					canceled = 1;
+				};
 
 				return function( eventName, data, editor ) {
 					// Get the event entry.
@@ -290,14 +294,16 @@ if ( !CKEDITOR.event ) {
 									retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
 								}
 
-								if ( retData === false )
+								if ( retData === false ) {
 									canceled = 1;
-								else if ( typeof retData != 'undefined' )
+								} else if ( typeof retData != 'undefined' ) {
 									data = retData;
+								}
 
 								// No further calls is stopped or canceled.
-								if ( stopped || canceled )
+								if ( stopped || canceled ) {
 									break;
+								}
 							}
 						}
 					}
@@ -355,8 +361,9 @@ if ( !CKEDITOR.event ) {
 
 				if ( event ) {
 					var index = event.getListenerIndex( listenerFunction );
-					if ( index >= 0 )
+					if ( index >= 0 ) {
 						event.listeners.splice( index, 1 );
+					}
 				}
 			},
 
@@ -365,8 +372,9 @@ if ( !CKEDITOR.event ) {
 			 */
 			removeAllListeners: function() {
 				var events = getPrivate( this );
-				for ( var i in events )
+				for ( var i in events ) {
 					delete events[ i ];
+				}
 			},
 
 			/**

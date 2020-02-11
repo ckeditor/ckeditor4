@@ -30,7 +30,6 @@
 		 */
 		initDialogEditingModeTest: function( editors ) {
 			if ( !doc.getById( 'dialog-status' ) ) {
-
 				doc.appendStyleSheet( CKEDITOR.getUrl( bender.basePath + '/plugins/dialog/manual/_helpers/style.css' ) );
 				doc.getBody().append( CKEDITOR.dom.element.createFromHtml( dialogStatusHtml ), true );
 			}
@@ -94,5 +93,4 @@
 
 		return String( val );
 	}
-
 } )();

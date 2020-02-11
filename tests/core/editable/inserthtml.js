@@ -218,13 +218,13 @@
 
 			// Rule 1.
 			a( 'x[<b>bar</b>]y',			{	html: 'xbam^y',
-												text: 'x<b>bam^</b>y' },						'inside 1' );
+				text: 'x<b>bam^</b>y' },						'inside 1' );
 			a( 'x<b>[bar</b>]y',			{	html: 'xbam^y',
-												text: 'x<b>bam^</b>y' },						'inside 2' );
+				text: 'x<b>bam^</b>y' },						'inside 2' );
 			a( 'x[<b>bar]</b>y',			{	html: 'xbam^y',
-												text: 'x<b>bam^</b>y' },						'inside 3' );
+				text: 'x<b>bam^</b>y' },						'inside 3' );
 			a( 'x<b>[bar]</b>y',			{	html: 'xbam^y',
-												text: 'x<b>bam^</b>y' },						'inside 4' );
+				text: 'x<b>bam^</b>y' },						'inside 4' );
 		},
 
 		'G2. text into selection containing inline element (part of or entire) and text outside this element': function() {
@@ -360,7 +360,7 @@
 			a(
 				'<table><tbody><tr><td>AA</td><td>B[B</td></tr></tbody></table><table><tbody><tr><td>C]C</td><td>DD</td></tr></tbody></table>',
 				'<table><tbody><tr><td>AA</td><td>Bbam^</td></tr></tbody></table><table><tbody><tr><td>C</td><td>DD</td></tr></tbody></table>',
-																								'case 10' );
+				'case 10' );
 		},
 
 		// Rule 4. + 5.
@@ -923,7 +923,7 @@
 			a( 'x<b><u>a</u></b>[b]<b><i>c</i></b>y',
 				'x<b><u>ab</u>a<i>m^c</i></b>y',												'merge 3d' );
 
-/*
+			/*
 			a.insertion = '';
 			a.mode = null;
 
@@ -997,7 +997,6 @@
 			a.insertion = '<a><u>b<b>am </b></u></a>';
 			a( '^',				'<a><u>b<b>am </b></u></a>^',									'into empty editable 5' );
 			a( 'foo^bar',		'foo<a><u>b<b>am </b></u></a>^bar',								'me 5' );
-
 		},
 
 		// Rule 7.
@@ -1076,12 +1075,13 @@
 
 			// Rule 7. doesn't apply when pasting into the empty paragraph (empty means no text - spaces don't count).
 			a.insertion = '<h1>abc</h1>';
-			if ( !CKEDITOR.env.needsNbspFiller )
+			if ( !CKEDITOR.env.needsNbspFiller ) {
 				a( '<p>x</p><p>^<br></p><p>x</p>',
 					'<p>x</p><h1>abc^</h1><p>x</p>',											'case 6a' );
-			else
+			} else {
 				a( '<p>x</p><p>^&nbsp;</p><p>x</p>',
 					'<p>x</p><h1>abc^</h1><p>x</p>',											'case 6b' );
+			}
 		},
 
 		'GS. block bogus': function() {
@@ -1117,7 +1117,7 @@
 			a( '<p><b>x^y</b></p>',
 				{	html: '<p><b>x</b></p><p>abc</p><p>def^</p><p><b>y</b></p>',
 					text: '<p><b>x</b></p><p><b>abc</b></p><p><b>def^</b></p><p><b>y</b></p>' },
-																								'case 1a' );
+				'case 1a' );
 
 			a.mode = 'text';
 
@@ -1130,14 +1130,14 @@
 				'<p>x</p><p>abc</p><p>def^</p><p><b>yz</b></p>',								'case 2c' );
 			a( '<p><b>x<i>y^z<u>w</u></i></p>',
 				'<p><b>x<i>y</i></b></p><p><b><i>abc</i></b></p><p><b><i>def^</i></b></p><p><b><i>z<u>w</u></i></b></p>',
-																								'case 2d' );
+				'case 2d' );
 
 			a( '<p><span title="text">x^y</span></p>',
 				'<p><span title="text">x</span></p><p><span title="text">abc</span></p><p><span title="text">def^</span></p><p><span title="text">y</span></p>',
-																								'case 3a' );
+				'case 3a' );
 			a( '<p><a href="#">x^y</a></p>',
 				'<p><a href="#">x</a></p><p><a href="#">abc</a></p><p><a href="#">def^</a></p><p><a href="#">y</a></p>',
-																								'case 3b' );
+				'case 3b' );
 
 			a.insertion = '<p>def</p>abc';
 			a( '<p><b>x^y</b></p>',
@@ -1154,7 +1154,7 @@
 			a.insertion = '<ul><li>a</li><li>b</li></ul>';
 			a( '<p><b>x^y</b></p>',
 				'<p><b>x</b></p><ul><li><b>a</b></li><li><b>b^</b></li></ul><p><b>y</b></p>',
-																								'case 5a' );
+				'case 5a' );
 
 			a.insertion = '<p>abc</p><p>def</p>';
 			a( '<p>[<b>x]y</b></p>',
@@ -1166,7 +1166,7 @@
 
 			a( '<table><tbody><tr><td><b>x[y</b></td><td><u>y]z</u></td></tr></tbody></table>',
 				'<table><tbody><tr><td><b>x</b><p><b>abc</b></p><p><b>def^</b></p></td><td><u>z</u></td></tr></tbody></table>',
-																								'case 6d' );
+				'case 6d' );
 
 			// Should be handled as inline content, but worth checking.
 			a.insertion = '<p>abc</p>';
@@ -1197,5 +1197,4 @@
 			a( '<p>^<br />y</p>',			'<p>aaa</p><p>bbb^</p><p>y</p>',					'case 1c' );
 		}
 	} );
-
 } )();

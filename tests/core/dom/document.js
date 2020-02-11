@@ -3,8 +3,9 @@
 
 bender.test( appendDomObjectTests(
 	function( id ) {
-		if ( id === 'domObjectTest1' )
+		if ( id === 'domObjectTest1' ) {
 			return new CKEDITOR.dom.document( document );
+		}
 
 		// return different (fake) document for other ids
 		return new CKEDITOR.dom.document( {} );
@@ -82,13 +83,13 @@ bender.test( appendDomObjectTests(
 				'Create text node content doesn\'t match.' );
 		},
 
-// 		test_getByAddress1: function()
-// 		{
-// 			var doc = new CKEDITOR.dom.document( document );
-// 			var node = doc.getByAddress( [ 1, 1, 0, 1, 0, 0 ] );
-// 			assert.areSame( 'target', node.getText(),
-// 				'Addressing target doesn\'t match.' );
-// 		},
+		// 		test_getByAddress1: function()
+		// 		{
+		// 			var doc = new CKEDITOR.dom.document( document );
+		// 			var node = doc.getByAddress( [ 1, 1, 0, 1, 0, 0 ] );
+		// 			assert.areSame( 'target', node.getText(),
+		// 				'Addressing target doesn\'t match.' );
+		// 		},
 
 		test_getElementsByTag: function() {
 			var nodeList = new CKEDITOR.dom.document( document ).getElementsByTag( 'span' ),
@@ -130,8 +131,9 @@ bender.test( appendDomObjectTests(
 
 		'test _getHtml5ShivFrag': function() {
 			// IE8 only.
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 )
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) {
 				assert.ignore();
+			}
 
 			var $frag = CKEDITOR.document._getHtml5ShivFrag();
 

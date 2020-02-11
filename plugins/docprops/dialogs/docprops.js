@@ -10,24 +10,25 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 
 	function getDialogValue( dialogName, callback ) {
 		var onOk = function() {
-				releaseHandlers( this );
-				callback( this, this._.parentDialog );
-			};
+			releaseHandlers( this );
+			callback( this, this._.parentDialog );
+		};
 		var releaseHandlers = function( dialog ) {
-				dialog.removeListener( 'ok', onOk );
-				dialog.removeListener( 'cancel', releaseHandlers );
-			};
+			dialog.removeListener( 'ok', onOk );
+			dialog.removeListener( 'cancel', releaseHandlers );
+		};
 		var bindToDialog = function( dialog ) {
-				dialog.on( 'ok', onOk );
-				dialog.on( 'cancel', releaseHandlers );
-			};
+			dialog.on( 'ok', onOk );
+			dialog.on( 'cancel', releaseHandlers );
+		};
 		editor.execCommand( dialogName );
-		if ( editor._.storedDialogs.colordialog )
+		if ( editor._.storedDialogs.colordialog ) {
 			bindToDialog( editor._.storedDialogs.colordialog );
-		else {
+		} else {
 			CKEDITOR.on( 'dialogDefinition', function( e ) {
-				if ( e.data.name != dialogName )
+				if ( e.data.name != dialogName ) {
 					return;
+				}
 
 				var definition = e.data.definition;
 
@@ -36,8 +37,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 					return function() {
 						bindToDialog( this );
 						definition.onLoad = orginal;
-						if ( typeof orginal == 'function' )
+						if ( typeof orginal == 'function' ) {
 							orginal.call( this );
+						}
 					};
 				} );
 			} );
@@ -47,8 +49,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 	function handleOther() {
 		var dialog = this.getDialog(),
 			other = dialog.getContentElement( 'general', this.id + 'Other' );
-		if ( !other )
+		if ( !other ) {
 			return;
+		}
 		if ( this.getValue() == 'other' ) {
 			other.getInputElement().removeAttribute( 'readOnly' );
 			other.focus();
@@ -63,11 +66,11 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 		return function( doc, html, head ) {
 			var hash = metaHash,
 				val = typeof value != 'undefined' ? value : this.getValue();
-			if ( !val && ( name in hash ) )
+			if ( !val && ( name in hash ) ) {
 				hash[ name ].remove();
-			else if ( val && ( name in hash ) )
+			} else if ( val && ( name in hash ) ) {
 				hash[ name ].setAttribute( 'content', val );
-			else if ( val ) {
+			} else if ( val ) {
 				var meta = new CKEDITOR.dom.element( 'meta', editor.document );
 				meta.setAttribute( isHttp ? 'http-equiv' : 'name', name );
 				meta.setAttribute( 'content', val );
@@ -80,8 +83,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 		return function() {
 			var hash = metaHash,
 				result = ( name in hash ) ? hash[ name ].getAttribute( 'content' ) || '' : '';
-			if ( ret )
+			if ( ret ) {
 				return result;
+			}
 			this.setValue( result );
 			return null;
 		};
@@ -91,10 +95,11 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 		return function( doc, html, head, body ) {
 			body.removeAttribute( 'margin' + name );
 			var val = this.getValue();
-			if ( val !== '' )
+			if ( val !== '' ) {
 				body.setStyle( 'margin-' + name, CKEDITOR.tools.cssLength( val ) );
-			else
+			} else {
 				body.removeStyle( 'margin-' + name );
+			}
 		};
 	}
 
@@ -113,45 +118,46 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 	// To get the proper result, we should manually set the inline style to its default value.
 	function resetStyle( element, prop, resetVal ) {
 		element.removeStyle( prop );
-		if ( element.getComputedStyle( prop ) != resetVal )
+		if ( element.getComputedStyle( prop ) != resetVal ) {
 			element.setStyle( prop, resetVal );
+		}
 	}
 
 	// Utilty to shorten the creation of color fields in the dialog.
 	var colorField = function( id, label, fieldProps ) {
-			return {
-				type: 'hbox',
-				padding: 0,
-				widths: [ '60%', '40%' ],
-				children: [
-					CKEDITOR.tools.extend( {
-						type: 'text',
-						id: id,
-						label: lang[ label ]
-					}, fieldProps || {}, 1 ),
-					{
-						type: 'button',
-						id: id + 'Choose',
-						label: lang.chooseColor,
-						className: 'colorChooser',
-						onClick: function() {
-							var self = this;
-							getDialogValue( 'colordialog', function( colorDialog ) {
-								var dialog = self.getDialog();
-								dialog.getContentElement( dialog._.currentTabId, id ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
-							} );
-						}
+		return {
+			type: 'hbox',
+			padding: 0,
+			widths: [ '60%', '40%' ],
+			children: [
+				CKEDITOR.tools.extend( {
+					type: 'text',
+					id: id,
+					label: lang[ label ]
+				}, fieldProps || {}, 1 ),
+				{
+					type: 'button',
+					id: id + 'Choose',
+					label: lang.chooseColor,
+					className: 'colorChooser',
+					onClick: function() {
+						var self = this;
+						getDialogValue( 'colordialog', function( colorDialog ) {
+							var dialog = self.getDialog();
+							dialog.getContentElement( dialog._.currentTabId, id ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
+						} );
 					}
-				]
-			};
+				}
+			]
 		};
+	};
 	var previewSrc = 'javascript:' + // jshint ignore:line
 		'void((function(){' + encodeURIComponent(
-			'document.open();' +
+		'document.open();' +
 			( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
 			'document.write( \'<html style="background-color: #ffffff; height: 100%"><head></head><body style="width: 100%; height: 100%; margin: 0px">' + lang.previewHtml + '</body></html>\' );' +
 			'document.close();'
-		) + '})())';
+	) + '})())';
 
 	return {
 		title: lang.title,
@@ -189,8 +195,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 					this.setValue( doc.getElementsByTag( 'title' ).getItem( 0 ).data( 'cke-title' ) );
 				},
 				commit: function( doc, html, head, body, isPreview ) {
-					if ( isPreview )
+					if ( isPreview ) {
 						return;
+					}
 					doc.getElementsByTag( 'title' ).getItem( 0 ).data( 'cke-title', this.getValue() );
 				}
 			},
@@ -211,10 +218,11 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 					},
 					commit: function( doc, html, head, body ) {
 						var val = this.getValue();
-						if ( val )
+						if ( val ) {
 							body.setAttribute( 'dir', val );
-						else
+						} else {
 							body.removeAttribute( 'dir' );
+						}
 						body.removeStyle( 'direction' );
 					}
 				},
@@ -226,13 +234,15 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						this.setValue( html.getAttribute( 'xml:lang' ) || html.getAttribute( 'lang' ) || '' );
 					},
 					commit: function( doc, html, head, body, isPreview ) {
-						if ( isPreview )
+						if ( isPreview ) {
 							return;
+						}
 						var val = this.getValue();
-						if ( val )
+						if ( val ) {
 							html.setAttributes( { 'xml:lang': val, lang: val } );
-						else
+						} else {
 							html.removeAttributes( { 'xml:lang': 1, lang: 1 } );
+						}
 					}
 				} ]
 			},
@@ -257,7 +267,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						[ lang.charsetWE, 'iso-8859-1' ],
 						[ lang.other, 'other' ]
 					],
-					'default': '',
+					default: '',
 					onChange: function() {
 						this.getDialog().selectedCharset = this.getValue() != 'other' ? this.getValue() : '';
 						handleOther.call( this );
@@ -283,8 +293,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						handleOther.call( this );
 					},
 					commit: function( doc, html, head, body, isPreview ) {
-						if ( isPreview )
+						if ( isPreview ) {
 							return;
+						}
 						var value = this.getValue(),
 							other = this.getDialog().getContentElement( 'general', 'charsetOther' );
 
@@ -339,8 +350,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						handleOther.call( this );
 					},
 					commit: function( doc, html, head, body, isPreview ) {
-						if ( isPreview )
+						if ( isPreview ) {
 							return;
+						}
 						var value = this.getValue(),
 							other = this.getDialog().getContentElement( 'general', 'docTypeOther' );
 						editor.docType = value == 'other' ? ( other ? other.getValue() : '' ) : value;
@@ -360,8 +372,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 					this.setValue( !!editor.xmlDeclaration );
 				},
 				commit: function( doc, html, head, body, isPreview ) {
-					if ( isPreview )
+					if ( isPreview ) {
 						return;
+					}
 					if ( this.getValue() ) {
 						editor.xmlDeclaration = '<?xml version="1.0" encoding="' + ( this.getDialog().selectedCharset || 'utf-8' ) + '"?>';
 						html.setAttribute( 'xmlns', 'http://www.w3.org/1999/xhtml' );
@@ -389,10 +402,11 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 								if ( this.isChanged() || isPreview ) {
 									body.removeAttribute( 'text' );
 									var val = this.getValue();
-									if ( val )
+									if ( val ) {
 										body.setStyle( 'color', val );
-									else
+									} else {
 										body.removeStyle( 'color' );
+									}
 								}
 							}
 						} ),
@@ -405,10 +419,11 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 								if ( this.isChanged() || isPreview ) {
 									body.removeAttribute( 'bgcolor' );
 									var val = this.getValue();
-									if ( val )
+									if ( val ) {
 										body.setStyle( 'background-color', val );
-									else
+									} else {
 										resetStyle( body, 'background-color', 'transparent' );
+									}
 								}
 							}
 						} ),
@@ -422,9 +437,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 								label: lang.bgImage,
 								setup: function( doc, html, head, body ) {
 									var val = body.getComputedStyle( 'background-image' ) || '';
-									if ( val == 'none' )
+									if ( val == 'none' ) {
 										val = '';
-									else {
+									} else {
 										val = val.replace( /url\(\s*(["']?)\s*([^\)]*)\s*\1\s*\)/i, function( match, quote, url ) {
 											return url;
 										} );
@@ -434,10 +449,11 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 								commit: function( doc, html, head, body ) {
 									body.removeAttribute( 'background' );
 									var val = this.getValue();
-									if ( val )
+									if ( val ) {
 										body.setStyle( 'background-image', 'url(' + val + ')' );
-									else
+									} else {
 										resetStyle( body, 'background-image', 'none' );
+									}
 								}
 							},
 							{
@@ -457,10 +473,11 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 								this.setValue( body.getComputedStyle( 'background-attachment' ) == 'fixed' );
 							},
 							commit: function( doc, html, head, body ) {
-								if ( this.getValue() )
+								if ( this.getValue() ) {
 									body.setStyle( 'background-attachment', 'fixed' );
-								else
+								} else {
 									resetStyle( body, 'background-attachment', 'scroll' );
+								}
 							}
 						}
 					]

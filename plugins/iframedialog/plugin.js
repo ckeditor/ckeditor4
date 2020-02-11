@@ -33,9 +33,9 @@ CKEDITOR.plugins.add( 'iframedialog', {
 				height: '100%'
 			};
 
-			if ( typeof onContentLoad == 'function' )
+			if ( typeof onContentLoad == 'function' ) {
 				element.onContentLoad = onContentLoad;
-			else {
+			} else {
 				element.onContentLoad = function() {
 					var element = this.getElement(), childWindow = element.$.contentWindow;
 
@@ -79,8 +79,9 @@ CKEDITOR.plugins.add( 'iframedialog', {
 				} ]
 			};
 
-			for ( var i in userDefinition )
+			for ( var i in userDefinition ) {
 				definition[ i ] = userDefinition[ i ];
+			}
 
 			this.add( name, function() {
 				return definition;
@@ -108,55 +109,57 @@ CKEDITOR.plugins.add( 'iframedialog', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			var iframeElement = function( dialog, elementDefinition, htmlList ) {
-					if ( arguments.length < 3 )
-						return;
+				if ( arguments.length < 3 ) {
+					return;
+				}
 
-					var _ = ( this._ || ( this._ = {} ) ),
-						contentLoad = elementDefinition.onContentLoad && CKEDITOR.tools.bind( elementDefinition.onContentLoad, this ),
-						cssWidth = CKEDITOR.tools.cssLength( elementDefinition.width ),
-						cssHeight = CKEDITOR.tools.cssLength( elementDefinition.height );
-					_.frameId = CKEDITOR.tools.getNextId() + '_iframe';
+				var _ = ( this._ || ( this._ = {} ) ),
+					contentLoad = elementDefinition.onContentLoad && CKEDITOR.tools.bind( elementDefinition.onContentLoad, this ),
+					cssWidth = CKEDITOR.tools.cssLength( elementDefinition.width ),
+					cssHeight = CKEDITOR.tools.cssLength( elementDefinition.height );
+				_.frameId = CKEDITOR.tools.getNextId() + '_iframe';
 
-					// IE BUG: Parent container does not resize to contain the iframe automatically.
-					dialog.on( 'load', function() {
-						var iframe = CKEDITOR.document.getById( _.frameId ),
-							parentContainer = iframe.getParent();
+				// IE BUG: Parent container does not resize to contain the iframe automatically.
+				dialog.on( 'load', function() {
+					var iframe = CKEDITOR.document.getById( _.frameId ),
+						parentContainer = iframe.getParent();
 
-						parentContainer.setStyles( {
-							width: cssWidth,
-							height: cssHeight
-						} );
-					} );
-
-					var attributes = {
-						src: '%2',
-						id: _.frameId,
-						frameborder: 0,
-						allowtransparency: true
-					};
-					var myHtml = [];
-
-					if ( typeof elementDefinition.onContentLoad == 'function' )
-						attributes.onload = 'CKEDITOR.tools.callFunction(%1);';
-
-					CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, myHtml, 'iframe', {
+					parentContainer.setStyles( {
 						width: cssWidth,
 						height: cssHeight
-					}, attributes, '' );
-
-					// Put a placeholder for the first time.
-					htmlList.push( '<div style="width:' + cssWidth + ';height:' + cssHeight + ';" id="' + this.domId + '"></div>' );
-
-					// Iframe elements should be refreshed whenever it is shown.
-					myHtml = myHtml.join( '' );
-					dialog.on( 'show', function() {
-						var iframe = CKEDITOR.document.getById( _.frameId ),
-							parentContainer = iframe.getParent(),
-							callIndex = CKEDITOR.tools.addFunction( contentLoad ),
-							html = myHtml.replace( '%1', callIndex ).replace( '%2', CKEDITOR.tools.htmlEncode( elementDefinition.src ) );
-						parentContainer.setHtml( html );
 					} );
+				} );
+
+				var attributes = {
+					src: '%2',
+					id: _.frameId,
+					frameborder: 0,
+					allowtransparency: true
 				};
+				var myHtml = [];
+
+				if ( typeof elementDefinition.onContentLoad == 'function' ) {
+					attributes.onload = 'CKEDITOR.tools.callFunction(%1);';
+				}
+
+				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, myHtml, 'iframe', {
+					width: cssWidth,
+					height: cssHeight
+				}, attributes, '' );
+
+				// Put a placeholder for the first time.
+				htmlList.push( '<div style="width:' + cssWidth + ';height:' + cssHeight + ';" id="' + this.domId + '"></div>' );
+
+				// Iframe elements should be refreshed whenever it is shown.
+				myHtml = myHtml.join( '' );
+				dialog.on( 'show', function() {
+					var iframe = CKEDITOR.document.getById( _.frameId ),
+						parentContainer = iframe.getParent(),
+						callIndex = CKEDITOR.tools.addFunction( contentLoad ),
+						html = myHtml.replace( '%1', callIndex ).replace( '%2', CKEDITOR.tools.htmlEncode( elementDefinition.src ) );
+					parentContainer.setHtml( html );
+				} );
+			};
 
 			iframeElement.prototype = new CKEDITOR.ui.dialog.uiElement();
 

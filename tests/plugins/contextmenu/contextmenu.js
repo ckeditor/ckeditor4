@@ -46,11 +46,11 @@
 
 		'test opening disabled context menu': function() {
 			bender.editorBot.create( {
-					name: 'editor_nocontextmenu2',
-					config: {
-						enableContextMenu: false
-					}
-				}, function( bot ) {
+				name: 'editor_nocontextmenu2',
+				config: {
+					enableContextMenu: false
+				}
+			}, function( bot ) {
 				bot.editor.contextMenu.show = sinon.spy();
 				bot.editor.focus();
 				bot.editor.contextMenu.open( bot.editor.editable() );
@@ -73,8 +73,9 @@
 		},
 
 		'#11306: test fake selection in Webkit/Blink on Mac when non-editable element': function() {
-			if ( !( CKEDITOR.env.mac && CKEDITOR.env.webkit ) )
+			if ( !( CKEDITOR.env.mac && CKEDITOR.env.webkit ) ) {
 				assert.ignore();
+			}
 
 			var html = '<div contenteditable="false">' +
 				'<strong id="a">a</strong>' +

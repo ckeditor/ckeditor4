@@ -7,8 +7,9 @@
 
 	var tests = {
 		rangeMoveToClosestEditable: function( html, isMoveForward, retValue ) {
-			if ( retValue === undefined )
+			if ( retValue === undefined ) {
 				retValue = true;
+			}
 
 			var ct = doc.getById( 'editable_playground' );
 			ct.setHtml( html );
@@ -18,9 +19,9 @@
 
 			assert.areSame( retValue, !!range.moveToClosestEditablePosition( startNode, isMoveForward ), 'Method returned value' );
 
-			if ( retValue )
+			if ( retValue ) {
 				return bender.tools.fixHtml( bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
-			else {
+			} else {
 				assert.isFalse( !!range.startContainer, 'Start container is not set if method returned false' );
 				return bender.tools.fixHtml( ct.getHtml() );
 			}
@@ -239,16 +240,18 @@
 		},
 
 		test_moveToClosestEditable19a: function() {
-			if ( !CKEDITOR.env.needsBrFiller )
+			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
+			}
 
 			assert.areSame( '<div id="start">bar</div><p>^<br /></p>',
 				this.rangeMoveToClosestEditable( '<div id="start">bar</div><p><br /></p>', true ) );
 		},
 
 		test_moveToClosestEditable19b: function() {
-			if ( !CKEDITOR.env.needsNbspFiller )
+			if ( !CKEDITOR.env.needsNbspFiller ) {
 				assert.ignore();
+			}
 
 			assert.areSame( '<div id="start">bar</div><p>^&nbsp;</p>',
 				this.rangeMoveToClosestEditable( '<div id="start">bar</div><p>&nbsp;</p>', true ) );

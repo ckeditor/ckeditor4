@@ -45,7 +45,7 @@
 		align: [ {
 			type: ATTRTYPE_OBJECT, name: 'align'
 		} ],
-		'class': [ {
+		class: [ {
 			type: ATTRTYPE_OBJECT, name: 'class'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'class'
@@ -93,21 +93,24 @@
 	// Note that, though default value of "allowFullScreen" is "true", it is not listed here.
 	// "allowFullScreen" is present in editor data regardless of the value (https://dev.ckeditor.com/ticket/7634).
 	names = [ 'play', 'loop', 'menu' ];
-	for ( i = 0; i < names.length; i++ )
+	for ( i = 0; i < names.length; i++ ) {
 		attributesMap[ names[ i ] ][ 0 ][ 'default' ] = attributesMap[ names[ i ] ][ 1 ][ 'default' ] = true;
+	}
 
 	function loadValue( objectNode, embedNode, paramMap ) {
 		var attributes = attributesMap[ this.id ];
-		if ( !attributes )
+		if ( !attributes ) {
 			return;
+		}
 
 		var isCheckbox = ( this instanceof CKEDITOR.ui.dialog.checkbox );
 		for ( var i = 0; i < attributes.length; i++ ) {
 			var attrDef = attributes[ i ];
 			switch ( attrDef.type ) {
 				case ATTRTYPE_OBJECT:
-					if ( !objectNode )
+					if ( !objectNode ) {
 						continue;
+					}
 					if ( objectNode.getAttribute( attrDef.name ) !== null ) {
 						var value = objectNode.getAttribute( attrDef.name );
 						if ( isCheckbox ) {
@@ -126,24 +129,27 @@
 					}
 					if ( attrDef.name in paramMap ) {
 						value = paramMap[ attrDef.name ];
-						if ( isCheckbox )
+						if ( isCheckbox ) {
 							this.setValue( value.toLowerCase() == 'true' );
-						else
+						} else {
 							this.setValue( value );
+						}
 						return;
 					} else if ( isCheckbox ) {
 						this.setValue( !!attrDef[ 'default' ] );
 					}
 					break;
 				case ATTRTYPE_EMBED:
-					if ( !embedNode )
+					if ( !embedNode ) {
 						continue;
+					}
 					if ( embedNode.getAttribute( attrDef.name ) ) {
 						value = embedNode.getAttribute( attrDef.name );
-						if ( isCheckbox )
+						if ( isCheckbox ) {
 							this.setValue( value.toLowerCase() == 'true' );
-						else
+						} else {
 							this.setValue( value );
+						}
 						return;
 					} else if ( isCheckbox ) {
 						this.setValue( !!attrDef[ 'default' ] );
@@ -154,8 +160,9 @@
 
 	function commitValue( objectNode, embedNode, paramMap ) {
 		var attributes = attributesMap[ this.id ];
-		if ( !attributes )
+		if ( !attributes ) {
 			return;
+		}
 
 		var isRemove = ( this.getValue() === '' ),
 			isCheckbox = ( this instanceof CKEDITOR.ui.dialog.checkbox );
@@ -165,41 +172,47 @@
 			switch ( attrDef.type ) {
 				case ATTRTYPE_OBJECT:
 					// Avoid applying the data attribute when not needed (https://dev.ckeditor.com/ticket/7733)
-					if ( !objectNode || ( attrDef.name == 'data' && embedNode && !objectNode.hasAttribute( 'data' ) ) )
+					if ( !objectNode || ( attrDef.name == 'data' && embedNode && !objectNode.hasAttribute( 'data' ) ) ) {
 						continue;
+					}
 					var value = this.getValue();
-					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
+					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] ) {
 						objectNode.removeAttribute( attrDef.name );
-					else
+					} else {
 						objectNode.setAttribute( attrDef.name, value );
+					}
 					break;
 				case ATTRTYPE_PARAM:
-					if ( !objectNode )
+					if ( !objectNode ) {
 						continue;
+					}
 					value = this.getValue();
 					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] ) {
-						if ( attrDef.name in paramMap )
+						if ( attrDef.name in paramMap ) {
 							paramMap[ attrDef.name ].remove();
+						}
 					} else {
-						if ( attrDef.name in paramMap )
+						if ( attrDef.name in paramMap ) {
 							paramMap[ attrDef.name ].setAttribute( 'value', value );
-						else {
+						} else {
 							var param = CKEDITOR.dom.element.createFromHtml( '<cke:param></cke:param>', objectNode.getDocument() );
 							param.setAttributes( { name: attrDef.name, value: value } );
-							if ( objectNode.getChildCount() < 1 )
+							if ( objectNode.getChildCount() < 1 ) {
 								param.appendTo( objectNode );
-							else
+							} else {
 								param.insertBefore( objectNode.getFirst() );
+							}
 						}
 					}
 					break;
 				case ATTRTYPE_EMBED:
-					if ( !embedNode )
+					if ( !embedNode ) {
 						continue;
+					}
 					value = this.getValue();
-					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
+					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] ) {
 						embedNode.removeAttribute( attrDef.name );
-					else {
+					} else {
 						embedNode.setAttribute( attrDef.name, value );
 					}
 			}
@@ -245,8 +258,9 @@
 					if ( realElement.getName() == 'cke:object' ) {
 						objectNode = realElement;
 						var embedList = objectNode.getElementsByTag( 'embed', 'cke' );
-						if ( embedList.count() > 0 )
+						if ( embedList.count() > 0 ) {
 							embedNode = embedList.getItem( 0 );
+						}
 						var paramList = objectNode.getElementsByTag( 'param', 'cke' );
 						for ( var i = 0, length = paramList.count(); i < length; i++ ) {
 							var item = paramList.getItem( i ),
@@ -285,8 +299,9 @@
 							type: 'application/x-shockwave-flash',
 							pluginspage: 'http://www.macromedia.com/go/getflashplayer'
 						} );
-						if ( objectNode )
+						if ( objectNode ) {
 							embedNode.appendTo( objectNode );
+						}
 					}
 				} else {
 					objectNode = this.objectNode;
@@ -297,8 +312,9 @@
 				if ( objectNode ) {
 					paramMap = {};
 					var paramList = objectNode.getElementsByTag( 'param', 'cke' );
-					for ( var i = 0, length = paramList.count(); i < length; i++ )
+					for ( var i = 0, length = paramList.count(); i < length; i++ ) {
 						paramMap[ paramList.getItem( i ).getAttribute( 'name' ) ] = paramList.getItem( i );
+					}
 				}
 
 				// A subset of the specified attributes/styles
@@ -321,8 +337,9 @@
 			},
 
 			onHide: function() {
-				if ( this.preview )
+				if ( this.preview ) {
 					this.preview.setHtml( '' );
+				}
 			},
 
 			contents: [ {
@@ -358,13 +375,12 @@
 
 								// Sync on inital value loaded.
 								this.on( 'change', function( evt ) {
-
-									if ( evt.data && evt.data.value )
+									if ( evt.data && evt.data.value ) {
 										updatePreview( evt.data.value );
+									}
 								} );
 								// Sync when input value changed.
 								this.getInputElement().on( 'change', function() {
-
 									updatePreview( this.getValue() );
 								}, this );
 							}
@@ -452,7 +468,7 @@
 					id: 'uploadButton',
 					label: editor.lang.common.uploadSubmit,
 					filebrowser: 'info:src',
-					'for': [ 'Upload', 'upload' ]
+					for: [ 'Upload', 'upload' ]
 				} ]
 			},
 			{
@@ -466,7 +482,7 @@
 						type: 'select',
 						requiredContent: 'embed[scale]',
 						label: editor.lang.flash.scale,
-						'default': '',
+						default: '',
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
@@ -482,7 +498,7 @@
 						type: 'select',
 						requiredContent: 'embed[allowscriptaccess]',
 						label: editor.lang.flash.access,
-						'default': '',
+						default: '',
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
@@ -502,7 +518,7 @@
 						type: 'select',
 						requiredContent: 'embed[wmode]',
 						label: editor.lang.flash.windowMode,
-						'default': '',
+						default: '',
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
@@ -518,7 +534,7 @@
 						type: 'select',
 						requiredContent: 'embed[quality]',
 						label: editor.lang.flash.quality,
-						'default': 'high',
+						default: 'high',
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
@@ -541,7 +557,7 @@
 						type: 'select',
 						requiredContent: 'object[align]',
 						label: editor.lang.common.align,
-						'default': '',
+						default: '',
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
@@ -577,7 +593,7 @@
 							type: 'checkbox',
 							id: 'menu',
 							label: editor.lang.flash.chkMenu,
-							'default': true,
+							default: true,
 							setup: loadValue,
 							commit: commitValue
 						},
@@ -585,7 +601,7 @@
 							type: 'checkbox',
 							id: 'play',
 							label: editor.lang.flash.chkPlay,
-							'default': true,
+							default: true,
 							setup: loadValue,
 							commit: commitValue
 						},
@@ -593,7 +609,7 @@
 							type: 'checkbox',
 							id: 'loop',
 							label: editor.lang.flash.chkLoop,
-							'default': true,
+							default: true,
 							setup: loadValue,
 							commit: commitValue
 						},
@@ -601,7 +617,7 @@
 							type: 'checkbox',
 							id: 'allowFullScreen',
 							label: editor.lang.flash.chkFull,
-							'default': true,
+							default: true,
 							setup: loadValue,
 							commit: commitValue
 						} ]

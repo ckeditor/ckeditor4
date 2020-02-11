@@ -17,12 +17,12 @@
 
 	if ( !( 'classList' in document.createElement( '_' ) ) ) {
 		var descriptor = {
-				get: function() {
-					return window.classListStub;
-				},
-				enumerable: false,
-				configurable: true
-			};
+			get: function() {
+				return window.classListStub;
+			},
+			enumerable: false,
+			configurable: true
+		};
 
 		Object.defineProperty( Element.prototype, 'classList', descriptor );
 	}

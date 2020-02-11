@@ -40,7 +40,7 @@
 
 		for ( var i = sorted.length; i--; ) {
 			assert.areSame( expected[ i ].uid, sorted[ i ].uid, 'Uid of the location is correct.' );
-			assert.areSame( expected[ i ].type, sorted[ i ].type, 'Type of the location is correct.'  );
+			assert.areSame( expected[ i ].type, sorted[ i ].type, 'Type of the location is correct.' );
 			assert.areSame( expected[ i ].dist, sorted[ i ].dist, 'Distance of the location is correct.' );
 		}
 	}

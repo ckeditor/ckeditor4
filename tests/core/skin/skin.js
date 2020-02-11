@@ -18,8 +18,9 @@ bender.test( {
 			ua = uas[ i ];
 
 			if ( env.ie ) {
-				if ( ( ua.replace( /^ie/, '' ) == env.version ) || ( env.quirks && ua == 'iequirks' ) )
+				if ( ( ua.replace( /^ie/, '' ) == env.version ) || ( env.quirks && ua == 'iequirks' ) ) {
 					ua = 'ie';
+				}
 			}
 
 			if ( env[ ua ] ) {

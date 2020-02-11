@@ -79,15 +79,19 @@ CKEDITOR.plugins.add( 'simplebox', {
 			// More code which needs to be executed when DOM is available may go here.
 			init: function() {
 				var width = this.element.getStyle( 'width' );
-				if ( width )
+				if ( width ) {
 					this.setData( 'width', width );
+				}
 
-				if ( this.element.hasClass( 'align-left' ) )
+				if ( this.element.hasClass( 'align-left' ) ) {
 					this.setData( 'align', 'left' );
-				if ( this.element.hasClass( 'align-right' ) )
+				}
+				if ( this.element.hasClass( 'align-right' ) ) {
 					this.setData( 'align', 'right' );
-				if ( this.element.hasClass( 'align-center' ) )
+				}
+				if ( this.element.hasClass( 'align-center' ) ) {
 					this.setData( 'align', 'center' );
+				}
 			},
 
 			// Listen on the widget#data event which is fired every time the widget data changes
@@ -97,17 +101,19 @@ CKEDITOR.plugins.add( 'simplebox', {
 			data: function() {
 				// Check whether "width" widget data is set and remove or set "width" CSS style.
 				// The style is set on widget main element (div.simplebox).
-				if ( !this.data.width )
+				if ( !this.data.width ) {
 					this.element.removeStyle( 'width' );
-				else
+				} else {
 					this.element.setStyle( 'width', this.data.width );
+				}
 
 				// Brutally remove all align classes and set a new one if "align" widget data is set.
 				this.element.removeClass( 'align-left' );
 				this.element.removeClass( 'align-right' );
 				this.element.removeClass( 'align-center' );
-				if ( this.data.align )
+				if ( this.data.align ) {
 					this.element.addClass( 'align-' + this.data.align );
+				}
 			}
 		} );
 	}

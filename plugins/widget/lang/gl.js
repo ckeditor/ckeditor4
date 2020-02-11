@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'gl', {
-	'move': 'Prema e arrastre para mover',
-	'label': 'Trebello %1'
+	move: 'Prema e arrastre para mover',
+	label: 'Trebello %1'
 } );

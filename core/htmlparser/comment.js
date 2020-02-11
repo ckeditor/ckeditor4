@@ -72,8 +72,9 @@ CKEDITOR.htmlParser.comment.prototype = CKEDITOR.tools.extend( new CKEDITOR.html
 	 * **Note:** it's unsafe to filter offline (not appended) node.
 	 */
 	writeHtml: function( writer, filter ) {
-		if ( filter )
+		if ( filter ) {
 			this.filter( filter );
+		}
 
 		writer.comment( this.value );
 	}

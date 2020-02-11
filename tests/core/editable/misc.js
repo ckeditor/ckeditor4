@@ -30,8 +30,9 @@ bender.test( {
 	// https://dev.ckeditor.com/ticket/3448.
 	'test click on image selects it': function() {
 		// This is Gecko/Webkit/Blink fix.
-		if ( CKEDITOR.env.ie )
+		if ( CKEDITOR.env.ie ) {
 			assert.ignore();
+		}
 
 		var bot = this.editorBots.editor;
 
@@ -55,8 +56,9 @@ bender.test( {
 	// contenteditable=false in the data processor.
 	'test click on a input selects it': function() {
 		// This is Gecko/Webkit/Blink fix.
-		if ( CKEDITOR.env.ie )
+		if ( CKEDITOR.env.ie ) {
 			assert.ignore();
+		}
 
 		var bot = this.editorBots.editor;
 

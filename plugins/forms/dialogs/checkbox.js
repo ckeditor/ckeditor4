@@ -45,7 +45,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				id: 'txtName',
 				type: 'text',
 				label: editor.lang.common.name,
-				'default': '',
+				default: '',
 				accessKey: 'N',
 				setup: function( element ) {
 					this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
@@ -54,9 +54,9 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 					var element = data.element;
 
 					// IE failed to update 'name' property on input elements, protect it now.
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.data( 'cke-saved-name', this.getValue() );
-					else {
+					} else {
 						element.data( 'cke-saved-name', false );
 						element.removeAttribute( 'name' );
 					}
@@ -66,7 +66,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				id: 'txtValue',
 				type: 'text',
 				label: editor.lang.forms.checkboxAndRadio.value,
-				'default': '',
+				default: '',
 				accessKey: 'V',
 				setup: function( element ) {
 					var value = element.getAttribute( 'value' );
@@ -77,9 +77,9 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 					var element = data.element,
 						value = this.getValue();
 
-					if ( value && !( CKEDITOR.env.ie && value == 'on' ) )
+					if ( value && !( CKEDITOR.env.ie && value == 'on' ) ) {
 						element.setAttribute( 'value', value );
-					else {
+					} else {
 						if ( CKEDITOR.env.ie ) {
 							// Remove attribute 'value' of checkbox (https://dev.ckeditor.com/ticket/4721).
 							var checkbox = new CKEDITOR.dom.element( 'input', element.getDocument() );
@@ -97,7 +97,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				id: 'cmbSelected',
 				type: 'checkbox',
 				label: editor.lang.forms.checkboxAndRadio.selected,
-				'default': '',
+				default: '',
 				accessKey: 'S',
 				value: 'checked',
 				setup: function( element ) {
@@ -128,8 +128,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 
 						if ( value ) {
 							element.setAttribute( 'checked', 'checked' );
-						}
-						else {
+						} else {
 							element.removeAttribute( 'checked' );
 						}
 					}
@@ -139,16 +138,17 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				id: 'required',
 				type: 'checkbox',
 				label: editor.lang.forms.checkboxAndRadio.required,
-				'default': '',
+				default: '',
 				accessKey: 'Q',
 				value: 'required',
 				setup: CKEDITOR.plugins.forms._setupRequiredAttribute,
 				commit: function( data ) {
 					var element = data.element;
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.setAttribute( 'required', 'required' );
-					else
+					} else {
 						element.removeAttribute( 'required' );
+					}
 				}
 			} ]
 		} ]

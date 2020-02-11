@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -23,8 +23,9 @@
 			editor.on( 'stylesSet', function( evt ) {
 				var stylesDefinitions = evt.data.styles;
 
-				if ( !stylesDefinitions )
+				if ( !stylesDefinitions ) {
 					return;
+				}
 
 				var style, styleName, styleType;
 
@@ -34,7 +35,6 @@
 
 					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) ||
 						( typeof styleDefinition.type == 'string' && !CKEDITOR.style.customHandlers[ styleDefinition.type ] ) ) {
-
 						continue;
 					}
 
@@ -127,8 +127,9 @@
 							// the styles.
 							for ( var value in styles ) {
 								if ( styles[ value ].checkElementRemovable( element, true, editor ) ) {
-									if ( value != currentValue )
+									if ( value != currentValue ) {
 										this.setValue( value );
+									}
 									return;
 								}
 							}
@@ -153,36 +154,43 @@
 						var style = styles[ name ],
 							type = style._.type;
 
-						if ( style.checkApplicable( elementPath, editor, editor.activeFilter ) )
+						if ( style.checkApplicable( elementPath, editor, editor.activeFilter ) ) {
 							counter[ type ]++;
-						else
+						} else {
 							this.hideItem( name );
+						}
 
-						if ( style.checkActive( elementPath, editor ) )
+						if ( style.checkActive( elementPath, editor ) ) {
 							this.mark( name );
+						}
 					}
 
-					if ( !counter[ CKEDITOR.STYLE_BLOCK ] )
+					if ( !counter[ CKEDITOR.STYLE_BLOCK ] ) {
 						this.hideGroup( lang[ 'panelTitle' + String( CKEDITOR.STYLE_BLOCK ) ] );
+					}
 
-					if ( !counter[ CKEDITOR.STYLE_INLINE ] )
+					if ( !counter[ CKEDITOR.STYLE_INLINE ] ) {
 						this.hideGroup( lang[ 'panelTitle' + String( CKEDITOR.STYLE_INLINE ) ] );
+					}
 
-					if ( !counter[ CKEDITOR.STYLE_OBJECT ] )
+					if ( !counter[ CKEDITOR.STYLE_OBJECT ] ) {
 						this.hideGroup( lang[ 'panelTitle' + String( CKEDITOR.STYLE_OBJECT ) ] );
+					}
 				},
 
 				refresh: function() {
 					var elementPath = editor.elementPath();
 
-					if ( !elementPath )
+					if ( !elementPath ) {
 						return;
+					}
 
 					for ( var name in styles ) {
 						var style = styles[ name ];
 
-						if ( style.checkApplicable( elementPath, editor, editor.activeFilter ) )
+						if ( style.checkApplicable( elementPath, editor, editor.activeFilter ) ) {
 							return;
+						}
 					}
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				},

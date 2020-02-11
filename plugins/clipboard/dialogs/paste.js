@@ -64,8 +64,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		editor.fire( 'ariaWidget', new CKEDITOR.dom.element( win.frameElement ) );
 
 		// Handle pending focus.
-		if ( doc.getWindow().getFrame().removeCustomData( 'pendingFocus' ) )
+		if ( doc.getWindow().getFrame().removeCustomData( 'pendingFocus' ) ) {
 			body.focus();
+		}
 	}
 
 	// If pasteDialogCommit wasn't canceled by e.g. editor.getClipboardData
@@ -99,8 +100,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		},
 
 		onLoad: function() {
-			if ( ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) && editor.lang.dir == 'rtl' )
+			if ( ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) && editor.lang.dir == 'rtl' ) {
 				this.parts.contents.setStyle( 'overflow', 'hidden' );
+			}
 		},
 
 		onOk: function() {
@@ -127,10 +129,11 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 							body = doc.getBody();
 
 						// Frame content may not loaded at the moment.
-						if ( !body || body.isReadOnly() )
+						if ( !body || body.isReadOnly() ) {
 							iframe.setCustomData( 'pendingFocus', 1 );
-						else
+						} else {
 							body.focus();
+						}
 					},
 					setup: function() {
 						var dialog = this.getDialog();
@@ -145,13 +148,13 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var src =
 							CKEDITOR.env.air ?
 								'javascript:void(0)' : // jshint ignore:line
-							( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ?
-								'javascript:void((function(){' + encodeURIComponent( // jshint ignore:line
-									'document.open();' +
+								( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ?
+									'javascript:void((function(){' + encodeURIComponent( // jshint ignore:line
+										'document.open();' +
 									'(' + CKEDITOR.tools.fixDomain + ')();' +
 									'document.close();'
-								) + '})())"'
-							: '';
+									) + '})())"' :
+									'';
 
 						var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 							' class="cke_pasteframe"' +
@@ -173,8 +176,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 							editor.focusManager.add( doc.getBody() );
 
-							if ( CKEDITOR.env.air )
+							if ( CKEDITOR.env.air ) {
 								onPasteFrameLoad.call( this, doc.getWindow().$ );
+							}
 						}, dialog );
 
 						iframe.setCustomData( 'dialog', dialog );

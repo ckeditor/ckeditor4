@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -183,7 +183,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
-
 					var selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
@@ -312,8 +311,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
-				if ( ( i % colorsPerRow ) === 0 )
+				if ( ( i % colorsPerRow ) === 0 ) {
 					output.push( '</tr><tr>' );
+				}
 
 				var parts = colors[ i ].split( '/' ),
 					colorName = parts[ 0 ],
@@ -481,9 +481,9 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
  */
 CKEDITOR.config.colorButton_foreStyle = {
 	element: 'span',
-	styles: { 'color': '#(color)' },
+	styles: { color: '#(color)' },
 	overrides: [ {
-		element: 'font', attributes: { 'color': null }
+		element: 'font', attributes: { color: null }
 	} ]
 };
 

@@ -55,8 +55,9 @@
 			editor.widgets.add( 'testinit1', widgetDef );
 
 			editor.widgets.on( 'instanceCreated', function( evt ) {
-				if ( evt.data.name != 'testinit1' )
+				if ( evt.data.name != 'testinit1' ) {
 					return;
+				}
 
 				order.push( 'instanceCreated' );
 
@@ -99,8 +100,9 @@
 			editor.widgets.add( 'testinit2', widgetDef );
 
 			editor.widgets.on( 'instanceCreated', function( evt ) {
-				if ( evt.data.name != 'testinit2' )
+				if ( evt.data.name != 'testinit2' ) {
 					return;
+				}
 
 				order.push( 'instanceCreated' );
 
@@ -179,8 +181,9 @@
 			editor.widgets.add( 'testinit4', widgetDef );
 
 			editor.widgets.on( 'instanceCreated', function( evt ) {
-				if ( evt.data.name != 'testinit4' )
+				if ( evt.data.name != 'testinit4' ) {
 					return;
+				}
 
 				order.push( 'instanceCreated' );
 
@@ -463,8 +466,8 @@
 			this.editorBot.setData( '<p data-widget="testapplyremovestyle1" id="w1">foo</p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
 					wrapper = widget.wrapper,
-					style1 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
-					style2 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'bar' } } );
+					style1 = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo' } } ),
+					style2 = st( { type: 'widget', widget: widgetName, attributes: { class: 'bar' } } );
 
 				widget.applyStyle( style1 );
 				assert.isTrue( widget.hasClass( 'foo' ), 'style 1 has been applied' );
@@ -498,7 +501,7 @@
 				var widget = getWidgetById( editor, 'w1' ),
 					wrapper = widget.wrapper;
 
-				var style = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo bar' } } );
+				var style = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo bar' } } );
 
 				widget.applyStyle( style );
 				assert.isTrue( widget.hasClass( 'foo' ), '1st class has been applied' );
@@ -529,9 +532,9 @@
 				var widget = getWidgetById( editor, 'w1' ),
 					dataFired = 0;
 
-				var styleFoo = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
-					styleFooBar = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo bar' } } ),
-					styleBom = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'bom' } } );
+				var styleFoo = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo' } } ),
+					styleFooBar = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo bar' } } ),
+					styleBom = st( { type: 'widget', widget: widgetName, attributes: { class: 'bom' } } );
 
 				widget.on( 'data', function() {
 					dataFired += 1;
@@ -574,9 +577,9 @@
 				var widget = getWidgetById( editor, 'w1' ),
 					dataFired = 0;
 
-				var styleFoo = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
-					styleFooBar = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo bar' } } ),
-					styleBom = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'bom' } } );
+				var styleFoo = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo' } } ),
+					styleFooBar = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo bar' } } ),
+					styleBom = st( { type: 'widget', widget: widgetName, attributes: { class: 'bom' } } );
 
 				widget.applyStyle( styleFoo );
 				widget.applyStyle( styleFooBar );
@@ -663,10 +666,10 @@
 			this.editorBot.setData( '<p data-widget="testcheckstyleactive1" id="w1" class="foo bar">foo</p>', function() {
 				var widget = getWidgetById( editor, 'w1' );
 
-				var style1 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
-					style2 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo bar' } } ),
-					style3 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo bom' } } ),
-					style4 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'bom' } } );
+				var style1 = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo' } } ),
+					style2 = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo bar' } } ),
+					style3 = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo bom' } } ),
+					style4 = st( { type: 'widget', widget: widgetName, attributes: { class: 'bom' } } );
 
 				assert.isTrue( widget.checkStyleActive( style1 ), 'style 1 is active' );
 				assert.isTrue( widget.checkStyleActive( style2 ), 'style 2 is active' );
@@ -707,7 +710,7 @@
 				var widget = getWidgetById( editor, 'w1' ),
 					called = [];
 
-				var style = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } );
+				var style = st( { type: 'widget', widget: widgetName, attributes: { class: 'foo' } } );
 
 				widget.addClass = function() {
 					called.push( 'add' );
@@ -846,7 +849,7 @@
 				scope;
 
 			editor.widgets.add( 'upcastscope2', {
-				upcasts:  {
+				upcasts: {
 					b: function( element ) {
 						if ( element.name === 'b' && element.hasClass( 'upcastscope2' ) ) {
 							scope = this;

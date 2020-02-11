@@ -77,27 +77,28 @@ if ( !Object.keys ) {
 			dontEnumsLength = dontEnums.length;
 
 		return function( obj ) {
-			if ( typeof obj !== 'object' && ( typeof obj !== 'function' || obj === null ) )
+			if ( typeof obj !== 'object' && ( typeof obj !== 'function' || obj === null ) ) {
 				throw new TypeError( 'Object.keys called on non-object' );
+			}
 
 			var result = [], prop, i;
 
 			for ( prop in obj ) {
-				if ( hasOwnProperty.call( obj, prop ) )
+				if ( hasOwnProperty.call( obj, prop ) ) {
 					result.push( prop );
-
+				}
 			}
 
 			if ( hasDontEnumBug ) {
 				for ( i = 0; i < dontEnumsLength; i++ ) {
-					if ( hasOwnProperty.call( obj, dontEnums[ i ] ) )
+					if ( hasOwnProperty.call( obj, dontEnums[ i ] ) ) {
 						result.push( dontEnums[ i ] );
-
+					}
 				}
 			}
 			return result;
 		};
-	}() );
+	} )() ;
 }
 
 ( function() {
@@ -184,8 +185,9 @@ if ( !Object.keys ) {
 			this.actualConfig.toolbarGroups = getDefaultToolbarGroups( this.editorInstance );
 		}
 
-		if ( typeof callback === 'function' )
+		if ( typeof callback === 'function' ) {
 			callback( this.mainContainer );
+		}
 
 		// Here we are going to keep only `name` and `groups` data from editor `toolbar` property.
 		function getDefaultToolbarGroups( editor ) {
@@ -273,10 +275,11 @@ if ( !Object.keys ) {
 	 * @private
 	 */
 	AbstractToolbarModifier.prototype._toggleEditable = function() {
-		if ( this.isEditableVisible )
+		if ( this.isEditableVisible ) {
 			this._hideEditable();
-		else
+		} else {
 			this._showEditable();
+		}
 	};
 
 	/**
@@ -289,8 +292,9 @@ if ( !Object.keys ) {
 			status = this.editorInstance.status;
 
 		// Wait for ready only once.
-		if ( this.waitForReady )
+		if ( this.waitForReady ) {
 			return;
+		}
 
 		// Not ready.
 		if ( status == 'unloaded' || status == 'loaded' ) {

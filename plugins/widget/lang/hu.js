@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'hu', {
-	'move': 'Kattints és húzd a mozgatáshoz',
-	'label': '%1 modul'
+	move: 'Kattints és húzd a mozgatáshoz',
+	label: '%1 modul'
 } );

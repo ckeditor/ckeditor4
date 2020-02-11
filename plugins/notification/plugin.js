@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -11,7 +11,6 @@
 'use strict';
 
 ( function() {
-
 	CKEDITOR.plugins.add( 'notification', {
 		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 
@@ -342,8 +341,9 @@
 				'aria-label': this.type
 			} );
 
-			if ( this.type == 'progress' )
+			if ( this.type == 'progress' ) {
 				notificationElement.append( this._createProgressElement() );
+			}
 
 			notificationMessageElement = new CKEDITOR.dom.element( 'p' );
 			notificationMessageElement.addClass( 'cke_notification_message' );
@@ -744,7 +744,6 @@
 
 			// Content is narrower than notification
 			if ( contentsRect.width < notificationWidth + notificationMargin ) {
-
 				// +---Viewport-------------------------------+
 				// |                                          |
 				// |                 +---Content------------+ |
@@ -772,7 +771,6 @@
 
 			// Content is wider than notification.
 			} else {
-
 				//                       +--+Viewport+------------------------+
 				//                       |                                    |
 				//                       |             +---Content-----------------------------------------+
@@ -929,5 +927,4 @@
 	 * @param {CKEDITOR.plugins.notification} data.notification Notification which will be hidden.
 	 * @param {CKEDITOR.editor} editor The editor instance.
 	 */
-
 } )();

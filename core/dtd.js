@@ -41,8 +41,9 @@ CKEDITOR.dtd = ( function() {
 			var substracted = CKEDITOR.tools.clone( source );
 			for ( var i = 1; i < arguments.length; i++ ) {
 				removed = arguments[ i ];
-				for ( var name in removed )
+				for ( var name in removed ) {
 					delete substracted[ name ];
+				}
 			}
 			return substracted;
 		};
@@ -75,7 +76,7 @@ CKEDITOR.dtd = ( function() {
 			code: 1, command: 1, datalist: 1, del: 1, dfn: 1, em: 1, embed: 1, i: 1, iframe: 1, img: 1,
 			input: 1, ins: 1, kbd: 1, keygen: 1, label: 1, map: 1, mark: 1, meter: 1, noscript: 1, object: 1,
 			output: 1, progress: 1, q: 1, ruby: 1, s: 1, samp: 1, script: 1, select: 1, small: 1, span: 1,
-			strong: 1, sub: 1, sup: 1, textarea: 1, time: 1, u: 1, 'var': 1, video: 1, wbr: 1
+			strong: 1, sub: 1, sup: 1, textarea: 1, time: 1, u: 1, var: 1, video: 1, wbr: 1
 		},
 		// F - PF (Flow Only).
 		FO = {
@@ -209,7 +210,7 @@ CKEDITOR.dtd = ( function() {
 		track: E,
 		u: P,
 		ul: { li: 1 },
-		'var': P,
+		var: P,
 		video: X( { source: 1, track: 1 }, F ),
 		wbr: E,
 
@@ -316,7 +317,7 @@ CKEDITOR.dtd = ( function() {
 		$removeEmpty: {
 			abbr: 1, acronym: 1, b: 1, bdi: 1, bdo: 1, big: 1, cite: 1, code: 1, del: 1, dfn: 1,
 			em: 1, font: 1, i: 1, ins: 1, label: 1, kbd: 1, mark: 1, meter: 1, output: 1, q: 1, ruby: 1, s: 1,
-			samp: 1, small: 1, span: 1, strike: 1, strong: 1, sub: 1, sup: 1, time: 1, tt: 1, u: 1, 'var': 1
+			samp: 1, small: 1, span: 1, strike: 1, strong: 1, sub: 1, sup: 1, time: 1, tt: 1, u: 1, var: 1
 		},
 
 		/**

@@ -19,7 +19,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				id: 'wordWrap',
 				requiredContent: 'td{white-space}',
 				label: langCell.wordWrap,
-				'default': 'yes',
+				default: 'yes',
 				items: [
 					[ langCell.yes, 'yes' ],
 					[ langCell.no, 'no' ]
@@ -48,7 +48,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				id: 'hAlign',
 				requiredContent: 'td{text-align}',
 				label: langCell.hAlign,
-				'default': '',
+				default: '',
 				items: [
 					[ langCommon.notSet, '' ],
 					[ langCommon.left, 'left' ],
@@ -78,7 +78,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				id: 'vAlign',
 				requiredContent: 'td{vertical-align}',
 				label: langCell.vAlign,
-				'default': '',
+				default: '',
 				items: [
 					[ langCommon.notSet, '' ],
 					[ langCommon.alignTop, 'top' ],
@@ -121,7 +121,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				id: 'cellType',
 				requiredContent: 'th',
 				label: langCell.cellType,
-				'default': 'td',
+				default: 'td',
 				items: [
 					[ langCell.data, 'td' ],
 					[ langCell.header, 'th' ]
@@ -139,7 +139,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				id: 'rowSpan',
 				requiredContent: 'td[rowspan]',
 				label: langCell.rowSpan,
-				'default': '',
+				default: '',
 				validate: validate.integer( langCell.invalidRowSpan ),
 				setup: setupCells( function( selectedCell ) {
 					var attrVal = parseInt( selectedCell.getAttribute( 'rowSpan' ), 10 );
@@ -160,7 +160,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				id: 'colSpan',
 				requiredContent: 'td[colspan]',
 				label: langCell.colSpan,
-				'default': '',
+				default: '',
 				validate: validate.integer( langCell.invalidColSpan ),
 				setup: setupCells( function( element ) {
 					var attrVal = parseInt( element.getAttribute( 'colSpan' ), 10 );
@@ -188,7 +188,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						type: 'text',
 						id: 'bgColor',
 						label: langCell.bgColor,
-						'default': '',
+						default: '',
 						setup: setupCells( function( element ) {
 							var bgColorAttr = element.getAttribute( 'bgColor' ),
 								bgColorStyle = element.getStyle( 'background-color' );
@@ -204,7 +204,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						children.push( {
 							type: 'button',
 							id: 'bgColorChoose',
-							'class': 'colorChooser', // jshint ignore:line
+							class: 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							onLoad: function() {
 								// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
@@ -228,7 +228,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						type: 'text',
 						id: 'borderColor',
 						label: langCell.borderColor,
-						'default': '',
+						default: '',
 						setup: setupCells( function( element ) {
 							var borderColorAttr = element.getAttribute( 'borderColor' ),
 								borderColorStyle = element.getStyle( 'border-color' );
@@ -244,7 +244,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						children.push( {
 							type: 'button',
 							id: 'borderColorChoose',
-							'class': 'colorChooser', // jshint ignore:line
+							class: 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							style: ( rtl ? 'margin-right' : 'margin-left' ) + ': 10px',
 							onLoad: function() {
@@ -261,9 +261,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				} )()
 			}
 		],
-	itemsCount = 0,
-	index = -1,
-	children = [ createColumn() ];
+		itemsCount = 0,
+		index = -1,
+		children = [ createColumn() ];
 
 	items = CKEDITOR.tools.array.filter( items, function( item ) {
 		var requiredContent = item.requiredContent,
@@ -425,7 +425,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					}
 
 					return;
-
 				} ),
 				commit: function( element ) {
 					var value = parseFloat( this.getValue(), 10 ),
@@ -444,13 +443,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 					element.removeAttribute( fieldName );
 				},
-				'default': ''
+				default: ''
 			}, {
 				type: 'select',
 				id: fieldName + 'Type',
 				label: editor.lang.table[ fieldName + 'Unit' ],
 				labelStyle: 'visibility:hidden;display:block;width:0;overflow:hidden',
-				'default': 'px',
+				default: 'px',
 				items: [
 					// 'widthPx' and 'widthPc' are also used for height to avoid additional translations.
 					[ langTable.widthPx, 'px' ],

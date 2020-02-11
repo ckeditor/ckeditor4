@@ -51,8 +51,9 @@
 			textarea.hide();
 
 			// Attaching the concrete form.
-			if ( textarea.$.form )
+			if ( textarea.$.form ) {
 				editor._attachToForm();
+			}
 		} else {
 			// Initial editor data is simply loaded from the page element content to make
 			// data retrieval possible immediately after the editor creation.
@@ -137,8 +138,9 @@
 						config: {}
 					};
 
-					if ( CKEDITOR.fire( 'inline', data ) !== false )
+					if ( CKEDITOR.fire( 'inline', data ) !== false ) {
 						CKEDITOR.inline( el, data.config );
+					}
 				}
 			}
 		}

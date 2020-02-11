@@ -100,5 +100,4 @@
 	function createSrcWithBase64( img ) {
 		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
 	}
-
 } )();

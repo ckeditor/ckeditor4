@@ -43,7 +43,9 @@
 				i = 0;
 
 			// Fetch keys only.
-			for ( keys[ i++ ] in items ); // jshint ignore:line
+			for ( keys[ i++ ] in items ) {
+
+			} // jshint ignore:line
 
 			assert.areEqual( testStyles.length, keys.length, 'A number of styles matches.' );
 			arrayAssert.itemsAreSame( blockNames.concat( inlineNames ), keys, 'Styles are in ascending order, grouped.' );
@@ -82,7 +84,6 @@
 					}
 					this.document.getWindow().$.getSelection().removeAllRanges();
 					return this.document.getWindow().$.getSelection();
-
 				} );
 
 				selection.removeAllRanges();
@@ -94,7 +95,6 @@
 				} finally {
 					stub.restore();
 				}
-
 			} );
 		},
 
@@ -107,7 +107,6 @@
 					language: 'en'
 				}
 			}, function( bot ) {
-
 				bot.setHtmlWithSelection( '<ul><li>o^ne</li><li>two</li></ul>' );
 
 				bot.combo( 'Styles', function( combo ) {

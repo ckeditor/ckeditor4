@@ -42,10 +42,11 @@
 
 		// Check getValue().
 		var msg;
-		if ( origValue === '' )
+		if ( origValue === '' ) {
 			msg = 'after getValue() is called, value is empty';
-		else
+		} else {
 			msg = 'after getValue() is called, value is equal to the value entered';
+		}
 
 		assert.areSame( origValue, field.getValue(), msg );
 

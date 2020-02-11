@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -272,16 +272,18 @@
 							// DOM has been modified, stop event propagation so no other plugin
 							// will bother. Job is done.
 							relatedGlobal.on( 'exec', function( evt ) {
-								if ( evt.data.done )
+								if ( evt.data.done ) {
 									return;
+								}
 
 								// Make sure that anything this command will do is invisible
 								// for undoManager. What undoManager only can see and
 								// remember is the execution of the global command (relatedGlobal).
 								editor.fire( 'lockSnapshot' );
 
-								if ( command.execJob( editor, priority ) )
+								if ( command.execJob( editor, priority ) ) {
 									evt.data.done = true;
+								}
 
 								editor.fire( 'unlockSnapshot' );
 
@@ -293,8 +295,9 @@
 							// Once refreshed, save command state in event data
 							// so generic command plugin can update its own state and UI.
 							relatedGlobal.on( 'refresh', function( evt ) {
-								if ( !evt.data.states )
+								if ( !evt.data.states ) {
 									evt.data.states = {};
+								}
 
 								evt.data.states[ command.name + '@' + priority ] =
 									command.refreshJob( editor, priority, evt.data.path );
@@ -330,8 +333,9 @@
 		execJob: function( editor, priority ) {
 			var job = this.jobs[ priority ];
 
-			if ( job.state != TRISTATE_DISABLED )
+			if ( job.state != TRISTATE_DISABLED ) {
 				return job.exec.call( this, editor );
+			}
 		},
 
 		/**
@@ -347,10 +351,11 @@
 		refreshJob: function( editor, priority, path ) {
 			var job = this.jobs[ priority ];
 
-			if ( !editor.activeFilter.checkFeature( this ) )
+			if ( !editor.activeFilter.checkFeature( this ) ) {
 				job.state = TRISTATE_DISABLED;
-			else
+			} else {
 				job.state = job.refresh.call( this, editor, path );
+			}
 
 			return job.state;
 		},
@@ -432,8 +437,9 @@
 			// If no state comes with event data, disable command.
 			var states = [ TRISTATE_DISABLED ];
 
-			for ( var s in evt.data.states )
+			for ( var s in evt.data.states ) {
 				states.push( evt.data.states[ s ] );
+			}
 
 			this.setState( CKEDITOR.tools.search( states, TRISTATE_OFF ) ? TRISTATE_OFF : TRISTATE_DISABLED );
 		}, command, null, 100 );
@@ -445,8 +451,9 @@
 			bookmarks = selection.createBookmarks( 1 );
 
 			// Mark execution as not handled yet.
-			if ( !evt.data )
+			if ( !evt.data ) {
 				evt.data = {};
+			}
 
 			evt.data.done = false;
 		}, command, null, 0 );

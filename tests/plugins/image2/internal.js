@@ -34,9 +34,10 @@
 				delete falseClasses[ expected ];
 			}
 
-			for ( var f in falseClasses )
+			for ( var f in falseClasses ) {
 				assert.isFalse( el.hasClass( f ),
 					'.' + f + ' class is not present on widget.' + elType );
+			}
 		};
 	}
 
@@ -448,7 +449,7 @@
 							'<img alt="" data-cke-saved-src="_assets/foo.png" data-cke-widget-upcasted="1" id="x" src="_assets/foo.png" />' +
 							'<span class="cke_image_resizer"></span>' +
 						'</span>' +
-					'</p>'  )
+					'</p>' )
 			} );
 		},
 
@@ -464,7 +465,7 @@
 							'<img alt="" data-cke-saved-src="_assets/foo.png" data-cke-widget-upcasted="1" id="x" src="_assets/foo.png" />' +
 							'<span class="cke_image_resizer"></span>' +
 						'</span>' +
-					'</p>'  )
+					'</p>' )
 			} );
 		},
 

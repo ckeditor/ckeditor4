@@ -133,15 +133,18 @@ if ( !window.CKEDITOR ) {
 				// HTML source. Other browsers return the full resolved URL instead.
 				if ( path.indexOf( ':/' ) == -1 && path.slice( 0, 2 ) != '//' ) {
 					// Absolute path.
-					if ( path.indexOf( '/' ) === 0 )
+					if ( path.indexOf( '/' ) === 0 ) {
 						path = location.href.match( /^.*?:\/\/[^\/]*/ )[ 0 ] + path;
+					}
 					// Relative path.
-					else
+					else {
 						path = location.href.match( /^[^\?]*\/(?:)/ )[ 0 ] + path;
+					}
 				}
 
-				if ( !path )
+				if ( !path ) {
 					throw 'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';
+				}
 
 				return path;
 			} )(),
@@ -172,12 +175,14 @@ if ( !window.CKEDITOR ) {
 			 */
 			getUrl: function( resource ) {
 				// If this is not a full or absolute path.
-				if ( resource.indexOf( ':/' ) == -1 && resource.indexOf( '/' ) !== 0 )
+				if ( resource.indexOf( ':/' ) == -1 && resource.indexOf( '/' ) !== 0 ) {
 					resource = this.basePath + resource;
+				}
 
 				// Add the timestamp, except for directories.
-				if ( this.timestamp && resource.charAt( resource.length - 1 ) != '/' && !( /[&?]t=/ ).test( resource ) )
+				if ( this.timestamp && resource.charAt( resource.length - 1 ) != '/' && !( /[&?]t=/ ).test( resource ) ) {
 					resource += ( resource.indexOf( '?' ) >= 0 ? '&' : '?' ) + 't=' + this.timestamp;
+				}
 
 				return resource;
 			},
@@ -213,8 +218,9 @@ if ( !window.CKEDITOR ) {
 
 				function executeCallbacks() {
 					var i;
-					while ( ( i = callbacks.shift() ) )
+					while ( ( i = callbacks.shift() ) ) {
 						i();
+					}
 				}
 
 				return function( fn ) {
@@ -223,12 +229,15 @@ if ( !window.CKEDITOR ) {
 					// Catch cases where this is called after the
 					// browser event has already occurred.
 					if ( document.readyState === 'complete' )
-						// Handle it asynchronously to allow scripts the opportunity to delay ready
+					// Handle it asynchronously to allow scripts the opportunity to delay ready
+					{
 						setTimeout( onReady, 1 );
+					}
 
 					// Run below once on demand only.
-					if ( callbacks.length != 1 )
+					if ( callbacks.length != 1 ) {
 						return;
+					}
 
 					// For IE>8, Firefox, Opera and Webkit.
 					if ( document.addEventListener ) {
@@ -237,7 +246,6 @@ if ( !window.CKEDITOR ) {
 
 						// A fallback to window.onload, that will always work
 						window.addEventListener( 'load', onReady, false );
-
 					}
 					// If old IE event model is used
 					else if ( document.attachEvent ) {
@@ -273,7 +281,6 @@ if ( !window.CKEDITOR ) {
 						onReady();
 					}
 				};
-
 			} )()
 		};
 

@@ -82,5 +82,4 @@
 			testKeyCombination( focusTrap, eventData, 0 );
 		}
 	} );
-
 } )();

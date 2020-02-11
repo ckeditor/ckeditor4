@@ -20,14 +20,16 @@ bender.test( {
 
 			for ( i in items ) {
 				item = items[ i ];
-				if ( item.type == CKEDITOR.UI_RICHCOMBO )
+				if ( item.type == CKEDITOR.UI_RICHCOMBO ) {
 					combos.push( editor.ui.get( i ) );
+				}
 			}
 
 			for ( i in combos ) {
 				combo = combos[ i ];
-				if ( !combo.readOnly )
+				if ( !combo.readOnly ) {
 					assert.areSame( CKEDITOR.TRISTATE_DISABLED, combo._.state );
+				}
 			}
 		} );
 	},

@@ -106,7 +106,6 @@
 				keyCode: 66 // B
 			} ) );
 		} );
-
 	}
 
 	// @param {String} cofig.name name of the widget. This name will be used also as a className for a widget

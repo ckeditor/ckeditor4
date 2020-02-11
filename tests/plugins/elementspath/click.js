@@ -26,8 +26,10 @@
 				expectedHtml = '<p><strong>[test]</strong></p>';
 
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 ) || CKEDITOR.env.gecko || CKEDITOR.env.chrome )
-				// IE9 and higher, selectes elements rather than text.
+			// IE9 and higher, selectes elements rather than text.
+			{
 				expectedHtml = '<p>[<strong>test</strong>]</p>';
+			}
 
 			bot.setHtmlWithSelection( '<p><strong>te^st</strong></p>' );
 
@@ -35,7 +37,7 @@
 			bot.editor._.elementsPath.onClick( 0 );
 			var curRange = editor.getSelection().getRanges()[ 0 ];
 
-			this.assertHtmlEqual( expectedHtml, bender.tools.getHtmlWithRanges( editor.document.getBody(), new CKEDITOR.dom.rangeList( [ curRange ] )  ) );
+			this.assertHtmlEqual( expectedHtml, bender.tools.getHtmlWithRanges( editor.document.getBody(), new CKEDITOR.dom.rangeList( [ curRange ] ) ) );
 		},
 
 		'test clicking contenteditable strong element': function() {
@@ -50,7 +52,7 @@
 			bot.editor._.elementsPath.onClick( 0 );
 			var curRange = editor.getSelection().getRanges()[ 0 ];
 
-			this.assertHtmlEqual( expectedHtml, bender.tools.getHtmlWithRanges( editor.document.getBody(), new CKEDITOR.dom.rangeList( [ curRange ] )  ) );
+			this.assertHtmlEqual( expectedHtml, bender.tools.getHtmlWithRanges( editor.document.getBody(), new CKEDITOR.dom.rangeList( [ curRange ] ) ) );
 		}
 	} );
 } )();

@@ -30,8 +30,9 @@
 			items = list._.items,
 			elements = [];
 
-		for ( var value in items )
+		for ( var value in items ) {
 			elements.push( doc.getById( items[ value ] ) );
+		}
 
 		return elements;
 	}
@@ -131,13 +132,10 @@
 
 					selectElement( editor, '#x' );
 					checkDialog( [ true, true, true ], [ true, true, true ], function() {
-
 						selectEditable( editor, w1, 'foo' );
 						checkDialog( [ true, false, false ], [ true, false, false ], function() {
-
 							selectEditable( editor, w1, 'bar' );
 							checkDialog( [ true, false, true ], [ true, true, false ], function() {
-
 								selectElement( editor, '#x' );
 								checkDialog( [ true, true, true ], [ true, true, true ] );
 							} );
@@ -161,8 +159,9 @@
 
 							dialog.getButton( 'cancel' ).click();
 
-							if ( callback )
+							if ( callback ) {
 								callback();
+							}
 						} );
 					}
 				} );
@@ -215,8 +214,9 @@
 							count = 0;
 
 						for ( var i in elements ) {
-							if ( elements[ i ].getStyle( 'display' ) != 'none' )
+							if ( elements[ i ].getStyle( 'display' ) != 'none' ) {
 								count++;
+							}
 						}
 
 						assert.areSame( stylesCount, count, msg + ' count' );

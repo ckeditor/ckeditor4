@@ -146,8 +146,9 @@ bender.test( {
 	},
 
 	'test selectRanges - in empty block': function() {
-		if ( !CKEDITOR.env.needsBrFiller )
+		if ( !CKEDITOR.env.needsBrFiller ) {
 			assert.ignore();
+		}
 
 		var editor = this.editor,
 			range = editor.createRange();
@@ -478,8 +479,7 @@ bender.test( {
 			var emptyRange = new CKEDITOR.dom.range( doc );
 			emptyRange.moveToPosition( startContainer, CKEDITOR.POSITION_AFTER_START );
 			checkSelection.call( sel, CKEDITOR.SELECTION_TEXT, startContainer, null, '', [ emptyRange ] );
-		}
-		else {
+		} else {
 			checkSelection.call( sel, CKEDITOR.SELECTION_NONE, null, null, '', 0 );
 		}
 	},
@@ -503,9 +503,10 @@ bender.test( {
 		var editable = doc.getById( 'sandbox' );
 		tools.setHtmlWithSelection( editable, '<p>[foo]</p>' );
 		var sel = new CKEDITOR.dom.selection( editable ),
-		ranges = sel.getRanges();
-		for ( var i = 0; i < ranges.length; i++ )
+			ranges = sel.getRanges();
+		for ( var i = 0; i < ranges.length; i++ ) {
 			assert.areSame( ranges[ i ].root, editable );
+		}
 	},
 
 	'test get only editable ranges': function() {
@@ -523,8 +524,9 @@ bender.test( {
 	},
 
 	'test get only editable ranges 2': function() {
-		if ( CKEDITOR.env.ie )
+		if ( CKEDITOR.env.ie ) {
 			assert.ignore();
+		}
 
 		var editable = doc.getById( 'sandbox' ),
 			sel, ranges;

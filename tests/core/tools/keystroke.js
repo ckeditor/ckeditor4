@@ -1,4 +1,4 @@
-﻿/* bender-tags: editor */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';

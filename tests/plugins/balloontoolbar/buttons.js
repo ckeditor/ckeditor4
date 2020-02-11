@@ -87,7 +87,6 @@
 			panel._view.renderItems( panel._items );
 			assert.areEqual( 1, panel._view.parts.content.find( '.cke_toolgroup' ).count(), 'There should be only one toolgroup' );
 			assert.isNull( panel._view.parts.content.findOne( '.cke_toolgroup' ).findOne( '.richCombo' ), 'Rich combo should not be inside toolgroup' );
-
 		},
 
 		'test mixed group': function() {

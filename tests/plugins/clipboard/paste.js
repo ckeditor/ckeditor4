@@ -68,8 +68,9 @@
 
 			CKEDITOR.plugins.clipboard.copyCutData = undefined;
 
-			for ( name in { paste: 1, beforePaste: 1, afterPaste: 1 } )
+			for ( name in { paste: 1, beforePaste: 1, afterPaste: 1 } ) {
 				this[ name + 'Callback' ] && editor.removeListener( name, this[ name + 'Callback' ] );
+			}
 
 			this.pasteCallback = this.beforePasteCallback = this.afterPasteCallback = null;
 		},
@@ -324,8 +325,9 @@
 		},
 
 		'content type sniffing - htmlified text - Firefox & Opera': function() {
-			if ( !CKEDITOR.env.gecko )
+			if ( !CKEDITOR.env.gecko ) {
 				assert.ignore();
+			}
 
 			assertPasteEvent( this.editor, { dataValue: 'a<br>bc' },
 				{ type: 'text' }, 'htmlified text' );
@@ -347,8 +349,9 @@
 		},
 
 		'content type sniffing - htmlified text - Webkit': function() {
-			if ( !CKEDITOR.env.webkit )
+			if ( !CKEDITOR.env.webkit ) {
 				assert.ignore();
+			}
 
 			assertPasteEvent( this.editor, { dataValue: '<div>a</div>' },
 				{ type: 'text' }, 'htmlified text 1' );
@@ -379,8 +382,9 @@
 		},
 
 		'content type sniffing - htmlified text - IEs': function() {
-			if ( !CKEDITOR.env.ie )
+			if ( !CKEDITOR.env.ie ) {
 				assert.ignore();
+			}
 
 			assertPasteEvent( this.editor, { dataValue: '<p>a</p>' },
 				{ type: 'text' }, 'htmlified text 1' );
@@ -417,8 +421,9 @@
 		},
 
 		'content type sniffing - htmlified text - other': function() {
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.webkit || CKEDITOR.env.ie )
+			if ( CKEDITOR.env.gecko || CKEDITOR.env.webkit || CKEDITOR.env.ie ) {
 				assert.ignore();
+			}
 
 			assertPasteEvent( this.editor, { dataValue: 'abc', htmlified: true },
 				{ type: 'html' }, 'for unrecognized browser always shout html' );
@@ -564,9 +569,7 @@
 
 				// TODO IE produces weird content for cases with more new lines.
 				// Dive into this some day.
-			}
-
-			else if ( CKEDITOR.env.webkit ) {
+			} else if ( CKEDITOR.env.webkit ) {
 				assertPasteEvent( this.editor,
 					{ dataValue: '<div>aa</div><div>bb</div>' },
 					{ type: 'text', dataValue: 'aa<br>bb' },
@@ -616,7 +619,7 @@
 					{ dataValue: '<div><br></div><div><br></div><div><br></div><div>A</div>' },
 					{ type: 'text', dataValue: '<p></p><p><br>A</p>' },
 					'htmlified text 10 - webkit' );
-/*
+				/*
 				assertPasteEvent( this.editor,
 					{ dataValue: '<div><br></div>' },
 					{ type: 'text', dataValue: '<br>' },
@@ -646,8 +649,7 @@
 					{ dataValue: '<div><br></div><div><br></div><div><br></div><div>aa</div>' },
 					{ type: 'text', dataValue: '<p></p><p><br>aa</p>' },
 					'htmlified text 16 - webkit' );
-			}
-			else if ( CKEDITOR.env.gecko ) {
+			} else if ( CKEDITOR.env.gecko ) {
 				// Fx is stupid - for one plain text line break it generates two brs.
 				// For two line breaks - two brs as well.
 				assertPasteEvent( this.editor, { dataValue: '<br><br>' },
@@ -665,23 +667,24 @@
 		},
 
 		'htmlified text unification 4 - XHTML syntax': function() {
-			if ( CKEDITOR.env.gecko )
+			if ( CKEDITOR.env.gecko ) {
 				assertPasteEvent( this.editor,
 					{ dataValue: 'aa<br /><br/>bb<br />cc' },
 					{ type: 'text', dataValue: '<p>aa</p><p>bb<br>cc</p>' },
 					'htmlified text - fx' );
-			else if ( CKEDITOR.env.ie )
+			} else if ( CKEDITOR.env.ie ) {
 				assertPasteEvent( this.editor,
 					{ dataValue: '<p>aa<br />bb<BR/>cc</p>' },
 					{ type: 'text', dataValue: '<p>aa<br>bb<br>cc</p>' },
 					'htmlified text - ie' );
-			else if ( CKEDITOR.env.webkit )
+			} else if ( CKEDITOR.env.webkit ) {
 				assertPasteEvent( this.editor,
 					{ dataValue: '<div>aa</div><div><br /></div><div>bb</div>' },
 					{ type: 'text', dataValue: '<p>aa</p><p>bb</p>' },
 					'htmlified text - webkit' );
-			else
+			} else {
 				assert.isTrue( true );
+			}
 		},
 
 		'htmlified text unification 5 - enter mode br': function() {
@@ -703,8 +706,7 @@
 					assertPasteEvent( editor,
 						{ dataValue: '<br>aa<br><br>bb<br>cc<br>' }, { type: 'text', dataValue: '<br>aa<br><br>bb<br>cc<br>' },
 						'htmlified text 4 - fx' );
-				}
-				else if ( CKEDITOR.env.ie ) {
+				} else if ( CKEDITOR.env.ie ) {
 					assertPasteEvent( editor,
 						{ dataValue: '<p>aa</p>' }, { type: 'text', dataValue: 'aa' },
 						'htmlified text 1 - ie' );
@@ -727,8 +729,7 @@
 						{ dataValue: '<p><br>aa</p><p>bb</p>' },
 						{ type: 'text', dataValue: '<br>aa<br><br>bb' },
 						'htmlified text 6 - ie' );
-				}
-				else if ( CKEDITOR.env.webkit ) {
+				} else if ( CKEDITOR.env.webkit ) {
 					assertPasteEvent( editor,
 						{ dataValue: '<div>aa</div>' }, { type: 'text', dataValue: 'aa' },
 						'htmlified text 1 - webkit' );
@@ -783,8 +784,7 @@
 					assertPasteEvent( editor,
 						{ dataValue: 'aa<br>bb<br><br>cc' }, { type: 'text', dataValue: '<div>aa<br>bb</div><div>cc</div>' },
 						'htmlified text 2 - fx' );
-				}
-				else if ( CKEDITOR.env.ie ) {
+				} else if ( CKEDITOR.env.ie ) {
 					assertPasteEvent( editor,
 						{ dataValue: 'aa<br>bb' }, { type: 'text', dataValue: 'aa<br>bb' },
 						'htmlified text 1 - ie' );
@@ -792,8 +792,7 @@
 						{ dataValue: '<p>aa<br>bb</p><p>cc</p>' },
 						{ type: 'text', dataValue: '<div>aa<br>bb</div><div>cc</div>' },
 						'htmlified text 2 - ie' );
-				}
-				else if ( CKEDITOR.env.webkit ) {
+				} else if ( CKEDITOR.env.webkit ) {
 					assertPasteEvent( editor,
 						{ dataValue: '<div>aa</div><div>bb</div>' }, { type: 'text', dataValue: 'aa<br>bb' },
 						'htmlified text 1 - webkit' );
@@ -817,9 +816,9 @@
 
 		'html textification <p class="test" style="color:red">a<br style="display:none">b</p>': function() {
 			assertPasteEvent( this.editor, {
-					type: 'text',
-					dataValue: '<p class="test" style="color:red">a<br style="display:none">b</p>'
-				}, { type: 'text', dataValue: '<p>a<br />b</p>' }, 'strip styles' );
+				type: 'text',
+				dataValue: '<p class="test" style="color:red">a<br style="display:none">b</p>'
+			}, { type: 'text', dataValue: '<p>a<br />b</p>' }, 'strip styles' );
 		},
 
 		'html textification a<i>b</i><p>c<b>d</b>e<br>f</p>g': function() {
@@ -837,7 +836,6 @@
 		},
 
 		'html textification <dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>': function() {
-
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
 				{ type: 'text', dataValue: '<p>AT</p><p>AD</p><p>BT</p><p>BD1</p><p>BD2</p>' },
@@ -845,7 +843,6 @@
 		},
 
 		'html textification a <div>b</div> <div title="1">c</div> d <div>e</div>': function() {
-
 			// Without attrib this will be handled as normal htmlified text.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'a <div>b</div> <div title="1">c</div> d <div>e</div>' },
@@ -854,7 +851,6 @@
 		},
 
 		'html textification <div> <p>a</p> b</div> <div>c <ul> <li>d</li> <li>e</li> </ul></div>': function() {
-
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<div> <p>a</p> b</div> <div>c <ul> <li>d</li> <li>e</li> </ul></div>' },
 				{ type: 'text', dataValue: '<p>a</p><p>b</p><p>c</p><p>d</p><p>e</p>' },
@@ -862,7 +858,6 @@
 		},
 
 		'html textification X<table> <caption>C</caption> <tr><th>A1</th><td>A2</td></tr> <tr><td>B1</td><th>B2</th></tr> </table>X': function() {
-
 			// TODO we should correct tbody,thead,tfoot,caption order if not done by parser.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'X<table> <caption>C</caption> <tr><th>A1</th><td>A2</td></tr> <tr><td>B1</td><th>B2</th></tr> </table>X' },
@@ -871,7 +866,6 @@
 		},
 
 		'html textification <table> <tr><td>A1</td> <td><table><tr><td>B1</td><td>B2</td></table></td></tr> <tr><td>C1</td></tr> </table>': function() {
-
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<table> <tr><td>A1</td> <td><table><tr><td>B1</td><td>B2</td></table></td></tr> <tr><td>C1</td></tr> </table>' },
 				{ type: 'text', dataValue: '<p>A1</p><p>B1B2</p><p>C1</p>' },
@@ -904,9 +898,9 @@
 
 		'html textification 2 A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F': function() {
 			assertPasteEvent( this.editor, {
-					type: 'text',
-					dataValue: 'A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F'
-				}, { type: 'text', dataValue: 'A<p>B</p><p>C</p><p>D</p><p>E</p>F' }, 'transparent divs' );
+				type: 'text',
+				dataValue: 'A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F'
+			}, { type: 'text', dataValue: 'A<p>B</p><p>C</p><p>D</p><p>E</p>F' }, 'transparent divs' );
 		},
 
 		'html textification 3 - ticket https://dev.ckeditor.com/ticket/8834': function() {
@@ -944,19 +938,17 @@
 		},
 
 		'html textification 5 - complex cases #2': function() {
-
 			assertPasteEvent( this.editor, {
-					type: 'text',
-					dataValue: '<section><div><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><aside><table><tr><td><p>4AAAA</p>' +
+				type: 'text',
+				dataValue: '<section><div><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><aside><table><tr><td><p>4AAAA</p>' +
 						'<ul><li>BBB</li><li>BBB</li></ul><p>5AAAA</p></td><td><p>6AAAA</p><p>7AAAA</p></td></tr></table></aside></div></section>'
-				}, {
-					type: 'text',
-					dataValue: '<p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>4AAAA</p><p>BBB</p><p>BBB</p><p>5AAAA</p><p>6AAAA</p><p>7AAAA</p>'
-				}, 'complex case 2' );
+			}, {
+				type: 'text',
+				dataValue: '<p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>4AAAA</p><p>BBB</p><p>BBB</p><p>5AAAA</p><p>6AAAA</p><p>7AAAA</p>'
+			}, 'complex case 2' );
 		},
 
 		'html textification 5 - complex cases #3': function() {
-
 			assertPasteEvent(
 				this.editor,
 				{ type: 'text', dataValue: '' },
@@ -987,9 +979,9 @@
 
 		'html textification 6 - tricks <p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>': function() {
 			assertPasteEvent( this.editor, {
-					type: 'text',
-					dataValue: '<p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>'
-				}, { type: 'text', dataValue: '<p>A</p><p>B</p><p>C</p><p>D</p>' }, 'remove empty blocks' );
+				type: 'text',
+				dataValue: '<p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>'
+			}, { type: 'text', dataValue: '<p>A</p><p>B</p><p>C</p><p>D</p>' }, 'remove empty blocks' );
 		},
 
 		'html textification 6 - tricks <p>A</p> <h1>T1</h1> <h2>T2</h2> <h3>T3</h3> <p>C</p> <h4>T4</h4> D <h5>T5</h5>': function() {
@@ -1048,8 +1040,7 @@
 					{ type: 'html', dataValue: '<p>ABC</p>' }, 'eol 1c' );
 				assertPasteEvent( this.editor, { dataValue: '&nbsp; <b>ABC</b>' },
 					{ type: 'html', dataValue: '&nbsp; <b>ABC</b>' }, 'eol 2' );
-			}
-			else if ( CKEDITOR.env.webkit ) {
+			} else if ( CKEDITOR.env.webkit ) {
 				assertPasteEvent( this.editor, { dataValue: '<br class="Apple-interchange-newline">ABC' },
 					{ type: 'html', dataValue: '<br data-cke-eol="1">ABC' }, 'eol 1' );
 
@@ -1183,8 +1174,9 @@
 		},
 
 		'test cut': function() {
-			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				assert.ignore();
+			}
 
 			var editor = this.editor,
 				editable = editor.editable(),
@@ -1208,8 +1200,9 @@
 		},
 
 		'test copy': function() {
-			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				assert.ignore();
+			}
 
 			var editor = this.editor,
 				editable = editor.editable(),
@@ -1233,8 +1226,9 @@
 		},
 
 		'test cut and paste': function() {
-			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				assert.ignore();
+			}
 
 			var editor = this.editor,
 				editable = editor.editable(),
@@ -1263,15 +1257,15 @@
 				assert.areSame( 'b<b>a</b>r', htmlData, 'HTML data' );
 				assert.areSame( 'bar', textData, 'Plain text data' );
 				assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransferType, 'Trasfer type' );
-
 			} );
 
 			this.wait();
 		},
 
 		'test copy and paste': function() {
-			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				assert.ignore();
+			}
 
 			var editor = this.editor,
 				editable = editor.editable(),
@@ -1300,15 +1294,15 @@
 				assert.areSame( 'b<b>a</b>r', htmlData, 'HTML data' );
 				assert.areSame( 'bar', textData, 'Plain text data' );
 				assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransferType, 'Trasfer type' );
-
 			} );
 
 			this.wait();
 		},
 
 		'test paste if dataTransfer is not empty': function() {
-			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				assert.ignore();
+			}
 
 			var editor = this.editor,
 				// As dataTransfer mock is used in `bender.tools.emulatePaste` we need to pass a type which is acceptable in Edge
@@ -1542,5 +1536,4 @@
 				{ dataValue: '<p>aaa</p>' }, 'stripped .cke_editable > .cke_contents' );
 		}
 	} );
-
 } )();

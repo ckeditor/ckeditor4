@@ -263,8 +263,9 @@
 		// https://dev.ckeditor.com/ticket/13101
 		'test getHtml with html5': function() {
 			// IE8 only.
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 )
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) {
 				assert.ignore();
+			}
 
 			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 

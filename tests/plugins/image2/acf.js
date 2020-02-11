@@ -83,8 +83,9 @@
 
 			resume( function() {
 				try {
-					for ( var f in fields )
+					for ( var f in fields ) {
 						assert.areSame( fields[ f ], dialog.getContentElement( 'info', f ).isVisible(), 'Visibility of "' + f + '" must be correct.' );
+					}
 				} catch ( e ) {
 					throw e;
 				} finally {

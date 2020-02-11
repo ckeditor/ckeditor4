@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 	contents: 'Hjälpinnehåll. För att stänga denna dialogruta trycker du på ESC.',
 	legend: [
 		{
-		name: 'Allmänt',
-		items: [
-			{
-			name: 'Editor verktygsfält',
-			legend: 'Tryck på ${toolbarFocus} för att navigera till verktygsfältet. Flytta till nästa och föregående verktygsfältsgrupp med TAB och SHIFT+TAB. Flytta till nästa och föregående knapp i verktygsfältet med HÖGERPIL eller VÄNSTERPIL. Tryck SPACE eller ENTER för att aktivera knappen i verktygsfältet.'
-		},
+			name: 'Allmänt',
+			items: [
+				{
+					name: 'Editor verktygsfält',
+					legend: 'Tryck på ${toolbarFocus} för att navigera till verktygsfältet. Flytta till nästa och föregående verktygsfältsgrupp med TAB och SHIFT+TAB. Flytta till nästa och föregående knapp i verktygsfältet med HÖGERPIL eller VÄNSTERPIL. Tryck SPACE eller ENTER för att aktivera knappen i verktygsfältet.'
+				},
 
-			{
-			name: 'Dialogeditor',
-			legend:
-				'Inuti en dialogruta, tryck TAB för att navigera till nästa fält i dialogrutan, tryck SKIFT+TAB för att flytta till föregående fält, tryck ENTER för att skicka. Du avbryter och stänger dialogen med ESC. För dialogrutor som har flera flikar, tryck ALT+F10 eller TAB för att navigera till fliklistan. med fliklistan vald flytta till nästa och föregående flik med HÖGER- eller VÄNSTERPIL.' 
-		},
+				{
+					name: 'Dialogeditor',
+					legend:
+				'Inuti en dialogruta, tryck TAB för att navigera till nästa fält i dialogrutan, tryck SKIFT+TAB för att flytta till föregående fält, tryck ENTER för att skicka. Du avbryter och stänger dialogen med ESC. För dialogrutor som har flera flikar, tryck ALT+F10 eller TAB för att navigera till fliklistan. med fliklistan vald flytta till nästa och föregående flik med HÖGER- eller VÄNSTERPIL.'
+				},
 
-			{
-			name: 'Editor för innehållsmeny',
-			legend: 'Tryck på $ {contextMenu} eller PROGRAMTANGENTEN för att öppna snabbmenyn. Flytta sedan till nästa menyalternativ med TAB eller NEDPIL. Flytta till föregående alternativ med SHIFT + TABB eller UPPIL. Tryck Space eller ENTER för att välja menyalternativ. Öppna undermeny av nuvarande alternativ med SPACE eller ENTER eller HÖGERPIL. Gå tillbaka till överordnade menyalternativ med ESC eller VÄNSTERPIL. Stäng snabbmenyn med ESC.'
-		},
+				{
+					name: 'Editor för innehållsmeny',
+					legend: 'Tryck på $ {contextMenu} eller PROGRAMTANGENTEN för att öppna snabbmenyn. Flytta sedan till nästa menyalternativ med TAB eller NEDPIL. Flytta till föregående alternativ med SHIFT + TABB eller UPPIL. Tryck Space eller ENTER för att välja menyalternativ. Öppna undermeny av nuvarande alternativ med SPACE eller ENTER eller HÖGERPIL. Gå tillbaka till överordnade menyalternativ med ESC eller VÄNSTERPIL. Stäng snabbmenyn med ESC.'
+				},
 
-			{
-			name: 'Editor för list-box',
-			legend: 'Inuti en list-box, gå till nästa listobjekt med TAB eller NEDPIL. Flytta till föregående listobjekt med SHIFT+TAB eller UPPIL. Tryck SPACE eller ENTER för att välja listan alternativet. Tryck ESC för att stänga list-boxen.'
-		},
+				{
+					name: 'Editor för list-box',
+					legend: 'Inuti en list-box, gå till nästa listobjekt med TAB eller NEDPIL. Flytta till föregående listobjekt med SHIFT+TAB eller UPPIL. Tryck SPACE eller ENTER för att välja listan alternativet. Tryck ESC för att stänga list-boxen.'
+				},
 
-			{
-			name: 'Editor för elementens sökväg',
-			legend: 'Tryck på ${elementsPathFocus} för att navigera till verktygsfältet för elementens sökvägar. Flytta till nästa elementknapp med TAB eller HÖGERPIL. Flytta till föregående knapp med SKIFT+TAB eller VÄNSTERPIL. Tryck SPACE eller ENTER för att välja element i redigeraren.'
-		}
-		]
-	},
+				{
+					name: 'Editor för elementens sökväg',
+					legend: 'Tryck på ${elementsPathFocus} för att navigera till verktygsfältet för elementens sökvägar. Flytta till nästa elementknapp med TAB eller HÖGERPIL. Flytta till föregående knapp med SKIFT+TAB eller VÄNSTERPIL. Tryck SPACE eller ENTER för att välja element i redigeraren.'
+				}
+			]
+		},
 		{
-		name: 'Kommandon',
-		items: [
-			{
-			name: 'Ångra kommando',
-			legend: 'Tryck på ${undo}'
-		},
-			{
-			name: 'Gör om kommando',
-			legend: 'Tryck på ${redo}'
-		},
-			{
-			name: 'Kommandot fet stil',
-			legend: 'Tryck på ${bold}'
-		},
-			{
-			name: 'Kommandot kursiv',
-			legend: 'Tryck på ${italic}'
-		},
-			{
-			name: 'Kommandot understruken',
-			legend: 'Tryck på ${underline}'
-		},
-			{
-			name: 'Kommandot länk',
-			legend: 'Tryck på ${link}'
-		},
-			{
-			name: 'Verktygsfält Dölj kommandot',
-			legend: 'Tryck på ${toolbarCollapse}'
-		},
-			{
-			name: 'Gå till föregående fokus plats',
-			legend: 'Tryck på ${accessPreviousSpace} för att gå till närmast onåbara utrymme före markören, exempel: två intilliggande HR element. Repetera tangentkombinationen för att gå till nästa.'
-		},
-			{
-			name: 'Tillgå nästa fokuskommandots utrymme',
-			legend: 'Tryck ${accessNextSpace} på för att komma åt den närmaste onåbar fokus utrymme efter cirkumflex, till exempel: två intilliggande HR element. Upprepa tangentkombinationen för att nå avlägsna fokus utrymmen.'
-		},
-			{
-			name: 'Hjälp om tillgänglighet',
-			legend: 'Tryck ${a11yHelp}'
-		},
-			{
-			name: 'Klistra in som vanlig text',
-			legend: 'Tryck ${pastetext}',
-			legendEdge: 'Tryck ${pastetext}, följt av ${paste}'
+			name: 'Kommandon',
+			items: [
+				{
+					name: 'Ångra kommando',
+					legend: 'Tryck på ${undo}'
+				},
+				{
+					name: 'Gör om kommando',
+					legend: 'Tryck på ${redo}'
+				},
+				{
+					name: 'Kommandot fet stil',
+					legend: 'Tryck på ${bold}'
+				},
+				{
+					name: 'Kommandot kursiv',
+					legend: 'Tryck på ${italic}'
+				},
+				{
+					name: 'Kommandot understruken',
+					legend: 'Tryck på ${underline}'
+				},
+				{
+					name: 'Kommandot länk',
+					legend: 'Tryck på ${link}'
+				},
+				{
+					name: 'Verktygsfält Dölj kommandot',
+					legend: 'Tryck på ${toolbarCollapse}'
+				},
+				{
+					name: 'Gå till föregående fokus plats',
+					legend: 'Tryck på ${accessPreviousSpace} för att gå till närmast onåbara utrymme före markören, exempel: två intilliggande HR element. Repetera tangentkombinationen för att gå till nästa.'
+				},
+				{
+					name: 'Tillgå nästa fokuskommandots utrymme',
+					legend: 'Tryck ${accessNextSpace} på för att komma åt den närmaste onåbar fokus utrymme efter cirkumflex, till exempel: två intilliggande HR element. Upprepa tangentkombinationen för att nå avlägsna fokus utrymmen.'
+				},
+				{
+					name: 'Hjälp om tillgänglighet',
+					legend: 'Tryck ${a11yHelp}'
+				},
+				{
+					name: 'Klistra in som vanlig text',
+					legend: 'Tryck ${pastetext}',
+					legendEdge: 'Tryck ${pastetext}, följt av ${paste}'
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tab',
 	pause: 'Paus',

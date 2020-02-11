@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -10,7 +10,6 @@
 'use strict';
 
 ( function() {
-
 	var allowedContent = 'span[!lang,!dir]',
 		requiredContent = 'span[lang,dir]';
 
@@ -38,8 +37,9 @@
 				exec: function( editor, languageId ) {
 					var item = items[ 'language_' + languageId ];
 
-					if ( item )
+					if ( item ) {
 						editor[ item.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( item.style );
+					}
 				},
 				refresh: function( editor ) {
 					this.setState( plugin.getCurrentLangElement( editor ) ?
@@ -85,8 +85,9 @@
 				onClick: function() {
 					var currentLanguagedElement = plugin.getCurrentLangElement( editor );
 
-					if ( currentLanguagedElement )
+					if ( currentLanguagedElement ) {
 						editor.execCommand( 'language', currentLanguagedElement.getAttribute( 'lang' ) );
+					}
 				}
 			};
 
@@ -108,13 +109,15 @@
 					var activeItems = {},
 						currentLanguagedElement = plugin.getCurrentLangElement( editor );
 
-					for ( var prop in items )
+					for ( var prop in items ) {
 						activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
+					}
 
 					activeItems.language_remove = currentLanguagedElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
-					if ( currentLanguagedElement )
+					if ( currentLanguagedElement ) {
 						activeItems[ 'language_' + currentLanguagedElement.getAttribute( 'lang' ) ] = CKEDITOR.TRISTATE_ON;
+					}
 
 					return activeItems;
 				}
@@ -141,8 +144,9 @@
 				for ( var i = 0; i < activePath.length; i++ ) {
 					pathMember = activePath[ i ];
 
-					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
+					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) ) {
 						ret = pathMember;
+					}
 				}
 			}
 

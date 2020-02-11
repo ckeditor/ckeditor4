@@ -53,14 +53,15 @@
 					[ 'ul: splitMarginShorthand' ]
 				];
 
-				if ( this.enterBr )
+				if ( this.enterBr ) {
 					this.allowedContent.div = true;
+				}
 
 				this.requiredContent = ( this.enterBr ? 'div' : 'p' ) +
 					( classes ? '(' + classes.join( ',' ) + ')' : '{margin-left}' );
 
 				this.jobs = {
-					'20': {
+					20: {
 						refresh: function( editor, path ) {
 							var firstBlock = path.block || path.blockLimit;
 
@@ -76,8 +77,9 @@
 							// because indentblock can indent entire list
 							// but not a single list element.
 
-							if ( firstBlock.is( $listItem ) )
+							if ( firstBlock.is( $listItem ) ) {
 								firstBlock = firstBlock.getParent();
+							}
 
 							//	[-] Context in the path or ENTER_BR
 							//
@@ -86,11 +88,9 @@
 							//		if ENTER_BR is in use since there may be no block
 							//		in the path.
 
-							if ( !this.enterBr && !this.getContext( path ) )
+							if ( !this.enterBr && !this.getContext( path ) ) {
 								return TRISTATE_DISABLED;
-
-							else if ( classes ) {
-
+							} else if ( classes ) {
 								//	[+] Context in the path or ENTER_BR
 								//	[+] IndentClasses
 								//
@@ -98,12 +98,12 @@
 								//		the highest level of indentation. If so, disable
 								//		the command.
 
-								if ( indentClassLeft.call( this, firstBlock, classes ) )
+								if ( indentClassLeft.call( this, firstBlock, classes ) ) {
 									return TRISTATE_OFF;
-								else
+								} else {
 									return TRISTATE_DISABLED;
+								}
 							} else {
-
 								//	[+] Context in the path or ENTER_BR
 								//	[-] IndentClasses
 								//	[+] Indenting
@@ -111,8 +111,9 @@
 								//		No indent-level limitations due to indent classes.
 								//		Indent-like command can always be executed.
 
-								if ( this.isIndent )
+								if ( this.isIndent ) {
 									return TRISTATE_OFF;
+								}
 
 								//	[+] Context in the path or ENTER_BR
 								//	[-] IndentClasses
@@ -122,8 +123,9 @@
 								//		No block in path. There's no element to apply indentation
 								//		so disable the command.
 
-								else if ( !firstBlock )
+								else if ( !firstBlock ) {
 									return TRISTATE_DISABLED;
+								}
 
 								//	[+] Context in the path or ENTER_BR
 								//	[-] IndentClasses
@@ -149,8 +151,9 @@
 
 							// If there's some list in the path, then it will be
 							// a full-list indent by increasing or decreasing margin property.
-							if ( ( nearestListBlock = editor.elementPath().contains( $list ) ) )
+							if ( ( nearestListBlock = editor.elementPath().contains( $list ) ) ) {
 								indentElement.call( this, nearestListBlock, classes );
+							}
 
 							// If no list in the path, use iterator to indent all the possible
 							// paragraphs in the range, creating them if necessary.
@@ -163,8 +166,9 @@
 								iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
 								while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
-									if ( !block.isReadOnly() )
+									if ( !block.isReadOnly() ) {
 										indentElement.call( this, block, classes );
+									}
 								}
 							}
 
@@ -189,8 +193,9 @@
 	// Generic indentation procedure for indentation of any element
 	// either with margin property or config#indentClass.
 	function indentElement( element, classes, dir ) {
-		if ( element.getCustomData( 'indent_processed' ) )
+		if ( element.getCustomData( 'indent_processed' ) ) {
 			return;
+		}
 
 		var editor = this.editor,
 			isIndent = this.isIndent;
@@ -207,27 +212,31 @@
 
 			// Operate on indent step index, transform indent step index
 			// back to class name.
-			if ( ( indentStep += isIndent ? 1 : -1 ) < 0 )
+			if ( ( indentStep += isIndent ? 1 : -1 ) < 0 ) {
 				return;
+			}
 
 			indentStep = Math.min( indentStep, classes.length );
 			indentStep = Math.max( indentStep, 0 );
 			element.$.className = CKEDITOR.tools.ltrim( element.$.className.replace( this.classNameRegex, '' ) );
 
-			if ( indentStep > 0 )
+			if ( indentStep > 0 ) {
 				element.addClass( classes[ indentStep - 1 ] );
+			}
 		} else {
 			var indentCssProperty = getIndentCss( element, dir ),
 				currentOffset = parseInt( element.getStyle( indentCssProperty ), 10 ),
 				indentOffset = editor.config.indentOffset || 40;
 
-			if ( isNaN( currentOffset ) )
+			if ( isNaN( currentOffset ) ) {
 				currentOffset = 0;
+			}
 
 			currentOffset += ( isIndent ? 1 : -1 ) * indentOffset;
 
-			if ( currentOffset < 0 )
+			if ( currentOffset < 0 ) {
 				return;
+			}
 
 			currentOffset = Math.max( currentOffset, 0 );
 			currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
@@ -237,8 +246,9 @@
 				currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : ''
 			);
 
-			if ( element.getAttribute( 'style' ) === '' )
+			if ( element.getAttribute( 'style' ) === '' ) {
 				element.removeAttribute( 'style' );
+			}
 		}
 
 		CKEDITOR.dom.element.setMarker( this.database, element, 'indent_processed', 1 );
@@ -258,13 +268,15 @@
 		//	* If it holds any other indentClass, it can use the next one
 		//	  or the previous one.
 		//	* Outdent is always possible. We can remove indentClass.
-		if ( indentClass )
+		if ( indentClass ) {
 			return isIndent ? indentClass[ 1 ] != classes.slice( -1 ) : true;
+		}
 
 		// If node has no class which belongs to indentClasses,
 		// then it is at 0-level. It can be indented but not outdented.
-		else
+		else {
 			return isIndent;
+		}
 	}
 
 	// Determines indent CSS property for an element according to

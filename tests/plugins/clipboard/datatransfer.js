@@ -30,7 +30,7 @@ bender.test( {
 		assert.areSame( expected.transferType, dataTransfer.getTransferType( expected.targetEditor ), 'transferType' );
 		assert.areSame( expected.sourceEditor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( expected.text, dataTransfer.getData( 'text/plain' ), 'getData( \'text/plain\' )' );
-		assert.isInnerHtmlMatching( expected.html,  dataTransfer.getData( 'text/html' ), htmlMatchOpts, 'getData( \'text/html\' )' );
+		assert.isInnerHtmlMatching( expected.html, dataTransfer.getData( 'text/html' ), htmlMatchOpts, 'getData( \'text/html\' )' );
 	},
 
 	'test id': function() {
@@ -73,12 +73,12 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData, editor );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
-				sourceEditor: editor,
-				targetEditor: editor,
-				text: 'bar',
-				html: 'x<b>foo</b>x' },
-			dataTransfer );
+			transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+			sourceEditor: editor,
+			targetEditor: editor,
+			text: 'bar',
+			html: 'x<b>foo</b>x' },
+		dataTransfer );
 	},
 
 	'test internal drag drop, no event': function() {
@@ -92,12 +92,12 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
-				sourceEditor: editor,
-				targetEditor: editor,
-				text: isCustomDataTypesSupported ? 'xfoox' : '',
-				html: 'x<b>foo</b>x' },
-			dataTransfer );
+			transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+			sourceEditor: editor,
+			targetEditor: editor,
+			text: isCustomDataTypesSupported ? 'xfoox' : '',
+			html: 'x<b>foo</b>x' },
+		dataTransfer );
 	},
 
 	'test drop text from external source': function() {
@@ -111,12 +111,12 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
-				sourceEditor: undefined,
-				targetEditor: editor,
-				text: 'x<b>foo</b>x',
-				html: '' },
-			dataTransfer );
+			transferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+			sourceEditor: undefined,
+			targetEditor: editor,
+			text: 'x<b>foo</b>x',
+			html: '' },
+		dataTransfer );
 	},
 
 	'test drop html from external source': function() {
@@ -134,12 +134,12 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
-				sourceEditor: undefined,
-				targetEditor: editor,
-				text: 'bar',
-				html: isCustomDataTypesSupported ? 'x<b>foo</b>x' : '' },
-			dataTransfer );
+			transferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+			sourceEditor: undefined,
+			targetEditor: editor,
+			text: 'bar',
+			html: isCustomDataTypesSupported ? 'x<b>foo</b>x' : '' },
+		dataTransfer );
 	},
 
 	'test drag drop between editors': function() {
@@ -157,12 +157,12 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData, editor1 );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
-				sourceEditor: editor1,
-				targetEditor: editor2,
-				text: 'bar',
-				html: 'x<b>foo</b>x' },
-			dataTransfer );
+			transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
+			sourceEditor: editor1,
+			targetEditor: editor2,
+			text: 'bar',
+			html: 'x<b>foo</b>x' },
+		dataTransfer );
 	},
 
 	'test drag drop between editors, no event': function() {
@@ -176,12 +176,12 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor1 );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
-				sourceEditor: editor1,
-				targetEditor: editor2,
-				text: isCustomDataTypesSupported ? 'xfoox' : '',
-				html: 'x<b>foo</b>x' },
-			dataTransfer );
+			transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
+			sourceEditor: editor1,
+			targetEditor: editor2,
+			text: isCustomDataTypesSupported ? 'xfoox' : '',
+			html: 'x<b>foo</b>x' },
+		dataTransfer );
 	},
 
 	'test set-get data, data type: Text, dataTransfer with event': function() {
@@ -656,7 +656,6 @@ bender.test( {
 			assert.areSame( 'foo', dataTransfer.getData( 'Text' ) );
 			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 		}
-
 	},
 
 	'test cacheData with no native event should not crash': function() {
@@ -994,12 +993,12 @@ bender.test( {
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
-				sourceEditor: editor,
-				targetEditor: editor,
-				text: isCustomDataTypesSupported ? 'xfoox' : '',
-				html: 'x<b>foo</b>x' },
-			evt.data.dataTransfer );
+			transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+			sourceEditor: editor,
+			targetEditor: editor,
+			text: isCustomDataTypesSupported ? 'xfoox' : '',
+			html: 'x<b>foo</b>x' },
+		evt.data.dataTransfer );
 	},
 
 	'test initDragDataTransfer constructor, no native event': function() {
@@ -1013,11 +1012,11 @@ bender.test( {
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
-				sourceEditor: editor,
-				targetEditor: editor,
-				text: isCustomDataTypesSupported ? 'xfoox' : '',
-				html: 'x<b>foo</b>x'	},
+			transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+			sourceEditor: editor,
+			targetEditor: editor,
+			text: isCustomDataTypesSupported ? 'xfoox' : '',
+			html: 'x<b>foo</b>x'	},
 		evt.data.dataTransfer );
 	},
 
@@ -1062,12 +1061,12 @@ bender.test( {
 		var dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt, editor );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
-				sourceEditor: editor,
-				targetEditor: editor,
-				text: isCustomDataTypesSupported ? 'xfoox' : '',
-				html: 'x<b>foo</b>x' },
-			dataTransfer );
+			transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+			sourceEditor: editor,
+			targetEditor: editor,
+			text: isCustomDataTypesSupported ? 'xfoox' : '',
+			html: 'x<b>foo</b>x' },
+		dataTransfer );
 	},
 
 	'test initPasteDataTransfer constructor, no event': function() {
@@ -1080,11 +1079,11 @@ bender.test( {
 		var dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( null, editor );
 
 		this.assertDataTransfer( {
-				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
-				sourceEditor: editor,
-				targetEditor: editor,
-				text: isCustomDataTypesSupported ? 'xfoox' : '',
-				html: 'x<b>foo</b>x'	},
+			transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+			sourceEditor: editor,
+			targetEditor: editor,
+			text: isCustomDataTypesSupported ? 'xfoox' : '',
+			html: 'x<b>foo</b>x'	},
 		dataTransfer );
 	},
 

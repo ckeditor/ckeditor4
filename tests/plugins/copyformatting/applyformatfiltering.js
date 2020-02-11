@@ -38,4 +38,4 @@
 			assert.areSame( fixHtml( '<p>[aa]<br></p>' ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		}
 	} );
-}() );
+} )() ;

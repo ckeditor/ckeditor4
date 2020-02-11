@@ -47,8 +47,9 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 
 				// Avoid unnecessary setData. Also preserve selection
 				// when user changed his mind and goes back to wysiwyg editing.
-				if ( newData === oldData )
+				if ( newData === oldData ) {
 					return true;
+				}
 
 				setTimeout( function() {
 					setData( that, newData );
@@ -72,7 +73,7 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 					'height:' + height + 'px;' +
 					'tab-size:4;' +
 					'text-align:left;',
-				'class': 'cke_source'
+				class: 'cke_source'
 			} ]
 		} ]
 	};

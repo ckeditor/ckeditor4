@@ -411,21 +411,24 @@
 		return function( editor, msg ) {
 			var widget = tools.getWidgetById( editor, 'w1' );
 
-			for ( var key in data )
+			for ( var key in data ) {
 				assert.areSame( data[ key ], widget.data[ key ], 'data.' + key + ': ' + msg );
+			}
 
-			if ( caption )
+			if ( caption ) {
 				assert.areSame( caption, widget.parts.caption.getText(), 'parts.caption.getText ' + msg );
-			else
+			} else {
 				assert.isFalse( !!widget.parts.caption, 'there\'s no caption' );
+			}
 		};
 	}
 
 	function newDialogData( data ) {
 		var newData = [];
 
-		for ( var key in data )
+		for ( var key in data ) {
 			newData.push( [ 'info', key, data[ key ] ] );
+		}
 
 		return newData;
 	}

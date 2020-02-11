@@ -9,7 +9,6 @@ bender.editor = {
 
 bender.test( {
 	assertFocus: function( truly ) {
-
 		var ed = this.editor,
 			fm = this.editor.focusManager;
 

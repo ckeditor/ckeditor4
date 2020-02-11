@@ -9,7 +9,7 @@
 
 	var textColor_style_template = {
 			element: 'span',
-			styles: { 'color': '#(color)' }
+			styles: { color: '#(color)' }
 		},
 		bgColor_style_template = {
 			element: 'span',

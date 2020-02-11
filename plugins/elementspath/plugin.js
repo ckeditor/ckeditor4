@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -31,13 +31,15 @@
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
 	// TODO: Check if really needed.
-	if ( CKEDITOR.env.gecko && CKEDITOR.env.mac )
+	if ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) {
 		extra += ' onkeypress="return false;"';
+	}
 
 	// With Firefox, we need to force the button to redraw, otherwise it
 	// will remain in the focus state.
-	if ( CKEDITOR.env.gecko )
+	if ( CKEDITOR.env.gecko ) {
 		extra += ' onblur="this.style.cssText = this.style.cssText;"';
+	}
 
 	var pathItemTpl = CKEDITOR.addTemplate( 'pathItem', '<a' +
 		' id="{id}"' +
@@ -66,8 +68,9 @@
 			};
 
 			editor.on( 'uiSpace', function( event ) {
-				if ( event.data.space == 'bottom' )
+				if ( event.data.space == 'bottom' ) {
 					initElementsPath( editor, event.data );
+				}
 			} );
 		}
 	} );
@@ -76,8 +79,9 @@
 		var spaceId = editor.ui.spaceId( 'path' ),
 			spaceElement,
 			getSpaceElement = function() {
-				if ( !spaceElement )
+				if ( !spaceElement ) {
 					spaceElement = CKEDITOR.document.getById( spaceId );
+				}
 				return spaceElement;
 			},
 			elementsPath = editor._.elementsPath,
@@ -130,16 +134,18 @@
 					case rtl ? 39 : 37: // LEFT-ARROW
 					case 9: // TAB
 						element = CKEDITOR.document.getById( idBase + ( elementIndex + 1 ) );
-						if ( !element )
+						if ( !element ) {
 							element = CKEDITOR.document.getById( idBase + '0' );
+						}
 						element.focus();
 						return false;
 
 					case rtl ? 37 : 39: // RIGHT-ARROW
 					case CKEDITOR.SHIFT + 9: // SHIFT + TAB
 						element = CKEDITOR.document.getById( idBase + ( elementIndex - 1 ) );
-						if ( !element )
+						if ( !element ) {
 							element = CKEDITOR.document.getById( idBase + ( elementsPath.list.length - 1 ) );
+						}
 						element.focus();
 						return false;
 
@@ -172,20 +178,22 @@
 				var element = elementsChain[ j ],
 					ignore = 0;
 
-				if ( element.data( 'cke-display-name' ) )
+				if ( element.data( 'cke-display-name' ) ) {
 					name = element.data( 'cke-display-name' );
-				else if ( element.data( 'cke-real-element-type' ) )
+				} else if ( element.data( 'cke-real-element-type' ) ) {
 					name = element.data( 'cke-real-element-type' );
-				else
+				} else {
 					name = element.getName();
+				}
 
 				isContentEditable = element.hasAttribute( 'contenteditable' ) ?
 					element.getAttribute( 'contenteditable' ) == 'true' : isContentEditable;
 
 				// If elem is non-contenteditable, and it's not specifying contenteditable
 				// attribute - then elem should be ignored.
-				if ( !isContentEditable && !element.hasAttribute( 'contenteditable' ) )
+				if ( !isContentEditable && !element.hasAttribute( 'contenteditable' ) ) {
 					ignore = 1;
+				}
 
 				for ( var i = 0; i < filters.length; i++ ) {
 					var ret = filters[ i ]( element, name );

@@ -4,7 +4,6 @@
  */
 
 ( function() {
-
 	'use strict';
 
 	var containerTpl = CKEDITOR.addTemplate( 'sharedcontainer', '<div' +
@@ -28,8 +27,9 @@
 				var spaces = editor.config.sharedSpaces;
 
 				if ( spaces ) {
-					for ( var spaceName in spaces )
+					for ( var spaceName in spaces ) {
 						create( editor, spaceName, spaces[ spaceName ] );
+					}
 				}
 			}, null, null, 9 );
 		}
@@ -51,9 +51,10 @@
 			if ( innerHtml ) {
 				// Block the uiSpace handling by others (e.g. themed-ui).
 				editor.on( 'uiSpace', function( ev ) {
-					if ( ev.data.space == spaceName )
+					if ( ev.data.space == spaceName ) {
 						ev.cancel();
-				}, null, null, 1 );  // Hi-priority
+					}
+				}, null, null, 1 ); // Hi-priority
 
 				// Inject the space into the target.
 				space = target.append( CKEDITOR.dom.element.createFromHtml( containerTpl.output( {
@@ -67,10 +68,11 @@
 				} ) ) );
 
 				// Only the first container starts visible. Others get hidden.
-				if ( target.getCustomData( 'cke_hasshared' ) )
+				if ( target.getCustomData( 'cke_hasshared' ) ) {
 					space.hide();
-				else
+				} else {
 					target.setCustomData( 'cke_hasshared', 1 );
+				}
 
 				// There's no need for the space to be selectable.
 				space.unselectable();
@@ -78,8 +80,9 @@
 				// Prevent clicking on non-buttons area of the space from blurring editor.
 				space.on( 'mousedown', function( evt ) {
 					evt = evt.data;
-					if ( !evt.getTarget().hasAscendant( 'a', 1 ) )
+					if ( !evt.getTarget().hasAscendant( 'a', 1 ) ) {
 						evt.preventDefault();
+					}
 				} );
 
 				// Register this UI space to the focus manager.

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -103,14 +103,16 @@
 			}
 		},
 		init: function( editor ) {
-			if ( editor.blockless )
+			if ( editor.blockless ) {
 				return;
+			}
 
 			var command = editor.addCommand( 'showblocks', commandDefinition );
 			command.canUndo = false;
 
-			if ( editor.config.startupOutlineBlocks )
+			if ( editor.config.startupOutlineBlocks ) {
 				command.setState( CKEDITOR.TRISTATE_ON );
+			}
 
 			editor.ui.addButton && editor.ui.addButton( 'ShowBlocks', {
 				label: editor.lang.showblocks.toolbar,
@@ -120,8 +122,9 @@
 
 			// Refresh the command on setData.
 			editor.on( 'mode', function() {
-				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
+				if ( command.state != CKEDITOR.TRISTATE_DISABLED ) {
 					command.refresh( editor );
+				}
 			} );
 
 			// Refresh the command on focus/blur in inline.
@@ -132,8 +135,9 @@
 
 			// Refresh the command on setData.
 			editor.on( 'contentDom', function() {
-				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
+				if ( command.state != CKEDITOR.TRISTATE_DISABLED ) {
 					command.refresh( editor );
+				}
 			} );
 
 			function onFocusBlur() {

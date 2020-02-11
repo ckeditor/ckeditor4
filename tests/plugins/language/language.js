@@ -23,11 +23,13 @@
 
 			ret += ( '<' + pluginWrapTagName );
 
-			if ( textDirection )
+			if ( textDirection ) {
 				ret += ( ' dir="' + textDirection + '"' );
+			}
 
-			if ( lang )
+			if ( lang ) {
 				ret += ( ' lang="' + lang + '"' );
+			}
 
 			ret += ( '>' + codeToWrap + '</' + pluginWrapTagName + '>' );
 

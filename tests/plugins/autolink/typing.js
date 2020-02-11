@@ -2,7 +2,6 @@
 /* bender-ckeditor-plugins: autolink,clipboard,link */
 
 ( function() {
-
 	'use strict';
 
 	bender.editors = {

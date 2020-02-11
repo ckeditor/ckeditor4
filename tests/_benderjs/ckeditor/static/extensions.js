@@ -30,8 +30,8 @@
 			org.apply( this,
 				expected instanceof CKEDITOR.dom.node &&
 				actual instanceof CKEDITOR.dom.node ?
-				[ expected.$, actual.$, message ] :
-				arguments
+					[ expected.$, actual.$, message ] :
+					arguments
 			);
 		};
 	}
@@ -107,7 +107,6 @@
 			} else {
 				return bender.tools.html.prepareInnerHtmlPattern( expected ).toString();
 			}
-
 		}
 	};
 
@@ -176,8 +175,7 @@
 			if ( expected.hasOwnProperty( name ) ) {
 				if ( expected[ name ] && typeof expected[ name ] === 'object' ) {
 					bender.objectAssert.areDeepEqual( expected[ name ], actual[ name ] );
-				}
-				else if ( expected[ name ] !== actual[ name ] ) {
+				} else if ( expected[ name ] !== actual[ name ] ) {
 					throw new YUITest.ComparisonFailure( YUITest.Assert._formatMessage( message,
 						'Values should be equal for property ' + name ), expected[ name ], actual[ name ] );
 				}
@@ -323,7 +321,7 @@
 					error = new YUITest.UnexpectedError( thrown );
 					failed = true;
 				} else if ( typeof shouldError == 'object' && shouldError !== null && !( thrown instanceof shouldError
-						.constructor ) ||
+					.constructor ) ||
 					thrown.message != shouldError.message ) {
 					error = new YUITest.UnexpectedError( thrown );
 					failed = true;
@@ -376,7 +374,6 @@
 		} else {
 			this._run();
 		}
-
 	};
 
 	YTest.Runner._execNonTestMethod = function( node, methodName, allowAsync ) {
@@ -597,7 +594,9 @@
 					i = 0;
 
 				// The funniest for-in loop I've ever seen.
-				for ( names[ i++ ] in editorsDefinitions ); // jshint ignore:line
+				for ( names[ i++ ] in editorsDefinitions ) {
+
+				} // jshint ignore:line
 
 				next();
 
@@ -660,7 +659,6 @@
 			if ( document.addEventListener ||
 				event.type === 'load' ||
 				document.readyState === 'complete' ) {
-
 				if ( document.removeEventListener ) {
 					document.removeEventListener( 'DOMContentLoaded', complete, false );
 					window.removeEventListener( 'load', complete, false );

@@ -57,8 +57,9 @@ window.ToolbarConfigurator = {};
 
 				e.editor.container.hide();
 
-				if ( typeof callback === 'function' )
+				if ( typeof callback === 'function' ) {
 					callback( that.buttons );
+				}
 			} );
 		} );
 	};
@@ -95,8 +96,9 @@ window.ToolbarConfigurator = {};
 
 		var max = groups.length;
 		for ( var i = 0; i < max; i += 1 ) {
-			if ( groups[ i ].name === name )
+			if ( groups[ i ].name === name ) {
 				return groups[ i ];
+			}
 		}
 
 		return null;
@@ -110,8 +112,9 @@ window.ToolbarConfigurator = {};
 		var items = this.editorInstance.ui.items;
 
 		for ( var key in items ) {
-			if ( items[ key ].name == name )
+			if ( items[ key ].name == name ) {
 				return key;
+			}
 		}
 
 		return null;
@@ -144,8 +147,9 @@ window.ToolbarConfigurator = {};
 			}
 
 			copiedGroup.name = currentGroup.name;
-			if ( currentGroup.groups )
+			if ( currentGroup.groups ) {
 				copiedGroup.groups = Array.prototype.slice.call( currentGroup.groups );
+			}
 
 			result.push( copiedGroup );
 		}
@@ -166,8 +170,9 @@ window.ToolbarConfigurator = {};
 			result = [];
 
 		for ( var i = 0; i < max; i += 1 ) {
-			if ( checker( arr[ i ] ) )
+			if ( checker( arr[ i ] ) ) {
 				result.push( arr[ i ] );
+			}
 		}
 
 		return result;
@@ -187,13 +192,15 @@ window.ToolbarConfigurator = {};
 			result = [];
 
 			var max = enumerable.length;
-			for ( var i = 0; i < max; i += 1 )
+			for ( var i = 0; i < max; i += 1 ) {
 				result.push( modifier( enumerable[ i ] ) );
+			}
 		} else {
 			result = {};
 
-			for ( var key in enumerable )
+			for ( var key in enumerable ) {
 				result[ key ] = modifier( enumerable[ key ] );
+			}
 		}
 
 		return result;
@@ -236,8 +243,9 @@ window.ToolbarConfigurator = {};
 		for ( var i = 0; i < max; i += 1 ) {
 			var currentGroup = groups[ i ];
 
-			if ( typeof currentGroup == 'object' )
+			if ( typeof currentGroup == 'object' ) {
 				buttons = buttons.concat( FullToolbarEditor.groupToButtons( groups[ i ] ) );
+			}
 		}
 
 		return buttons;
@@ -361,5 +369,4 @@ window.ToolbarConfigurator = {};
 
 		return buttons;
 	};
-
 } )();

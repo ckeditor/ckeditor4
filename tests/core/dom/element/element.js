@@ -236,7 +236,7 @@ bender.test( appendDomObjectTests(
 		test_setAttributes: function() {
 			var element = newElement( document.getElementById( 'test2' ) );
 			element.setAttributes( {
-				'class': 'Test',
+				class: 'Test',
 				style: 'position: absolute;',
 				name: 'TestName',
 				rows: 5
@@ -270,7 +270,7 @@ bender.test( appendDomObjectTests(
 			var element = newElement( document.getElementById( 'setStyle' ) );
 			element.setStyles( {
 				position: 'absolute',
-				'float': 'right'
+				float: 'right'
 			} );
 
 			assert.areEqual( 'absolute', document.getElementById( 'setStyle' ).style.position );
@@ -566,10 +566,11 @@ bender.test( appendDomObjectTests(
 			var element = newElement( document.getElementById( 'getText' ) );
 
 			// IE gives us a different result, which is ok for us (see code comments).
-			if ( CKEDITOR.env.ie && document.documentMode <= 8 )
+			if ( CKEDITOR.env.ie && document.documentMode <= 8 ) {
 				assert.areSame( 'Some \nsample text for testing', element.getText().replace( /\r\n|\r/g, '\n' ) );
-			else
+			} else {
 				assert.areSame( 'Some  sample text    for    testing', element.getText() );
+			}
 		},
 
 		test_getText2: function() {
@@ -581,10 +582,11 @@ bender.test( appendDomObjectTests(
 			var element = newElement( document.getElementById( 'getText3' ) );
 
 			// IE gives us a different result, which is ok for us (see code comments).
-			if ( CKEDITOR.env.ie && document.documentMode <= 8 )
+			if ( CKEDITOR.env.ie && document.documentMode <= 8 ) {
 				assert.areSame( 'A B', element.getText() );
-			else
+			} else {
 				assert.areSame( 'A\nB', element.getText().replace( /\r\n|\r/g, '\n' ) );
+			}
 		},
 
 		test_hasAttributes1: function() {
@@ -685,8 +687,9 @@ bender.test( appendDomObjectTests(
 		// https://dev.ckeditor.com/ticket/7070
 		test_getBogus: function() {
 			// Test padding block bogus BR for non-IEs.
-			if ( CKEDITOR.env.ie )
+			if ( CKEDITOR.env.ie ) {
 				assert.ignore();
+			}
 
 			assert.isFalse( !!doc.getById( 'bogus_tc0' ).getBogus() );
 			assert.isTrue( !!doc.getById( 'bogus_tc1' ).getBogus() );
@@ -752,7 +755,7 @@ bender.test( appendDomObjectTests(
 		},
 
 		test_isIdentical: function() {
-				// <b name="a" class="test">tessst</b>
+			// <b name="a" class="test">tessst</b>
 			var element1 = doc.getById( 'isIdentical' ).getFirst(),
 				// <b class="test" name="a"></b>
 				element2 = element1.getNext(),
@@ -787,7 +790,7 @@ bender.test( appendDomObjectTests(
 		},
 
 		test_isIdentical2: function() {
-				// <b style="color: red; width: 10px">a</b>
+			// <b style="color: red; width: 10px">a</b>
 			var element1 = doc.getById( 'isIdentical2' ).getFirst(),
 				// <b style="width:10px;color:red;">a</b>
 				element2 = element1.getNext(),
@@ -908,7 +911,6 @@ bender.test( appendDomObjectTests(
 			td1.copyAttributes( td2, { id: 1 } );
 
 			assert.areSame( '<td class="test" id="td2">b</td>', getOuterHtml( td2 ) );
-
 		},
 
 		/**
@@ -1004,8 +1006,9 @@ bender.test( appendDomObjectTests(
 			var els = el.find( '.findRoot i, .findRoot .find1' );
 
 			assert.areSame( 3, els.count(), 'Element <i>Y</i> should not be returned' );
-			for ( var i = 0; i < els.count(); ++i )
+			for ( var i = 0; i < els.count(); ++i ) {
 				assert.areSame( 'X', els.getItem( i ).getHtml(), 'Element <i>Y</i> should not be returned' );
+			}
 
 			assert.areSame( 'find1', el.$.id, 'Root\'s id has not been changed' );
 
@@ -1039,19 +1042,21 @@ bender.test( appendDomObjectTests(
 			return {
 				tokens: tokens,
 				fn: function( node ) {
-					if ( node.type == CKEDITOR.NODE_ELEMENT )
+					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 						tokens.push( node.getName() );
-					else if ( node.type == CKEDITOR.NODE_TEXT ) {
+					} else if ( node.type == CKEDITOR.NODE_TEXT ) {
 						// Remove the tabs and new lines.
 						text = CKEDITOR.tools.trim( node.getText() );
-						if ( text )
+						if ( text ) {
 							tokens.push( '#' + text );
+						}
 					} else {
 						tokens.push( 'not implemented type' );
 					}
 
-					if ( callback )
+					if ( callback ) {
 						return callback( node );
+					}
 				}
 			};
 		},
@@ -1176,7 +1181,7 @@ bender.test( appendDomObjectTests(
 		// (#2975)
 		'test fireEventHandler with mouseup': function() {
 			var link = CKEDITOR.dom.element.createFromHtml(
-				'<a href="#" onmouseup="this.setAttribute(\'data-button\',event.button);return false;">Link</a>' ),
+					'<a href="#" onmouseup="this.setAttribute(\'data-button\',event.button);return false;">Link</a>' ),
 				rightMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_RIGHT );
 
 			link.fireEventHandler( 'mouseup', {
@@ -1217,7 +1222,7 @@ bender.test( appendDomObjectTests(
 		// (#2975)
 		'test fireEventHandler with click on element without onclick': function() {
 			var link = CKEDITOR.dom.element.createFromHtml(
-				'<a href="#">Link</a>' ),
+					'<a href="#">Link</a>' ),
 				leftMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_LEFT, true );
 
 			link.once( 'click', function( evt ) {

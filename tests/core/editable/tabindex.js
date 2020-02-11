@@ -12,8 +12,9 @@
 
 		readyHandler = {
 			instanceReady: function() {
-				if ( !( pending-- )  )
+				if ( !( pending-- ) ) {
 					tc.callback();
+				}
 			}
 		};
 
@@ -71,5 +72,4 @@
 			assert.areEqual( 24, getTabIndex( el4 ) );
 		}
 	} );
-
 } )();

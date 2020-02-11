@@ -103,7 +103,7 @@
 									id: 'sp-input2',
 									label: 'input 2',
 									items: [ [ 'A' ], [ 'B' ], [ 'C' ], [ 'D' ] ],
-									'default': 'C'
+									default: 'C'
 								},
 								{
 									type: 'checkbox',
@@ -129,7 +129,7 @@
 									id: 'mp-input11',
 									label: 'input 11',
 									items: [ [ 'A' ], [ 'B' ], [ 'C' ], [ 'D' ] ],
-									'default': 'C'
+									default: 'C'
 								},
 								{
 									type: 'button',
@@ -152,7 +152,7 @@
 									id: 'mp-input21',
 									label: 'input 21',
 									items: [ [ 'X' ], [ 'Y' ], [ 'Z' ] ],
-									'default': 'Y'
+									default: 'Y'
 								}
 							]
 						},
@@ -185,7 +185,7 @@
 									id: 'mp-input35',
 									label: 'input 35',
 									items: [ [ '111' ], [ '222' ], [ '333' ] ],
-									'default': '111'
+									default: '111'
 								}
 							]
 						}
@@ -216,7 +216,7 @@
 									id: 'hp-input13',
 									label: 'input 13',
 									items: [ [ 'A' ], [ 'B' ], [ 'C' ] ],
-									'default': 'C'
+									default: 'C'
 								}
 							]
 						},
@@ -235,7 +235,7 @@
 									id: 'hp-input22',
 									label: 'input 22',
 									items: [ [ 'A' ], [ 'B' ], [ 'C' ] ],
-									'default': 'C'
+									default: 'C'
 								},
 								{
 									type: 'textarea',
@@ -265,7 +265,7 @@
 									id: 'hp-input33',
 									label: 'input 33',
 									items: [ [ '111' ], [ '222' ], [ '333' ] ],
-									'default': '111'
+									default: '111'
 								},
 								{
 									type: 'textarea',

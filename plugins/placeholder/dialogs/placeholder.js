@@ -32,7 +32,7 @@ CKEDITOR.dialog.add( 'placeholder', function( editor ) {
 						type: 'text',
 						style: 'width: 100%;',
 						label: lang.name,
-						'default': '',
+						default: '',
 						required: true,
 						validate: CKEDITOR.dialog.validate.regex( validNameRegex, lang.invalidName ),
 						setup: function( widget ) {

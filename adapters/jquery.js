@@ -69,8 +69,9 @@
 		ckeditorGet: function() {
 			var instance = this.eq( 0 ).data( 'ckeditorInstance' );
 
-			if ( !instance )
+			if ( !instance ) {
 				throw 'CKEditor is not initialized yet, use ckeditor() with a callback.';
+			}
 
 			return instance;
 		},
@@ -103,8 +104,9 @@
 		 * @returns jQuery.fn
 		 */
 		ckeditor: function( callback, config ) {
-			if ( !CKEDITOR.env.isCompatible )
+			if ( !CKEDITOR.env.isCompatible ) {
 				throw new Error( 'The environment is incompatible.' );
+			}
 
 			// Reverse the order of arguments if the first one isn't a function.
 			if ( !$.isFunction( callback ) ) {
@@ -129,8 +131,9 @@
 				promises.push( dfd.promise() );
 
 				if ( editor && !instanceLock ) {
-					if ( callback )
+					if ( callback ) {
 						callback.apply( editor, [ this ] );
+					}
 
 					dfd.resolve();
 				} else if ( !instanceLock ) {
@@ -146,10 +149,11 @@
 					$element.data( '_ckeditorInstanceLock', true );
 
 					// Set instance reference in element's data.
-					if ( $( this ).is( 'textarea' ) )
+					if ( $( this ).is( 'textarea' ) ) {
 						editor = CKEDITOR.replace( element, config );
-					else
+					} else {
 						editor = CKEDITOR.inline( element, config );
+					}
 
 					$element.data( 'ckeditorInstance', editor );
 
@@ -256,8 +260,9 @@
 							$element.trigger( 'instanceReady.ckeditor', [ editor ] );
 
 							// Run given (first) code.
-							if ( callback )
+							if ( callback ) {
 								callback.apply( editor, [ element ] );
+							}
 
 							dfd.resolve();
 						}, 0 );
@@ -273,8 +278,9 @@
 							}
 
 							// Run given code.
-							if ( editor.element.$ == element && callback )
+							if ( editor.element.$ == element && callback ) {
 								callback.apply( editor, [ element ] );
+							}
 
 							dfd.resolve();
 						}, 0 );
@@ -350,8 +356,9 @@
 						} );
 
 					// If there is no promise return default result (jQuery object of chaining).
-					if ( !promises.length )
+					if ( !promises.length ) {
 						return result;
+					}
 					// Create one promise which will be resolved when all of promises will be done.
 					else {
 						var dfd = new $.Deferred();
@@ -368,10 +375,11 @@
 					var $elem = $( this ).eq( 0 ),
 						editor = $elem.data( 'ckeditorInstance' );
 
-					if ( $elem.is( 'textarea' ) && editor )
+					if ( $elem.is( 'textarea' ) && editor ) {
 						return editor.getData();
-					else
+					} else {
 						return oldValMethod.call( $elem );
+					}
 				}
 			};
 		} );

@@ -50,7 +50,7 @@
 		elementAddress = elementAddress.slice();
 
 		var index;
-		while ( typeof ( index = elementAddress.shift() ) === 'number' ) {
+		while ( typeof( index = elementAddress.shift() ) === 'number' ) {
 			element = element.getChildren().getItem( index );
 		}
 
@@ -262,19 +262,19 @@
 		// ^ ^ ^ ^ ^ ^ ^ ^   ^ ^ ^ ^ ^ ^ ^
 		// - - - - - - - -   + + + - - - +
 		var dropRanges = [
-				'-',
-				[ '-', '-', '-', '-' ],
-				'-',
-				[ '-', '-', '+', '+' ],
-				'+',
-				[ '-', '-', '-' ],
-				'+'
-			];
+			'-',
+			[ '-', '-', '-', '-' ],
+			'-',
+			[ '-', '-', '+', '+' ],
+			'+',
+			[ '-', '-', '-' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetOne, { sc: 1, so: 1, ec: 1, eo: 2 }, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc1', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	// TC2.
 	( function() {
@@ -288,19 +288,19 @@
 		// before that text node (what leaves drop range inside drag range!).
 		// Given these doubts and very little chance of this case happening in real world, we ignore this TC.
 		var dropRanges = [
-				'-',
-				[ '-', '-', '-', '-' ],
-				'-',
-				[ '?', null, null, '+' ],
-				'+',
-				[ '-', '-', '-' ],
-				'+'
-			];
+			'-',
+			[ '-', '-', '-', '-' ],
+			'-',
+			[ '?', null, null, '+' ],
+			'+',
+			[ '-', '-', '-' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetOne, { sc: 1, so: 0, ec: 1, eo: 3 }, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc2', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	// TC3.
 	( function() {
@@ -310,21 +310,21 @@
 		//
 		// See the comment in 2nd TC.
 		var dropRanges = [
-				'-',
-				[ '-', '-', '-', '-' ],
-				'-',
-				[ '?', null, null, null ],
-				// See fixSplitNodesAfterDrop. It doesn't cover case like this one
-				// because it isn't fully realistic, so it brokes the drag range and this tc fails.
-				( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ? '?' : '+' ),
-				[ '-', '-', '-' ],
-				'+'
-			];
+			'-',
+			[ '-', '-', '-', '-' ],
+			'-',
+			[ '?', null, null, null ],
+			// See fixSplitNodesAfterDrop. It doesn't cover case like this one
+			// because it isn't fully realistic, so it brokes the drag range and this tc fails.
+			( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ? '?' : '+' ),
+			[ '-', '-', '-' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetOne, { sc: 1, so: 0, eo: 2 }, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc3', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	// TC4.
 	( function() {
@@ -337,19 +337,19 @@
 		// we can be sure that drop bookmarks will not affect drag range, so we want the method to return `true`,
 		// to force serving drop range first.
 		var dropRanges = [
-				'-',
-				[ '-', '-', '-', '-' ],
-				'-',
-				[ '?', null, null, null ],
-				null,
-				[ '?', '+', '+' ],
-				'+'
-			];
+			'-',
+			[ '-', '-', '-', '-' ],
+			'-',
+			[ '?', null, null, null ],
+			null,
+			[ '?', '+', '+' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetOne, { sc: 1, so: 0, ec: 2, eo: 0 }, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc4', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	// TC5.
 	( function() {
@@ -359,19 +359,19 @@
 		//
 		// See the comment in 2nd TC.
 		var dropRanges = [
-				'-',
-				[ '-', '-', '-', '-' ],
-				'?',
-				[ null, null, null, null ],
-				'+',
-				[ '-', '-', '-' ],
-				'+'
-			];
+			'-',
+			[ '-', '-', '-', '-' ],
+			'?',
+			[ null, null, null, null ],
+			'+',
+			[ '-', '-', '-' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetOne, { so: 1, eo: 2 }, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc5', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	// TC6.
 	( function() {
@@ -379,19 +379,19 @@
 		// ^ ^ ^ ^ ^ ^ ^  ^      ^  ^ ^ ^ ^
 		// - - - - - - -  -      +  - - - +
 		var dropRanges = [
-				'-',
-				[ '-', '-', '-', '-' ],
-				'-',
-				[ '-', '-', null, null ],
-				'+',
-				[ '-', '-', '-' ],
-				'+'
-			];
+			'-',
+			[ '-', '-', '-', '-' ],
+			'-',
+			[ '-', '-', null, null ],
+			'+',
+			[ '-', '-', '-' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetOne, { sc: 1, so: 1, eo: 2 }, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc6', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	// TC7.
 	( function() {
@@ -399,19 +399,19 @@
 		// ^ ^ ^ ^ ^ ^ ^  ^         ^  ^ ^
 		// - - - - - - -  -         +  + +
 		var dropRanges = [
-				'-',
-				[ '-', '-', '-', '-' ],
-				'-',
-				[ '-', '-', null, null ],
-				null,
-				[ null, '+', '+' ],
-				'+'
-			];
+			'-',
+			[ '-', '-', '-', '-' ],
+			'-',
+			[ '-', '-', null, null ],
+			null,
+			[ null, '+', '+' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetOne, { sc: 1, so: 1, ec: 2, eo: 1 }, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc7', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	// TC8.
 	( function() {
@@ -419,15 +419,15 @@
 		// ^ ^  ^   ^  ^ ^ ^
 		// - -  -   +  + + +
 		var dropRanges = [
-				'-',
-				[ '-', '-', null, '+', '+', '+' ],
-				'+'
-			];
+			'-',
+			[ '-', '-', null, '+', '+', '+' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetTwo, undefined, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc8', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	// TC9.
 	( function() {
@@ -435,23 +435,23 @@
 		// ^ ^  ^             ^  ^ ^ ^    ^ ^ ^ ^
 		// - -  -             +  + + +    + - - +
 		var dropRanges = [
-				'-',
-				[ '-', '-', null, null ],
+			'-',
+			[ '-', '-', null, null ],
+			null,
+			[
 				null,
-				[
-					null,
-					[ null, '+', '+', '+' ],
-					'+'
-				],
-				'+',
-				[ '-', '-' ],
+				[ null, '+', '+', '+' ],
 				'+'
-			];
+			],
+			'+',
+			[ '-', '-' ],
+			'+'
+		];
 
 		setupRanges( dropRanges, createSnippetThree, undefined, function( dropRange, snippet ) {
 			CKEDITOR.tools.extend( tcs, createTestCase( 'tc9', dropRange, snippet ) );
 		} );
-	}() );
+	} )() ;
 
 	bender.test( tcs );
-}() );
+} )() ;

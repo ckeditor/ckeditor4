@@ -127,5 +127,4 @@
 			assert.areSame( undefined, afterInsertData.intoRange, 'intoRange should be null if insertHtml was used.' );
 		}
 	} );
-
 } )();

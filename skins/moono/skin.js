@@ -86,44 +86,45 @@ CKEDITOR.skin.chameleon = ( function() {
 	// Brightness ratio must be a float number within [-1, 1],
 	// where -1 is black, 1 is white and 0 is the original colour.
 	var colorBrightness = ( function() {
-		function channelBrightness( channel, ratio ) {
-			var brighten = ratio < 0 ? (
+			function channelBrightness( channel, ratio ) {
+				var brighten = ratio < 0 ? (
 					0 | channel * ( 1 + ratio )
 				) : (
 					0 | channel + ( 255 - channel ) * ratio
 				);
 
-			return ( '0' + brighten.toString( 16 ) ).slice( -2 );
-		}
+				return ( '0' + brighten.toString( 16 ) ).slice( -2 );
+			}
 
-		return function( hexColor, ratio ) {
-			var channels = hexColor.match( /[^#]./g );
+			return function( hexColor, ratio ) {
+				var channels = hexColor.match( /[^#]./g );
 
-			for ( var i = 0 ; i < 3 ; i++ )
-				channels[ i ] = channelBrightness( parseInt( channels[ i ], 16 ), ratio );
+				for ( var i = 0 ; i < 3 ; i++ ) {
+					channels[ i ] = channelBrightness( parseInt( channels[ i ], 16 ), ratio );
+				}
 
-			return '#' + channels.join( '' );
-		};
-	} )(),
+				return '#' + channels.join( '' );
+			};
+		} )(),
 
-	// Use this function just to avoid having to repeat all these rules on
-	// several places of our template.
-	verticalGradient = ( function() {
-		var template = new CKEDITOR.template( 'background:#{to};' +
+		// Use this function just to avoid having to repeat all these rules on
+		// several places of our template.
+		verticalGradient = ( function() {
+			var template = new CKEDITOR.template( 'background:#{to};' +
 			'background-image:linear-gradient(to bottom,{from},{to});' +
 			'filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=\'{from}\',endColorstr=\'{to}\');' );
 
-		return function( from, to ) {
-			return template.output( { from: from, to: to } );
-		};
-	} )(),
+			return function( from, to ) {
+				return template.output( { from: from, to: to } );
+			};
+		} )(),
 
-	// Style templates for various user interface parts:
-	// 	* Default editor template.
-	// 	* Default panel template.
-	templates = {
-		editor: new CKEDITOR.template(
-			'{id}.cke_chrome [border-color:{defaultBorder};] ' +
+		// Style templates for various user interface parts:
+		// 	* Default editor template.
+		// 	* Default panel template.
+		templates = {
+			editor: new CKEDITOR.template(
+				'{id}.cke_chrome [border-color:{defaultBorder};] ' +
 			'{id} .cke_top [ ' +
 					'{defaultGradient}' +
 					'border-bottom-color:{defaultBorder};' +
@@ -199,10 +200,10 @@ CKEDITOR.skin.chameleon = ( function() {
 			'{id}.cke_panel [' +
 				'border-color:{defaultBorder};' +
 			'] '
-		),
-		panel: new CKEDITOR.template(
+			),
+			panel: new CKEDITOR.template(
 			// Panel drop-downs.
-			'.cke_panel_grouptitle [' +
+				'.cke_panel_grouptitle [' +
 					'{lightGradient}' +
 					'border-color:{defaultBorder};' +
 				'] ' +
@@ -226,8 +227,8 @@ CKEDITOR.skin.chameleon = ( function() {
 					'background-color:{ckeColorauto};' +
 					'border-color:{defaultBorder};' +
 				'] '
-		)
-	};
+			)
+		};
 
 	return function( editor, part ) {
 		var uiColor = editor.uiColor,

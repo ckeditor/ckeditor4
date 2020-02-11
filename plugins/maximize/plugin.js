@@ -1,12 +1,13 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
 	function protectFormStyles( formElement ) {
-		if ( !formElement || formElement.type != CKEDITOR.NODE_ELEMENT || formElement.getName() != 'form' )
+		if ( !formElement || formElement.type != CKEDITOR.NODE_ELEMENT || formElement.getName() != 'form' ) {
 			return [];
+		}
 
 		var hijackRecord = [],
 			hijackNames = [ 'style', 'className' ];
@@ -24,17 +25,19 @@
 	}
 
 	function restoreFormStyles( formElement, hijackRecord ) {
-		if ( !formElement || formElement.type != CKEDITOR.NODE_ELEMENT || formElement.getName() != 'form' )
+		if ( !formElement || formElement.type != CKEDITOR.NODE_ELEMENT || formElement.getName() != 'form' ) {
 			return;
+		}
 
 		if ( hijackRecord.length > 0 ) {
 			for ( var i = hijackRecord.length - 1; i >= 0; i-- ) {
 				var node = hijackRecord[ i ][ 0 ];
 				var sibling = hijackRecord[ i ][ 1 ];
-				if ( sibling )
+				if ( sibling ) {
 					node.insertBefore( sibling );
-				else
+				} else {
 					node.appendTo( formElement );
+				}
 			}
 		}
 	}
@@ -52,7 +55,9 @@
 
 		retval.inline = $element.style.cssText || '';
 		if ( !isInsideEditor ) // Reset any external styles that might interfere. (https://dev.ckeditor.com/ticket/2474)
-		$element.style.cssText = 'position: static; overflow: visible';
+		{
+			$element.style.cssText = 'position: static; overflow: visible';
+		}
 
 		restoreFormStyles( data );
 		return retval;
@@ -61,16 +66,19 @@
 	function restoreStyles( element, savedStyles ) {
 		var data = protectFormStyles( element );
 		var $element = element.$;
-		if ( 'class' in savedStyles )
+		if ( 'class' in savedStyles ) {
 			$element.className = savedStyles[ 'class' ];
-		if ( 'inline' in savedStyles )
+		}
+		if ( 'inline' in savedStyles ) {
 			$element.style.cssText = savedStyles.inline;
+		}
 		restoreFormStyles( data );
 	}
 
 	function refreshCursor( editor ) {
-		if ( editor.editable().isInline() )
+		if ( editor.editable().isInline() ) {
 			return;
+		}
 
 		// Refresh all editor instances on the page (https://dev.ckeditor.com/ticket/5724).
 		var all = CKEDITOR.instances;
@@ -99,8 +107,9 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			// Maximize plugin isn't available in inline mode yet.
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				return;
+			}
 
 			var lang = editor.lang;
 			var mainDocument = CKEDITOR.document,

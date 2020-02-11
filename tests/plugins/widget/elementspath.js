@@ -100,8 +100,10 @@
 			var dtdFixtureNeeded = !CKEDITOR.dtd.$editable.dd;
 
 			if ( dtdFixtureNeeded )
-				// Adding dd to editable, otherwise it would not be applied.
+			// Adding dd to editable, otherwise it would not be applied.
+			{
 				CKEDITOR.dtd.$editable.dd = 1;
+			}
 
 			// In this case we will use diffrent mockup widget definition.
 			this.mockupWidgetDefinition = {
@@ -122,8 +124,9 @@
 
 			this.__testMockupWidgetPath( 'editorContent2', 'dt_mockup_descr_span', 'dl,dd,span' );
 
-			if ( dtdFixtureNeeded )
+			if ( dtdFixtureNeeded ) {
 				delete CKEDITOR.dtd.$editable.dd;
+			}
 		}
 
 	} );

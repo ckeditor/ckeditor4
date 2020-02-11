@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
@@ -7,21 +7,21 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'es', {
 	bgColorTitle: 'Color de Fondo',
 	colors: {
 		'000': 'Negro',
-		'800000': 'Marrón oscuro',
+		800000: 'Marrón oscuro',
 		'8B4513': 'Marrón tierra',
 		'2F4F4F': 'Pizarra Oscuro',
 		'008080': 'Azul verdoso',
 		'000080': 'Azul marino',
 		'4B0082': 'Añil',
-		'696969': 'Gris oscuro',
+		696969: 'Gris oscuro',
 		B22222: 'Ladrillo',
 		A52A2A: 'Marrón',
 		DAA520: 'Oro oscuro',
 		'006400': 'Verde oscuro',
 		'40E0D0': 'Turquesa',
 		'0000CD': 'Azul medio-oscuro',
-		'800080': 'Púrpura',
-		'808080': 'Gris',
+		800080: 'Púrpura',
+		808080: 'Gris',
 		F00: 'Rojo',
 		FF8C00: 'Naranja oscuro',
 		FFD700: 'Oro',
@@ -51,23 +51,23 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'es', {
 		'3498DB': 'Bright Blue', // MISSING
 		'9B59B6': 'Amethyst', // MISSING
 		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
+		F1C40F: 'Vivid Yellow', // MISSING
 		'16A085': 'Dark Cyan', // MISSING
 		'27AE60': 'Dark Emerald', // MISSING
 		'2980B9': 'Strong Blue', // MISSING
 		'8E44AD': 'Dark Violet', // MISSING
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
+		F39C12: 'Orange', // MISSING
+		E67E22: 'Carrot', // MISSING
+		E74C3C: 'Pale Red', // MISSING
+		ECF0F1: 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
+		DDD: 'Light Gray', // MISSING
+		D35400: 'Pumpkin', // MISSING
+		C0392B: 'Strong Red', // MISSING
+		BDC3C7: 'Silver', // MISSING
 		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		999: 'Dark Gray' // MISSING
 	},
 	more: 'Más Colores...',
 	panelTitle: 'Colores',

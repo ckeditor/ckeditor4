@@ -25,15 +25,15 @@
 						return entries[ name ] || null;
 					},
 					append: function( name, value, fileName ) {
-						if ( value instanceof File && ( value.name === fileName || !fileName ) )
+						if ( value instanceof File && ( value.name === fileName || !fileName ) ) {
 							entries[ name ] = value;
-						else if ( value instanceof Blob ) {
+						} else if ( value instanceof Blob ) {
 							fileName = fileName || value.name || 'blob';
 
-							entries [ name ] = new File( [ value ], fileName );
-						}
-						else
+							entries[ name ] = new File( [ value ], fileName );
+						} else {
 							entries[ name ] = value + '';
+						}
 					},
 					has: function( name ) {
 						return Object.prototype.hasOwnProperty.call( entries, name );
@@ -107,8 +107,9 @@
 			bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
 
 			// IE doesn't support File constructor, so there is a need to mimic it.
-			if ( typeof MSBlobBuilder === 'function' )
+			if ( typeof MSBlobBuilder === 'function' ) {
 				createFileMock();
+			}
 
 			File = window.File;
 

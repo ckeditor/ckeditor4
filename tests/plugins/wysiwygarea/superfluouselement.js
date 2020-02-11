@@ -25,7 +25,6 @@ bender.test( {
 
 		editor.setData( '', function() {
 			resume( function() {
-
 				bender.tools.setHtmlWithSelection( editor, '^' );
 
 				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
@@ -53,7 +52,6 @@ bender.test( {
 
 		editor.setData( '', function() {
 			resume( function() {
-
 				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
 					keyCode: 75,
 					ctrlKey: false,
@@ -238,7 +236,6 @@ bender.test( {
 
 		editor.setData( '', function() {
 			resume( function() {
-
 				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
 					keyCode: 75,
 					ctrlKey: false,

@@ -3,8 +3,9 @@
 var tests = {},
 	cases = [ '$$', '$&', '$', '$\'', '$0' ];
 
-for ( var i = 0; i < cases.length; i++ )
+for ( var i = 0; i < cases.length; i++ ) {
 	tests[ 'test ' + cases[ i ] ] = getTest( cases[ i ] );
+}
 
 function getTest( casee ) {
 	return function() {

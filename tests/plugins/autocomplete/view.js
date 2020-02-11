@@ -222,5 +222,4 @@
 
 		return caretRect;
 	}
-
 } )();

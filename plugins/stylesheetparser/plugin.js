@@ -33,8 +33,9 @@
 
 			if ( validSelectors.test( selector ) && !skipSelectors.test( selector ) ) {
 				// If we still don't know about this one, add it
-				if ( CKEDITOR.tools.indexOf( aClasses, selector ) == -1 )
+				if ( CKEDITOR.tools.indexOf( aClasses, selector ) == -1 ) {
 					aClasses.push( selector );
+				}
 			}
 		}
 
@@ -52,18 +53,21 @@
 				node = sheet.ownerNode || sheet.owningElement;
 
 			// Skip the internal stylesheets
-			if ( node.getAttribute( 'data-cke-temp' ) )
+			if ( node.getAttribute( 'data-cke-temp' ) ) {
 				continue;
+			}
 
 			// Exclude stylesheets injected by extensions
-			if ( sheet.href && sheet.href.substr( 0, 9 ) == 'chrome://' )
+			if ( sheet.href && sheet.href.substr( 0, 9 ) == 'chrome://' ) {
 				continue;
+			}
 
 			// Bulletproof with x-domain content stylesheet.
 			try {
 				var sheetRules = sheet.cssRules || sheet.rules;
-				for ( var j = 0; j < sheetRules.length; j++ )
+				for ( var j = 0; j < sheetRules.length; j++ ) {
 					aRules.push( sheetRules[ j ].selectorText );
+				}
 			} catch ( e ) {}
 		}
 
@@ -78,7 +82,7 @@
 			styles.push( {
 				name: element + '.' + sClassName,
 				element: element,
-				attributes: { 'class': sClassName }
+				attributes: { class: sClassName }
 			} );
 		}
 
@@ -109,8 +113,9 @@
 						cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
 
 						editor.getStylesSet = function( callback ) {
-							if ( cachedDefinitions )
+							if ( cachedDefinitions ) {
 								return callback( cachedDefinitions );
+							}
 						};
 
 						editor.fire( 'stylesSet', { styles: cachedDefinitions } );

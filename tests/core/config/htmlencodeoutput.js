@@ -3,8 +3,9 @@
 
 bender.test( {
 	createEditor: function( config, fn ) {
-		if ( bender.editor )
+		if ( bender.editor ) {
 			bender.editor.destroy();
+		}
 
 		var tc = this;
 
@@ -13,8 +14,9 @@ bender.test( {
 			editor.updateElement();
 
 			// Only applicable to replace mode.
-			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE )
+			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE ) {
 				assert.ignore();
+			}
 
 			var val = bender.tools.compatHtml( editor.element.getValue() );
 			fn.call( tc, val );

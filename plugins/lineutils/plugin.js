@@ -10,7 +10,6 @@
 'use strict';
 
 ( function() {
-
 	CKEDITOR.plugins.add( 'lineutils' );
 
 	/**
@@ -82,29 +81,30 @@
 				el, elfp, x, y;
 
 			var moveBuffer = CKEDITOR.tools.eventsBuffer( 50, function() {
-					if ( editor.readOnly || editor.mode != 'wysiwyg' )
-						return;
+				if ( editor.readOnly || editor.mode != 'wysiwyg' ) {
+					return;
+				}
 
-					that.relations = {};
+				that.relations = {};
 
-					// Sometimes it happens that elementFromPoint returns null (especially on IE).
-					// Any further traversal makes no sense if there's no start point. Abort.
-					// Note: In IE8 elementFromPoint may return zombie nodes of undefined nodeType,
-					// so rejecting those as well.
-					if ( !( elfp = doc.$.elementFromPoint( x, y ) ) || !elfp.nodeType ) {
-						return;
-					}
+				// Sometimes it happens that elementFromPoint returns null (especially on IE).
+				// Any further traversal makes no sense if there's no start point. Abort.
+				// Note: In IE8 elementFromPoint may return zombie nodes of undefined nodeType,
+				// so rejecting those as well.
+				if ( !( elfp = doc.$.elementFromPoint( x, y ) ) || !elfp.nodeType ) {
+					return;
+				}
 
-					el = new CKEDITOR.dom.element( elfp );
+				el = new CKEDITOR.dom.element( elfp );
 
-					that.traverseSearch( el );
+				that.traverseSearch( el );
 
-					if ( !isNaN( x + y ) ) {
-						that.pixelSearch( el, x, y );
-					}
+				if ( !isNaN( x + y ) ) {
+					that.pixelSearch( el, x, y );
+				}
 
-					callback && callback( that.relations, x, y );
-				} );
+				callback && callback( that.relations, x, y );
+			} );
 
 			// Searching starting from element from point on mousemove.
 			this.listener = this.editable.attachListener( this.target, 'mousemove', function( evt ) {
@@ -216,7 +216,6 @@
 				if ( isStatic( el ) ) {
 					// Collect all addresses yielded by lookups for that element.
 					for ( l in this.lookups ) {
-
 						if ( ( type = this.lookups[ l ]( el ) ) ) {
 							this.store( el, type );
 						}
@@ -856,8 +855,9 @@
 				// (https://dev.ckeditor.com/ticket/13155)
 				styles.left = rel.elementRect.left - this.rect.relativeX;
 			} else {
-				if ( rel.elementRect.left > 0 )
+				if ( rel.elementRect.left > 0 ) {
 					styles.left = this.rect.left + rel.elementRect.left;
+				}
 
 				// H-scroll case. Left edge of element may be out of viewport.
 				else {

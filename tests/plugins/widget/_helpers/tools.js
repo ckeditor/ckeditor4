@@ -39,14 +39,16 @@ var widgetTestsTools = ( function() {
 					},
 
 					widgetDefinition: function( evt ) {
-						if ( evt.data.name == config.widgetName && config.onWidgetDefinition )
+						if ( evt.data.name == config.widgetName && config.onWidgetDefinition ) {
 							config.onWidgetDefinition( evt.data );
+						}
 					}
 				}
 			};
 
-		if ( config.editorConfig )
+		if ( config.editorConfig ) {
 			CKEDITOR.tools.extend( editorConfig, config.editorConfig, true );
+		}
 
 		tcs[ 'test ' + tcName + ' - init' ] = function() {
 			bender.editorBot.create( {
@@ -108,8 +110,9 @@ var widgetTestsTools = ( function() {
 					var dialog = evt.data;
 
 					setTimeout( function() {
-						for ( var i = 0; i < config.newData.length; ++i )
+						for ( var i = 0; i < config.newData.length; ++i ) {
 							dialog.setValueOf.apply( dialog, config.newData[ i ] );
+						}
 
 						dialog.getButton( 'ok' ).click();
 					}, 50 );
@@ -137,8 +140,9 @@ var widgetTestsTools = ( function() {
 			checkData && assert.areSame( initialData, fixHtml( editor.getData(), config.ignoreStyle, editor ), 'data ' + msg );
 
 			var editable = editor.editable();
-			for ( var i = 0; i < instances.length; ++i )
+			for ( var i = 0; i < instances.length; ++i ) {
 				assert.isTrue( editable.contains( instances[ i ].wrapper ), 'editable contains wrapper ' + msg );
+			}
 
 			config.assertWidgets && config.assertWidgets( editor, msg );
 		}
@@ -182,8 +186,9 @@ var widgetTestsTools = ( function() {
 	function getWidgetById( editor, id, byElement ) {
 		var widget = editor.widgets.getByElement( editor.document.getById( id ) );
 
-		if ( widget && byElement )
+		if ( widget && byElement ) {
 			return widget.element.$.id == id ? widget : null;
+		}
 
 		return widget;
 	}
@@ -197,8 +202,9 @@ var widgetTestsTools = ( function() {
 		var wrapper = editor.editable().find( '.cke_widget_wrapper' ).getItem( offset ),
 			ret = null;
 
-		if ( wrapper )
+		if ( wrapper ) {
 			ret = editor.widgets.getByElement( wrapper );
+		}
 
 		return ret;
 	}
@@ -213,8 +219,9 @@ var widgetTestsTools = ( function() {
 	function assertDowncast( editorBot, id, expectedInstancesCount, expectedWidgetName ) {
 		var data = CKEDITOR.document.getById( id ).getHtml();
 
-		if ( typeof expectedInstancesCount == 'undefined' )
+		if ( typeof expectedInstancesCount == 'undefined' ) {
 			expectedInstancesCount = 1;
+		}
 
 		editorBot.setData( data, function() {
 			var instancesArray = bender.tools.objToArray( editorBot.editor.widgets.instances );
@@ -223,8 +230,9 @@ var widgetTestsTools = ( function() {
 			assert.areEqual( fixHtml( data ), fixHtml( editorBot.getData() ), 'Editor html after performing downcast is not matching.' );
 
 			if ( expectedWidgetName ) {
-				for ( var i = instancesArray.length - 1; i >= 0; i-- )
+				for ( var i = instancesArray.length - 1; i >= 0; i-- ) {
 					assert.areEqual( expectedWidgetName, instancesArray[ i ].name, 'Widget at index ' + i + ' has widget invalid definition name.' );
+				}
 			}
 		} );
 	}
@@ -259,8 +267,9 @@ var widgetTestsTools = ( function() {
 				try {
 					expectedValues = expectedValues || {};
 
-					for ( var i in expectedValues )
+					for ( var i in expectedValues ) {
 						assert.areSame( expectedValues[ i ], dialog.getValueOf( dialogCheckedTab, i ), 'Dialog field "' + i + '" in tab "' + dialogCheckedTab + '" has invalid value.' );
+					}
 				} catch ( e ) {
 					// Propagate error.
 					dialog.hide();
@@ -273,12 +282,12 @@ var widgetTestsTools = ( function() {
 		} );
 
 		editorBot.setData( editorHtml, function() {
-
 			var widget = null;
 
 			// If html with seleciton was requested - override.
-			if ( typeof htmlWithSelectionSource == 'string' )
+			if ( typeof htmlWithSelectionSource == 'string' ) {
 				editorBot.htmlWithSelection( htmlWithSelectionSource );
+			}
 
 			if ( typeof focusedWidgetIndex == 'number' ) {
 				// If index of widget to be focused is number.
@@ -290,8 +299,9 @@ var widgetTestsTools = ( function() {
 				assert.isNotNull( widget, 'Could not find widget with id ' + focusedWidgetIndex );
 			}
 
-			if ( widget )
+			if ( widget ) {
 				widget.focus();
+			}
 
 			assert.isTrue( true );
 			editor.execCommand( commandName );
@@ -306,15 +316,15 @@ var widgetTestsTools = ( function() {
 			instancesArray = null;
 
 		config.bot.setData( config.html, function() {
-
 			var widget = null,
 				pickWidget = function() {
 					var ret = null;
 
-					if ( config.widgetId )
+					if ( config.widgetId ) {
 						ret = widgetTestsTools.getWidgetById( editor, config.widgetId );
-					else if ( typeof config.widgetOffset !== 'undefined' )
+					} else if ( typeof config.widgetOffset !== 'undefined' ) {
 						ret = widgetTestsTools.getWidgetByDOMOffset( editor, config.widgetOffset );
+					}
 
 					return ret;
 				};
@@ -326,7 +336,6 @@ var widgetTestsTools = ( function() {
 
 			// There is a case that config.count will be 0, so we dont want to have any widgets found.
 			if ( typeof config.count !== 'number' || config.count > 0 ) {
-
 				widget = pickWidget();
 
 				// Assert widget once it's created.
@@ -400,5 +409,4 @@ var widgetTestsTools = ( function() {
 				'/>' +
 			'</span>'
 	};
-
 } )();

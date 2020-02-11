@@ -14,8 +14,9 @@ var assetsPath = '%TEST_DIR%_assets/',
 						plugins: 'wysiwygarea',
 						on: {
 							instanceReady: function() {
-								if ( ++count == total )
+								if ( ++count == total ) {
 									callback();
+								}
 							}
 						}
 					} )

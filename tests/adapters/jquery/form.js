@@ -30,8 +30,9 @@ bender.test( {
 
 	'test form with textarea outside': function() {
 		// 'form' attribute is not supported in Internet Explorer!
-		if ( CKEDITOR.env.ie )
+		if ( CKEDITOR.env.ie ) {
 			assert.ignore();
+		}
 
 		$( '#editor-outside' ).ckeditor( function() {
 			// Set data without refreshing textarea (this should be done by adapter).

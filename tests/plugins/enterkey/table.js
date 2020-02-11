@@ -27,7 +27,7 @@ bender.test( {
 
 		// BR break inside of caption.
 		assert.areSame( '<table><caption><p>foo</p><p>bar</p></caption><tbody><tr><td>bar</td></tr></tbody></table>',
-						this.enterKey( '<table><caption>foo^bar</caption><tr><td>bar</td></tr></table>' ) );
+			this.enterKey( '<table><caption>foo^bar</caption><tr><td>bar</td></tr></table>' ) );
 	}
 
 } );

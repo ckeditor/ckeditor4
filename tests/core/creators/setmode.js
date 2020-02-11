@@ -2,7 +2,6 @@
 /* bender-ckeditor-plugins: wysiwygarea,sourcearea,undo */
 
 ( function() {
-
 	'use strict';
 
 	var setModeEvents = [ 'beforeSetMode', 'beforeModeUnload', 'mode' ];
@@ -120,5 +119,4 @@
 			wait();
 		}
 	} );
-
 } )();

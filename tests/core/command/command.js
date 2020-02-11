@@ -60,8 +60,9 @@ bender.test( {
 		bot.setHtmlWithSelection( '<p>[foo]</p>' );
 
 		this.checkAllCmds( function( cmd, name ) {
-			if ( cmd.state != CKEDITOR.TRISTATE_DISABLED && CKEDITOR.tools.indexOf( READ_ONLY_CMDS, name ) == -1 )
+			if ( cmd.state != CKEDITOR.TRISTATE_DISABLED && CKEDITOR.tools.indexOf( READ_ONLY_CMDS, name ) == -1 ) {
 				assert.fail( 'command: ' + name + ' should be disabled in readonly' );
+			}
 		} );
 
 		assert.isTrue( true );
@@ -74,8 +75,9 @@ bender.test( {
 		bot.setHtmlWithSelection( '<details><summary>foo^bar</summary></details>' );
 
 		this.checkAllCmds( function( cmd, name ) {
-			if ( cmd.state != CKEDITOR.TRISTATE_DISABLED && cmd.context in CKEDITOR.dtd.$block )
+			if ( cmd.state != CKEDITOR.TRISTATE_DISABLED && cmd.context in CKEDITOR.dtd.$block ) {
 				assert.fail( 'command: ' + name + ' should be disabled inside of summary' );
+			}
 		} );
 
 		assert.isTrue( true );

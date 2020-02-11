@@ -9,14 +9,14 @@
 
 CKEDITOR.plugins.add( 'dialogui', {
 	onLoad: function() {
-
 		var initPrivateObject = function( elementDefinition ) {
 				this._ || ( this._ = {} );
 				this._[ 'default' ] = this._.initValue = elementDefinition[ 'default' ] || '';
 				this._.required = elementDefinition.required || false;
 				var args = [ this._ ];
-				for ( var i = 1; i < arguments.length; i++ )
+				for ( var i = 1; i < arguments.length; i++ ) {
 					args.push( arguments[ i ] );
+				}
 				args.push( true );
 				CKEDITOR.tools.extend.apply( CKEDITOR.tools, args );
 				return this._;
@@ -38,7 +38,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 						childHtmlList = [],
 						childObjList = [];
 					for ( var i = 0;
-					( i < children.length && ( child = children[ i ] ) ); i++ ) {
+						( i < children.length && ( child = children[ i ] ) ); i++ ) {
 						var childHtml = [];
 						childHtmlList.push( childHtml );
 						childObjList.push( CKEDITOR.dialog._.uiElementBuilders[ child.type ].build( dialog, child, childHtml ) );
@@ -73,8 +73,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 						dialog.on( 'load', function() {
 							this.getInputElement().on( 'change', function() {
 								// Make sure 'onchange' doesn't get fired after dialog closed. (https://dev.ckeditor.com/ticket/5719)
-								if ( !dialog.parts.dialog.isVisible() )
+								if ( !dialog.parts.dialog.isVisible() ) {
 									return;
+								}
 
 								this.fire( 'change', { value: this.getValue() } );
 							}, this );
@@ -89,8 +90,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 			cleanInnerDefinition = function( def ) {
 				// An inner UI element should not have the parent's type, title or events.
 				for ( var i in def ) {
-					if ( eventRegex.test( i ) || i == 'title' || i == 'type' )
+					if ( eventRegex.test( i ) || i == 'title' || i == 'type' ) {
 						delete def[ i ];
+					}
 				}
 				return def;
 			},
@@ -100,12 +102,14 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var keystroke = evt.data.getKeystroke();
 
 				// ALT + SHIFT + Home for LTR direction.
-				if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 36 )
+				if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 36 ) {
 					this.setDirectionMarker( 'ltr' );
+				}
 
 				// ALT + SHIFT + End for RTL direction.
-				else if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 35 )
+				else if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 35 ) {
 					this.setDirectionMarker( 'rtl' );
+				}
 			};
 
 		CKEDITOR.tools.extend( CKEDITOR.ui.dialog, {
@@ -136,57 +140,59 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * cell.
 			 */
 			labeledElement: function( dialog, elementDefinition, htmlList, contentHtml ) {
-				if ( arguments.length < 4 )
+				if ( arguments.length < 4 ) {
 					return;
+				}
 
 				var _ = initPrivateObject.call( this, elementDefinition );
 				_.labelId = CKEDITOR.tools.getNextId() + '_label';
 				this._.children = [];
 
 				var innerHTML = function() {
-						var html = [],
-							requiredClass = elementDefinition.required ? ' cke_required' : '';
-						if ( elementDefinition.labelLayout != 'horizontal' ) {
-							html.push(
-								'<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"',
-									( _.inputId ? ' for="' + _.inputId + '"' : '' ),
-									( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>',
-									elementDefinition.label,
-								'</label>',
-								'<div class="cke_dialog_ui_labeled_content"',
-									( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ),
-									' role="presentation">',
-									contentHtml.call( this, dialog, elementDefinition ),
-								'</div>' );
-						} else {
-							var hboxDefinition = {
-								type: 'hbox',
-								widths: elementDefinition.widths,
-								padding: 0,
-								children: [ {
-									type: 'html',
-									html: '<label class="cke_dialog_ui_labeled_label' + requiredClass + '"' +
+					var html = [],
+						requiredClass = elementDefinition.required ? ' cke_required' : '';
+					if ( elementDefinition.labelLayout != 'horizontal' ) {
+						html.push(
+							'<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"',
+							( _.inputId ? ' for="' + _.inputId + '"' : '' ),
+							( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>',
+							elementDefinition.label,
+							'</label>',
+							'<div class="cke_dialog_ui_labeled_content"',
+							( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ),
+							' role="presentation">',
+							contentHtml.call( this, dialog, elementDefinition ),
+							'</div>' );
+					} else {
+						var hboxDefinition = {
+							type: 'hbox',
+							widths: elementDefinition.widths,
+							padding: 0,
+							children: [ {
+								type: 'html',
+								html: '<label class="cke_dialog_ui_labeled_label' + requiredClass + '"' +
 										' id="' + _.labelId + '"' +
 										' for="' + _.inputId + '"' +
 										( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>' +
 											CKEDITOR.tools.htmlEncode( elementDefinition.label ) +
 										'</label>'
-								},
-								{
-									type: 'html',
-									html: '<span class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + '>' +
+							},
+							{
+								type: 'html',
+								html: '<span class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + '>' +
 										contentHtml.call( this, dialog, elementDefinition ) +
 										'</span>'
-								} ]
-							};
-							CKEDITOR.dialog._.uiElementBuilders.hbox.build( dialog, hboxDefinition, html );
-						}
-						return html.join( '' );
-					};
+							} ]
+						};
+						CKEDITOR.dialog._.uiElementBuilders.hbox.build( dialog, hboxDefinition, html );
+					}
+					return html.join( '' );
+				};
 				var attributes = { role: elementDefinition.role || 'presentation' };
 
-				if ( elementDefinition.includeLabel )
+				if ( elementDefinition.includeLabel ) {
 					attributes[ 'aria-labelledby' ] = _.labelId;
+				}
 
 				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, htmlList, 'div', null, attributes, innerHTML );
 			},
@@ -213,33 +219,39 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			textInput: function( dialog, elementDefinition, htmlList ) {
-				if ( arguments.length < 3 )
+				if ( arguments.length < 3 ) {
 					return;
+				}
 
 				initPrivateObject.call( this, elementDefinition );
 				var domId = this._.inputId = CKEDITOR.tools.getNextId() + '_textInput',
-					attributes = { 'class': 'cke_dialog_ui_input_' + elementDefinition.type, id: domId, type: elementDefinition.type };
+					attributes = { class: 'cke_dialog_ui_input_' + elementDefinition.type, id: domId, type: elementDefinition.type };
 
 				// Set the validator, if any.
-				if ( elementDefinition.validate )
+				if ( elementDefinition.validate ) {
 					this.validate = elementDefinition.validate;
+				}
 
 				// Set the max length and size.
-				if ( elementDefinition.maxLength )
+				if ( elementDefinition.maxLength ) {
 					attributes.maxlength = elementDefinition.maxLength;
-				if ( elementDefinition.size )
+				}
+				if ( elementDefinition.size ) {
 					attributes.size = elementDefinition.size;
+				}
 
-				if ( elementDefinition.inputStyle )
+				if ( elementDefinition.inputStyle ) {
 					attributes.style = elementDefinition.inputStyle;
+				}
 
 				// If user presses Enter in a text box, it implies clicking OK for the dialog.
 				var me = this,
 					keyPressedOnMe = false;
 				dialog.on( 'load', function() {
 					me.getInputElement().on( 'keydown', function( evt ) {
-						if ( evt.data.getKeystroke() == 13 )
+						if ( evt.data.getKeystroke() == 13 ) {
 							keyPressedOnMe = true;
+						}
 					} );
 
 					// Lower the priority this 'keyup' since 'ok' will close the dialog.(https://dev.ckeditor.com/ticket/3749)
@@ -251,28 +263,31 @@ CKEDITOR.plugins.add( 'dialogui', {
 							keyPressedOnMe = false;
 						}
 
-						if ( me.bidi )
+						if ( me.bidi ) {
 							toggleBidiKeyUpHandler.call( me, evt );
+						}
 					}, null, null, 1000 );
 				} );
 
 				var innerHTML = function() {
-						// IE BUG: Text input fields in IE at 100% would exceed a <td> or inline
-						// container's width, so need to wrap it inside a <div>.
-						var html = [ '<div class="cke_dialog_ui_input_', elementDefinition.type, '" role="presentation"' ];
+					// IE BUG: Text input fields in IE at 100% would exceed a <td> or inline
+					// container's width, so need to wrap it inside a <div>.
+					var html = [ '<div class="cke_dialog_ui_input_', elementDefinition.type, '" role="presentation"' ];
 
-						if ( elementDefinition.width )
-							html.push( 'style="width:' + elementDefinition.width + '" ' );
+					if ( elementDefinition.width ) {
+						html.push( 'style="width:' + elementDefinition.width + '" ' );
+					}
 
-						html.push( '><input ' );
+					html.push( '><input ' );
 
-						attributes[ 'aria-labelledby' ] = this._.labelId;
-						this._.required && ( attributes[ 'aria-required' ] = this._.required );
-						for ( var i in attributes )
-							html.push( i + '="' + attributes[ i ] + '" ' );
-						html.push( ' /></div>' );
-						return html.join( '' );
-					};
+					attributes[ 'aria-labelledby' ] = this._.labelId;
+					this._.required && ( attributes[ 'aria-required' ] = this._.required );
+					for ( var i in attributes ) {
+						html.push( i + '="' + attributes[ i ] + '" ' );
+					}
+					html.push( ' /></div>' );
+					return html.join( '' );
+				};
 				CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 			},
 
@@ -297,16 +312,18 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			textarea: function( dialog, elementDefinition, htmlList ) {
-				if ( arguments.length < 3 )
+				if ( arguments.length < 3 ) {
 					return;
+				}
 
 				initPrivateObject.call( this, elementDefinition );
 				var me = this,
 					domId = this._.inputId = CKEDITOR.tools.getNextId() + '_textarea',
 					attributes = {};
 
-				if ( elementDefinition.validate )
+				if ( elementDefinition.validate ) {
 					this.validate = elementDefinition.validate;
+				}
 
 				// Generates the essential attributes for the textarea tag.
 				attributes.rows = elementDefinition.rows || 5;
@@ -314,11 +331,13 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				attributes[ 'class' ] = 'cke_dialog_ui_input_textarea ' + ( elementDefinition[ 'class' ] || '' );
 
-				if ( typeof elementDefinition.inputStyle != 'undefined' )
+				if ( typeof elementDefinition.inputStyle != 'undefined' ) {
 					attributes.style = elementDefinition.inputStyle;
+				}
 
-				if ( elementDefinition.dir )
+				if ( elementDefinition.dir ) {
 					attributes.dir = elementDefinition.dir;
+				}
 
 				if ( me.bidi ) {
 					dialog.on( 'load', function() {
@@ -327,14 +346,15 @@ CKEDITOR.plugins.add( 'dialogui', {
 				}
 
 				var innerHTML = function() {
-						attributes[ 'aria-labelledby' ] = this._.labelId;
-						this._.required && ( attributes[ 'aria-required' ] = this._.required );
-						var html = [ '<div class="cke_dialog_ui_input_textarea" role="presentation"><textarea id="', domId, '" ' ];
-						for ( var i in attributes )
-							html.push( i + '="' + CKEDITOR.tools.htmlEncode( attributes[ i ] ) + '" ' );
-						html.push( '>', CKEDITOR.tools.htmlEncode( me._[ 'default' ] ), '</textarea></div>' );
-						return html.join( '' );
-					};
+					attributes[ 'aria-labelledby' ] = this._.labelId;
+					this._.required && ( attributes[ 'aria-required' ] = this._.required );
+					var html = [ '<div class="cke_dialog_ui_input_textarea" role="presentation"><textarea id="', domId, '" ' ];
+					for ( var i in attributes ) {
+						html.push( i + '="' + CKEDITOR.tools.htmlEncode( attributes[ i ] ) + '" ' );
+					}
+					html.push( '>', CKEDITOR.tools.htmlEncode( me._[ 'default' ] ), '</textarea></div>' );
+					return html.join( '' );
+				};
 				CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 			},
 
@@ -356,46 +376,50 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			checkbox: function( dialog, elementDefinition, htmlList ) {
-				if ( arguments.length < 3 )
+				if ( arguments.length < 3 ) {
 					return;
+				}
 
-				var _ = initPrivateObject.call( this, elementDefinition, { 'default': !!elementDefinition[ 'default' ] } );
+				var _ = initPrivateObject.call( this, elementDefinition, { default: !!elementDefinition[ 'default' ] } );
 
-				if ( elementDefinition.validate )
+				if ( elementDefinition.validate ) {
 					this.validate = elementDefinition.validate;
+				}
 
 				var innerHTML = function() {
-						var myDefinition = CKEDITOR.tools.extend(
-								{},
-								elementDefinition,
-								{
-									id: elementDefinition.id ? elementDefinition.id + '_checkbox' : CKEDITOR.tools.getNextId() + '_checkbox'
-								},
-								true
-							),
-							html = [];
+					var myDefinition = CKEDITOR.tools.extend(
+							{},
+							elementDefinition,
+							{
+								id: elementDefinition.id ? elementDefinition.id + '_checkbox' : CKEDITOR.tools.getNextId() + '_checkbox'
+							},
+							true
+						),
+						html = [];
 
-						var labelId = CKEDITOR.tools.getNextId() + '_label';
-						var attributes = { 'class': 'cke_dialog_ui_checkbox_input', type: 'checkbox', 'aria-labelledby': labelId };
-						cleanInnerDefinition( myDefinition );
-						if ( elementDefinition[ 'default' ] )
-							attributes.checked = 'checked';
+					var labelId = CKEDITOR.tools.getNextId() + '_label';
+					var attributes = { class: 'cke_dialog_ui_checkbox_input', type: 'checkbox', 'aria-labelledby': labelId };
+					cleanInnerDefinition( myDefinition );
+					if ( elementDefinition[ 'default' ] ) {
+						attributes.checked = 'checked';
+					}
 
-						if ( typeof myDefinition.inputStyle != 'undefined' )
-							myDefinition.style = myDefinition.inputStyle;
+					if ( typeof myDefinition.inputStyle != 'undefined' ) {
+						myDefinition.style = myDefinition.inputStyle;
+					}
 
-						_.checkbox = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'input', null, attributes );
-						html.push(
-							' <label id="',
-							labelId,
-							'" for="',
-							attributes.id,
-							'"' + ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>',
-							CKEDITOR.tools.htmlEncode( elementDefinition.label ),
-							'</label>'
-						);
-						return html.join( '' );
-					};
+					_.checkbox = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'input', null, attributes );
+					html.push(
+						' <label id="',
+						labelId,
+						'" for="',
+						attributes.id,
+						'"' + ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>',
+						CKEDITOR.tools.htmlEncode( elementDefinition.label ),
+						'</label>'
+					);
+					return html.join( '' );
+				};
 
 				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, htmlList, 'span', null, null, innerHTML );
 			},
@@ -419,16 +443,19 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			radio: function( dialog, elementDefinition, htmlList ) {
-				if ( arguments.length < 3 )
+				if ( arguments.length < 3 ) {
 					return;
+				}
 
 				initPrivateObject.call( this, elementDefinition );
 
-				if ( !this._[ 'default' ] )
+				if ( !this._[ 'default' ] ) {
 					this._[ 'default' ] = this._.initValue = elementDefinition.items[ 0 ][ 1 ];
+				}
 
-				if ( elementDefinition.validate )
+				if ( elementDefinition.validate ) {
 					this.validate = elementDefinition.validate;
+				}
 
 				var children = [],
 					me = this;
@@ -457,7 +484,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 							inputAttributes = {
 								type: 'radio',
-								'class': 'cke_dialog_ui_radio_input',
+								class: 'cke_dialog_ui_radio_input',
 								name: commonName,
 								value: value,
 								'aria-labelledby': labelId
@@ -465,14 +492,16 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 							inputHtml = [];
 
-						if ( me._[ 'default' ] == value )
+						if ( me._[ 'default' ] == value ) {
 							inputAttributes.checked = 'checked';
+						}
 
 						cleanInnerDefinition( inputDefinition );
 						cleanInnerDefinition( labelDefinition );
 
-						if ( typeof inputDefinition.inputStyle != 'undefined' )
+						if ( typeof inputDefinition.inputStyle != 'undefined' ) {
 							inputDefinition.style = inputDefinition.inputStyle;
+						}
 
 						// Make inputs of radio type focusable (https://dev.ckeditor.com/ticket/10866).
 						inputDefinition.keyboardFocusable = true;
@@ -483,7 +512,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 						new CKEDITOR.ui.dialog.uiElement( dialog, labelDefinition, inputHtml, 'label', null, {
 							id: labelId,
-							'for': inputAttributes.id
+							for: inputAttributes.id
 						}, item[ 0 ] );
 
 						inputHtmlList.push( inputHtml.join( '' ) );
@@ -519,11 +548,13 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			button: function( dialog, elementDefinition, htmlList ) {
-				if ( !arguments.length )
+				if ( !arguments.length ) {
 					return;
+				}
 
-				if ( typeof elementDefinition == 'function' )
+				if ( typeof elementDefinition == 'function' ) {
 					elementDefinition = elementDefinition( dialog.getParentEditor() );
+				}
 
 				initPrivateObject.call( this, elementDefinition, { disabled: elementDefinition.disabled || false } );
 
@@ -563,7 +594,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					href: 'javascript:void(0)', // jshint ignore:line
 					title: elementDefinition.label,
 					hidefocus: 'true',
-					'class': elementDefinition[ 'class' ],
+					class: elementDefinition[ 'class' ],
 					role: 'button',
 					'aria-labelledby': labelId
 				}, '<span id="' + labelId + '" class="cke_dialog_ui_button">' +
@@ -595,54 +626,60 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			select: function( dialog, elementDefinition, htmlList ) {
-				if ( arguments.length < 3 )
+				if ( arguments.length < 3 ) {
 					return;
+				}
 
 				var _ = initPrivateObject.call( this, elementDefinition );
 
-				if ( elementDefinition.validate )
+				if ( elementDefinition.validate ) {
 					this.validate = elementDefinition.validate;
+				}
 
 				_.inputId = CKEDITOR.tools.getNextId() + '_select';
 
 				var innerHTML = function() {
-						var myDefinition = CKEDITOR.tools.extend(
-								{},
-								elementDefinition,
-								{
-									id: ( elementDefinition.id ? elementDefinition.id + '_select' : CKEDITOR.tools.getNextId() + '_select' )
-								},
-								true
-							),
-							html = [],
-							innerHTML = [],
-							attributes = { 'id': _.inputId, 'class': 'cke_dialog_ui_input_select', 'aria-labelledby': this._.labelId };
+					var myDefinition = CKEDITOR.tools.extend(
+							{},
+							elementDefinition,
+							{
+								id: ( elementDefinition.id ? elementDefinition.id + '_select' : CKEDITOR.tools.getNextId() + '_select' )
+							},
+							true
+						),
+						html = [],
+						innerHTML = [],
+						attributes = { id: _.inputId, class: 'cke_dialog_ui_input_select', 'aria-labelledby': this._.labelId };
 
-						html.push( '<div class="cke_dialog_ui_input_', elementDefinition.type, '" role="presentation"' );
-						if ( elementDefinition.width )
-							html.push( 'style="width:' + elementDefinition.width + '" ' );
-						html.push( '>' );
+					html.push( '<div class="cke_dialog_ui_input_', elementDefinition.type, '" role="presentation"' );
+					if ( elementDefinition.width ) {
+						html.push( 'style="width:' + elementDefinition.width + '" ' );
+					}
+					html.push( '>' );
 
-						// Add multiple and size attributes from element definition.
-						if ( elementDefinition.size !== undefined )
-							attributes.size = elementDefinition.size;
-						if ( elementDefinition.multiple !== undefined )
-							attributes.multiple = elementDefinition.multiple;
+					// Add multiple and size attributes from element definition.
+					if ( elementDefinition.size !== undefined ) {
+						attributes.size = elementDefinition.size;
+					}
+					if ( elementDefinition.multiple !== undefined ) {
+						attributes.multiple = elementDefinition.multiple;
+					}
 
-						cleanInnerDefinition( myDefinition );
-						for ( var i = 0, item; i < elementDefinition.items.length && ( item = elementDefinition.items[ i ] ); i++ ) {
-							innerHTML.push( '<option value="', CKEDITOR.tools.htmlEncode( item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ] ).replace( /"/g, '&quot;' ), '" /> ', CKEDITOR.tools.htmlEncode( item[ 0 ] ) );
-						}
+					cleanInnerDefinition( myDefinition );
+					for ( var i = 0, item; i < elementDefinition.items.length && ( item = elementDefinition.items[ i ] ); i++ ) {
+						innerHTML.push( '<option value="', CKEDITOR.tools.htmlEncode( item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ] ).replace( /"/g, '&quot;' ), '" /> ', CKEDITOR.tools.htmlEncode( item[ 0 ] ) );
+					}
 
-						if ( typeof myDefinition.inputStyle != 'undefined' )
-							myDefinition.style = myDefinition.inputStyle;
+					if ( typeof myDefinition.inputStyle != 'undefined' ) {
+						myDefinition.style = myDefinition.inputStyle;
+					}
 
-						_.select = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'select', null, attributes, innerHTML.join( '' ) );
+					_.select = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'select', null, attributes, innerHTML.join( '' ) );
 
-						html.push( '</div>' );
+					html.push( '</div>' );
 
-						return html.join( '' );
-					};
+					return html.join( '' );
+				};
 
 				CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 			},
@@ -662,16 +699,19 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			file: function( dialog, elementDefinition, htmlList ) {
-				if ( arguments.length < 3 )
+				if ( arguments.length < 3 ) {
 					return;
+				}
 
-				if ( elementDefinition[ 'default' ] === undefined )
+				if ( elementDefinition[ 'default' ] === undefined ) {
 					elementDefinition[ 'default' ] = '';
+				}
 
 				var _ = CKEDITOR.tools.extend( initPrivateObject.call( this, elementDefinition ), { definition: elementDefinition, buttons: [] } );
 
-				if ( elementDefinition.validate )
+				if ( elementDefinition.validate ) {
 					this.validate = elementDefinition.validate;
+				}
 
 				/** @ignore */
 				var innerHTML = function() {
@@ -694,8 +734,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 							'document.open();' +
 							'(' + CKEDITOR.tools.fixDomain + ')();' +
 							'document.close();'
-						) + '})()'
-						:
+						) + '})()'						:
 						'0'
 					);
 
@@ -732,13 +771,15 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			fileButton: function( dialog, elementDefinition, htmlList ) {
 				var me = this;
-				if ( arguments.length < 3 )
+				if ( arguments.length < 3 ) {
 					return;
+				}
 
 				initPrivateObject.call( this, elementDefinition );
 
-				if ( elementDefinition.validate )
+				if ( elementDefinition.validate ) {
 					this.validate = elementDefinition.validate;
+				}
 
 				var myDefinition = CKEDITOR.tools.extend( {}, elementDefinition );
 				var onClick = myDefinition.onClick;
@@ -784,8 +825,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 				 * @param {Array} htmlList List of HTML code to be added to the dialog's content area.
 				 */
 				return function( dialog, elementDefinition, htmlList ) {
-					if ( arguments.length < 3 )
+					if ( arguments.length < 3 ) {
 						return;
+					}
 
 					var myHtmlList = [],
 						myHtml,
@@ -793,8 +835,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 						myMatch, theirMatch;
 
 					// If the HTML input doesn't contain any tags at the beginning, add a <span> tag around it.
-					if ( theirHtml.charAt( 0 ) != '<' )
+					if ( theirHtml.charAt( 0 ) != '<' ) {
 						theirHtml = '<span>' + theirHtml + '</span>';
+					}
 
 					// Look for focus function in definition.
 					var focus = elementDefinition.focus;
@@ -850,14 +893,15 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var legendLabel = elementDefinition.label;
 				/** @ignore */
 				var innerHTML = function() {
-						var html = [];
-						legendLabel && html.push( '<legend' +
+					var html = [];
+					legendLabel && html.push( '<legend' +
 							( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) +
 							'>' + legendLabel + '</legend>' );
-						for ( var i = 0; i < childHtmlList.length; i++ )
-							html.push( childHtmlList[ i ] );
-						return html.join( '' );
-					};
+					for ( var i = 0; i < childHtmlList.length; i++ ) {
+						html.push( childHtmlList[ i ] );
+					}
+					return html.join( '' );
+				};
 
 				this._ = { children: childObjList };
 				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, htmlList, 'fieldset', null, null, innerHTML );
@@ -877,10 +921,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			setLabel: function( label ) {
 				var node = CKEDITOR.document.getById( this._.labelId );
-				if ( node.getChildCount() < 1 )
-				( new CKEDITOR.dom.text( label, CKEDITOR.document ) ).appendTo( node );
-				else
+				if ( node.getChildCount() < 1 ) {
+					( new CKEDITOR.dom.text( label, CKEDITOR.document ) ).appendTo( node );
+				} else {
 					node.getChild( 0 ).$.nodeValue = label;
+				}
 				return this;
 			},
 
@@ -891,10 +936,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			getLabel: function() {
 				var node = CKEDITOR.document.getById( this._.labelId );
-				if ( !node || node.getChildCount() < 1 )
+				if ( !node || node.getChildCount() < 1 ) {
 					return '';
-				else
+				} else {
 					return node.getChild( 0 ).getText();
+				}
 			},
 
 			/**
@@ -912,8 +958,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @returns {Object} Return value of the `click` event.
 			 */
 			click: function() {
-				if ( !this._.disabled )
+				if ( !this._.disabled ) {
 					return this.fire( 'click', { dialog: this._.dialog } );
+				}
 				return false;
 			},
 
@@ -1172,8 +1219,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			clear: function() {
 				var selectElement = this.getInputElement().$;
-				while ( selectElement.length > 0 )
+				while ( selectElement.length > 0 ) {
 					selectElement.remove( 0 );
+				}
 				return this;
 			},
 
@@ -1225,15 +1273,16 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {
-					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) )
+					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) ) {
 						return commonEventProcessors.onChange.apply( this, arguments );
-					else {
+					} else {
 						dialog.on( 'load', function() {
 							var element = this._.checkbox.getElement();
 							element.on( 'propertychange', function( evt ) {
 								evt = evt.data.$;
-								if ( evt.propertyName == 'checked' )
+								if ( evt.propertyName == 'checked' ) {
 									this.fire( 'change', { value: element.$.checked } );
+								}
 							}, this );
 						}, this );
 						this.on( 'change', func );
@@ -1257,8 +1306,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var children = this._.children,
 					item;
 				for ( var i = 0;
-				( i < children.length ) && ( item = children[ i ] ); i++ )
+					( i < children.length ) && ( item = children[ i ] ); i++ ) {
 					item.getElement().$.checked = ( item.getValue() == value );
+				}
 				!noChangeEvent && this.fire( 'change', { value: value } );
 			},
 
@@ -1270,8 +1320,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 			getValue: function() {
 				var children = this._.children;
 				for ( var i = 0; i < children.length; i++ ) {
-					if ( children[ i ].getElement().$.checked )
+					if ( children[ i ].getElement().$.checked ) {
 						return children[ i ].getValue();
+					}
 				}
 				return null;
 			},
@@ -1299,9 +1350,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {
-					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) )
+					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) ) {
 						return commonEventProcessors.onChange.apply( this, arguments );
-					else {
+					} else {
 						dialog.on( 'load', function() {
 							var children = this._.children,
 								me = this;
@@ -1309,8 +1360,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 								var element = children[ i ].getElement();
 								element.on( 'propertychange', function( evt ) {
 									evt = evt.data.$;
-									if ( evt.propertyName == 'checked' && this.$.checked )
+									if ( evt.propertyName == 'checked' && this.$.checked ) {
 										me.fire( 'change', { value: this.getAttribute( 'value' ) } );
+									}
 								} );
 							}
 						}, this );
@@ -1361,19 +1413,21 @@ CKEDITOR.plugins.add( 'dialogui', {
 					match;
 
 				var registerDomEvent = function( uiElement, dialog, eventName, func ) {
-						uiElement.on( 'formLoaded', function() {
-							uiElement.getInputElement().on( eventName, func, uiElement );
-						} );
-					};
+					uiElement.on( 'formLoaded', function() {
+						uiElement.getInputElement().on( eventName, func, uiElement );
+					} );
+				};
 
 				for ( var i in definition ) {
-					if ( !( match = i.match( regex ) ) )
+					if ( !( match = i.match( regex ) ) ) {
 						continue;
+					}
 
-					if ( this.eventProcessors[ i ] )
+					if ( this.eventProcessors[ i ] ) {
 						this.eventProcessors[ i ].call( this, this._.dialog, definition[ i ] );
-					else
+					} else {
 						registerDomEvent( this, this._.dialog, match[ 1 ].toLowerCase(), definition[ i ] );
+					}
 				}
 
 				return this;
@@ -1418,48 +1472,51 @@ CKEDITOR.plugins.add( 'dialogui', {
 					frameDocument.$.open();
 
 					var size = '';
-					if ( elementDefinition.size )
-						size = elementDefinition.size - ( CKEDITOR.env.ie ? 7 : 0 ); // "Browse" button is bigger in IE.
+					if ( elementDefinition.size ) {
+						size = elementDefinition.size - ( CKEDITOR.env.ie ? 7 : 0 );
+					} // "Browse" button is bigger in IE.
 
 					var inputId = _.frameId + '_input';
 
 					frameDocument.$.write( [
 						'<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
-							'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
-								CKEDITOR.tools.htmlEncode( elementDefinition.action ),
-							'">',
-								// Replicate the field label inside of iframe.
-								'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
-									CKEDITOR.tools.htmlEncode( elementDefinition.label ),
-								'</label>',
-								// Set width to make sure that input is not clipped by the iframe (https://dev.ckeditor.com/ticket/11253).
-								'<input style="width:100%" id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
-									CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
-									'" size="',
-									CKEDITOR.tools.htmlEncode( size > 0 ? size : '' ),
-								'" />',
-							'</form>',
+						'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
+						CKEDITOR.tools.htmlEncode( elementDefinition.action ),
+						'">',
+						// Replicate the field label inside of iframe.
+						'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
+						CKEDITOR.tools.htmlEncode( elementDefinition.label ),
+						'</label>',
+						// Set width to make sure that input is not clipped by the iframe (https://dev.ckeditor.com/ticket/11253).
+						'<input style="width:100%" id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
+						CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
+						'" size="',
+						CKEDITOR.tools.htmlEncode( size > 0 ? size : '' ),
+						'" />',
+						'</form>',
 						'</body></html>',
 						'<script>',
-							// Support for custom document.domain in IE.
-							CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '',
+						// Support for custom document.domain in IE.
+						CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '',
 
-							'window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
-							'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}',
+						'window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
+						'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}',
 						'</script>'
 					].join( '' ) );
 
 					frameDocument.$.close();
 
-					for ( var i = 0; i < buttons.length; i++ )
+					for ( var i = 0; i < buttons.length; i++ ) {
 						buttons[ i ].enable();
+					}
 				}
 
 				// https://dev.ckeditor.com/ticket/3465: Wait for the browser to finish rendering the dialog first.
-				if ( CKEDITOR.env.gecko )
+				if ( CKEDITOR.env.gecko ) {
 					setTimeout( generateFormField, 500 );
-				else
+				} else {
 					generateFormField();
+				}
 			},
 
 			getValue: function() {

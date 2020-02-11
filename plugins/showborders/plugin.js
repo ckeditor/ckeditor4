@@ -30,7 +30,7 @@
 	var showBorderClassName = 'cke_show_border';
 
 	CKEDITOR.plugins.add( 'showborders', {
-		modes: { 'wysiwyg': 1 },
+		modes: { wysiwyg: 1 },
 
 		onLoad: function() {
 			var cssStyleText,
@@ -60,29 +60,32 @@
 		},
 
 		init: function( editor ) {
-
 			var command = editor.addCommand( 'showborders', commandDefinition );
 			command.canUndo = false;
 
-			if ( editor.config.startupShowBorders !== false )
+			if ( editor.config.startupShowBorders !== false ) {
 				command.setState( CKEDITOR.TRISTATE_ON );
+			}
 
 			// Refresh the command on setData.
 			editor.on( 'mode', function() {
-				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
+				if ( command.state != CKEDITOR.TRISTATE_DISABLED ) {
 					command.refresh( editor );
+				}
 			}, null, null, 100 );
 
 			// Refresh the command on wysiwyg frame reloads.
 			editor.on( 'contentDom', function() {
-				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
+				if ( command.state != CKEDITOR.TRISTATE_DISABLED ) {
 					command.refresh( editor );
+				}
 			} );
 
 			editor.on( 'removeFormatCleanup', function( evt ) {
 				var element = evt.data;
-				if ( editor.getCommand( 'showborders' ).state == CKEDITOR.TRISTATE_ON && element.is( 'table' ) && ( !element.hasAttribute( 'border' ) || parseInt( element.getAttribute( 'border' ), 10 ) <= 0 ) )
+				if ( editor.getCommand( 'showborders' ).state == CKEDITOR.TRISTATE_ON && element.is( 'table' ) && ( !element.hasAttribute( 'border' ) || parseInt( element.getAttribute( 'border' ), 10 ) <= 0 ) ) {
 					element.addClass( showBorderClassName );
+				}
 			} );
 		},
 
@@ -94,13 +97,14 @@
 			if ( dataFilter ) {
 				dataFilter.addRules( {
 					elements: {
-						'table': function( element ) {
+						table: function( element ) {
 							var attributes = element.attributes,
 								cssClass = attributes[ 'class' ],
 								border = parseInt( attributes.border, 10 );
 
-							if ( ( !border || border <= 0 ) && ( !cssClass || cssClass.indexOf( showBorderClassName ) == -1 ) )
+							if ( ( !border || border <= 0 ) && ( !cssClass || cssClass.indexOf( showBorderClassName ) == -1 ) ) {
 								attributes[ 'class' ] = ( cssClass || '' ) + ' ' + showBorderClassName;
+							}
 						}
 					}
 				} );
@@ -109,7 +113,7 @@
 			if ( htmlFilter ) {
 				htmlFilter.addRules( {
 					elements: {
-						'table': function( table ) {
+						table: function( table ) {
 							var attributes = table.attributes,
 								cssClass = attributes[ 'class' ];
 
@@ -154,14 +158,14 @@
 					return function( data, element ) {
 						originalCommit.apply( this, arguments );
 
-						if ( !parseInt( element.getAttribute( 'border' ), 10 ) )
+						if ( !parseInt( element.getAttribute( 'border' ), 10 ) ) {
 							element.addClass( 'cke_show_border' );
+						}
 					};
 				} );
 			}
 		}
 	} );
-
 } )();
 
 /**

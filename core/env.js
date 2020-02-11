@@ -130,8 +130,9 @@ if ( !CKEDITOR.env ) {
 			 * @deprecated
 			 */
 			isCustomDomain: function() {
-				if ( !this.ie )
+				if ( !this.ie ) {
 					return false;
+				}
 
 				var domain = document.domain,
 					hostname = window.location.hostname;
@@ -179,10 +180,11 @@ if ( !CKEDITOR.env ) {
 		 * @property {Boolean} safari
 		 */
 		if ( env.webkit ) {
-			if ( agent.indexOf( 'chrome' ) > -1 )
+			if ( agent.indexOf( 'chrome' ) > -1 ) {
 				env.chrome = true;
-			else
+			} else {
 				env.safari = true;
+			}
 		}
 
 		var version = 0;
@@ -249,12 +251,14 @@ if ( !CKEDITOR.env ) {
 		// Adobe AIR 1.0+
 		// Checked before Safari because AIR have the WebKit rich text editor
 		// features from Safari 3.0.4, but the version reported is 420.
-		if ( env.air )
+		if ( env.air ) {
 			version = parseFloat( agent.match( / adobeair\/(\d+)/ )[ 1 ] );
+		}
 
 		// WebKit 522+ (Safari 3+)
-		if ( env.webkit )
+		if ( env.webkit ) {
 			version = parseFloat( agent.match( / applewebkit\/(\d+)/ )[ 1 ] );
+		}
 
 		/**
 		 * Contains the browser version.
@@ -338,20 +342,25 @@ if ( !CKEDITOR.env ) {
 		 */
 		env.cssClass = 'cke_browser_' + ( env.ie ? 'ie' : env.gecko ? 'gecko' : env.webkit ? 'webkit' : 'unknown' );
 
-		if ( env.quirks )
+		if ( env.quirks ) {
 			env.cssClass += ' cke_browser_quirks';
+		}
 
-		if ( env.ie )
+		if ( env.ie ) {
 			env.cssClass += ' cke_browser_ie' + ( env.quirks ? '6 cke_browser_iequirks' : env.version );
+		}
 
-		if ( env.air )
+		if ( env.air ) {
 			env.cssClass += ' cke_browser_air';
+		}
 
-		if ( env.iOS )
+		if ( env.iOS ) {
 			env.cssClass += ' cke_browser_ios';
+		}
 
-		if ( env.hidpi )
+		if ( env.hidpi ) {
 			env.cssClass += ' cke_hidpi';
+		}
 
 		return env;
 	} )();

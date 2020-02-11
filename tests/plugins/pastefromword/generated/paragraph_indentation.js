@@ -32,7 +32,7 @@
 			'Word2016'
 		],
 		tests: {
-			'Paragraph_indentation': true
+			Paragraph_indentation: true
 		},
 
 		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile

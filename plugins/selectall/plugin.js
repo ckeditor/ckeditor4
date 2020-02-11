@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -33,9 +33,9 @@
 
 						textarea.focus();
 					} else {
-						if ( editable.is( 'body' ) )
+						if ( editable.is( 'body' ) ) {
 							editor.document.$.execCommand( 'SelectAll', false, null );
-						else {
+						} else {
 							var range = editor.createRange();
 							range.selectNodeContents( editable );
 							range.select();
@@ -45,7 +45,6 @@
 						editor.forceNextSelectionCheck();
 						editor.selectionChange();
 					}
-
 				},
 				canUndo: false
 			} );

@@ -38,7 +38,7 @@ var config = {
 	framework: 'mocha',
 
 	tests: {
-		'main': {
+		main: {
 			applications: [ 'ckeditor', 'codemirror', 'toolbartool' ],
 			basePath: 'tests/',
 			paths: [

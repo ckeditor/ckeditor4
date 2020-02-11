@@ -5,8 +5,9 @@ function testToolbarExpanded( bot ) {
 	var editor = bot.editor,
 		collapser = editor.ui.space( 'toolbar_collapser' );
 
-	if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+	if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 		return testInline( editor, collapser );
+	}
 
 	var toolbox = collapser.getPrevious();
 
@@ -53,8 +54,9 @@ bender.test( {
 				var editor = bot.editor,
 					collapser = editor.ui.space( 'toolbar_collapser' );
 
-				if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+				if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 					return testInline( editor, collapser );
+				}
 
 				var toolbox = collapser.getPrevious();
 
@@ -96,32 +98,32 @@ bender.test( {
 
 	'test toolbar collapse/expand fire resize event': function() {
 		bender.editorBot.create( {
-				name: 'editor4',
-				config: {
-					toolbarCanCollapse: true,
-					// Set the empty toolbar, so bazillions of buttons in the build mode will not
-					// break this test (the height comparison).
-					toolbar: [ [ 'Bold' ] ]
-				}
-			},
-			function( bot ) {
-				var resizeData = [],
-					editor = bot.editor;
-
-				editor.on( 'resize', function( e ) {
-					resizeData.push( e.data );
-				} );
-
-				editor.resize( 200, 400 );
-				assert.areEqual( 200, resizeData[ 0 ].outerWidth, 'Width should be set properly.' );
-				assert.areEqual( 400, resizeData[ 0 ].outerHeight, 'Height should be set properly.' );
-
-				editor.execCommand( 'toolbarCollapse' );
-				assert.isTrue( resizeData[ 1 ].outerHeight < resizeData[ 0 ].outerHeight, 'Height after collapse should be less.' );
-
-				editor.execCommand( 'toolbarCollapse' );
-				assert.areSame( resizeData[ 0 ].outerHeight, resizeData[ 2 ].outerHeight, 'Height should properly restore to same value.' );
+			name: 'editor4',
+			config: {
+				toolbarCanCollapse: true,
+				// Set the empty toolbar, so bazillions of buttons in the build mode will not
+				// break this test (the height comparison).
+				toolbar: [ [ 'Bold' ] ]
 			}
+		},
+		function( bot ) {
+			var resizeData = [],
+				editor = bot.editor;
+
+			editor.on( 'resize', function( e ) {
+				resizeData.push( e.data );
+			} );
+
+			editor.resize( 200, 400 );
+			assert.areEqual( 200, resizeData[ 0 ].outerWidth, 'Width should be set properly.' );
+			assert.areEqual( 400, resizeData[ 0 ].outerHeight, 'Height should be set properly.' );
+
+			editor.execCommand( 'toolbarCollapse' );
+			assert.isTrue( resizeData[ 1 ].outerHeight < resizeData[ 0 ].outerHeight, 'Height after collapse should be less.' );
+
+			editor.execCommand( 'toolbarCollapse' );
+			assert.areSame( resizeData[ 0 ].outerHeight, resizeData[ 2 ].outerHeight, 'Height should properly restore to same value.' );
+		}
 		);
 	}
 } );

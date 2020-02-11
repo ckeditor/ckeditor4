@@ -31,8 +31,9 @@
 	 * @param {CKEDITOR.dom.range} range
 	 */
 	function iterator( range ) {
-		if ( arguments.length < 1 )
+		if ( arguments.length < 1 ) {
 			return;
+		}
 
 		/**
 		 * @readonly
@@ -140,12 +141,14 @@
 			}
 
 			// Block-less range should be checked first.
-			if ( !this.range.root.getDtd()[ blockTag ] )
+			if ( !this.range.root.getDtd()[ blockTag ] ) {
 				return null;
+			}
 
 			// This is the first iteration. Let's initialize it.
-			if ( !this._.started )
+			if ( !this._.started ) {
 				range = startIterator.call( this );
+			}
 
 			var currentNode = this._.nextNode,
 				lastNode = this._.lastNode;
@@ -180,9 +183,9 @@
 					} else if ( currentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br: 1 } ) ) {
 						// <br> boundaries must be part of the range. It will
 						// happen only if ForceBrBreak.
-						if ( nodeName == 'br' )
+						if ( nodeName == 'br' ) {
 							includeNode = 1;
-						else if ( !range && !currentNode.getChildCount() && nodeName != 'hr' ) {
+						} else if ( !range && !currentNode.getChildCount() && nodeName != 'hr' ) {
 							// If we have found an empty block, and haven't started
 							// the range yet, it means we must return this block.
 							block = currentNode;
@@ -220,8 +223,9 @@
 				} else if ( currentNode.type == CKEDITOR.NODE_TEXT ) {
 					// Ignore normal whitespaces (i.e. not including &nbsp; or
 					// other unicode whitespaces) before/after a block node.
-					if ( beginWhitespaceRegex.test( currentNode.getText() ) )
+					if ( beginWhitespaceRegex.test( currentNode.getText() ) ) {
 						includeNode = 0;
+					}
 				}
 
 				// The current node is good to be part of the range and we are
@@ -257,16 +261,18 @@
 				}
 
 				// Now finally include the node.
-				if ( includeNode )
+				if ( includeNode ) {
 					range.setEndAt( currentNode, CKEDITOR.POSITION_AFTER_END );
+				}
 
 				currentNode = this._getNextSourceNode( currentNode, continueFromSibling, lastNode );
 				isLast = !currentNode;
 
 				// We have found a block boundary. Let's close the range and move out of the
 				// loop.
-				if ( isLast || ( closeRange && range ) )
+				if ( isLast || ( closeRange && range ) ) {
 					break;
+				}
 			}
 
 			// Now, based on the processed range, look for (or create) the block to be returned.
@@ -326,17 +332,18 @@
 					// the current range, which could be an <li> child (nested
 					// lists) or the next sibling <li>.
 
-					this._.nextNode = ( block.equals( lastNode ) ? null : this._getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode  ) );
+					this._.nextNode = ( block.equals( lastNode ) ? null : this._getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode ) );
 				}
 			}
 
 			if ( removePreviousBr ) {
 				var previousSibling = block.getPrevious();
 				if ( previousSibling && previousSibling.type == CKEDITOR.NODE_ELEMENT ) {
-					if ( previousSibling.getName() == 'br' )
+					if ( previousSibling.getName() == 'br' ) {
 						previousSibling.remove();
-					else if ( previousSibling.getLast() && previousSibling.getLast().$.nodeName.toLowerCase() == 'br' )
+					} else if ( previousSibling.getLast() && previousSibling.getLast().$.nodeName.toLowerCase() == 'br' ) {
 						previousSibling.getLast().remove();
+					}
 				}
 			}
 
@@ -344,8 +351,9 @@
 				var lastChild = block.getLast();
 				if ( lastChild && lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.getName() == 'br' ) {
 					// Remove br filler on browser which do not need it.
-					if ( !CKEDITOR.env.needsBrFiller || lastChild.getPrevious( bookmarkGuard ) || lastChild.getNext( bookmarkGuard ) )
+					if ( !CKEDITOR.env.needsBrFiller || lastChild.getPrevious( bookmarkGuard ) || lastChild.getNext( bookmarkGuard ) ) {
 						lastChild.remove();
+					}
 				}
 			}
 
@@ -414,10 +422,12 @@
 		// Shrink the range to exclude harmful "noises" (https://dev.ckeditor.com/ticket/4087, https://dev.ckeditor.com/ticket/4450, https://dev.ckeditor.com/ticket/5435).
 		range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
 
-		if ( startAtInnerBoundary )
+		if ( startAtInnerBoundary ) {
 			range.setStartAt( startPath.block, CKEDITOR.POSITION_BEFORE_END );
-		if ( endAtInnerBoundary )
+		}
+		if ( endAtInnerBoundary ) {
 			range.setEndAt( endPath.block, CKEDITOR.POSITION_AFTER_START );
+		}
 
 		touchPre = range.endContainer.hasAscendant( 'pre', true ) || range.startContainer.hasAscendant( 'pre', true );
 
@@ -468,14 +478,16 @@
 	// @param {CKEDITOR.dom.element} editablesContainer
 	// @param {CKEDITOR.dom.element[]} [remainingEditables]
 	function getNestedEditableIn( editablesContainer, remainingEditables ) {
-		if ( remainingEditables == null )
+		if ( remainingEditables == null ) {
 			remainingEditables = findNestedEditables( editablesContainer );
+		}
 
 		var editable;
 
 		while ( ( editable = remainingEditables.shift() ) ) {
-			if ( isIterableEditable( editable ) )
+			if ( isIterableEditable( editable ) ) {
 				return { element: editable, remaining: remainingEditables };
+			}
 		}
 
 		return null;
@@ -507,15 +519,17 @@
 	function startNestedEditableIterator( parentIterator, blockTag, editablesContainer, remainingEditables ) {
 		var editable = getNestedEditableIn( editablesContainer, remainingEditables );
 
-		if ( !editable )
+		if ( !editable ) {
 			return 0;
+		}
 
 		var filter = CKEDITOR.filter.instances[ editable.element.data( 'cke-filter' ) ];
 
 		// If current editable has a filter and this filter does not allow for block tag,
 		// search for next nested editable in remaining ones.
-		if ( filter && !filter.check( blockTag ) )
+		if ( filter && !filter.check( blockTag ) ) {
 			return startNestedEditableIterator( parentIterator, blockTag, editablesContainer, editable.remaining );
+		}
 
 		var range = new CKEDITOR.dom.range( editable.element );
 		range.selectNodeContents( editable.element );
@@ -545,8 +559,9 @@
 	// Checks whether range starts or ends at inner block boundary.
 	// See usage comments to learn more.
 	function rangeAtInnerBlockBoundary( range, block, checkEnd ) {
-		if ( !block )
+		if ( !block ) {
 			return false;
+		}
 
 		var testRange = range.clone();
 		testRange.collapse( !checkEnd );

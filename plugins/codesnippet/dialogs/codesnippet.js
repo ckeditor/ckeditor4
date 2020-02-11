@@ -15,8 +15,9 @@
 
 		langSelectItems.push( [ editor.lang.common.notSet, '' ] );
 
-		for ( snippetLangId in snippetLangs )
+		for ( snippetLangId in snippetLangs ) {
 			langSelectItems.push( [ snippetLangs[ snippetLangId ], snippetLangId ] );
+		}
 
 		// Size adjustments.
 		var size = CKEDITOR.document.getWindow().getViewPaneSize(),
@@ -44,13 +45,15 @@
 							label: lang.language,
 							items: langSelectItems,
 							setup: function( widget ) {
-								if ( widget.ready && widget.data.lang )
+								if ( widget.ready && widget.data.lang ) {
 									this.setValue( widget.data.lang );
+								}
 
 								// The only way to have an empty select value in Firefox is
 								// to set a negative selectedIndex.
-								if ( CKEDITOR.env.gecko && ( !widget.data.lang || !widget.ready ) )
+								if ( CKEDITOR.env.gecko && ( !widget.data.lang || !widget.ready ) ) {
 									this.getInputElement().$.selectedIndex = -1;
+								}
 							},
 							commit: function( widget ) {
 								widget.setData( 'lang', this.getValue() );
@@ -73,11 +76,11 @@
 								'height:' + height + 'px;' +
 								'tab-size:4;' +
 								'text-align:left;',
-							'class': 'cke_source'
+							class: 'cke_source'
 						}
 					]
 				}
 			]
 		};
 	} );
-}() );
+} )() ;

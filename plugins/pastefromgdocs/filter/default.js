@@ -38,24 +38,24 @@
 				},
 
 				attributes: {
-					'id': function( value ) {
+					id: function( value ) {
 						var gDocsIdRegex = /^docs\-internal\-guid\-/;
 
 						return !gDocsIdRegex.test( value );
 					},
-					'dir': function( value ) {
+					dir: function( value ) {
 						return value === 'ltr' ? false : value;
 					},
-					'style': function( styles, element ) {
+					style: function( styles, element ) {
 						return falseIfEmpty( Style.normalizedStyles( element, editor ) );
 					},
-					'class': function( classes ) {
+					class: function( classes ) {
 						return falseIfEmpty( classes.replace( /kix-line-break/ig, '' ) );
 					}
 				},
 
 				elements: {
-					'div': function( element ) {
+					div: function( element ) {
 						if ( isTableWrapper( element ) ) {
 							// Align attribute does not seem to change anything
 							// and as we translate it to float, it safer to remove it (#3435).
@@ -65,20 +65,20 @@
 
 					colgroup: handleColGroup,
 
-					'span': function( element ) {
+					span: function( element ) {
 						Style.createStyleStack( element, filter, editor, /vertical-align|white-space|font-variant/ );
 
 						handleSuperAndSubScripts( element );
 					},
 
-					'b': function( element ) {
+					b: function( element ) {
 						// Google docs sometimes uses `b` as a wrapper without semantic value.
 						commonFilter.elements.replaceWithChildren( element );
 
 						return false;
 					},
 
-					'p': function( element ) {
+					p: function( element ) {
 						if ( element.parent && element.parent.name === 'li' ) {
 							commonFilter.elements.replaceWithChildren( element );
 
@@ -86,19 +86,19 @@
 						}
 					},
 
-					'ul': function( element ) {
+					ul: function( element ) {
 						Style.pushStylesLower( element );
 
 						return fixList( element );
 					},
 
-					'ol': function( element ) {
+					ol: function( element ) {
 						Style.pushStylesLower( element );
 
 						return fixList( element );
 					},
 
-					'li': function( element ) {
+					li: function( element ) {
 						Style.pushStylesLower( element );
 
 						return unwrapList( element );

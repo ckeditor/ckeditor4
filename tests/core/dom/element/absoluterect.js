@@ -1,7 +1,6 @@
 /* bender-tags: editor,dom */
 
 ( function() {
-
 	bender.editor = true;
 
 	bender.test( {
@@ -50,8 +49,8 @@
 		// (#1724)
 		'test nested iframe (2lvls) element has correct absolute rect': function() {
 			var el = CKEDITOR.document.getById( 'deepnested' )
-				.getFrameDocument().getById( 'frame' )
-				.getFrameDocument().getById( 'rect' ),
+					.getFrameDocument().getById( 'frame' )
+					.getFrameDocument().getById( 'rect' ),
 				absoluteRect = el.getClientRect( true );
 
 			assert.isNumberInRange( absoluteRect.top, 24, 26, 'top' );
@@ -63,5 +62,4 @@
 			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.y, 24, 26, 'y' );
 		}
 	} );
-
 } )();

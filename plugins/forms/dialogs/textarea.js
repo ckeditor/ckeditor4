@@ -34,8 +34,9 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 
 			this.commitContent( element );
 
-			if ( isInsertMode )
+			if ( isInsertMode ) {
 				editor.insertElement( element );
+			}
 		},
 		contents: [ {
 			id: 'info',
@@ -45,15 +46,15 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 				id: '_cke_saved_name',
 				type: 'text',
 				label: editor.lang.common.name,
-				'default': '',
+				default: '',
 				accessKey: 'N',
 				setup: function( element ) {
 					this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.data( 'cke-saved-name', this.getValue() );
-					else {
+					} else {
 						element.data( 'cke-saved-name', false );
 						element.removeAttribute( 'name' );
 					}
@@ -66,7 +67,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 					id: 'cols',
 					type: 'text',
 					label: editor.lang.forms.textarea.cols,
-					'default': '',
+					default: '',
 					accessKey: 'C',
 					style: 'width:50px',
 					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
@@ -75,17 +76,18 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 						this.setValue( value || '' );
 					},
 					commit: function( element ) {
-						if ( this.getValue() )
+						if ( this.getValue() ) {
 							element.setAttribute( 'cols', this.getValue() );
-						else
+						} else {
 							element.removeAttribute( 'cols' );
+						}
 					}
 				},
 				{
 					id: 'rows',
 					type: 'text',
 					label: editor.lang.forms.textarea.rows,
-					'default': '',
+					default: '',
 					accessKey: 'R',
 					style: 'width:50px',
 					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
@@ -94,10 +96,11 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 						this.setValue( value || '' );
 					},
 					commit: function( element ) {
-						if ( this.getValue() )
+						if ( this.getValue() ) {
 							element.setAttribute( 'rows', this.getValue() );
-						else
+						} else {
 							element.removeAttribute( 'rows' );
+						}
 					}
 				} ]
 			},
@@ -105,7 +108,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 				id: 'value',
 				type: 'textarea',
 				label: editor.lang.forms.textfield.value,
-				'default': '',
+				default: '',
 				setup: function( element ) {
 					this.setValue( element.$.defaultValue );
 				},
@@ -113,19 +116,20 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 					element.$.value = element.$.defaultValue = this.getValue();
 				}
 			},
-				{
+			{
 				id: 'required',
 				type: 'checkbox',
 				label: editor.lang.forms.textfield.required,
-				'default': '',
+				default: '',
 				accessKey: 'Q',
 				value: 'required',
 				setup: CKEDITOR.plugins.forms._setupRequiredAttribute,
 				commit: function( element ) {
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.setAttribute( 'required', 'required' );
-					else
+					} else {
 						element.removeAttribute( 'required' );
+					}
 				}
 			} ]
 		} ]

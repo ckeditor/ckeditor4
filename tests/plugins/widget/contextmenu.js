@@ -168,9 +168,11 @@
 				editor.contextMenu.open( editor.editable() );
 
 				var itemsExist = 0;
-				for ( var i = 0; i < editor.contextMenu.items.length; ++i )
-					if ( editor.contextMenu.items[ i ].command == 'testData' )
+				for ( var i = 0; i < editor.contextMenu.items.length; ++i ) {
+					if ( editor.contextMenu.items[ i ].command == 'testData' ) {
 						itemsExist += 1;
+					}
+				}
 
 				editor.contextMenu.hide();
 

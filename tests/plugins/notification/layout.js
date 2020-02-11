@@ -77,8 +77,8 @@ function createLayoutTest( mockValues, expected ) {
 			on: function() {}
 		} );
 		sinon.stub( body, 'getDocumentPosition', function() {
-				return { x: 0, y: 0 };
-			} );
+			return { x: 0, y: 0 };
+		} );
 		sinon.stub( CKEDITOR.document, 'getBody' ).returns( body );
 
 		sinon.stub( area.element, 'getClientRect' ).returns( {
@@ -106,7 +106,7 @@ function createLayoutTest( mockValues, expected ) {
 }
 
 bender.test( {
-	'tearDown': function() {
+	tearDown: function() {
 		var editor = this.editor,
 			notifications = editor._.notificationArea.notifications;
 
@@ -124,58 +124,58 @@ bender.test( {
 	},
 
 	'test horizontal below toolbar': createLayoutTest( {
-			topRectBottom: 109,
-			contentsRectWidth: 960,
-			contentsRectHeight: 720.890625,
-			contentsRectLeft: 485,
-			contentsRectTop: -283.921875,
-			contentsRectBottom: 436.96875,
-			contentsPosX: 2000,
-			contentsPosY: 752.078125,
-			scrollPosX: 1515,
-			scrollPosY: 1036,
-			viewRectWidth: 1903
-		}, {
-			position: 'fixed',
-			top: '109px',
-			left: '804px'
-		} ),
+		topRectBottom: 109,
+		contentsRectWidth: 960,
+		contentsRectHeight: 720.890625,
+		contentsRectLeft: 485,
+		contentsRectTop: -283.921875,
+		contentsRectBottom: 436.96875,
+		contentsPosX: 2000,
+		contentsPosY: 752.078125,
+		scrollPosX: 1515,
+		scrollPosY: 1036,
+		viewRectWidth: 1903
+	}, {
+		position: 'fixed',
+		top: '109px',
+		left: '804px'
+	} ),
 
 	'test horizontal top fixed': createLayoutTest( {
-			topRectBottom: -66,
-			contentsRectWidth: 958,
-			contentsRectHeight: 200,
-			contentsRectLeft: 359,
-			contentsRectTop: -66,
-			contentsRectBottom: 134,
-			contentsPosX: 2001,
-			contentsPosY: 861,
-			scrollPosX: 1642,
-			scrollPosY: 927,
-			viewRectWidth: 1903
-		}, {
-			position: 'fixed',
-			top: '0px',
-			left: '677px'
-		} ),
+		topRectBottom: -66,
+		contentsRectWidth: 958,
+		contentsRectHeight: 200,
+		contentsRectLeft: 359,
+		contentsRectTop: -66,
+		contentsRectBottom: 134,
+		contentsPosX: 2001,
+		contentsPosY: 861,
+		scrollPosX: 1642,
+		scrollPosY: 927,
+		viewRectWidth: 1903
+	}, {
+		position: 'fixed',
+		top: '0px',
+		left: '677px'
+	} ),
 
 	'test horizontal top': createLayoutTest( {
-			topRectBottom: 0,
-			contentsRectWidth: 960,
-			contentsRectHeight: 720,
-			contentsRectLeft: 485,
-			contentsRectTop: 16,
-			contentsRectBottom: 736,
-			contentsPosX: 2000,
-			contentsPosY: 752,
-			scrollPosX: 1515,
-			scrollPosY: 736,
-			viewRectWidth: 1903
-		}, {
-			position: 'absolute',
-			top: '752px',
-			left: '2319px'
-		} ),
+		topRectBottom: 0,
+		contentsRectWidth: 960,
+		contentsRectHeight: 720,
+		contentsRectLeft: 485,
+		contentsRectTop: 16,
+		contentsRectBottom: 736,
+		contentsPosX: 2000,
+		contentsPosY: 752,
+		scrollPosX: 1515,
+		scrollPosY: 736,
+		viewRectWidth: 1903
+	}, {
+		position: 'absolute',
+		top: '752px',
+		left: '2319px'
+	} ),
 
 	'test horizontal bottom': createLayoutTest( {
 		topRectBottom: -166,

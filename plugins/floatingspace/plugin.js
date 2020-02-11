@@ -69,8 +69,9 @@
 
 				return function( evt ) {
 					// https://dev.ckeditor.com/ticket/10112 Do not fail on editable-less editor.
-					if ( !( editable = editor.editable() ) )
+					if ( !( editable = editor.editable() ) ) {
 						return;
+					}
 
 					var show = ( evt && evt.name == 'focus' );
 
@@ -115,8 +116,9 @@
 					// |   +------------------ Editor -+   |
 					// |   |                           |   |
 					//
-					if ( spaceHeight + dockedOffsetY <= editorRect.top )
+					if ( spaceHeight + dockedOffsetY <= editorRect.top ) {
 						changeMode( 'top' );
+					}
 
 					//     +- - - - - - - - -  Editor -+
 					//     |                           |
@@ -130,8 +132,9 @@
 					// |   +---------------------------+   |
 					// +-----------------------------------+
 					//
-					else if ( spaceHeight + dockedOffsetY > viewRect.height - editorRect.bottom )
+					else if ( spaceHeight + dockedOffsetY > viewRect.height - editorRect.bottom ) {
 						changeMode( 'pin' );
+					}
 
 					//     +- - - - - - - - -  Editor -+
 					//     |                           |
@@ -145,8 +148,9 @@
 					// |   |              |                |
 					// |   +--------------+                |
 					//
-					else
+					else {
 						changeMode( 'bottom' );
+					}
 
 					var mid = viewRect.width / 2,
 						alignSide, offset;
@@ -165,8 +169,7 @@
 					if ( spaceRect.width > viewRect.width ) {
 						alignSide = 'left';
 						offset = 0;
-					}
-					else {
+					} else {
 						if ( alignSide == 'left' ) {
 							// If the space rect fits into viewport, align it
 							// to the left edge of editor:
@@ -179,8 +182,9 @@
 							// |   +------------------ Editor -+   |
 							// |   |                           |   |
 							//
-							if ( editorRect.left > 0 )
+							if ( editorRect.left > 0 ) {
 								offset = editorRect.left;
+							}
 
 							// If the left part of the editor is cut off by the left
 							// edge of the viewport, stick the space to the viewport:
@@ -193,10 +197,10 @@
 							//  +----|------------- Editor -+            |
 							//  |    |                      |            |
 							//
-							else
+							else {
 								offset = 0;
-						}
-						else {
+							}
+						} else {
 							// If the space rect fits into viewport, align it
 							// to the right edge of editor:
 							//
@@ -208,8 +212,9 @@
 							// |   +------------------ Editor -+   |
 							// |   |                           |   |
 							//
-							if ( editorRect.right < viewRect.width )
+							if ( editorRect.right < viewRect.width ) {
 								offset = viewRect.width - editorRect.right;
+							}
 
 							// If the right part of the editor is cut off by the right
 							// edge of the viewport, stick the space to the viewport:
@@ -222,8 +227,9 @@
 							// |                 +-----------------|- Editor -+
 							// |                 |                 |          |
 							//
-							else
+							else {
 								offset = 0;
+							}
 						}
 
 						// (https://dev.ckeditor.com/ticket/9769) Finally, stick the space to the opposite side of
@@ -267,7 +273,7 @@
 
 		if ( topHtml ) {
 			var floatSpaceTpl = new CKEDITOR.template(
-				'<div' +
+					'<div' +
 					' id="cke_{name}"' +
 					' class="cke {id} cke_reset_all cke_chrome cke_editor_{name} cke_float cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
 					' dir="{langDir}"' +
@@ -303,8 +309,9 @@
 			// Prevent clicking on non-buttons area of the space from blurring editor.
 			floatSpace.on( 'mousedown', function( evt ) {
 				evt = evt.data;
-				if ( !evt.getTarget().hasAscendant( 'a', 1 ) )
+				if ( !evt.getTarget().hasAscendant( 'a', 1 ) ) {
 					evt.preventDefault();
+				}
 			} );
 
 			editor.on( 'focus', function( evt ) {
@@ -329,8 +336,9 @@
 			} );
 
 			// Handle initial focus.
-			if ( editor.focusManager.hasFocus )
+			if ( editor.focusManager.hasFocus ) {
 				floatSpace.show();
+			}
 
 			// Register this UI space to the focus manager.
 			editor.focusManager.add( floatSpace, 1 );

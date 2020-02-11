@@ -17,7 +17,7 @@
 		'test dialog': function() {
 			var initialEditorHtml = 'This is sample text [[language]], having around [[count_of]] placeholders.',
 				dialogAssertConfig = {
-					'name': 'language'
+					name: 'language'
 				};
 
 			assertWidgetDialog( this.editorBot, 'placeholder', initialEditorHtml, 0, dialogAssertConfig );
@@ -27,7 +27,7 @@
 		'test multiple items dialog value': function() {
 			var initialEditorHtml = 'This is sample text [[language]], [[yet]] having around [[count_of]] placeholders [[foo]] bar.',
 				dialogAssertConfig = {
-					'name': 'count_of'
+					name: 'count_of'
 				};
 
 			assertWidgetDialog( this.editorBot, 'placeholder', initialEditorHtml, 2, dialogAssertConfig );
@@ -38,7 +38,7 @@
 			// When no widget is focuse (adding mode) dialog name should be empty.
 			var initialEditorHtml = 'foo [[bar]] baz.',
 				dialogAssertConfig = {
-					'name': ''
+					name: ''
 				};
 
 			assertWidgetDialog( this.editorBot, 'placeholder', initialEditorHtml, null, dialogAssertConfig );

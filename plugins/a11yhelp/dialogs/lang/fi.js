@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fi', {
 	contents: 'Ohjeen sisällöt. Sulkeaksesi tämän dialogin paina ESC.',
 	legend: [
 		{
-		name: 'Yleinen',
-		items: [
-			{
-			name: 'Editorin työkalupalkki',
-			legend: 'Paina ${toolbarFocus} siirtyäksesi työkalupalkkiin. Siirry seuraavaan ja edelliseen työkalupalkin ryhmään TAB ja SHIFT+TAB näppäimillä. Siirry seuraavaan ja edelliseen työkalupainikkeeseen käyttämällä NUOLI OIKEALLE tai NUOLI VASEMMALLE näppäimillä. Paina VÄLILYÖNTI tai ENTER näppäintä aktivoidaksesi työkalupainikkeen.'
-		},
+			name: 'Yleinen',
+			items: [
+				{
+					name: 'Editorin työkalupalkki',
+					legend: 'Paina ${toolbarFocus} siirtyäksesi työkalupalkkiin. Siirry seuraavaan ja edelliseen työkalupalkin ryhmään TAB ja SHIFT+TAB näppäimillä. Siirry seuraavaan ja edelliseen työkalupainikkeeseen käyttämällä NUOLI OIKEALLE tai NUOLI VASEMMALLE näppäimillä. Paina VÄLILYÖNTI tai ENTER näppäintä aktivoidaksesi työkalupainikkeen.'
+				},
 
-			{
-			name: 'Editorin dialogi',
-			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
-		},
+				{
+					name: 'Editorin dialogi',
+					legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.' // MISSING
+				},
 
-			{
-			name: 'Editorin oheisvalikko',
-			legend: 'Paina ${contextMenu} tai SOVELLUSPAINIKETTA avataksesi oheisvalikon. Liiku seuraavaan valikon vaihtoehtoon TAB tai NUOLI ALAS näppäimillä. Siirry edelliseen vaihtoehtoon SHIFT+TAB tai NUOLI YLÖS näppäimillä. Paina VÄLILYÖNTI tai ENTER valitaksesi valikon kohdan. Avataksesi nykyisen kohdan alivalikon paina VÄLILYÖNTI tai ENTER tai NUOLI OIKEALLE painiketta. Siirtyäksesi takaisin valikon ylemmälle tasolle paina ESC tai NUOLI vasemmalle. Oheisvalikko suljetaan ESC painikkeella.'
-		},
+				{
+					name: 'Editorin oheisvalikko',
+					legend: 'Paina ${contextMenu} tai SOVELLUSPAINIKETTA avataksesi oheisvalikon. Liiku seuraavaan valikon vaihtoehtoon TAB tai NUOLI ALAS näppäimillä. Siirry edelliseen vaihtoehtoon SHIFT+TAB tai NUOLI YLÖS näppäimillä. Paina VÄLILYÖNTI tai ENTER valitaksesi valikon kohdan. Avataksesi nykyisen kohdan alivalikon paina VÄLILYÖNTI tai ENTER tai NUOLI OIKEALLE painiketta. Siirtyäksesi takaisin valikon ylemmälle tasolle paina ESC tai NUOLI vasemmalle. Oheisvalikko suljetaan ESC painikkeella.'
+				},
 
-			{
-			name: 'Editorin listalaatikko',
-			legend: 'Listalaatikon sisällä siirry seuraavaan listan kohtaan TAB tai NUOLI ALAS painikkeilla. Siirry edelliseen listan kohtaan SHIFT+TAB tai NUOLI YLÖS painikkeilla. Paina VÄLILYÖNTI tai ENTER valitaksesi listan vaihtoehdon. Paina ESC sulkeaksesi listalaatikon.'
-		},
+				{
+					name: 'Editorin listalaatikko',
+					legend: 'Listalaatikon sisällä siirry seuraavaan listan kohtaan TAB tai NUOLI ALAS painikkeilla. Siirry edelliseen listan kohtaan SHIFT+TAB tai NUOLI YLÖS painikkeilla. Paina VÄLILYÖNTI tai ENTER valitaksesi listan vaihtoehdon. Paina ESC sulkeaksesi listalaatikon.'
+				},
 
-			{
-			name: 'Editorin elementtipolun palkki',
-			legend: 'Paina ${elementsPathFocus} siirtyäksesi elementtipolun palkkiin. Siirry seuraavaan elementtipainikkeeseen TAB tai NUOLI OIKEALLE painikkeilla. Siirry aiempaan painikkeeseen SHIFT+TAB tai NUOLI VASEMMALLE painikkeilla. Paina VÄLILYÖNTI tai ENTER valitaksesi elementin editorissa.'
-		}
-		]
-	},
+				{
+					name: 'Editorin elementtipolun palkki',
+					legend: 'Paina ${elementsPathFocus} siirtyäksesi elementtipolun palkkiin. Siirry seuraavaan elementtipainikkeeseen TAB tai NUOLI OIKEALLE painikkeilla. Siirry aiempaan painikkeeseen SHIFT+TAB tai NUOLI VASEMMALLE painikkeilla. Paina VÄLILYÖNTI tai ENTER valitaksesi elementin editorissa.'
+				}
+			]
+		},
 		{
-		name: 'Komennot',
-		items: [
-			{
-			name: 'Peruuta komento',
-			legend: 'Paina ${undo}'
-		},
-			{
-			name: 'Tee uudelleen komento',
-			legend: 'Paina ${redo}'
-		},
-			{
-			name: 'Lihavoi komento',
-			legend: 'Paina ${bold}'
-		},
-			{
-			name: 'Kursivoi komento',
-			legend: 'Paina ${italic}'
-		},
-			{
-			name: 'Alleviivaa komento',
-			legend: 'Paina ${underline}'
-		},
-			{
-			name: 'Linkki komento',
-			legend: 'Paina ${link}'
-		},
-			{
-			name: 'Pienennä työkalupalkki komento',
-			legend: 'Paina ${toolbarCollapse}'
-		},
-			{
-			name: 'Siirry aiempaan fokustilaan komento',
-			legend: 'Paina ${accessPreviousSpace} siiryäksesi lähimpään kursorin edellä olevaan saavuttamattomaan fokustilaan, esimerkiksi: kaksi vierekkäistä HR elementtiä. Toista näppäinyhdistelmää päästäksesi kauempana oleviin fokustiloihin.'
-		},
-			{
-			name: 'Siirry seuraavaan fokustilaan komento',
-			legend: 'Paina ${accessPreviousSpace} siiryäksesi lähimpään kursorin jälkeen olevaan saavuttamattomaan fokustilaan, esimerkiksi: kaksi vierekkäistä HR elementtiä. Toista näppäinyhdistelmää päästäksesi kauempana oleviin fokustiloihin.'
-		},
-			{
-			name: 'Saavutettavuus ohjeet',
-			legend: 'Paina ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Komennot',
+			items: [
+				{
+					name: 'Peruuta komento',
+					legend: 'Paina ${undo}'
+				},
+				{
+					name: 'Tee uudelleen komento',
+					legend: 'Paina ${redo}'
+				},
+				{
+					name: 'Lihavoi komento',
+					legend: 'Paina ${bold}'
+				},
+				{
+					name: 'Kursivoi komento',
+					legend: 'Paina ${italic}'
+				},
+				{
+					name: 'Alleviivaa komento',
+					legend: 'Paina ${underline}'
+				},
+				{
+					name: 'Linkki komento',
+					legend: 'Paina ${link}'
+				},
+				{
+					name: 'Pienennä työkalupalkki komento',
+					legend: 'Paina ${toolbarCollapse}'
+				},
+				{
+					name: 'Siirry aiempaan fokustilaan komento',
+					legend: 'Paina ${accessPreviousSpace} siiryäksesi lähimpään kursorin edellä olevaan saavuttamattomaan fokustilaan, esimerkiksi: kaksi vierekkäistä HR elementtiä. Toista näppäinyhdistelmää päästäksesi kauempana oleviin fokustiloihin.'
+				},
+				{
+					name: 'Siirry seuraavaan fokustilaan komento',
+					legend: 'Paina ${accessPreviousSpace} siiryäksesi lähimpään kursorin jälkeen olevaan saavuttamattomaan fokustilaan, esimerkiksi: kaksi vierekkäistä HR elementtiä. Toista näppäinyhdistelmää päästäksesi kauempana oleviin fokustiloihin.'
+				},
+				{
+					name: 'Saavutettavuus ohjeet',
+					legend: 'Paina ${a11yHelp}'
+				},
+				{
+					name: ' Paste as plain text', // MISSING
+					legend: 'Press ${pastetext}', // MISSING
+					legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tab', // MISSING
 	pause: 'Pause', // MISSING

@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'cy', {
-	'move': 'Clcio a llusgo i symud',
-	'label': '%1 widget' // MISSING
+	move: 'Clcio a llusgo i symud',
+	label: '%1 widget' // MISSING
 } );

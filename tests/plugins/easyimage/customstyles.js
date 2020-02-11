@@ -1,4 +1,4 @@
-﻿/* bender-tags: editor,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
 /* bender-include: ../widget/_helpers/tools.js, _helpers/tools.js */
 /* global easyImageTools */
@@ -11,14 +11,14 @@
 		easyimage_styles: {
 			test: {
 				attributes: {
-					'class': 'test'
+					class: 'test'
 				}
 			},
 
 			divTest: {
 				element: 'div',
 				attributes: {
-					'class': 'test'
+					class: 'test'
 				}
 			}
 		}
@@ -187,7 +187,7 @@
 				easyimage_styles: {
 					alignLeft: {
 						attributes: {
-							'class': 'customClass'
+							class: 'customClass'
 						}
 					}
 				}

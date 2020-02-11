@@ -71,7 +71,6 @@
 					on: {
 						instanceReady: function( evt ) {
 							resume( function() {
-
 								log.restore();
 
 								// plugin 3 reqed by plugin 1 and plugins 4 & 3 reqed by plugin 2.
@@ -99,8 +98,8 @@
 		'test detect plugins conflict - with conflicting plugins': function() {
 			var editor = {
 					plugins: {
-						'plugin1': 1,
-						'plugin2': 2
+						plugin1: 1,
+						plugin2: 2
 					}
 				},
 				spy = sinon.spy( CKEDITOR, 'warn' ),
@@ -174,4 +173,4 @@
 			wait();
 		};
 	}
-}() );
+} )() ;

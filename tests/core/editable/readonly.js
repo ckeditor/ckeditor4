@@ -57,7 +57,7 @@
 	}
 
 	bender.test( {
-		'init': function() {
+		init: function() {
 			var name;
 
 			for ( name in bender.editors ) {

@@ -96,4 +96,4 @@
 			testGettingWordOffset( this.editor, '<ol><li><span style="text-decoration: underline;">Te{}st</span><ol><li><b>dog</b></li></ol>', 'Test' );
 		}
 	} );
-}() );
+} )() ;

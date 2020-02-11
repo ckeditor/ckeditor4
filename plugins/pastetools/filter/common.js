@@ -39,13 +39,13 @@
 					normalizeAttributesName( element );
 				},
 
-				'span': function( element ) {
+				span: function( element ) {
 					if ( element.hasClass( 'Apple-converted-space' ) ) {
 						return new CKEDITOR.htmlParser.text( ' ' );
 					}
 				},
 
-				'table': function( element ) {
+				table: function( element ) {
 					element.filterChildren( filter );
 
 					var parent = element.parent,
@@ -56,7 +56,6 @@
 					// In case parent div has only align attr, move it to the table element (https://dev.ckeditor.com/ticket/16811).
 					if ( parent.name && parent.name === 'div' && parent.attributes.align &&
 						tools.object.keys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
-
 						// If align is the only attribute of parent.
 						element.attributes.align = parent.attributes.align;
 
@@ -70,15 +69,14 @@
 					}
 
 					Style.convertStyleToPx( element );
-
 				},
 
-				'tr': function( element ) {
+				tr: function( element ) {
 					// Attribues are moved to 'td' elements.
 					element.attributes = {};
 				},
 
-				'td': function( element ) {
+				td: function( element ) {
 					var ascendant = element.getAscendant( 'table' ),
 						ascendantStyle = tools.parseCssText( ascendant.attributes.style, true );
 
@@ -122,8 +120,8 @@
 					// Unify border properties.
 					for ( var border in borders ) {
 						var borderStyle = styles[ border ] ?
-							CKEDITOR.tools.style.border.fromCssRule( styles[ border ] )
-							: borders[ border ];
+							CKEDITOR.tools.style.border.fromCssRule( styles[ border ] ) :
+							borders[ border ];
 
 						// No need for redundant shorthand properties if style is disabled.
 						if ( borderStyle.style === 'none' ) {
@@ -141,7 +139,7 @@
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
 				},
 
-				'font': function( element ) {
+				font: function( element ) {
 					if ( element.attributes.face && availableFonts ) {
 						element.attributes.face = replaceWithMatchingFont( element.attributes.face, availableFonts );
 					}
@@ -226,7 +224,6 @@
 		 * @member CKEDITOR.plugins.pastetools.filters.common.styles
 		 */
 		normalizedStyles: function( element, editor ) {
-
 			// Some styles and style values are redundant, so delete them.
 			var resetStyles = [
 					'background-color:transparent',
@@ -261,7 +258,6 @@
 			var styles = tools.parseCssText( element.attributes.style );
 
 			if ( element.name == 'cke:li' ) {
-
 				// IE8 tries to emulate list indentation with a combination of
 				// text-indent and left margin. Normalize this. Note that IE8 styles are uppercase.
 				if ( styles[ 'TEXT-INDENT' ] && styles.MARGIN ) {
@@ -440,7 +436,6 @@
 		 * @member CKEDITOR.plugins.pastetools.filters.common.styles
 		 */
 		pushStylesLower: function( element, exceptions, wrapText ) {
-
 			if ( !element.attributes.style ||
 				element.children.length === 0 ) {
 				return false;
@@ -452,9 +447,9 @@
 			// the entry name, e.g. 'border-' matches 'border-style', 'border-color' etc.
 			var retainedStyles = {
 				'list-style-type': true,
-				'width': true,
-				'height': true,
-				'border': true,
+				width: true,
+				height: true,
+				border: true,
 				'border-': true
 			};
 
@@ -462,7 +457,7 @@
 
 			for ( var style in styles ) {
 				if ( style.toLowerCase() in retainedStyles ||
-					retainedStyles [ style.toLowerCase().replace( /\-.*$/, '-' ) ] ||
+					retainedStyles[ style.toLowerCase().replace( /\-.*$/, '-' ) ] ||
 					style.toLowerCase() in exceptions ) {
 					continue;
 				}
@@ -618,7 +613,6 @@
 			 * @member CKEDITOR.plugins.pastetools.filters.common.styles.inliner
 			 */
 			sort: function( stylesArray ) {
-
 				// Returns comparison function which sorts all selectors in a way that class selectors are ordered
 				// before the rest of the selectors. The order of the selectors with the same specificity
 				// is reversed so that the most important will be applied first.
@@ -791,7 +785,6 @@
 			topmost = true;
 
 		for ( var attribute in attributes ) {
-
 			if ( topmost ) {
 				topmost = false;
 				continue;
@@ -827,25 +820,25 @@
 
 	function removeSuperfluousStyles( element ) {
 		var resetStyles = [
-				'background-color:transparent',
-				'background:transparent',
-				'background-color:none',
-				'background:none',
-				'background-position:initial initial',
-				'background-repeat:initial initial',
-				'caret-color',
-				'font-family:-webkit-standard',
-				'font-variant-caps',
-				'letter-spacing:normal',
-				'orphans',
-				'widows',
-				'text-transform:none',
-				'word-spacing:0px',
-				'-webkit-text-size-adjust:auto',
-				'-webkit-text-stroke-width:0px',
-				'text-indent:0px',
-				'margin-bottom:0in'
-			];
+			'background-color:transparent',
+			'background:transparent',
+			'background-color:none',
+			'background:none',
+			'background-position:initial initial',
+			'background-repeat:initial initial',
+			'caret-color',
+			'font-family:-webkit-standard',
+			'font-variant-caps',
+			'letter-spacing:normal',
+			'orphans',
+			'widows',
+			'text-transform:none',
+			'word-spacing:0px',
+			'-webkit-text-size-adjust:auto',
+			'-webkit-text-stroke-width:0px',
+			'text-indent:0px',
+			'margin-bottom:0in'
+		];
 
 		var styles = CKEDITOR.tools.parseCssText( element.attributes.style ),
 			styleName,

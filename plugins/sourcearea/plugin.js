@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -17,8 +17,9 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			// Source mode in inline editors is only available through the "sourcedialog" plugin.
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				return;
+			}
 
 			var sourcearea = CKEDITOR.plugins.sourcearea;
 
@@ -94,8 +95,9 @@
 				// When we have proper holder size, show textarea again.
 				this.show();
 
-				if ( wasActive )
+				if ( wasActive ) {
 					this.focus();
+				}
 			}
 		}
 	} );
@@ -139,8 +141,9 @@ CKEDITOR.plugins.sourcearea = {
 			editorFocus: false,
 			readOnly: 1,
 			exec: function( editor ) {
-				if ( editor.mode == 'wysiwyg' )
+				if ( editor.mode == 'wysiwyg' ) {
 					editor.fire( 'saveSnapshot' );
+				}
 				editor.getCommand( 'source' ).setState( CKEDITOR.TRISTATE_DISABLED );
 				editor.setMode( editor.mode == 'source' ? 'wysiwyg' : 'source' );
 			},

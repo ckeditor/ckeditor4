@@ -25,7 +25,7 @@
 			200: 'https://foo/bar.jpg/w_200',
 			400: 'https://foo/bar.jpg/w_400',
 			600: 'https://foo/bar.jpg/w_600',
-			'default': 'https://foo/bar.jpg'
+			default: 'https://foo/bar.jpg'
 		} );
 
 		if ( req.url in respMapping ) {
@@ -81,14 +81,14 @@
 
 		'test the token is fetched from cloudServices_tokenUrl': function() {
 			var botDefinition = {
-					startupData: '<p>foo</p>',
-					name: 'incremental_token',
-					config: {
-						extraPlugins: 'cloudservices',
-						cloudServices_tokenUrl: '/incremental_token',
-						cloudServices_uploadUrl: UPLOAD_URL
-					}
-				};
+				startupData: '<p>foo</p>',
+				name: 'incremental_token',
+				config: {
+					extraPlugins: 'cloudservices',
+					cloudServices_tokenUrl: '/incremental_token',
+					cloudServices_uploadUrl: UPLOAD_URL
+				}
+			};
 
 			CKEDITOR.once( 'instanceCreated', function( evt ) {
 				// Lower the polling rate.

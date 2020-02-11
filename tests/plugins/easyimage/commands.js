@@ -140,7 +140,6 @@
 						toolbar = editor.balloonToolbars._contexts[ 0 ].toolbar;
 
 					toolbar._view.once( 'show', function() {
-
 						easyImageTools.assertCommandsState( editor, {
 							easyimageFull: CKEDITOR.TRISTATE_ON,
 							easyimageSide: CKEDITOR.TRISTATE_OFF,

@@ -34,8 +34,9 @@ CKEDITOR.dom.nodeList.prototype = {
 	 * @returns {CKEDITOR.dom.node}
 	 */
 	getItem: function( index ) {
-		if ( index < 0 || index >= this.$.length )
+		if ( index < 0 || index >= this.$.length ) {
 			return null;
+		}
 
 		var $node = this.$[ index ];
 		return $node ? new CKEDITOR.dom.node( $node ) : null;

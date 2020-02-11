@@ -22,8 +22,9 @@
 	// unique ids like wn-0-1 and wp-0 (x gets replaced) and separated from each other with <p>xxx</p>.
 	function generateWidgetsData( howMany ) {
 		var html = [];
-		for ( var i = 0; i < howMany; ++i )
+		for ( var i = 0; i < howMany; ++i ) {
 			html.push( widgetData.replace( /w([pn])-x/g, 'w$1-' + i ).replace( /p-x/g, 'p-' + i ) );
+		}
 
 		return html.join( '<p>xxx</p>' );
 	}
@@ -48,7 +49,7 @@
 	};
 
 	bender.test( {
-		'init': function() {
+		init: function() {
 			var editor, name;
 
 			for ( name in this.editors ) {
@@ -261,8 +262,9 @@
 				destroyed = [];
 
 			bot.setData( generateWidgetsData( 1 ), function() {
-				for ( var id in editor.widgets.instances )
+				for ( var id in editor.widgets.instances ) {
 					editor.widgets.instances[ id ].on( 'destroy', log );
+				}
 
 				bot.setData( '', function() {
 					assert.areSame( 'wn-0-0,wn-0-1,wp-0', destroyed.sort().join( ',' ), 'all widgets were destroyed' );
@@ -282,8 +284,9 @@
 			bot.setData( generateWidgetsData( 2 ), function() {
 				var w1 = getWidgetById( editor, 'wp-0' );
 
-				for ( var id in editor.widgets.instances )
+				for ( var id in editor.widgets.instances ) {
 					editor.widgets.instances[ id ].on( 'destroy', log );
+				}
 
 				w1.editables.ned.setData( '<p>foo</p>' );
 				assert.areSame( 'wn-0-0,wn-0-1', destroyed.sort().join( ',' ), 'all widgets were destroyed' );

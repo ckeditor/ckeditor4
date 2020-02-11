@@ -164,7 +164,7 @@
 							type: 'text',
 							id: 'value1',
 							label: 'Value1',
-							'default': 'testvalue1'
+							default: 'testvalue1'
 						}
 					]
 				}
@@ -523,8 +523,9 @@
 
 			var ids = [];
 
-			for ( var id in editor.widgets.instances )
+			for ( var id in editor.widgets.instances ) {
 				ids.push( id );
+			}
 
 			ids.sort();
 
@@ -583,13 +584,13 @@
 					assert.isMatching(
 						'<p>foo<span ' + widgetInitedWrapperAttributes + '>' +
 							'<em class="cke_widget_element" data-cke-widget-data="' +
-							data2Attr( { 'classes': null } ) +
+							data2Attr( { classes: null } ) +
 							'" data-cke-widget-keep-attr="1" data-widget="testinline" id="widget1">bar1</em>' +
 							widgetTestsTools.widgetDragHanlder +
 						'</span>boo(<br />)?</p>' +
 						'<div ' + widgetInitedWrapperAttributes + '>' +
 							'<div class="cke_widget_element" data-cke-widget-data="' +
-							data2Attr( { 'classes': null } ) + '" data-cke-widget-keep-attr="1" data-widget="testblock" id="widget2">bam</div>' +
+							data2Attr( { classes: null } ) + '" data-cke-widget-keep-attr="1" data-widget="testblock" id="widget2">bam</div>' +
 							widgetTestsTools.widgetDragHanlder +
 						'</div>',
 						fixHtml( editor.editable().getHtml() ),
@@ -610,7 +611,7 @@
 					assert.isMatching(
 						'<p>foo<span ' + widgetInitedWrapperAttributes + '>' +
 							'<em class="cke_widget_element" data-cke-widget-data="' +
-							data2Attr( { 'classes': null } ) + '" data-cke-widget-keep-attr="1" data-widget="testinline" id="widget1">bar1</em>' +
+							data2Attr( { classes: null } ) + '" data-cke-widget-keep-attr="1" data-widget="testinline" id="widget1">bar1</em>' +
 							widgetTestsTools.widgetDragHanlder +
 						'</span>boo(<br />)?</p>' +
 						'<div data-widget="testblock" id="widget2">bam</div>',
@@ -1624,13 +1625,13 @@
 		'test Widget.getNestedEditable': function() {
 			var node1 = CKEDITOR.dom.element.createFromHtml( [
 					'<div data-cke-widget-editable data-id="1">',
-						'<div>',
-							'<div data-cke-widget-editable data-id="2">',
-								'<div data-id="guard">',
-									'<p data-id="3"></p>',
-								'</div>',
-							'</div>',
-						'</div>',
+					'<div>',
+					'<div data-cke-widget-editable data-id="2">',
+					'<div data-id="guard">',
+					'<p data-id="3"></p>',
+					'</div>',
+					'</div>',
+					'</div>',
 					'</div>'
 				].join( '' ) ),
 				guard = node1.findOne( '[data-id="guard"]' ),

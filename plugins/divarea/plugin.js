@@ -15,8 +15,8 @@ CKEDITOR.plugins.add( 'divarea', {
 		// the mode defined by the wysiwygarea plugin.
 		editor.addMode( 'wysiwyg', function( callback ) {
 			var editingBlock = CKEDITOR.dom.element.createFromHtml(
-					'<div class="cke_wysiwyg_div cke_reset cke_enable_context_menu" hidefocus="true"></div>'
-				);
+				'<div class="cke_wysiwyg_div cke_reset cke_enable_context_menu" hidefocus="true"></div>'
+			);
 
 			var contentSpace = editor.ui.space( 'contents' );
 			contentSpace.append( editingBlock );

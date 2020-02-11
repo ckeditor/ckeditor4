@@ -33,8 +33,8 @@
 		'test emoji names cache': function() {
 			var bot = this.editorBot,
 				collision = CKEDITOR.tools.array.filter( bot.editor._.emoji.list, function( item ) {
-				return item.id === ':collision:';
-			} )[ 0 ];
+					return item.id === ':collision:';
+				} )[ 0 ];
 
 			assert.isUndefined( collision.name, 'Emoji name should be undefined.' );
 

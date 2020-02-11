@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -63,8 +63,9 @@
 
 			function recordCommand( event ) {
 				// If the command hasn't been marked to not support undo.
-				if ( undoManager.enabled && event.data.command.canUndo !== false )
+				if ( undoManager.enabled && event.data.command.canUndo !== false ) {
 					undoManager.save();
+				}
 			}
 
 			// We'll save snapshots before and after executing a command.
@@ -144,8 +145,9 @@
 			 * @param {CKEDITOR.editor} editor This editor instance.
 			 */
 			editor.on( 'updateSnapshot', function() {
-				if ( undoManager.currentImage )
+				if ( undoManager.currentImage ) {
 					undoManager.update();
+				}
 			} );
 
 			/**
@@ -284,8 +286,9 @@
 			strokesPerSnapshotExceeded =
 				( strokesPerSnapshotExceeded || strokesRecorded >= this.strokesLimit );
 
-			if ( !this.typing )
+			if ( !this.typing ) {
 				onTypingStart( this );
+			}
 
 			if ( strokesPerSnapshotExceeded ) {
 				// Reset the count of strokes, so it'll be later assigned to this.strokesRecorded.
@@ -369,31 +372,37 @@
 			var editor = this.editor;
 			// Do not change snapshots stack when locked, editor is not ready,
 			// editable is not ready or when editor is in mode difference than 'wysiwyg'.
-			if ( this.locked || editor.status != 'ready' || editor.mode != 'wysiwyg' )
+			if ( this.locked || editor.status != 'ready' || editor.mode != 'wysiwyg' ) {
 				return false;
+			}
 
 			var editable = editor.editable();
-			if ( !editable || editable.status != 'ready' )
+			if ( !editable || editable.status != 'ready' ) {
 				return false;
+			}
 
 			var snapshots = this.snapshots;
 
 			// Get a content image.
-			if ( !image )
+			if ( !image ) {
 				image = new Image( editor );
+			}
 
 			// Do nothing if it was not possible to retrieve an image.
-			if ( image.contents === false )
+			if ( image.contents === false ) {
 				return false;
+			}
 
 			// Check if this is a duplicate. In such case, do nothing.
 			if ( this.currentImage ) {
 				if ( image.equalsContent( this.currentImage ) ) {
-					if ( onContentOnly )
+					if ( onContentOnly ) {
 						return false;
+					}
 
-					if ( image.equalsSelection( this.currentImage ) )
+					if ( image.equalsSelection( this.currentImage ) ) {
 						return false;
+					}
 				} else if ( autoFireChange !== false ) {
 					editor.fire( 'change' );
 				}
@@ -403,16 +412,18 @@
 			snapshots.splice( this.index + 1, snapshots.length - this.index - 1 );
 
 			// If we have reached the limit, remove the oldest one.
-			if ( snapshots.length == this.limit )
+			if ( snapshots.length == this.limit ) {
 				snapshots.shift();
+			}
 
 			// Add the new image, updating the current index.
 			this.index = snapshots.push( image ) - 1;
 
 			this.currentImage = image;
 
-			if ( autoFireChange !== false )
+			if ( autoFireChange !== false ) {
 				this.refreshState();
+			}
 			return true;
 		},
 
@@ -439,9 +450,9 @@
 
 			this.editor.loadSnapshot( image.contents );
 
-			if ( image.bookmarks )
+			if ( image.bookmarks ) {
 				sel.selectBookmarks( image.bookmarks );
-			else if ( CKEDITOR.env.ie ) {
+			} else if ( CKEDITOR.env.ie ) {
 				// IE BUG: If I don't set the selection to *somewhere* after setting
 				// document contents, then IE would create an empty paragraph at the bottom
 				// the next time the document is modified.
@@ -524,8 +535,9 @@
 				this.save( true );
 
 				var image = this.getNextImage( true );
-				if ( image )
+				if ( image ) {
 					return this.restoreImage( image ), true;
+				}
 			}
 
 			return false;
@@ -543,8 +555,9 @@
 				// If instead we had changes, we can't redo anymore.
 				if ( this.redoable() ) {
 					var image = this.getNextImage( false );
-					if ( image )
+					if ( image ) {
 						return this.restoreImage( image ), true;
+					}
 				}
 			}
 
@@ -559,19 +572,22 @@
 		 */
 		update: function( newImage ) {
 			// Do not change snapshots stack is locked.
-			if ( this.locked )
+			if ( this.locked ) {
 				return;
+			}
 
-			if ( !newImage )
+			if ( !newImage ) {
 				newImage = new Image( this.editor );
+			}
 
 			var i = this.index,
 				snapshots = this.snapshots;
 
 			// Find all previous snapshots made for the same content (which differ
 			// only by selection) and replace all of them with the current image.
-			while ( i > 0 && this.currentImage.equalsContent( snapshots[ i - 1 ] ) )
+			while ( i > 0 && this.currentImage.equalsContent( snapshots[ i - 1 ] ) ) {
 				i -= 1;
+			}
 
 			snapshots.splice( i, this.index - i + 1, newImage );
 			this.index = i;
@@ -587,8 +603,9 @@
 		 * @returns {Boolean} Returns `true` if selection was amended.
 		 */
 		updateSelection: function( newSnapshot ) {
-			if ( !this.snapshots.length )
+			if ( !this.snapshots.length ) {
 				return false;
+			}
 
 			var snapshots = this.snapshots,
 				lastImage = snapshots[ snapshots.length - 1 ];
@@ -629,14 +646,14 @@
 		 */
 		lock: function( dontUpdate, forceUpdate ) {
 			if ( !this.locked ) {
-				if ( dontUpdate )
+				if ( dontUpdate ) {
 					this.locked = { level: 1 };
-				else {
+				} else {
 					var update = null;
 
-					if ( forceUpdate )
+					if ( forceUpdate ) {
 						update = true;
-					else {
+					} else {
 						// Make a contents image. Don't include bookmarks, because:
 						// * we don't compare them,
 						// * there's a chance that DOM has been changed since
@@ -647,8 +664,9 @@
 						// If current editor content matches the tip of snapshot stack,
 						// the stack tip must be updated by unlock, to include any changes made
 						// during this period.
-						if ( this.currentImage && this.currentImage.equalsContent( imageBefore ) )
+						if ( this.currentImage && this.currentImage.equalsContent( imageBefore ) ) {
 							update = imageBefore;
+						}
 					}
 
 					this.locked = { update: update, level: 1 };
@@ -676,14 +694,16 @@
 					this.locked = null;
 
 					// forceUpdate was passed to lock().
-					if ( update === true )
+					if ( update === true ) {
 						this.update();
+					}
 					// update is instance of Image.
 					else if ( update ) {
 						var newImage = new Image( this.editor, true );
 
-						if ( !update.equalsContent( newImage ) )
+						if ( !update.equalsContent( newImage ) ) {
 							this.update();
+						}
 					}
 				}
 			}
@@ -808,23 +828,23 @@
 	 * @param {Boolean} [contentsOnly] If set to `true`, the image will only contain content without the selection.
 	 */
 	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly ) {
-			this.editor = editor;
+		this.editor = editor;
 
-			editor.fire( 'beforeUndoImage' );
+		editor.fire( 'beforeUndoImage' );
 
-			var contents = editor.getSnapshot();
+		var contents = editor.getSnapshot();
 
-			if ( contents ) {
-				this.contents = applyRules( contents, editor.undoManager._filterRules );
-			}
+		if ( contents ) {
+			this.contents = applyRules( contents, editor.undoManager._filterRules );
+		}
 
-			if ( !contentsOnly ) {
-				var selection = contents && editor.getSelection();
-				this.bookmarks = selection && selection.createBookmarks2( true );
-			}
+		if ( !contentsOnly ) {
+			var selection = contents && editor.getSelection();
+			this.bookmarks = selection && selection.createBookmarks2( true );
+		}
 
-			editor.fire( 'afterUndoImage' );
-		};
+		editor.fire( 'afterUndoImage' );
+	};
 
 	// Attributes that browser may changing them when setting via innerHTML.
 	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
@@ -850,8 +870,9 @@
 				otherContents = otherContents.replace( protectedAttrs, '' );
 			}
 
-			if ( thisContents != otherContents )
+			if ( thisContents != otherContents ) {
 				return false;
+			}
 
 			return true;
 		},
@@ -865,8 +886,9 @@
 				bookmarksB = otherImage.bookmarks;
 
 			if ( bookmarksA || bookmarksB ) {
-				if ( !bookmarksA || !bookmarksB || bookmarksA.length != bookmarksB.length )
+				if ( !bookmarksA || !bookmarksB || bookmarksA.length != bookmarksB.length ) {
 					return false;
+				}
 
 				for ( var i = 0; i < bookmarksA.length; i++ ) {
 					var bookmarkA = bookmarksA[ i ],
@@ -1067,8 +1089,9 @@
 
 			// We attempt to save content snapshot, if content didn't change, we'll
 			// only amend selection.
-			if ( skipContentCompare || !undoManager.save( true, null, false ) )
+			if ( skipContentCompare || !undoManager.save( true, null, false ) ) {
 				undoManager.updateSelection( new Image( undoManager.editor ) );
+			}
 
 			undoManager.resetType();
 		},

@@ -5,7 +5,7 @@ bender.editor = {
 	config: {
 		toolbar: [ [ 'custom_btn', 'disabled_btn', 'haspopup_btn', 'arrow_btn' ] ],
 		on: {
-			'pluginsLoaded': function( evt ) {
+			pluginsLoaded: function( evt ) {
 				var editor = evt.editor;
 				editor.ui.addButton( 'custom_btn', {
 					label: 'aria label'
@@ -32,7 +32,7 @@ bender.test( {
 		// Standard aria attributes for button element.
 		this.typicalButtonAttributes = {
 			'aria-disabled': 'false',
-			'role': 'button',
+			role: 'button',
 			'aria-haspopup': 'false',
 			'aria-labelledby': /^cke_\d+_label$/
 		};
@@ -100,10 +100,11 @@ bender.test( {
 			expectedValue = expectedAttributes[ attrName ];
 			attributeValue = buttonElement.getAttribute( attrName );
 
-			if ( expectedValue instanceof RegExp )
+			if ( expectedValue instanceof RegExp ) {
 				assert.isTrue( expectedValue.test( attributeValue ), 'Attribute ' + attrName + ' did not matched expected ' + expectedValue + ' regex' );
-			else
+			} else {
 				assert.areSame( expectedValue, attributeValue, 'Invalid value for attribute ' + attrName + '.' );
+			}
 		}
 	},
 

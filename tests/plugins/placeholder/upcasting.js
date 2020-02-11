@@ -41,8 +41,9 @@
 		},
 
 		'test placeholder in custom element': function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
+			}
 
 			var sourceHtml = '<p><boo>foo[[bar]]bom</boo></p>';
 

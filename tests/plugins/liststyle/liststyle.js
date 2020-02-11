@@ -2,7 +2,6 @@
 /* bender-ckeditor-plugins: list,liststyle */
 
 ( function() {
-
 	'use strict';
 
 	bender.editor = {};
@@ -82,5 +81,4 @@
 
 		arrayAssert.containsItems( expected, items );
 	}
-
 } )();

@@ -1,7 +1,6 @@
 /* bender-ckeditor-plugins: notificationaggregator */
 
 ( function() {
-
 	'use strict';
 
 	// A type that is going to mimic generic notification type.
@@ -463,5 +462,4 @@
 			assert.areSame( 1, instance.update.callCount, 'instance.update call count' );
 		}
 	} );
-
 } )();

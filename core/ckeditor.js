@@ -89,8 +89,9 @@ CKEDITOR.remove = function( editor ) {
 	 */
 	CKEDITOR.addTemplate = function( name, source ) {
 		var tpl = tpls[ name ];
-		if ( tpl )
+		if ( tpl ) {
 			return tpl;
+		}
 
 		// Make it possible to customize the template through event.
 		var params = { name: name, source: source };
@@ -143,8 +144,9 @@ CKEDITOR.remove = function( editor ) {
 // Perform global clean up to free as much memory as possible
 // when there are no instances left
 CKEDITOR.on( 'instanceDestroyed', function() {
-	if ( CKEDITOR.tools.isEmpty( this.instances ) )
+	if ( CKEDITOR.tools.isEmpty( this.instances ) ) {
 		CKEDITOR.fire( 'reset' );
+	}
 } );
 
 // Load the bootstrap script.

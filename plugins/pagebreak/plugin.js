@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -20,7 +20,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			var cssStyles = (
-					'background:url(' + CKEDITOR.getUrl( this.path + 'images/pagebreak.gif' ) + ') no-repeat center center;' +
+				'background:url(' + CKEDITOR.getUrl( this.path + 'images/pagebreak.gif' ) + ') no-repeat center center;' +
 					'clear:both;' +
 					'width:100%;' +
 					'border-top:#999 1px dotted;' +
@@ -28,15 +28,16 @@
 					'padding:0;' +
 					'height:7px;' +
 					'cursor:default;'
-				).replace( /;/g, ' !important;' ); // Increase specificity to override other styles, e.g. block outline.
+			).replace( /;/g, ' !important;' ); // Increase specificity to override other styles, e.g. block outline.
 
 			// Add the style that renders our placeholder.
 			CKEDITOR.addCss( 'div.cke_pagebreak{' + cssStyles + '}' );
 		},
 
 		init: function( editor ) {
-			if ( editor.blockless )
+			if ( editor.blockless ) {
 				return;
+			}
 
 			// Register the command.
 			editor.addCommand( 'pagebreak', CKEDITOR.plugins.pagebreakCmd );
@@ -52,8 +53,9 @@
 			CKEDITOR.env.webkit && editor.on( 'contentDom', function() {
 				editor.document.on( 'click', function( evt ) {
 					var target = evt.data.getTarget();
-					if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) )
+					if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) ) {
 						editor.getSelection().selectElement( target );
+					}
 				} );
 			} );
 		},
@@ -75,7 +77,7 @@
 			if ( htmlFilter ) {
 				htmlFilter.addRules( {
 					attributes: {
-						'class': function( value, element ) {
+						class: function( value, element ) {
 							var className = value.replace( 'cke_pagebreak', '' );
 							if ( className != value ) {
 								var span = CKEDITOR.htmlParser.fragment.fromHtml( '<span style="display: none;">&nbsp;</span>' ).children[ 0 ];
@@ -100,16 +102,18 @@
 							// ACF may have distorted the HTML because "internal form" is
 							// different than "data form". Make sure that element remains valid
 							// by re-upcasting it (https://dev.ckeditor.com/ticket/11133).
-							if ( element.attributes[ 'data-cke-pagebreak' ] )
+							if ( element.attributes[ 'data-cke-pagebreak' ] ) {
 								upcastPageBreak( element );
+							}
 
 							// Check for "data form" of the pagebreak. If both element and
 							// descendants match, convert them to internal form.
 							else if ( styleRegex.test( element.attributes.style ) ) {
 								var child = element.children[ 0 ];
 
-								if ( child && child.name == 'span' && childStyleRegex.test( child.attributes.style ) )
+								if ( child && child.name == 'span' && childStyleRegex.test( child.attributes.style ) ) {
 									upcastPageBreak( element );
+								}
 							}
 						}
 					}
@@ -166,7 +170,7 @@
 	function attributesSet( label ) {
 		return {
 			'aria-label': label,
-			'class': 'cke_pagebreak',
+			class: 'cke_pagebreak',
 			contenteditable: 'false',
 			'data-cke-display-name': 'pagebreak',
 			'data-cke-pagebreak': 1,

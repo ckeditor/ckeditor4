@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -487,7 +487,7 @@
 	 * @param {String} widgetName The name of the upload widget.
 	 * @param {Number} loaderId The ID of a related {@link CKEDITOR.fileTools.fileLoader}.
 	 */
-	function markElement( element, widgetName, loaderId  ) {
+	function markElement( element, widgetName, loaderId ) {
 		element.setAttributes( {
 			'data-cke-upload-id': loaderId,
 			'data-widget': widgetName

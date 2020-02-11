@@ -8,10 +8,10 @@
 
 embedTools.mockJsonp( function( urlTemplate, urlParams, callback ) {
 	callback( {
-		'url': decodeURIComponent( urlParams.url ),
-		'type': 'rich',
-		'version': '1.0',
-		'html': '<img src="' + decodeURIComponent( urlParams.url ) + '">'
+		url: decodeURIComponent( urlParams.url ),
+		type: 'rich',
+		version: '1.0',
+		html: '<img src="' + decodeURIComponent( urlParams.url ) + '">'
 	} );
 } );
 

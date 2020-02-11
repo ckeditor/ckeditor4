@@ -52,8 +52,9 @@
 		noTempElementsFilter = new CKEDITOR.htmlParser.filter( {
 			elements: {
 				'^': function( el ) {
-					if ( el.attributes[ 'data-cke-temp' ] )
+					if ( el.attributes[ 'data-cke-temp' ] ) {
 						return false;
+					}
 				}
 			}
 		} );
@@ -381,9 +382,9 @@
 				// 3. Strip whitepsaces around semicolon.
 				// 4. Always end with semicolon
 				return retval.replace( /(?:^|;)\s*([A-Z-_]+)(:\s*)/ig,
-						function( match, property ) {
-							return property.toLowerCase() + ': ';
-						} )
+					function( match, property ) {
+						return property.toLowerCase() + ': ';
+					} )
 					.replace( /\s+(?:;\s*|$)/g, ';' )
 					.replace( /([^;])$/g, '$1;' );
 			}
@@ -544,7 +545,7 @@
 
 			root = isEditor ? element :
 				root instanceof CKEDITOR.dom.document ?
-				root.getBody() : root || CKEDITOR.document.getBody();
+					root.getBody() : root || CKEDITOR.document.getBody();
 
 			var fixCursor;
 
@@ -607,7 +608,7 @@
 
 			root = isEditor ? element :
 				root instanceof CKEDITOR.dom.document ?
-				root.getBody() : root || CKEDITOR.document.getBody();
+					root.getBody() : root || CKEDITOR.document.getBody();
 
 			function replaceWithBookmark( match, startOrEnd ) {
 				var bookmark;
@@ -713,7 +714,7 @@
 						var range = getRange( marker != ']' );
 						range[ marker == '[' ? 'setStartAt' :
 							marker == ']' ? 'setEndAt' :
-							'moveToPosition' ]( node,
+								'moveToPosition' ]( node,
 							CKEDITOR.POSITION_BEFORE_START );
 
 						// We're not able to remove the bookmark nodes right now when walking,
@@ -893,7 +894,6 @@
 					// in `setData` and throws `Element not found.` if such are used.
 					if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 16 &&
 						CKEDITOR.tools.indexOf( [ 'Text', 'URL', 'text/plain', 'text/html', 'application/xml' ], type ) === -1 ) {
-
 						throw {
 							name: 'Error',
 							message: 'Element not found.'
@@ -1134,10 +1134,10 @@
 			var outputTests = {},
 				specificTestName,
 				specialMethods = {
-					'init': 1,
+					init: 1,
 					'async:init': 1,
-					'setUp': 1,
-					'tearDown': 1
+					setUp: 1,
+					tearDown: 1
 				},
 				i, editorName, editorCounter;
 
@@ -1178,7 +1178,7 @@
 					} else {
 						outputTests[ specificTestName ] = ( function( testName, editorName ) {
 							return function() {
-								inputTests[ testName ]( bender.editors[ editorName ], bender.editorBots [ editorName ] );
+								inputTests[ testName ]( bender.editors[ editorName ], bender.editorBots[ editorName ] );
 							};
 						} )( testName, editorName );
 					}
@@ -1237,8 +1237,8 @@
 
 						if ( promise ) {
 							promise.then( function() {
-									resume();
-								} )
+								resume();
+							} )
 								[ 'catch' ]( function( err ) {
 									resume( function() {
 										throw err;
@@ -1698,5 +1698,4 @@
 			return new RegExp( '^' + pattern + '$' );
 		}
 	};
-
 } )( bender );

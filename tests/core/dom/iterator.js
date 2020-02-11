@@ -21,14 +21,16 @@ function checkRangeIteration( source, opt, results, output, msg ) {
 	var iter = range.createIterator();
 	CKEDITOR.tools.extend( iter, opt, true );
 	var blockList = [], block;
-	while ( ( block = iter.getNextParagraph() ) )
+	while ( ( block = iter.getNextParagraph() ) ) {
 		blockList.push( block.getName() );
+	}
 
 	assert.areSame( results.join( ',' ), blockList.join( ',' ), msg );
 
 	// Check DOM modification after iteration.
-	if ( output )
+	if ( output ) {
 		assert.areSame( tools.compatHtml( output, 1, 1 ), tools.compatHtml( sandbox.getHtml(), 1, 1 ), msg );
+	}
 }
 
 // Return iteration result from a range which scopes within the root element of specified html.
@@ -39,8 +41,9 @@ function iterateScopedRange( html, opt ) {
 	var iter = range.createIterator();
 	CKEDITOR.tools.extend( iter, opt, true );
 	var results = [], block;
-	while ( ( block = iter.getNextParagraph() ) )
+	while ( ( block = iter.getNextParagraph() ) ) {
 		results.push( block.getName() );
+	}
 
 	sandbox.remove();
 	return { html: tools.compatHtml( sandbox.getOuterHtml() ), list: results };
@@ -54,8 +57,9 @@ function iterateWithRangeIterator( ranges, mergeConsequent, rangeIteratorOpts ) 
 	while ( range = rangesIterator.getNextRange( mergeConsequent ) ) {
 		var iter = range.createIterator(), block;
 		CKEDITOR.tools.extend( iter, rangeIteratorOpts, true );
-		while ( ( block = iter.getNextParagraph() ) )
+		while ( ( block = iter.getNextParagraph() ) ) {
 			blockList.push( block.getName() );
+		}
 	}
 
 	return blockList;
@@ -69,8 +73,9 @@ function checkActiveFilter( source, opt, results, msg ) {
 	var iter = range.createIterator();
 	CKEDITOR.tools.extend( iter, opt, true );
 	var blockList = [], block;
-	while ( ( block = iter.getNextParagraph() ) )
+	while ( ( block = iter.getNextParagraph() ) ) {
 		blockList.push( block.getName() + ( iter.activeFilter ? '-' + iter.activeFilter.id : '' ) );
+	}
 
 	assert.areSame( results.join( ',' ), blockList.join( ',' ), msg );
 }
@@ -94,20 +99,20 @@ bender.test( {
 		var msg = 'Iteration should return the paragraph in which the range anchored';
 
 		// range embrace entire paragraph content.
-		checkRangeIteration( '[<p>paragraph</p>]', null,  [ 'p' ], null, msg );
+		checkRangeIteration( '[<p>paragraph</p>]', null, [ 'p' ], null, msg );
 
 		// range collapsed at the end of block.
-		checkRangeIteration( '<p>paragraph^</p>', null,  [ 'p' ], null, msg );
+		checkRangeIteration( '<p>paragraph^</p>', null, [ 'p' ], null, msg );
 		// range collapsed at the middle of block.
-		checkRangeIteration( '<p>para^graph</p>', null,  [ 'p' ], null, msg );
+		checkRangeIteration( '<p>para^graph</p>', null, [ 'p' ], null, msg );
 		// range collapsed at the start of block.
-		checkRangeIteration( '<p>^paragraph</p>', null,  [ 'p' ], null, msg );
+		checkRangeIteration( '<p>^paragraph</p>', null, [ 'p' ], null, msg );
 	},
 
 	// https://dev.ckeditor.com/ticket/3352
 	'test iterating over multiple paragraphs': function() {
 		var source = '<p>[para1</p><p>para2]</p>';
-		checkRangeIteration( source, null,  [ 'p', 'p' ], null, 'Iteration will yield  two paragraphs.' );
+		checkRangeIteration( source, null, [ 'p', 'p' ], null, 'Iteration will yield  two paragraphs.' );
 	},
 
 	// https://dev.ckeditor.com/ticket/8247
@@ -115,43 +120,45 @@ bender.test( {
 		var source = '<div><p>^</p></div>';
 		var output = '<div><p></p></div>';
 
-		checkRangeIteration( source, null,  [ 'p' ], output, 'Iteration will yield one single paragraph' );
+		checkRangeIteration( source, null, [ 'p' ], output, 'Iteration will yield one single paragraph' );
 	},
 
 	// https://dev.ckeditor.com/ticket/12178
 	'test iterating over end of line': function() {
-		if ( !CKEDITOR.env.needsBrFiller )
+		if ( !CKEDITOR.env.needsBrFiller ) {
 			assert.ignore();
+		}
 
 		var source = '<h1>para1[<br /></h1><p>par]a2</p>';
-		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+		checkRangeIteration( source, null, [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
 	},
 
 	// https://dev.ckeditor.com/ticket/12178
 	'test iterating over end of line - no bogus br': function() {
 		var source = '<h1>para1[</h1><p>par]a2</p>';
-		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+		checkRangeIteration( source, null, [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
 	},
 
 	// https://dev.ckeditor.com/ticket/12178
 	'test iterating over start of line': function() {
-		if ( !CKEDITOR.env.needsBrFiller )
+		if ( !CKEDITOR.env.needsBrFiller ) {
 			assert.ignore();
+		}
 
 		var source = '<h1>pa[ra1<br /></h1><p>]para2</p>';
-		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+		checkRangeIteration( source, null, [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
 	},
 
 	// https://dev.ckeditor.com/ticket/12178
 	'test iterating over start of line - no bogus br': function() {
 		var source = '<h1>pa[ra1</h1><p>]para2</p>';
-		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+		checkRangeIteration( source, null, [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
 	},
 
 	// https://dev.ckeditor.com/ticket/12178
 	'test iterating over start of line 2 - no bogus br': function() {
 		var source = '<h1>pa[ra1</h1><p><b>]para2</b></p>';
-		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+		checkRangeIteration( source, null, [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
 	},
 
 	// https://dev.ckeditor.com/ticket/12178
@@ -166,18 +173,19 @@ bender.test( {
 
 	// https://dev.ckeditor.com/ticket/12308 (Note: this test wasn't able to verify https://dev.ckeditor.com/ticket/12308's patch, but it makes sense anyway).
 	'test iterating at block boundary - before bogus br': function() {
-		if ( !CKEDITOR.env.needsBrFiller )
+		if ( !CKEDITOR.env.needsBrFiller ) {
 			assert.ignore();
+		}
 
 		var source = '<h1>para1^<br /></h1><p>para2</p>';
-		checkRangeIteration( source, null,  [ 'h1' ], null, 'Iteration will yield heading.' );
+		checkRangeIteration( source, null, [ 'h1' ], null, 'Iteration will yield heading.' );
 	},
 
 	'test iterating over pseudo block': function() {
 		var source = '<div><p>[paragraph</p>text]</div>';
 		var output = '<div><p>paragraph</p><p>text</p></div>';
 
-		checkRangeIteration( source, null,  [ 'p', 'p' ], output, 'Iteration should create real paragraph for pseudo block.' );
+		checkRangeIteration( source, null, [ 'p', 'p' ], output, 'Iteration should create real paragraph for pseudo block.' );
 	},
 
 	'test iterating over table cells': function() {
@@ -216,8 +224,8 @@ bender.test( {
 				'</tbody>' +
 			'</table>';
 
-		checkRangeIteration( source, null,  [ 'th', 'p', 'td' ], output1, 'Iteration should report paragraph or table cells' );
-		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' ], output2, 'Iteration should establish paragraph if it\'s not available inside table cell' );
+		checkRangeIteration( source, null, [ 'th', 'p', 'td' ], output1, 'Iteration should report paragraph or table cells' );
+		checkRangeIteration( source, { enforceRealBlocks: 1 }, [ 'p', 'p', 'p' ], output2, 'Iteration should establish paragraph if it\'s not available inside table cell' );
 	},
 
 	// https://dev.ckeditor.com/ticket/6728, https://dev.ckeditor.com/ticket/4450
@@ -225,7 +233,7 @@ bender.test( {
 	// it has a deeper sense. It tests what rangeIterator#getNextRange does.
 	'test iterating over table cells (with bookmarks among cells)': function() {
 		var source = '<table><tbody><tr>[<td id="cell1">cell1</td>][<td id="cell2">cell2</td>]</tr></tbody></table>',
-		output = source.replace( /\[|\]|\^/g, '' );
+			output = source.replace( /\[|\]|\^/g, '' );
 
 		var sandbox = doc.getById( 'sandbox' ),
 			ranges = tools.setHtmlWithRange( sandbox, source );
@@ -244,7 +252,7 @@ bender.test( {
 	// See above an explanation of this test.
 	'test iterating over table cells (with bookmarks among cells) - do not merge subsequent ranges': function() {
 		var source = '<table><tbody><tr>[<td id="cell1">cell1</td>][<td id="cell2">cell2</td>]</tr></tbody></table>',
-		output = source.replace( /\[|\]|\^/g, '' );
+			output = source.replace( /\[|\]|\^/g, '' );
 
 		var sandbox = doc.getById( 'sandbox' ),
 			ranges = tools.setHtmlWithRange( sandbox, source );
@@ -328,8 +336,8 @@ bender.test( {
 				'<li><p>item5</p></li>' +
 			'</ul>';
 
-		checkRangeIteration( source, null,  [ 'li', 'p', 'li' , 'p', 'li' ], output1, 'Iteration should report paragraph or list item' );
-		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' , 'p', 'p' ], output2, 'Iteration should establish paragraph if not exists inside list item' );
+		checkRangeIteration( source, null, [ 'li', 'p', 'li' , 'p', 'li' ], output1, 'Iteration should report paragraph or list item' );
+		checkRangeIteration( source, { enforceRealBlocks: 1 }, [ 'p', 'p', 'p' , 'p', 'p' ], output2, 'Iteration should establish paragraph if not exists inside list item' );
 	},
 
 	// https://dev.ckeditor.com/ticket/12273
@@ -601,8 +609,9 @@ bender.test( {
 			block,
 			blocks = [];
 
-		while ( ( block = iterator.getNextParagraph() ) )
+		while ( ( block = iterator.getNextParagraph() ) ) {
 			blocks.push( block.getName() );
+		}
 
 		assert.areSame( 'div,h1', blocks.join( ',' ), 'nothing else except div+h1 was found' );
 		assert.areSame( '<div class="root">' + output + '</div>', bender.tools.compatHtml( sandbox.getHtml(), 1 ),

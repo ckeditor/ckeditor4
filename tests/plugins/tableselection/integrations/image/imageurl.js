@@ -6,7 +6,7 @@
 
 	bender.editor = true;
 
-	var tests =  {
+	var tests = {
 		setUp: function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 		},
@@ -23,5 +23,4 @@
 	};
 
 	bender.test( tests );
-
 } )();

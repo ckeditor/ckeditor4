@@ -20,8 +20,9 @@ testWindow.on( 'beforeunload', function() {
 
 bender.test( appendDomObjectTests(
 	function( id ) {
-		if ( id === 'domObjectTest1' )
+		if ( id === 'domObjectTest1' ) {
 			return new CKEDITOR.dom.window( window );
+		}
 
 		// return different (fake) document for other ids
 		return new CKEDITOR.dom.window( {} );

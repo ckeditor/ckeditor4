@@ -95,7 +95,6 @@
 
 			editor.execCommand( 'undo' );
 			assert.beautified.html( TABLE_WITH_SELECTION, fixMarkersInTable( bender.tools.getHtmlWithSelection( editor ) ), 'Editor\'s content wasn\'t properly restored after single undo step.' );
-
 		},
 		'test press shift + enter key in selected table': function( editor, bot ) {
 			var expectedResult = prepareEditorAndGetExpectedResult( editor, bot, true );

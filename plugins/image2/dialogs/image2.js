@@ -10,7 +10,6 @@
 'use strict';
 
 CKEDITOR.dialog.add( 'image2', function( editor ) {
-
 	// RegExp: 123, 123px, empty string ""
 	var regexGetSizeOrEmpty = /(^\s*(\d+)(px)?\s*$)|^$/i,
 
@@ -32,9 +31,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 					'<span class="cke_label">' + lang.resetSize + '</span>' +
 				'</a>' +
 			'</div>' ).output( {
-				lockButtonId: lockButtonId,
-				resetButtonId: resetButtonId
-			} ),
+			lockButtonId: lockButtonId,
+			resetButtonId: resetButtonId
+		} ),
 
 		helpers = CKEDITOR.plugins.image2,
 
@@ -76,8 +75,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		var match = this.getValue().match( regexGetSizeOrEmpty ),
 			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
 
-		if ( !isValid )
-			alert( commonLang[ 'invalidLength' ].replace( '%1', commonLang[ this.id ] ).replace( '%2', 'px' ) ); // jshint ignore:line
+		if ( !isValid ) {
+			alert( commonLang.invalidLength.replace( '%1', commonLang[ this.id ] ).replace( '%2', 'px' ) );
+		} // jshint ignore:line
 
 		return isValid;
 	}
@@ -100,8 +100,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		function removeListeners() {
 			var l;
 
-			while ( ( l = listeners.pop() ) )
+			while ( ( l = listeners.pop() ) ) {
 				l.removeListener();
+			}
 		}
 
 		// @param {String} src.
@@ -143,8 +144,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				toggleDimensions( true );
 
 				// There was problem loading the image. Unlock ratio.
-				if ( !image )
+				if ( !image ) {
 					return toggleLockRatio( false );
+				}
 
 				// Fill width field with the width of the new image.
 				widthField.setValue( editor.config.image2_prefillDimensions === false ? 0 : width );
@@ -192,22 +194,26 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 	function onChangeDimension() {
 		// If ratio is un-locked, then we don't care what's next.
-		if ( !lockRatio )
+		if ( !lockRatio ) {
 			return;
+		}
 
 		var value = this.getValue();
 
 		// No reason to auto-scale or unlock if the field is empty.
-		if ( !value )
+		if ( !value ) {
 			return;
+		}
 
 		// If the value of the field is invalid (e.g. with %), unlock ratio.
-		if ( !value.match( regexGetSizeOrEmpty ) )
+		if ( !value.match( regexGetSizeOrEmpty ) ) {
 			toggleLockRatio( false );
+		}
 
 		// No automatic re-scale when dimension is '0'.
-		if ( value === '0' )
+		if ( value === '0' ) {
 			return;
+		}
 
 		var isWidth = this.id == 'width',
 			// If dialog opened for the new image, domWidth and domHeight
@@ -216,16 +222,19 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			height = domHeight || preLoadedHeight;
 
 		// If changing width, then auto-scale height.
-		if ( isWidth )
+		if ( isWidth ) {
 			value = Math.round( height * ( value / width ) );
+		}
 
 		// If changing height, then auto-scale width.
-		else
+		else {
 			value = Math.round( width * ( value / height ) );
+		}
 
 		// If the value is a number, apply it to the other field.
-		if ( !isNaN( value ) )
+		if ( !isNaN( value ) ) {
 			( isWidth ? heightField : widthField ).setValue( value );
+		}
 	}
 
 	// Set-up function for lock and reset buttons:
@@ -296,14 +305,16 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 	function toggleLockRatio( enable ) {
 		// No locking if there's no radio (i.e. due to ACF).
-		if ( !lockButton )
+		if ( !lockButton ) {
 			return;
+		}
 
 		if ( typeof enable == 'boolean' ) {
 			// If user explicitly wants to decide whether
 			// to lock or not, don't do anything.
-			if ( userDefinedLock )
+			if ( userDefinedLock ) {
 				return;
+			}
 
 			lockRatio = enable;
 		}
@@ -321,8 +332,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			if ( lockRatio && width ) {
 				height = domHeight / domWidth * width;
 
-				if ( !isNaN( height ) )
+				if ( !isNaN( height ) ) {
 					heightField.setValue( Math.round( height ) );
+				}
 			}
 		}
 
@@ -344,21 +356,21 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 	}
 
 	var srcBoxChildren = [
-			{
-				id: 'src',
-				type: 'text',
-				label: commonLang.url,
-				onKeyup: onChangeSrc,
-				onChange: onChangeSrc,
-				setup: function( widget ) {
-					this.setValue( widget.data.src );
-				},
-				commit: function( widget ) {
-					widget.setData( 'src', this.getValue() );
-				},
-				validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
-			}
-		];
+		{
+			id: 'src',
+			type: 'text',
+			label: commonLang.url,
+			onKeyup: onChangeSrc,
+			onChange: onChangeSrc,
+			setup: function( widget ) {
+				this.setValue( widget.data.src );
+			},
+			commit: function( widget ) {
+				widget.setData( 'src', this.getValue() );
+			},
+			validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
+		}
+	];
 
 	// Render the "Browse" button on demand to avoid an "empty" (hidden child)
 	// space in dialog layout that distorts the UI.
@@ -544,7 +556,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						id: 'uploadButton',
 						filebrowser: 'info:src',
 						label: lang.btnUpload,
-						'for': [ 'Upload', 'upload' ]
+						for: [ 'Upload', 'upload' ]
 					}
 				]
 			}

@@ -591,8 +591,7 @@
 				targetCell = map[ mergeDirection == 'up' ? ( startRow - rowspan ) : mergeDirection == 'down' ? ( startRow + rowspan ) : startRow ][
 					mergeDirection == 'left' ?
 						( startColumn - colspan ) :
-					mergeDirection == 'right' ? ( startColumn + colspan ) : startColumn ];
-
+						mergeDirection == 'right' ? ( startColumn + colspan ) : startColumn ];
 			} catch ( er ) {
 				return false;
 			}
@@ -691,10 +690,11 @@
 
 	function horizontalSplitCell( selection, isDetect ) {
 		var cells = getSelectedCells( selection );
-		if ( cells.length > 1 )
+		if ( cells.length > 1 ) {
 			return false;
-		else if ( isDetect )
+		} else if ( isDetect ) {
 			return true;
+		}
 
 		var cell = cells[ 0 ],
 			tr = cell.getParent(),
@@ -728,8 +728,9 @@
 			}
 
 			// The destination row is empty, append at will.
-			if ( !candidateCell )
+			if ( !candidateCell ) {
 				newCellTr.append( newCell );
+			}
 		} else {
 			newCellRowSpan = newRowSpan = 1;
 
@@ -738,28 +739,32 @@
 			newCellTr.append( newCell = cell.clone() );
 
 			var cellsInSameRow = cellInRow( map, rowIndex );
-			for ( var i = 0; i < cellsInSameRow.length; i++ )
+			for ( var i = 0; i < cellsInSameRow.length; i++ ) {
 				cellsInSameRow[ i ].rowSpan++;
+			}
 		}
 
 		newCell.appendBogus();
 
 		cell.$.rowSpan = newRowSpan;
 		newCell.$.rowSpan = newCellRowSpan;
-		if ( newRowSpan == 1 )
+		if ( newRowSpan == 1 ) {
 			cell.removeAttribute( 'rowSpan' );
-		if ( newCellRowSpan == 1 )
+		}
+		if ( newCellRowSpan == 1 ) {
 			newCell.removeAttribute( 'rowSpan' );
+		}
 
 		return newCell;
 	}
 
 	function verticalSplitCell( selection, isDetect ) {
 		var cells = getSelectedCells( selection );
-		if ( cells.length > 1 )
+		if ( cells.length > 1 ) {
 			return false;
-		else if ( isDetect )
+		} else if ( isDetect ) {
 			return true;
+		}
 
 		var cell = cells[ 0 ],
 			tr = cell.getParent(),
@@ -776,8 +781,9 @@
 		} else {
 			newCellColSpan = newColSpan = 1;
 			var cellsInSameCol = cellInCol( map, colIndex );
-			for ( var i = 0; i < cellsInSameCol.length; i++ )
+			for ( var i = 0; i < cellsInSameCol.length; i++ ) {
 				cellsInSameCol[ i ].colSpan++;
+			}
 		}
 		newCell = cell.clone();
 		newCell.insertAfter( cell );
@@ -785,10 +791,12 @@
 
 		cell.$.colSpan = newColSpan;
 		newCell.$.colSpan = newCellColSpan;
-		if ( newColSpan == 1 )
+		if ( newColSpan == 1 ) {
 			cell.removeAttribute( 'colSpan' );
-		if ( newCellColSpan == 1 )
+		}
+		if ( newCellColSpan == 1 ) {
 			newCell.removeAttribute( 'colSpan' );
+		}
 
 		return newCell;
 	}
@@ -820,57 +828,57 @@
 				allowedContent: 'td th{width,height,border-color,background-color,white-space,vertical-align,text-align}[colspan,rowspan]',
 				requiredContent: requiredContent,
 				contentTransformations: [ [ {
-						element: 'td',
+					element: 'td',
+					left: function( element ) {
+						return element.styles.background && styleParse.background( element.styles.background ).color;
+					},
+					right: function( element ) {
+						element.styles[ 'background-color' ] = styleParse.background( element.styles.background ).color;
+					}
+				}, {
+					element: 'td',
+					check: 'td{vertical-align}',
+					left: function( element ) {
+						return element.attributes && element.attributes.valign;
+					},
+					right: function( element ) {
+						element.styles[ 'vertical-align' ] = element.attributes.valign;
+						delete element.attributes.valign;
+					}
+				}
+				], [
+					{
+						// (https://dev.ckeditor.com/ticket/16818)
+						element: 'tr',
+						check: 'td{height}',
 						left: function( element ) {
-							return element.styles.background && styleParse.background( element.styles.background ).color;
+							return element.styles && element.styles.height;
 						},
 						right: function( element ) {
-							element.styles[ 'background-color' ] = styleParse.background( element.styles.background ).color;
-						}
-					}, {
-						element: 'td',
-						check: 'td{vertical-align}',
-						left: function( element ) {
-							return element.attributes && element.attributes.valign;
-						},
-						right: function( element ) {
-							element.styles[ 'vertical-align' ] = element.attributes.valign;
-							delete element.attributes.valign;
+							CKEDITOR.tools.array.forEach( element.children, function( node ) {
+								if ( node.name in { td: 1, th: 1 } ) {
+									node.attributes[ 'cke-row-height' ] = element.styles.height;
+								}
+							} );
+
+							delete element.styles.height;
 						}
 					}
-					], [
-						{
-							// (https://dev.ckeditor.com/ticket/16818)
-							element: 'tr',
-							check: 'td{height}',
-							left: function( element ) {
-								return element.styles && element.styles.height;
-							},
-							right: function( element ) {
-								CKEDITOR.tools.array.forEach( element.children, function( node ) {
-									if ( node.name in { td: 1, th: 1 } ) {
-										node.attributes[ 'cke-row-height' ] = element.styles.height;
-									}
-								} );
-
-								delete element.styles.height;
-							}
+				], [
+					{
+						// (https://dev.ckeditor.com/ticket/16818)
+						element: 'td',
+						check: 'td{height}',
+						left: function( element ) {
+							var attributes = element.attributes;
+							return attributes && attributes[ 'cke-row-height' ];
+						},
+						right: function( element ) {
+							element.styles.height = element.attributes[ 'cke-row-height' ];
+							delete element.attributes[ 'cke-row-height' ];
 						}
-					], [
-						{
-							// (https://dev.ckeditor.com/ticket/16818)
-							element: 'td',
-							check: 'td{height}',
-							left: function( element ) {
-								var attributes = element.attributes;
-								return attributes && attributes[ 'cke-row-height' ];
-							},
-							right: function( element ) {
-								element.styles.height = element.attributes[ 'cke-row-height' ];
-								delete element.attributes[ 'cke-row-height' ];
-							}
-						}
-					] ]
+					}
+				] ]
 			} ) ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
@@ -1176,7 +1184,7 @@
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection, path ) {
-					var cell = path.contains( { 'td': 1, 'th': 1 }, 1 );
+					var cell = path.contains( { td: 1, th: 1 }, 1 );
 					if ( cell && !cell.isReadOnly() ) {
 						return {
 							tablecell: CKEDITOR.TRISTATE_OFF,

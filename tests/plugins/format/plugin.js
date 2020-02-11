@@ -1,4 +1,4 @@
-﻿/* bender-tags: editor */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: format,toolbar */
 
 bender.editor = true;
@@ -18,8 +18,9 @@ bender.test( {
 
 	'test format style not in context': function() {
 		// TODO: IE throws selection inside of form legend.
-		if ( CKEDITOR.env.ie )
+		if ( CKEDITOR.env.ie ) {
 			assert.ignore();
+		}
 
 		var bot = this.editorBot, ed = this.editor;
 		bot.setHtmlWithSelection( '<fieldset><legend>^foo</legend><form>bar</form></fieldset>' );

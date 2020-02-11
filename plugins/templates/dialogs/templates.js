@@ -4,7 +4,6 @@
  */
 
 ( function() {
-
 	CKEDITOR.dialog.add( 'templates', function( editor ) {
 		// Constructs the HTML view of the specified templates data.
 		function renderTemplatesList( container, templatesDefinitions ) {
@@ -43,8 +42,9 @@
 
 			html += '<td style="white-space:normal;"><span class="cke_tpl_title">' + template.title + '</span><br/>';
 
-			if ( template.description )
+			if ( template.description ) {
 				html += '<span>' + template.description + '</span>';
+			}
 
 			html += '</td></tr></table>';
 
@@ -76,7 +76,6 @@
 					setTimeout( function() {
 						editor.fire( 'saveSnapshot' );
 					}, 0 );
-
 				} );
 			} else {
 				editor.insertHtml( html );
@@ -96,9 +95,9 @@
 
 				if ( items ) {
 					// Focus not yet onto list items?
-					if ( onList )
+					if ( onList ) {
 						focusItem = items.getItem( 0 );
-					else {
+					} else {
 						switch ( keystroke ) {
 							case 40: // ARROW-DOWN
 								focusItem = target.getNext();
@@ -164,7 +163,7 @@
 						id: 'chkInsertOpt',
 						type: 'checkbox',
 						label: lang.insertOption,
-						'default': config.templates_replaceContent
+						default: config.templates_replaceContent
 					} ]
 				} ]
 			} ],

@@ -19,35 +19,35 @@
 		var defaultStyles = {
 			full: {
 				attributes: {
-					'class': 'easyimage-full'
+					class: 'easyimage-full'
 				},
 				label: editor.lang.easyimage.commands.fullImage
 			},
 
 			side: {
 				attributes: {
-					'class': 'easyimage-side'
+					class: 'easyimage-side'
 				},
 				label: editor.lang.easyimage.commands.sideImage
 			},
 
 			alignLeft: {
 				attributes: {
-					'class': 'easyimage-align-left'
+					class: 'easyimage-align-left'
 				},
 				label: editor.lang.common.alignLeft
 			},
 
 			alignCenter: {
 				attributes: {
-					'class': 'easyimage-align-center'
+					class: 'easyimage-align-center'
 				},
 				label: editor.lang.common.alignCenter
 			},
 
 			alignRight: {
 				attributes: {
-					'class': 'easyimage-align-right'
+					class: 'easyimage-align-right'
 				},
 				label: editor.lang.common.alignRight
 			}
@@ -678,4 +678,4 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_toolbar = [ BUTTON_PREFIX + 'Full', BUTTON_PREFIX + 'Side', BUTTON_PREFIX + 'Alt' ];
-}() );
+} )() ;

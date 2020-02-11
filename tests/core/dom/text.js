@@ -132,5 +132,4 @@
 	function isEmptyNode( text, ignoreWhiteSpace ) {
 		return new CKEDITOR.dom.text( document.createTextNode( text ) ).isEmpty( ignoreWhiteSpace );
 	}
-
 } )();

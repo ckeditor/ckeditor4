@@ -31,7 +31,7 @@
 			'word2016'
 		],
 		tests: {
-			'Enter_BR': true
+			Enter_BR: true
 		},
 
 		compareRawData: false,

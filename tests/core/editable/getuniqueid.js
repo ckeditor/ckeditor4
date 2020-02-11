@@ -21,7 +21,7 @@
 			var origMethod = CKEDITOR.dom.domObject.prototype.getUniqueId;
 
 			CKEDITOR.dom.domObject.prototype.getUniqueId = function() {
-				throw( 'error' );
+				throw ( 'error' );
 			};
 
 			var actualId = editable.getUniqueId();

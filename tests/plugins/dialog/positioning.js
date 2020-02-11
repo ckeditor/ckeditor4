@@ -240,7 +240,7 @@
 		var originalMethod = CKEDITOR.dom.element.prototype.getClientSize;
 
 		CKEDITOR.dom.element.prototype.getClientSize = function() {
-			return this.hasClass( 'cke_dialog_container' ) ? sizes :  originalMethod.call( this );
+			return this.hasClass( 'cke_dialog_container' ) ? sizes : originalMethod.call( this );
 		};
 
 		return {

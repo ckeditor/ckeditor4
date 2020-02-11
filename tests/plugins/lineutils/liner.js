@@ -42,16 +42,18 @@
 			var bot = this.editorBot,
 				i;
 
-			for ( i = lines.length; i--; )
+			for ( i = lines.length; i--; ) {
 				liner[ i % 2 ? 'visible' : 'hidden' ][ lines[ i ].getUniqueId() ] = lines[ i ];
+			}
 
 			assert.areSame( 5, CKEDITOR.tools.object.keys( liner.visible ).length );
 			assert.areSame( 5, CKEDITOR.tools.object.keys( liner.hidden ).length );
 
 			bot.editor.destroy();
 
-			for ( i = lines.length; i--; )
+			for ( i = lines.length; i--; ) {
 				assert.isNull( lines[ i ].getParent(), 'Line removed from DOM.' );
+			}
 		},
 
 		'test showLine': function() {
@@ -102,7 +104,7 @@
 
 			// One to visible.
 			line2 = liner.addLine();
-			liner.visible[ line2.getUniqueId()  ] = line2;
+			liner.visible[ line2.getUniqueId() ] = line2;
 
 			liner.hideVisible();
 

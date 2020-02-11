@@ -138,7 +138,6 @@
 			} else if ( targetRange.equals( newRange ) ) {
 				preventOptimization = true;
 			}
-
 		}, null, null, -1 );
 	}
 } )();

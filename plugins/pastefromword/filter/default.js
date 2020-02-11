@@ -80,7 +80,7 @@
 					[ new RegExp( invalidTags.join( '|' ) ), '' ] // Remove invalid tags.
 				],
 				elements: {
-					'a': function( element ) {
+					a: function( element ) {
 						// Redundant anchor created by IE8.
 						if ( element.attributes.name ) {
 							if ( element.attributes.name == '_GoBack' ) {
@@ -100,13 +100,12 @@
 							links[ name ] = element;
 						}
 
-						if ( element.attributes.name &&  links[ element.attributes.name ] ) {
+						if ( element.attributes.name && links[ element.attributes.name ] ) {
 							var link = links[ element.attributes.name ];
 							link.attributes.href = link.attributes.href.replace( /.*#(.*)$/, '#$1' );
 						}
-
 					},
-					'div': function( element ) {
+					div: function( element ) {
 						// Don't allow to delete page break element (#3220).
 						if ( editor.plugins.pagebreak && element.attributes[ 'data-cke-pagebreak' ] ) {
 							return element;
@@ -114,7 +113,7 @@
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'img': function( element ) {
+					img: function( element ) {
 						// If the parent is DocumentFragment it does not have any attributes. (https://dev.ckeditor.com/ticket/16912)
 						if ( element.parent && element.parent.attributes ) {
 							var attrs = element.parent.attributes,
@@ -141,9 +140,8 @@
 							// As we don't know how to process shapes we can remove them.
 							return false;
 						}
-
 					},
-					'p': function( element ) {
+					p: function( element ) {
 						element.filterChildren( filter );
 
 						if ( element.attributes.style && element.attributes.style.match( /display:\s*none/i ) ) {
@@ -194,47 +192,60 @@
 								delete element.name;
 								element.add( new CKEDITOR.htmlParser.element( 'br' ) );
 							}
-
 						}
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'pre': function( element ) {
-						if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+					pre: function( element ) {
+						if ( List.thisIsAListItem( editor, element ) ) {
+							List.convertToFakeListItem( editor, element );
+						}
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'h1': function( element ) {
-						if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+					h1: function( element ) {
+						if ( List.thisIsAListItem( editor, element ) ) {
+							List.convertToFakeListItem( editor, element );
+						}
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'h2': function( element ) {
-						if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+					h2: function( element ) {
+						if ( List.thisIsAListItem( editor, element ) ) {
+							List.convertToFakeListItem( editor, element );
+						}
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'h3': function( element ) {
-						if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+					h3: function( element ) {
+						if ( List.thisIsAListItem( editor, element ) ) {
+							List.convertToFakeListItem( editor, element );
+						}
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'h4': function( element ) {
-						if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+					h4: function( element ) {
+						if ( List.thisIsAListItem( editor, element ) ) {
+							List.convertToFakeListItem( editor, element );
+						}
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'h5': function( element ) {
-						if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+					h5: function( element ) {
+						if ( List.thisIsAListItem( editor, element ) ) {
+							List.convertToFakeListItem( editor, element );
+						}
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'h6': function( element ) {
-						if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+					h6: function( element ) {
+						if ( List.thisIsAListItem( editor, element ) ) {
+							List.convertToFakeListItem( editor, element );
+						}
 
 						Style.createStyleStack( element, filter, editor );
 					},
-					'font': function( element ) {
+					font: function( element ) {
 						if ( element.getHtml().match( /^\s*$/ ) ) {
 							// There might be font tag directly in document fragment, we cannot replace it with a textnode as this generates
 							// superfluous spaces in output. What later might be transformed into empty paragraphs, so just remove such element.
@@ -253,13 +264,12 @@
 						// and style attributes are present. Such markup is produced by Excel.
 						if ( CKEDITOR.dtd.tr[ element.parent.name ] &&
 							CKEDITOR.tools.arrayCompare( CKEDITOR.tools.object.keys( element.attributes ), [ 'class', 'style' ] ) ) {
-
 							Style.createStyleStack( element, filter, editor );
 						} else {
 							createAttributeStack( element, filter );
 						}
 					},
-					'ul': function( element ) {
+					ul: function( element ) {
 						if ( !msoListsDetected ) {
 							// List should only be processed if we're sure we're working with Word. (https://dev.ckeditor.com/ticket/16593)
 							return;
@@ -273,7 +283,7 @@
 						List.dissolveList( element );
 						return false;
 					},
-					'li': function( element ) {
+					li: function( element ) {
 						Heuristics.correctLevelShift( element );
 
 						if ( !msoListsDetected ) {
@@ -284,7 +294,7 @@
 
 						Style.pushStylesLower( element );
 					},
-					'ol': function( element ) {
+					ol: function( element ) {
 						if ( !msoListsDetected ) {
 							// List should only be processed if we're sure we're working with Word. (https://dev.ckeditor.com/ticket/16593)
 							return;
@@ -299,16 +309,15 @@
 						List.dissolveList( element );
 						return false;
 					},
-					'span': function( element ) {
+					span: function( element ) {
 						element.filterChildren( filter );
 
 						element.attributes.style = Style.normalizedStyles( element, editor );
 
 						if ( !element.attributes.style ||
-								// Remove garbage bookmarks that disrupt the content structure.
+						// Remove garbage bookmarks that disrupt the content structure.
 							element.attributes.style.match( /^mso\-bookmark:OLE_LINK\d+$/ ) ||
 							element.getHtml().match( /^(\s|&nbsp;)+$/ ) ) {
-
 							commonFilter.elements.replaceWithChildren( element );
 							return false;
 						}
@@ -346,7 +355,6 @@
 						element.parent.find( function( child ) {
 							if ( child.name == 'img' && child.attributes &&
 								child.attributes[ 'v:shapes' ] == element.attributes.id ) {
-
 								duplicate = true;
 							}
 						}, true );
@@ -354,7 +362,6 @@
 						if ( duplicate ) {
 							return false;
 						} else {
-
 							// Path 3:
 							var src = '';
 
@@ -383,12 +390,12 @@
 						return;
 					},
 
-					'style': function() {
+					style: function() {
 						// We don't want to let any styles in. Firefox tends to add some.
 						return false;
 					},
 
-					'object': function( element ) {
+					object: function( element ) {
 						// The specs about object `data` attribute:
 						// 		Address of the resource as a valid URL. At least one of data and type must be defined.
 						// If there is not `data`, skip the object element. (https://dev.ckeditor.com/ticket/17001)
@@ -396,7 +403,7 @@
 					},
 
 					// Integrate page breaks with `pagebreak` plugin (#2598).
-					'br': function( element ) {
+					br: function( element ) {
 						if ( !editor.plugins.pagebreak ) {
 							return;
 						}
@@ -411,17 +418,17 @@
 					}
 				},
 				attributes: {
-					'style': function( styles, element ) {
+					style: function( styles, element ) {
 						// Returning false deletes the attribute.
 						return Style.normalizedStyles( element, editor ) || false;
 					},
-					'class': function( classes ) {
+					class: function( classes ) {
 						// The (el\d+)|(font\d+) are default Excel classes for table cells and text.
 						return falseIfEmpty( classes.replace( /(el\d+)|(font\d+)|msonormal|msolistparagraph\w*/ig, '' ) );
 					},
-					'cellspacing': remove,
-					'cellpadding': remove,
-					'border': remove,
+					cellspacing: remove,
+					cellpadding: remove,
+					border: remove,
 					'v:shapes': remove,
 					'o:spid': remove
 				},
@@ -569,7 +576,7 @@
 					delete styles[ 'margin-left' ];
 				}
 
-				element.attributes.style =  CKEDITOR.tools.writeCssText( styles );
+				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 			}
 
 			// Converting to a normal list item would implicitly wrap the element around an <ul>.
@@ -603,9 +610,9 @@
 			var symbol = element.attributes[ 'cke-symbol' ],
 				// Find the first element which contains symbol to be replaced (#2690).
 				node = element.findOne( function( node ) {
-						// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
-						return node.value && node.value.indexOf( symbol ) > -1;
-					}, true ),
+					// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
+					return node.value && node.value.indexOf( symbol ) > -1;
+				}, true ),
 				parent;
 
 			if ( node ) {
@@ -626,7 +633,9 @@
 			var style = tools.parseCssText( list.attributes.style );
 
 			if ( list.name == 'ol' ) {
-				if ( list.attributes.type || style[ 'list-style-type' ] ) return;
+				if ( list.attributes.type || style[ 'list-style-type' ] ) {
+					return;
+				}
 
 				var typeMap = {
 					'[ivx]': 'lower-roman',
@@ -647,14 +656,13 @@
 			} else {
 				var symbolMap = {
 					'·': 'disc',
-					'o': 'circle',
+					o: 'circle',
 					'§': 'square' // In Word this is a square.
 				};
 
 				if ( !style[ 'list-style-type' ] && symbolMap[ symbol ] ) {
 					style[ 'list-style-type' ] = symbolMap[ symbol ];
 				}
-
 			}
 
 			List.setListSymbol.removeRedundancies( style, level );
@@ -736,27 +744,28 @@
 
 				function fromRoman( str ) {
 					var romans = [
-							[ 1000, 'M' ],
-							[ 900, 'CM' ],
-							[ 500, 'D' ],
-							[ 400, 'CD' ],
-							[ 100, 'C' ],
-							[ 90, 'XC' ],
-							[ 50, 'L' ],
-							[ 40, 'XL' ],
-							[ 10, 'X' ],
-							[ 9, 'IX' ],
-							[ 5, 'V' ],
-							[ 4, 'IV' ],
-							[ 1, 'I' ]
-						];
+						[ 1000, 'M' ],
+						[ 900, 'CM' ],
+						[ 500, 'D' ],
+						[ 400, 'CD' ],
+						[ 100, 'C' ],
+						[ 90, 'XC' ],
+						[ 50, 'L' ],
+						[ 40, 'XL' ],
+						[ 10, 'X' ],
+						[ 9, 'IX' ],
+						[ 5, 'V' ],
+						[ 4, 'IV' ],
+						[ 1, 'I' ]
+					];
 
 					str = str.toUpperCase();
 					var l = romans.length,
 						retVal = 0;
 					for ( var i = 0; i < l; ++i ) {
-						for ( var j = romans[ i ], k = j[ 1 ].length; str.substr( 0, k ) == j[ 1 ]; str = str.substr( k ) )
+						for ( var j = romans[ i ], k = j[ 1 ].length; str.substr( 0, k ) == j[ 1 ]; str = str.substr( k ) ) {
 							retVal += j[ 0 ];
+						}
 					}
 					return retVal;
 				}
@@ -793,16 +802,16 @@
 			 */
 			getStyle: function( marker ) {
 				var typeMap = {
-						'i': 'lower-roman',
-						'v': 'lower-roman',
-						'x': 'lower-roman',
-						'l': 'lower-roman',
-						'm': 'lower-roman',
-						'I': 'upper-roman',
-						'V': 'upper-roman',
-						'X': 'upper-roman',
-						'L': 'upper-roman',
-						'M': 'upper-roman'
+						i: 'lower-roman',
+						v: 'lower-roman',
+						x: 'lower-roman',
+						l: 'lower-roman',
+						m: 'lower-roman',
+						I: 'upper-roman',
+						V: 'upper-roman',
+						X: 'upper-roman',
+						L: 'upper-roman',
+						M: 'upper-roman'
 					},
 					firstCharacter = marker.slice( 0, 1 ),
 					type = typeMap[ firstCharacter ];
@@ -1053,7 +1062,7 @@
 				return;
 			}
 
-			var assumedValue = this.calculateValue(  element ),
+			var assumedValue = this.calculateValue( element ),
 				cleanSymbol = element.attributes[ 'cke-symbol' ].match( /[a-z0-9]+/gi ),
 				computedValue,
 				listType;
@@ -1201,7 +1210,7 @@
 				if ( child && child.name && child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
 					Style.pushStylesLower( listElement, {
 						'list-style-type': true,
-						'display': true
+						display: true
 					} );
 
 					var childStyle = tools.parseCssText( child.attributes.style, true );
@@ -1238,13 +1247,27 @@
 			}
 
 			function toRoman( number ) {
-				if ( number >= 50 ) return 'l' + toRoman( number - 50 );
-				if ( number >= 40 ) return 'xl' + toRoman( number - 40 );
-				if ( number >= 10 ) return 'x' + toRoman( number - 10 );
-				if ( number == 9 ) return 'ix';
-				if ( number >= 5 ) return 'v' + toRoman( number - 5 );
-				if ( number == 4 ) return 'iv';
-				if ( number >= 1 ) return 'i' + toRoman( number - 1 );
+				if ( number >= 50 ) {
+					return 'l' + toRoman( number - 50 );
+				}
+				if ( number >= 40 ) {
+					return 'xl' + toRoman( number - 40 );
+				}
+				if ( number >= 10 ) {
+					return 'x' + toRoman( number - 10 );
+				}
+				if ( number == 9 ) {
+					return 'ix';
+				}
+				if ( number >= 5 ) {
+					return 'v' + toRoman( number - 5 );
+				}
+				if ( number == 4 ) {
+					return 'iv';
+				}
+				if ( number >= 1 ) {
+					return 'i' + toRoman( number - 1 );
+				}
 				return '';
 			}
 
@@ -1263,7 +1286,6 @@
 					}
 				}
 			}
-
 		},
 
 		groupLists: function( listElements ) {
@@ -1396,7 +1418,6 @@
 						return prev.attributes[ 'cke-list-id' ] === listElement.attributes[ 'cke-list-id' ];
 					}
 				}
-
 			} while ( prev );
 
 			return false;
@@ -1404,14 +1425,30 @@
 
 		// Source: http://stackoverflow.com/a/17534350/3698944
 		toArabic: function( symbol ) {
-			if ( !symbol.match( /[ivxl]/i ) ) return 0;
-			if ( symbol.match( /^l/i ) ) return 50 + List.toArabic( symbol.slice( 1 ) );
-			if ( symbol.match( /^lx/i ) ) return 40 + List.toArabic( symbol.slice( 1 ) );
-			if ( symbol.match( /^x/i ) ) return 10 + List.toArabic( symbol.slice( 1 ) );
-			if ( symbol.match( /^ix/i ) ) return 9 + List.toArabic( symbol.slice( 2 ) );
-			if ( symbol.match( /^v/i ) ) return 5 + List.toArabic( symbol.slice( 1 ) );
-			if ( symbol.match( /^iv/i ) ) return 4 + List.toArabic( symbol.slice( 2 ) );
-			if ( symbol.match( /^i/i ) ) return 1 + List.toArabic( symbol.slice( 1 ) );
+			if ( !symbol.match( /[ivxl]/i ) ) {
+				return 0;
+			}
+			if ( symbol.match( /^l/i ) ) {
+				return 50 + List.toArabic( symbol.slice( 1 ) );
+			}
+			if ( symbol.match( /^lx/i ) ) {
+				return 40 + List.toArabic( symbol.slice( 1 ) );
+			}
+			if ( symbol.match( /^x/i ) ) {
+				return 10 + List.toArabic( symbol.slice( 1 ) );
+			}
+			if ( symbol.match( /^ix/i ) ) {
+				return 9 + List.toArabic( symbol.slice( 2 ) );
+			}
+			if ( symbol.match( /^v/i ) ) {
+				return 5 + List.toArabic( symbol.slice( 1 ) );
+			}
+			if ( symbol.match( /^iv/i ) ) {
+				return 4 + List.toArabic( symbol.slice( 2 ) );
+			}
+			if ( symbol.match( /^i/i ) ) {
+				return 1 + List.toArabic( symbol.slice( 1 ) );
+			}
 			// Ignore other characters.
 			return List.toArabic( symbol.slice( 1 ) );
 		},
@@ -1432,7 +1469,7 @@
 			var symbolCase = symbol.toUpperCase() == symbol ? 'upper-' : 'lower-',
 				symbolMap = {
 					'·': [ 'disc', -1 ],
-					'o': [ 'circle', -2 ],
+					o: [ 'circle', -2 ],
 					'§': [ 'square', -3 ]
 				};
 
@@ -1672,24 +1709,24 @@
 		 * */
 		isDegenerateListItem: function( editor, item ) {
 			return !!item.attributes[ 'cke-list-level' ] || ( item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
-					// In rare cases there's no indication that a heading is a list item other than
-					// the fact that it has a child element containing only a list symbol.
-					if ( child.type == CKEDITOR.NODE_ELEMENT && item.name.match( /h\d/i ) &&
+				// In rare cases there's no indication that a heading is a list item other than
+				// the fact that it has a child element containing only a list symbol.
+				if ( child.type == CKEDITOR.NODE_ELEMENT && item.name.match( /h\d/i ) &&
 						child.getHtml().match( /^[a-zA-Z0-9]+?[\.\)]$/ ) ) {
-						return true;
-					}
+					return true;
+				}
 
-					var css = tools.parseCssText( child.attributes && child.attributes.style, true );
+				var css = tools.parseCssText( child.attributes && child.attributes.style, true );
 
-					if ( !css ) {
-						return false;
-					}
-					var fontSize = css.font || css['font-size'] || '',
-						fontFamily = css[ 'font-family' ] || '';
+				if ( !css ) {
+					return false;
+				}
+				var fontSize = css.font || css['font-size'] || '',
+					fontFamily = css[ 'font-family' ] || '';
 
-					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
+				return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
 						fontFamily.match( /symbol/i );
-				}, true ).length );
+			}, true ).length );
 		},
 
 		/**
@@ -1727,7 +1764,7 @@
 			}
 
 			// An array with indentation difference between n and n-1 list item. It's 0 for the first one.
-			var indentationDiffs = map( indents, function( curIndent, i  ) {
+			var indentationDiffs = map( indents, function( curIndent, i ) {
 					return i === 0 ? 0 : curIndent - indents[ i - 1 ];
 				} ),
 				// Guess indentation step, but it must not be equal to 0.

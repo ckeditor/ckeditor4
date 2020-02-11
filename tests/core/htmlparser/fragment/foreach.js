@@ -18,17 +18,19 @@ function record( callback ) {
 	return {
 		tokens: tokens,
 		fn: function( node ) {
-			if ( node.type == CKEDITOR.NODE_ELEMENT )
+			if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 				tokens.push( node.name );
-			else if ( node.type == CKEDITOR.NODE_TEXT )
+			} else if ( node.type == CKEDITOR.NODE_TEXT ) {
 				tokens.push( '#' + node.value );
-			else if ( node.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT )
+			} else if ( node.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) {
 				tokens.push( 'docfrag' );
-			else
+			} else {
 				tokens.push( 'not implemented type' );
+			}
 
-			if ( callback )
+			if ( callback ) {
 				return callback( node );
+			}
 		}
 	};
 }
@@ -97,8 +99,9 @@ bender.test( {
 	'test forEach - stop on false': function() {
 		var fragment = fromHtml( '<p>text0<b>text1</b><i><b>text2<u>text3</u></b>text4</i></p>' ),
 			rec = record( function( node ) {
-				if ( node.type == CKEDITOR.NODE_ELEMENT && node.name == 'b' )
+				if ( node.type == CKEDITOR.NODE_ELEMENT && node.name == 'b' ) {
 					return false;
+				}
 			} );
 
 		fragment.forEach( rec.fn );

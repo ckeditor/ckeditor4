@@ -53,7 +53,7 @@
 			} );
 		}
 	} );
-}() );
+} )() ;
 
 function testResizerPresence( profile, readOnly ) {
 	return function() {
@@ -65,7 +65,7 @@ function testResizerPresence( profile, readOnly ) {
 					if ( readOnly ) {
 						editor.setReadOnly( readOnly );
 					}
-					assert.isNotNull( editor.editable().findOne( '.cke_widget_image .cke_image_resizer' ), 'Resizer should be created'  );
+					assert.isNotNull( editor.editable().findOne( '.cke_widget_image .cke_image_resizer' ), 'Resizer should be created' );
 				} );
 			} );
 			wait();

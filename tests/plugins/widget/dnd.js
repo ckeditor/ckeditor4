@@ -237,8 +237,9 @@
 
 					widget.dragHandlerContainer.setStyles = function( styles ) {
 						// Be a little bit more precise - data may trigger other setStyles calls too.
-						if ( styles.top && styles.left )
+						if ( styles.top && styles.left ) {
 							updated++;
+						}
 					};
 
 					widget.setData( 'foo', 'bar' );

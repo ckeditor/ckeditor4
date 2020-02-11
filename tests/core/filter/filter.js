@@ -120,13 +120,13 @@
 
 		'test elements filter - object with unnamed rules': function() {
 			var filter = createFilter( {
-				'$1': {
+				$1: {
 					elements: 'p i'
 				},
-				'$2': {
+				$2: {
 					elements: [ 'ul', 'li' ]
 				},
-				'$3': {
+				$3: {
 					elements: { b: true }
 				}
 			} );
@@ -155,7 +155,7 @@
 		'test elements "*" filter - object': function() {
 			var filter = createFilter( {
 				'p div': true,
-				'$0': {
+				$0: {
 					propertiesOnly: true,
 					attributes: 'title'
 				}
@@ -168,7 +168,7 @@
 		'test elements "*" filter 2 - object': function() {
 			// This rule allows all elements, because it does not contain neither propertiesOnly nor elements.
 			var filter = createFilter( {
-				'$0': {
+				$0: {
 					attributes: 'title'
 				}
 			} );
@@ -187,7 +187,7 @@
 			var filter = createFilter( {
 				'p b i': true,
 
-				'$0': {
+				$0: {
 					match: function( el ) {
 						return el.name == 'b';
 					},
@@ -268,7 +268,7 @@
 			var filter = createFilter( 'h1 p (a*,*B); h2' ); // Classes are case sensitive.
 
 			filter( '<h1 class="axy cb dB dx">foo</h1><p class="a c">bar</p>',
-					'<h1 class="axy dB">foo</h1><p class="a">bar</p>' );
+				'<h1 class="axy dB">foo</h1><p class="a">bar</p>' );
 			filter( '<h2 class="a b">foo</h2>',							'<h2>foo</h2>' );
 		},
 
@@ -284,7 +284,7 @@
 
 		'test classes filter - style': function() {
 			var filter = createFilter( [
-				st( { element: 'h1', attributes: { 'class': 'a B' } } ),
+				st( { element: 'h1', attributes: { class: 'a B' } } ),
 				st( { element: 'h2' } )
 			] );
 
@@ -308,7 +308,7 @@
 			filter( '<h2 style="border:solid">foo</h2>',				'<h2 style="border:solid">foo</h2>' );
 			filter( '<h2 style="border-style:solid">foo</h2>',			'<h2 style="border-style:solid">foo</h2>' );
 			filter( '<p style="font-color:red; font-size:11px">foo</p>',
-					'<p style="font-color:red; font-size:11px">foo</p>' );
+				'<p style="font-color:red; font-size:11px">foo</p>' );
 		},
 
 		'test styles filter - object': function() {
@@ -334,7 +334,7 @@
 			} ) );
 
 			filter( '<p><span style="font-size:10px; color:red">A</span></p>',
-					'<p><span style="font-size:10px">A</span></p>' );
+				'<p><span style="font-size:10px">A</span></p>' );
 			filter( '<p><span style="color:red">A</span></p>',			'<p>A</p>' );
 		},
 
@@ -460,15 +460,15 @@
 			} );
 
 			filter( '<p><b>A</b><u>A</u><i>A</i><s>A</s></p>',
-					'<p><b>A</b><u>A</u><i>A</i><s>A</s></p>' );
+				'<p><b>A</b><u>A</u><i>A</i><s>A</s></p>' );
 			filter( '<p><b class="x y" foo="1" style="color:red">A</b></p>',
-					'<p><b class="x y" foo="1" style="color:red">A</b></p>' );
+				'<p><b class="x y" foo="1" style="color:red">A</b></p>' );
 			filter( '<p><u class="x y" foo="1" style="color:red">A</u></p>',
-					'<p><u foo="1">A</u></p>' );
+				'<p><u foo="1">A</u></p>' );
 			filter( '<p><i class="x y" foo="1" style="color:red">A</i></p>',
-					'<p><i class="x y">A</i></p>' );
+				'<p><i class="x y">A</i></p>' );
 			filter( '<p><s class="x y" foo="1" style="color:red">A</s></p>',
-					'<p><s style="color:red">A</s></p>' );
+				'<p><s style="color:red">A</s></p>' );
 		},
 
 		'test validate all rules - object': function() {
@@ -480,15 +480,15 @@
 			} );
 
 			filter( '<p><b>A</b><u>A</u><i>A</i><s>A</s></p>',
-					'<p><b>A</b><u>A</u><i>A</i><s>A</s></p>' );
+				'<p><b>A</b><u>A</u><i>A</i><s>A</s></p>' );
 			filter( '<p><b class="x y" foo="1" style="color:red">A</b></p>',
-					'<p><b class="x y" foo="1" style="color:red">A</b></p>' );
+				'<p><b class="x y" foo="1" style="color:red">A</b></p>' );
 			filter( '<p><u class="x y" foo="1" style="color:red">A</u></p>',
-					'<p><u foo="1">A</u></p>' );
+				'<p><u foo="1">A</u></p>' );
 			filter( '<p><i class="x y" foo="1" style="color:red">A</i></p>',
-					'<p><i class="x y">A</i></p>' );
+				'<p><i class="x y">A</i></p>' );
 			filter( '<p><s class="x y" foo="1" style="color:red">A</s></p>',
-					'<p><s style="color:red">A</s></p>' );
+				'<p><s style="color:red">A</s></p>' );
 		},
 
 		'test strip divs': function() {

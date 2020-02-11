@@ -11,131 +11,131 @@
 	bender.test( {
 
 		'test cell properties dialog (text selection)': doTest( 'table-1', function( dialog ) {
-				dialog.setValueOf( 'info', 'width', 100 );
-				dialog.setValueOf( 'info', 'height', 50 );
-			}
+			dialog.setValueOf( 'info', 'width', 100 );
+			dialog.setValueOf( 'info', 'height', 50 );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#1)': doTest( 'table-2', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'rowSpan' ) );
-			}
+			assert.areSame( '', dialog.getValueOf( 'info', 'rowSpan' ) );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#2)': doTest( 'table-3', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'rowSpan' ) );
-			}
+			assert.areSame( '', dialog.getValueOf( 'info', 'rowSpan' ) );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#3)': doTest( 'table-4', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'colSpan' ) );
-			}
+			assert.areSame( '', dialog.getValueOf( 'info', 'colSpan' ) );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#4)': doTest( 'table-5', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'colSpan' ) );
-			}
+			assert.areSame( '', dialog.getValueOf( 'info', 'colSpan' ) );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#5)': doTest( 'table-6', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( 'px', dialog.getValueOf( 'info', 'widthType' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'wordWrap' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'rowSpan' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
+			assert.areSame( 'px', dialog.getValueOf( 'info', 'widthType' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'wordWrap' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'rowSpan' ) );
 
-				dialog.setValueOf( 'info', 'width', 100 );
-				dialog.setValueOf( 'info', 'bgColor', 'red' );
-				dialog.setValueOf( 'info', 'hAlign', 'right' );
-			}
+			dialog.setValueOf( 'info', 'width', 100 );
+			dialog.setValueOf( 'info', 'bgColor', 'red' );
+			dialog.setValueOf( 'info', 'hAlign', 'right' );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#6)': doTest( 'table-7', function( dialog ) {
-				assert.areSame( '50', dialog.getValueOf( 'info', 'width' ) );
-				assert.areSame( 'px', dialog.getValueOf( 'info', 'widthType' ) );
+			assert.areSame( '50', dialog.getValueOf( 'info', 'width' ) );
+			assert.areSame( 'px', dialog.getValueOf( 'info', 'widthType' ) );
 
-				dialog.setValueOf( 'info', 'width', 20 );
-			}
+			dialog.setValueOf( 'info', 'width', 20 );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#7)': doTest( 'table-8', function( dialog ) {
-				assert.areSame( '50', dialog.getValueOf( 'info', 'width' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
+			assert.areSame( '50', dialog.getValueOf( 'info', 'width' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
 
-				dialog.setValueOf( 'info', 'width', 20 );
-			}
+			dialog.setValueOf( 'info', 'width', 20 );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#8)': doTest( 'table-9', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'cellType' ) );
-				assert.areSame( 'red', dialog.getValueOf( 'info', 'bgColor' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'cellType' ) );
+			assert.areSame( 'red', dialog.getValueOf( 'info', 'bgColor' ) );
 
-				dialog.setValueOf( 'info', 'cellType', 'td' );
-				dialog.setValueOf( 'info', 'bgColor', 'green' );
-			}
+			dialog.setValueOf( 'info', 'cellType', 'td' );
+			dialog.setValueOf( 'info', 'bgColor', 'green' );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#9)': doTest( 'table-10', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'width' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'width' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
 
-				dialog.setValueOf( 'info', 'width', 10 );
-			}
+			dialog.setValueOf( 'info', 'width', 10 );
+		}
 		),
 
 		// https://dev.ckeditor.com/ticket/11439
 		'test load and update field values (#10)': doTest( 'table-11', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'width' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'width' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
 
-				dialog.setValueOf( 'info', 'width', 10 );
-				dialog.setValueOf( 'info', 'widthType', 'px' );
-			}
+			dialog.setValueOf( 'info', 'width', 10 );
+			dialog.setValueOf( 'info', 'widthType', 'px' );
+		}
 		),
 
 		// (#2084)
 		'test load and update field values - same unit and value, change value (#11)': doTest( 'table-12', function( dialog ) {
-				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( '%', dialog.getValueOf( 'info', 'heightType' ) );
+			assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
+			assert.areSame( '%', dialog.getValueOf( 'info', 'heightType' ) );
 
-				dialog.setValueOf( 'info', 'height', 20 );
-				dialog.setValueOf( 'info', 'heightType', '%' );
-			}
+			dialog.setValueOf( 'info', 'height', 20 );
+			dialog.setValueOf( 'info', 'heightType', '%' );
+		}
 		),
 
 		// (#2084)
 		'test load and update field values - different unit, same value, change value (#12)': doTest( 'table-13', function( dialog ) {
-				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
+			assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
 
-				dialog.setValueOf( 'info', 'height', 20 );
-			}
+			dialog.setValueOf( 'info', 'height', 20 );
+		}
 		),
 
 		// (#2084)
 		'test load and update field values - different unit and value, change value (#13)': doTest( 'table-14', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
 
-				dialog.setValueOf( 'info', 'height', 20 );
-			}
+			dialog.setValueOf( 'info', 'height', 20 );
+		}
 		),
 
 		// (#2084)
 		'test load and update field values - different unit and value, change unit and value (#14)': doTest( 'table-15', function( dialog ) {
-				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
 
-				dialog.setValueOf( 'info', 'height', 20 );
-				dialog.setValueOf( 'info', 'heightType', 'px' );
-			}
+			dialog.setValueOf( 'info', 'height', 20 );
+			dialog.setValueOf( 'info', 'heightType', 'px' );
+		}
 		),
 
 		// (#2423)
@@ -239,5 +239,4 @@
 			} );
 		}
 	} );
-
 } )();

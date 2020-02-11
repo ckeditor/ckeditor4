@@ -116,7 +116,6 @@ bender.test( {
 		bindNotifications( editor, loader );
 
 
-
 		loader.fire( 'uploading' );
 		loader.uploaded = 1;
 		loader.uploadTotal = 4;

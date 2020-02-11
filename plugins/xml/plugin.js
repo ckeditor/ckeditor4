@@ -25,9 +25,9 @@
 	CKEDITOR.xml = function( xmlObjectOrData ) {
 		var baseXml = null;
 
-		if ( typeof xmlObjectOrData == 'object' )
+		if ( typeof xmlObjectOrData == 'object' ) {
 			baseXml = xmlObjectOrData;
-		else {
+		} else {
 			var data = ( xmlObjectOrData || '' ).replace( /&nbsp;/g, '\xA0' );
 
 			// Check ActiveXObject before DOMParser, because IE10+ support both, but
@@ -48,8 +48,7 @@
 					baseXml.validateOnParse = false;
 					baseXml.loadXML( data );
 				}
-			}
-			else if ( window.DOMParser ) {
+			} else if ( window.DOMParser ) {
 				baseXml = ( new DOMParser() ).parseFromString( data, 'text/xml' );
 			}
 		}
@@ -83,8 +82,9 @@
 
 			if ( contextNode || ( contextNode = baseXml ) ) {
 				if ( 'selectSingleNode' in contextNode ) // IEs
+				{
 					return contextNode.selectSingleNode( xpath );
-				else if ( baseXml.evaluate ) { // Others
+				} else if ( baseXml.evaluate ) { // Others
 					var result = baseXml.evaluate( xpath, contextNode, null, 9, null );
 					return ( result && result.singleNodeValue ) || null;
 				}
@@ -116,14 +116,16 @@
 
 			if ( contextNode || ( contextNode = baseXml ) ) {
 				if ( 'selectNodes' in contextNode ) // IEs
+				{
 					return contextNode.selectNodes( xpath );
-				else if ( baseXml.evaluate ) { // Others
+				} else if ( baseXml.evaluate ) { // Others
 					var result = baseXml.evaluate( xpath, contextNode, null, 5, null );
 
 					if ( result ) {
 						var node;
-						while ( ( node = result.iterateNext() ) )
+						while ( ( node = result.iterateNext() ) ) {
 							nodes.push( node );
+						}
 					}
 				}
 			}
@@ -153,9 +155,12 @@
 				node = node.firstChild;
 				while ( node ) {
 					if ( node.xml ) // IEs
+					{
 						xml.push( node.xml );
-					else if ( window.XMLSerializer ) // Others
+					} else if ( window.XMLSerializer ) // Others
+					{
 						xml.push( ( new XMLSerializer() ).serializeToString( node ) );
+					}
 
 					node = node.nextSibling;
 				}

@@ -1,7 +1,6 @@
 /* bender-tags: editor */
 
 ( function() {
-
 	'use strict';
 
 	bender.editor = {
@@ -17,8 +16,9 @@
 		playground;
 
 	function getStyle( definitionOrStyle, enterMode ) {
-		if ( definitionOrStyle instanceof CKEDITOR.style )
+		if ( definitionOrStyle instanceof CKEDITOR.style ) {
 			return definitionOrStyle;
+		}
 
 		var style = new CKEDITOR.style( definitionOrStyle );
 
@@ -74,16 +74,18 @@
 
 		return {
 			a: function( htmlWithRange, expectedOutput, msg ) {
-				if ( tcs[ tcsGroupName + ' - ' + msg ] )
+				if ( tcs[ tcsGroupName + ' - ' + msg ] ) {
 					throw new Error( 'Test named "' + tcsGroupName + ' - ' + msg + '" already exists' );
+				}
 
 				tcs[ tcsGroupName + ' - ' + msg ] = function() {
 					assertAppliedStyle2( playground, style, htmlWithRange, expectedOutput );
 				};
 			},
 			r: function( htmlWithRange, expectedOutput, msg ) {
-				if ( tcs[ tcsGroupName + ' - ' + msg ] )
+				if ( tcs[ tcsGroupName + ' - ' + msg ] ) {
 					throw new Error( 'Test named "' + tcsGroupName + ' - ' + msg + '" already exists' );
+				}
 
 				tcs[ tcsGroupName + ' - ' + msg ] = function() {
 					assertRemovedStyle2( playground, style, htmlWithRange, expectedOutput );
@@ -193,7 +195,7 @@
 			range.setEnd( playground, 5 );
 
 			assertAppliedStyle( playground, range,
-				{ element: 'span', attributes: { 'class': 'b' } },
+				{ element: 'span', attributes: { class: 'b' } },
 				'<span class="b">this <span class="a">is</span> some sample text</span>' );
 		},
 
@@ -232,7 +234,7 @@
 			style.applyToRange( range );
 
 			assert.areSame( fixHtml( '<span style="font-family:arial,helvetica,sans-serif;">this is</span> some sample text' ),
-					fixHtml( getInnerHtml( playground ) ), 'First range' );
+				fixHtml( getInnerHtml( playground ) ), 'First range' );
 
 			para.setHtml( para.getHtml() );
 
@@ -291,7 +293,7 @@
 			range.selectNodeContents( el );
 
 			var style1 = new CKEDITOR.style( { element: 'span', attributes: { style: 'font-weight:bold' } } ),
-			style2 = new CKEDITOR.style( { element: 'span', attributes: { style: 'font-style:italic' } } );
+				style2 = new CKEDITOR.style( { element: 'span', attributes: { style: 'font-style:italic' } } );
 
 			style1.applyToRange( range );
 			style2.applyToRange( range );
@@ -307,7 +309,7 @@
 			range.selectNodeContents( el );
 
 			var style1 = new CKEDITOR.style( { element: 'span', styles: { 'font-weight': 'bold' } } ),
-			style2 = new CKEDITOR.style( { element: 'span', styles: { 'font-style': 'italic' } } );
+				style2 = new CKEDITOR.style( { element: 'span', styles: { 'font-style': 'italic' } } );
 
 			style1.applyToRange( range );
 			style2.applyToRange( range );
@@ -360,16 +362,16 @@
 			{
 				element: 'span',
 				styles: { 'font-family': '#(family)' },
-				overrides: [ { element: 'font', attributes: { 'face': null } } ]
+				overrides: [ { element: 'font', attributes: { face: null } } ]
 			};
 
-			var style = new CKEDITOR.style( styleDef, { 'family': 'Arial,Helvetica,sans-serif' } );
+			var style = new CKEDITOR.style( styleDef, { family: 'Arial,Helvetica,sans-serif' } );
 			style.applyToRange( range );
 
-			style = new CKEDITOR.style( styleDef, { 'family': 'Comic Sans MS,cursive' } );
+			style = new CKEDITOR.style( styleDef, { family: 'Comic Sans MS,cursive' } );
 			style.applyToRange( range );
 
-			style = new CKEDITOR.style( styleDef, { 'family': 'Courier New,Courier,monospace' } );
+			style = new CKEDITOR.style( styleDef, { family: 'Courier New,Courier,monospace' } );
 			style.applyToRange( range );
 
 			var output = '<span style="font-family:courier new,courier,monospace;">outter</span><table><tbody><tr><td>' +
@@ -449,8 +451,8 @@
 			var style = new CKEDITOR.style(
 				{
 					element: 'span',
-					attributes: { 'class': '#(family)' },
-					overrides: [ { element: 'span', attributes: { 'class': /^font(?:comic|courier|times)$/ } } ]
+					attributes: { class: '#(family)' },
+					overrides: [ { element: 'span', attributes: { class: /^font(?:comic|courier|times)$/ } } ]
 				},
 				{ family: 'fontcourier' }
 			);
@@ -464,8 +466,8 @@
 			style = new CKEDITOR.style(
 				{
 					element: 'span',
-					attributes: { 'class': '#(family)' },
-					overrides: [ { element: 'span', attributes: { 'class': /^font(?:comic|courier|times)$/ } } ]
+					attributes: { class: '#(family)' },
+					overrides: [ { element: 'span', attributes: { class: /^font(?:comic|courier|times)$/ } } ]
 				},
 				{ family: 'fontcomic' }
 			);
@@ -495,13 +497,13 @@
 			var ct = playground;
 			var range = bender.tools.setHtmlWithRange( ct, '[some text and <a href="javascript:void(0)">a link</a>]' )[ 0 ];
 			var style = new CKEDITOR.style(
-			{
-				element: 'span',
-				styles: { color: 'red' },
-				childRule: function( element ) {
-					return element.getName() != 'a' || element.getElementsByTag( 'a' ).count();
-				}
-			} );
+				{
+					element: 'span',
+					styles: { color: 'red' },
+					childRule: function( element ) {
+						return element.getName() != 'a' || element.getElementsByTag( 'a' ).count();
+					}
+				} );
 
 			style.applyToRange( range );
 			assert.areSame( '<span style="color:red;">some text and </span><a href="javascript:void(0)"><span style="color:red;">a link</span></a>', getInnerHtml( playground ) );
@@ -566,8 +568,9 @@
 		},
 
 		'test filler is preserved when applying block style': function() {
-			if ( !CKEDITOR.env.needsBrFiller )
+			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
+			}
 
 			assertAppliedStyle2( playground, { element: 'h1' }, '<p>[]<br></p>', '<h1><br /></h1>' );
 		}

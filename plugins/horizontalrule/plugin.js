@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -29,8 +29,9 @@
 		icons: 'horizontalrule', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			if ( editor.blockless )
+			if ( editor.blockless ) {
 				return;
+			}
 
 			editor.addCommand( pluginName, horizontalruleCmd );
 			editor.ui.addButton && editor.ui.addButton( 'HorizontalRule', {

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -12,13 +12,14 @@
 		useComputedState = useComputedState === undefined || useComputedState;
 
 		var align;
-		if ( useComputedState )
+		if ( useComputedState ) {
 			align = element.getComputedStyle( 'text-align' );
-		else {
+		} else {
 			while ( !element.hasAttribute || !( element.hasAttribute( 'align' ) || element.getStyle( 'text-align' ) ) ) {
 				var parent = element.getParent();
-				if ( !parent )
+				if ( !parent ) {
 					break;
+				}
 				element = parent;
 			}
 			align = element.getStyle( 'text-align' ) || element.getAttribute( 'align' ) || '';
@@ -58,8 +59,7 @@
 
 			this.cssClassRegex = new RegExp( '(?:^|\\s+)(?:' + classes.join( '|' ) + ')(?=$|\\s)' );
 			this.requiredContent = blockTag + '(' + this.cssClassName + ')';
-		}
-		else {
+		} else {
 			this.requiredContent = blockTag + '{text-align}';
 		}
 
@@ -74,8 +74,9 @@
 
 		// In enter mode BR we need to allow here for div, because when non other
 		// feature allows div justify is the only plugin that uses it.
-		if ( editor.config.enterMode == CKEDITOR.ENTER_BR )
+		if ( editor.config.enterMode == CKEDITOR.ENTER_BR ) {
 			this.allowedContent.div = true;
+		}
 	}
 
 	function onDirChanged( e ) {
@@ -116,10 +117,11 @@
 				var style = 'text-align';
 				var align = node.getStyle( style );
 
-				if ( align == 'left' )
+				if ( align == 'left' ) {
 					node.setStyle( style, 'right' );
-				else if ( align == 'right' )
+				} else if ( align == 'right' ) {
 					node.setStyle( style, 'left' );
+				}
 			}
 		}
 	}
@@ -129,8 +131,9 @@
 			var selection = editor.getSelection(),
 				enterMode = editor.config.enterMode;
 
-			if ( !selection )
+			if ( !selection ) {
 				return;
+			}
 
 			var bookmarks = selection.createBookmarks(),
 				ranges = selection.getRanges();
@@ -146,8 +149,9 @@
 				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
 				while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
-					if ( block.isReadOnly() )
+					if ( block.isReadOnly() ) {
 						continue;
+					}
 
 					// Check if style or class might be applied to currently processed element (#455).
 					var tag = block.getName(),
@@ -170,15 +174,15 @@
 
 					if ( cssClassName && isAllowedCssClass ) {
 						// Append the desired class name.
-						if ( apply )
+						if ( apply ) {
 							block.addClass( cssClassName );
-						else if ( !className )
+						} else if ( !className ) {
 							block.removeAttribute( 'class' );
+						}
 					} else if ( apply && isAllowedTextAlign ) {
 						block.setStyle( 'text-align', this.value );
 					}
 				}
-
 			}
 
 			editor.focus();
@@ -213,8 +217,9 @@
 		icons: 'justifyblock,justifycenter,justifyleft,justifyright', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			if ( editor.blockless )
+			if ( editor.blockless ) {
 				return;
+			}
 
 			var left = new justifyCommand( editor, 'justifyleft', 'left' ),
 				center = new justifyCommand( editor, 'justifycenter', 'center' ),

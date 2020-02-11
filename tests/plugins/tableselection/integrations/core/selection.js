@@ -91,7 +91,7 @@
 		return range;
 	}
 
-	var tests =  {
+	var tests = {
 		setUp: function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 		},
@@ -765,7 +765,7 @@
 			assert.areSame( 1, selection.getRanges().length, 'Only one range is selected' );
 
 			assert.beautified.html( CKEDITOR.document.getById( 'contentOverwritingExpected' ).getHtml(),
-					this.editorBot.htmlWithSelection() );
+				this.editorBot.htmlWithSelection() );
 
 			clearTableSelection( editor.editable() );
 		},
@@ -1158,4 +1158,4 @@
 	};
 
 	bender.test( tests );
-}() );
+} )() ;

@@ -17,10 +17,11 @@
 CKEDITOR.dom.documentFragment = function( nodeOrDoc ) {
 	nodeOrDoc = nodeOrDoc || CKEDITOR.document;
 
-	if ( nodeOrDoc.type == CKEDITOR.NODE_DOCUMENT )
+	if ( nodeOrDoc.type == CKEDITOR.NODE_DOCUMENT ) {
 		this.$ = nodeOrDoc.$.createDocumentFragment();
-	else
+	} else {
 		this.$ = nodeOrDoc;
+	}
 };
 
 CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.element.prototype, {
@@ -56,13 +57,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 		return container.getHtml().replace( /\s*data-cke-expando=".*?"/g, '' );
 	}
 }, true, {
-	'append': 1, 'appendBogus': 1, 'clone': 1, 'getFirst': 1, 'getHtml': 1, 'getLast': 1, 'getParent': 1, 'getNext': 1, 'getPrevious': 1,
-	'appendTo': 1, 'moveChildren': 1, 'insertBefore': 1, 'insertAfterNode': 1, 'replace': 1, 'trim': 1, 'type': 1,
-	'ltrim': 1, 'rtrim': 1, 'getDocument': 1, 'getChildCount': 1, 'getChild': 1, 'getChildren': 1
+	append: 1, appendBogus: 1, clone: 1, getFirst: 1, getHtml: 1, getLast: 1, getParent: 1, getNext: 1, getPrevious: 1,
+	appendTo: 1, moveChildren: 1, insertBefore: 1, insertAfterNode: 1, replace: 1, trim: 1, type: 1,
+	ltrim: 1, rtrim: 1, getDocument: 1, getChildCount: 1, getChild: 1, getChildren: 1
 } );
 
 CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.document.prototype, true, {
-	'find': 1, 'findOne': 1
+	find: 1, findOne: 1
 } );
 
 /**

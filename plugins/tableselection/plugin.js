@@ -645,7 +645,7 @@
 	// Clears the content of selected cells.
 	//
 	// @param {CKEDITOR.dom.element[]} [cells] If given, this cells will be cleared.
-	TableSelection.prototype.emptyCells =  function( cells ) {
+	TableSelection.prototype.emptyCells = function( cells ) {
 		cells = cells || this.cells.all;
 
 		for ( var i = 0; i < cells.length; i++ ) {
@@ -1247,4 +1247,4 @@
 			} );
 		}
 	} );
-}() );
+} )() ;

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -27,8 +27,9 @@ CKEDITOR.plugins.add( 'devtools', {
 			'<li><strong>' + lang.dialogName + '</strong> : ' + dialog.getName() + '</li>' +
 			'<li><strong>' + lang.tabName + '</strong> : ' + tabName + '</li>';
 
-		if ( element )
+		if ( element ) {
 			str += '<li><strong>' + lang.elementId + '</strong> : ' + element.id + '</li>';
+		}
 
 		str += '<li><strong>' + lang.elementType + '</strong> : ' + link + '</li>';
 
@@ -92,8 +93,9 @@ CKEDITOR.plugins.add( 'devtools', {
 				}
 
 				dialog.foreach( function( obj ) {
-					if ( obj.type in { hbox: 1, vbox: 1 } )
+					if ( obj.type in { hbox: 1, vbox: 1 } ) {
 						return;
+					}
 
 					var el = obj.getElement();
 					if ( el ) {

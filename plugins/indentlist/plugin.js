@@ -37,8 +37,9 @@
 				editor.on( 'key', function( evt ) {
 					var path = editor.elementPath();
 
-					if ( editor.mode != 'wysiwyg' )
+					if ( editor.mode != 'wysiwyg' ) {
 						return;
+					}
 
 					if ( evt.data.keyCode == this.indentKey ) {
 						// Prevent of getting context of empty path (#424)(https://dev.ckeditor.com/ticket/17028).
@@ -52,8 +53,9 @@
 							// Don't indent if in first list item of the parent.
 							// Outdent, however, can always be done to collapse
 							// the list into a paragraph (div).
-							if ( this.isIndent && CKEDITOR.plugins.indentList.firstItemInPath( this.context, path, list ) )
+							if ( this.isIndent && CKEDITOR.plugins.indentList.firstItemInPath( this.context, path, list ) ) {
 								return;
+							}
 
 							// Exec related global indentation command. Global
 							// commands take care of bookmarks and selection,
@@ -88,15 +90,17 @@
 							var list = this.getContext( path ),
 								inFirstListItem = CKEDITOR.plugins.indentList.firstItemInPath( this.context, path, list );
 
-							if ( !list || !this.isIndent || inFirstListItem )
+							if ( !list || !this.isIndent || inFirstListItem ) {
 								return TRISTATE_DISABLED;
+							}
 
 							return TRISTATE_OFF;
 						} : function( editor, path ) {
 							var list = this.getContext( path );
 
-							if ( !list || this.isIndent )
+							if ( !list || this.isIndent ) {
 								return TRISTATE_DISABLED;
+							}
 
 							return TRISTATE_OFF;
 						},
@@ -124,13 +128,16 @@
 			// So before playing with the iterator, we need to expand the block to include the list items.
 			var startContainer = range.startContainer,
 				endContainer = range.endContainer;
-			while ( startContainer && !startContainer.getParent().equals( listNode ) )
+			while ( startContainer && !startContainer.getParent().equals( listNode ) ) {
 				startContainer = startContainer.getParent();
-			while ( endContainer && !endContainer.getParent().equals( listNode ) )
+			}
+			while ( endContainer && !endContainer.getParent().equals( listNode ) ) {
 				endContainer = endContainer.getParent();
+			}
 
-			if ( !startContainer || !endContainer )
+			if ( !startContainer || !endContainer ) {
 				return false;
+			}
 
 			// Now we can iterate over the individual items on the same tree depth.
 			var block = startContainer,
@@ -138,15 +145,17 @@
 				stopFlag = false;
 
 			while ( !stopFlag ) {
-				if ( block.equals( endContainer ) )
+				if ( block.equals( endContainer ) ) {
 					stopFlag = true;
+				}
 
 				itemsToMove.push( block );
 				block = block.getNext();
 			}
 
-			if ( itemsToMove.length < 1 )
+			if ( itemsToMove.length < 1 ) {
 				return false;
+			}
 
 			// Do indent or outdent operations on the array model of the list, not the
 			// list's DOM tree itself. The array model demands that it knows as much as
@@ -189,8 +198,9 @@
 				}
 			}
 
-			for ( i = lastItem.getCustomData( 'listarray_index' ) + 1; i < listArray.length && listArray[ i ].indent > baseIndent; i++ )
+			for ( i = lastItem.getCustomData( 'listarray_index' ) + 1; i < listArray.length && listArray[ i ].indent > baseIndent; i++ ) {
 				listArray[ i ].indent += indentOffset;
+			}
 
 			// Convert the array back to a DOM forest (yes we might have a few subtrees now).
 			// And replace the old list with the new forest.
@@ -207,14 +217,16 @@
 						child;
 
 					for ( i = count - 1; i >= 0; i-- ) {
-						if ( ( child = children.getItem( i ) ) && child.is && child.is( 'li' ) )
+						if ( ( child = children.getItem( i ) ) && child.is && child.is( 'li' ) ) {
 							pendingLis.push( child );
+						}
 					}
 				}
 			}
 
-			if ( newList )
+			if ( newList ) {
 				newList.listNode.replace( listNode );
+			}
 
 			// Move the nested <li> to be appeared after the parent.
 			if ( pendingLis && pendingLis.length ) {
@@ -226,8 +238,9 @@
 					while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in context ) {
 						// IE requires a filler NBSP for nested list inside empty list item,
 						// otherwise the list item will be inaccessiable. (https://dev.ckeditor.com/ticket/4476)
-						if ( CKEDITOR.env.needsNbspFiller && !li.getFirst( neitherWhitespacesNorBookmark ) )
+						if ( CKEDITOR.env.needsNbspFiller && !li.getFirst( neitherWhitespacesNorBookmark ) ) {
 							li.append( range.document.createText( '\u00a0' ) );
+						}
 
 						li.append( followingList );
 					}
@@ -236,8 +249,9 @@
 				}
 			}
 
-			if ( newList )
+			if ( newList ) {
 				editor.fire( 'contentDomInvalidated' );
+			}
 
 			return true;
 		}
@@ -261,8 +275,9 @@
 			// Avoid having selection boundaries out of the list.
 			// <ul><li>[...</li></ul><p>...]</p> => <ul><li>[...]</li></ul><p>...</p>
 			if ( !nearestListBlock ) {
-				if ( ( nearestListBlock = range.startPath().contains( context ) ) )
+				if ( ( nearestListBlock = range.startPath().contains( context ) ) ) {
 					range.setEndAt( nearestListBlock, CKEDITOR.POSITION_BEFORE_END );
+				}
 			}
 
 			// Avoid having selection enclose the entire list. (https://dev.ckeditor.com/ticket/6138)
@@ -290,8 +305,9 @@
 				range.endContainer = walker.previous();
 			}
 
-			if ( nearestListBlock )
+			if ( nearestListBlock ) {
 				return indent( nearestListBlock );
+			}
 		}
 		return 0;
 	}
@@ -327,8 +343,9 @@
 	 */
 	CKEDITOR.plugins.indentList.firstItemInPath = function( query, path, list ) {
 		var firstListItemInPath = path.contains( listItem );
-		if ( !list )
+		if ( !list ) {
 			list = path.contains( query );
+		}
 
 		return list && firstListItemInPath && firstListItemInPath.equals( list.getFirst( listItem ) );
 	};

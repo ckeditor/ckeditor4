@@ -1,10 +1,9 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.dialog.add( 'uicolor', function( editor ) {
-
 	var $el = CKEDITOR.dom.element,
 		$doc = CKEDITOR.document,
 		lang = editor.lang.uicolor,
@@ -123,7 +122,6 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 		if ( color ) {
 			$doc.getById( highlightedColorId ).setStyle( 'background-color', color );
 			$doc.getById( highlightedColorTextId ).setHtml( color );
-
 		} else {
 			$doc.getById( highlightedColorId ).removeStyle( 'background-color' );
 			$doc.getById( highlightedColorTextId ).setHtml( '&nbsp;' );
@@ -134,8 +132,9 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 	// Basing black-white decision off of luma scheme using the Rec. 709 version.
 	function isLightColor( color ) {
 		color = color.replace( /^#/, '' );
-		for ( var i = 0, rgb = []; i <= 2; i++ )
+		for ( var i = 0, rgb = []; i <= 2; i++ ) {
 			rgb[ i ] = parseInt( color.substr( i * 2, 2 ), 16 );
+		}
 		var luma = ( 0.2126 * rgb[ 0 ] ) + ( 0.7152 * rgb[ 1 ] ) + ( 0.0722 * rgb[ 2 ] );
 		return luma >= 165;
 	}
@@ -164,9 +163,9 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 				// relative is TR
 				if ( ( relative = element.getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( [ element.getIndex() ] );
-					if ( nodeToMove && nodeToMove.type == 1 )
+					if ( nodeToMove && nodeToMove.type == 1 ) {
 						nodeToMove.focus();
-
+					}
 				}
 				domEvt.preventDefault();
 				break;
@@ -276,7 +275,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 
 		// Create the gray scale colors cells.
 		appendColorCell( oRow.$, '#000000' );
-		for ( var n = 0; n < 16; n++  ) {
+		for ( var n = 0; n < 16; n++ ) {
 			var c = n.toString( 16 );
 			appendColorCell( oRow.$, '#' + c + c + c + c + c + c );
 		}
@@ -310,7 +309,6 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 		if ( color && dialog.getContentElement( 'picker', 'predefined' ).getValue() !== newColor ) {
 			// Color was updated via color palette, update dropdown.
 			dialog.getContentElement( 'picker', 'predefined' ).setValue( newColor );
-
 		} else if ( predefinedColor ) {
 			// Color was updated via dropdown, updated palette.
 			var colorCell = findColorCell( newColor );
@@ -421,7 +419,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 					children: [ {
 						id: 'predefined',
 						type: 'select',
-						'default': '',
+						default: '',
 						width: '100%',
 						label: lang.predefined,
 						items: [

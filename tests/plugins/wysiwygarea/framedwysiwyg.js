@@ -96,8 +96,9 @@ bender.test( {
 
 		editor.focus();
 
-		if ( insertFn == 'insertElement' )
+		if ( insertFn == 'insertElement' ) {
 			input = CKEDITOR.dom.element.createFromHtml( input, editor.document );
+		}
 
 		editor[ insertFn ]( input );
 

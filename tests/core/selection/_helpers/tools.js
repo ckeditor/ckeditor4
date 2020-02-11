@@ -40,16 +40,18 @@ function testSelection( markup ) {
 
 	/* Test selection::getRanges */
 	var sel = doc.getSelection(), readRanges = sel.getRanges();
-	for ( i = 0, length = readRanges.length; i < length; i++ )
+	for ( i = 0, length = readRanges.length; i < length; i++ ) {
 		assert.isTrue( checkRangeEqual( readRanges[ i ], sourceRanges[ i ] ), 'get ranges result doesn\'t match original on selection: ' + markup );
+	}
 
 	/* Test selection::selectRanges */
 	sel.selectRanges( sourceRanges );
 
 	// Retrieve the updated ranges after hand.
 	var madeRanges = sel.getRanges();
-	for ( i = 0; i < domSel.rangeCount; i++ )
+	for ( i = 0; i < domSel.rangeCount; i++ ) {
 		assert.isTrue( checkRangeEqual( sourceRanges[ i ], madeRanges[ i ] ), 'select ranges result doesn\'t match original on selection: ' + markup );
+	}
 }
 
 function testSelectedElement( markup, tag ) {
@@ -108,17 +110,19 @@ function checkRangeEqual( one, theOther ) {
 	var equals = true,
 		walker = new CKEDITOR.dom.walker(),
 		walkerRange = new CKEDITOR.dom.range(
-		one instanceof CKEDITOR.dom.range ? one.document :
-		new CKEDITOR.dom.document( one.getDocument() ) );
+			one instanceof CKEDITOR.dom.range ? one.document :
+				new CKEDITOR.dom.document( one.getDocument() ) );
 
 	// Check the measure range doesn't spans over actual content.
 	walker.guard = function( node, isOut ) {
-		if ( !isOut && node.type == CKEDITOR.NODE_ELEMENT )
-				walker.currentElement = node;
+		if ( !isOut && node.type == CKEDITOR.NODE_ELEMENT ) {
+			walker.currentElement = node;
+		}
 
 		// Must not walk across block boundaries.
-		if ( isOut && node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() )
+		if ( isOut && node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() ) {
 			equals = false;
+		}
 		// Stop when we're encountering a text node (filler and empty text nodes are excluded)
 		// or when we've already walked "through" an element.
 		else if ( node.type == CKEDITOR.NODE_TEXT ?
@@ -170,8 +174,9 @@ function checkSelection( type, startElement, selectedElement, selectedText, rang
 	// Check through each range or only the range count.
 	var selRanges = this.getRanges();
 	if ( ranges.length ) {
-		for ( var i = 0; i < selRanges.length; i++ )
+		for ( var i = 0; i < selRanges.length; i++ ) {
 			assert.isTrue( checkRangeEqual( ranges[ i ], selRanges[ i ] ), 'check selection range failed at position:' + i );
+		}
 	} else if ( typeof ranges == 'number' ) {
 		assert.areSame( ranges, selRanges.length, 'selection ranges count failed' );
 	}

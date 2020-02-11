@@ -38,7 +38,6 @@
 			a.insertion = '<hr />';
 			a( '<p>text^</p>',					'<p>text</p><hr /><p>^&nbsp;</p>',			'hr into end of paragraph' );
 			a( '<p>foo^bar</p>',				'<p>foo</p><hr /><p>^bar</p>',				'hr into middle of paragraph' );
-
 		},
 
 		'G2. block - inserted at the end of block limit': function() {
@@ -126,5 +125,4 @@
 				ts + r + '<tr><td>x<p contenteditable="false">foo</p>^z</td></tr>' + r + te,				'one row' );
 		}
 	} );
-
 } )();

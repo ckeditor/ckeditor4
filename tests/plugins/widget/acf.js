@@ -26,8 +26,9 @@
 					removePlugins: 'basicstyles',
 					on: {
 						widgetDefinition: function( evt ) {
-							if ( evt.data.name == 'test2' )
+							if ( evt.data.name == 'test2' ) {
 								evt.data.allowedContent = 'i[!data-widget,foo]';
+							}
 						},
 
 						pluginsLoaded: function( evt ) {
@@ -86,8 +87,9 @@
 					removePlugins: 'basicstyles',
 					on: {
 						widgetDefinition: function( evt ) {
-							if ( evt.data.name == 'test2' )
+							if ( evt.data.name == 'test2' ) {
 								evt.data.allowedContent = 'i[!data-widget,foo]';
+							}
 						}
 					}
 				}

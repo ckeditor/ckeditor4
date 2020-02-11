@@ -28,7 +28,7 @@
 			'onenote'
 		],
 		tests: {
-			'Unordered_nested_list': true
+			Unordered_nested_list: true
 		},
 
 		compareRawData: false,

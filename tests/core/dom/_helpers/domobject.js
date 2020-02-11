@@ -125,8 +125,9 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 		'test custom data after cloning': function() {
 			var a = objectFactory( 'domObjectTest1' );
 
-			if ( typeof a.clone != 'function' )
+			if ( typeof a.clone != 'function' ) {
 				assert.ignore();
+			}
 
 			a.setCustomData( 'x', 1 );
 

@@ -169,7 +169,6 @@
 
 			errorStub.restore();
 			CKEDITOR.removeListener( 'log', logEventSpy );
-
 		},
 
 		'log event and output from CKEDITOR.error() when verbosity = VERBOSITY_ERROR': function() {
@@ -198,7 +197,6 @@
 
 			errorStub.restore();
 			CKEDITOR.removeListener( 'log', logEventSpy );
-
 		},
 
 		'log event and output from CKEDITOR.error() when verbosity = VERBOSITY_WARN | VERBOSITY_ERROR': function() {
@@ -227,7 +225,6 @@
 
 			errorStub.restore();
 			CKEDITOR.removeListener( 'log', logEventSpy );
-
 		},
 
 		'block default log event handler': function() {

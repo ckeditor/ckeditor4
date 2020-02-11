@@ -33,7 +33,6 @@ bender.test( {
 			dialog.getButton( 'cancel' ).click();
 
 			assert.areEqual( '<p>foo</p><p>baz</p>', bot.getData( false, true ) );
-
 		} );
 	},
 	// https://dev.ckeditor.com/ticket/6957

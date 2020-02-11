@@ -61,8 +61,9 @@
 		 * **Note:** it's unsafe to filter offline (not appended) node.
 		 */
 		writeHtml: function( writer, filter ) {
-			if ( filter )
+			if ( filter ) {
 				this.filter( filter );
+			}
 
 			writer.text( this.value );
 		}

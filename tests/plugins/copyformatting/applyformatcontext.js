@@ -55,9 +55,9 @@
 
 			// Now enable only text and lists.
 			this.editorConfig.copyFormatting_allowedContexts = [
-					'text',
-					'list'
-				];
+				'text',
+				'list'
+			];
 
 			assert.isTrue( instance._isContextAllowed( 'text' ), 'text with disabled tables' );
 			assert.isTrue( instance._isContextAllowed( 'list' ), 'list with disabled tables' );
@@ -124,4 +124,4 @@
 			testApplyingFormat( this.editor, '<table><tr><td>Apply {here}</td></tr></table>', 'here', styles, [], styles );
 		}
 	} );
-}() );
+} )() ;

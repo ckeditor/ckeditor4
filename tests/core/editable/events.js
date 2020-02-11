@@ -9,20 +9,21 @@ function addTests( tcs, creator ) {
 	tcs[ 'test events order on start - ' + creator ] = function() {
 		var el = CKEDITOR.document.getById( 'editor_' + creator );
 
-		if ( creator == 'inline' )
+		if ( creator == 'inline' ) {
 			el.setAttribute( 'contenteditable', 'true' );
+		}
 
 		editor = CKEDITOR[ creator == 'inline' ? 'inline' : 'replace' ]( el, {
 			plugins:
 				creator == 'replace' ?	'wysiwygarea,sourcearea' :
-				creator == 'divarea' ?	'divarea,sourcearea' :
-										'',
+					creator == 'divarea' ?	'divarea,sourcearea' :
+						'',
 			on: {
 				instanceReady: function() {
 					resume( function() {
 						eventsRecorder.assert(
 							creator == 'replace' ?	[ 'setData', 'afterSetData', 'contentDom', 'dataReady' ] :
-													[ 'setData', 'afterSetData', 'dataReady', 'contentDom' ] );
+								[ 'setData', 'afterSetData', 'dataReady', 'contentDom' ] );
 					} );
 				}
 			}
@@ -45,7 +46,7 @@ function addTests( tcs, creator ) {
 			resume( function() {
 				eventsRecorder.assert(
 					creator == 'replace' ?	[ 'setData', 'afterSetData', 'contentDom', 'dataReady' ] :
-											[ 'setData', 'afterSetData', 'dataReady' ]
+						[ 'setData', 'afterSetData', 'dataReady' ]
 				);
 			} );
 		} );
@@ -53,8 +54,9 @@ function addTests( tcs, creator ) {
 	};
 
 	tcs[ 'test events order on setMode to source - ' + creator ] = function() {
-		if ( creator == 'inline' )
+		if ( creator == 'inline' ) {
 			assert.ignore();
+		}
 
 		eventsRecorder.reset();
 		editor.setMode( 'source', function() {
@@ -66,15 +68,16 @@ function addTests( tcs, creator ) {
 	};
 
 	tcs[ 'test events order on setMode to wysiwyg - ' + creator ] = function() {
-		if ( creator == 'inline' )
+		if ( creator == 'inline' ) {
 			assert.ignore();
+		}
 
 		eventsRecorder.reset();
 		editor.setMode( 'wysiwyg', function() {
 			resume( function() {
 				eventsRecorder.assert(
 					creator == 'replace' ?	[ 'setData', 'afterSetData', 'contentDom', 'dataReady' ] :
-											[ 'setData', 'afterSetData', 'dataReady', 'contentDom' ]
+						[ 'setData', 'afterSetData', 'dataReady', 'contentDom' ]
 				);
 			} );
 		} );

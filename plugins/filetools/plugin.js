@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -58,8 +58,7 @@
 					// Treating files in special way
 					if ( typeof value === 'object' && value.file ) {
 						$formData.append( name, value.file, value.name );
-					}
-					else {
+					} else {
 						$formData.append( name, value );
 					}
 				}
@@ -605,7 +604,6 @@
 
 				xhr.upload.onerror = onError;
 				xhr.upload.onabort = onAbort;
-
 			} else {
 				// https://dev.ckeditor.com/ticket/13533 - If xhr.upload is not supported - fire update event anyway and set uploadTotal to file size.
 				loader.uploadTotal = loader.total;
@@ -878,9 +876,9 @@
 		 */
 		isFileUploadSupported: ( function() {
 			return typeof FileReader === 'function' &&
-				typeof ( new FileReader() ).readAsDataURL === 'function' &&
+				typeof( new FileReader() ).readAsDataURL === 'function' &&
 				typeof FormData === 'function' &&
-				typeof ( new FormData() ).append === 'function' &&
+				typeof( new FormData() ).append === 'function' &&
 				typeof XMLHttpRequest === 'function' &&
 				typeof Blob === 'function';
 		} )()

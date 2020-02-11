@@ -6,8 +6,9 @@ function promisePasteEvent( editor, eventData ) {
 	var priority = 999;
 
 	// Type doesn't have to be specified.
-	if ( !eventData.type )
+	if ( !eventData.type ) {
 		eventData.type = 'auto';
+	}
 
 	eventData.method = 'paste';
 	// Allow passing a dataTransfer mock.

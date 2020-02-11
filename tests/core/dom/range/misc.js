@@ -128,7 +128,6 @@
 		 * Trim range which collapsed at text node boundary.
 		 */
 		test_trim_3790: function() {
-
 			var ct = doc.getById( '_trim_ct' );
 			ct.setHtml( '<span id="_SPAN1">text</span>' );
 
@@ -148,7 +147,6 @@
 		 * Trim range which collapsed inside text node.
 		 */
 		test_trim_3790_2: function() {
-
 			var ct = doc.getById( '_trim_ct' );
 			ct.setHtml( '<span id="_SPAN1">text</span>' );
 
@@ -208,25 +206,25 @@
 
 		'test checkReadOnly when both range boundaries are inside of read-only element': function() {
 			var source = 'some <strong contenteditable="false"> sample [text</strong> and a <a href="javascript:void(0)" contenteditable="false">link]</a>',
-			range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
+				range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
 			assert.isTrue( range.checkReadOnly() );
 		},
 
 		'test checkReadOnly when only one range boundary is inside of read-only element': function() {
 			var source = '<strong contenteditable="false"> some [sample</strong> text]',
-			range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
+				range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
 			assert.isTrue( range.checkReadOnly() );
 		},
 
 		'test checkReadOnly when entire range is inside of read-only element': function() {
 			var source = 'some <strong contenteditable="false"> [sample text ]</strong>',
-			range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
+				range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
 			assert.isTrue( range.checkReadOnly() );
 		},
 
 		'test checkReadOnly when read-only element is enclosed within the range': function() {
 			var source = '[some <strong contenteditable="false"> sample text </strong> and ]',
-			range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
+				range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
 			assert.isFalse( range.checkReadOnly() );
 		},
 
@@ -234,7 +232,7 @@
 
 		'test checkReadOnly when entire range is enclosed in an editable element which is contained by another read-only element': function() {
 			var source = 'some <strong contenteditable="false"> sample text and <a href="javascript:void(0)" contenteditable="true">a [link].</a></strong>',
-			range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
+				range = bender.tools.setHtmlWithRange( doc.getById( 'editable_playground' ), source )[ 0 ];
 			assert.isFalse( range.checkReadOnly() );
 		},
 

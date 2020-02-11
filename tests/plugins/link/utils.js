@@ -58,7 +58,7 @@
 				// Compare synthetic link with the one which was parsed.
 				assert.areSame(
 					bender.tools.compatHtml( linkToBeParsed.getOuterHtml(), true, true, true, true ),
-					bender.tools.compatHtml( link.getOuterHtml(), true, true, true, true  ),
+					bender.tools.compatHtml( link.getOuterHtml(), true, true, true, true ),
 					'Synthesised link looks exactly the same as the one which data has been parsed' );
 			}
 		} );
@@ -117,7 +117,7 @@
 					tabindex: 'e',
 					title: 'f',
 					type: 'g',
-					'class': 'h',
+					class: 'h',
 					charset: 'i',
 					style: 'margin-right:0px',
 					rel: 'j',
@@ -167,7 +167,7 @@
 					name: 'c',
 					title: 'f',
 					type: 'g',
-					'class': 'h',
+					class: 'h',
 					charset: 'i',
 					style: 'margin-right:0px',
 					rel: 'j',

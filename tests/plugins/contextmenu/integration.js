@@ -77,7 +77,6 @@
 				} );
 
 				editor.once( 'panelHide', function() {
-
 					editor.once( 'menuShow', function() {
 						resume( function() {
 							item2 = editor.contextMenu.findItemByCommandName( 'paste' );

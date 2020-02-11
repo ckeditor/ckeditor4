@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -61,7 +61,7 @@
 			return;
 		}
 
-			// TODO Move this to a method in the widget plugin. https://dev.ckeditor.com/ticket/13408
+		// TODO Move this to a method in the widget plugin. https://dev.ckeditor.com/ticket/13408
 		var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
 			element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 			instance,

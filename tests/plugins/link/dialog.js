@@ -14,11 +14,13 @@
 				names = [],
 				ids = [];
 
-			for ( var i = idOptions.length; i--; )
+			for ( var i = idOptions.length; i--; ) {
 				ids.push( idOptions[ i ].value );
+			}
 
-			for ( i = nameOptions.length; i--; )
+			for ( i = nameOptions.length; i--; ) {
 				names.push( nameOptions[ i ].value );
+			}
 
 			assert.areSame( expIds.sort().join( ',' ), ids.sort().join( ',' ), 'Anchor IDs discovered properly' );
 			assert.areSame( expNames.sort().join( ',' ), names.sort().join( ',' ), 'Anchor names discovered properly' );

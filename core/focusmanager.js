@@ -22,8 +22,9 @@
 	 * @param {CKEDITOR.editor} editor The editor instance.
 	 */
 	CKEDITOR.focusManager = function( editor ) {
-		if ( editor.focusManager )
+		if ( editor.focusManager ) {
 			return editor.focusManager;
+		}
 
 		/**
 		 * Indicates that the editor instance has focus.
@@ -91,11 +92,13 @@
 		 * @member CKEDITOR.focusManager
 		 */
 		focus: function( currentActive ) {
-			if ( this._.timer )
+			if ( this._.timer ) {
 				clearTimeout( this._.timer );
+			}
 
-			if ( currentActive )
+			if ( currentActive ) {
 				this.currentActive = currentActive;
+			}
 
 			if ( !( this.hasFocus || this._.locked ) ) {
 				// If another editor has the current focus, we first "blur" it. In
@@ -196,7 +199,6 @@
 
 				// Bypass the element's internal DOM focus change.
 				if ( isCapture ) {
-
 					// Use "focusin/focusout" events instead of capture phase in IEs,
 					// which fires synchronously.
 					if ( CKEDITOR.env.ie ) {
@@ -209,8 +211,9 @@
 
 				var listeners = {
 					blur: function() {
-						if ( element.equals( this.currentActive ) )
+						if ( element.equals( this.currentActive ) ) {
 							this.blur();
+						}
 					},
 					focus: function() {
 						this.focus( element );
@@ -220,8 +223,9 @@
 				element.on( focusEvent, listeners.focus, this );
 				element.on( blurEvent, listeners.blur, this );
 
-				if ( isCapture )
+				if ( isCapture ) {
 					CKEDITOR.event.useCapture = 0;
+				}
 
 				element.setCustomData( SLOT_NAME, this );
 				element.setCustomData( SLOT_NAME_LISTENERS, listeners );
@@ -242,7 +246,6 @@
 		}
 
 	};
-
 } )();
 
 /**

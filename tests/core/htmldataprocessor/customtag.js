@@ -2,14 +2,14 @@
 
 ( function() {
 	var elements = [
-			'object',
-			'embed',
-			'param',
-			'html',
-			'head',
-			'body',
-			'title'
-		];
+		'object',
+		'embed',
+		'param',
+		'html',
+		'head',
+		'body',
+		'title'
+	];
 
 	bender.editor = {
 		config: {

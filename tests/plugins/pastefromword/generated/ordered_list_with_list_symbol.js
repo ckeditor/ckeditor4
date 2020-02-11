@@ -31,7 +31,7 @@
 			'Word2016'
 		],
 		tests: {
-			'Ordered_list_symbol_in_text': true
+			Ordered_list_symbol_in_text: true
 		},
 		ignoreAll: bender.tools.env.mobile
 	} ) );

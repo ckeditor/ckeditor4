@@ -41,7 +41,7 @@
 						1680: '%BASE_PATH%/_assets/logo.png?w=1680',
 						1890: '%BASE_PATH%/_assets/logo.png?w=1890',
 						2048: '%BASE_PATH%/_assets/logo.png?w=2048',
-						'default': '%BASE_PATH%/_assets/logo.png'
+						default: '%BASE_PATH%/_assets/logo.png'
 					},
 					failCloudServicesResponse = {
 						statusCode: 400,
@@ -217,7 +217,7 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 
-				editor.once( 'afterPaste',  function() {
+				editor.once( 'afterPaste', function() {
 					resume( function() {
 						widgets = bender.tools.objToArray( editor.widgets.instances );
 

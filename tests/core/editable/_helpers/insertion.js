@@ -23,8 +23,9 @@ var insertionDT = ( function() {
 			while ( editableName = editablesNamesArray.shift() ) {
 				inline = editableName != 'body';
 				el = new CKEDITOR.dom.element( inline ? editableName : 'textarea' );
-				if ( inline )
+				if ( inline ) {
 					el.setAttribute( 'contenteditable', 'true' );
+				}
 				doc.getBody().append( el );
 
 				// Framed editor needs wysiwygarea plugin.
@@ -52,8 +53,9 @@ var insertionDT = ( function() {
 				// Be sure that the data produced by the editor is not formatted.
 				editor.dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
 
-				if ( --pending === 0 )
+				if ( --pending === 0 ) {
 					bender.test( that );
+				}
 			}
 		},
 
@@ -106,22 +108,24 @@ var insertionDT = ( function() {
 										startContainer.getLength()
 								) &&
 								!startContainer.isBlockBoundary()
-							)
+							) {
 								range.setStartAfter( startContainer );
-							else
+							} else {
 								break;
+							}
 						}
 
 						node = range.startContainer;
 
-						if ( node.type != CKEDITOR.NODE_ELEMENT )
+						if ( node.type != CKEDITOR.NODE_ELEMENT ) {
 							return node.getParent();
+						}
 
 						node = node.getChild( range.startOffset );
 
-						if ( !node || node.type != CKEDITOR.NODE_ELEMENT )
+						if ( !node || node.type != CKEDITOR.NODE_ELEMENT ) {
 							node = range.startContainer;
-						else {
+						} else {
 							var child = node.getFirst();
 							while ( child && child.type == CKEDITOR.NODE_ELEMENT ) {
 								node = child;
@@ -130,8 +134,9 @@ var insertionDT = ( function() {
 						}
 					} else {
 						node = range.startContainer;
-						if ( node.type != CKEDITOR.NODE_ELEMENT )
+						if ( node.type != CKEDITOR.NODE_ELEMENT ) {
 							node = node.getParent();
+						}
 					}
 
 					return node.$ ? node : null;
@@ -165,12 +170,13 @@ var insertionDT = ( function() {
 
 					afterInsertCount = 0;
 
-					if ( mode == 'insertElement' )
+					if ( mode == 'insertElement' ) {
 						editor.insertElement( CKEDITOR.dom.element.createFromHtml( insertion, editor.document ) );
-					else if ( mode == 'insertText' )
+					} else if ( mode == 'insertText' ) {
 						editor.insertText( insertion );
-					else
+					} else {
 						editor.insertHtml( insertion, mode );
+					}
 
 					result = bender.tools.getHtmlWithRanges( root, rangeList );
 
@@ -207,8 +213,9 @@ var insertionDT = ( function() {
 				}
 
 				return function() {
-					for ( var name in oldFns )
+					for ( var name in oldFns ) {
 						obj[ name ] = oldFns[ name ];
+					}
 				};
 			}
 		},

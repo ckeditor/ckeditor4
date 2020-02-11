@@ -28,13 +28,13 @@
 		downloadImage = bender.tools.downloadImage;
 
 	function assertDialogFields( dialog, data ) {
-		for ( var i in data )
+		for ( var i in data ) {
 			assert.areSame( data[ i ], dialog.getValueOf( 'info', i ), 'Value must match.' );
+		}
 	}
 
 	bender.test( {
 		'test edit inline widget with global command': function() {
-
 			assertWidgetDialog( this.editorBot, 'image', widgetsHtml, 'x', {
 				src: '_assets/foo.png',
 				alt: 'xalt',
@@ -43,11 +43,9 @@
 				align: 'none',
 				hasCaption: false
 			} );
-
 		},
 
 		'test edit block widget with global command': function() {
-
 			// atm this code can not be checked with assertWidgetDialog
 			var bot = this.editorBot,
 				editor = bot.editor;
@@ -124,7 +122,6 @@
 		},
 
 		'test create block widget in wrong context': function() {
-
 			var editorBot = this.editorBot,
 				onResume = function( dialog ) {
 					dialog.setValueOf( 'info', 'src', '_assets/foo.png' );
@@ -165,8 +162,8 @@
 			function( bot ) {
 				bot.dialog( 'image', function( dialog ) {
 					var i = 0,
-					heightInput = dialog.getContentElement( 'info', 'height' ),
-					widthInput = dialog.getContentElement( 'info', 'width' );
+						heightInput = dialog.getContentElement( 'info', 'height' ),
+						widthInput = dialog.getContentElement( 'info', 'width' );
 
 					dialog.setValueOf( 'info', 'src', imgs[ i ].url );
 					downloadImage( imgs[ i ].url, onDownload );
@@ -215,7 +212,7 @@
 			function( bot ) {
 				bot.dialog( 'image', function( dialog ) {
 					var i = 0,
-					resetBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_reset' ).getItem( 0 );
+						resetBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_reset' ).getItem( 0 );
 
 					dialog.setValueOf( 'info', 'src', imgs[ i ].url );
 					downloadImage( imgs[ i ].url, onDownload );

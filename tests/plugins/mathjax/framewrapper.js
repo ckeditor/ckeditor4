@@ -35,8 +35,9 @@
 				};
 
 			CKEDITOR.on( 'mathJaxLoaded', function() {
-				if ( config.loadedSync )
+				if ( config.loadedSync ) {
 					config.loadedSync( frameWrapper, doc );
+				}
 
 				if ( config.loaded ) {
 					// IE9 need forced asynchrony
@@ -47,15 +48,17 @@
 			} );
 
 			CKEDITOR.on( 'mathJaxUpdateDone', function() {
-				if ( config.done )
+				if ( config.done ) {
 					config.done( frameWrapper, doc );
+				}
 
 				++counter;
 
-				if ( counter > config.expectedUpdateCount )
+				if ( counter > config.expectedUpdateCount ) {
 					resume( function() {
 						assert.fail( 'Too many MathJaxUpdateDone (expected: ' + config.expectedUpdateCount + ', actual: ' + counter + ').' );
 					} );
+				}
 
 				if ( counter == config.expectedUpdateCount ) {
 					resume( function() {
@@ -83,10 +86,11 @@
 			}
 
 			// For some reason IE9 sometimes likes to run tests before loading all scripts.
-			if ( CKEDITOR.plugins.mathjax )
+			if ( CKEDITOR.plugins.mathjax ) {
 				startTest();
-			else
+			} else {
 				setTimeout( startTest, 100 );
+			}
 
 			wait();
 		},

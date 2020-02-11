@@ -247,7 +247,7 @@ bender.test( {
 				callback: function() {
 					data1 = editor.getData();
 
-					that.listeners.push( widget2.on( 'sendRequest', sinon.stub().throws() ) );
+					that.listeners.push( widget2.on( 'sendRequest', sinon.stub()['throws']() ) );
 					var handleResponseSpy = sinon.spy();
 					that.listeners.push( widget2.on( 'handleResponse', handleResponseSpy ) );
 					var createTaskSpy = sinon.spy( widget2, '_createTask' );
@@ -265,11 +265,11 @@ bender.test( {
 								assert.isTrue( wasAsync, 'loadContent using cache is still async' );
 								assert.areSame( '<p>x</p><div data-oembed-url="//caches/responses" id="w1"><p>url:%2F%2Fcaches%2Fresponses</p></div>' +
 									'<div data-oembed-url="foo" id="w2">foo</div><p>x</p>',
-									data1, 'data after first loadContent' );
+								data1, 'data after first loadContent' );
 
 								assert.areSame( '<p>x</p><div data-oembed-url="//caches/responses" id="w1"><p>url:%2F%2Fcaches%2Fresponses</p></div>' +
 									'<div data-oembed-url="//caches/responses" id="w2"><p>url:%2F%2Fcaches%2Fresponses</p></div><p>x</p>',
-									editor.getData(), 'data after second loadContent' );
+								editor.getData(), 'data after second loadContent' );
 
 								assert.isFalse( createTaskSpy.called, 'when cache is hit, task is not created' );
 								assert.isTrue( handleResponseSpy.calledOnce, 'handleResponse is fired' );
@@ -318,7 +318,7 @@ bender.test( {
 						assert.isTrue( handleResponseSpy.returnValues[ 0 ], '_handleResponse returned true' );
 						assert.areSame( '<p>x</p><div data-oembed-url="//response/handling" id="w1">' +
 							'<p>url:%2F%2Fresponse%2Fhandling</p><p>customized</p></div><p>x</p>',
-							editor.getData(), 'response was customized' );
+						editor.getData(), 'response was customized' );
 						assert.areSame( '//response/handling', widget.data.url, 'widget\'s url has been changed' );
 					} );
 				}
@@ -340,7 +340,7 @@ bender.test( {
 				canceledSpy = sinon.spy(),
 				showNotificationSpy = sinon.stub( editor, 'showNotification' );
 
-			that.spies.push( sinon.stub( widget, '_handleResponse' ).throws() );
+			that.spies.push( sinon.stub( widget, '_handleResponse' )['throws']() );
 			that.spies.push( handleErrorSpy );
 			that.spies.push( sinon.stub( widget, '_sendRequest', function( request ) {
 				request.task.on( 'canceled', canceledSpy );
@@ -353,7 +353,7 @@ bender.test( {
 			};
 
 			widget.loadContent( '//error/handling', {
-				callback: sinon.stub().throws(),
+				callback: sinon.stub()['throws'](),
 				errorCallback: function() {
 					resume( function() {
 						assert.isTrue( handleErrorSpy.calledOnce, '_handleError was called' );
@@ -402,7 +402,7 @@ bender.test( {
 			};
 
 			widget.loadContent( url, {
-				callback: sinon.stub().throws(),
+				callback: sinon.stub()['throws'](),
 				errorCallback: function() {
 					resume( function() {
 						assert.isTrue( handleErrorSpy.calledOnce, '_handleError was called' );
@@ -451,7 +451,7 @@ bender.test( {
 			jsonpCallback = echoJsonpCallback;
 
 			widget.loadContent( '//canceling/handleresponse', {
-				callback: sinon.stub().throws(),
+				callback: sinon.stub()['throws'](),
 
 				errorCallback: function() {
 					resume( function() {
@@ -511,6 +511,5 @@ bender.test( {
 
 			wait();
 		} );
-
 	}
 } );

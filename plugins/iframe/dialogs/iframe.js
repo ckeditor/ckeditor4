@@ -7,18 +7,19 @@
 	// Map 'true' and 'false' values to match W3C's specifications
 	// http://www.w3.org/TR/REC-html40/present/frames.html#h-16.5
 	var checkboxValues = {
-		scrolling: { 'true': 'yes', 'false': 'no' },
-		frameborder: { 'true': '1', 'false': '0' }
+		scrolling: { true: 'yes', false: 'no' },
+		frameborder: { true: '1', false: '0' }
 	};
 
 	function loadValue( iframeNode ) {
 		var isCheckbox = this instanceof CKEDITOR.ui.dialog.checkbox;
 		if ( iframeNode.hasAttribute( this.id ) ) {
 			var value = iframeNode.getAttribute( this.id );
-			if ( isCheckbox )
+			if ( isCheckbox ) {
 				this.setValue( checkboxValues[ this.id ][ 'true' ] == value.toLowerCase() );
-			else
+			} else {
 				this.setValue( value );
+			}
 		}
 	}
 
@@ -26,12 +27,13 @@
 		var isRemove = this.getValue() === '',
 			isCheckbox = this instanceof CKEDITOR.ui.dialog.checkbox,
 			value = this.getValue();
-		if ( isRemove )
+		if ( isRemove ) {
 			iframeNode.removeAttribute( this.att || this.id );
-		else if ( isCheckbox )
+		} else if ( isCheckbox ) {
 			iframeNode.setAttribute( this.id, checkboxValues[ this.id ][ value ] );
-		else
+		} else {
 			iframeNode.setAttribute( this.att || this.id, value );
+		}
 	}
 
 	CKEDITOR.dialog.add( 'iframe', function( editor ) {
@@ -67,10 +69,11 @@
 			},
 			onOk: function() {
 				var iframeNode;
-				if ( !this.fakeImage )
+				if ( !this.fakeImage ) {
 					iframeNode = new CKEDITOR.dom.element( 'iframe' );
-				else
+				} else {
 					iframeNode = this.iframeNode;
+				}
 
 				// A subset of the specified attributes/styles
 				// should also be applied on the fake element to
@@ -135,7 +138,7 @@
 						id: 'align',
 						type: 'select',
 						requiredContent: 'iframe[align]',
-						'default': '',
+						default: '',
 						items: [
 							[ commonLang.notSet, '' ],
 							[ commonLang.left, 'left' ],
@@ -156,8 +159,9 @@
 						},
 						commit: function( iframeNode, extraStyles, extraAttributes ) {
 							commitValue.apply( this, arguments );
-							if ( this.getValue() )
+							if ( this.getValue() ) {
 								extraAttributes.align = this.getValue();
+							}
 						}
 					} ]
 				},
@@ -211,6 +215,6 @@
 				} ]
 			},
 			dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id: 1, classes: 1, styles: 1 }, 'iframe' )
-		] };
+			] };
 	} );
 } )();

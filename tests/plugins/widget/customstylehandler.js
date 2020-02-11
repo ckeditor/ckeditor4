@@ -269,28 +269,28 @@
 
 		'test toAllowedContentRules - no styleableElements, no styleToAllowedContentRules': function() {
 			var editor = this.editors.editor,
-				style = st( { name: 'Foo', type: 'widget', widget: 'test2ACRs1a', attributes: { 'class': 'foo bar' } } );
+				style = st( { name: 'Foo', type: 'widget', widget: 'test2ACRs1a', attributes: { class: 'foo bar' } } );
 
 			editor.widgets.add( 'test2ACRs1a', {} );
 			assert.isNull( style.toAllowedContentRules( editor ) );
 		},
 
 		'test toAllowedContentRules - no editor': function() {
-			var style = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: { 'class': 'foo bar' } } );
+			var style = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: { class: 'foo bar' } } );
 
 			assert.isNull( style.toAllowedContentRules() );
 		},
 
 		'test toAllowedContentRules - no widget definition': function() {
 			var editor = this.editors.editor,
-				style = st( { name: 'Foo', type: 'widget', widget: 'notExistingWidget', attributes: { 'class': 'foo bar' } } );
+				style = st( { name: 'Foo', type: 'widget', widget: 'notExistingWidget', attributes: { class: 'foo bar' } } );
 
 			assert.isNull( style.toAllowedContentRules( editor ) );
 		},
 
 		'test toAllowedContentRules - styleableElements': function() {
 			var editor = this.editors.editor,
-				style = st( { name: 'Foo', type: 'widget', widget: 'test2ACRs2', attributes: { 'class': 'foo bar' } } );
+				style = st( { name: 'Foo', type: 'widget', widget: 'test2ACRs2', attributes: { class: 'foo bar' } } );
 
 			editor.widgets.add( 'test2ACRs2', {
 				styleableElements: 'p div'
@@ -305,7 +305,7 @@
 
 		'test toAllowedContentRules - styleToAllowedContentRules': function() {
 			var editor = this.editors.editor,
-				style = st( { name: 'Foo', type: 'widget', widget: 'test2ACRs3', attributes: { 'class': 'foo bar' } } );
+				style = st( { name: 'Foo', type: 'widget', widget: 'test2ACRs3', attributes: { class: 'foo bar' } } );
 
 			editor.widgets.add( 'test2ACRs3', {
 				styleToAllowedContentRules: function( arg ) {
@@ -317,8 +317,8 @@
 		},
 
 		'test getClassesArray': function() {
-			var style1 = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: { 'class': 'foo' } } ),
-				style2 = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: { 'class': 'foo bar ' } } ),
+			var style1 = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: { class: 'foo' } } ),
+				style2 = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: { class: 'foo bar ' } } ),
 				style3 = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: {} } ),
 				style4 = st( { name: 'Foo', type: 'widget', widget: 'foo' } );
 
@@ -331,10 +331,10 @@
 		'test removeStylesFromSameGroup': function() {
 			var editor = this.editors.editor,
 				styles = [
-					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c1' } } ),
-					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c2' } } ),
-					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c3' } } ),
-					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c4' } } )
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { class: 'c1' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { class: 'c2' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { class: 'c3' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { class: 'c4' } } )
 				];
 
 			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1" class="c1 c2 c3 c4">x</p>', function() {
@@ -357,18 +357,18 @@
 			var editor = this.editors.editor,
 				styles = {
 					group1: [
-						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c1' } } ),
-						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c2' } } ),
-						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c3' } } )
+						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { class: 'c1' } } ),
+						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { class: 'c2' } } ),
+						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { class: 'c3' } } )
 					],
 					group2: [
-						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { 'class': 'c4' } } ),
-						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { 'class': 'c5' } } ),
-						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { 'class': 'c6' } } )
+						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { class: 'c4' } } ),
+						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { class: 'c5' } } ),
+						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { class: 'c6' } } )
 					],
 					withoutGroup: [
-						st( { type: 'widget', widget: 'testWidget', attributes: { 'class': 'c7' } } ),
-						st( { type: 'widget', widget: 'testWidget', attributes: { 'class': 'c8' } } )
+						st( { type: 'widget', widget: 'testWidget', attributes: { class: 'c7' } } ),
+						st( { type: 'widget', widget: 'testWidget', attributes: { class: 'c8' } } )
 					]
 				};
 
@@ -397,7 +397,6 @@
 
 				assert.isTrue( styles.withoutGroup[ 0 ].checkActive( path, editor ), 'Styles without group should not be removed.' );
 				assert.isTrue( styles.withoutGroup[ 1 ].checkActive( path, editor ), 'Styles without group should not be removed.' );
-
 			} );
 
 
@@ -412,10 +411,10 @@
 		'test styles multiple groups': function() {
 			var editor = this.editors.editor,
 				styles = [
-					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c1' } } ),
-					st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { 'class': 'c2' } } ),
-					st( { type: 'widget', widget: 'testWidget', group: [ 'group3', 'group2' ], attributes: { 'class': 'c3' } } ),
-					st( { type: 'widget', widget: 'testWidget', group: [ 'group1', 'group2', 'group3' ], attributes: { 'class': 'c4' } } )
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { class: 'c1' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { class: 'c2' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: [ 'group3', 'group2' ], attributes: { class: 'c3' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: [ 'group1', 'group2', 'group3' ], attributes: { class: 'c4' } } )
 				];
 
 			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {

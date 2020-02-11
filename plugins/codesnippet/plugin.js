@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -122,10 +122,11 @@
 
 					highlighter: function( code, language, callback ) {
 						var highlighted = this.hljs.highlightAuto( code,
-								this.hljs.getLanguage( language ) ? [ language ] : undefined );
+							this.hljs.getLanguage( language ) ? [ language ] : undefined );
 
-						if ( highlighted )
+						if ( highlighted ) {
 							callback( highlighted.value );
+						}
 					}
 				} );
 
@@ -206,8 +207,9 @@
 				// Execute pending jobs.
 				var job;
 
-				while ( ( job = this.queue.pop() ) )
+				while ( ( job = this.queue.pop() ) ) {
 					job.call( this );
+				}
 
 				this.ready = true;
 			}, this ) );
@@ -275,8 +277,9 @@
 		var arg = arguments;
 
 		// Highlighter is ready – do it now.
-		if ( this.ready )
+		if ( this.ready ) {
 			this.highlighter.apply( this, arg );
+		}
 		// Queue the job. It will be done once ready.
 		else {
 			this.queue.push( function() {
@@ -334,12 +337,14 @@
 				var newData = this.data,
 					oldData = this.oldData;
 
-				if ( newData.code )
+				if ( newData.code ) {
 					this.parts.code.setHtml( CKEDITOR.tools.htmlEncode( newData.code ) );
+				}
 
 				// Remove old .language-* class.
-				if ( oldData && newData.lang != oldData.lang )
+				if ( oldData && newData.lang != oldData.lang ) {
 					this.parts.code.removeClass( 'language-' + oldData.lang );
+				}
 
 				// Lang needs to be specified in order to apply formatting.
 				if ( newData.lang ) {
@@ -355,24 +360,28 @@
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
 			upcast: function( el, data ) {
-				if ( el.name != 'pre' )
+				if ( el.name != 'pre' ) {
 					return;
+				}
 
 				var childrenArray = getNonEmptyChildren( el ),
 					code;
 
-				if ( childrenArray.length != 1 || ( code = childrenArray[ 0 ] ).name != 'code' )
+				if ( childrenArray.length != 1 || ( code = childrenArray[ 0 ] ).name != 'code' ) {
 					return;
+				}
 
 				// Upcast <code> with text only: https://dev.ckeditor.com/ticket/11926#comment:4
-				if ( code.children.length != 1 || code.children[ 0 ].type != CKEDITOR.NODE_TEXT )
+				if ( code.children.length != 1 || code.children[ 0 ].type != CKEDITOR.NODE_TEXT ) {
 					return;
+				}
 
 				// Read language-* from <code> class attribute.
 				var matchResult = editor._.codesnippet.langsRegex.exec( code.attributes[ 'class' ] );
 
-				if ( matchResult )
+				if ( matchResult ) {
 					data.lang = matchResult[ 1 ];
+				}
 
 				// Use textarea to decode HTML entities (https://dev.ckeditor.com/ticket/11926).
 				textarea.setHtml( code.getHtml() );
@@ -415,8 +424,9 @@
 			for ( var i = preChildrenList.length - 1; i >= 0; i-- ) {
 				curNode = preChildrenList[ i ];
 
-				if ( curNode.type != CKEDITOR.NODE_TEXT || !curNode.value.match( whitespaceOnlyRegex ) )
+				if ( curNode.type != CKEDITOR.NODE_TEXT || !curNode.value.match( whitespaceOnlyRegex ) ) {
 					ret.push( curNode );
+				}
 			}
 
 			return ret;

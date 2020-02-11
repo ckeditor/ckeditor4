@@ -7,17 +7,18 @@
 
 	var tests = {
 		rangeMoveToElementEditablePosition: function( html, isMoveToEnd, retValue ) {
-			if ( retValue === undefined )
+			if ( retValue === undefined ) {
 				retValue = true;
+			}
 
 			var ct = doc.getById( 'editable_playground' );
 			ct.setHtml( html );
 			var range = new CKEDITOR.dom.range( doc );
 			assert.areSame( retValue, !!range.moveToElementEditablePosition( ct, isMoveToEnd ), 'Method returned value' );
 
-			if ( retValue )
+			if ( retValue ) {
 				return bender.tools.fixHtml( bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
-			else {
+			} else {
 				assert.isFalse( !!range.startContainer, 'Start container is not set if method returned false' );
 				return bender.tools.fixHtml( ct.getHtml() );
 			}

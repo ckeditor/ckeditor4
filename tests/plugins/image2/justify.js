@@ -21,8 +21,9 @@
 
 		function runCase() {
 			var	testCase = cases.shift();
-			if ( !testCase )
+			if ( !testCase ) {
 				return;
+			}
 
 			// Select the widget.
 			var widget = getWidgetById( editor, 'x' );
@@ -36,8 +37,9 @@
 			// Select the widget again as it could've changed (a new instance).
 			widget = getWidgetById( editor, 'x' );
 
-			for ( var i in testCase.data )
+			for ( var i in testCase.data ) {
 				assert.areSame( testCase.data[ i ], widget.data[ i ],	'[' + j + '] ' + 'Widget.data.' + i + ' properly set.' );
+			}
 
 			assert.areSame( testCase.inline, widget.inline,				'[' + j + '] ' + 'Widget must have a proper inline property.' );
 			assert.areSame( widget, editor.widgets.focused,				'[' + j + '] ' + 'Widget remains focused.' );

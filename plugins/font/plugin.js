@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -437,7 +437,7 @@ CKEDITOR.config.font_style = {
 	element: 'span',
 	styles: { 'font-family': '#(family)' },
 	overrides: [ {
-		element: 'font', attributes: { 'face': null }
+		element: 'font', attributes: { face: null }
 	} ]
 };
 
@@ -492,6 +492,6 @@ CKEDITOR.config.fontSize_style = {
 	element: 'span',
 	styles: { 'font-size': '#(size)' },
 	overrides: [ {
-		element: 'font', attributes: { 'size': null }
+		element: 'font', attributes: { size: null }
 	} ]
 };

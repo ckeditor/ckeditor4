@@ -94,7 +94,7 @@
 							id: 'uploadButton',
 							filebrowser: 'Upload:upload',
 							label: 'Send',
-							'for': [ 'Upload', 'upload' ]
+							for: [ 'Upload', 'upload' ]
 						} ]
 					}
 				]
@@ -135,7 +135,7 @@
 				editor.once( 'fileUploadRequest', function() {
 					resume( function() {
 						arrayAssert.isNotEmpty( this.requests );
-						objectAssert.areEqual( { 'foo': 'bar', 'hello': 'world' }, this.requests[ 0 ].requestHeaders );
+						objectAssert.areEqual( { foo: 'bar', hello: 'world' }, this.requests[ 0 ].requestHeaders );
 						dialog.hide();
 						inputStub.restore();
 					} );

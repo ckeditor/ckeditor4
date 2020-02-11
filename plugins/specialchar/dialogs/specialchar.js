@@ -18,10 +18,11 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 	onChoice = function( evt ) {
 		var target, value;
-		if ( evt.data )
+		if ( evt.data ) {
 			target = evt.data.getTarget();
-		else
+		} else {
 			target = new CKEDITOR.dom.element( evt );
+		}
 
 		if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
 			target.removeClass( 'cke_light_background' );
@@ -40,13 +41,15 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 		var value;
 		target = target || evt.data.getTarget();
 
-		if ( target.getName() == 'span' )
+		if ( target.getName() == 'span' ) {
 			target = target.getParent();
+		}
 
 		if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
 			// Trigger blur manually if there is focused node.
-			if ( focusedNode )
+			if ( focusedNode ) {
 				onBlur( null, focusedNode );
+			}
 
 			var htmlPreview = dialog.getContentElement( 'info', 'htmlPreview' ).getElement();
 
@@ -62,8 +65,9 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 	onBlur = function( evt, target ) {
 		target = target || evt.data.getTarget();
 
-		if ( target.getName() == 'span' )
+		if ( target.getName() == 'span' ) {
 			target = target.getParent();
+		}
 
 		if ( target.getName() == 'a' ) {
 			dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( '&nbsp;' );
@@ -222,7 +226,6 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							'</span></a></td>'
 						);
 					}
-
 				}
 				html.push( '</tr>' );
 			}

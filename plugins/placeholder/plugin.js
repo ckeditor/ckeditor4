@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -23,7 +23,6 @@
 		},
 
 		init: function( editor ) {
-
 			var lang = editor.lang.placeholder;
 
 			// Register dialog.
@@ -73,14 +72,15 @@
 
 					// Skip the case when placeholder is in elements like <title> or <textarea>
 					// but upcast placeholder in custom elements (no DTD).
-					if ( dtd && !dtd.span )
+					if ( dtd && !dtd.span ) {
 						return;
+					}
 
 					return text.replace( placeholderReplaceRegex, function( match ) {
 						// Creating widget code.
 						var widgetWrapper = null,
 							innerElement = new CKEDITOR.htmlParser.element( 'span', {
-								'class': 'cke_placeholder'
+								class: 'cke_placeholder'
 							} );
 
 						// Adds placeholder identifier as innertext.
@@ -95,5 +95,4 @@
 			} );
 		}
 	} );
-
 } )();

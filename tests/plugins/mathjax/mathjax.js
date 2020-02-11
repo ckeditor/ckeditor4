@@ -32,8 +32,9 @@
 
 			editor.focus();
 
-			if ( config.when )
+			if ( config.when ) {
 				config.when( iFrame, editor );
+			}
 
 			// iFrame can change, so it must be reloaded.
 			iFrame = editor.document.getElementsByTag( 'iframe' ).getItem( 0 );
@@ -42,8 +43,9 @@
 				resume( function() {
 					assertIFrame( iFrame );
 
-					if ( config.then )
+					if ( config.then ) {
 						config.then( iFrame, editor );
+					}
 				} );
 			} );
 
@@ -94,7 +96,7 @@
 
 					editor.applyStyle( new CKEDITOR.style( {
 						element: 'span',
-						attributes: { 'style': 'font-size: 20px;' }
+						attributes: { style: 'font-size: 20px;' }
 					} ) );
 				},
 				then: function( iFrame ) {
@@ -149,7 +151,6 @@
 						assertIFrame( iFrame );
 					} );
 				}, 1 );
-
 			} );
 
 			editor.setData( '', function() {

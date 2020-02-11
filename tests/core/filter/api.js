@@ -7,8 +7,9 @@
 	// Returns first ACR added by specified feature.
 	function getByFeature( filter, featureName ) {
 		for ( var i = 0, acrs = filter.allowedContent; i < acrs.length; ++i ) {
-			if ( acrs[ i ].featureName == featureName )
+			if ( acrs[ i ].featureName == featureName ) {
 				return acrs[ i ];
+			}
 		}
 		return null;
 	}
@@ -39,12 +40,13 @@
 				actualValue = rule[ name ],
 				msg = featureName + ' - ' + name;
 
-			if ( CKEDITOR.tools.isArray( expectedValue ) )
+			if ( CKEDITOR.tools.isArray( expectedValue ) ) {
 				arrayAssert.itemsAreEqual( expectedValue, actualValue, msg );
-			else if ( typeof expectedValue == 'object' && expectedValue !== null )
+			} else if ( typeof expectedValue == 'object' && expectedValue !== null ) {
 				assert.isTrue( CKEDITOR.tools.objectCompare( expectedValue, actualValue ), msg );
-			else
+			} else {
 				assert.areSame( expectedValue, actualValue, msg );
+			}
 		}
 	}
 
@@ -258,14 +260,14 @@
 				propertiesOnly: true
 			} );
 
-			filter.allow( { '$1': {
+			filter.allow( { $1: {
 				elements: [ 'c', 'd' ]
 			} }, 'rule3' );
 			assertRule( filter, 'rule3', {
 				elements: { c: true, d: true }
 			} );
 
-			filter.allow( { '$1': {
+			filter.allow( { $1: {
 				elements: { e: true, f: true }
 			} }, 'rule4' );
 			assertRule( filter, 'rule4', {
@@ -273,7 +275,7 @@
 			} );
 
 			var fn = function() {};
-			filter.allow( { '$1': {
+			filter.allow( { $1: {
 				match: fn
 			} }, 'rule5' );
 			assertRule( filter, 'rule5', {
@@ -353,7 +355,7 @@
 			} );
 
 			filter.allow( {
-				'$0': {
+				$0: {
 					propertiesOnly: true,
 					attributes: 'title'
 				}
@@ -365,7 +367,7 @@
 			} );
 
 			filter.allow( {
-				'$0': {
+				$0: {
 					attributes: 'title'
 				}
 			}, 'rule7b' );
@@ -468,7 +470,7 @@
 			} );
 
 			filter.allow( st( {
-				element: 'span', attributes: { 'class': 'marker' }
+				element: 'span', attributes: { class: 'marker' }
 			} ), 'rule2' );
 			assertRule( filter, 'rule2', {
 				elements: { span: true },
@@ -477,7 +479,7 @@
 			} );
 
 			filter.allow( st( {
-				element: 'span', attributes: { 'dir': 'rtl' }
+				element: 'span', attributes: { dir: 'rtl' }
 			} ), 'rule3' );
 			assertRule( filter, 'rule3', {
 				elements: { span: true },

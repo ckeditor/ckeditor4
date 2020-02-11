@@ -27,7 +27,7 @@
 							callback();
 						}
 					} );
-				}( filters[ i ] ) );
+				} )( filters[ i ] ) ;
 			}
 		},
 
@@ -51,7 +51,7 @@
 								resolve( getFilterByName( referrence ) );
 							}
 						} );
-					}( filters[ i ] ) );
+					} )( filters[ i ] ) ;
 				}
 			} );
 		},

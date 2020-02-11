@@ -308,10 +308,10 @@
 
 		'test dialog is triggered on doubleclick': function() {
 			var editor = this.editor,
-			openedDialog = null,
-			revert = bender.tools.replaceMethod( editor, 'openDialog', function( name ) {
-				openedDialog = name;
-			} );
+				openedDialog = null,
+				revert = bender.tools.replaceMethod( editor, 'openDialog', function( name ) {
+					openedDialog = name;
+				} );
 
 			editor.fire( 'doubleclick', { element: editor.editable() } );
 
@@ -330,7 +330,7 @@
 
 		'test dialog setState': function() {
 			var stateEventFired = 0,
-			editor = this.editor;
+				editor = this.editor;
 
 			CKEDITOR.dialog.add( 'testDialog5', function() {
 				return {
@@ -555,5 +555,4 @@
 			} );
 		}
 	} );
-
 } )();

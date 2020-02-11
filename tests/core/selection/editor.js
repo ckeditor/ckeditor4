@@ -87,8 +87,9 @@ bender.test( {
 	'test editor selection lock on blur': function() {
 		var ed = this.editors.editor, editable = ed.editable();
 
-		if ( !noSelectionOnBlur( ed ) )
+		if ( !noSelectionOnBlur( ed ) ) {
 			assert.ignore();
+		}
 
 		ed.focus();
 
@@ -160,8 +161,9 @@ bender.test( {
 	'test "selectionChange" not fired when editor selection is locked': function() {
 		var ed = this.editors.editor, editable = ed.editable();
 
-		if ( !noSelectionOnBlur( ed ) )
+		if ( !noSelectionOnBlur( ed ) ) {
 			assert.ignore();
+		}
 
 		ed.focus();
 
@@ -395,8 +397,9 @@ bender.test( {
 
 	// https://dev.ckeditor.com/ticket/13816
 	'test remove filling character from snapshots and data': function() {
-		if ( !CKEDITOR.env.webkit )
+		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
+		}
 
 		var editor = this.editors.editor,
 			bot = this.editorBots.editor;
@@ -414,8 +417,9 @@ bender.test( {
 
 	// https://dev.ckeditor.com/ticket/10315
 	'test selection is invalidating filling char after editable is replaced by new one': function() {
-		if ( !CKEDITOR.env.webkit )
+		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
+		}
 
 		bender.editorBot.create( {
 			name: 'test_editor_10315',
@@ -474,8 +478,9 @@ bender.test( {
 	},
 
 	'test filling char remains untouched when taking snapshot': function() {
-		if ( !CKEDITOR.env.webkit )
+		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
+		}
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
@@ -500,8 +505,9 @@ bender.test( {
 
 	// https://dev.ckeditor.com/ticket/12489
 	'test filling char remains when taking snapshot if selection is not right after the filling char': function() {
-		if ( !CKEDITOR.env.webkit )
+		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
+		}
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
@@ -532,8 +538,9 @@ bender.test( {
 
 	// https://dev.ckeditor.com/ticket/8617
 	'test selection is preserved when removing filling char on left-arrow': function() {
-		if ( !CKEDITOR.env.webkit )
+		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
+		}
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
@@ -566,8 +573,9 @@ bender.test( {
 
 	// https://dev.ckeditor.com/ticket/12419
 	'test selection is preserved when removing filling char on select all': function() {
-		if ( !CKEDITOR.env.webkit )
+		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
+		}
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
@@ -595,8 +603,9 @@ bender.test( {
 	},
 
 	'test direction of selection is preserved when removing filling char': function() {
-		if ( !CKEDITOR.env.webkit )
+		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
+		}
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
@@ -635,8 +644,9 @@ bender.test( {
 	// user tries to select text by mouse from right to left in that element - selection is lost.
 	// https://dev.ckeditor.com/ticket/12491 comment:3
 	'test direction of selection is preserved when taking snapshot': function() {
-		if ( !CKEDITOR.env.webkit )
+		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
+		}
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),

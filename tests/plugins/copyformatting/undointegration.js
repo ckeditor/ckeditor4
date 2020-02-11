@@ -67,5 +67,4 @@
 		editor.insertText( '1' );
 		editor.fire( 'saveSnapshot' );
 	}
-
 } )();

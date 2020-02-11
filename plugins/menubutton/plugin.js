@@ -7,49 +7,51 @@ CKEDITOR.plugins.add( 'menubutton', {
 	requires: 'button,menu',
 	onLoad: function() {
 		var clickFn = function( editor ) {
-				var _ = this._,
-					menu = _.menu;
+			var _ = this._,
+				menu = _.menu;
 
-				// Do nothing if this button is disabled.
-				if ( _.state === CKEDITOR.TRISTATE_DISABLED )
-					return;
+			// Do nothing if this button is disabled.
+			if ( _.state === CKEDITOR.TRISTATE_DISABLED ) {
+				return;
+			}
 
-				if ( _.on && menu ) {
-					menu.hide();
-					return;
+			if ( _.on && menu ) {
+				menu.hide();
+				return;
+			}
+
+			_.previousState = _.state;
+
+			// Check if we already have a menu for it, otherwise just create it.
+			if ( !menu ) {
+				menu = _.menu = new CKEDITOR.menu( editor, {
+					panel: {
+						className: 'cke_menu_panel',
+						attributes: { 'aria-label': editor.lang.common.options }
+					}
+				} );
+
+				menu.onHide = CKEDITOR.tools.bind( function() {
+					var modes = this.command ? editor.getCommand( this.command ).modes : this.modes;
+					this.setState( !modes || modes[ editor.mode ] ? _.previousState : CKEDITOR.TRISTATE_DISABLED );
+					_.on = 0;
+				}, this );
+
+				// Initialize the menu items at this point.
+				if ( this.onMenu ) {
+					menu.addListener( this.onMenu );
 				}
+			}
 
-				_.previousState = _.state;
+			this.setState( CKEDITOR.TRISTATE_ON );
+			_.on = 1;
 
-				// Check if we already have a menu for it, otherwise just create it.
-				if ( !menu ) {
-					menu = _.menu = new CKEDITOR.menu( editor, {
-						panel: {
-							className: 'cke_menu_panel',
-							attributes: { 'aria-label': editor.lang.common.options }
-						}
-					} );
-
-					menu.onHide = CKEDITOR.tools.bind( function() {
-						var modes = this.command ? editor.getCommand( this.command ).modes : this.modes;
-						this.setState( !modes || modes[ editor.mode ] ? _.previousState : CKEDITOR.TRISTATE_DISABLED );
-						_.on = 0;
-					}, this );
-
-					// Initialize the menu items at this point.
-					if ( this.onMenu )
-						menu.addListener( this.onMenu );
-				}
-
-				this.setState( CKEDITOR.TRISTATE_ON );
-				_.on = 1;
-
-				// This timeout is needed to give time for the panel get focus
-				// when JAWS is running. (https://dev.ckeditor.com/ticket/9842)
-				setTimeout( function() {
-					menu.show( CKEDITOR.document.getById( _.id ), 4 );
-				}, 0 );
-			};
+			// This timeout is needed to give time for the panel get focus
+			// when JAWS is running. (https://dev.ckeditor.com/ticket/9842)
+			setTimeout( function() {
+				menu.show( CKEDITOR.document.getById( _.id ), 4 );
+			}, 0 );
+		};
 
 		/**
 		 * @class

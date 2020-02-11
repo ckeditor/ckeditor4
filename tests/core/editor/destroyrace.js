@@ -33,7 +33,6 @@
 					editor.destroy();
 
 					wait();
-
 				} );
 			}, 0 );
 

@@ -43,8 +43,9 @@
 				firedEvents.push( evt.name );
 			}
 
-			for ( var i = 0, evt, length = events.length; evt = events[ i ], i < length; i++ )
+			for ( var i = 0, evt, length = events.length; evt = events[ i ], i < length; i++ ) {
 				editor.on( evt, eventChecker, null, null, -1 );
+			}
 
 			return function() {
 				arrayAssert.itemsAreEqual( events, firedEvents, 'events sequence doesn\'t match' );
@@ -79,10 +80,12 @@
 		checkEditorProperties: function( editor ) {
 			assert.areSame( CKEDITOR.config.startupMode, editor.mode, 'editor.mode should matches startup mode config.' );
 			assert.areSame( CKEDITOR.instances[ editor.name ], editor, 'instance reference is globally available.' );
-			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_NONE )
+			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_NONE ) {
 				assert.isNotNull( editor.element, 'editor.element' );
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE || editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
+			}
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE || editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 				assert.areSame( CKEDITOR.document.getById( editor.name ), editor.element, 'editor.name matches id of editor.element.' );
+			}
 		},
 
 		checkEditorStatuses: function( editor ) {
@@ -280,4 +283,4 @@
 			} ) ), 'Appropriate error code and additional data were used' );
 		};
 	}
-}() );
+} )() ;

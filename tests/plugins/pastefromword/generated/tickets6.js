@@ -23,11 +23,11 @@
 			'word2016'
 		],
 		tests: {
-			'Ordered_list': true,
-			'Ordered_list_multiple': true,
-			'Unordered_list': true,
-			'Unordered_list_multiple': true,
-			'Unordered_list_adjusted_margin': true,
+			Ordered_list: true,
+			Ordered_list_multiple: true,
+			Unordered_list: true,
+			Unordered_list_multiple: true,
+			Unordered_list_adjusted_margin: true,
 			'Tickets/16745MixedListsAndParagraphs': true,
 			'Tickets/16682listWithMargin': true,
 			'Tickets/16682noIndentation': true

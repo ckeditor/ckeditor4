@@ -43,70 +43,70 @@ bender.test( {
 
 	'test handle del/backspace at the boundary of table cell': function() {
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
-		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>', 'del doesn\'t change the selection' );
+			'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
+			'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>', 'del doesn\'t change the selection' );
 
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td>foo</td><td>bar^</td></tr></tbody></table>text' ,
-		'<table><tbody><tr><td>foo</td><td>bar</td></tr></tbody></table>^text', 'del moves selection after the table' );
+			'<table><tbody><tr><td>foo</td><td>bar^</td></tr></tbody></table>text' ,
+			'<table><tbody><tr><td>foo</td><td>bar</td></tr></tbody></table>^text', 'del moves selection after the table' );
 
 		this.assertKeystroke( BACKSPACE, 0,
-		'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>' ,
-		'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>', 'backspace del doesn\'t change the selection' );
+			'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>' ,
+			'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>', 'backspace del doesn\'t change the selection' );
 
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td>^foo</td><td>bar</td></tr></tbody></table>' ,
-		'(not handled)', 'del not handled' );
+			'<table><tbody><tr><td>^foo</td><td>bar</td></tr></tbody></table>' ,
+			'(not handled)', 'del not handled' );
 
 		this.assertKeystroke( BACKSPACE, 0,
-		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
-		'(not handled)', 'backspace not handled' );
+			'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
+			'(not handled)', 'backspace not handled' );
 
 		// Make sure that the modifiers are ignored.
 		// https://dev.ckeditor.com/ticket/11861#comment:13
 
 		this.assertKeystroke( DEL, CKEDITOR.SHIFT,
-		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
-		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>', 'del doesn\'t change the selection - SHIFT' );
+			'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
+			'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>', 'del doesn\'t change the selection - SHIFT' );
 
 		this.assertKeystroke( BACKSPACE, CKEDITOR.CTRL,
-		'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>' ,
-		'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>', 'backspace del doesn\'t change the selection - CTRL' );
+			'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>' ,
+			'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>', 'backspace del doesn\'t change the selection - CTRL' );
 	},
 
 	'test handle del with full table content selected': function() {
 		// Table cell text selected.
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td>[foo]</td></tr></tbody></table>' ,
-		'^', 'table a1' );
+			'<table><tbody><tr><td>[foo]</td></tr></tbody></table>' ,
+			'^', 'table a1' );
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td>[foo</td><td>bar]</td></tr></tbody></table>' ,
-		'^', 'table a2' );
+			'<table><tbody><tr><td>[foo</td><td>bar]</td></tr></tbody></table>' ,
+			'^', 'table a2' );
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td>[foo</td></tr><tr><td>bar]</td></tr></tbody></table>' ,
-		'^', 'table a3' );
+			'<table><tbody><tr><td>[foo</td></tr><tr><td>bar]</td></tr></tbody></table>' ,
+			'^', 'table a3' );
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td>[foo</td></tr><tr><td>bar]</td></tr></tbody></table>' ,
-		'^', 'table a4' );
+			'<table><tbody><tr><td>[foo</td></tr><tr><td>bar]</td></tr></tbody></table>' ,
+			'^', 'table a4' );
 
 		// Text selection enclosed in text block and inlines.
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td><p>[foo]</p></td></tr></tbody></table>' ,
-		'^', 'table b1' );
+			'<table><tbody><tr><td><p>[foo]</p></td></tr></tbody></table>' ,
+			'^', 'table b1' );
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td><p><b><i>[foo]</i></b></p></td></tr></tbody></table>' ,
-		'^', 'table b2' );
+			'<table><tbody><tr><td><p><b><i>[foo]</i></b></p></td></tr></tbody></table>' ,
+			'^', 'table b2' );
 
 		// Adverse tests.
 		this.assertKeystroke( DEL, 0,
-		'<table><tbody><tr><td>[foo]bar</td></tr></tbody></table>' ,
-		'(not handled)', 'table r1' );
+			'<table><tbody><tr><td>[foo]bar</td></tr></tbody></table>' ,
+			'(not handled)', 'table r1' );
 
 		// Make sure that the modifiers are ignored.
 		// https://dev.ckeditor.com/ticket/11861#comment:13
 		this.assertKeystroke( DEL, CKEDITOR.CTRL,
-		'<table><tbody><tr><td>[foo]</td></tr></tbody></table>' ,
-		'^', 'table a1 - CTRL' );
+			'<table><tbody><tr><td>[foo]</td></tr></tbody></table>' ,
+			'^', 'table a1 - CTRL' );
 	},
 
 	'test handle del with full list content selected': function() {

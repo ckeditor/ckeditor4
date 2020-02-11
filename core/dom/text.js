@@ -25,8 +25,9 @@
  * the node in case of new node creation. Defaults to the current document.
  */
 CKEDITOR.dom.text = function( text, ownerDocument ) {
-	if ( typeof text == 'string' )
+	if ( typeof text == 'string' ) {
 		text = ( ownerDocument ? ownerDocument.$ : document ).createTextNode( text );
+	}
 
 	// Theoretically, we should call the base constructor here
 	// (not CKEDITOR.dom.node though). But, IE doesn't support expando
@@ -107,7 +108,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 	 * @returns {CKEDITOR.dom.text} The new text node.
 	 */
 	split: function( offset ) {
-
 		// Saved the children count and text length beforehand.
 		var parent = this.$.parentNode,
 			count = parent.childNodes.length,
@@ -146,9 +146,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 	substring: function( indexA, indexB ) {
 		// We need the following check due to a Firefox bug
 		// https://bugzilla.mozilla.org/show_bug.cgi?id=458886
-		if ( typeof indexB != 'number' )
+		if ( typeof indexB != 'number' ) {
 			return this.$.nodeValue.substr( indexA );
-		else
+		} else {
 			return this.$.nodeValue.substring( indexA, indexB );
+		}
 	}
 } );

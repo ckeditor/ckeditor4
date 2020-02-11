@@ -30,8 +30,9 @@
 		},
 
 		'test status during switching mode to source': function( editor ) {
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				assert.ignore();
+			}
 
 			var statuses = {
 					dataReady: []
@@ -75,8 +76,9 @@
 		},
 
 		'test status during switching mode to wysiwyg': function( editor ) {
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				assert.ignore();
+			}
 
 			var statuses = {
 					beforeSetData: [],
@@ -146,5 +148,4 @@
 	};
 
 	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests ) );
-
 } )();

@@ -74,8 +74,9 @@ CKEDITOR.plugins.add( 'listblock', {
 					if ( !this._.click ) {
 						this._.click = CKEDITOR.tools.addFunction( function( value ) {
 							var marked = this.toggle( value );
-							if ( this.onClick )
+							if ( this.onClick ) {
 								this.onClick( value, marked );
+							}
 						}, this );
 					}
 					return this._.click;
@@ -128,10 +129,11 @@ CKEDITOR.plugins.add( 'listblock', {
 				toggle: function( value ) {
 					var isMarked = this.isMarked( value );
 
-					if ( isMarked )
+					if ( isMarked ) {
 						this.unmark( value );
-					else
+					} else {
 						this.mark( value );
+					}
 
 					return !isMarked;
 				},
@@ -143,8 +145,9 @@ CKEDITOR.plugins.add( 'listblock', {
 					if ( group ) {
 						group.setStyle( 'display', 'none' );
 
-						if ( list && list.getName() == 'ul' )
+						if ( list && list.getName() == 'ul' ) {
 							list.setStyle( 'display', 'none' );
+						}
 					}
 				},
 
@@ -167,14 +170,16 @@ CKEDITOR.plugins.add( 'listblock', {
 
 						group.setStyle( 'display', '' );
 
-						if ( list && list.getName() == 'ul' )
+						if ( list && list.getName() == 'ul' ) {
 							list.setStyle( 'display', '' );
+						}
 					}
 				},
 
 				mark: function( value ) {
-					if ( !this.multiSelect )
+					if ( !this.multiSelect ) {
 						this.unmarkAll();
+					}
 
 					var itemId = this._.items[ value ],
 						item = this.element.getDocument().getById( itemId );
@@ -187,8 +192,9 @@ CKEDITOR.plugins.add( 'listblock', {
 				markFirstDisplayed: function() {
 					var context = this;
 					this._.markFirstDisplayed( function() {
-						if ( !context.multiSelect )
+						if ( !context.multiSelect ) {
 							context.unmarkAll();
+						}
 					} );
 				},
 
@@ -238,8 +244,7 @@ CKEDITOR.plugins.add( 'listblock', {
 								break;
 							}
 						}
-					}
-					else {
+					} else {
 						this.element.focus();
 					}
 

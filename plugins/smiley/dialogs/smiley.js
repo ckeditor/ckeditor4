@@ -14,33 +14,34 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 	// @type {CKEDITOR.dialog}
 	var dialog;
 	var onClick = function( evt ) {
-			var target = evt.data.getTarget(),
-				targetName = target.getName();
+		var target = evt.data.getTarget(),
+			targetName = target.getName();
 
-			if ( targetName == 'a' )
-				target = target.getChild( 0 );
-			else if ( targetName != 'img' )
-				return;
+		if ( targetName == 'a' ) {
+			target = target.getChild( 0 );
+		} else if ( targetName != 'img' ) {
+			return;
+		}
 
-			var src = target.getAttribute( 'cke_src' ),
-				title = target.getAttribute( 'title' );
+		var src = target.getAttribute( 'cke_src' ),
+			title = target.getAttribute( 'title' );
 
-			var img = editor.document.createElement( 'img', {
-				attributes: {
-					src: src,
-					'data-cke-saved-src': src,
-					title: title,
-					alt: title,
-					width: target.$.width,
-					height: target.$.height
-				}
-			} );
+		var img = editor.document.createElement( 'img', {
+			attributes: {
+				src: src,
+				'data-cke-saved-src': src,
+				title: title,
+				alt: title,
+				width: target.$.width,
+				height: target.$.height
+			}
+		} );
 
-			editor.insertElement( img );
+		editor.insertElement( img );
 
-			dialog.hide();
-			evt.data.preventDefault();
-		};
+		dialog.hide();
+		evt.data.preventDefault();
+	};
 
 	var onKeydown = CKEDITOR.tools.addFunction( function( ev, element ) {
 		ev = new CKEDITOR.dom.event( ev );
@@ -64,8 +65,9 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				// relative is TR
 				if ( ( relative = element.getParent().getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( [ element.getParent().getIndex(), 0 ] );
-					if ( nodeToMove )
+					if ( nodeToMove ) {
 						nodeToMove.focus();
+					}
 				}
 				ev.preventDefault();
 				break;
@@ -87,8 +89,9 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				// relative is TR
 				else if ( ( relative = element.getParent().getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( [ 0, 0 ] );
-					if ( nodeToMove )
+					if ( nodeToMove ) {
 						nodeToMove.focus();
+					}
 					ev.preventDefault( true );
 				}
 				break;
@@ -126,8 +129,9 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 
 	var size = images.length;
 	for ( i = 0; i < size; i++ ) {
-		if ( i % columns === 0 )
+		if ( i % columns === 0 ) {
 			html.push( '<tr role="presentation">' );
+		}
 
 		var smileyLabelId = 'cke_smile_label_' + i + '_' + CKEDITOR.tools.getNextNumber();
 		html.push(
@@ -143,13 +147,15 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			'</a>', '</td>'
 		);
 
-		if ( i % columns == columns - 1 )
+		if ( i % columns == columns - 1 ) {
 			html.push( '</tr>' );
+		}
 	}
 
 	if ( i < columns - 1 ) {
-		for ( ; i < columns - 1; i++ )
+		for ( ; i < columns - 1; i++ ) {
 			html.push( '<td></td>' );
+		}
 		html.push( '</tr>' );
 	}
 

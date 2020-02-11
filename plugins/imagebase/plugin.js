@@ -928,4 +928,4 @@
 
 		progressReporter: ProgressReporter
 	};
-}() );
+} )() ;

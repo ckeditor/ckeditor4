@@ -127,14 +127,12 @@
 		var copy = AbstractToolbarModifier.prototype.getActualConfig.call( this );
 
 		if ( copy.toolbarGroups ) {
-
 			var max = copy.toolbarGroups.length;
 			for ( var i = 0; i < max; i += 1 ) {
 				var currentGroup = copy.toolbarGroups[ i ];
 
 				copy.toolbarGroups[ i ] = ToolbarModifier.parseGroupToConfigValue( currentGroup );
 			}
-
 		}
 
 		return copy;
@@ -167,8 +165,9 @@
 			}
 		}
 
-		if ( !this.actualConfig.toolbarGroups )
+		if ( !this.actualConfig.toolbarGroups ) {
 			this.actualConfig.toolbarGroups = this.fullToolbarEditor.getFullToolbarGroupsConfig();
+		}
 
 		this._fixGroups( this.actualConfig );
 		this._calculateTotalBtns();
@@ -177,8 +176,9 @@
 		this._refreshMoveBtnsAvalibility();
 		this._refreshBtnTabIndexes();
 
-		if ( typeof callback === 'function' )
+		if ( typeof callback === 'function' ) {
 			callback( this.mainContainer );
+		}
 	};
 
 	/**
@@ -254,7 +254,6 @@
 			'\n};',
 			'</textarea>'
 		].join( '' );
-
 
 
 		this.modifyContainer.addClass( 'hidden' );
@@ -339,21 +338,23 @@
 			that.cachedActiveElement = document.activeElement;
 
 			// checkbox clicked
-			if ( target.$ instanceof HTMLInputElement )
+			if ( target.$ instanceof HTMLInputElement ) {
 				that._handleCheckboxClicked( target );
+			}
 
 			// link clicked
 			else if ( target.$ instanceof HTMLButtonElement ) {
-				if ( origEvent.preventDefault )
+				if ( origEvent.preventDefault ) {
 					origEvent.preventDefault();
-				else
+				} else {
 					origEvent.returnValue = false;
+				}
 
 				var result = that._handleAnchorClicked( target.$ );
 
-				if ( result && result.action == 'remove' )
+				if ( result && result.action == 'remove' ) {
 					return;
-
+				}
 			}
 
 			var elementType = relativeGroupOrSeparatorLi.data( 'type' ),
@@ -361,8 +362,9 @@
 
 			that._setActiveElement( elementType, elementName );
 
-			if ( that.cachedActiveElement )
+			if ( that.cachedActiveElement ) {
 				that.cachedActiveElement.focus();
+			}
 		} );
 
 		if ( !this.toolbarContainer ) {
@@ -402,11 +404,11 @@
 		for ( var i = 0; i < max; i += 1 ) {
 			var currentBtn = allButtons.getItem( i );
 
-			if ( currentBtn.data( 'group' ) == groupName )
+			if ( currentBtn.data( 'group' ) == groupName ) {
 				currentBtn.removeClass( 'hidden' );
-			else
+			} else {
 				currentBtn.addClass( 'hidden' );
-
+			}
 		}
 	};
 
@@ -440,9 +442,9 @@
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	ToolbarModifier.getGroupOrSeparatorLiAncestor = function( element ) {
-		if ( element.$ instanceof HTMLLIElement && element.data( 'type' ) == 'group' )
+		if ( element.$ instanceof HTMLLIElement && element.data( 'type' ) == 'group' ) {
 			return element;
-		else {
+		} else {
 			return ToolbarModifier.getFirstAncestor( element, function( ancestor ) {
 				var type = ancestor.data( 'type' );
 
@@ -459,8 +461,9 @@
 	 */
 	ToolbarModifier.prototype._setActiveElement = function( type, name ) {
 		// clear current active element
-		if ( this.currentActive )
+		if ( this.currentActive ) {
 			this.currentActive.elem.removeClass( 'active' );
+		}
 
 		if ( type === null ) {
 			this._dehighlightActiveToolGroup();
@@ -480,21 +483,24 @@
 		};
 
 		// highlight group in toolbar
-		if ( type == 'group' )
+		if ( type == 'group' ) {
 			this._highlightGroup( name );
+		}
 
-		if ( type == 'separator' )
+		if ( type == 'separator' ) {
 			this._dehighlightActiveToolGroup();
+		}
 	};
 
 	/**
 	 * @returns {CKEDITOR.dom.element|null}
 	 */
 	ToolbarModifier.prototype.getActiveToolGroup = function() {
-		if ( this.editorInstance.container )
+		if ( this.editorInstance.container ) {
 			return this.editorInstance.container.findOne( '.cke_toolgroup.active, .cke_toolbar.active' );
-		else
+		} else {
 			return null;
+		}
 	};
 
 	/**
@@ -503,8 +509,9 @@
 	ToolbarModifier.prototype._dehighlightActiveToolGroup = function() {
 		var currentActive = this.getActiveToolGroup();
 
-		if ( currentActive )
+		if ( currentActive ) {
 			currentActive.removeClass( 'active' );
+		}
 
 		// @see ToolbarModifier.prototype._highlightGroup.
 		if ( this.editorInstance.container ) {
@@ -518,8 +525,9 @@
 	 * @param {String} name
 	 */
 	ToolbarModifier.prototype._highlightGroup = function( name ) {
-		if ( !this.editorInstance.container )
+		if ( !this.editorInstance.container ) {
 			return;
+		}
 
 		var foundBtnName = this.getFirstEnabledButtonInGroup( name ),
 			foundBtn = this.editorInstance.container.findOne( '.cke_button__' + foundBtnName + ', .cke_combo__' + foundBtnName );
@@ -536,8 +544,9 @@
 				return ancestor.hasClass( 'cke_toolbar' );
 			} );
 
-			if ( btnToolbar )
+			if ( btnToolbar ) {
 				btnToolbar.addClass( 'active' );
+			}
 		}
 	};
 
@@ -559,8 +568,9 @@
 			var currSubgroupName = group.groups[ i ].name,
 				firstEnabled = this.getFirstEnabledButtonInSubgroup( currSubgroupName );
 
-			if ( firstEnabled )
+			if ( firstEnabled ) {
 				return firstEnabled;
+			}
 		}
 		return null;
 	};
@@ -575,8 +585,9 @@
 		var max = subgroupBtns ? subgroupBtns.length : 0;
 		for ( var i = 0; i < max; i += 1 ) {
 			var currBtnName = subgroupBtns[ i ].name;
-			if ( !this.isButtonRemoved( currBtnName ) )
+			if ( !this.isButtonRemoved( currBtnName ) ) {
 				return currBtnName;
+			}
 		}
 
 		return null;
@@ -593,10 +604,11 @@
 			elementName = closestLi.data( 'name' ),
 			aboutToAddToRemoved = !checkbox.$.checked;
 
-		if ( aboutToAddToRemoved )
+		if ( aboutToAddToRemoved ) {
 			this._addButtonToRemoved( elementName );
-		else
+		} else {
 			this._removeButtonFromRemoved( elementName );
+		}
 	};
 
 	/**
@@ -618,8 +630,9 @@
 			newIndex;
 
 		// nothing to do
-		if ( anchorDOM.hasClass( 'disabled' ) )
+		if ( anchorDOM.hasClass( 'disabled' ) ) {
 			return null;
+		}
 
 		// remove separator and nothing else
 		if ( anchorDOM.hasClass( 'remove' ) ) {
@@ -629,8 +642,9 @@
 			return { action: 'remove' };
 		}
 
-		if ( !anchorDOM.hasClass( 'move' ) || !nearestLi )
+		if ( !anchorDOM.hasClass( 'move' ) || !nearestLi ) {
 			return { action: null };
+		}
 
 		// move group or separator
 		if ( elementType === 'group' || elementType === 'separator' ) {
@@ -646,11 +660,13 @@
 		}
 
 		// Visual effect
-		if ( direction === 'up' )
+		if ( direction === 'up' ) {
 			relativeLi.insertBefore( relativeUl.getChild( newIndex ) );
+		}
 
-		if ( direction === 'down' )
+		if ( direction === 'down' ) {
 			relativeLi.insertAfter( relativeUl.getChild( newIndex ) );
+		}
 
 		// Should know whether there is next li element after modifications.
 		var nextLi = relativeLi;
@@ -736,8 +752,9 @@
 	ToolbarModifier.prototype._disableElementsInList = function( ul ) {
 		var liList = ul.getChildren();
 
-		if ( !liList.count() )
+		if ( !liList.count() ) {
 			return;
+		}
 
 		var firstDisabled, lastDisabled;
 		if ( this.emptyVisible ) {
@@ -752,11 +769,13 @@
 			return !element.hasClass( 'empty' );
 		}
 
-		if ( firstDisabled )
+		if ( firstDisabled ) {
 			var firstDisabledBtn = firstDisabled.findOne( 'p button[data-direction="up"]' );
+		}
 
-		if ( lastDisabled )
+		if ( lastDisabled ) {
 			var lastDisabledBtn = lastDisabled.findOne( 'p button[data-direction="down"]' );
+		}
 
 		if ( firstDisabledBtn ) {
 			firstDisabledBtn.addClass( 'disabled' );
@@ -780,8 +799,9 @@
 
 		var max = groups.length;
 		for ( var i = 0; i < max; i += 1 ) {
-			if ( groups[ i ].name === name )
+			if ( groups[ i ].name === name ) {
 				return i;
+			}
 		}
 
 		return -1;
@@ -831,14 +851,16 @@
 	 * @private
 	 */
 	ToolbarModifier.prototype._determineSeparatorToAddIndex = function() {
-		if ( !this.currentActive )
+		if ( !this.currentActive ) {
 			return 0;
+		}
 
 		var groupLi;
-		if ( this.currentActive.elem.data( 'type' ) == 'group' || this.currentActive.elem.data( 'type' ) == 'separator' )
+		if ( this.currentActive.elem.data( 'type' ) == 'group' || this.currentActive.elem.data( 'type' ) == 'separator' ) {
 			groupLi = this.currentActive.elem;
-		else
+		} else {
 			groupLi = this.currentActive.elem.getAscendant( 'li' );
+		}
 
 		return groupLi.getIndex();
 	};
@@ -853,9 +875,9 @@
 	ToolbarModifier.prototype._moveElement = function( elementsArray, elementIndex, direction ) {
 		var nextIndex;
 
-		if ( this.emptyVisible )
+		if ( this.emptyVisible ) {
 			nextIndex = ( direction == 'down' ? elementIndex + 1 : elementIndex - 1 );
-		else {
+		} else {
 			// When empty elements are not visible, there is need to skip them.
 			nextIndex = ToolbarModifier.getFirstElementIndexWith( elementsArray, elementIndex, direction, isEmptyOrSeparatorChecker );
 		}
@@ -940,8 +962,9 @@
 	 * @private
 	 */
 	ToolbarModifier.prototype._addButtonToRemoved = function( buttonName ) {
-		if ( CKEDITOR.tools.indexOf( this.removedButtons, buttonName ) != -1 )
+		if ( CKEDITOR.tools.indexOf( this.removedButtons, buttonName ) != -1 ) {
 			throw 'Button already added to removed';
+		}
 
 		this.removedButtons.push( buttonName );
 		this.actualConfig.removeButtons = this.removedButtons.join( ',' );
@@ -955,10 +978,11 @@
 	 * @private
 	 */
 	ToolbarModifier.prototype._removeButtonFromRemoved = function( buttonName ) {
-		var foundAtIndex =  CKEDITOR.tools.indexOf( this.removedButtons, buttonName );
+		var foundAtIndex = CKEDITOR.tools.indexOf( this.removedButtons, buttonName );
 
-		if ( foundAtIndex === -1 )
+		if ( foundAtIndex === -1 ) {
 			throw 'Trying to remove button from removed, but not found';
+		}
 
 		this.removedButtons.splice( foundAtIndex, 1 );
 		this.actualConfig.removeButtons = this.removedButtons.join( ',' );
@@ -996,9 +1020,9 @@
 	 * @static
 	 */
 	ToolbarModifier.getGroupOrSeparatorLiAncestor = function( element ) {
-		if ( element.$ instanceof HTMLLIElement && element.data( 'type' ) == 'group' )
+		if ( element.$ instanceof HTMLLIElement && element.data( 'type' ) == 'group' ) {
 			return element;
-		else {
+		} else {
 			return ToolbarModifier.getFirstAncestor( element, function( ancestor ) {
 				var type = ancestor.data( 'type' );
 
@@ -1035,10 +1059,11 @@
 		for ( var i = 0; i < max; i += 1 ) {
 			var currentGroup = groups[ i ];
 
-			if ( currentGroup.type === 'separator' )
+			if ( currentGroup.type === 'separator' ) {
 				listString += ToolbarModifier.getToolbarSeparatorString( currentGroup );
-			else
+			} else {
 				listString += this._getToolbarGroupString( currentGroup );
+			}
 		}
 
 		listString += '</ul>';
@@ -1061,9 +1086,9 @@
 
 		groupString += [
 			'<li ',
-				'data-type="group" ',
-				'data-name="', group.name, '" ',
-				( group.totalBtns ? '' : 'class="empty"' ),
+			'data-type="group" ',
+			'data-name="', group.name, '" ',
+			( group.totalBtns ? '' : 'class="empty"' ),
 			'>'
 		].join( '' );
 		groupString += ToolbarModifier.getToolbarElementPreString( group ) + '<ul>';
@@ -1127,8 +1152,9 @@
 			i = ancestors.length;
 
 		while ( i-- ) {
-			if ( checker( ancestors[ i ] ) )
+			if ( checker( ancestors[ i ] ) ) {
 				return ancestors[ i ];
+			}
 		}
 
 		return null;
@@ -1154,18 +1180,19 @@
 	ToolbarModifier.getFirstElementIndexWith = function( array, i, direction, conditionChecker ) {
 		function whileChecker() {
 			var result;
-			if ( direction === 'up' )
+			if ( direction === 'up' ) {
 				result = i--;
-			else
+			} else {
 				result = ( ++i < array.length );
+			}
 
 			return result;
 		}
 
 		while ( whileChecker() ) {
-			if ( conditionChecker( array[ i ] ) )
+			if ( conditionChecker( array[ i ] ) ) {
 				return i;
-
+			}
 		}
 
 		return -1;
@@ -1183,8 +1210,9 @@
 	ToolbarModifier.moveTo = function( offset, array, index ) {
 		var element, newIndex;
 
-		if ( index !== -1 )
+		if ( index !== -1 ) {
 			element = array.splice( index, 1 )[ 0 ];
+		}
 
 		newIndex = index + offset;
 
@@ -1218,8 +1246,9 @@
 			subgroups = group.groups;
 
 		var max = subgroups ? subgroups.length : 0;
-		for ( var i = 0; i < max; i += 1 )
+		for ( var i = 0; i < max; i += 1 ) {
 			total += ToolbarModifier.getTotalSubGroupButtonsNumber( subgroups[ i ], fullToolbarEditor );
+		}
 
 		return total;
 	};
@@ -1237,17 +1266,18 @@
 
 		subgroupString += [
 			'<li ',
-				'data-type="subgroup" ',
-				'data-name="', subgroup.name, '" ',
-				( subgroup.totalBtns ? '' : 'class="empty" ' ),
+			'data-type="subgroup" ',
+			'data-name="', subgroup.name, '" ',
+			( subgroup.totalBtns ? '' : 'class="empty" ' ),
 			'>'
 		].join( '' );
 		subgroupString += ToolbarModifier.getToolbarElementPreString( subgroup.name );
 		subgroupString += '<ul>';
 
 		var max = groupBtns ? groupBtns.length : 0;
-		for ( var i = 0; i < max; i += 1 )
+		for ( var i = 0; i < max; i += 1 ) {
 			subgroupString += this.getButtonString( groupBtns[ i ] );
+		}
 
 		subgroupString += '</ul>';
 
@@ -1266,8 +1296,9 @@
 
 		var name;
 		for ( name in items ) {
-			if ( items[ name ].name == buttonName )
+			if ( items[ name ].name == buttonName ) {
 				return name;
+			}
 		}
 
 		return null;
@@ -1291,14 +1322,14 @@
 
 		return [
 			'<li data-tab="true" data-type="button" data-name="', this._getConfigButtonName( button.name ), '">',
-				'<label title="', button.label, '" >',
-					'<input ',
-						'tabindex="-1"',
-						'type="checkbox"',
-						checked,
-					'/>',
-					button.$.getOuterHtml(),
-				'</label>',
+			'<label title="', button.label, '" >',
+			'<input ',
+			'tabindex="-1"',
+			'type="checkbox"',
+			checked,
+			'/>',
+			button.$.getOuterHtml(),
+			'</label>',
 			'</li>'
 		].join( '' );
 	};
@@ -1315,12 +1346,12 @@
 
 		return [
 			'<p>',
-				'<span>',
-					'<button title="Move element upward" data-tab="true" data-direction="up" class="move icon-up-big"></button>',
-					'<button title="Move element downward" data-tab="true" data-direction="down" class="move icon-down-big"></button>',
-					( name == 'row separator' ? '<button title="Remove element" data-tab="true" class="remove icon-trash"></button>' : '' ),
-					name,
-				'</span>',
+			'<span>',
+			'<button title="Move element upward" data-tab="true" data-direction="up" class="move icon-up-big"></button>',
+			'<button title="Move element downward" data-tab="true" data-direction="down" class="move icon-down-big"></button>',
+			( name == 'row separator' ? '<button title="Remove element" data-tab="true" class="remove icon-trash"></button>' : '' ),
+			name,
+			'</span>',
 			'</p>'
 		].join( '' );
 	};
@@ -1355,8 +1386,7 @@
 			} else {
 				return null;
 			}
-
-		}( cfg ) );
+		} )( cfg ) ;
 
 		return cfg;
 	};

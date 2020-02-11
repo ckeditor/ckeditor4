@@ -9,10 +9,10 @@ var objToArray = bender.tools.objToArray;
 
 function correctJsonpCallback( urlTemplate, urlParams, callback ) {
 	callback( {
-		'url': decodeURIComponent( urlParams.url ),
-		'type': 'rich',
-		'version': '1.0',
-		'html': '<img src="' + decodeURIComponent( urlParams.url ) + '">'
+		url: decodeURIComponent( urlParams.url ),
+		type: 'rich',
+		version: '1.0',
+		html: '<img src="' + decodeURIComponent( urlParams.url ) + '">'
 	} );
 }
 
@@ -320,7 +320,6 @@ bender.test( {
 
 		editor.once( 'afterPaste', function() {
 			editor.execCommand( 'undo' );
-
 		}, null, null, 900 );
 
 		bot.setData( '', function() {
@@ -343,7 +342,6 @@ bender.test( {
 
 		// JSONP callback for embed request.
 		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
-
 			// First request will return error - so two notifications should be showed.
 			// First informing about embedding process, second about embedding error.
 			if ( firstRequest ) {
@@ -352,13 +350,12 @@ bender.test( {
 				editor.execCommand( 'paste', 'https://foo.bar/g/notification/test/2' );
 			} else {
 				resume( function() {
-
 					// Second request returns success - one notification should be showed.
 					callback( {
-						'url': decodeURIComponent( urlParams.url ),
-						'type': 'rich',
-						'version': '1.0',
-						'html': '<img src="' + decodeURIComponent( urlParams.url ) + '">'
+						url: decodeURIComponent( urlParams.url ),
+						type: 'rich',
+						version: '1.0',
+						html: '<img src="' + decodeURIComponent( urlParams.url ) + '">'
 					} );
 
 					notificationShowSpy.restore();

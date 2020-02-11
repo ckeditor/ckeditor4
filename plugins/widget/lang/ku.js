@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'ku', {
-	'move': 'کرتەبکە و ڕایبکێشە بۆ جوڵاندن',
-	'label': '%1 ویجێت'
+	move: 'کرتەبکە و ڕایبکێشە بۆ جوڵاندن',
+	label: '%1 ویجێت'
 } );

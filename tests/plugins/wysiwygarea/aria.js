@@ -31,8 +31,9 @@
 				var label = editor.ui.space( 'contents' ).findOne( '#' + describedBy );
 				assert.isNotNull( label, 'label element exists within top space' );
 				assert.areSame( 'foo', label.getHtml(), 'label\'s content' );
-				if ( CKEDITOR.env.ie )
+				if ( CKEDITOR.env.ie ) {
 					assert.areSame( editor.title + ', foo', iframe.getAttribute( 'title' ), 'on IE title contains label' );
+				}
 			} );
 		},
 

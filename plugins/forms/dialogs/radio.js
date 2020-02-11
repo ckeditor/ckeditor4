@@ -43,7 +43,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				id: 'name',
 				type: 'text',
 				label: editor.lang.common.name,
-				'default': '',
+				default: '',
 				accessKey: 'N',
 				setup: function( element ) {
 					this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
@@ -51,9 +51,9 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				commit: function( data ) {
 					var element = data.element;
 
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.data( 'cke-saved-name', this.getValue() );
-					else {
+					} else {
 						element.data( 'cke-saved-name', false );
 						element.removeAttribute( 'name' );
 					}
@@ -63,7 +63,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				id: 'value',
 				type: 'text',
 				label: editor.lang.forms.checkboxAndRadio.value,
-				'default': '',
+				default: '',
 				accessKey: 'V',
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'value' ) || '' );
@@ -71,17 +71,18 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				commit: function( data ) {
 					var element = data.element;
 
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.setAttribute( 'value', this.getValue() );
-					else
+					} else {
 						element.removeAttribute( 'value' );
+					}
 				}
 			},
 			{
 				id: 'checked',
 				type: 'checkbox',
 				label: editor.lang.forms.checkboxAndRadio.selected,
-				'default': '',
+				default: '',
 				accessKey: 'S',
 				value: 'checked',
 				setup: function( element ) {
@@ -97,10 +98,11 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 							element.$.checked = value;
 						}
 
-						if ( value )
+						if ( value ) {
 							element.setAttribute( 'checked', 'checked' );
-						else
+						} else {
 							element.removeAttribute( 'checked' );
+						}
 					} else {
 						var isElementChecked = element.getAttribute( 'checked' );
 						var isChecked = !!this.getValue();
@@ -126,16 +128,17 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				id: 'required',
 				type: 'checkbox',
 				label: editor.lang.forms.checkboxAndRadio.required,
-				'default': '',
+				default: '',
 				accessKey: 'Q',
 				value: 'required',
 				setup: CKEDITOR.plugins.forms._setupRequiredAttribute,
 				commit: function( data ) {
 					var element = data.element;
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.setAttribute( 'required', 'required' );
-					else
+					} else {
 						element.removeAttribute( 'required' );
+					}
 				}
 			} ]
 		} ]

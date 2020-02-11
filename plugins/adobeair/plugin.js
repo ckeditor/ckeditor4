@@ -66,12 +66,14 @@
 									}
 
 									var retval = CKEDITOR.tools.callFunction.apply( window, callFuncArgs );
-									if ( hasReturn && retval === false )
+									if ( hasReturn && retval === false ) {
 										preventDefault = 1;
+									}
 								}
 
-								if ( preventDefault )
+								if ( preventDefault ) {
 									evt.data.preventDefault();
+								}
 							} );
 						}
 					} )( eventNameList[ j ] );
@@ -82,8 +84,9 @@
 
 	CKEDITOR.plugins.add( 'adobeair', {
 		onLoad: function() {
-			if ( !CKEDITOR.env.air )
+			if ( !CKEDITOR.env.air ) {
 				return;
+			}
 
 			CKEDITOR.dom.document.prototype.write = CKEDITOR.tools.override( CKEDITOR.dom.document.prototype.write, function( original_write ) {
 				function appendElement( parent, tagName, fullTag, text ) {
@@ -167,8 +170,9 @@
 			} );
 		},
 		init: function( editor ) {
-			if ( !CKEDITOR.env.air )
+			if ( !CKEDITOR.env.air ) {
 				return;
+			}
 
 			editor.on( 'uiReady', function() {
 				convertInlineHandlers( editor.container );

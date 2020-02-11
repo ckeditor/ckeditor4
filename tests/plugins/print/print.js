@@ -86,7 +86,6 @@ bender.test( {
 						isLoaded = true;
 
 						cb();
-
 					},
 					$: {
 						print: function() {
@@ -142,7 +141,6 @@ bender.test( {
 						isLoaded = true;
 
 						cb();
-
 					},
 					$: {
 						print: function() {

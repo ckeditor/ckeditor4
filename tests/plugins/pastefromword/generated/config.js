@@ -30,7 +30,7 @@
 			'word2013'
 		],
 		tests: {
-			'Config_remove_font_styles': true
+			Config_remove_font_styles: true
 		},
 		compareRawData: true,
 		ignoreAll: bender.tools.env.mobile

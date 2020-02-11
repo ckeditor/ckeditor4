@@ -25,8 +25,9 @@
 
 		setUp: function() {
 			// Inits tools used to mimic events if needed.
-			if ( !this.tools )
+			if ( !this.tools ) {
 				this.tools = undoEventDispatchTestsTools( this );
+			}
 
 			this.undoManager = this.editor.undoManager;
 			// For each TC we want to reset undoManager.

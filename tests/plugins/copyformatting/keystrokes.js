@@ -110,4 +110,4 @@
 			assert.areEqual( undefined, editor.keystrokeHandler.keystrokes[ customKeystroke ] );
 		}
 	} );
-}() );
+} )() ;

@@ -17,8 +17,9 @@ var image2TestsTools = ( function() {
 
 			// Combine the first state with the rest of states.
 			for ( var t in states ) {
-				if ( s == t )
+				if ( s == t ) {
 					continue;
+				}
 
 				// Fill tcs with a new state-change test.
 				tcs[ 'test shift state: [' + s + ' ⇒ ' + t + ']' ] = ( function( oldState, newState ) {

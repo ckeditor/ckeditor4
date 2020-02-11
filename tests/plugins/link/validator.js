@@ -23,8 +23,9 @@
 		tearDown: function() {
 			var currentDialog = CKEDITOR.dialog.getCurrent();
 
-			if ( currentDialog )
+			if ( currentDialog ) {
 				currentDialog.hide();
+			}
 		},
 
 		'test blocked JavaScript content in href attribute': function() {

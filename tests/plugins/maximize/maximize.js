@@ -13,8 +13,9 @@ bender.test( {
 
 	// https://dev.ckeditor.com/ticket/4355
 	'test command exec not require editor focus': function() {
-		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 			assert.ignore();
+		}
 
 		var bot = this.editorBot, editor = this.editor;
 
@@ -34,8 +35,9 @@ bender.test( {
 	},
 
 	'test maximize in source mode': function() {
-		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 			assert.ignore();
+		}
 
 		var bot = this.editorBot;
 		// Switch to source mode.

@@ -59,8 +59,9 @@
 					restoreOriginalCallbacks();
 				} );
 			} catch ( e ) {
-				if ( e instanceof YUITest.Wait === false )
+				if ( e instanceof YUITest.Wait === false ) {
 					restoreOriginalCallbacks();
+				}
 				// Propagate the exception.
 				throw e;
 			}
@@ -86,7 +87,6 @@
 					assert.isTrue( true );
 				} );
 			} );
-
 		}
 	} );
 } )();

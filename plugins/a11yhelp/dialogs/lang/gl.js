@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 	contents: 'Axuda. Para pechar este diálogo prema ESC.',
 	legend: [
 		{
-		name: 'Xeral',
-		items: [
-			{
-			name: 'Barra de ferramentas do editor',
-			legend: 'Prema ${toolbarFocus} para navegar pola barra de ferramentas. Para moverse polos distintos grupos de ferramentas use as teclas TAB e MAIÚS+TAB. Para moverse polas distintas ferramentas use FRECHA DEREITA ou FRECHA ESQUERDA. Prema ESPAZO ou INTRO para activar o botón da barra de ferramentas.'
-		},
+			name: 'Xeral',
+			items: [
+				{
+					name: 'Barra de ferramentas do editor',
+					legend: 'Prema ${toolbarFocus} para navegar pola barra de ferramentas. Para moverse polos distintos grupos de ferramentas use as teclas TAB e MAIÚS+TAB. Para moverse polas distintas ferramentas use FRECHA DEREITA ou FRECHA ESQUERDA. Prema ESPAZO ou INTRO para activar o botón da barra de ferramentas.'
+				},
 
-			{
-			name: 'Editor de diálogo',
-			legend:
-				'Dentro do diálogo, prema TAB para navegar cara os seguintes elementos de diálogo, prema MAIÚS+TAB para moverse cara os anteriores elementos de diálogo, prema INTRO para enviar o diálogo, prema ESC para cancelar o diálogo. Cando o diálogo ten múltiples lapelas, a lista de lapelas pode cinguirse con ALT+F10 ou con TAB como parte da orde de lapelas do diálogo. Coa lapela en foco, pode moverse cara a seguinte ou a anterior lapela coas FRECHAS ESQUERDA e DEREICHA respectivamente.' 
-		},
+				{
+					name: 'Editor de diálogo',
+					legend:
+				'Dentro do diálogo, prema TAB para navegar cara os seguintes elementos de diálogo, prema MAIÚS+TAB para moverse cara os anteriores elementos de diálogo, prema INTRO para enviar o diálogo, prema ESC para cancelar o diálogo. Cando o diálogo ten múltiples lapelas, a lista de lapelas pode cinguirse con ALT+F10 ou con TAB como parte da orde de lapelas do diálogo. Coa lapela en foco, pode moverse cara a seguinte ou a anterior lapela coas FRECHAS ESQUERDA e DEREICHA respectivamente.'
+				},
 
-			{
-			name: 'Editor do menú contextual',
-			legend: 'Prema ${contextMenu} ou a TECLA MENÚ para abrir o menú contextual. A seguir móvase á seguinte opción do menú con TAB ou FRECHA ABAIXO. Móvase á opción anterior con MAIÚS + TAB ou FRECHA ARRIBA. Prema ESPAZO ou INTRO para seleccionar a opción do menú. Abra o submenú da opción actual con ESPAZO ou INTRO ou FRECHA DEREITA. Regrese ao elemento principal do menú con ESC ou FRECHA ESQUERDA. Peche o menú contextual con ESC.'
-		},
+				{
+					name: 'Editor do menú contextual',
+					legend: 'Prema ${contextMenu} ou a TECLA MENÚ para abrir o menú contextual. A seguir móvase á seguinte opción do menú con TAB ou FRECHA ABAIXO. Móvase á opción anterior con MAIÚS + TAB ou FRECHA ARRIBA. Prema ESPAZO ou INTRO para seleccionar a opción do menú. Abra o submenú da opción actual con ESPAZO ou INTRO ou FRECHA DEREITA. Regrese ao elemento principal do menú con ESC ou FRECHA ESQUERDA. Peche o menú contextual con ESC.'
+				},
 
-			{
-			name: 'Lista do editor',
-			legend: 'Dentro dunha lista, móvase ao seguinte elemento da lista con TAB ou FRECHA ABAIXO. Móvase ao elemento anterior da lista con MAIÚS+TAB ou FRECHA ARRIBA. Prema ESPAZO ou INTRO para escoller a opción da lista. Prema ESC para pechar a lista.'
-		},
+				{
+					name: 'Lista do editor',
+					legend: 'Dentro dunha lista, móvase ao seguinte elemento da lista con TAB ou FRECHA ABAIXO. Móvase ao elemento anterior da lista con MAIÚS+TAB ou FRECHA ARRIBA. Prema ESPAZO ou INTRO para escoller a opción da lista. Prema ESC para pechar a lista.'
+				},
 
-			{
-			name: 'Barra da ruta ao elemento no editor',
-			legend: 'Prema ${elementsPathFocus} para navegar ata os elementos da barra de ruta. Móvase ao seguinte elemento botón con TAB ou FRECHA DEREITA. Móvase ao botón anterior con MAIÚS+TAB ou FRECHA ESQUERDA. Prema ESPAZO ou INTRO para seleccionar o elemento no editor.'
-		}
-		]
-	},
+				{
+					name: 'Barra da ruta ao elemento no editor',
+					legend: 'Prema ${elementsPathFocus} para navegar ata os elementos da barra de ruta. Móvase ao seguinte elemento botón con TAB ou FRECHA DEREITA. Móvase ao botón anterior con MAIÚS+TAB ou FRECHA ESQUERDA. Prema ESPAZO ou INTRO para seleccionar o elemento no editor.'
+				}
+			]
+		},
 		{
-		name: 'Ordes',
-		items: [
-			{
-			name: 'Orde «desfacer»',
-			legend: 'Prema ${undo}'
-		},
-			{
-			name: 'Orde «refacer»',
-			legend: 'Prema ${redo}'
-		},
-			{
-			name: 'Orde «negra»',
-			legend: 'Prema ${bold}'
-		},
-			{
-			name: 'Orde «cursiva»',
-			legend: 'Prema ${italic}'
-		},
-			{
-			name: 'Orde «subliñar»',
-			legend: 'Prema ${underline}'
-		},
-			{
-			name: 'Orde «ligazón»',
-			legend: 'Prema ${link}'
-		},
-			{
-			name: 'Orde «contraer a barra de ferramentas»',
-			legend: 'Prema ${toolbarCollapse}'
-		},
-			{
-			name: 'Orde «acceder ao anterior espazo en foco»',
-			legend: 'Prema ${accessPreviousSpace} para acceder ao espazo máis próximo de foco inalcanzábel anterior ao cursor, por exemplo: dous elementos HR adxacentes. Repita a combinación de teclas para chegar a espazos de foco distantes.'
-		},
-			{
-			name: 'Orde «acceder ao seguinte espazo en foco»',
-			legend: 'Prema ${accessNextSpace} para acceder ao espazo máis próximo de foco inalcanzábel posterior ao cursor, por exemplo: dous elementos HR adxacentes. Repita a combinación de teclas para chegar a espazos de foco distantes.'
-		},
-			{
-			name: 'Axuda da accesibilidade',
-			legend: 'Prema ${a11yHelp}'
-		},
-			{
-			name: 'Pegar como texto simple',
-			legend: 'Prema ${pastetext}',
-			legendEdge: 'Prema ${pastetext}, seguido de ${paste}'
+			name: 'Ordes',
+			items: [
+				{
+					name: 'Orde «desfacer»',
+					legend: 'Prema ${undo}'
+				},
+				{
+					name: 'Orde «refacer»',
+					legend: 'Prema ${redo}'
+				},
+				{
+					name: 'Orde «negra»',
+					legend: 'Prema ${bold}'
+				},
+				{
+					name: 'Orde «cursiva»',
+					legend: 'Prema ${italic}'
+				},
+				{
+					name: 'Orde «subliñar»',
+					legend: 'Prema ${underline}'
+				},
+				{
+					name: 'Orde «ligazón»',
+					legend: 'Prema ${link}'
+				},
+				{
+					name: 'Orde «contraer a barra de ferramentas»',
+					legend: 'Prema ${toolbarCollapse}'
+				},
+				{
+					name: 'Orde «acceder ao anterior espazo en foco»',
+					legend: 'Prema ${accessPreviousSpace} para acceder ao espazo máis próximo de foco inalcanzábel anterior ao cursor, por exemplo: dous elementos HR adxacentes. Repita a combinación de teclas para chegar a espazos de foco distantes.'
+				},
+				{
+					name: 'Orde «acceder ao seguinte espazo en foco»',
+					legend: 'Prema ${accessNextSpace} para acceder ao espazo máis próximo de foco inalcanzábel posterior ao cursor, por exemplo: dous elementos HR adxacentes. Repita a combinación de teclas para chegar a espazos de foco distantes.'
+				},
+				{
+					name: 'Axuda da accesibilidade',
+					legend: 'Prema ${a11yHelp}'
+				},
+				{
+					name: 'Pegar como texto simple',
+					legend: 'Prema ${pastetext}',
+					legendEdge: 'Prema ${pastetext}, seguido de ${paste}'
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tabulador',
 	pause: 'Pausa',

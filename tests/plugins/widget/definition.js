@@ -47,26 +47,26 @@
 
 			this.editorBot.setData( '<div data-widget="testPartialMask" id="widget">' +
 				'<p id="foo">foo</p><p id="bar">bar</p><p id="cksource">cksource</p></div>',
-				function() {
-					var element = editor.document.getById( 'widget' ),
-						widget = editor.widgets.getByElement( element ),
-						firstEditable = editor.document.$.elementFromPoint( 40, 45 ),
-						secondEditable = editor.document.$.elementFromPoint( 40, 60 ),
-						thirdEditable = editor.document.$.elementFromPoint( 40, 80 );
+			function() {
+				var element = editor.document.getById( 'widget' ),
+					widget = editor.widgets.getByElement( element ),
+					firstEditable = editor.document.$.elementFromPoint( 40, 45 ),
+					secondEditable = editor.document.$.elementFromPoint( 40, 60 ),
+					thirdEditable = editor.document.$.elementFromPoint( 40, 80 );
 
-					assert.isNull( widget.wrapper.findOne( '.cke_widget_mask' ), 'Complete mask was created instead of partial.' );
-					assert.isInstanceOf( CKEDITOR.dom.element, widget.wrapper.findOne( '.cke_widget_partial_mask' ), 'Mask element was not found.' );
+				assert.isNull( widget.wrapper.findOne( '.cke_widget_mask' ), 'Complete mask was created instead of partial.' );
+				assert.isInstanceOf( CKEDITOR.dom.element, widget.wrapper.findOne( '.cke_widget_partial_mask' ), 'Mask element was not found.' );
 
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
-						assert.areSame( 'foobarcksource', firstEditable.innerText, 'Mask covers the first editable instead of the second.' );
-						assert.areSame( '', secondEditable.innerText, 'Mask doesn\'t cover the second editable.' );
-						assert.areSame( 'foobarcksource', thirdEditable.innerText, 'Mask covers the third editable instead of the second.' );
-					} else {
-						assert.areSame( 'div', firstEditable.localName, 'Mask covers the first editable instead of the second.' );
-						assert.areSame( 'img', secondEditable.localName, 'Mask doesn\'t cover the second editable.' );
-						assert.areSame( 'div', thirdEditable.localName, 'Mask covers the third editable instead of the second.' );
-					}
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+					assert.areSame( 'foobarcksource', firstEditable.innerText, 'Mask covers the first editable instead of the second.' );
+					assert.areSame( '', secondEditable.innerText, 'Mask doesn\'t cover the second editable.' );
+					assert.areSame( 'foobarcksource', thirdEditable.innerText, 'Mask covers the third editable instead of the second.' );
+				} else {
+					assert.areSame( 'div', firstEditable.localName, 'Mask covers the first editable instead of the second.' );
+					assert.areSame( 'img', secondEditable.localName, 'Mask doesn\'t cover the second editable.' );
+					assert.areSame( 'div', thirdEditable.localName, 'Mask covers the third editable instead of the second.' );
 				}
+			}
 			);
 		},
 
@@ -217,8 +217,9 @@
 
 				var widgetDef = {
 					upcast: function( el ) {
-						if ( el.name == 'b' )
+						if ( el.name == 'b' ) {
 							return el.wrapWith( new CKEDITOR.htmlParser.element( 'i' ) );
+						}
 					}
 				};
 
@@ -766,8 +767,9 @@
 
 			editor.widgets.add( 'testsplit', {
 				upcast: function( el ) {
-					if ( visited )
+					if ( visited ) {
 						assert.fail( 'Recurrent upcasting!' );
+					}
 
 					// Upcast <b>b</b> to <div><b>b</b></div>.
 					if ( el.name == 'b' ) {

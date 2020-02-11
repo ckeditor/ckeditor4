@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -105,8 +105,9 @@
 			move: function( rtl ) {
 				var currentTextNode = this.textNode;
 				// Already at the end of document, no more character available.
-				if ( currentTextNode === null )
+				if ( currentTextNode === null ) {
 					return cursorStep.call( this );
+				}
 
 				this._.matchBoundary = false;
 
@@ -125,15 +126,17 @@
 
 						// Stop searching if we're need full word match OR
 						// already reach document end.
-						if ( this._.matchWord && !currentTextNode || this._.walker._.end )
+						if ( this._.matchWord && !currentTextNode || this._.walker._.end ) {
 							break;
+						}
 					}
 					// Found a fresh text node.
 					this.textNode = currentTextNode;
-					if ( currentTextNode )
+					if ( currentTextNode ) {
 						this.offset = rtl ? currentTextNode.getLength() - 1 : 0;
-					else
+					} else {
 						this.offset = 0;
+					}
 				}
 
 				return cursorStep.call( this );
@@ -170,10 +173,11 @@
 				var cursors = this._.cursors;
 				if ( cursors.length < 1 ) {
 					var textNode = this._.walker.textNode;
-					if ( textNode )
+					if ( textNode ) {
 						range.setStartAfter( textNode );
-					else
+					} else {
 						return null;
+					}
 				} else {
 					var first = cursors[ 0 ],
 						last = cursors[ cursors.length - 1 ];
@@ -194,7 +198,9 @@
 				this._.cursors = [];
 				do {
 					cursor = walker.next();
-					if ( cursor.character ) this._.cursors.push( cursor );
+					if ( cursor.character ) {
+						this._.cursors.push( cursor );
+					}
 				}
 				while ( cursor.character );
 				this._.rangeLength = this._.cursors.length;
@@ -217,12 +223,14 @@
 			 */
 			highlight: function() {
 				// Do not apply if nothing is found.
-				if ( this._.cursors.length < 1 )
+				if ( this._.cursors.length < 1 ) {
 					return;
+				}
 
 				// Remove the previous highlight if there's one.
-				if ( this._.highlightRange )
+				if ( this._.highlightRange ) {
 					this.removeHighlight();
+				}
 
 				// Apply the highlight.
 				var range = this.toDomRange(),
@@ -233,8 +241,9 @@
 
 				// Scroll the editor to the highlighted area.
 				var element = range.startContainer;
-				if ( element.type != CKEDITOR.NODE_ELEMENT )
+				if ( element.type != CKEDITOR.NODE_ELEMENT ) {
 					element = element.getParent();
+				}
 				element.scrollIntoView();
 
 				// Update the character cursors.
@@ -245,8 +254,9 @@
 			 * Remove highlighted find result.
 			 */
 			removeHighlight: function() {
-				if ( !this._.highlightRange )
+				if ( !this._.highlightRange ) {
 					return;
+				}
 
 				var bookmark = this._.highlightRange.createBookmark();
 				highlightStyle.removeFromRange( this._.highlightRange, editor );
@@ -256,8 +266,9 @@
 			},
 
 			isReadOnly: function() {
-				if ( !this._.highlightRange )
+				if ( !this._.highlightRange ) {
 					return 0;
+				}
 
 				return this._.highlightRange.startContainer.isReadOnly();
 			},
@@ -266,12 +277,14 @@
 				var retval = this._.walker.back(),
 					cursors = this._.cursors;
 
-				if ( retval.hitMatchBoundary )
+				if ( retval.hitMatchBoundary ) {
 					this._.cursors = cursors = [];
+				}
 
 				cursors.unshift( retval );
-				if ( cursors.length > this._.rangeLength )
+				if ( cursors.length > this._.rangeLength ) {
 					cursors.pop();
+				}
 
 				return retval;
 			},
@@ -281,20 +294,23 @@
 					cursors = this._.cursors;
 
 				// Clear the cursors queue if we've crossed a match boundary.
-				if ( retval.hitMatchBoundary )
+				if ( retval.hitMatchBoundary ) {
 					this._.cursors = cursors = [];
+				}
 
 				cursors.push( retval );
-				if ( cursors.length > this._.rangeLength )
+				if ( cursors.length > this._.rangeLength ) {
 					cursors.shift();
+				}
 
 				return retval;
 			},
 
 			getEndCharacter: function() {
 				var cursors = this._.cursors;
-				if ( cursors.length < 1 )
+				if ( cursors.length < 1 ) {
 					return null;
+				}
 
 				return cursors[ cursors.length - 1 ].character;
 			},
@@ -303,11 +319,13 @@
 				var lastCursor, nextRangeWalker,
 					cursors = this._.cursors;
 
-				if ( ( lastCursor = cursors[ cursors.length - 1 ] ) && lastCursor.textNode )
+				if ( ( lastCursor = cursors[ cursors.length - 1 ] ) && lastCursor.textNode ) {
 					nextRangeWalker = new characterWalker( getRangeAfterCursor( lastCursor ) );
+				}
 				// In case it's an empty range (no cursors), figure out next range from walker (https://dev.ckeditor.com/ticket/4951).
-				else
+				else {
 					nextRangeWalker = this._.walker;
+				}
 
 				return new characterRange( nextRangeWalker, maxLength );
 			},
@@ -341,12 +359,14 @@
 		// Examination the occurrence of a word which implement KMP algorithm.
 		var kmpMatcher = function( pattern, ignoreCase ) {
 			var overlap = [ -1 ];
-			if ( ignoreCase )
+			if ( ignoreCase ) {
 				pattern = pattern.toLowerCase();
+			}
 			for ( var i = 0; i < pattern.length; i++ ) {
 				overlap.push( overlap[ i ] + 1 );
-				while ( overlap[ i + 1 ] > 0 && pattern.charAt( i ) != pattern.charAt( overlap[ i + 1 ] - 1 ) )
+				while ( overlap[ i + 1 ] > 0 && pattern.charAt( i ) != pattern.charAt( overlap[ i + 1 ] - 1 ) ) {
 					overlap[ i + 1 ] = overlap[ overlap[ i + 1 ] - 1 ] + 1;
+				}
 			}
 
 			this._ = {
@@ -359,8 +379,9 @@
 
 		kmpMatcher.prototype = {
 			feedCharacter: function( c ) {
-				if ( this._.ignoreCase )
+				if ( this._.ignoreCase ) {
 					c = c.toLowerCase();
+				}
 
 				while ( true ) {
 					if ( c == this._.pattern.charAt( this._.state ) ) {
@@ -386,8 +407,9 @@
 		var wordSeparatorRegex = /[.,"'?!;: \u0085\u00a0\u1680\u280e\u2028\u2029\u202f\u205f\u3000]/;
 
 		var isWordSeparator = function( c ) {
-			if ( !c )
+			if ( !c ) {
 				return true;
+			}
 			var code = c.charCodeAt( 0 );
 			return ( code >= 9 && code <= 0xd ) || ( code >= 0x2000 && code <= 0x200a ) || wordSeparatorRegex.test( c );
 		};
@@ -396,9 +418,9 @@
 			searchRange: null,
 			matchRange: null,
 			find: function( pattern, matchCase, matchWord, matchCyclic, highlightMatched, cyclicRerun ) {
-				if ( !this.matchRange )
+				if ( !this.matchRange ) {
 					this.matchRange = new characterRange( new characterWalker( this.searchRange ), pattern.length );
-				else {
+				} else {
 					this.matchRange.removeHighlight();
 					this.matchRange = this.matchRange.getNextCharacterRange( pattern.length );
 				}
@@ -411,10 +433,12 @@
 					this.matchRange.moveNext();
 					while ( ( character = this.matchRange.getEndCharacter() ) ) {
 						matchState = matcher.feedCharacter( character );
-						if ( matchState == KMP_MATCHED )
+						if ( matchState == KMP_MATCHED ) {
 							break;
-						if ( this.matchRange.moveNext().hitMatchBoundary )
+						}
+						if ( this.matchRange.moveNext().hitMatchBoundary ) {
 							matcher.reset();
+						}
 					}
 
 					if ( matchState == KMP_MATCHED ) {
@@ -433,12 +457,14 @@
 							var headWalker = new characterWalker( rangeBefore, true ),
 								tailWalker = new characterWalker( rangeAfter, true );
 
-							if ( !( isWordSeparator( headWalker.back().character ) && isWordSeparator( tailWalker.next().character ) ) )
+							if ( !( isWordSeparator( headWalker.back().character ) && isWordSeparator( tailWalker.next().character ) ) ) {
 								continue;
+							}
 						}
 						this.matchRange.setMatched();
-						if ( highlightMatched !== false )
+						if ( highlightMatched !== false ) {
 							this.matchRange.highlight();
+						}
 						return true;
 					}
 				}
@@ -487,8 +513,9 @@
 						editor.fire( 'saveSnapshot' );
 					}
 					this.matchRange.updateFromDomRange( domRange );
-					if ( !isReplaceAll )
+					if ( !isReplaceAll ) {
 						this.matchRange.highlight();
+					}
 					this.matchRange._.isReplaced = true;
 					this.replaceCounter++;
 					result = 1;
@@ -610,7 +637,7 @@
 							type: 'checkbox',
 							id: 'txtFindCyclic',
 							isChanged: false,
-							'default': true,
+							default: true,
 							label: lang.matchCyclic
 						} ]
 					} ]
@@ -725,7 +752,7 @@
 							type: 'checkbox',
 							id: 'txtReplaceCyclic',
 							isChanged: false,
-							'default': true,
+							default: true,
 							label: lang.matchCyclic
 						} ]
 					} ]
@@ -765,11 +792,11 @@
 						}
 
 						// Synchronize fields on tab switch.
-						if ( isUserSelect )
+						if ( isUserSelect ) {
 							syncFieldsBetweenTabs.call( this, pageId );
+						}
 					};
 				} );
-
 			},
 			onShow: function() {
 				// Establish initial searching start position.
@@ -792,8 +819,9 @@
 					finder.matchRange.removeHighlight();
 
 					range = finder.matchRange.toDomRange();
-					if ( range )
+					if ( range ) {
 						editor.getSelection().selectRanges( [ range ] );
+					}
 
 					// Focus must be restored to the editor after selecting range.
 					// Otherwise there are issues when selecting word from

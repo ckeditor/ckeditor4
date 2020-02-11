@@ -68,23 +68,25 @@ if ( CKEDITOR.status == 'unloaded' ) {
 
 		( function() {
 			var onload = function() {
-					var loadFullCore = CKEDITOR.loadFullCore,
-						loadFullCoreTimeout = CKEDITOR.loadFullCoreTimeout;
+				var loadFullCore = CKEDITOR.loadFullCore,
+					loadFullCoreTimeout = CKEDITOR.loadFullCoreTimeout;
 
-					if ( !loadFullCore )
-						return;
+				if ( !loadFullCore ) {
+					return;
+				}
 
-					CKEDITOR.status = 'basic_ready';
+				CKEDITOR.status = 'basic_ready';
 
-					if ( loadFullCore && loadFullCore._load )
-						loadFullCore();
-					else if ( loadFullCoreTimeout ) {
-						setTimeout( function() {
-							if ( CKEDITOR.loadFullCore )
-								CKEDITOR.loadFullCore();
-						}, loadFullCoreTimeout * 1000 );
-					}
-				};
+				if ( loadFullCore && loadFullCore._load ) {
+					loadFullCore();
+				} else if ( loadFullCoreTimeout ) {
+					setTimeout( function() {
+						if ( CKEDITOR.loadFullCore ) {
+							CKEDITOR.loadFullCore();
+						}
+					}, loadFullCoreTimeout * 1000 );
+				}
+			};
 
 			CKEDITOR.domReady( onload );
 		} )();

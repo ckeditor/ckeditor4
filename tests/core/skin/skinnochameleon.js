@@ -29,4 +29,4 @@
 			assert.areSame( 'skinnochameleon', CKEDITOR.skin.name );
 		}
 	} );
-}() );
+} )() ;

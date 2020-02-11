@@ -3,7 +3,7 @@
 ( function() {
 	'use strict';
 
-		// http://tests.ckeditor.dev:1030/
+	// http://tests.ckeditor.dev:1030/
 	var path = window.location.protocol + '//' + window.location.host,
 		testDir = '%TEST_DIR%',
 		// http://tests.ckeditor.dev:1030/tests/core/ckeditor
@@ -29,13 +29,13 @@
 				resume( function() {
 					var iCKEDITOR = iframe.$.contentWindow.CKEDITOR;
 
-					assert.areSame( defaultPath  + 'ckeditor.js' + query,
+					assert.areSame( defaultPath + 'ckeditor.js' + query,
 						iCKEDITOR.getUrl( 'ckeditor.js' ) );
-					assert.areSame( defaultPath  + 'skins/default/editor.css' + query,
+					assert.areSame( defaultPath + 'skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( 'skins/default/editor.css' ) );
 					assert.areSame( '/skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( '/skins/default/editor.css' ) );
-					assert.areSame( 'http://www.otherdomain.com/skins/default/editor.css'  + query,
+					assert.areSame( 'http://www.otherdomain.com/skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( 'http://www.otherdomain.com/skins/default/editor.css' ) );
 				} );
 			} );

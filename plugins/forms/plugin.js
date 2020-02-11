@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -30,7 +30,6 @@ CKEDITOR.plugins.add( 'forms', {
 				'width: 16px !important;' +
 				'height: 16px !important;' +
 			'}' );
-
 	},
 	init: function( editor ) {
 		var lang = editor.lang,
@@ -62,21 +61,21 @@ CKEDITOR.plugins.add( 'forms', {
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
 		var addButtonCommand = function( buttonName, commandName, dialogFile ) {
-				var def = {
-					allowedContent: allowedContent[ commandName ],
-					requiredContent: requiredContent[ commandName ]
-				};
-				commandName == 'form' && ( def.context = 'form' );
-
-				editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName, def ) );
-
-				editor.ui.addButton && editor.ui.addButton( buttonName, {
-					label: lang.common[ buttonName.charAt( 0 ).toLowerCase() + buttonName.slice( 1 ) ],
-					command: commandName,
-					toolbar: 'forms,' + ( order += 10 )
-				} );
-				CKEDITOR.dialog.add( commandName, dialogFile );
+			var def = {
+				allowedContent: allowedContent[ commandName ],
+				requiredContent: requiredContent[ commandName ]
 			};
+			commandName == 'form' && ( def.context = 'form' );
+
+			editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName, def ) );
+
+			editor.ui.addButton && editor.ui.addButton( buttonName, {
+				label: lang.common[ buttonName.charAt( 0 ).toLowerCase() + buttonName.slice( 1 ) ],
+				command: commandName,
+				toolbar: 'forms,' + ( order += 10 )
+			} );
+			CKEDITOR.dialog.add( commandName, dialogFile );
+		};
 
 		var dialogPath = this.path + 'dialogs/';
 		!editor.blockless && addButtonCommand( 'Form', 'form', dialogPath + 'form.js' );
@@ -91,8 +90,9 @@ CKEDITOR.plugins.add( 'forms', {
 
 		// Since Image plugin is disabled when Image2 is to be loaded,
 		// ImageButton also got to be off (https://dev.ckeditor.com/ticket/11222).
-		if ( imagePlugin && !editor.plugins.image2 )
+		if ( imagePlugin && !editor.plugins.image2 ) {
 			addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
+		}
 
 		addButtonCommand( 'HiddenField', 'hiddenfield', dialogPath + 'hiddenfield.js' );
 
@@ -157,26 +157,28 @@ CKEDITOR.plugins.add( 'forms', {
 			} );
 
 			editor.addMenuItems( items );
-
 		}
 
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
 			!editor.blockless && editor.contextMenu.addListener( function( element, selection, path ) {
 				var form = path.contains( 'form', 1 );
-				if ( form && !form.isReadOnly() )
+				if ( form && !form.isReadOnly() ) {
 					return { form: CKEDITOR.TRISTATE_OFF };
+				}
 			} );
 
 			editor.contextMenu.addListener( function( element ) {
 				if ( element && !element.isReadOnly() ) {
 					var name = element.getName();
 
-					if ( name == 'select' )
+					if ( name == 'select' ) {
 						return { select: CKEDITOR.TRISTATE_OFF };
+					}
 
-					if ( name == 'textarea' )
+					if ( name == 'textarea' ) {
 						return { textarea: CKEDITOR.TRISTATE_OFF };
+					}
 
 					if ( name == 'input' ) {
 						var type = element.getAttribute( 'type' ) || 'text';
@@ -196,12 +198,14 @@ CKEDITOR.plugins.add( 'forms', {
 								return imagePlugin ? { imagebutton: CKEDITOR.TRISTATE_OFF } : null;
 						}
 
-						if ( textfieldTypes[ type ] )
+						if ( textfieldTypes[ type ] ) {
 							return { textfield: CKEDITOR.TRISTATE_OFF };
+						}
 					}
 
-					if ( name == 'img' && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
+					if ( name == 'img' && element.data( 'cke-real-element-type' ) == 'hiddenfield' ) {
 						return { hiddenfield: CKEDITOR.TRISTATE_OFF };
+					}
 				}
 			} );
 		}
@@ -209,15 +213,15 @@ CKEDITOR.plugins.add( 'forms', {
 		editor.on( 'doubleclick', function( evt ) {
 			var element = evt.data.element;
 
-			if ( !editor.blockless && element.is( 'form' ) )
+			if ( !editor.blockless && element.is( 'form' ) ) {
 				evt.data.dialog = 'form';
-			else if ( element.is( 'select' ) )
+			} else if ( element.is( 'select' ) ) {
 				evt.data.dialog = 'select';
-			else if ( element.is( 'textarea' ) )
+			} else if ( element.is( 'textarea' ) ) {
 				evt.data.dialog = 'textarea';
-			else if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
+			} else if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'hiddenfield' ) {
 				evt.data.dialog = 'hiddenfield';
-			else if ( element.is( 'input' ) ) {
+			} else if ( element.is( 'input' ) ) {
 				var type = element.getAttribute( 'type' ) || 'text';
 				switch ( type ) {
 					case 'button':
@@ -235,8 +239,9 @@ CKEDITOR.plugins.add( 'forms', {
 						evt.data.dialog = 'imagebutton';
 						break;
 				}
-				if ( textfieldTypes[ type ] )
+				if ( textfieldTypes[ type ] ) {
 					evt.data.dialog = 'textfield';
+				}
 			}
 		} );
 	},
@@ -256,10 +261,12 @@ CKEDITOR.plugins.add( 'forms', {
 						var attrs = input.attributes,
 							type = attrs.type;
 						// Old IEs don't provide type for Text inputs https://dev.ckeditor.com/ticket/5522
-						if ( !type )
+						if ( !type ) {
 							attrs.type = 'text';
-						if ( type == 'checkbox' || type == 'radio' )
+						}
+						if ( type == 'checkbox' || type == 'radio' ) {
 							attrs.value == 'on' && delete attrs.value;
+						}
 					}
 				}
 			}, { applyToAll: true } );
@@ -269,8 +276,9 @@ CKEDITOR.plugins.add( 'forms', {
 			dataFilter.addRules( {
 				elements: {
 					input: function( element ) {
-						if ( element.attributes.type == 'hidden' )
+						if ( element.attributes.type == 'hidden' ) {
 							return editor.createFakeParserElement( element, 'cke_hidden', 'hiddenfield' );
+						}
 					}
 				}
 			}, { applyToAll: true } );

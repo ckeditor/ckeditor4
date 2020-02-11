@@ -20,7 +20,6 @@
 				var widgetselection = CKEDITOR.plugins.widgetselection;
 
 				editor.on( 'contentDom', function( evt ) {
-
 					var editor = evt.editor,
 						editable = editor.editable();
 
@@ -123,7 +122,6 @@
 
 			// Whole content should be selected, if not fix the selection manually.
 			if ( !this.isWholeContentSelected( editable ) && editable.getChildCount() > 0 ) {
-
 				var firstChild = editable.getFirst( filterTempElements ),
 					lastChild = editable.getLast( filterTempElements );
 
@@ -163,7 +161,6 @@
 			// If startFiller or endFiller exists and not entire content is selected it means the selection
 			// just changed from selected all. We need to remove fillers and set proper selection/content.
 			if ( this.hasFiller( editable ) && !this.isWholeContentSelected( editable ) ) {
-
 				var startFillerContent = editable.findOne( this.fillerTagName + '[' + this.fillerAttribute + '=start]' ),
 					endFillerContent = editable.findOne( this.fillerTagName + '[' + this.fillerAttribute + '=end]' );
 
@@ -210,13 +207,10 @@
 		 * @private
 		 */
 		isWholeContentSelected: function( editable ) {
-
 			var range = editable.editor.getSelection().getRanges()[ 0 ];
 			if ( range ) {
-
 				if ( range && range.collapsed ) {
 					return false;
-
 				} else {
 					var rangeClone = range.clone();
 					rangeClone.enlarge( CKEDITOR.ENLARGE_ELEMENT );
@@ -304,7 +298,6 @@
 					editable.insertHtmlIntoRange( insertedHtml, editor.getSelection().getRanges()[ 0 ] );
 					range.setStartAt( editable.getChild( editable.getChildCount() - 1 ), CKEDITOR.POSITION_BEFORE_END );
 					editor.getSelection().selectRanges( [ range ] );
-
 				} else if ( manuallyHandleCaret ) {
 					if ( fillerOnStart ) {
 						range.setStartAt( editable.getFirst().getNext(), CKEDITOR.POSITION_AFTER_START );
@@ -357,5 +350,4 @@
 	function filterTempElements( el ) {
 		return el.getName && !el.hasAttribute( 'data-cke-temp' );
 	}
-
 } )();

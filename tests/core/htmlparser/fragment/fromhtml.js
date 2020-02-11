@@ -11,42 +11,42 @@ function parseHtml( raw, parent ) {
 bender.test( {
 	test_parser_1: function() {
 		assert.areSame( '<p><b>2</b> Test</p><table><tr><td>1</td><td>3</td></tr></table>',
-						parseHtml( '<table><tr><td>1</td><p><b>2</b> Test</p><td>3</td></tr></table>' ) );
+			parseHtml( '<table><tr><td>1</td><p><b>2</b> Test</p><td>3</td></tr></table>' ) );
 	},
 
 	test_parser_2: function() {
 		assert.areSame( '<table><tr><td><b>1</b></td><td><b>2</b></td></tr></table>',
-						parseHtml( '<b><table><tr><td>1</td><td>2</td></tr></table></b>' ) );
+			parseHtml( '<b><table><tr><td>1</td><td>2</td></tr></table></b>' ) );
 	},
 
 	test_parser_3_1: function() {
 		assert.areSame( '<p><b><i>Table:</i></b></p><table><tr><td><b><i>1</i></b></td><td><b><i>2</i></b></td></tr></table>',
-						parseHtml(	'<b><i>Table:<table><tr><td>1</td><td>2</td></tr></table></i></b>' ) );
+			parseHtml(	'<b><i>Table:<table><tr><td>1</td><td>2</td></tr></table></i></b>' ) );
 	},
 
 	test_parser_3_2: function() {
 		assert.areSame( '<table><tr><td><b><i>1</i></b></td><td><b><i>2</i></b></td></tr></table><p><b><i>Table</i></b></p>',
-						parseHtml(	'<b><i><table><tr><td>1</td><td>2</td></tr></table>Table</i></b>' ) );
+			parseHtml(	'<b><i><table><tr><td>1</td><td>2</td></tr></table>Table</i></b>' ) );
 	},
 
 	test_parser_4: function() {
 		assert.areSame( '<p><b><i>Test</i></b></p>',
-						parseHtml( '<b><i>Test' ) );
+			parseHtml( '<b><i>Test' ) );
 	},
 
 	test_parser_5: function() {
 		assert.areSame( '<p>Para 1</p><p>Para 2</p><p>Para 3</p>',
-						parseHtml( '<p>Para 1<p>Para 2<p>Para 3' ) );
+			parseHtml( '<p>Para 1<p>Para 2<p>Para 3' ) );
 	},
 
 	test_parser_6: function() {
 		assert.areSame( '<p><b>A</b><i>B</i></p>',
-						parseHtml( '<b>A</b><i>B</i>' ) );
+			parseHtml( '<b>A</b><i>B</i>' ) );
 	},
 
 	test_parser_7: function() {
 		assert.areSame( '<p>Para 1</p><hr /><p>Para 2</p><h1>Para 3</h1>',
-						parseHtml( '<p>Para 1<hr>Para 2<h1>Para 3' ) );
+			parseHtml( '<p>Para 1<hr>Para 2<h1>Para 3' ) );
 	},
 
 	/**
@@ -54,7 +54,7 @@ bender.test( {
 	 */
 	test_parser_8: function() {
 		assert.areSame( '<p>text</p>',
-						parseHtml( '<p><b></b>text</p>' ) );
+			parseHtml( '<p><b></b>text</p>' ) );
 	},
 
 	/**
@@ -62,7 +62,7 @@ bender.test( {
 	 */
 	test_parser_8_2: function() {
 		assert.areSame( '<p>text</p>',
-						parseHtml( '<p><b><i></b></i>text</p>' ) );
+			parseHtml( '<p><b><i></b></i>text</p>' ) );
 	},
 
 	/**
@@ -70,7 +70,7 @@ bender.test( {
 	 */
 	test_parser_8_3: function() {
 		assert.areSame( '<p>test</p>',
-						parseHtml( '<p>test<a href="foo"><a href="bar"></p>' ) );
+			parseHtml( '<p>test<a href="foo"><a href="bar"></p>' ) );
 	},
 
 	/**
@@ -78,8 +78,7 @@ bender.test( {
 	 */
 	test_parser_8_4: function() {
 		assert.areSame( '<p>test<a name="foo"></a><a name="bar"></a></p>',
-						parseHtml( '<p>test<a name="foo"><a name="bar"></p>' ) );
-
+			parseHtml( '<p>test<a name="foo"><a name="bar"></p>' ) );
 	},
 
 	/**
@@ -87,13 +86,12 @@ bender.test( {
 	 */
 	test_parser_9: function() {
 		assert.areSame( '<p><b>bold<i>ita</i></b><i>lic</i></p>',
-						parseHtml( '<p><b>bold<i>ita</b>lic</i></p>' ) );
-
+			parseHtml( '<p><b>bold<i>ita</b>lic</i></p>' ) );
 	},
 
 	test_parser_10: function() {
 		assert.areSame( '<table><tbody><tr><td>A</td></tr></tbody></table>',
-						parseHtml( '<table><tbody><tr><td>A<b></b></td></tr></tbody></table>' ) );
+			parseHtml( '<table><tbody><tr><td>A<b></b></td></tr></tbody></table>' ) );
 	},
 
 	/*
@@ -101,7 +99,7 @@ bender.test( {
 	 */
 	test_parser_11: function() {
 		assert.areSame( '<td>1</td><tr><td>2</td></tr>',
-						parseHtml( '<td>1</td><tr><td>2</td></tr>' ) );
+			parseHtml( '<td>1</td><tr><td>2</td></tr>' ) );
 	},
 
 	/*
@@ -109,7 +107,7 @@ bender.test( {
 	 */
 	test_parser_12: function() {
 		assert.areSame( '<p>p1</p><p>p2</p><table><tr><td>c1</td></tr></table>',
-						parseHtml( '<table><p>p1</p><tr><td>c1</td></tr><p>p2</p></table>' ) );
+			parseHtml( '<table><p>p1</p><tr><td>c1</td></tr><p>p2</p></table>' ) );
 	},
 
 	/**
@@ -117,9 +115,9 @@ bender.test( {
 	 */
 	test_parser_13: function() {
 		assert.areSame( '<ul><li><ol></ol></li></ul>',
-						parseHtml( '<ul><ol></ol></ul>' ) );
+			parseHtml( '<ul><ol></ol></ul>' ) );
 		assert.areSame( '<ul><li>level1<ul><li>level2<ul><li>level3</li></ul></li></ul></li></ul>',
-						parseHtml( '<ul><li>level1</li><ul><li>level2</li><ul><li>level3</li></ul></ul></ul>' ) );
+			parseHtml( '<ul><li>level1</li><ul><li>level2</li><ul><li>level3</li></ul></ul></ul>' ) );
 	},
 
 	/**
@@ -127,10 +125,10 @@ bender.test( {
 	 */
 	test_parser_14: function() {
 		assert.areSame( '<ul><li>1</li></ul><dl><dt>2</dt><dd>3</dd></dl>',
-						parseHtml( '<li>1</li><dt>2</dt><dd>3</dd>' ) );
+			parseHtml( '<li>1</li><dt>2</dt><dd>3</dd>' ) );
 
 		assert.areSame( '<ul><li>1</li></ul><dl><dt>2</dt></dl>',
-						parseHtml( '<li>1</li><dt>2</dt></ol>' ) );
+			parseHtml( '<li>1</li><dt>2</dt></ol>' ) );
 	},
 
 	/**
@@ -161,12 +159,13 @@ bender.test( {
 			dtd = CKEDITOR.dtd[ ct ];
 			msg = 'auto paragraphing for editable: ' + ct;
 
-			if ( dtd.p )
+			if ( dtd.p ) {
 				assert.areSame( '<p>foo</p>', parseHtml( 'foo', ct ), msg );
-			else if ( ct == 'table' )
+			} else if ( ct == 'table' ) {
 				assert.areSame( '<tbody><tr><td>foo</td></tr></tbody>', parseHtml( 'foo', ct ), msg );
-			else
+			} else {
 				assert.areSame( 'foo', parseHtml( 'foo', ct ), msg );
+			}
 		}
 	},
 
@@ -238,15 +237,15 @@ bender.test( {
 
 	'parser orphan text in list/table.': function() {
 		assert.areSame( '<ul><li><strong>foo</strong>bar</li></ul>',
-						parseHtml( '<ul><strong>foo</strong>bar</ul>' ) );
+			parseHtml( '<ul><strong>foo</strong>bar</ul>' ) );
 		assert.areSame( '<ul><li>foo</li><li>bar</li></ul>',
-						parseHtml( '<ul>foo<li>bar</li></ul>' ) );
+			parseHtml( '<ul>foo<li>bar</li></ul>' ) );
 		assert.areSame( '<table><tbody><tr><td><strong>foo</strong>bar</td></tr></tbody></table>',
-						parseHtml( '<table><strong>foo</strong>bar</table>' ) );
+			parseHtml( '<table><strong>foo</strong>bar</table>' ) );
 		assert.areSame( '<table><tbody><tr><td><strong>foo</strong></td><td>bar</td></tr></tbody></table>',
-						parseHtml( '<table><strong>foo</strong><td>bar</td></table>' ) );
+			parseHtml( '<table><strong>foo</strong><td>bar</td></table>' ) );
 		assert.areSame( '<table><tbody><tr><td><strong>foo</strong></td></tr><tr><td>bar</td></tr></tbody></table>',
-						parseHtml( '<table><strong>foo</strong><tr>bar</tr></table>' ) );
+			parseHtml( '<table><strong>foo</strong><tr>bar</tr></table>' ) );
 		assert.areSame( '<tr><td>foo</td></tr>', parseHtml( '<tr>foo</tr>' ) );
 
 		// https://dev.ckeditor.com/ticket/11660
@@ -256,7 +255,7 @@ bender.test( {
 
 	'test parser fix inline outside of block element': function() {
 		assert.areSame( '<p>Line 1</p><p><b>Line 2</b></p><p><b>Line 3</b></p><p><b>Line 4</b></p><p>Line 5</p>',
-						parseHtml( '<p>Line 1</p><b><p>Line 2</p><p>Line 3</p><p>Line 4</p></b><p>Line 5</p>' ) );
+			parseHtml( '<p>Line 1</p><b><p>Line 2</p><p>Line 3</p><p>Line 4</p></b><p>Line 5</p>' ) );
 	},
 
 	/**
@@ -264,7 +263,7 @@ bender.test( {
 	 */
 	test_ticket_3195: function() {
 		assert.areSame( '<p>2</p><table><tr><td>1</td><td>3</td></tr></table>',
-						parseHtml( '<table><tr><td>1</td><p>2</p><td>3</td></tr></table>' ) );
+			parseHtml( '<table><tr><td>1</td><p>2</p><td>3</td></tr></table>' ) );
 	},
 
 	/**
@@ -272,7 +271,7 @@ bender.test( {
 	 */
 	test_ticket_3195_2: function() {
 		assert.areSame( '<p>2</p><ul><li>1</li><li>3</li></ul>',
-						parseHtml( '<ul><li>1</li><p>2</p><li>3</li></ul>' ) );
+			parseHtml( '<ul><li>1</li><p>2</p><li>3</li></ul>' ) );
 	},
 
 	/**
@@ -280,12 +279,12 @@ bender.test( {
 	 */
 	test_ticket_3195_3: function() {
 		assert.areSame( '<p>1</p><div>2</div><p><span>3</span></p>',
-						parseHtml( '<p>1<div>2</div><span>3</span></p>' ) );
+			parseHtml( '<p>1<div>2</div><span>3</span></p>' ) );
 	},
 
 	test_ticket_3441: function() {
 		assert.areSame( '<p><b>Test</b></p><script type="test">var a = "<A Href=xxx>Testing</ A>";\nGo();<\/script>',
-						parseHtml( '<p><b>Test</b></p><script type="test">var a = "<A Href=xxx>Testing</ A>";\nGo();<\/script>' ) );
+			parseHtml( '<p><b>Test</b></p><script type="test">var a = "<A Href=xxx>Testing</ A>";\nGo();<\/script>' ) );
 	},
 
 	test_ticket_3585: function() {
@@ -302,7 +301,7 @@ bender.test( {
 
 	test_ticket_3744: function() {
 		assert.areSame( '<div><b><font><span>A</span></font></b></div><div>X</div>',
-						parseHtml( '<div><b><font><span>A</font></span></b></div><div>X</div>' ) );
+			parseHtml( '<div><b><font><span>A</font></span></b></div><div>X</div>' ) );
 	},
 
 	// https://dev.ckeditor.com/ticket/3862
@@ -331,35 +330,35 @@ bender.test( {
 	// https://dev.ckeditor.com/ticket/5626
 	'test parser fix partial list items': function() {
 		assert.areSame( '<table><tr><td><ul><li>item1</li><li>item2</li></ul></td></tr></table>',
-						parseHtml( '<table><tr><td><li>item1</li><li>item2</li></td></tr></table>' ) );
+			parseHtml( '<table><tr><td><li>item1</li><li>item2</li></td></tr></table>' ) );
 		assert.areSame( '<body><p>text</p><ul><li>cell</li></ul></body>',
-						parseHtml( '<body>text<li>cell</li></body>', 'html' ) );
+			parseHtml( '<body>text<li>cell</li></body>', 'html' ) );
 		assert.areSame( '<ul><li>item1</li><li>item2</li></ul>',
-						parseHtml( '<li>item1</li><li>item2</li>' ) );
+			parseHtml( '<li>item1</li><li>item2</li>' ) );
 		assert.areSame( '<dl><dd>test</dd><dd>test</dd></dl>',
-						parseHtml( '<dd>test</dd><dd>test</dd>' ) );
+			parseHtml( '<dd>test</dd><dd>test</dd>' ) );
 	},
 
 	// https://dev.ckeditor.com/ticket/5626
 	'test parser *NOT* fixing orphan table cells': function() {
 		assert.areSame( '<td>td1</td><p>text</p>',
-						parseHtml( '<td>td1</td>text' ) );
+			parseHtml( '<td>td1</td>text' ) );
 		assert.areSame( '<tr><td>td1</td></tr><ul><li>li1</li></ul>',
-						parseHtml( '<ul><tr><td>td1</td></tr><li>li1</li></ul>' ) );
+			parseHtml( '<ul><tr><td>td1</td></tr><li>li1</li></ul>' ) );
 	},
 
 	// https://dev.ckeditor.com/ticket/5626
 	'test parser fix malformed table cell/list item': function() {
 		assert.areSame( '<table><tr><td>cell1</td><td>cell2</td></tr></table>',
-						parseHtml( '<table><tr><td>cell1<td>cell2</td></td></tr></table>' ) );
+			parseHtml( '<table><tr><td>cell1<td>cell2</td></td></tr></table>' ) );
 		assert.areSame( '<ul><li>item1</li><li>item2</li></ul>',
-						parseHtml( '<ul><li>item1<li>item2</li></li></ul>' ) );
+			parseHtml( '<ul><li>item1<li>item2</li></li></ul>' ) );
 	},
 
 	// https://dev.ckeditor.com/ticket/7894
 	'test parser fix malformed link': function() {
 		assert.areSame( '<p>foo<a href="#2">bar</a></p><p>foo bar</p>',
-						parseHtml( '<p>foo<a href="#1"><a href="#2">bar</a></p> <p>foo</a> bar</p>' ) );
+			parseHtml( '<p>foo<a href="#1"><a href="#2">bar</a></p> <p>foo</a> bar</p>' ) );
 	},
 
 	'test whitespace between comments': function() {
@@ -369,7 +368,6 @@ bender.test( {
 
 	'test *NOT* removing empty inline when comment enclosed': function() {
 		assert.areSame( '<p><span><!--comment--></span></p>', parseHtml( '<p><span><!--comment--></span></p>' ) );
-
 	},
 
 	'test fragment#writeChildrenHtml': function() {

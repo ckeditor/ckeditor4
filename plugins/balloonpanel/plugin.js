@@ -384,7 +384,7 @@
 			}
 
 			function getAlignedRects( rectList, top ) {
-				var edgeRect = top ? rectList [ 0 ] : rectList[ rectList.length - 1 ],
+				var edgeRect = top ? rectList[ 0 ] : rectList[ rectList.length - 1 ],
 					alignment = top ? 'top' : 'bottom';
 
 				return CKEDITOR.tools.array.filter( rectList, function( item ) {
@@ -471,20 +471,20 @@
 					viewPaneSize = winGlobal.getViewPaneSize(),
 					winGlobalScroll = winGlobal.getScrollPosition(),
 
-				// allowedRect is the rect into which the panel should fit to remain
-				// both within the visible area of the editor and the viewport, i.e.
-				// the rect area covered by "#":
-				//
-				// 	[Viewport]
-				// 	+-------------------------------------+
-				// 	|                        [Editor]     |
-				// 	|                        +--------------------+
-				// 	|                        |############|       |
-				// 	|                        |############|       |
-				// 	|                        |############|       |
-				// 	|                        +--------------------+
-				// 	|                                     |
-				// 	+-------------------------------------+
+					// allowedRect is the rect into which the panel should fit to remain
+					// both within the visible area of the editor and the viewport, i.e.
+					// the rect area covered by "#":
+					//
+					// 	[Viewport]
+					// 	+-------------------------------------+
+					// 	|                        [Editor]     |
+					// 	|                        +--------------------+
+					// 	|                        |############|       |
+					// 	|                        |############|       |
+					// 	|                        |############|       |
+					// 	|                        +--------------------+
+					// 	|                                     |
+					// 	+-------------------------------------+
 					allowedRect = {
 						top: Math.max( editorRect.top, winGlobalScroll.y ),
 						left: Math.max( editorRect.left, winGlobalScroll.x ),

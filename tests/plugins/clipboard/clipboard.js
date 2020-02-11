@@ -16,7 +16,7 @@ bender.test( {
 
 		bot.setHtmlWithSelection( '<p>[foo]</p>' );
 
-		sinon.stub( editor.document.$, 'execCommand' ).withArgs( 'cut' ).throws( '' );
+		sinon.stub( editor.document.$, 'execCommand' ).withArgs( 'cut' )['throws']( '' );
 
 		sinon.stub( editor, 'showNotification', function() {
 			assert.isTrue( true );

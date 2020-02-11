@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -10,9 +10,9 @@
 
 ( function() {
 	var toolbox = function() {
-			this.toolbars = [];
-			this.focusCommandExecuted = false;
-		};
+		this.toolbars = [];
+		this.focusCommandExecuted = false;
+	};
 
 	toolbox.prototype.focus = function() {
 		for ( var t = 0, toolbar; toolbar = this.toolbars[ t++ ]; ) {
@@ -58,112 +58,121 @@
 			var endFlag;
 
 			var itemKeystroke = function( item, keystroke ) {
-					var next, toolbar;
-					var rtl = editor.lang.dir == 'rtl',
-						toolbarGroupCycling = editor.config.toolbarGroupCycling,
-						// Picking right/left key codes.
-						rightKeyCode = rtl ? 37 : 39,
-						leftKeyCode = rtl ? 39 : 37;
+				var next, toolbar;
+				var rtl = editor.lang.dir == 'rtl',
+					toolbarGroupCycling = editor.config.toolbarGroupCycling,
+					// Picking right/left key codes.
+					rightKeyCode = rtl ? 37 : 39,
+					leftKeyCode = rtl ? 39 : 37;
 
-					toolbarGroupCycling = toolbarGroupCycling === undefined || toolbarGroupCycling;
+				toolbarGroupCycling = toolbarGroupCycling === undefined || toolbarGroupCycling;
 
-					switch ( keystroke ) {
-						case 9: // TAB
-						case CKEDITOR.SHIFT + 9: // SHIFT + TAB
-							// Cycle through the toolbars, starting from the one
-							// closest to the current item.
-							while ( !toolbar || !toolbar.items.length ) {
-								if ( keystroke == 9 ) {
-									toolbar = ( ( toolbar ? toolbar.next : item.toolbar.next ) || editor.toolbox.toolbars[ 0 ] );
-								} else {
-									toolbar = ( ( toolbar ? toolbar.previous : item.toolbar.previous ) || editor.toolbox.toolbars[ editor.toolbox.toolbars.length - 1 ] );
-								}
+				switch ( keystroke ) {
+					case 9: // TAB
+					case CKEDITOR.SHIFT + 9: // SHIFT + TAB
+						// Cycle through the toolbars, starting from the one
+						// closest to the current item.
+						while ( !toolbar || !toolbar.items.length ) {
+							if ( keystroke == 9 ) {
+								toolbar = ( ( toolbar ? toolbar.next : item.toolbar.next ) || editor.toolbox.toolbars[ 0 ] );
+							} else {
+								toolbar = ( ( toolbar ? toolbar.previous : item.toolbar.previous ) || editor.toolbox.toolbars[ editor.toolbox.toolbars.length - 1 ] );
+							}
 
-								// Look for the first item that accepts focus.
-								if ( toolbar.items.length ) {
-									item = toolbar.items[ endFlag ? ( toolbar.items.length - 1 ) : 0 ];
-									while ( item && !item.focus ) {
-										item = endFlag ? item.previous : item.next;
+							// Look for the first item that accepts focus.
+							if ( toolbar.items.length ) {
+								item = toolbar.items[ endFlag ? ( toolbar.items.length - 1 ) : 0 ];
+								while ( item && !item.focus ) {
+									item = endFlag ? item.previous : item.next;
 
-										if ( !item )
-											toolbar = 0;
+									if ( !item ) {
+										toolbar = 0;
 									}
 								}
 							}
+						}
 
-							if ( item )
-								item.focus();
+						if ( item ) {
+							item.focus();
+						}
 
-							return false;
+						return false;
 
-						case rightKeyCode:
-							next = item;
-							do {
-								// Look for the next item in the toolbar.
-								next = next.next;
+					case rightKeyCode:
+						next = item;
+						do {
+							// Look for the next item in the toolbar.
+							next = next.next;
 
-								// If it's the last item, cycle to the first one.
-								if ( !next && toolbarGroupCycling ) next = item.toolbar.items[ 0 ];
+							// If it's the last item, cycle to the first one.
+							if ( !next && toolbarGroupCycling ) {
+								next = item.toolbar.items[ 0 ];
 							}
-							while ( next && !next.focus );
+						}
+						while ( next && !next.focus );
 
-							// If available, just focus it, otherwise focus the
-							// first one.
-							if ( next )
-								next.focus();
-							else
-								// Send a TAB.
-								itemKeystroke( item, 9 );
+						// If available, just focus it, otherwise focus the
+						// first one.
+						if ( next ) {
+							next.focus();
+						} else
+						// Send a TAB.
+						{
+							itemKeystroke( item, 9 );
+						}
 
-							return false;
-						case 40: // DOWN-ARROW
-							if ( item.button && item.button.hasArrow ) {
-								item.execute();
-							} else {
-								// Send left arrow key.
-								itemKeystroke( item, keystroke == 40 ? rightKeyCode : leftKeyCode );
-							}
-							return false;
-						case leftKeyCode:
-						case 38: // UP-ARROW
-							next = item;
-							do {
-								// Look for the previous item in the toolbar.
-								next = next.previous;
-
-								// If it's the first item, cycle to the last one.
-								if ( !next && toolbarGroupCycling ) next = item.toolbar.items[ item.toolbar.items.length - 1 ];
-							}
-							while ( next && !next.focus );
-
-							// If available, just focus it, otherwise focus the
-							// last one.
-							if ( next )
-								next.focus();
-							else {
-								endFlag = 1;
-								// Send a SHIFT + TAB.
-								itemKeystroke( item, CKEDITOR.SHIFT + 9 );
-								endFlag = 0;
-							}
-
-							return false;
-
-						case 27: // ESC
-							editor.focus();
-							return false;
-
-						case 13: // ENTER
-						case 32: // SPACE
+						return false;
+					case 40: // DOWN-ARROW
+						if ( item.button && item.button.hasArrow ) {
 							item.execute();
-							return false;
-					}
-					return true;
-				};
+						} else {
+							// Send left arrow key.
+							itemKeystroke( item, keystroke == 40 ? rightKeyCode : leftKeyCode );
+						}
+						return false;
+					case leftKeyCode:
+					case 38: // UP-ARROW
+						next = item;
+						do {
+							// Look for the previous item in the toolbar.
+							next = next.previous;
+
+							// If it's the first item, cycle to the last one.
+							if ( !next && toolbarGroupCycling ) {
+								next = item.toolbar.items[ item.toolbar.items.length - 1 ];
+							}
+						}
+						while ( next && !next.focus );
+
+						// If available, just focus it, otherwise focus the
+						// last one.
+						if ( next ) {
+							next.focus();
+						} else {
+							endFlag = 1;
+							// Send a SHIFT + TAB.
+							itemKeystroke( item, CKEDITOR.SHIFT + 9 );
+							endFlag = 0;
+						}
+
+						return false;
+
+					case 27: // ESC
+						editor.focus();
+						return false;
+
+					case 13: // ENTER
+					case 32: // SPACE
+						item.execute();
+						return false;
+				}
+				return true;
+			};
 
 			editor.on( 'uiSpace', function( event ) {
-				if ( event.data.space != editor.config.toolbarLocation )
+				if ( event.data.space != editor.config.toolbarLocation ) {
 					return;
+				}
 
 				// Create toolbar only once.
 				event.removeListener();
@@ -182,8 +191,9 @@
 
 				// If the toolbar collapser will be available, we'll have
 				// an additional container for all toolbars.
-				if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE )
+				if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
 					output.push( '<span class="cke_toolbox_main"' + ( expanded ? '>' : ' style="display:none">' ) );
+				}
 
 				var toolbars = editor.toolbox.toolbars,
 					toolbar = getToolbarConfig( editor ),
@@ -202,8 +212,9 @@
 					// an extra comma in the toolbar definition
 					// settings, which leads on the editor not loading
 					// at all in IE. (https://dev.ckeditor.com/ticket/3983)
-					if ( !row )
+					if ( !row ) {
 						continue;
+					}
 
 					if ( groupStarted ) {
 						output.push( '</span>' );
@@ -286,8 +297,9 @@
 								// Fix for https://dev.ckeditor.com/ticket/3052:
 								// Prevent JAWS from focusing the toolbar after document load.
 								itemObj.onfocus = function() {
-									if ( !editor.toolbox.focusCommandExecuted )
+									if ( !editor.toolbox.focusCommandExecuted ) {
 										editor.focus();
+									}
 								};
 							}
 
@@ -306,12 +318,14 @@
 						pendingSeparator = 0;
 					}
 
-					if ( toolbarObj )
+					if ( toolbarObj ) {
 						output.push( '<span class="cke_toolbar_end"></span></span>' );
+					}
 				}
 
-				if ( editor.config.toolbarCanCollapse )
+				if ( editor.config.toolbarCanCollapse ) {
 					output.push( '</span>' );
+				}
 
 				// Not toolbar collapser for inline mode.
 				if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
@@ -347,7 +361,7 @@
 
 							// Update collapser symbol.
 							collapser.getFirst().setText( collapsed ? '\u25B2' : // BLACK UP-POINTING TRIANGLE
-							'\u25C0' ); // BLACK LEFT-POINTING TRIANGLE
+								'\u25C0' ); // BLACK LEFT-POINTING TRIANGLE
 
 							var dy = toolboxContainer.$.offsetHeight - previousHeight;
 							contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
@@ -368,8 +382,9 @@
 						'" id="' + editor.ui.spaceId( 'toolbar_collapser' ) +
 						'" tabIndex="-1" class="cke_toolbox_collapser' );
 
-					if ( !expanded )
+					if ( !expanded ) {
 						output.push( ' cke_toolbox_collapser_min' );
+					}
 
 					output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ')">', '<span class="cke_arrow">&#9650;</span>', // BLACK UP-POINTING TRIANGLE
 						'</a>' );
@@ -389,10 +404,12 @@
 						items = toolbars[ index ].items;
 						for ( i = 0; i < items.length; i++ ) {
 							instance = items[ i ];
-							if ( instance.clickFn )
+							if ( instance.clickFn ) {
 								CKEDITOR.tools.removeFunction( instance.clickFn );
-							if ( instance.keyDownFn )
+							}
+							if ( instance.keyDownFn ) {
 								CKEDITOR.tools.removeFunction( instance.keyDownFn );
+							}
 						}
 					}
 				}
@@ -427,7 +444,6 @@
 		removeButtons = removeButtons && removeButtons.split( ',' );
 
 		function buildToolbarConfig() {
-
 			// Object containing all toolbar groups used by ui items.
 			var lookup = getItemDefinedGroups();
 
@@ -440,11 +456,13 @@
 				var toolbarGroup = toolbar[ i ];
 
 				// Skip toolbar break.
-				if ( toolbarGroup == '/' )
+				if ( toolbarGroup == '/' ) {
 					continue;
+				}
 				// Handle simply group name item.
-				else if ( typeof toolbarGroup == 'string' )
+				else if ( typeof toolbarGroup == 'string' ) {
 					toolbarGroup = toolbar[ i ] = { name: toolbarGroup };
+				}
 
 				var items, subGroups = toolbarGroup.groups;
 
@@ -494,9 +512,9 @@
 				groups[ group ] = groups[ group ].sort( function( a, b ) {
 					return a.order == b.order ? 0 :
 						b.order < 0 ? -1 :
-						a.order < 0 ? 1 :
-						a.order < b.order ? -1 :
-						1;
+							a.order < 0 ? 1 :
+								a.order < b.order ? -1 :
+									1;
 				} );
 			}
 
@@ -505,10 +523,11 @@
 
 		function fillGroup( toolbarGroup, uiItems ) {
 			if ( uiItems.length ) {
-				if ( toolbarGroup.items )
+				if ( toolbarGroup.items ) {
 					toolbarGroup.items.push( editor.ui.create( '-' ) );
-				else
+				} else {
 					toolbarGroup.items = [];
+				}
 
 				var item, name;
 				while ( ( item = uiItems.shift() ) ) {
@@ -518,11 +537,13 @@
 					if ( !removeButtons || CKEDITOR.tools.indexOf( removeButtons, name ) == -1 ) {
 						item = editor.ui.create( name );
 
-						if ( !item )
+						if ( !item ) {
 							continue;
+						}
 
-						if ( !editor.addFeature( item ) )
+						if ( !editor.addFeature( item ) ) {
 							continue;
+						}
 
 						toolbarGroup.items.push( item );
 					}
@@ -538,13 +559,12 @@
 				group = config[ i ];
 				newGroup = {};
 
-				if ( group == '/' )
+				if ( group == '/' ) {
 					toolbar.push( group );
-				else if ( CKEDITOR.tools.isArray( group ) ) {
+				} else if ( CKEDITOR.tools.isArray( group ) ) {
 					fillGroup( newGroup, CKEDITOR.tools.clone( group ) );
 					toolbar.push( newGroup );
-				}
-				else if ( group.items ) {
+				} else if ( group.items ) {
 					fillGroup( newGroup, CKEDITOR.tools.clone( group.items ) );
 					newGroup.name = group.name;
 					toolbar.push( newGroup );
@@ -557,8 +577,9 @@
 		var toolbar = editor.config.toolbar;
 
 		// If it is a string, return the relative "toolbar_name" config.
-		if ( typeof toolbar == 'string' )
+		if ( typeof toolbar == 'string' ) {
 			toolbar = editor.config[ 'toolbar_' + toolbar ];
+		}
 
 		return ( editor.toolbar = toolbar ? populateToolbarConfig( toolbar ) : buildToolbarConfig() );
 	}
@@ -601,10 +622,11 @@
 
 				// If no previous found.
 
-				if ( atStart )
+				if ( atStart ) {
 					subgroupOf.groups.splice( 0, 0, name );
-				else
-					subgroupOf.groups.push(  name );
+				} else {
+					subgroupOf.groups.push( name );
+				}
 				return;
 			} else {
 				// Ignore "previous" if subgroupOf has not been found.
@@ -619,23 +641,24 @@
 			} );
 		}
 
-		if ( atStart )
+		if ( atStart ) {
 			toolbarGroups.splice( 0, 0, name );
-		else if ( typeof previous == 'number' )
+		} else if ( typeof previous == 'number' ) {
 			toolbarGroups.splice( previous + 1, 0, newGroup );
-		else
+		} else {
 			toolbarGroups.push( name );
+		}
 	};
 
 	function getPrivateToolbarGroups( editor ) {
 		return editor._.toolbarGroups || ( editor._.toolbarGroups = [
-			{ name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
-			{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-			{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+			{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+			{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+			{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
 			{ name: 'forms' },
 			'/',
 			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+			{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 			{ name: 'links' },
 			{ name: 'insert' },
 			'/',

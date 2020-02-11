@@ -7,90 +7,90 @@
 	'use strict';
 
 	var styles = [
-		new CKEDITOR.style( {
-			element: 's',
-			type: CKEDITOR.STYLE_INLINE
-		} ),
+			new CKEDITOR.style( {
+				element: 's',
+				type: CKEDITOR.STYLE_INLINE
+			} ),
 
-		new CKEDITOR.style( {
-			element: 'b',
-			type: CKEDITOR.STYLE_INLINE
-		} ),
+			new CKEDITOR.style( {
+				element: 'b',
+				type: CKEDITOR.STYLE_INLINE
+			} ),
 
-		new CKEDITOR.style( {
-			element: 'span',
-			styles: {
-				'font-weight': 'bold'
-			},
-			type: CKEDITOR.STYLE_INLINE
-		} )
-	],
+			new CKEDITOR.style( {
+				element: 'span',
+				styles: {
+					'font-weight': 'bold'
+				},
+				type: CKEDITOR.STYLE_INLINE
+			} )
+		],
 
-	listStyles = [
-		new CKEDITOR.style( {
-			element: 'b',
-			type: CKEDITOR.STYLE_INLINE
-		} ),
+		listStyles = [
+			new CKEDITOR.style( {
+				element: 'b',
+				type: CKEDITOR.STYLE_INLINE
+			} ),
 
-		new CKEDITOR.style( {
-			element: 'li',
-			styles: {
-				'text-decoration': 'underline'
-			},
-			attributes: {},
-			type: CKEDITOR.STYLE_INLINE
-		} ),
+			new CKEDITOR.style( {
+				element: 'li',
+				styles: {
+					'text-decoration': 'underline'
+				},
+				attributes: {},
+				type: CKEDITOR.STYLE_INLINE
+			} ),
 
-		new CKEDITOR.style( {
-			element: 'ol',
-			attributes: {
-				start: 3
-			},
-			type: CKEDITOR.STYLE_INLINE
-		} )
-	],
+			new CKEDITOR.style( {
+				element: 'ol',
+				attributes: {
+					start: 3
+				},
+				type: CKEDITOR.STYLE_INLINE
+			} )
+		],
 
-	tableStyles = [
-		new CKEDITOR.style( {
-			element: 'b',
-			type: CKEDITOR.STYLE_INLINE
-		} ),
+		tableStyles = [
+			new CKEDITOR.style( {
+				element: 'b',
+				type: CKEDITOR.STYLE_INLINE
+			} ),
 
-		new CKEDITOR.style( {
-			element: 'td',
-			styles: {
-				'text-decoration': 'underline'
-			},
-			attributes: {},
-			type: CKEDITOR.STYLE_INLINE
-		} ),
+			new CKEDITOR.style( {
+				element: 'td',
+				styles: {
+					'text-decoration': 'underline'
+				},
+				attributes: {},
+				type: CKEDITOR.STYLE_INLINE
+			} ),
 
-		new CKEDITOR.style( {
-			element: 'tr',
-			styles: {
-				'background-color': CKEDITOR.tools.normalizeCssText( '#f00', true )
-			},
-			attributes: {},
-			type: CKEDITOR.STYLE_INLINE
-		} ),
+			new CKEDITOR.style( {
+				element: 'tr',
+				styles: {
+					'background-color': CKEDITOR.tools.normalizeCssText( '#f00', true )
+				},
+				attributes: {},
+				type: CKEDITOR.STYLE_INLINE
+			} ),
 
-		new CKEDITOR.style( {
-			element: 'tbody',
-			attributes: {
-				'class': 'body'
-			},
-			type: CKEDITOR.STYLE_INLINE
-		} ),
+			new CKEDITOR.style( {
+				element: 'tbody',
+				attributes: {
+					class: 'body'
+				},
+				type: CKEDITOR.STYLE_INLINE
+			} ),
 
-		new CKEDITOR.style( {
-			element: 'table',
-			attributes: {
-				border: 3
-			},
-			type: CKEDITOR.STYLE_INLINE
-		} )
-	],
-	clone = CKEDITOR.tools.clone;
+			new CKEDITOR.style( {
+				element: 'table',
+				attributes: {
+					border: 3
+				},
+				type: CKEDITOR.STYLE_INLINE
+			} )
+		],
+		clone = CKEDITOR.tools.clone;
 
 	bender.editor = {
 		config: {
@@ -368,7 +368,6 @@
 
 				assert.areSame( fixHtml( content[ i ] ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 			}
-
 		},
 
 		'test filter styles': function() {
@@ -454,4 +453,4 @@
 			assert.areSame( 0, spy.callCount );
 		}
 	} );
-}() );
+} )() ;

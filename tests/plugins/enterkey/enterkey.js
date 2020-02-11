@@ -64,8 +64,9 @@
 		// https://dev.ckeditor.com/ticket/7912
 		'test enter key after invisible element': function() {
 			// IE restrain making selection in invisible element.
-			if ( CKEDITOR.env.ie )
+			if ( CKEDITOR.env.ie ) {
 				assert.ignore();
+			}
 
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
@@ -113,7 +114,9 @@
 
 			// Press enough enter key in order overflow the content area.
 			var i = 0;
-			while ( i++ < 20 ) bot.execCommand( 'enter' );
+			while ( i++ < 20 ) {
+				bot.execCommand( 'enter' );
+			}
 			var start = editor.getSelection().getStartElement();
 			var rect = start.$.getBoundingClientRect();
 			var viewport = bot.editor.window.getViewPaneSize();
@@ -256,19 +259,19 @@
 			assert.pass( 'Error is not thrown' );
 		},
 
-		'test enter key - start of block':				e( 'editor', '<p id="x">{}foo</p>', '<p>@@</p><p id="x">^foo@</p>' ),
-		'test enter key - middle of block':				e( 'editor', '<p id="x">foo{}bar</p>', '<p id="x">foo@</p><p>^bar@</p>' ),
-		'test enter key - end of block':				e( 'editor', '<p id="x">foo{}</p>', '<p id="x">foo@</p><p>^@</p>' ),
+		'test enter key - start of block':	e( 'editor', '<p id="x">{}foo</p>', '<p>@@</p><p id="x">^foo@</p>' ),
+		'test enter key - middle of block':	e( 'editor', '<p id="x">foo{}bar</p>', '<p id="x">foo@</p><p>^bar@</p>' ),
+		'test enter key - end of block':	e( 'editor', '<p id="x">foo{}</p>', '<p id="x">foo@</p><p>^@</p>' ),
 
-		'test enter key - inline with id':				e( 'editor', '<p>fo<b id="x">o{}b</b>ar</p>', '<p>fo<b id="x">o</b>@</p><p><b>^b</b>ar@</p>' ),
-		'test enter key - block with id':				e( 'editor', '<div><p id="x">fo<b id="y">o{}b</b>ar</p></div>', '<div><p id="x">fo<b id="y">o</b>@</p><p><b>^b</b>ar@</p></div>' ),
+		'test enter key - inline with id':	e( 'editor', '<p>fo<b id="x">o{}b</b>ar</p>', '<p>fo<b id="x">o</b>@</p><p><b>^b</b>ar@</p>' ),
+		'test enter key - block with id':	e( 'editor', '<div><p id="x">fo<b id="y">o{}b</b>ar</p></div>', '<div><p id="x">fo<b id="y">o</b>@</p><p><b>^b</b>ar@</p></div>' ),
 
-		'test shift+enter key - middle of block':		se( 'editor', '<p>foo{}bar</p>', '<p>foo<br />^bar@</p>' ),
-		'test shift+enter key - list item':				se( 'editor', '<ul><li>foo{}bar</li></ul>', '<ul><li>foo<br />^bar@</li></ul>' ),
-		'test shift+enter key - start of block':		se( 'editor', '<p>{}foobar</p>', '<p><br />^foobar@</p>' ),
-		'test shift+enter key - end of block':			se( 'editor', '<p>foobar{}</p>', '<p>foobar<br />^@</p>' ),
-		'test shift+enter key - before br':				se( 'editor', '<p>foo{}<br />bar</p>', '<p>foo<br />^<br />bar@</p>' ),
-		'test shift+enter key - after br':				se( 'editor', '<p>foo<br />{}bar</p>', '<p>foo<br /><br />^bar@</p>' ),
+		'test shift+enter key - middle of block':	se( 'editor', '<p>foo{}bar</p>', '<p>foo<br />^bar@</p>' ),
+		'test shift+enter key - list item':	se( 'editor', '<ul><li>foo{}bar</li></ul>', '<ul><li>foo<br />^bar@</li></ul>' ),
+		'test shift+enter key - start of block':	se( 'editor', '<p>{}foobar</p>', '<p><br />^foobar@</p>' ),
+		'test shift+enter key - end of block':	se( 'editor', '<p>foobar{}</p>', '<p>foobar<br />^@</p>' ),
+		'test shift+enter key - before br':	se( 'editor', '<p>foo{}<br />bar</p>', '<p>foo<br />^<br />bar@</p>' ),
+		'test shift+enter key - after br':	se( 'editor', '<p>foo<br />{}bar</p>', '<p>foo<br /><br />^bar@</p>' ),
 
 		// https://dev.ckeditor.com/ticket/11947
 		'test shift+enter key - end of block, inside inline element followed by bogus br':
@@ -276,5 +279,4 @@
 		'test shift+enter key - end of list item, inside inline element followed by bogus br':
 			se( 'editor', '<ul><li><em>foo{}</em><br /></li></ul>', '<ul><li><em>foo<br />^</em><br /></li></ul>' )
 	} );
-
 } )();

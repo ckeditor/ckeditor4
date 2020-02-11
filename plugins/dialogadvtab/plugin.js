@@ -4,14 +4,14 @@
  */
 
 ( function() {
-
 	function setupAdvParams( element ) {
 		var attrName = this.att;
 
 		var value = element && element.hasAttribute( attrName ) && element.getAttribute( attrName ) || '';
 
-		if ( value !== undefined )
+		if ( value !== undefined ) {
 			this.setValue( value );
+		}
 	}
 
 	function commitAdvParams() {
@@ -30,10 +30,11 @@
 			var attrName = this.att,
 				value = this.getValue();
 
-			if ( value )
+			if ( value ) {
 				element.setAttribute( attrName, value );
-			else
+			} else {
 				element.removeAttribute( attrName, value );
+			}
 		}
 	}
 
@@ -44,24 +45,30 @@
 
 		// Returns allowed content rule for the content created by this plugin.
 		allowedContent: function( tabConfig ) {
-			if ( !tabConfig )
+			if ( !tabConfig ) {
 				tabConfig = defaultTabConfig;
+			}
 
 			var allowedAttrs = [];
-			if ( tabConfig.id )
+			if ( tabConfig.id ) {
 				allowedAttrs.push( 'id' );
-			if ( tabConfig.dir )
+			}
+			if ( tabConfig.dir ) {
 				allowedAttrs.push( 'dir' );
+			}
 
 			var allowed = '';
 
-			if ( allowedAttrs.length )
-				allowed += '[' + allowedAttrs.join( ',' ) +  ']';
+			if ( allowedAttrs.length ) {
+				allowed += '[' + allowedAttrs.join( ',' ) + ']';
+			}
 
-			if ( tabConfig.classes )
+			if ( tabConfig.classes ) {
 				allowed += '(*)';
-			if ( tabConfig.styles )
+			}
+			if ( tabConfig.styles ) {
 				allowed += '{*}';
+			}
 
 			return allowed;
 		},
@@ -69,8 +76,9 @@
 		// @param tabConfig
 		// id, dir, classes, styles
 		createAdvancedTab: function( editor, tabConfig, element ) {
-			if ( !tabConfig )
+			if ( !tabConfig ) {
 				tabConfig = defaultTabConfig;
+			}
 
 			var lang = editor.lang.common;
 
@@ -107,7 +115,7 @@
 						type: 'select',
 						requiredContent: element ? element + '[dir]' : null,
 						label: lang.langDir,
-						'default': '',
+						default: '',
 						style: 'width:100%',
 						items: [
 							[ lang.notSet, '' ],
@@ -136,7 +144,7 @@
 						type: 'text',
 						requiredContent: element ? element + '{cke-xyz}' : null,
 						label: lang.styles,
-						'default': '',
+						default: '',
 
 						validate: CKEDITOR.dialog.validate.inlineStyle( lang.invalidInlineStyle ),
 						onChange: function() {},
@@ -174,7 +182,7 @@
 							type: 'text',
 							requiredContent: element ? element + '(cke-xyz)' : null,
 							label: lang.cssClasses,
-							'default': '',
+							default: '',
 							setup: setupAdvParams,
 							commit: commitAdvParams
 
@@ -192,5 +200,4 @@
 			return result;
 		}
 	} );
-
 } )();

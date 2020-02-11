@@ -30,8 +30,8 @@
 			'word2013'
 		],
 		tests: {
-			'Unordered_list_multiple': true,
-			'White_space': true
+			Unordered_list_multiple: true,
+			White_space: true
 		},
 		customFilters: [
 			pfwTools.filters.font

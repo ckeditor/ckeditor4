@@ -2,7 +2,6 @@
 /* bender-ckeditor-plugins: toolbar,button,stylescombo,wysiwygarea */
 
 ( function() {
-
 	bender.editor = {
 		config: {
 			startupFocus: true
@@ -28,7 +27,6 @@
 						} );
 					}, 0 );
 				} );
-
 			} );
 		},
 
@@ -105,5 +103,4 @@
 			return filter.editor === editor;
 		} ).length : filters.length;
 	}
-
 } )();

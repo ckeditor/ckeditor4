@@ -52,24 +52,27 @@ CKEDITOR.scriptLoader = ( function() {
 		load: function( scriptUrl, callback, scope, showBusy ) {
 			var isString = ( typeof scriptUrl == 'string' );
 
-			if ( isString )
+			if ( isString ) {
 				scriptUrl = [ scriptUrl ];
+			}
 
-			if ( !scope )
+			if ( !scope ) {
 				scope = CKEDITOR;
+			}
 
 			var scriptCount = scriptUrl.length,
 				completed = [],
 				failed = [];
 
 			var doCallback = function( success ) {
-					if ( callback ) {
-						if ( isString )
-							callback.call( scope, success );
-						else
-							callback.call( scope, completed, failed );
+				if ( callback ) {
+					if ( isString ) {
+						callback.call( scope, success );
+					} else {
+						callback.call( scope, completed, failed );
 					}
-				};
+				}
+			};
 
 			if ( scriptCount === 0 ) {
 				doCallback( true );
@@ -77,79 +80,80 @@ CKEDITOR.scriptLoader = ( function() {
 			}
 
 			var checkLoaded = function( url, success ) {
-					( success ? completed : failed ).push( url );
+				( success ? completed : failed ).push( url );
 
-					if ( --scriptCount <= 0 ) {
-						showBusy && CKEDITOR.document.getDocumentElement().removeStyle( 'cursor' );
-						doCallback( success );
-					}
-				};
+				if ( --scriptCount <= 0 ) {
+					showBusy && CKEDITOR.document.getDocumentElement().removeStyle( 'cursor' );
+					doCallback( success );
+				}
+			};
 
 			var onLoad = function( url, success ) {
-					// Mark this script as loaded.
-					uniqueScripts[ url ] = 1;
+				// Mark this script as loaded.
+				uniqueScripts[ url ] = 1;
 
-					// Get the list of callback checks waiting for this file.
-					var waitingInfo = waitingList[ url ];
-					delete waitingList[ url ];
+				// Get the list of callback checks waiting for this file.
+				var waitingInfo = waitingList[ url ];
+				delete waitingList[ url ];
 
-					// Check all callbacks waiting for this file.
-					for ( var i = 0; i < waitingInfo.length; i++ )
-						waitingInfo[ i ]( url, success );
-				};
+				// Check all callbacks waiting for this file.
+				for ( var i = 0; i < waitingInfo.length; i++ ) {
+					waitingInfo[ i ]( url, success );
+				}
+			};
 
 			var loadScript = function( url ) {
-					if ( uniqueScripts[ url ] ) {
-						checkLoaded( url, true );
-						return;
-					}
+				if ( uniqueScripts[ url ] ) {
+					checkLoaded( url, true );
+					return;
+				}
 
-					var waitingInfo = waitingList[ url ] || ( waitingList[ url ] = [] );
-					waitingInfo.push( checkLoaded );
+				var waitingInfo = waitingList[ url ] || ( waitingList[ url ] = [] );
+				waitingInfo.push( checkLoaded );
 
-					// Load it only for the first request.
-					if ( waitingInfo.length > 1 )
-						return;
+				// Load it only for the first request.
+				if ( waitingInfo.length > 1 ) {
+					return;
+				}
 
-					// Create the <script> element.
-					var script = new CKEDITOR.dom.element( 'script' );
-					script.setAttributes( {
-						type: 'text/javascript',
-						src: url
-					} );
+				// Create the <script> element.
+				var script = new CKEDITOR.dom.element( 'script' );
+				script.setAttributes( {
+					type: 'text/javascript',
+					src: url
+				} );
 
-					if ( callback ) {
-						// The onload or onerror event does not fire in IE8 and IE9 Quirks Mode (https://dev.ckeditor.com/ticket/14849).
-						if ( CKEDITOR.env.ie && ( CKEDITOR.env.version <= 8 || CKEDITOR.env.ie9Compat ) ) {
-							script.$.onreadystatechange = function() {
-								if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {
-									script.$.onreadystatechange = null;
-									onLoad( url, true );
-								}
-							};
-						} else {
-							script.$.onload = function() {
-								// Some browsers, such as Safari, may call the onLoad function
-								// immediately. This will break the loading sequence. (https://dev.ckeditor.com/ticket/3661)
-								setTimeout( function() {
-									removeListeners( script );
-									onLoad( url, true );
-								}, 0 );
-							};
-
-							script.$.onerror = function() {
+				if ( callback ) {
+					// The onload or onerror event does not fire in IE8 and IE9 Quirks Mode (https://dev.ckeditor.com/ticket/14849).
+					if ( CKEDITOR.env.ie && ( CKEDITOR.env.version <= 8 || CKEDITOR.env.ie9Compat ) ) {
+						script.$.onreadystatechange = function() {
+							if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {
+								script.$.onreadystatechange = null;
+								onLoad( url, true );
+							}
+						};
+					} else {
+						script.$.onload = function() {
+							// Some browsers, such as Safari, may call the onLoad function
+							// immediately. This will break the loading sequence. (https://dev.ckeditor.com/ticket/3661)
+							setTimeout( function() {
 								removeListeners( script );
-								onLoad( url, false );
-							};
-						}
+								onLoad( url, true );
+							}, 0 );
+						};
+
+						script.$.onerror = function() {
+							removeListeners( script );
+							onLoad( url, false );
+						};
 					}
+				}
 
-					// Append it to <head>.
-					script.appendTo( CKEDITOR.document.getHead() );
+				// Append it to <head>.
+				script.appendTo( CKEDITOR.document.getHead() );
 
-					CKEDITOR.fire( 'download', url ); // %REMOVE_LINE%
-
-				};
+				CKEDITOR.fire( 'download', url ); // %REMOVE_LINE%
+			};
 
 			showBusy && CKEDITOR.document.getDocumentElement().setStyle( 'cursor', 'wait' );
 			for ( var i = 0; i < scriptCount; i++ ) {
@@ -181,8 +185,9 @@ CKEDITOR.scriptLoader = ( function() {
 			function loadNext() {
 				var script;
 
-				if ( ( script = pending[ 0 ] ) )
+				if ( ( script = pending[ 0 ] ) ) {
 					this.load( script.scriptUrl, script.callback, CKEDITOR, 0 );
+				}
 			}
 
 			return function( scriptUrl, callback ) {
@@ -203,8 +208,9 @@ CKEDITOR.scriptLoader = ( function() {
 				pending.push( { scriptUrl: scriptUrl, callback: callbackWrapper } );
 
 				// If the queue was empty, then start loading.
-				if ( pending.length == 1 )
+				if ( pending.length == 1 ) {
 					loadNext.call( this );
+				}
 			};
 		} )()
 	};

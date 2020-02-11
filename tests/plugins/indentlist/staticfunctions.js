@@ -10,8 +10,8 @@
 		'test firstItemInPath: element direct in list': function() {
 			var root = CKEDITOR.dom.element.createFromHtml( [
 					'<ul>',
-						'<li id="one">one</li>',
-						'<li id="two">two</li>',
+					'<li id="one">one</li>',
+					'<li id="two">two</li>',
 					'</ul>'
 				].join( '' ) ),
 				one = root.findOne( '#one' ),
@@ -22,14 +22,13 @@
 
 			assert.isTrue( firstItemInPath( query, pathOne, root ) );
 			assert.isFalse( firstItemInPath( query, pathTwo, root ) );
-
 		},
 
 		'test firstItemInPath: element with paragraph in list': function() {
 			var root = CKEDITOR.dom.element.createFromHtml( [
 					'<ul>',
-						'<li><p id="one">one</p></li>',
-						'<li><p id="two">two</p></li>',
+					'<li><p id="one">one</p></li>',
+					'<li><p id="two">two</p></li>',
 					'</ul>'
 				].join( '' ) ),
 				one = root.findOne( '#one' ),

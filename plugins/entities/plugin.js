@@ -106,8 +106,8 @@
 			}
 
 			function getEntity( character ) {
-				return config.entities_processNumerical == 'force' || !entitiesTable[ character ] ? '&#' + character.charCodeAt( 0 ) + ';'
-				: entitiesTable[ character ];
+				return config.entities_processNumerical == 'force' || !entitiesTable[ character ] ? '&#' + character.charCodeAt( 0 ) + ';' :
+					entitiesTable[ character ];
 			}
 
 			var dataProcessor = editor.dataProcessor,
@@ -117,21 +117,26 @@
 				// Mandatory HTML basic entities.
 				var selectedEntities = [];
 
-				if ( config.basicEntities !== false )
+				if ( config.basicEntities !== false ) {
 					selectedEntities.push( htmlbase );
+				}
 
 				if ( config.entities ) {
-					if ( selectedEntities.length )
+					if ( selectedEntities.length ) {
 						selectedEntities.push( entities );
+					}
 
-					if ( config.entities_latin )
+					if ( config.entities_latin ) {
 						selectedEntities.push( latin );
+					}
 
-					if ( config.entities_greek )
+					if ( config.entities_greek ) {
 						selectedEntities.push( greek );
+					}
 
-					if ( config.entities_additional )
+					if ( config.entities_additional ) {
 						selectedEntities.push( config.entities_additional );
+					}
 				}
 
 				var entitiesTable = buildTable( selectedEntities.join( ',' ) );
@@ -140,8 +145,9 @@
 				var entitiesRegex = entitiesTable.regex ? '[' + entitiesTable.regex + ']' : 'a^';
 				delete entitiesTable.regex;
 
-				if ( config.entities && config.entities_processNumerical )
+				if ( config.entities && config.entities_processNumerical ) {
 					entitiesRegex = '[^ -~]|' + entitiesRegex;
+				}
 
 				entitiesRegex = new RegExp( entitiesRegex, 'g' );
 

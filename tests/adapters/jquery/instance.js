@@ -26,8 +26,9 @@ bender.test( {
 	destroyAll: function() {
 		var instances = CKEDITOR.instances;
 
-		for ( var i in instances )
+		for ( var i in instances ) {
 			instances[ i ].destroy();
+		}
 	},
 
 	'test creator: replace': function() {

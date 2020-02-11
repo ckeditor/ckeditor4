@@ -8,8 +8,9 @@
 	function assertNodesList( wanted, nodes ) {
 		var simplifiedNodes = [];
 
-		for ( var i = 0 ; i < nodes.length ; i++ )
+		for ( var i = 0 ; i < nodes.length ; i++ ) {
 			simplifiedNodes.push( nodes[ i ].type == CKEDITOR.NODE_TEXT ? nodes[ i ].getText() : ( '<' + nodes[ i ].getName() + '>' ) );
+		}
 
 		assert.areSame( wanted.toString(), simplifiedNodes.toString() );
 	}
@@ -39,8 +40,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.next() ) )
+			while ( ( node = walker.next() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>', 'simple', ' test' ], nodes );
 		},
@@ -56,8 +58,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.next() ) )
+			while ( ( node = walker.next() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ 'This is ', '<b>', 'a ', '<i>', 'simple' ], nodes );
 		},
@@ -73,8 +76,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.next() ) )
+			while ( ( node = walker.next() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '<h1>' ], nodes );
 		},
@@ -90,8 +94,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.next() ) )
+			while ( ( node = walker.next() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [], nodes );
 		},
@@ -107,8 +112,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.next() ) )
+			while ( ( node = walker.next() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '<h1>' ], nodes );
 		},
@@ -125,8 +131,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.next() ) )
+			while ( ( node = walker.next() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '<h1>' ], nodes );
 		},
@@ -143,8 +150,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.previous() ) )
+			while ( ( node = walker.previous() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '<p>' ], nodes );
 		},
@@ -159,8 +167,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.previous() ) )
+			while ( ( node = walker.previous() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', 'a ', 'This is ' ], nodes );
 		},
@@ -176,8 +185,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.previous() ) )
+			while ( ( node = walker.previous() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ 'simple', 'a ', 'This is ' ], nodes );
 		},
@@ -193,8 +203,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.previous() ) )
+			while ( ( node = walker.previous() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '' ], nodes );
 		},
@@ -210,8 +221,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.previous() ) )
+			while ( ( node = walker.previous() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '<p>' ], nodes );
 		},
@@ -227,8 +239,9 @@
 			var walker = new CKEDITOR.dom.walker( range );
 
 			var nodes = [];
-			while ( ( node = walker.previous() ) )
+			while ( ( node = walker.previous() ) ) {
 				nodes.push( node );
+			}
 
 			assertNodesList( [ '<p>' ], nodes );
 		},
@@ -251,7 +264,7 @@
 				return true;
 			};
 
-			while ( ( node = walker.next() ) ) {  }
+			while ( ( node = walker.next() ) ) { }
 
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>', 'simple', '<i>', '<b>', ' test' , '<p>' ], nodes );
 		},
@@ -274,7 +287,7 @@
 				return true;
 			};
 
-			while ( ( node = walker.previous() ) ) {  }
+			while ( ( node = walker.previous() ) ) { }
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', '<i>', 'a ', '<b>', 'This is ', '<p>' ], nodes );
 		},
@@ -294,7 +307,7 @@
 				return !( node.type == CKEDITOR.NODE_ELEMENT && node.is( 'i' ) ); // Stop on <i> element.
 			};
 
-			while ( ( node = walker.next() ) ) {  }
+			while ( ( node = walker.next() ) ) { }
 
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>' ], nodes );
 		},
@@ -317,7 +330,7 @@
 				return true;
 			};
 
-			while ( ( node = walker.previous() ) ) {  }
+			while ( ( node = walker.previous() ) ) { }
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', 'a ', 'This is ' ], nodes );
 		},
@@ -340,10 +353,9 @@
 				return true;
 			};
 
-			while ( ( node = walker.next() ) ) {  }
+			while ( ( node = walker.next() ) ) { }
 
 			assertNodesList( [ '<span>' ], nodes );
-
 		},
 
 		'test walker.invisible() - br surrounded by text': function() {
@@ -372,8 +384,9 @@
 
 		'test walker.invisible() - whitespaces in empty inline element surrounded by whitespaces': function() {
 			// IE8 loses empty text nodes when parsing HTML.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
+			}
 
 			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'wsInline2' ).getFirst() ) );
 		},
@@ -524,8 +537,9 @@
 
 		'test walker.bogus': function() {
 			// TODO cover IEs with this test.
-			if ( !CKEDITOR.env.needsBrFiller )
+			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
+			}
 
 			var isBogus = CKEDITOR.dom.walker.bogus(),
 				isNotBogus = CKEDITOR.dom.walker.bogus( true );

@@ -35,9 +35,9 @@ bender.test( {
 		this.assertToBBCode( '[url]http://example.org[/url]', '<a href="http://example.org">http://example.org</a>' );
 		this.assertToBBCode( '[url=http://example.com]example[/url]', '<a href="http://example.com">example</a>' );
 		this.assertToBBCode( '[img]http://a.cksource.com/c/1/inc/img/demo-little-red.jpg[/img]',
-							'<img src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" />' );
+			'<img src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" />' );
 		this.assertToBBCode( '[quote="citation"]quoted text[/quote]\n',
-							'<blockquote><cite>citation</cite><p>quoted text</p></blockquote>' );
+			'<blockquote><cite>citation</cite><p>quoted text</p></blockquote>' );
 		this.assertToBBCode( '[size=150]large text[/size]', '<span style="FONT-SIZE:150%;">large text</span>' );
 		this.assertToBBCode( '[color=#ff0000]red text[/color]', '<span style="COLOR:#ff0000;">red text</span>' );
 		this.assertToBBCode( ':)', '<img src="' + this.editor.config.smiley_path + 'regular_smile.png" alt="smiley"/>' );
@@ -66,10 +66,10 @@ bender.test( {
 		this.assertToHtml( '<a href="http://example.com">example</a>', '[url=http://example.com]example[/url]' );
 
 		this.assertToHtml( '<img src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" />',
-							'[img]http://a.cksource.com/c/1/inc/img/demo-little-red.jpg[/img]' );
+			'[img]http://a.cksource.com/c/1/inc/img/demo-little-red.jpg[/img]' );
 
 		this.assertToHtml( '<blockquote><cite>citation</cite><div>quoted text</div></blockquote>',
-							'[quote="citation"]quoted text[/quote]\n' );
+			'[quote="citation"]quoted text[/quote]\n' );
 
 		this.assertToHtml( '<span style="font-size:150%;">large text</span>', '[size=150]large text[/size]' );
 		this.assertToHtml( '<span style="color:#ff0000;">red text</span>', '[color=#ff0000]red text[/color]' );

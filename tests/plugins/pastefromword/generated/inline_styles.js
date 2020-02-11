@@ -25,7 +25,7 @@
 			'word2013'
 		],
 		tests: {
-			'InlineStyles': true
+			InlineStyles: true
 		},
 		customFilters: [
 			pfwTools.filters.style

@@ -35,16 +35,19 @@
 		// if editor is created off one page element.
 		if ( element !== undefined ) {
 			// Asserting element and mode not null.
-			if ( !( element instanceof CKEDITOR.dom.element ) )
+			if ( !( element instanceof CKEDITOR.dom.element ) ) {
 				throw new Error( 'Expect element of type CKEDITOR.dom.element.' );
-			else if ( !mode )
+			} else if ( !mode ) {
 				throw new Error( 'One of the element modes must be specified.' );
+			}
 
-			if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && mode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && mode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				throw new Error( 'Inline element mode is not supported on IE quirks.' );
+			}
 
-			if ( !isSupportedElement( element, mode ) )
+			if ( !isSupportedElement( element, mode ) ) {
 				throw new Error( 'The specified element mode is not supported on element: "' + element.getName() + '".' );
+			}
 
 			/**
 			 * The original host page element upon which the editor is created. It is only
@@ -211,10 +214,11 @@
 
 	// Asserting element DTD depending on mode.
 	function isSupportedElement( element, mode ) {
-		if ( mode == CKEDITOR.ELEMENT_MODE_INLINE )
+		if ( mode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 			return element.is( CKEDITOR.dtd.$editable ) || element.is( 'textarea' );
-		else if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE )
+		} else if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			return !element.is( CKEDITOR.dtd.$nonBodyContent );
+		}
 		return 1;
 	}
 
@@ -222,8 +226,9 @@
 		var commands = this.commands,
 			name;
 
-		for ( name in commands )
+		for ( name in commands ) {
 			updateCommand( this, commands[ name ] );
+		}
 	}
 
 	function updateCommand( editor, cmd ) {
@@ -234,8 +239,9 @@
 		// Commands cannot be refreshed without a path. In edge cases
 		// it may happen that there's no selection when this function is executed.
 		// For example when active filter is changed in https://dev.ckeditor.com/ticket/10877.
-		if ( !path )
+		if ( !path ) {
 			return;
+		}
 
 		var command,
 			name,
@@ -244,8 +250,9 @@
 		for ( name in commands ) {
 			command = commands[ name ];
 
-			if ( forceRefresh || command.contextSensitive )
+			if ( forceRefresh || command.contextSensitive ) {
 				command.refresh( editor, path );
+			}
 		}
 	}
 
@@ -260,8 +267,9 @@
 		var customConfig = editor.config.customConfig;
 
 		// Check if there is a custom config to load.
-		if ( !customConfig )
+		if ( !customConfig ) {
 			return false;
+		}
 
 		customConfig = CKEDITOR.getUrl( customConfig );
 
@@ -275,8 +283,9 @@
 
 			// If there is no other customConfig in the chain, fire the
 			// "configLoaded" event.
-			if ( CKEDITOR.getUrl( editor.config.customConfig ) == customConfig || !loadConfig( editor ) )
+			if ( CKEDITOR.getUrl( editor.config.customConfig ) == customConfig || !loadConfig( editor ) ) {
 				editor.fireOnce( 'customConfigLoaded' );
+			}
 		} else {
 			// Load the custom configuration file.
 			// To resolve customConfig race conflicts, use scriptLoader#queue
@@ -284,10 +293,11 @@
 			CKEDITOR.scriptLoader.queue( customConfig, function() {
 				// If the CKEDITOR.editorConfig function has been properly
 				// defined in the custom configuration file, cache it.
-				if ( CKEDITOR.editorConfig )
+				if ( CKEDITOR.editorConfig ) {
 					loadedConfig.fn = CKEDITOR.editorConfig;
-				else
+				} else {
 					loadedConfig.fn = function() {};
+				}
 
 				// Call the load config again. This time the custom
 				// config is already cached and so it will get loaded.
@@ -321,12 +331,14 @@
 
 		// The instance config may override the customConfig setting to avoid
 		// loading the default ~/config.js file.
-		if ( instanceConfig && instanceConfig.customConfig != null )
+		if ( instanceConfig && instanceConfig.customConfig != null ) {
 			editor.config.customConfig = instanceConfig.customConfig;
+		}
 
 		// Load configs from the custom configuration files.
-		if ( !loadConfig( editor ) )
+		if ( !loadConfig( editor ) ) {
 			editor.fireOnce( 'customConfigLoaded' );
+		}
 	}
 
 	// ##### END: Config Privates
@@ -394,8 +406,9 @@
 
 		// Set CKEDITOR.skinName. Note that it is not possible to have
 		// different skins on the same page, so the last one to set it "wins".
-		if ( config.skin )
+		if ( config.skin ) {
 			CKEDITOR.skinName = config.skin;
+		}
 
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
@@ -540,8 +553,9 @@
 					match, name;
 
 				// Transform it into a string, if it's not one.
-				if ( CKEDITOR.tools.isArray( requires ) )
+				if ( CKEDITOR.tools.isArray( requires ) ) {
 					requires = requires.join( ',' );
+				}
 
 				if ( requires && ( match = requires.match( removeRegex ) ) ) {
 					while ( ( name = match.pop() ) ) {
@@ -552,24 +566,27 @@
 				// If the plugin has "lang".
 				if ( pluginLangs && !editor.lang[ pluginName ] ) {
 					// Trasnform the plugin langs into an array, if it's not one.
-					if ( pluginLangs.split )
+					if ( pluginLangs.split ) {
 						pluginLangs = pluginLangs.split( ',' );
+					}
 
 					// Resolve the plugin language. If the current language
 					// is not available, get English or the first one.
-					if ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 )
+					if ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 ) {
 						lang = editor.langCode;
-					else {
+					} else {
 						// The language code may have the locale information (zh-cn).
 						// Fall back to locale-less in that case (zh).
 						var langPart = editor.langCode.replace( /-.*/, '' );
-						if ( langPart != editor.langCode && CKEDITOR.tools.indexOf( pluginLangs, langPart ) >= 0 )
+						if ( langPart != editor.langCode && CKEDITOR.tools.indexOf( pluginLangs, langPart ) >= 0 ) {
 							lang = langPart;
+						}
 						// Try the only "generic" option we have: English.
-						else if ( CKEDITOR.tools.indexOf( pluginLangs, 'en' ) >= 0 )
+						else if ( CKEDITOR.tools.indexOf( pluginLangs, 'en' ) >= 0 ) {
 							lang = 'en';
-						else
+						} else {
 							lang = pluginLangs[ 0 ];
+						}
 					}
 
 					if ( !plugin.langEntries || !plugin.langEntries[ lang ] ) {
@@ -602,8 +619,9 @@
 						var plugin = pluginsArray[ i ];
 
 						// Uses the first loop to update the language entries also.
-						if ( m === 0 && languageCodes[ i ] && plugin.lang && plugin.langEntries )
+						if ( m === 0 && languageCodes[ i ] && plugin.lang && plugin.langEntries ) {
 							editor.lang[ plugin.name ] = plugin.langEntries[ languageCodes[ i ] ];
+						}
 
 						// Call the plugin method (beforeInit and init).
 						if ( plugin[ methods[ m ] ] ) {
@@ -618,8 +636,9 @@
 				config.keystrokes && editor.setKeystroke( editor.config.keystrokes );
 
 				// Setup the configured blocked keystrokes.
-				for ( i = 0; i < editor.config.blockedKeystrokes.length; i++ )
+				for ( i = 0; i < editor.config.blockedKeystrokes.length; i++ ) {
 					editor.keystrokeHandler.blockedKeystrokes[ editor.config.blockedKeystrokes[ i ] ] = 1;
+				}
 
 				editor.status = 'loaded';
 				editor.fireOnce( 'loaded' );
@@ -651,13 +670,15 @@
 		if ( element && this.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO ) {
 			var data = this.getData();
 
-			if ( this.config.htmlEncodeOutput )
+			if ( this.config.htmlEncodeOutput ) {
 				data = CKEDITOR.tools.htmlEncode( data );
+			}
 
-			if ( element.is( 'textarea' ) )
+			if ( element.is( 'textarea' ) ) {
 				element.setValue( data );
-			else
+			} else {
 				element.setHtml( data );
+			}
 
 			return true;
 		}
@@ -810,8 +831,9 @@
 			// aren't immediately updated, but waits for editor#mode and that
 			// commands added later are immediately refreshed, even when added
 			// before instanceReady. https://dev.ckeditor.com/ticket/10103, https://dev.ckeditor.com/ticket/10249
-			if ( this.mode )
+			if ( this.mode ) {
 				updateCommand( this, cmd );
+			}
 
 			return this.commands[ commandName ] = cmd;
 		},
@@ -845,10 +867,11 @@
 
 								// For IE, the DOM submit function is not a
 								// function, so we need third check.
-								if ( originalSubmit.apply )
+								if ( originalSubmit.apply ) {
 									originalSubmit.apply( this );
-								else
+								} else {
 									originalSubmit();
+								}
 							};
 						} );
 					}
@@ -937,8 +960,9 @@
 		elementPath: function( startNode ) {
 			if ( !startNode ) {
 				var sel = this.getSelection();
-				if ( !sel )
+				if ( !sel ) {
 					return null;
+				}
 
 				startNode = sel.getStartElement();
 			}
@@ -982,8 +1006,9 @@
 					eventData.returnValue = command.exec( eventData.commandData );
 
 					// Fire the 'afterCommandExec' immediately if command is synchronous.
-					if ( !command.async && this.fire( 'afterCommandExec', eventData ) !== false )
+					if ( !command.async && this.fire( 'afterCommandExec', eventData ) !== false ) {
 						return eventData.returnValue;
+					}
 				}
 			}
 
@@ -1027,10 +1052,11 @@
 
 			if ( typeof eventData != 'string' ) {
 				var element = this.element;
-				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
+				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 					eventData = element.is( 'textarea' ) ? element.getValue() : element.getHtml();
-				else
+				} else {
 					eventData = '';
+				}
 			}
 
 			eventData = { dataValue: eventData };
@@ -1066,8 +1092,7 @@
 
 				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 					data = element.is( 'textarea' ) ? element.getValue() : element.getHtml();
-				}
-				else {
+				} else {
 					// If we don't have a proper element, set data to an empty string,
 					// as this method is expected to return a string. (https://dev.ckeditor.com/ticket/13385)
 					data = '';
@@ -1130,16 +1155,19 @@
 				fireSnapshot = !options.noSnapshot;
 			}
 
-			if ( !internal && fireSnapshot )
+			if ( !internal && fireSnapshot ) {
 				this.fire( 'saveSnapshot' );
+			}
 
 			if ( callback || !internal ) {
 				this.once( 'dataReady', function( evt ) {
-					if ( !internal && fireSnapshot )
+					if ( !internal && fireSnapshot ) {
 						this.fire( 'saveSnapshot' );
+					}
 
-					if ( callback )
+					if ( callback ) {
 						callback.call( evt.editor );
+					}
 				} );
 			}
 
@@ -1421,10 +1449,11 @@
 					keystroke = keystroke[ 0 ];
 				}
 
-				if ( behavior )
+				if ( behavior ) {
 					keystrokes[ keystroke ] = behavior;
-				else
+				} else {
 					delete keystrokes[ keystroke ];
+				}
 			}
 		},
 
@@ -1493,21 +1522,23 @@
 		 * @param {CKEDITOR.filter} filter Filter instance or a falsy value (e.g. `null`) to reset to the default one.
 		 */
 		setActiveFilter: function( filter ) {
-			if ( !filter )
+			if ( !filter ) {
 				filter = this.filter;
+			}
 
 			if ( this.activeFilter !== filter ) {
 				this.activeFilter = filter;
 				this.fire( 'activeFilterChange' );
 
 				// Reset active filter to the main one - it resets enter modes, too.
-				if ( filter === this.filter )
+				if ( filter === this.filter ) {
 					this.setActiveEnterMode( null, null );
-				else
+				} else {
 					this.setActiveEnterMode(
 						filter.getAllowedEnterMode( this.enterMode ),
 						filter.getAllowedEnterMode( this.shiftEnterMode, true )
 					);
+				}
 			}
 		},
 

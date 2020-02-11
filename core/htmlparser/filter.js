@@ -99,8 +99,9 @@
 			 */
 			this.rootRules = new filterRulesGroup();
 
-			if ( rules )
+			if ( rules ) {
 				this.addRules( rules, 10 );
+			}
 		},
 
 		proto: {
@@ -118,45 +119,56 @@
 				var priority;
 
 				// Backward compatibility.
-				if ( typeof options == 'number' )
+				if ( typeof options == 'number' ) {
 					priority = options;
+				}
 				// New version - try reading from options.
-				else if ( options && ( 'priority' in options ) )
+				else if ( options && ( 'priority' in options ) ) {
 					priority = options.priority;
+				}
 
 				// Defaults.
-				if ( typeof priority != 'number' )
+				if ( typeof priority != 'number' ) {
 					priority = 10;
-				if ( typeof options != 'object' )
+				}
+				if ( typeof options != 'object' ) {
 					options = {};
+				}
 
 				// Add the elementNames.
-				if ( rules.elementNames )
+				if ( rules.elementNames ) {
 					this.elementNameRules.addMany( rules.elementNames, priority, options );
+				}
 
 				// Add the attributeNames.
-				if ( rules.attributeNames )
+				if ( rules.attributeNames ) {
 					this.attributeNameRules.addMany( rules.attributeNames, priority, options );
+				}
 
 				// Add the elements.
-				if ( rules.elements )
+				if ( rules.elements ) {
 					addNamedRules( this.elementsRules, rules.elements, priority, options );
+				}
 
 				// Add the attributes.
-				if ( rules.attributes )
+				if ( rules.attributes ) {
 					addNamedRules( this.attributesRules, rules.attributes, priority, options );
+				}
 
 				// Add the text.
-				if ( rules.text )
+				if ( rules.text ) {
 					this.textRules.add( rules.text, priority, options );
+				}
 
 				// Add the comment.
-				if ( rules.comment )
+				if ( rules.comment ) {
 					this.commentRules.add( rules.comment, priority, options );
+				}
 
 				// Add root node rules.
-				if ( rules.root )
+				if ( rules.root ) {
 					this.rootRules.add( rules.root, priority, options );
+				}
 			},
 
 			/**
@@ -200,15 +212,18 @@
 					if ( rulesGroup ) {
 						ret = rulesGroup.exec( context, element, this );
 
-						if ( ret === false )
+						if ( ret === false ) {
 							return null;
+						}
 
-						if ( ret && ret != element )
+						if ( ret && ret != element ) {
 							return this.onNode( context, ret );
+						}
 
 						// The non-root element has been dismissed by one of the filters.
-						if ( element.parent && !element.name )
+						if ( element.parent && !element.name ) {
 							break;
+						}
 					}
 				}
 
@@ -220,14 +235,15 @@
 
 				return type == CKEDITOR.NODE_ELEMENT ? this.onElement( context, node ) :
 					type == CKEDITOR.NODE_TEXT ? new CKEDITOR.htmlParser.text( this.onText( context, node.value, node ) ) :
-					type == CKEDITOR.NODE_COMMENT ? new CKEDITOR.htmlParser.comment( this.onComment( context, node.value, node ) ) : null;
+						type == CKEDITOR.NODE_COMMENT ? new CKEDITOR.htmlParser.comment( this.onComment( context, node.value, node ) ) : null;
 			},
 
 			onAttribute: function( context, element, name, value ) {
 				var rulesGroup = this.attributesRules[ name ];
 
-				if ( rulesGroup )
+				if ( rulesGroup ) {
 					return rulesGroup.exec( context, value, element, this );
+				}
 				return value;
 			}
 		}
@@ -301,8 +317,9 @@
 
 			// Search from the end, because usually rules will be added with default priority, so
 			// we will be able to stop loop quickly.
-			while ( i >= 0 && priority < rules[ i ].priority )
+			while ( i >= 0 && priority < rules[ i ].priority ) {
 				i--;
+			}
 
 			return i + 1;
 		},
@@ -334,18 +351,21 @@
 				if ( isRuleApplicable( context, rule ) ) {
 					ret = rule.value.apply( null, args );
 
-					if ( ret === false )
+					if ( ret === false ) {
 						return ret;
+					}
 
 					// We're filtering node (element/fragment).
 					// No further filtering if it's not anymore fitable for the subsequent filters.
-					if ( isNode && ret && ( ret.name != orgName || ret.type != orgType ) )
+					if ( isNode && ret && ( ret.name != orgName || ret.type != orgType ) ) {
 						return ret;
+					}
 
 					// Update currentValue and corresponding argument in args array.
 					// Updated values will be used in next for-loop step.
-					if ( ret != null )
+					if ( ret != null ) {
 						args[ 0 ] = currentValue = ret;
+					}
 
 					// ret == undefined will continue loop as nothing has happened.
 				}
@@ -368,8 +388,9 @@
 
 			for ( ; currentName && i < len; i++ ) {
 				rule = rules[ i ];
-				if ( isRuleApplicable( context, rule ) )
+				if ( isRuleApplicable( context, rule ) ) {
 					currentName = currentName.replace( rule.value[ 0 ], rule.value[ 1 ] );
+				}
 			}
 
 			return currentName;
@@ -382,21 +403,23 @@
 		for ( ruleName in newRules ) {
 			rulesGroup = rulesGroups[ ruleName ];
 
-			if ( !rulesGroup )
+			if ( !rulesGroup ) {
 				rulesGroup = rulesGroups[ ruleName ] = new filterRulesGroup();
+			}
 
 			rulesGroup.add( newRules[ ruleName ], priority, options );
 		}
 	}
 
 	function isRuleApplicable( context, rule ) {
-		if ( context.nonEditable && !rule.options.applyToAll )
+		if ( context.nonEditable && !rule.options.applyToAll ) {
 			return false;
+		}
 
-		if ( context.nestedEditable && rule.options.excludeNestedEditable )
+		if ( context.nestedEditable && rule.options.excludeNestedEditable ) {
 			return false;
+		}
 
 		return true;
 	}
-
 } )();

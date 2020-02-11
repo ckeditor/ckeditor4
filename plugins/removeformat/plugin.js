@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -41,8 +41,9 @@ CKEDITOR.plugins.removeformat = {
 					range.setStartBefore( bookmarkForRangeRecreation.startNode );
 					bookmarkForRangeRecreation.endNode && range.setEndAfter( bookmarkForRangeRecreation.endNode );
 
-					if ( !range.collapsed )
+					if ( !range.collapsed ) {
 						range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+					}
 
 					// Bookmark the range so we can re-select it after processing.
 					var bookmark = range.createBookmark(),
@@ -62,19 +63,21 @@ CKEDITOR.plugins.removeformat = {
 					//		<b>This is </b>[<b>some text</b> to show <b>the</b>]<b> problem</b>
 
 					var breakParent = function( node ) {
-							// Let's start checking the start boundary.
-							var path = editor.elementPath( node ),
-								pathElements = path.elements;
+						// Let's start checking the start boundary.
+						var path = editor.elementPath( node ),
+							pathElements = path.elements;
 
-							for ( var i = 1, pathElement; pathElement = pathElements[ i ]; i++ ) {
-								if ( pathElement.equals( path.block ) || pathElement.equals( path.blockLimit ) )
-									break;
-
-								// If this element can be removed (even partially).
-								if ( tagsRegex.test( pathElement.getName() ) && filter( editor, pathElement ) )
-									node.breakParent( pathElement );
+						for ( var i = 1, pathElement; pathElement = pathElements[ i ]; i++ ) {
+							if ( pathElement.equals( path.block ) || pathElement.equals( path.blockLimit ) ) {
+								break;
 							}
-						};
+
+							// If this element can be removed (even partially).
+							if ( tagsRegex.test( pathElement.getName() ) && filter( editor, pathElement ) ) {
+								node.breakParent( pathElement );
+							}
+						}
+					};
 
 					breakParent( startNode );
 					if ( endNode ) {
@@ -85,8 +88,9 @@ CKEDITOR.plugins.removeformat = {
 
 						while ( currentNode ) {
 							// If we have reached the end of the selection, stop looping.
-							if ( currentNode.equals( endNode ) )
+							if ( currentNode.equals( endNode ) ) {
 								break;
+							}
 
 							if ( currentNode.isReadOnly() ) {
 								// In case of non-editable we're skipping to the next sibling *elmenet*.
@@ -112,9 +116,9 @@ CKEDITOR.plugins.removeformat = {
 							// This node must not be a fake element, and must not be read-only.
 							if ( !isFakeElement && filter( editor, currentNode ) ) {
 								// Remove elements nodes that match with this style rules.
-								if ( tagsRegex.test( currentNode.getName() ) )
+								if ( tagsRegex.test( currentNode.getName() ) ) {
 									currentNode.remove( 1 );
-								else {
+								} else {
 									currentNode.removeAttributes( removeAttributes );
 									editor.fire( 'removeFormatCleanup', currentNode );
 								}
@@ -145,8 +149,9 @@ CKEDITOR.plugins.removeformat = {
 		// If editor#addRemoveFotmatFilter hasn't been executed yet value is not initialized.
 		var filters = editor._.removeFormatFilters || [];
 		for ( var i = 0; i < filters.length; i++ ) {
-			if ( filters[ i ]( element ) === false )
+			if ( filters[ i ]( element ) === false ) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -169,8 +174,9 @@ CKEDITOR.plugins.removeformat = {
  * @param {Function} func The function to be called, which will be passed an {@link CKEDITOR.dom.element element} to test.
  */
 CKEDITOR.editor.prototype.addRemoveFormatFilter = function( func ) {
-	if ( !this._.removeFormatFilters )
+	if ( !this._.removeFormatFilters ) {
 		this._.removeFormatFilters = [];
+	}
 
 	this._.removeFormatFilters.push( func );
 };

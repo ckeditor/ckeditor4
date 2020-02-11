@@ -23,7 +23,7 @@
 	bender.test( {
 		'test resize event': function() {
 			var editor = this.editor,
-			lastResizeData = 0;
+				lastResizeData = 0;
 
 			editor.on( 'resize', function( evt ) {
 				lastResizeData = evt.data;

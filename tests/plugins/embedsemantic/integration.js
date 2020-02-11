@@ -12,8 +12,8 @@ bender.editors = {
 		config: {
 			extraAllowedContent: 'oembed(a,b,c)',
 			stylesSet: [
-				{ name: 'Foo media', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'foo' } },
-				{ name: 'Bar media', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'bar' } }
+				{ name: 'Foo media', type: 'widget', widget: 'embedSemantic', attributes: { class: 'foo' } },
+				{ name: 'Bar media', type: 'widget', widget: 'embedSemantic', attributes: { class: 'bar' } }
 			]
 		}
 	}

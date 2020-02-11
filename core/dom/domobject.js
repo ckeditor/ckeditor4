@@ -38,14 +38,15 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	// listener closures as clean as possible.
 
 	var getNativeListener = function( domObject, eventName ) {
-			return function( domEvent ) {
-				// In FF, when reloading the page with the editor focused, it may
-				// throw an error because the CKEDITOR global is not anymore
-				// available. So, we check it here first. (https://dev.ckeditor.com/ticket/2923)
-				if ( typeof CKEDITOR != 'undefined' )
-					domObject.fire( eventName, new CKEDITOR.dom.event( domEvent ) );
-			};
+		return function( domEvent ) {
+			// In FF, when reloading the page with the editor focused, it may
+			// throw an error because the CKEDITOR global is not anymore
+			// available. So, we check it here first. (https://dev.ckeditor.com/ticket/2923)
+			if ( typeof CKEDITOR != 'undefined' ) {
+				domObject.fire( eventName, new CKEDITOR.dom.event( domEvent ) );
+			}
 		};
+	};
 
 	return {
 
@@ -65,8 +66,9 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 			var priv;
 
 			// Get the main private object from the custom data. Create it if not defined.
-			if ( !( priv = this.getCustomData( '_' ) ) )
+			if ( !( priv = this.getCustomData( '_' ) ) ) {
 				this.setCustomData( '_', ( priv = {} ) );
+			}
 
 			return priv;
 		},
@@ -89,10 +91,11 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 			if ( !nativeListeners[ eventName ] ) {
 				var listener = nativeListeners[ eventName ] = getNativeListener( this, eventName );
 
-				if ( this.$.addEventListener )
+				if ( this.$.addEventListener ) {
 					this.$.addEventListener( eventName, listener, !!CKEDITOR.event.useCapture );
-				else if ( this.$.attachEvent )
+				} else if ( this.$.attachEvent ) {
 					this.$.attachEvent( 'on' + eventName, listener );
+				}
 			}
 
 			// Call the original implementation.
@@ -109,10 +112,11 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 				var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
 				var listener = nativeListeners && nativeListeners[ eventName ];
 				if ( listener ) {
-					if ( this.$.removeEventListener )
+					if ( this.$.removeEventListener ) {
 						this.$.removeEventListener( eventName, listener, false );
-					else if ( this.$.detachEvent )
+					} else if ( this.$.detachEvent ) {
 						this.$.detachEvent( 'on' + eventName, listener );
+					}
 
 					delete nativeListeners[ eventName ];
 				}
@@ -142,7 +146,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 			// random, catching allows to continue the code execution and cleanup (#3419).
 			} catch ( error ) {
 				if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
-					throw( error );
+					throw ( error );
 				}
 			}
 
@@ -271,5 +275,4 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 
 	// Implement CKEDITOR.event.
 	CKEDITOR.event.implementOn( domObjectProto );
-
 } )( CKEDITOR.dom.domObject.prototype );

@@ -106,20 +106,21 @@
 			var checkFn =
 				typeof condition == 'function' ?
 					condition :
-				typeof condition == 'string' ?
-					function( el ) {
-						return el.name == condition;
-					} :
-					function( el ) {
-						return el.name in condition;
-					};
+					typeof condition == 'string' ?
+						function( el ) {
+							return el.name == condition;
+						} :
+						function( el ) {
+							return el.name in condition;
+						};
 
 			var parent = this.parent;
 
 			// Parent has to be an element - don't check doc fragment.
 			while ( parent && parent.type == CKEDITOR.NODE_ELEMENT ) {
-				if ( checkFn( parent ) )
+				if ( checkFn( parent ) ) {
 					return parent;
+				}
 				parent = parent.parent;
 			}
 

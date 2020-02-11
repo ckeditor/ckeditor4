@@ -8,7 +8,6 @@
 'use strict';
 
 ( function() {
-
 	CKCONSOLE.add( 'widget', {
 		panels: [
 			{
@@ -48,8 +47,9 @@
 						selected = editor.widgets.selected,
 						selectedIds = [];
 
-					for ( var i = 0; i < selected.length; ++i )
+					for ( var i = 0; i < selected.length; ++i ) {
 						selectedIds.push( selected[ i ].id );
+					}
 
 					return {
 						header: 'Focus &amp; selection',
@@ -79,8 +79,9 @@
 							el = sel.getSelectedElement(),
 							widget;
 
-						if ( el && ( widget = editor.widgets.getByElement( el, true ) ) )
+						if ( el && ( widget = editor.widgets.getByElement( el, true ) ) ) {
 							msg += ' (id: ' + widget.id + ')';
+						}
 
 						log( msg );
 					}, null, null, 1 );
@@ -121,8 +122,9 @@
 
 	function obj2Array( obj ) {
 		var arr = [];
-		for ( var id in obj )
+		for ( var id in obj ) {
 			arr.push( obj[ id ] );
+		}
 
 		return arr;
 	}

@@ -32,10 +32,11 @@
 		// There should be no title attribute or original title is preserved
 		// when editor.title === false or '' (empty string).
 		if ( editor.title === false || editor.title === '' ) {
-			if ( element.data( 'startup-title' ) )
+			if ( element.data( 'startup-title' ) ) {
 				assert.areSame( element.data( 'startup-title' ), element.getAttribute( 'title' ), 'Startup title of ' + editor.name + ' preserved' );
-			else
+			} else {
 				assert.isFalse( element.hasAttribute( 'title' ), 'Title attribute set on editable of ' + editor.name );
+			}
 		} else {
 			assert.isTrue( !!~element.getAttribute( 'title' ).indexOf( editor.title ), 'editor.title used as an attribute of editable of ' + editor.name );
 		}
@@ -157,12 +158,13 @@
 		// Save startup title for further comparison.
 		var element = CKEDITOR.document.getById( name );
 
-		if ( element )
+		if ( element ) {
 			element.data( 'startup-title', element.getAttribute( 'title' ) || '' );
+		}
 	}
 
 	bender.test( {
-		'init': function() {
+		init: function() {
 			var initialDelay = CKEDITOR.focusManager._.blurDelay;
 
 			// Due to asynchronous nature of editor's blurring,
@@ -208,8 +210,9 @@
 		},
 
 		'test editor.title transferred to editable element': function() {
-			for ( var i in this.editors )
+			for ( var i in this.editors ) {
 				assertTitleSetOnEditable( this.editors[ i ] );
+			}
 		},
 
 		'test voice label have properly set title': function() {

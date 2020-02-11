@@ -139,21 +139,21 @@
 
 		'test set query sync': function() {
 			var expectedQuery = 'query',
-					expectedRange = 'range',
-					expectedData = getData(),
+				expectedRange = 'range',
+				expectedData = getData(),
 
-					model = new CKEDITOR.plugins.autocomplete.model( function( matchInfo, callback ) {
-						assert.areEqual( expectedQuery, matchInfo.query );
-						assert.areEqual( expectedRange, matchInfo.range );
-						assert.isNull( model.data );
+				model = new CKEDITOR.plugins.autocomplete.model( function( matchInfo, callback ) {
+					assert.areEqual( expectedQuery, matchInfo.query );
+					assert.areEqual( expectedRange, matchInfo.range );
+					assert.isNull( model.data );
 
-						var spy = sinon.spy( model, 'fire' );
+					var spy = sinon.spy( model, 'fire' );
 
-						callback( expectedData );
+					callback( expectedData );
 
-						assert.areSame( expectedData, model.data );
-						assert.isTrue( spy.calledWith( 'change-data', expectedData ) );
-					} );
+					assert.areSame( expectedData, model.data );
+					assert.isTrue( spy.calledWith( 'change-data', expectedData ) );
+				} );
 
 			model.setQuery( expectedQuery, expectedRange );
 
@@ -201,5 +201,4 @@
 			{ id: 3 }
 		];
 	}
-
 } )();

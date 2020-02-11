@@ -46,7 +46,7 @@ bender.test( {
 
 		this.setupEditor( '', function() {
 			var start = editor.getSelection().getStartElement(),
-					path = new CKEDITOR.dom.elementPath( start );
+				path = new CKEDITOR.dom.elementPath( start );
 
 			assert.isTrue( path.block.is( 'p' ), 'auto fixing block-less body' );
 

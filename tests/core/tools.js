@@ -1,12 +1,12 @@
-﻿/* bender-tags: editor */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
 
 	var vendorPrefix = CKEDITOR.env.gecko ? '-moz-' :
-		CKEDITOR.env.webkit ? '-webkit-' :
-		CKEDITOR.env.ie ? '-ms-' :
-		'',
+			CKEDITOR.env.webkit ? '-webkit-' :
+				CKEDITOR.env.ie ? '-ms-' :
+					'',
 
 		htmlEncode = CKEDITOR.tools.htmlEncode,
 		htmlDecode = CKEDITOR.tools.htmlDecode;
@@ -146,9 +146,9 @@
 
 		test_getNextNumber: function() {
 			var number = CKEDITOR.tools.getNextNumber();
-			assert.areSame( number +  1, CKEDITOR.tools.getNextNumber() );
-			assert.areSame( number +  2, CKEDITOR.tools.getNextNumber() );
-			assert.areSame( number +  3, CKEDITOR.tools.getNextNumber() );
+			assert.areSame( number + 1, CKEDITOR.tools.getNextNumber() );
+			assert.areSame( number + 2, CKEDITOR.tools.getNextNumber() );
+			assert.areSame( number + 3, CKEDITOR.tools.getNextNumber() );
 		},
 
 		test_trim1: function() {
@@ -235,66 +235,66 @@
 		test_repeat: function() {
 			assert.areSame( '&nbsp;&nbsp;&nbsp;', CKEDITOR.tools.repeat( '&nbsp;', 3 ) );
 		},
-// Function escapeCssSelector removed in r5956
-//		test_escapeCssSelector: function ()
-//		{
-//			assert.areSame( '\\.\\,\\*\\=\\~\\$\\^\\(\\)\\ \\:\\#\\+\\>', CKEDITOR.tools.escapeCssSelector( '.,*=~$^() :#+>' ) );
-//		},
+		// Function escapeCssSelector removed in r5956
+		//		test_escapeCssSelector: function ()
+		//		{
+		//			assert.areSame( '\\.\\,\\*\\=\\~\\$\\^\\(\\)\\ \\:\\#\\+\\>', CKEDITOR.tools.escapeCssSelector( '.,*=~$^() :#+>' ) );
+		//		},
 
 		test_callFunction: function() {
-			var argARef  = 'http://ckeditor.com/index.html#myanchor',
-			func = CKEDITOR.tools.addFunction( function( argA ) {
-				assert.areSame( argA, argARef );
-			} );
+			var argARef = 'http://ckeditor.com/index.html#myanchor',
+				func = CKEDITOR.tools.addFunction( function( argA ) {
+					assert.areSame( argA, argARef );
+				} );
 
 			CKEDITOR.tools.callFunction( func, argARef );
 		},
 
 		test_createClass: function() {
 			var A = CKEDITOR.tools.createClass( {
-					_: {
-						type: function() {
-							return 'A:';
-						}
-					},
-					$: function( name ) {
-						this._name = name;
-					},
-					proto: {
-						name: function() {
-							// Call private method.
-							return this._.type() + this._name;
-						}
+				_: {
+					type: function() {
+						return 'A:';
 					}
-				} );
+				},
+				$: function( name ) {
+					this._name = name;
+				},
+				proto: {
+					name: function() {
+						// Call private method.
+						return this._.type() + this._name;
+					}
+				}
+			} );
 
 			var B = CKEDITOR.tools.createClass( {
-						base: A,
-						$: function() {
-							// Call super constructor.
-							this.base.apply( this, arguments );
-						},
-						proto: {
-							type: function() {
-								return 'B:';
-							}
-						}
-					} );
+				base: A,
+				$: function() {
+					// Call super constructor.
+					this.base.apply( this, arguments );
+				},
+				proto: {
+					type: function() {
+						return 'B:';
+					}
+				}
+			} );
 
 			var C = CKEDITOR.tools.createClass( {
-					base: B,
-					$: function() {
-						// Call super constructor recursively.
-						this.base.apply( this, arguments );
-					},
-					proto: {
-						// Overrides super class method.
-						name: function() {
-							// Call the super method.
-							return C.baseProto.name.call( this ).replace( /A/, 'C' );
-						}
+				base: B,
+				$: function() {
+					// Call super constructor recursively.
+					this.base.apply( this, arguments );
+				},
+				proto: {
+					// Overrides super class method.
+					name: function() {
+						// Call the super method.
+						return C.baseProto.name.call( this ).replace( /A/, 'C' );
 					}
-				} );
+				}
+			} );
 
 			var a = new A( 'foo' );
 			assert.areSame( 'A:foo', a.name(), 'check the name of a' );
@@ -455,7 +455,9 @@
 			// Coool...
 			var len = 0;
 			for ( var k in obj ) // jshint ignore:line
+			{
 				len++;
+			}
 
 			assert.areSame( 2, len );
 		},

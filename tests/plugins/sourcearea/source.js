@@ -46,5 +46,4 @@
 			assert.isFalse( editable.hasClass( 'cke_editable' ) );
 		}
 	} );
-
 } )();

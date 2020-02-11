@@ -7,17 +7,19 @@ CKEDITOR.plugins.add( 'resize', {
 	init: function( editor ) {
 		function dragHandler( evt ) {
 			var dx = evt.data.$.screenX - origin.x,
-			dy = evt.data.$.screenY - origin.y,
-			width = startSize.width,
-			height = startSize.height,
-			internalWidth = width + dx * ( resizeDir == 'rtl' ? -1 : 1 ),
-			internalHeight = height + dy;
+				dy = evt.data.$.screenY - origin.y,
+				width = startSize.width,
+				height = startSize.height,
+				internalWidth = width + dx * ( resizeDir == 'rtl' ? -1 : 1 ),
+				internalHeight = height + dy;
 
-			if ( resizeHorizontal )
+			if ( resizeHorizontal ) {
 				width = Math.max( config.resize_minWidth, Math.min( internalWidth, config.resize_maxWidth ) );
+			}
 
-			if ( resizeVertical )
+			if ( resizeVertical ) {
 				height = Math.max( config.resize_minHeight, Math.min( internalHeight, config.resize_maxHeight ) );
+			}
 
 			// DO NOT impose fixed size with single direction resize. (https://dev.ckeditor.com/ticket/6308)
 			editor.resize( resizeHorizontal ? width : null, height );
@@ -53,8 +55,9 @@ CKEDITOR.plugins.add( 'resize', {
 				resizeVertical = ( config.resize_dir == 'both' || config.resize_dir == 'vertical' ) && ( config.resize_minHeight != config.resize_maxHeight );
 
 			var mouseDownFn = CKEDITOR.tools.addFunction( function( $event ) {
-				if ( !container )
+				if ( !container ) {
 					container = editor.getResizable();
+				}
 
 				startSize = { width: container.$.offsetWidth || 0, height: container.$.offsetHeight || 0 };
 				origin = { x: $event.screenX, y: $event.screenY };
@@ -80,10 +83,12 @@ CKEDITOR.plugins.add( 'resize', {
 			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == 'bottom' ) {
 					var direction = '';
-					if ( resizeHorizontal && !resizeVertical )
+					if ( resizeHorizontal && !resizeVertical ) {
 						direction = ' cke_resizer_horizontal';
-					if ( !resizeHorizontal && resizeVertical )
+					}
+					if ( !resizeHorizontal && resizeVertical ) {
 						direction = ' cke_resizer_vertical';
+					}
 
 					var resizerHtml =
 						'<span' +

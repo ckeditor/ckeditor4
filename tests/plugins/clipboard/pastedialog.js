@@ -117,8 +117,9 @@
 			var editor = this.editor;
 
 			editor.on( 'ariaWidget', function( event ) {
-				if ( !event.data.is( 'iframe' ) )
+				if ( !event.data.is( 'iframe' ) ) {
 					return;
+				}
 
 				event.removeListener();
 

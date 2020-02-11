@@ -19,7 +19,7 @@
 			ed.focus();
 		},
 
-		tearDown: function(  ) {
+		tearDown: function( ) {
 			var dlg = CKEDITOR.dialog.getCurrent();
 
 			if ( dlg ) {

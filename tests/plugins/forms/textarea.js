@@ -76,8 +76,9 @@ bender.test( {
 		function testValue( index ) {
 			var value = values[ index ];
 
-			if ( !value )
+			if ( !value ) {
 				return;
+			}
 
 			editorBot.setHtmlWithSelection( '<p>^</p>' );
 

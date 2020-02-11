@@ -40,15 +40,15 @@
 						return entries[ name ] || null;
 					},
 					append: function( name, value, fileName ) {
-						if ( value instanceof File && ( value.name === fileName || !fileName ) )
+						if ( value instanceof File && ( value.name === fileName || !fileName ) ) {
 							entries[ name ] = value;
-						else if ( value instanceof Blob ) {
+						} else if ( value instanceof Blob ) {
 							fileName = fileName || value.name || 'blob';
 
-							entries [ name ] = new File( [ value ], fileName );
-						}
-						else
+							entries[ name ] = new File( [ value ], fileName );
+						} else {
 							entries[ name ] = value + '';
+						}
 					},
 					has: function( name ) {
 						return Object.prototype.hasOwnProperty.call( entries, name );
@@ -64,41 +64,41 @@
 
 		window.FileReader = function() {
 			var reader = {
-					readAsDataURL: function() {
-						for ( var i = 0; i < scenario.length; i++ ) {
-							if ( !isAborted ) {
-								( function( i ) {
-									var action;
-									if ( typeof scenario[ i ] === 'string' ) {
-										action = function() {
-											var evt;
+				readAsDataURL: function() {
+					for ( var i = 0; i < scenario.length; i++ ) {
+						if ( !isAborted ) {
+							( function( i ) {
+								var action;
+								if ( typeof scenario[ i ] === 'string' ) {
+									action = function() {
+										var evt;
 
-											switch ( scenario[ i ] ) {
-												case 'progress':
-													evt = { loaded: 41 };
-													break;
-												case 'load':
-													reader.result = 'result';
-													break;
-											}
+										switch ( scenario[ i ] ) {
+											case 'progress':
+												evt = { loaded: 41 };
+												break;
+											case 'load':
+												reader.result = 'result';
+												break;
+										}
 
-											reader[ 'on' + scenario[ i ] ]( evt );
-										};
-									} else {
-										action = scenario[ i ];
-									}
+										reader[ 'on' + scenario[ i ] ]( evt );
+									};
+								} else {
+									action = scenario[ i ];
+								}
 
-									setTimeout( action, i );
-								} )( i );
-							}
+								setTimeout( action, i );
+							} )( i );
 						}
-					},
-
-					abort: function() {
-						isAborted = true;
-						reader.onabort();
 					}
-				};
+				},
+
+				abort: function() {
+					isAborted = true;
+					reader.onabort();
+				}
+			};
 
 			return reader;
 		};
@@ -109,62 +109,60 @@
 
 		window.XMLHttpRequest = function() {
 			var xhr = {
-					open: function() {
-					},
+				open: function() {
+				},
 
-					upload: {},
+				upload: {},
 
-					send: function( formData ) {
-						lastFormData = formData;
+				send: function( formData ) {
+					lastFormData = formData;
 
-						for ( var i = 0; i < scenario.length; i++ ) {
-							if ( !isAborted ) {
-								( function( i ) {
-									var action;
-									if ( typeof scenario[ i ] === 'string' ) {
-										action = function() {
-											var evt;
+					for ( var i = 0; i < scenario.length; i++ ) {
+						if ( !isAborted ) {
+							( function( i ) {
+								var action;
+								if ( typeof scenario[ i ] === 'string' ) {
+									action = function() {
+										var evt;
 
-											switch ( scenario[ i ] ) {
-												case 'progress':
-													// Report total upload size larger than file size. It will happen
-													// when file will be embedded in FormData.
-													evt = { loaded: 41, total: 100, lengthComputable: true };
-													xhr.upload.onprogress( evt );
-													break;
-												case 'load':
-													xhr.status = ( response && response.responseStatus ) ? response.responseStatus : 200;
-													xhr.responseText = ( response && response.responseText ) ? response.responseText :
-														'{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}';
-													xhr.onload( evt );
-													break;
-												case 'error':
-													xhr.onerror( evt );
-													break;
-											}
+										switch ( scenario[ i ] ) {
+											case 'progress':
+												// Report total upload size larger than file size. It will happen
+												// when file will be embedded in FormData.
+												evt = { loaded: 41, total: 100, lengthComputable: true };
+												xhr.upload.onprogress( evt );
+												break;
+											case 'load':
+												xhr.status = ( response && response.responseStatus ) ? response.responseStatus : 200;
+												xhr.responseText = ( response && response.responseText ) ? response.responseText :
+													'{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}';
+												xhr.onload( evt );
+												break;
+											case 'error':
+												xhr.onerror( evt );
+												break;
+										}
+									};
+								} else {
+									action = scenario[ i ];
+								}
 
-
-										};
-									} else {
-										action = scenario[ i ];
-									}
-
-									setTimeout( action, i );
-								} )( i );
-							}
+								setTimeout( action, i );
+							} )( i );
 						}
-					},
+					}
+				},
 
-					abort: function() {
-						isAborted = true;
+				abort: function() {
+					isAborted = true;
 
-						setTimeout( function() {
-							xhr.onabort();
-						}, 0 );
-					},
+					setTimeout( function() {
+						xhr.onabort();
+					}, 0 );
+				},
 
-					setRequestHeader: sinon.stub()
-				};
+				setRequestHeader: sinon.stub()
+			};
 
 			return xhr;
 		};
@@ -178,13 +176,14 @@
 				data = loader.data || '-',
 				url = loader.url || '-';
 
-			if ( data.length > 21 )
+			if ( data.length > 21 ) {
 				data = data.substring( 0, 21 );
+			}
 
 
 			observer.events += evt.name + '[' + loader.status + ',' + loader.fileName + ',' +
 				loader.uploaded + '/' + loader.loaded + '/' + loader.total + '/' + loader.uploadTotal + ',' +
-				message  + ',' + data + ',' + url + ']|';
+				message + ',' + data + ',' + url + ']|';
 		}
 
 		loader.on( 'loading', stdObserver );
@@ -241,8 +240,9 @@
 
 			// FormData in IE & Chrome 47- supports only adding data, not getting it, so mocking (polyfilling?) is required.
 			// Note that mocking is needed only for tests, as CKEditor.fileTools uses only append method
-			if ( !FormData.prototype.get || !FormData.prototype.has )
+			if ( !FormData.prototype.get || !FormData.prototype.has ) {
 				createFormDataMock();
+			}
 
 			FileLoader = CKEDITOR.fileTools.fileLoader;
 			resumeAfter = bender.tools.resumeAfter;

@@ -238,7 +238,6 @@
 					}, 0 );
 				}, 0 );
 			} );
-
 		},
 
 		'test reapply this same font family twice': function() {

@@ -21,10 +21,11 @@
 
 		if ( computed.indexOf( 'px' ) < 0 ) {
 			// look up keywords
-			if ( computed in borderMap && element.getComputedStyle( 'border-style' ) != 'none' )
+			if ( computed in borderMap && element.getComputedStyle( 'border-style' ) != 'none' ) {
 				computed = borderMap[ computed ];
-			else
+			} else {
 				computed = 0;
+			}
 		}
 
 		return parseInt( computed, 10 );
@@ -107,7 +108,6 @@
 
 				pillars.push( pillar );
 			}
-
 		} );
 
 		return pillars;
@@ -234,8 +234,9 @@
 					rightCell && rightCell.setStyle( 'width', pxUnit( Math.max( rightOldWidth - sizeShift, 1 ) ) );
 
 					// If we're in the last cell, we need to resize the table as well
-					if ( tableWidth )
+					if ( tableWidth ) {
 						table.setStyle( 'width', pxUnit( tableWidth + sizeShift * ( rtl ? -1 : 1 ) ) );
+					}
 
 					// Cells resizing is asynchronous-y, so we have to use syncing
 					// to save snapshot only after all cells are resized. (https://dev.ckeditor.com/ticket/13388)
@@ -284,8 +285,9 @@
 
 		// Except on IE6/7 (https://dev.ckeditor.com/ticket/5890), place the resizer after body to prevent it
 		// from being editable.
-		if ( !needsIEHacks )
+		if ( !needsIEHacks ) {
 			document.getDocumentElement().append( resizer );
+		}
 
 		this.attachTo = function( targetPillar ) {
 			var firstAligned,
@@ -293,8 +295,9 @@
 				resizerHeight,
 				resizerY;
 			// Accept only one pillar at a time.
-			if ( isResizing )
+			if ( isResizing ) {
 				return;
+			}
 
 			// On IE6/7, we append the resizer everytime we need it. (https://dev.ckeditor.com/ticket/5890)
 			if ( needsIEHacks ) {
@@ -330,29 +333,31 @@
 		};
 
 		move = this.move = function( posX, posY ) {
-				if ( !pillar )
-					return 0;
+			if ( !pillar ) {
+				return 0;
+			}
 
-				if ( !isResizing && !checkWithinDimensions( posX, posY, pillar ) ) {
-					detach();
-					return 0;
-				}
-				var resizerNewPosition = posX - Math.round( resizer.$.offsetWidth / 2 );
+			if ( !isResizing && !checkWithinDimensions( posX, posY, pillar ) ) {
+				detach();
+				return 0;
+			}
+			var resizerNewPosition = posX - Math.round( resizer.$.offsetWidth / 2 );
 
-				if ( isResizing ) {
-					if ( resizerNewPosition == leftShiftBoundary || resizerNewPosition == rightShiftBoundary )
-						return 1;
-
-					resizerNewPosition = Math.max( resizerNewPosition, leftShiftBoundary );
-					resizerNewPosition = Math.min( resizerNewPosition, rightShiftBoundary );
-
-					currentShift = resizerNewPosition - startOffset;
+			if ( isResizing ) {
+				if ( resizerNewPosition == leftShiftBoundary || resizerNewPosition == rightShiftBoundary ) {
+					return 1;
 				}
 
-				resizer.setStyle( 'left', pxUnit( resizerNewPosition ) );
+				resizerNewPosition = Math.max( resizerNewPosition, leftShiftBoundary );
+				resizerNewPosition = Math.min( resizerNewPosition, rightShiftBoundary );
 
-				return 1;
-			};
+				currentShift = resizerNewPosition - startOffset;
+			}
+
+			resizer.setStyle( 'left', pxUnit( resizerNewPosition ) );
+
+			return 1;
+		};
 	}
 
 	function clearPillarsCache( evt ) {
@@ -360,14 +365,17 @@
 
 		if ( evt.name == 'mouseout' ) {
 			// Bypass interal mouse move.
-			if ( !target.is( 'table' ) )
+			if ( !target.is( 'table' ) ) {
 				return;
+			}
 
 			var dest = new CKEDITOR.dom.element( evt.data.$.relatedTarget || evt.data.$.toElement );
-			while ( dest && dest.$ && !dest.equals( target ) && !dest.is( 'body' ) )
+			while ( dest && dest.$ && !dest.equals( target ) && !dest.is( 'body' ) ) {
 				dest = dest.getParent();
-			if ( !dest || dest.equals( target ) )
+			}
+			if ( !dest || dest.equals( target ) ) {
 				return;
+			}
 		}
 
 		target.getAscendant( 'table', 1 ).removeCustomData( '_cke_table_pillars' );
@@ -391,8 +399,9 @@
 
 					// FF may return document and IE8 some UFO (object with no nodeType property...)
 					// instead of an element (https://dev.ckeditor.com/ticket/11823).
-					if ( target.type != CKEDITOR.NODE_ELEMENT )
+					if ( target.type != CKEDITOR.NODE_ELEMENT ) {
 						return;
+					}
 
 					var page = {
 						x: evt.getPageOffset().x,
@@ -437,5 +446,4 @@
 			} );
 		}
 	} );
-
 } )();

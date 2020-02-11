@@ -69,7 +69,7 @@ var config = {
 	],
 
 	tests: {
-		'Adapters': {
+		Adapters: {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
@@ -82,7 +82,7 @@ var config = {
 			jQuery: [ '1.8.3', '1.11.1', '2.1.1' ]
 		},
 
-		'Core': {
+		Core: {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
@@ -91,7 +91,7 @@ var config = {
 			]
 		},
 
-		'Plugins': {
+		Plugins: {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
@@ -109,7 +109,7 @@ var config = {
 			]
 		},
 
-		'Tickets': {
+		Tickets: {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
@@ -118,7 +118,7 @@ var config = {
 			]
 		},
 
-		'Utils': {
+		Utils: {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
@@ -127,7 +127,7 @@ var config = {
 			]
 		},
 
-		'Security': {
+		Security: {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [

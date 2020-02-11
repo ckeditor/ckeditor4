@@ -84,7 +84,7 @@
 			var editor = new CKEDITOR.editor();
 
 			editor.on( 'loaded', function() {
-				editor.editable(  playground  );
+				editor.editable( playground );
 				editor.mode = 'wysiwyg';
 
 				var sel = createSel( editor, '^' );
@@ -103,7 +103,7 @@
 			var playground = doc.getById( 'playground' );
 
 			var source = '<p><strong>[foo]</strong>bar</p>',
-			plain = '<p><strong>foo</strong>bar</p>';
+				plain = '<p><strong>foo</strong>bar</p>';
 			createSel( playground, source, playground );
 			assert.areSame( source, getSel( playground ) );
 			assert.areSame( plain, bender.tools.compatHtml( playground.getHtml() ) );
@@ -122,8 +122,9 @@
 		},
 
 		'test multiple table cells selection (Firefox only)': function() {
-			if ( !CKEDITOR.env.gecko )
+			if ( !CKEDITOR.env.gecko ) {
 				assert.ignore();
+			}
 
 			var ranges = bender.tools.setHtmlWithRange( doc.getById( 'playground' ), source( 'textarea_5' ) ),
 				range = ranges[ 0 ];

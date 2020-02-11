@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'az', {
 	contents: 'Kömək. Pəncərəni bağlamaq üçün ESC basın.',
 	legend: [
 		{
-		name: 'Əsas',
-		items: [
-			{
-			name: 'Düzəliş edənin alətlər çubuğu',
-			legend: 'Panelə keçmək üçün ${toolbarFocus} basın. Növbəti panelə TAB, əvvəlki panelə isə SHIFT+TAB düyməsi vasitəsi ilə keçə bilərsiz. Paneldəki düymələr arasında sol və sağ ox düyməsi ilə keçid edə bilərsiz. Seçilmiş düyməsi SPACE və ya ENTER ilə işlədə bilərsiniz.'
-		},
+			name: 'Əsas',
+			items: [
+				{
+					name: 'Düzəliş edənin alətlər çubuğu',
+					legend: 'Panelə keçmək üçün ${toolbarFocus} basın. Növbəti panelə TAB, əvvəlki panelə isə SHIFT+TAB düyməsi vasitəsi ilə keçə bilərsiz. Paneldəki düymələr arasında sol və sağ ox düyməsi ilə keçid edə bilərsiz. Seçilmiş düyməsi SPACE və ya ENTER ilə işlədə bilərsiniz.'
+				},
 
-			{
-			name: 'Redaktorun pəncərəsi',
-			legend:
-				'Pəncərə içində növbəti element seçmək üçün TAB düyməni basın, əvvəlki isə - SHIFT+TAB. Təsdiq edilməsi üçün ENTER, imtina edilməsi isə ESC diymələri istifadə edin. Pəncərədə bir neçə vərəq olanda olnarın siyahı ALT+F10 ilə aça bilərsiz. Vərəqlərin siyahı fokus altında olanda ox düymələr vasitəsi ilə onların arasında keçid edə bilərsiz.' 
-		},
+				{
+					name: 'Redaktorun pəncərəsi',
+					legend:
+				'Pəncərə içində növbəti element seçmək üçün TAB düyməni basın, əvvəlki isə - SHIFT+TAB. Təsdiq edilməsi üçün ENTER, imtina edilməsi isə ESC diymələri istifadə edin. Pəncərədə bir neçə vərəq olanda olnarın siyahı ALT+F10 ilə aça bilərsiz. Vərəqlərin siyahı fokus altında olanda ox düymələr vasitəsi ilə onların arasında keçid edə bilərsiz.'
+				},
 
-			{
-			name: 'Redaktorun seçimlərin menyusu',
-			legend: 'Seçimləri redaktə etmək üçün ${contextMenu} ya da APPLICATION KEY basın. Növbəti seçimə keçmək üçün TAB ya AŞAĞI OX düyməsini basın, əvvəlki isə - SHIFT+TAB ya YUXARI OX. Seçimi arımaq SPACE ya ENTER düymələri istifadə edin. Alt menyunu açmaq üçün SPACE, ENTER ya SAĞA OX basın. ESC ya SOLA OX ilə geriyə qayıda bilərsiz. Bütün menyunu ESC ilə bağlıyın.'
-		},
+				{
+					name: 'Redaktorun seçimlərin menyusu',
+					legend: 'Seçimləri redaktə etmək üçün ${contextMenu} ya da APPLICATION KEY basın. Növbəti seçimə keçmək üçün TAB ya AŞAĞI OX düyməsini basın, əvvəlki isə - SHIFT+TAB ya YUXARI OX. Seçimi arımaq SPACE ya ENTER düymələri istifadə edin. Alt menyunu açmaq üçün SPACE, ENTER ya SAĞA OX basın. ESC ya SOLA OX ilə geriyə qayıda bilərsiz. Bütün menyunu ESC ilə bağlıyın.'
+				},
 
-			{
-			name: 'Düzəliş edənin siyahı qutusu',
-			legend: 'Siyahı qutusu içində növbəti bənd seçmək üçün TAB ya AŞAĞI OX, əvvəlki isə SHIFT+TAB ya YUXARI OX basın. Seçimi arımaq SPACE ya ENTER düymələri istifadə edin. Siyahı qutusu ESC ilə bağlıyın.'
-		},
+				{
+					name: 'Düzəliş edənin siyahı qutusu',
+					legend: 'Siyahı qutusu içində növbəti bənd seçmək üçün TAB ya AŞAĞI OX, əvvəlki isə SHIFT+TAB ya YUXARI OX basın. Seçimi arımaq SPACE ya ENTER düymələri istifadə edin. Siyahı qutusu ESC ilə bağlıyın.'
+				},
 
-			{
-			name: 'Redaktor elementin cığır paneli',
-			legend: 'Elementin cığır paneli seçmək üçün ${elementsPathFocus} basın. Növbəti element seçmək üçün TAB ya SAĞA OX, əvvəlki isə SHIFT+TAB ya SOLA OX istifadə edin. Elementi arımaq SPACE ya ENTER düymələri mövcuddur.'
-		}
-		]
-	},
+				{
+					name: 'Redaktor elementin cığır paneli',
+					legend: 'Elementin cığır paneli seçmək üçün ${elementsPathFocus} basın. Növbəti element seçmək üçün TAB ya SAĞA OX, əvvəlki isə SHIFT+TAB ya SOLA OX istifadə edin. Elementi arımaq SPACE ya ENTER düymələri mövcuddur.'
+				}
+			]
+		},
 		{
-		name: 'Əmrlər',
-		items: [
-			{
-			name: 'Əmri geri qaytar',
-			legend: '${undo} basın'
-		},
-			{
-			name: 'Geri əmri',
-			legend: '${redo} basın'
-		},
-			{
-			name: 'Qalın əmri',
-			legend: '${bold}  basın'
-		},
-			{
-			name: 'Kursiv əmri',
-			legend: '${italic} basın'
-		},
-			{
-			name: 'Altdan xətt əmri',
-			legend: '${underline} basın'
-		},
-			{
-			name: 'Link əmri',
-			legend: '${link} basın'
-		},
-			{
-			name: 'Paneli gizlət əmri',
-			legend: '${toolbarCollapse} basın'
-		},
-			{
-			name: 'Əvvəlki fokus sahəsi seç əmrı',
-			legend: 'Kursordan əvvəl ən yaxın əlçatmaz yerə dəymək üçün ${accessPreviousSpace} basın, misal üçün: iki dal-badal HR teg. Uzaq yerlərə dəymək üçün bir neçə dəfə basın.'
-		},
-			{
-			name: 'Növbəti fokus sahəsi seç əmrı',
-			legend: 'Kursordan sonra ən yaxın əlçatmaz yerə dəymək üçün ${accessNextSpace} basın, misal üçün: iki dal-badal HR teg. Uzaq yerlərə dəymək üçün bir neçə dəfə basın.'
-		},
-			{
-			name: 'Hərtərəfli Kömək',
-			legend: '${a11yHelp} basın'
-		},
-			{
-			name: 'Yalnız mətni əlavə et',
-			legend: '${pastetext} basın',
-			legendEdge: 'Öncə ${pastetext}, sonra ${paste} basın'
+			name: 'Əmrlər',
+			items: [
+				{
+					name: 'Əmri geri qaytar',
+					legend: '${undo} basın'
+				},
+				{
+					name: 'Geri əmri',
+					legend: '${redo} basın'
+				},
+				{
+					name: 'Qalın əmri',
+					legend: '${bold}  basın'
+				},
+				{
+					name: 'Kursiv əmri',
+					legend: '${italic} basın'
+				},
+				{
+					name: 'Altdan xətt əmri',
+					legend: '${underline} basın'
+				},
+				{
+					name: 'Link əmri',
+					legend: '${link} basın'
+				},
+				{
+					name: 'Paneli gizlət əmri',
+					legend: '${toolbarCollapse} basın'
+				},
+				{
+					name: 'Əvvəlki fokus sahəsi seç əmrı',
+					legend: 'Kursordan əvvəl ən yaxın əlçatmaz yerə dəymək üçün ${accessPreviousSpace} basın, misal üçün: iki dal-badal HR teg. Uzaq yerlərə dəymək üçün bir neçə dəfə basın.'
+				},
+				{
+					name: 'Növbəti fokus sahəsi seç əmrı',
+					legend: 'Kursordan sonra ən yaxın əlçatmaz yerə dəymək üçün ${accessNextSpace} basın, misal üçün: iki dal-badal HR teg. Uzaq yerlərə dəymək üçün bir neçə dəfə basın.'
+				},
+				{
+					name: 'Hərtərəfli Kömək',
+					legend: '${a11yHelp} basın'
+				},
+				{
+					name: 'Yalnız mətni əlavə et',
+					legend: '${pastetext} basın',
+					legendEdge: 'Öncə ${pastetext}, sonra ${paste} basın'
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tab',
 	pause: 'Pause',

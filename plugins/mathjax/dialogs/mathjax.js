@@ -6,7 +6,6 @@
 'use strict';
 
 CKEDITOR.dialog.add( 'mathjax', function( editor ) {
-
 	var preview,
 		lang = editor.lang.mathjax;
 

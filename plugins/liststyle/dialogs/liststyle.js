@@ -17,18 +17,18 @@
 	}
 
 	var listItem = function( node ) {
-			return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
-		};
+		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
+	};
 
 	var mapListStyle = {
-		'a': 'lower-alpha',
-		'A': 'upper-alpha',
-		'i': 'lower-roman',
-		'I': 'upper-roman',
-		'1': 'decimal',
-		'disc': 'disc',
-		'circle': 'circle',
-		'square': 'square'
+		a: 'lower-alpha',
+		A: 'upper-alpha',
+		i: 'lower-roman',
+		I: 'upper-roman',
+		1: 'decimal',
+		disc: 'disc',
+		circle: 'circle',
+		square: 'square'
 	};
 
 	function listStyle( editor, startupPage ) {
@@ -61,10 +61,11 @@
 						},
 						commit: function( element ) {
 							var value = this.getValue();
-							if ( value )
+							if ( value ) {
 								element.setStyle( 'list-style-type', value );
-							else
+							} else {
 								element.removeStyle( 'list-style-type' );
+							}
 						}
 					} ]
 				} ],
@@ -82,7 +83,6 @@
 				}
 			};
 		} else if ( startupPage == 'numberedListStyle' ) {
-
 			var listStyleOptions = [
 				[ lang.notset, '' ],
 				[ lang.lowerRoman, 'lower-roman' ],
@@ -120,18 +120,20 @@
 								// Force start number on list root.
 								element.getFirst( listItem ).removeAttribute( 'value' );
 								var val = parseInt( this.getValue(), 10 );
-								if ( isNaN( val ) )
+								if ( isNaN( val ) ) {
 									element.removeAttribute( 'start' );
-								else
+								} else {
 									element.setAttribute( 'start', val );
+								}
 
 								// Update consequent list item numbering.
 								var nextItem = firstItem,
 									conseq = oldStart,
 									startNumber = isNaN( val ) ? 1 : val;
 								while ( ( nextItem = nextItem.getNext( listItem ) ) && conseq++ ) {
-									if ( nextItem.getAttribute( 'value' ) == conseq )
+									if ( nextItem.getAttribute( 'value' ) == conseq ) {
 										nextItem.setAttribute( 'value', startNumber + conseq - oldStart );
+									}
 								}
 							}
 						},
@@ -148,10 +150,11 @@
 							},
 							commit: function( element ) {
 								var value = this.getValue();
-								if ( value )
+								if ( value ) {
 									element.setStyle( 'list-style-type', value );
-								else
+								} else {
 									element.removeStyle( 'list-style-type' );
+								}
 							}
 						} ]
 					} ]

@@ -33,7 +33,7 @@
 			'word2016'
 		],
 		tests: {
-			'Vertical_margin': true
+			Vertical_margin: true
 		},
 
 		ignoreAll: CKEDITOR.env.ie,

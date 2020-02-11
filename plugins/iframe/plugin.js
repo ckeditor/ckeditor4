@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -21,15 +21,16 @@
 					'width: 80px;' +
 					'height: 80px;' +
 				'}'
-				);
+			);
 		},
 		init: function( editor ) {
 			var pluginName = 'iframe',
 				lang = editor.lang.iframe,
 				allowed = 'iframe[align,longdesc,frameborder,height,name,scrolling,src,title,width]';
 
-			if ( editor.plugins.dialogadvtab )
+			if ( editor.plugins.dialogadvtab ) {
 				allowed += ';iframe' + editor.plugins.dialogadvtab.allowedContent( { id: 1, classes: 1, styles: 1 } );
+			}
 
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/iframe.js' );
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
@@ -45,8 +46,9 @@
 
 			editor.on( 'doubleclick', function( evt ) {
 				var element = evt.data.element;
-				if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'iframe' )
+				if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'iframe' ) {
 					evt.data.dialog = 'iframe';
+				}
 			} );
 
 			if ( editor.addMenuItems ) {
@@ -62,8 +64,9 @@
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element ) {
-					if ( element && element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'iframe' )
+					if ( element && element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'iframe' ) {
 						return { iframe: CKEDITOR.TRISTATE_OFF };
+					}
 				} );
 			}
 		},

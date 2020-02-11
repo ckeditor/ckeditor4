@@ -3,8 +3,9 @@
 
 bender.test( {
 	createEditor: function( config, fn ) {
-		if ( bender.editor )
+		if ( bender.editor ) {
 			bender.editor.destroy();
+		}
 
 		var tc = this;
 

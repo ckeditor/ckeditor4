@@ -9,8 +9,9 @@ function countTrue( names ) {
 		name;
 
 	while ( ( name = names.pop() ) ) {
-		if ( CKEDITOR.env[ name ] )
+		if ( CKEDITOR.env[ name ] ) {
 			sum += 1;
+		}
 	}
 	return sum;
 }

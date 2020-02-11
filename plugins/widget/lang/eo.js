@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'eo', {
-	'move': 'klaki kaj treni por movi',
-	'label': '%1 fenestraĵo'
+	move: 'klaki kaj treni por movi',
+	label: '%1 fenestraĵo'
 } );

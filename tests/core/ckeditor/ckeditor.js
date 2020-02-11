@@ -5,7 +5,7 @@
 function removeAllInstances() {
 	var allInstances = CKEDITOR.instances;
 	for ( var i in allInstances ) {
-		CKEDITOR.remove(  allInstances[ i ] );
+		CKEDITOR.remove( allInstances[ i ] );
 	}
 }
 

@@ -1,4 +1,4 @@
-﻿/* bender-tags: editor,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
 /* bender-include: ../widget/_helpers/tools.js */
 /* global widgetTestsTools */
@@ -84,7 +84,7 @@
 		},
 
 		setUp: function() {
-				bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 		},
 
 		'test upcasting image widget (figure)': function( editor, bot ) {

@@ -84,7 +84,7 @@ bender.test( {
 				} );
 			}
 
-			CKEDITOR.document.getWindow().once( 'error',  errorHandler );
+			CKEDITOR.document.getWindow().once( 'error', errorHandler );
 
 			timer = setTimeout( function() {
 				resume( function() {

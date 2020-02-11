@@ -27,8 +27,9 @@
 	 */
 	CKEDITOR.ui.panel = function( document, definition ) {
 		// Copy all definition properties to this object.
-		if ( definition )
+		if ( definition ) {
 			CKEDITOR.tools.extend( this, definition );
+		}
 
 		// Set defaults.
 		CKEDITOR.tools.extend( this, {
@@ -112,14 +113,15 @@
 
 						// Make it scrollable on iOS. (https://dev.ckeditor.com/ticket/8308)
 						CKEDITOR.env.iOS && parentDiv.setStyles( {
-							'overflow': 'scroll',
+							overflow: 'scroll',
 							'-webkit-overflow-scrolling': 'touch'
 						} );
 
 						var onLoad = CKEDITOR.tools.addFunction( CKEDITOR.tools.bind( function() {
 							this.isLoaded = true;
-							if ( this.onLoad )
+							if ( this.onLoad ) {
 								this.onLoad();
+							}
 						}, this ) );
 
 						doc.write( frameDocTpl.output( CKEDITOR.tools.extend( {
@@ -152,8 +154,9 @@
 
 							// ESC/ARROW-LEFT(ltr) OR ARROW-RIGHT(rtl)
 							if ( keystroke == 27 || keystroke == ( dir == 'rtl' ? 39 : 37 ) ) {
-								if ( this.onEscape && this.onEscape( keystroke ) === false )
+								if ( this.onEscape && this.onEscape( keystroke ) === false ) {
 									evt.data.preventDefault();
+								}
 							}
 						}, this );
 
@@ -176,13 +179,13 @@
 				// trigger iframe's 'load' event.
 				var src =
 					CKEDITOR.env.air ? 'javascript:void(0)' : // jshint ignore:line
-					( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'javascript:void(function(){' + encodeURIComponent( // jshint ignore:line
-						'document.open();' +
+						( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'javascript:void(function(){' + encodeURIComponent( // jshint ignore:line
+							'document.open();' +
 						// In IE, the document domain must be set any time we call document.open().
 						'(' + CKEDITOR.tools.fixDomain + ')();' +
 						'document.close();'
-					) + '}())' :
-					'';
+						) + '}())' :
+							'';
 
 				data.frame = frameTpl.output( {
 					id: this.id + '_frame',
@@ -192,8 +195,9 @@
 
 			var html = panelTpl.output( data );
 
-			if ( output )
+			if ( output ) {
 				output.push( html );
+			}
 
 			return html;
 		},
@@ -204,8 +208,9 @@
 		addBlock: function( name, block ) {
 			block = this._.blocks[ name ] = block instanceof CKEDITOR.ui.panel.block ? block : new CKEDITOR.ui.panel.block( this.getHolderElement(), block );
 
-			if ( !this._.currentBlock )
+			if ( !this._.currentBlock ) {
 				this.showBlock( name );
+			}
 
 			return block;
 		},
@@ -229,8 +234,9 @@
 			// for FF. (https://dev.ckeditor.com/ticket/8864)
 			var holder = !this.forceIFrame || CKEDITOR.env.ie ? this._.holder : this.document.getById( this.id + '_frame' );
 
-			if ( current )
+			if ( current ) {
 				current.hide();
+			}
 
 			this._.currentBlock = block;
 
@@ -269,8 +275,8 @@
 		$: function( blockHolder, blockDefinition ) {
 			this.element = blockHolder.append( blockHolder.getDocument().createElement( 'div', {
 				attributes: {
-					'tabindex': -1,
-					'class': 'cke_panel_block'
+					tabindex: -1,
+					class: 'cke_panel_block'
 				},
 				styles: {
 					display: 'none'
@@ -278,14 +284,15 @@
 			} ) );
 
 			// Copy all definition properties to this object.
-			if ( blockDefinition )
+			if ( blockDefinition ) {
 				CKEDITOR.tools.extend( this, blockDefinition );
+			}
 
 			// Set the a11y attributes of this element ...
 			this.element.setAttributes( {
-				'role': this.attributes.role || 'presentation',
+				role: this.attributes.role || 'presentation',
 				'aria-label': this.attributes[ 'aria-label' ],
-				'title': this.attributes.title || this.attributes[ 'aria-label' ]
+				title: this.attributes.title || this.attributes[ 'aria-label' ]
 			} );
 
 			this.keys = {};
@@ -302,15 +309,17 @@
 			 * Mark the item specified by the index as current activated.
 			 */
 			markItem: function( index ) {
-				if ( index == -1 )
+				if ( index == -1 ) {
 					return;
+				}
 				var focusables = this._.getItems();
 				var item = focusables.getItem( this._.focusIndex = index );
 
 				// Safari need focus on the iframe window first(https://dev.ckeditor.com/ticket/3389), but we need
 				// lock the blur to avoid hiding the panel.
-				if ( CKEDITOR.env.webkit )
+				if ( CKEDITOR.env.webkit ) {
 					item.getDocument().getWindow().focus();
+				}
 				item.focus();
 
 				this.onMark && this.onMark( item );
@@ -355,8 +364,9 @@
 					beforeMark();
 				}
 
-				if ( CKEDITOR.env.webkit )
+				if ( CKEDITOR.env.webkit ) {
 					focused.getDocument().getWindow().focus();
+				}
 				focused.focus();
 
 				this.onMark && this.onMark( focused );
@@ -378,8 +388,9 @@
 			},
 
 			hide: function() {
-				if ( !this.onHide || this.onHide.call( this ) !== true )
+				if ( !this.onHide || this.onHide.call( this ) !== true ) {
 					this.element.setStyle( 'display', 'none' );
+				}
 			},
 
 			onKeyDown: function( keystroke, noCycle ) {
@@ -457,7 +468,6 @@
 			}
 		}
 	} );
-
 } )();
 
 /**

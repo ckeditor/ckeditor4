@@ -101,8 +101,9 @@
 
 					// For unknown reason fake selection isn't preserved in IE9.
 					// Ignoring that assertion in IE9 at the moment.
-					if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 9 ) )
+					if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 9 ) ) {
 						assert.isTrue( !!editor.getSelection().isFake );
+					}
 				} );
 			} );
 		},

@@ -30,7 +30,6 @@
 			while ( spy = this.spies.pop() ) {
 				spy.restore();
 			}
-
 		},
 
 		'test altRequired not set and empty alt is used': function() {

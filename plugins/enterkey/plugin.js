@@ -43,8 +43,9 @@
 
 			// We may not have valid ranges to work on, like when inside a
 			// contenteditable=false element.
-			if ( !range )
+			if ( !range ) {
 				return;
+			}
 
 			// When range is in nested editable, we have to replace range with this one,
 			// which have root property set to closest editable, to make auto paragraphing work. (https://dev.ckeditor.com/ticket/12162)
@@ -106,7 +107,6 @@
 						child;
 
 					if ( blockGrandParent.is( 'li' ) ) {
-
 						// If block is the first or the last child of the parent
 						// list, degrade it and move to the outer list:
 						// before the parent list if block is first child and after
@@ -133,7 +133,6 @@
 						//  </ul>                        =>      </ul>
 
 						if ( firstChild || lastChild ) {
-
 							// If it's only child, we don't want to keep perent ul anymore.
 							if ( firstChild && lastChild ) {
 								blockParent.remove();
@@ -158,13 +157,10 @@
 							//  </ul>                       =>              </ul>
 							//                              =>          </li>
 							//                              =>      </ul>
-
 						} else {
 							block.breakParent( blockGrandParent );
 						}
-					}
-
-					else if ( !needsBlock ) {
+					} else if ( !needsBlock ) {
 						block.appendBogus( true );
 
 						// If block is the first or last child of the parent
@@ -185,8 +181,9 @@
 						//  </ul>                      =>      </ul>
 
 						if ( firstChild || lastChild ) {
-							while ( ( child = block[ firstChild ? 'getFirst' : 'getLast' ]() ) )
+							while ( ( child = block[ firstChild ? 'getFirst' : 'getLast' ]() ) ) {
 								child[ firstChild ? 'insertBefore' : 'insertAfter' ]( blockParent );
+							}
 						}
 
 						// If the empty block is neither first nor last child
@@ -204,8 +201,9 @@
 						else {
 							block.breakParent( blockParent );
 
-							while ( ( child = block.getLast() ) )
+							while ( ( child = block.getLast() ) ) {
 								child.insertAfter( blockParent );
+							}
 						}
 
 						block.remove();
@@ -215,8 +213,9 @@
 							// Use <div> block for ENTER_BR and ENTER_DIV.
 							newBlock = doc.createElement( mode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 
-							if ( dirLoose )
+							if ( dirLoose ) {
 								newBlock.setAttribute( 'dir', orgDir );
+							}
 
 							style && newBlock.setAttribute( 'style', style );
 							className && newBlock.setAttribute( 'class', className );
@@ -246,8 +245,9 @@
 						//      <li>x</li>             =>          <li>x</li>
 						//  </ul>                      =>      </ul>
 
-						if ( firstChild || lastChild )
+						if ( firstChild || lastChild ) {
 							newBlock[ firstChild ? 'insertBefore' : 'insertAfter' ]( blockParent );
+						}
 
 						// If the empty block is neither first nor last child
 						// then split the list and put the new block between
@@ -278,12 +278,14 @@
 					block.breakParent( block.getParent() );
 
 					// If we were at the start of <blockquote>, there will be an empty element before it now.
-					if ( !block.getPrevious().getFirst( CKEDITOR.dom.walker.invisible( 1 ) ) )
+					if ( !block.getPrevious().getFirst( CKEDITOR.dom.walker.invisible( 1 ) ) ) {
 						block.getPrevious().remove();
+					}
 
 					// If we were at the end of <blockquote>, there will be an empty element after it now.
-					if ( !block.getNext().getFirst( CKEDITOR.dom.walker.invisible( 1 ) ) )
+					if ( !block.getNext().getFirst( CKEDITOR.dom.walker.invisible( 1 ) ) ) {
 						block.getNext().remove();
+					}
 
 					range.moveToElementEditStart( block );
 					range.select();
@@ -301,8 +303,9 @@
 			// Split the range.
 			var splitInfo = range.splitBlock( blockTag );
 
-			if ( !splitInfo )
+			if ( !splitInfo ) {
 				return;
+			}
 
 			// Get the current blocks.
 			var previousBlock = splitInfo.previousBlock,
@@ -342,20 +345,21 @@
 					};
 
 					node = walker.next();
-					if ( node && node.type == CKEDITOR.NODE_ELEMENT && node.is( 'ul', 'ol' ) )
+					if ( node && node.type == CKEDITOR.NODE_ELEMENT && node.is( 'ul', 'ol' ) ) {
 						( CKEDITOR.env.needsBrFiller ? doc.createElement( 'br' ) : doc.createText( '\xa0' ) ).insertBefore( node );
+					}
 				}
 
 				// Move the selection to the end block.
-				if ( nextBlock )
+				if ( nextBlock ) {
 					range.moveToElementEditStart( nextBlock );
+				}
 			}
 			// Handle differently when content of table cell was erased by pressing enter (#1816).
 			// We don't want to add new block, because it was created with range.splitBlock().
 			else if ( preventExtraLineInsideTable( mode ) ) {
 				range.moveToElementEditStart( range.getTouchedStartNode() );
 			} else {
-
 				var newBlockDir;
 
 				if ( previousBlock ) {
@@ -372,12 +376,13 @@
 
 				if ( !newBlock ) {
 					// We have already created a new list item. (https://dev.ckeditor.com/ticket/6849)
-					if ( node && node.is( 'li' ) )
+					if ( node && node.is( 'li' ) ) {
 						newBlock = node;
-					else {
+					} else {
 						newBlock = doc.createElement( blockTag );
-						if ( previousBlock && ( newBlockDir = previousBlock.getDirection() ) )
+						if ( previousBlock && ( newBlockDir = previousBlock.getDirection() ) ) {
 							newBlock.setAttribute( 'dir', newBlockDir );
+						}
 					}
 				}
 				// Force the enter block unless we're talking of a list item.
@@ -393,8 +398,9 @@
 					for ( var i = 0, len = elementPath.elements.length; i < len; i++ ) {
 						var element = elementPath.elements[ i ];
 
-						if ( element.equals( elementPath.block ) || element.equals( elementPath.blockLimit ) )
+						if ( element.equals( elementPath.block ) || element.equals( elementPath.blockLimit ) ) {
 							break;
+						}
 
 						if ( CKEDITOR.dtd.$removeEmpty[ element.getName() ] ) {
 							element = element.clone();
@@ -406,8 +412,9 @@
 
 				newBlock.appendBogus();
 
-				if ( !newBlock.getParent() )
+				if ( !newBlock.getParent() ) {
 					range.insertNode( newBlock );
+				}
 
 				// list item start number should not be duplicated (https://dev.ckeditor.com/ticket/7330), but we need
 				// to remove the attribute after it's onto the DOM tree because of old IEs (https://dev.ckeditor.com/ticket/7581).
@@ -474,8 +481,9 @@
 
 			// We may not have valid ranges to work on, like when inside a
 			// contenteditable=false element.
-			if ( !range )
+			if ( !range ) {
 				return;
+			}
 
 			var doc = range.document;
 
@@ -505,8 +513,9 @@
 					doc.createElement( 'br' ).insertAfter( startBlock );
 
 					// A text node is required by Gecko only to make the cursor blink.
-					if ( CKEDITOR.env.gecko )
+					if ( CKEDITOR.env.gecko ) {
 						doc.createText( '' ).insertAfter( startBlock );
+					}
 
 					// IE has different behaviors regarding position.
 					range.setStartAt( startBlock.getNext(), CKEDITOR.env.ie ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_START );
@@ -515,18 +524,19 @@
 				var lineBreak;
 
 				// IE<8 prefers text node as line-break inside of <pre> (https://dev.ckeditor.com/ticket/4711).
-				if ( startBlockTag == 'pre' && CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
+				if ( startBlockTag == 'pre' && CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
 					lineBreak = doc.createText( '\r' );
-				else
+				} else {
 					lineBreak = doc.createElement( 'br' );
+				}
 
 				range.deleteContents();
 				range.insertNode( lineBreak );
 
 				// Old IEs have different behavior regarding position.
-				if ( !CKEDITOR.env.needsBrFiller )
+				if ( !CKEDITOR.env.needsBrFiller ) {
 					range.setStartAt( lineBreak, CKEDITOR.POSITION_AFTER_END );
-				else {
+				} else {
 					// A text node is required by Gecko only to make the cursor blink.
 					// We need some text inside of it, so the bogus <br> is properly
 					// created.
@@ -544,7 +554,6 @@
 					lineBreak.getNext().$.nodeValue = '';
 
 					range.setStartAt( lineBreak.getNext(), CKEDITOR.POSITION_AFTER_START );
-
 				}
 			}
 
@@ -572,11 +581,13 @@
 		forceMode = editor.config.forceEnterMode || forceMode;
 
 		// Only effective within document.
-		if ( editor.mode != 'wysiwyg' )
+		if ( editor.mode != 'wysiwyg' ) {
 			return;
+		}
 
-		if ( !mode )
+		if ( !mode ) {
 			mode = editor.activeEnterMode;
+		}
 
 		// TODO this should be handled by setting editor.activeEnterMode on selection change.
 		// Check path block specialities:
@@ -590,10 +601,11 @@
 
 		editor.fire( 'saveSnapshot' ); // Save undo step.
 
-		if ( mode == CKEDITOR.ENTER_BR )
+		if ( mode == CKEDITOR.ENTER_BR ) {
 			enterBr( editor, mode, null, forceMode );
-		else
+		} else {
 			enterBlock( editor, mode, null, forceMode );
+		}
 
 		editor.fire( 'saveSnapshot' );
 	}

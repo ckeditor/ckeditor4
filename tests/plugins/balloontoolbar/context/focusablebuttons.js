@@ -102,5 +102,4 @@
 			arrayAssert.isEmpty( buttonList, 'Focusable list should be empty' );
 		}
 	} );
-
 } )();

@@ -18,8 +18,9 @@
 			// Customize one of the following templates.
 			CKEDITOR.on( 'template', function( evt ) {
 				var data = evt.data;
-				if ( data.name == 'tpl2' )
+				if ( data.name == 'tpl2' ) {
 					data.source = '{foo},{foo}';
+				}
 			} );
 
 			// Define new templates.

@@ -46,9 +46,9 @@
 
 					var keySplit = key.split( ':' );
 
-					if ( keySplit.length == 1 )
+					if ( keySplit.length == 1 ) {
 						inputName = keySplit[ 0 ];
-					else {
+					} else {
 						inputName = keySplit[ 1 ];
 						tabName = keySplit[ 0 ];
 					}
@@ -58,10 +58,11 @@
 					var realValue = ( typeof expectedValue == 'number' ) ? parseInt( field.getValue(), 10 ) : field.getValue();
 					var errorMessage = 'Wrong value for input ' + inputName + '.';
 
-					if ( isNaN( expectedValue ) )
+					if ( isNaN( expectedValue ) ) {
 						assert.isNaN( realValue, errorMessage );
-					else
+					} else {
 						assert.areSame( expectedValue, realValue, errorMessage );
+					}
 				}
 			}
 
@@ -82,9 +83,9 @@
 				if ( inpValMap.hasOwnProperty( key ) ) {
 					var keySplit = key.split( ':' );
 
-					if ( keySplit.length == 1 )
+					if ( keySplit.length == 1 ) {
 						inputName = keySplit[ 0 ];
-					else {
+					} else {
 						inputName = keySplit[ 1 ];
 						tabName = keySplit[ 0 ];
 					}
@@ -379,32 +380,31 @@
 			bender.editorBot.create( {
 				name: 'editor_lockratio'
 			},
-				function( bot ) {
-					bot.dialog( 'image', function( dialog ) {
-						var stub = sinon.stub( dialog, 'getValueOf', function( field, prop ) {
-							return prop === 'txtWidth' ? getFixedImageSize( 'width' ) : getFixedImageSize( 'height' );
-						} );
-
-						dialog.originalElement.once( 'load', function() {
-							setTimeout( function() {
-								resume( function() {
-									stub.restore();
-									assert.isTrue( dialog.lockRatio );
-								} );
-							} );
-
-						}, null, null, 999 );
-
-						// Changing image url triggers load event.
-						dialog.getContentElement( 'info', 'txtUrl' ).setValue( image.url );
-
-						wait();
-
-						function getFixedImageSize( prop ) {
-							return Math.round( Number( image[ prop ] ) / 3.6 );
-						}
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var stub = sinon.stub( dialog, 'getValueOf', function( field, prop ) {
+						return prop === 'txtWidth' ? getFixedImageSize( 'width' ) : getFixedImageSize( 'height' );
 					} );
+
+					dialog.originalElement.once( 'load', function() {
+						setTimeout( function() {
+							resume( function() {
+								stub.restore();
+								assert.isTrue( dialog.lockRatio );
+							} );
+						} );
+					}, null, null, 999 );
+
+					// Changing image url triggers load event.
+					dialog.getContentElement( 'info', 'txtUrl' ).setValue( image.url );
+
+					wait();
+
+					function getFixedImageSize( prop ) {
+						return Math.round( Number( image[ prop ] ) / 3.6 );
+					}
 				} );
+			} );
 		},
 
 		/**

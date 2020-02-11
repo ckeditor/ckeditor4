@@ -25,8 +25,9 @@
  * the node in case of new node creation. Defaults to the current document.
  */
 CKEDITOR.dom.comment = function( comment, ownerDocument ) {
-	if ( typeof comment == 'string' )
+	if ( typeof comment == 'string' ) {
 		comment = ( ownerDocument ? ownerDocument.$ : document ).createComment( comment );
+	}
 
 	CKEDITOR.dom.domObject.call( this, comment );
 };

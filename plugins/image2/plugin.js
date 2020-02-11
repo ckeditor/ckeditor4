@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -6,7 +6,6 @@
 'use strict';
 
 ( function() {
-
 	var template = '<img alt="" src="" />',
 		templateBlock = new CKEDITOR.template(
 			'<figure class="{captionedClass}">' +
@@ -26,7 +25,7 @@
 
 		onLoad: function() {
 			CKEDITOR.addCss(
-			'.cke_image_nocaption{' +
+				'.cke_image_nocaption{' +
 				// This is to remove unwanted space so resize
 				// wrapper is displayed property.
 				'line-height:0' +
@@ -124,8 +123,9 @@
 			var align = { left: 1, right: 1, center: 1, block: 1 },
 				integrate = alignCommandIntegrator( editor );
 
-			for ( var value in align )
+			for ( var value in align ) {
 				integrate( value );
+			}
 
 			// Integrate with link commands (link plugin).
 			linkCommandIntegrator( editor );
@@ -229,12 +229,14 @@
 			captionedClass = editor.config.image2_captionedClass;
 
 		function deflate() {
-			if ( this.deflated )
+			if ( this.deflated ) {
 				return;
+			}
 
 			// Remember whether widget was focused before destroyed.
-			if ( editor.widgets.focused == this.widget )
+			if ( editor.widgets.focused == this.widget ) {
 				this.focused = true;
+			}
 
 			editor.widgets.destroy( this.widget );
 
@@ -244,7 +246,7 @@
 
 		function inflate() {
 			var editable = editor.editable(),
-			doc = editor.document;
+				doc = editor.document;
 
 			// Create a new widget. This widget will be either captioned
 			// non-captioned, block or inline according to what is the
@@ -316,12 +318,14 @@
 				var features = this.features;
 
 				// Image can't be captioned when figcaption is disallowed (https://dev.ckeditor.com/ticket/11004).
-				if ( this.data.hasCaption && !editor.filter.checkFeature( features.caption ) )
+				if ( this.data.hasCaption && !editor.filter.checkFeature( features.caption ) ) {
 					this.data.hasCaption = false;
+				}
 
 				// Image can't be aligned when floating is disallowed (https://dev.ckeditor.com/ticket/11004).
-				if ( this.data.align != 'none' && !editor.filter.checkFeature( features.align ) )
+				if ( this.data.align != 'none' && !editor.filter.checkFeature( features.align ) ) {
 					this.data.align = 'none';
+				}
 
 				// Convert the internal form of the widget from the old state to the new one.
 				this.shiftState( {
@@ -336,11 +340,13 @@
 				// Update widget.parts.link since it will not auto-update unless widget
 				// is destroyed and re-inited.
 				if ( !this.data.link ) {
-					if ( this.parts.link )
+					if ( this.parts.link ) {
 						delete this.parts.link;
+					}
 				} else {
-					if ( !this.parts.link )
+					if ( !this.parts.link ) {
 						this.parts.link = this.parts.image.getParent();
+					}
 				}
 
 				this.parts.image.setAttributes( {
@@ -355,14 +361,16 @@
 				// If shifting non-captioned -> captioned, remove classes
 				// related to styles from <img/>.
 				if ( this.oldData && !this.oldData.hasCaption && this.data.hasCaption ) {
-					for ( var c in this.data.classes )
+					for ( var c in this.data.classes ) {
 						this.parts.image.removeClass( c );
+					}
 				}
 
 				// Set dimensions of the image according to gathered data.
 				// Do it only when the attributes are allowed (https://dev.ckeditor.com/ticket/11004).
-				if ( editor.filter.checkFeature( features.dimension ) )
+				if ( editor.filter.checkFeature( features.dimension ) ) {
 					setDimensions( this );
+				}
 
 				// Cache current data.
 				this.oldData = CKEDITOR.tools.extend( {}, this.data );
@@ -387,8 +395,9 @@
 				// way to solve it with CSS selectors, it's done like that. (https://dev.ckeditor.com/ticket/11783).
 				var link = image.getAscendant( 'a' );
 
-				if ( link && this.wrapper.contains( link ) )
+				if ( link && this.wrapper.contains( link ) ) {
 					this.parts.link = link;
+				}
 
 				// Depending on configuration, read style/class from element and
 				// then remove it. Removed style/class will be set on wrapper in #data listener.
@@ -451,8 +460,9 @@
 					// Integrate context menu items for link.
 					// Note that widget may be wrapped in a link, which
 					// does not belong to that widget (https://dev.ckeditor.com/ticket/11814).
-					if ( this.parts.link || this.wrapper.getAscendant( 'a' ) )
+					if ( this.parts.link || this.wrapper.getAscendant( 'a' ) ) {
 						evt.data.link = evt.data.unlink = CKEDITOR.TRISTATE_OFF;
+					}
 				} );
 			},
 
@@ -485,8 +495,9 @@
 					// Neither config.image2_captionedClass nor config.image2_alignClasses
 					// do not belong to style classes.
 					for ( var c in classes ) {
-						if ( classRegex.test( c ) )
+						if ( classRegex.test( c ) ) {
 							delete classes[ c ];
+						}
 					}
 
 					return classes;
@@ -552,25 +563,28 @@
 
 					// Finally set display for figure.
 					if ( !alignClasses && el.is( 'figure' ) ) {
-						if ( newValue == 'center' )
+						if ( newValue == 'center' ) {
 							el.setStyle( 'display', 'inline-block' );
-						else
+						} else {
 							el.removeStyle( 'display' );
+						}
 					}
 				},
 
 				hasCaption:	function( shift, oldValue, newValue ) {
 					// This action is for real state change only.
-					if ( !shift.changed.hasCaption )
+					if ( !shift.changed.hasCaption ) {
 						return;
+					}
 
 					// Get <img/> or <a><img/></a> from widget. Note that widget element might itself
 					// be what we're looking for. Also element can be <p style="text-align:center"><a>...</a></p>.
 					var imageOrLink;
-					if ( shift.element.is( { img: 1, a: 1 } ) )
+					if ( shift.element.is( { img: 1, a: 1 } ) ) {
 						imageOrLink = shift.element;
-					else
-						imageOrLink =  shift.element.findOne( 'a,img' );
+					} else {
+						imageOrLink = shift.element.findOne( 'a,img' );
+					}
 
 					// Switching hasCaption always destroys the widget.
 					shift.deflate();
@@ -618,29 +632,34 @@
 							needsDeflate = ( shift.element.is( 'a' ) && !newValue ) || ( shift.element.is( 'img' ) && newValue ),
 							newEl;
 
-						if ( needsDeflate )
+						if ( needsDeflate ) {
 							shift.deflate();
+						}
 
 						// If unlinked the image, returned element is <img>.
-						if ( !newValue )
+						if ( !newValue ) {
 							newEl = unwrapFromLink( link );
-						else {
+						} else {
 							// If linked the image, returned element is <a>.
-							if ( !oldValue )
+							if ( !oldValue ) {
 								newEl = wrapInLink( img, shift.newData.link );
+							}
 
 							// Set and remove all attributes associated with this state.
 							var attributes = CKEDITOR.plugins.image2.getLinkAttributesGetter()( editor, newValue );
 
-							if ( !CKEDITOR.tools.isEmpty( attributes.set ) )
+							if ( !CKEDITOR.tools.isEmpty( attributes.set ) ) {
 								( newEl || link ).setAttributes( attributes.set );
+							}
 
-							if ( attributes.removed.length )
+							if ( attributes.removed.length ) {
 								( newEl || link ).removeAttributes( attributes.removed );
+							}
 						}
 
-						if ( needsDeflate )
+						if ( needsDeflate ) {
 							shift.element = newEl;
+						}
 					}
 				}
 			};
@@ -648,10 +667,11 @@
 			function wrapInCentering( editor, element ) {
 				var attribsAndStyles = {};
 
-				if ( alignClasses )
-					attribsAndStyles.attributes = { 'class': alignClasses[ 1 ] };
-				else
+				if ( alignClasses ) {
+					attribsAndStyles.attributes = { class: alignClasses[ 1 ] };
+				} else {
 					attribsAndStyles.styles = { 'text-align': 'center' };
+				}
 
 				// There's no gentle way to center inline element with CSS, so create p/div
 				// that wraps widget contents and does the trick either with style or class.
@@ -717,8 +737,7 @@
 					replaced.remove();
 
 					editable.insertElementIntoRange( replacing, range );
-				}
-				else {
+				} else {
 					replacing.replace( replaced );
 				}
 			}
@@ -849,8 +868,9 @@
 
 		if ( alignClasses ) {
 			// Remove all align classes first.
-			for ( var i = 3; i--; )
+			for ( var i = 3; i--; ) {
 				wrapper.removeClass( alignClasses[ i ] );
+			}
 
 			if ( align == 'center' ) {
 				// Avoid touching non-captioned, centered widgets because
@@ -869,18 +889,19 @@
 			}
 		} else {
 			if ( align == 'center' ) {
-				if ( hasCaption )
+				if ( hasCaption ) {
 					wrapper.setStyle( 'text-align', 'center' );
-				else
+				} else {
 					wrapper.removeStyle( 'text-align' );
+				}
 
 				wrapper.removeStyle( 'float' );
-			}
-			else {
-				if ( align == 'none' )
+			} else {
+				if ( align == 'none' ) {
 					wrapper.removeStyle( 'float' );
-				else
+				} else {
 					wrapper.setStyle( 'float', align );
+				}
 
 				wrapper.removeStyle( 'text-align' );
 			}
@@ -904,8 +925,9 @@
 				image;
 
 			// https://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
-			if ( el.attributes[ 'data-cke-realelement' ] )
+			if ( el.attributes[ 'data-cke-realelement' ] ) {
 				return;
+			}
 
 			// If a center wrapper is found, there are 3 possible cases:
 			//
@@ -950,16 +972,18 @@
 				image = el.name == 'a' ? el.children[ 0 ] : el;
 			}
 
-			if ( !image )
+			if ( !image ) {
 				return;
+			}
 
 			// If there's an image, then cool, we got a widget.
 			// Now just remove dimension attributes expressed with %.
 			for ( var d in dimensions ) {
 				var dimension = image.attributes[ d ];
 
-				if ( dimension && dimension.match( regexPercent ) )
+				if ( dimension && dimension.match( regexPercent ) ) {
 					delete image.attributes[ d ];
+				}
 			}
 
 			return el;
@@ -986,8 +1010,9 @@
 			if ( !this.inline ) {
 				var resizeWrapper = el.getFirst( 'span' );
 
-				if ( resizeWrapper )
+				if ( resizeWrapper ) {
 					resizeWrapper.replaceWith( resizeWrapper.getFirst( { img: 1, a: 1 } ) );
+				}
 			}
 
 			if ( align && align != 'none' ) {
@@ -1007,20 +1032,22 @@
 				//
 				if ( align == 'center' && el.name == 'figure' ) {
 					el = el.wrapWith( new CKEDITOR.htmlParser.element( 'div',
-						alignClasses ? { 'class': alignClasses[ 1 ] } : { style: 'text-align:center' } ) );
+						alignClasses ? { class: alignClasses[ 1 ] } : { style: 'text-align:center' } ) );
 				}
 
 				// If left/right, add float style to the downcasted element.
 				else if ( align in { left: 1, right: 1 } ) {
-					if ( alignClasses )
+					if ( alignClasses ) {
 						attrsHolder.addClass( alignClasses[ alignmentsObj[ align ] ] );
-					else
+					} else {
 						styles[ 'float' ] = align;
+					}
 				}
 
 				// Update element styles.
-				if ( !alignClasses && !CKEDITOR.tools.isEmpty( styles ) )
+				if ( !alignClasses && !CKEDITOR.tools.isEmpty( styles ) ) {
 					attrs.style = CKEDITOR.tools.writeCssText( styles );
+				}
 			}
 
 			return el;
@@ -1038,55 +1065,63 @@
 
 		return function( el ) {
 			// Wrapper must be either <div> or <p>.
-			if ( !( el.name in { div: 1, p: 1 } ) )
+			if ( !( el.name in { div: 1, p: 1 } ) ) {
 				return false;
+			}
 
 			var children = el.children;
 
 			// Centering wrapper can have only one child.
-			if ( children.length !== 1 )
+			if ( children.length !== 1 ) {
 				return false;
+			}
 
 			var child = children[ 0 ];
 
 			// Only <figure> or <img /> can be first (only) child of centering wrapper,
 			// regardless of its type.
-			if ( !( child.name in validChildren ) )
+			if ( !( child.name in validChildren ) ) {
 				return false;
+			}
 
 			// If centering wrapper is <p>, only <img /> can be the child.
 			//   <p style="text-align:center"><img /></p>
 			if ( el.name == 'p' ) {
-				if ( !isLinkedOrStandaloneImage( child ) )
+				if ( !isLinkedOrStandaloneImage( child ) ) {
 					return false;
+				}
 			}
 			// Centering <div> can hold <img/> or <figure>, depending on enterMode.
 			else {
 				// If a <figure> is the first (only) child, it must have a class.
 				//   <div style="text-align:center"><figure>...</figure><div>
 				if ( child.name == 'figure' ) {
-					if ( !child.hasClass( captionedClass ) )
+					if ( !child.hasClass( captionedClass ) ) {
 						return false;
+					}
 				} else {
 					// Centering <div> can hold <img/> or <a><img/></a> only when enterMode
 					// is ENTER_(BR|DIV).
 					//   <div style="text-align:center"><img /></div>
 					//   <div style="text-align:center"><a><img /></a></div>
-					if ( editor.enterMode == CKEDITOR.ENTER_P )
+					if ( editor.enterMode == CKEDITOR.ENTER_P ) {
 						return false;
+					}
 
 					// Regardless of enterMode, a child which is not <figure> must be
 					// either <img/> or <a><img/></a>.
-					if ( !isLinkedOrStandaloneImage( child ) )
+					if ( !isLinkedOrStandaloneImage( child ) ) {
 						return false;
+					}
 				}
 			}
 
 			// Centering wrapper got to be... centering. If image2_alignClasses are defined,
 			// check for centering class. Otherwise, check the style.
 			if ( alignClasses ? el.hasClass( alignClasses[ 1 ] ) :
-					CKEDITOR.tools.parseCssText( el.attributes.style || '', true )[ 'text-align' ] == 'center' )
+				CKEDITOR.tools.parseCssText( el.attributes.style || '', true )[ 'text-align' ] == 'center' ) {
 				return true;
+			}
 
 			return false;
 		};
@@ -1096,10 +1131,11 @@
 	//
 	// @param {CKEDITOR.htmlParser.element}
 	function isLinkedOrStandaloneImage( el ) {
-		if ( el.name == 'img' )
+		if ( el.name == 'img' ) {
 			return true;
-		else if ( el.name == 'a' )
+		} else if ( el.name == 'a' ) {
 			return el.children.length == 1 && el.getFirst( 'img' );
+		}
 
 		return false;
 	}
@@ -1113,10 +1149,11 @@
 			image = widget.parts.image;
 
 		for ( var d in dimensions ) {
-			if ( dimensions[ d ] )
+			if ( dimensions[ d ] ) {
 				image.setAttribute( d, dimensions[ d ] );
-			else
+			} else {
 				image.removeAttribute( d );
+			}
 		}
 	}
 
@@ -1148,8 +1185,9 @@
 
 			// Remove the old wrapper which could came from e.g. pasted HTML
 			// and which could be corrupted (e.g. resizer span has been lost).
-			if ( oldResizeWrapper.is( 'span' ) )
+			if ( oldResizeWrapper.is( 'span' ) ) {
 				oldResizeWrapper.remove();
+			}
 		} else {
 			widget.wrapper.append( resizer );
 		}
@@ -1211,14 +1249,16 @@
 				var globalDoc = CKEDITOR.document,
 					listeners = [];
 
-				if ( !doc.equals( globalDoc ) )
+				if ( !doc.equals( globalDoc ) ) {
 					listeners.push( globalDoc.on( name, callback ) );
+				}
 
 				listeners.push( doc.on( name, callback ) );
 
 				if ( collection ) {
-					for ( var i = listeners.length; i--; )
+					for ( var i = listeners.length; i--; ) {
 						collection.push( listeners.pop() );
+					}
 				}
 			}
 
@@ -1264,23 +1304,26 @@
 				if ( factor == 1 ) {
 					if ( moveDiffX <= 0 ) {
 						// Case: IV.
-						if ( moveDiffY <= 0 )
+						if ( moveDiffY <= 0 ) {
 							adjustToX();
+						}
 
 						// Case: I.
 						else {
-							if ( moveRatio >= ratio )
+							if ( moveRatio >= ratio ) {
 								adjustToX();
-							else
+							} else {
 								adjustToY();
+							}
 						}
 					} else {
 						// Case: III.
 						if ( moveDiffY <= 0 ) {
-							if ( moveRatio >= ratio )
+							if ( moveRatio >= ratio ) {
 								adjustToY();
-							else
+							} else {
 								adjustToX();
+							}
 						}
 
 						// Case: II.
@@ -1296,10 +1339,11 @@
 					if ( moveDiffX <= 0 ) {
 						// Case: IV.
 						if ( moveDiffY <= 0 ) {
-							if ( moveRatio >= ratio )
+							if ( moveRatio >= ratio ) {
 								adjustToY();
-							else
+							} else {
 								adjustToX();
+							}
 						}
 
 						// Case: I.
@@ -1308,8 +1352,9 @@
 						}
 					} else {
 						// Case: III.
-						if ( moveDiffY <= 0 )
+						if ( moveDiffY <= 0 ) {
 							adjustToX();
+						}
 
 						// Case: II.
 						else {
@@ -1331,8 +1376,9 @@
 			function onMouseUp() {
 				var l;
 
-				while ( ( l = listeners.pop() ) )
+				while ( ( l = listeners.pop() ) ) {
 					l.removeListener();
+				}
 
 				// Restore default cursor by removing special class.
 				editable.removeClass( cursorClass );
@@ -1393,8 +1439,9 @@
 			var command = editor.getCommand( 'justify' + value );
 
 			// Most likely, the justify plugin isn't loaded.
-			if ( !command )
+			if ( !command ) {
 				return;
+			}
 
 			// This command will be manually refreshed along with
 			// other commands after exec.
@@ -1411,8 +1458,9 @@
 
 						// Once the widget changed its align, all the align commands
 						// must be refreshed: the event is to be cancelled.
-						for ( var i = execCallbacks.length; i--; )
+						for ( var i = execCallbacks.length; i--; ) {
 							execCallbacks[ i ]();
+						}
 
 						evt.cancel();
 					}
@@ -1423,19 +1471,21 @@
 				var widget = getFocusedWidget( editor ),
 					allowed = { right: 1, left: 1, center: 1 };
 
-				if ( !widget )
+				if ( !widget ) {
 					return;
+				}
 
 				// Cache "enabled" on first use. This is because filter#checkFeature may
 				// not be available during plugin's afterInit in the future — a moment when
 				// alignCommandIntegrator is called.
-				if ( enabled === undefined )
+				if ( enabled === undefined ) {
 					enabled = editor.filter.checkFeature( editor.widgets.registered.image.features.align );
+				}
 
 				// Don't allow justify commands when widget alignment is disabled (https://dev.ckeditor.com/ticket/11004).
-				if ( !enabled )
+				if ( !enabled ) {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
-				else {
+				} else {
 					this.setState(
 						( widget.data.align == value ) ? (
 							CKEDITOR.TRISTATE_ON
@@ -1452,8 +1502,9 @@
 
 	function linkCommandIntegrator( editor ) {
 		// Nothing to integrate with if link is not loaded.
-		if ( !editor.plugins.link )
+		if ( !editor.plugins.link ) {
 			return;
+		}
 
 		var listener = CKEDITOR.on( 'dialogDefinition', function( evt ) {
 			var dialog = evt.data;
@@ -1517,8 +1568,9 @@
 
 			// Override unlink only when link truly belongs to the widget.
 			// If wrapped inline widget in a link, let default unlink work (https://dev.ckeditor.com/ticket/11814).
-			if ( !widget || !widget.parts.link )
+			if ( !widget || !widget.parts.link ) {
 				return;
+			}
 
 			widget.setData( 'link', null );
 
@@ -1533,8 +1585,9 @@
 		editor.getCommand( 'unlink' ).on( 'refresh', function( evt ) {
 			var widget = getFocusedWidget( editor );
 
-			if ( !widget )
+			if ( !widget ) {
 				return;
+			}
 
 			// Note that widget may be wrapped in a link, which
 			// does not belong to that widget (https://dev.ckeditor.com/ticket/11814).
@@ -1553,8 +1606,9 @@
 	function getFocusedWidget( editor ) {
 		var widget = editor.widgets.focused;
 
-		if ( widget && widget.name == 'image' )
+		if ( widget && widget.name == 'image' ) {
 			return widget;
+		}
 
 		return null;
 	}

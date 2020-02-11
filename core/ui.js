@@ -12,8 +12,9 @@
  * @param {CKEDITOR.editor} editor The editor instance.
  */
 CKEDITOR.ui = function( editor ) {
-	if ( editor.ui )
+	if ( editor.ui ) {
 		return editor.ui;
+	}
 
 	this.items = {};
 	this.instances = {};
@@ -88,11 +89,13 @@ CKEDITOR.ui.prototype = {
 		this.instances[ name ] = result;
 
 		// Add reference inside command object.
-		if ( command )
+		if ( command ) {
 			command.uiItems.push( result );
+		}
 
-		if ( result && !result.type )
+		if ( result && !result.type ) {
 			result.type = item.type;
+		}
 
 		return result;
 	},

@@ -12,7 +12,7 @@
 	bender.test( {
 		doTest: function( input, expected, msg ) {
 			var ed = this.editor;
-			bender.tools.setHtmlWithSelection( ed,  input );
+			bender.tools.setHtmlWithSelection( ed, input );
 			ed.execCommand( 'enter' );
 			var output = bender.tools.getHtmlWithSelection( ed );
 			expected.exec ?

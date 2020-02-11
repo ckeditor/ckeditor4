@@ -49,7 +49,6 @@
 				if ( matched ) {
 					insertLink( matched );
 				}
-
 			} );
 
 			function insertLink( match ) {
@@ -101,8 +100,8 @@
 						link: text.replace( doubleQuoteRegex, '%22' )
 					},
 					template = opts.link.match( CKEDITOR.config.autolink_urlRegex ) ?
-						urlTemplate.output( opts )
-						: emailTemplate.output( opts );
+						urlTemplate.output( opts ) :
+						emailTemplate.output( opts );
 
 				return tryToEncodeLink( template );
 			}

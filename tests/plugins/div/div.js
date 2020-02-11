@@ -79,7 +79,7 @@
 					assert.areEqual( CKEDITOR.plugins.div.getSurroundDiv( editor ), dialog.getModel( editor ), 'Model should be defined' );
 
 					var styleField = dialog.getContentElement( 'info', 'elementStyle' ),
-					classField = dialog.getContentElement( 'info', 'class' );
+						classField = dialog.getContentElement( 'info', 'class' );
 
 					styleField.setValue( 'background-color:blue' );
 					classField.setValue( 'my-div' );

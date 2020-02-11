@@ -9,9 +9,9 @@ bender.editor = {
 			pluginsLoaded: function( evt ) {
 				var ed = evt.editor,
 					items = {
-						'one': 'ONE',
-						'two': 'TWO',
-						'three': 'THREE'
+						one: 'ONE',
+						two: 'TWO',
+						three: 'THREE'
 					};
 
 				ed.ui.addRichCombo( 'custom_combo', {

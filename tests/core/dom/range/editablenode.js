@@ -4,7 +4,7 @@
 	'use strict';
 
 	var tests = {
-		'rangeGetNextEditableNode': function( html, childIndex, startOffset, previous ) {
+		rangeGetNextEditableNode: function( html, childIndex, startOffset, previous ) {
 			var ct = new CKEDITOR.dom.element( 'div' );
 			ct.setHtml( html );
 
@@ -17,11 +17,13 @@
 
 			var next = range[ previous ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
-			if ( !next )
+			if ( !next ) {
 				return null;
+			}
 
-			if ( next.type == CKEDITOR.NODE_TEXT )
+			if ( next.type == CKEDITOR.NODE_TEXT ) {
 				return next.getText();
+			}
 
 			return next.getName() + ( next.$.id ? '#' + next.$.id : '' );
 		},
@@ -89,32 +91,36 @@
 		},
 
 		'test getNextEditableNode - 13': function() {
-			if ( CKEDITOR.env.needsBrFiller )
+			if ( CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
+			}
 
 			// <p>^</p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"></p><p>cd</p>', false, 0 ) );
 		},
 
 		'test getNextEditableNode - 13a': function() {
-			if ( !CKEDITOR.env.needsBrFiller )
+			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
+			}
 
 			// <p>^<br></p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"><br></p><p>cd</p>', false, 0 ) );
 		},
 
 		'test getNextEditableNode - 13b': function() {
-			if ( !CKEDITOR.env.needsBrFiller )
+			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
+			}
 
 			// <p>^<bookmark><br></p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"><span data-cke-bookmark="1"></span><br></p><p>cd</p>', false, 0 ) );
 		},
 
 		'test getNextEditableNode - 13c': function() {
-			if ( !CKEDITOR.env.needsBrFiller )
+			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
+			}
 
 			// <p>^ <br></p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"> <br></p><p>cd</p>', false, 0 ) );
@@ -141,8 +147,9 @@
 		},
 
 		'test getNextEditableNode - 17b': function() {
-			if ( !CKEDITOR.env.needsBrFiller )
+			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
+			}
 
 			// <table>^<tr>
 			assert.areSame( 'br', this.rangeGetNextEditableNode( '<table id="s"><tr><td><br></td><td>ab</td></tr></table>', false, 0 ) );

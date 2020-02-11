@@ -11,7 +11,7 @@
 	};
 
 	var tests = {
-		setUp: function(  ) {
+		setUp: function( ) {
 			// Map PFW namespaces, so it's more convenient to use them.
 			this.pastefromword = CKEDITOR.plugins.pastefromword;
 			this.heuristics = this.pastefromword.heuristics;

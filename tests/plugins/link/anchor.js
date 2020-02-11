@@ -42,7 +42,6 @@
 				bot = this.editorBot;
 
 			bot.setData( '<p><a name="foo" id="foo"></a></p>', function() {
-
 				var range = new CKEDITOR.dom.range( editor.document );
 				range.selectNodeContents( editor.editable().findOne( '[data-cke-real-element-type=anchor]' ) );
 				range.select();
@@ -81,4 +80,4 @@
 			} );
 		}
 	} );
-}() );
+} )() ;

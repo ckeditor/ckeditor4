@@ -2,8 +2,9 @@
 
 bender.test( {
 	createEditor: function( config, fn ) {
-		if ( bender.editor )
+		if ( bender.editor ) {
 			bender.editor.destroy();
+		}
 
 		var tc = this;
 		bender.editorBot.create( { creator: 'replace', config: config }, function( bot ) {
@@ -26,18 +27,18 @@ bender.test( {
 	},
 
 	'test no configured width/height': function() {
-		this.assertEditorSize( '', '200px', '', '',  'auto width and height' );
+		this.assertEditorSize( '', '200px', '', '', 'auto width and height' );
 	},
 
 	'test pixel width/height': function() {
-		this.assertEditorSize( '600px', '300px', 600, 300,  'width set to 600px, height set to 300px' );
+		this.assertEditorSize( '600px', '300px', 600, 300, 'width set to 600px, height set to 300px' );
 	},
 
 	'test percentage width': function() {
-		this.assertEditorSize( '50%', '200px', '50%', '',  'width set to 50%, auto height' );
+		this.assertEditorSize( '50%', '200px', '50%', '', 'width set to 50%, auto height' );
 	},
 
 	'test relative width': function() {
-		this.assertEditorSize( '20em', '10em', '20em', '10em',  'width set to 20em, height set to 10em' );
+		this.assertEditorSize( '20em', '10em', '20em', '10em', 'width set to 20em, height set to 10em' );
 	}
 } );

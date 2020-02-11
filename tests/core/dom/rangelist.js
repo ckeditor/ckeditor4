@@ -36,15 +36,17 @@
 			rlist = new CKEDITOR.dom.rangeList( ranges );
 			iterator = rlist.createIterator();
 
-			while ( range = iterator.getNextRange() )
+			while ( range = iterator.getNextRange() ) {
 				ranges2.push( range );
+			}
 
 			assert.isTrue( CKEDITOR.tools.arrayCompare( ranges, ranges2 ) );
 
 			iterator = rlist.createIterator();
 			ranges2 = [];
-			while ( range = iterator.getNextRange( true ) )
+			while ( range = iterator.getNextRange( true ) ) {
 				ranges2.push( range );
+			}
 
 			assert.areEqual( 1, ranges2.length, 'Adjacent nodes merged' );
 		}

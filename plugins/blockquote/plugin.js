@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -6,8 +6,9 @@
 ( function() {
 	function noBlockLeft( bqBlock ) {
 		for ( var i = 0, length = bqBlock.getChildCount(), child; i < length && ( child = bqBlock.getChild( i ) ); i++ ) {
-			if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() )
+			if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -18,8 +19,9 @@
 				selection = editor.getSelection(),
 				range = selection && selection.getRanges()[ 0 ];
 
-			if ( !range )
+			if ( !range ) {
 				return;
+			}
 
 			var bookmarks = selection.createBookmarks();
 
@@ -58,8 +60,9 @@
 
 			if ( state == CKEDITOR.TRISTATE_OFF ) {
 				var paragraphs = [];
-				while ( ( block = iterator.getNextParagraph() ) )
+				while ( ( block = iterator.getNextParagraph() ) ) {
 					paragraphs.push( block );
+				}
 
 				// If no paragraphs, create one from the current selection position.
 				if ( paragraphs.length < 1 ) {
@@ -85,18 +88,21 @@
 
 				// The common parent must not be the following tags: table, tbody, tr, ol, ul.
 				var denyTags = { table: 1, tbody: 1, tr: 1, ol: 1, ul: 1 };
-				while ( denyTags[ commonParent.getName() ] )
+				while ( denyTags[ commonParent.getName() ] ) {
 					commonParent = commonParent.getParent();
+				}
 
 				// Reconstruct the block list to be processed such that all resulting blocks
 				// satisfy parentNode.equals( commonParent ).
 				var lastBlock = null;
 				while ( paragraphs.length > 0 ) {
 					block = paragraphs.shift();
-					while ( !block.getParent().equals( commonParent ) )
+					while ( !block.getParent().equals( commonParent ) ) {
 						block = block.getParent();
-					if ( !block.equals( lastBlock ) )
+					}
+					if ( !block.equals( lastBlock ) ) {
 						tmp.push( block );
+					}
 					lastBlock = block;
 				}
 
@@ -161,11 +167,11 @@
 					// If the node is located at the beginning or the end, just take it out
 					// without splitting. Otherwise, split the blockquote node and move the
 					// paragraph in between the two blockquote nodes.
-					if ( !node.getPrevious() )
+					if ( !node.getPrevious() ) {
 						node.remove().insertBefore( bqBlock );
-					else if ( !node.getNext() )
+					} else if ( !node.getNext() ) {
 						node.remove().insertAfter( bqBlock );
-					else {
+					} else {
 						node.breakParent( node.getParent() );
 						processedBlockquoteBlocks.push( node.getNext() );
 					}
@@ -184,8 +190,9 @@
 				// Clear blockquote nodes that have become empty.
 				for ( i = processedBlockquoteBlocks.length - 1; i >= 0; i-- ) {
 					bqBlock = processedBlockquoteBlocks[ i ];
-					if ( noBlockLeft( bqBlock ) )
+					if ( noBlockLeft( bqBlock ) ) {
 						bqBlock.remove();
+					}
 				}
 
 				if ( editor.config.enterMode == CKEDITOR.ENTER_BR ) {
@@ -196,15 +203,18 @@
 						if ( node.getName() == 'div' ) {
 							docFrag = new CKEDITOR.dom.documentFragment( editor.document );
 							var needBeginBr = firstTime && node.getPrevious() && !( node.getPrevious().type == CKEDITOR.NODE_ELEMENT && node.getPrevious().isBlockBoundary() );
-							if ( needBeginBr )
+							if ( needBeginBr ) {
 								docFrag.append( editor.document.createElement( 'br' ) );
+							}
 
 							var needEndBr = node.getNext() && !( node.getNext().type == CKEDITOR.NODE_ELEMENT && node.getNext().isBlockBoundary() );
-							while ( node.getFirst() )
+							while ( node.getFirst() ) {
 								node.getFirst().remove().appendTo( docFrag );
+							}
 
-							if ( needEndBr )
+							if ( needEndBr ) {
 								docFrag.append( editor.document.createElement( 'br' ) );
+							}
 
 							docFrag.replace( node );
 							firstTime = false;
@@ -236,8 +246,9 @@
 		icons: 'blockquote', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			if ( editor.blockless )
+			if ( editor.blockless ) {
 				return;
+			}
 
 			editor.addCommand( 'blockquote', commandObject );
 

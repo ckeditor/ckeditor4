@@ -107,8 +107,9 @@
 
 		'test panel reposition on window resize': function() {
 			// IE7-8 can't fire custom event on DOM object.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
+			}
 
 			var editor = this.editor,
 				showBlockSpy = sinon.spy( panel, 'showBlock' ),
@@ -173,5 +174,4 @@
 			wait();
 		}
 	} );
-
 } )();

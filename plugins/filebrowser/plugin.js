@@ -127,11 +127,12 @@
 	function addQueryString( url, params ) {
 		var queryString = [];
 
-		if ( !params )
+		if ( !params ) {
 			return url;
-		else {
-			for ( var i in params )
+		} else {
+			for ( var i in params ) {
 				queryString.push( i + '=' + encodeURIComponent( params[ i ] ) );
+			}
 		}
 
 		return url + ( ( url.indexOf( '?' ) != -1 ) ? '&' : '?' ) + queryString.join( '&' );
@@ -177,8 +178,9 @@
 		var params = this.filebrowser.params || {};
 		params.CKEditor = editor.name;
 		params.CKEditorFuncNum = editor._.filebrowserFn;
-		if ( !params.langCode )
+		if ( !params.langCode ) {
 			params.langCode = editor.langCode;
+		}
 
 		var url = addQueryString( this.filebrowser.url, params );
 		// TODO: V4: Remove backward compatibility (https://dev.ckeditor.com/ticket/8163).
@@ -227,11 +229,13 @@
 		editor._.filebrowserSe = this;
 
 		// If user didn't select the file, stop the upload.
-		if ( !dialog.getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement().$.value )
+		if ( !dialog.getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement().$.value ) {
 			return false;
+		}
 
-		if ( !dialog.getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getAction() )
+		if ( !dialog.getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getAction() ) {
 			return false;
+		}
 
 		return true;
 	}
@@ -247,8 +251,9 @@
 		var params = filebrowser.params || {};
 		params.CKEditor = editor.name;
 		params.CKEditorFuncNum = editor._.filebrowserFn;
-		if ( !params.langCode )
+		if ( !params.langCode ) {
 			params.langCode = editor.langCode;
+		}
 
 		fileInput.action = addQueryString( filebrowser.url, params );
 		fileInput.filebrowser = filebrowser;
@@ -265,19 +270,22 @@
 	//            elements Array of {@link CKEDITOR.dialog.definition.content}
 	//            objects.
 	function attachFileBrowser( editor, dialogName, definition, elements ) {
-		if ( !elements || !elements.length )
+		if ( !elements || !elements.length ) {
 			return;
+		}
 
 		var element;
 
 		for ( var i = elements.length; i--; ) {
 			element = elements[ i ];
 
-			if ( element.type == 'hbox' || element.type == 'vbox' || element.type == 'fieldset' )
+			if ( element.type == 'hbox' || element.type == 'vbox' || element.type == 'fieldset' ) {
 				attachFileBrowser( editor, dialogName, definition, element.children );
+			}
 
-			if ( !element.filebrowser )
+			if ( !element.filebrowser ) {
 				continue;
+			}
 
 			if ( typeof element.filebrowser == 'string' ) {
 				var fb = {
@@ -291,8 +299,9 @@
 				var url = element.filebrowser.url;
 				if ( url === undefined ) {
 					url = editor.config[ 'filebrowser' + ucFirst( dialogName ) + 'BrowseUrl' ];
-					if ( url === undefined )
+					if ( url === undefined ) {
 						url = editor.config.filebrowserBrowseUrl;
+					}
 				}
 
 				if ( url ) {
@@ -304,8 +313,9 @@
 				url = element.filebrowser.url;
 				if ( url === undefined ) {
 					url = editor.config[ 'filebrowser' + ucFirst( dialogName ) + 'UploadUrl' ];
-					if ( url === undefined )
+					if ( url === undefined ) {
 						url = editor.config.filebrowserUploadUrl;
+					}
 				}
 
 				if ( url ) {
@@ -400,8 +410,9 @@
 		if ( elementId.indexOf( ';' ) !== -1 ) {
 			var ids = elementId.split( ';' );
 			for ( var i = 0; i < ids.length; i++ ) {
-				if ( isConfigured( definition, tabId, ids[ i ] ) )
+				if ( isConfigured( definition, tabId, ids[ i ] ) ) {
 					return true;
+				}
 			}
 			return false;
 		}
@@ -415,21 +426,26 @@
 			targetInput = this._.filebrowserSe[ 'for' ],
 			onSelect = this._.filebrowserSe.filebrowser.onSelect;
 
-		if ( targetInput )
+		if ( targetInput ) {
 			dialog.getContentElement( targetInput[ 0 ], targetInput[ 1 ] ).reset();
+		}
 
-		if ( typeof data == 'function' && data.call( this._.filebrowserSe ) === false )
+		if ( typeof data == 'function' && data.call( this._.filebrowserSe ) === false ) {
 			return;
+		}
 
-		if ( onSelect && onSelect.call( this._.filebrowserSe, fileUrl, data ) === false )
+		if ( onSelect && onSelect.call( this._.filebrowserSe, fileUrl, data ) === false ) {
 			return;
+		}
 
 		// The "data" argument may be used to pass the error message to the editor.
-		if ( typeof data == 'string' && data )
-			alert( data ); // jshint ignore:line
+		if ( typeof data == 'string' && data ) {
+			alert( data );
+		} // jshint ignore:line
 
-		if ( fileUrl )
+		if ( fileUrl ) {
 			updateTargetElement( fileUrl, this._.filebrowserSe );
+		}
 	}
 
 	CKEDITOR.plugins.add( 'filebrowser', {
@@ -444,8 +460,9 @@
 
 	CKEDITOR.on( 'dialogDefinition', function( evt ) {
 		// We require filebrowser plugin to be loaded.
-		if ( !evt.editor.plugins.filebrowser )
+		if ( !evt.editor.plugins.filebrowser ) {
 			return;
+		}
 
 		var definition = evt.data.definition,
 			element;
@@ -453,13 +470,12 @@
 		for ( var i = 0; i < definition.contents.length; ++i ) {
 			if ( ( element = definition.contents[ i ] ) ) {
 				attachFileBrowser( evt.editor, evt.data.name, definition, element.elements );
-				if ( element.hidden && element.filebrowser )
+				if ( element.hidden && element.filebrowser ) {
 					element.hidden = !isConfigured( definition, element.id, element.filebrowser );
-
+				}
 			}
 		}
 	} );
-
 } )();
 
 /**

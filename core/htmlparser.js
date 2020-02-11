@@ -121,10 +121,11 @@ CKEDITOR.htmlParser = function() {
 				if ( tagIndex > nextIndex ) {
 					var text = html.substring( nextIndex, tagIndex );
 
-					if ( cdata )
+					if ( cdata ) {
 						cdata.push( text );
-					else
+					} else {
 						this.onText( text );
+					}
 				}
 
 				nextIndex = this._.htmlPartsRegex.lastIndex;
@@ -164,8 +165,9 @@ CKEDITOR.htmlParser = function() {
 
 					// There are some tag names that can break things, so let's
 					// simply ignore them when parsing. (https://dev.ckeditor.com/ticket/5224)
-					if ( /="/.test( tagName ) )
+					if ( /="/.test( tagName ) ) {
 						continue;
+					}
 
 					var attribs = {},
 						attribMatch,
@@ -177,29 +179,33 @@ CKEDITOR.htmlParser = function() {
 							var attName = attribMatch[ 1 ].toLowerCase(),
 								attValue = attribMatch[ 2 ] || attribMatch[ 3 ] || attribMatch[ 4 ] || '';
 
-							if ( !attValue && emptyAttribs[ attName ] )
+							if ( !attValue && emptyAttribs[ attName ] ) {
 								attribs[ attName ] = attName;
-							else
+							} else {
 								attribs[ attName ] = CKEDITOR.tools.htmlDecodeAttr( attValue );
+							}
 						}
 					}
 
 					this.onTagOpen( tagName, attribs, selfClosing );
 
 					// Open CDATA mode when finding the appropriate tags.
-					if ( !cdata && CKEDITOR.dtd.$cdata[ tagName ] )
+					if ( !cdata && CKEDITOR.dtd.$cdata[ tagName ] ) {
 						cdata = [];
+					}
 
 					continue;
 				}
 
 				// Comment
-				if ( ( tagName = parts[ 2 ] ) )
+				if ( ( tagName = parts[ 2 ] ) ) {
 					this.onComment( tagName );
+				}
 			}
 
-			if ( html.length > nextIndex )
+			if ( html.length > nextIndex ) {
 				this.onText( html.substring( nextIndex, html.length ) );
+			}
 		}
 	};
 } )();

@@ -1,7 +1,6 @@
 /* bender-ckeditor-plugins: notificationaggregator */
 
 ( function() {
-
 	'use strict';
 
 	var Task;
@@ -209,5 +208,4 @@
 			assert.isFalse( doneEventSpy.called, 'Done event should not be fired.' );
 		}
 	} );
-
 } )();

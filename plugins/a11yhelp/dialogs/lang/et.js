@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
 	contents: 'Abi sisu. Selle dialoogi sulgemiseks vajuta ESC klahvi.',
 	legend: [
 		{
-		name: 'Üldine',
-		items: [
-			{
-			name: 'Redaktori tööriistariba',
-			legend: 'Tööriistaribale navigeerimiseks vajuta ${toolbarFocus}. Järgmisele või eelmisele tööriistagrupile liikumiseks vajuta TAB või SHIFT+TAB. Järgmisele või eelmisele tööriistaribale liikumiseks vajuta PAREMALE NOOLT või VASAKULE NOOLT. Vajuta TÜHIKUT või ENTERIT, et tööriistariba nupp aktiveerida.'
-		},
+			name: 'Üldine',
+			items: [
+				{
+					name: 'Redaktori tööriistariba',
+					legend: 'Tööriistaribale navigeerimiseks vajuta ${toolbarFocus}. Järgmisele või eelmisele tööriistagrupile liikumiseks vajuta TAB või SHIFT+TAB. Järgmisele või eelmisele tööriistaribale liikumiseks vajuta PAREMALE NOOLT või VASAKULE NOOLT. Vajuta TÜHIKUT või ENTERIT, et tööriistariba nupp aktiveerida.'
+				},
 
-			{
-			name: 'Redaktori dialoog',
-			legend:
-				'Dialoogi sees vajuta TAB, et liikuda järgmisele dialoogi elemendile, SHIFT+TAB, et liikuda tagasi, vajuta ENTER dialoogi kinnitamiseks, ESC dialoogi sulgemiseks. Kui dialoogil on mitu kaarti/sakki, pääseb kaartide nimekirjale ligi ALT+F10 klahvidega või TABi kasutades. Kui kaartide nimekiri on fookuses, saab järgmisele ja eelmisele kaardile vastavalt PAREMALE ja VASAKULE NOOLTEGA.' 
-		},
+				{
+					name: 'Redaktori dialoog',
+					legend:
+				'Dialoogi sees vajuta TAB, et liikuda järgmisele dialoogi elemendile, SHIFT+TAB, et liikuda tagasi, vajuta ENTER dialoogi kinnitamiseks, ESC dialoogi sulgemiseks. Kui dialoogil on mitu kaarti/sakki, pääseb kaartide nimekirjale ligi ALT+F10 klahvidega või TABi kasutades. Kui kaartide nimekiri on fookuses, saab järgmisele ja eelmisele kaardile vastavalt PAREMALE ja VASAKULE NOOLTEGA.'
+				},
 
-			{
-			name: 'Redaktori kontekstimenüü',
-			legend: 'Vajuta ${contextMenu} või RAKENDUSE KLAHVI, et avada kontekstimenüü. Siis saad liikuda järgmisele reale TAB klahvi või ALLA NOOLEGA. Eelmisele valikule saab liikuda SHIFT+TAB klahvidega või ÜLES NOOLEGA. Kirje valimiseks vajuta TÜHIK või ENTER. Alamenüü saab valida kui alammenüü kirje on aktiivne ja valida kas TÜHIK, ENTER või PAREMALE NOOL. Ülemisse menüüsse tagasi saab ESC klahvi või VASAKULE NOOLEGA. Menüü saab sulgeda ESC klahviga.'
-		},
+				{
+					name: 'Redaktori kontekstimenüü',
+					legend: 'Vajuta ${contextMenu} või RAKENDUSE KLAHVI, et avada kontekstimenüü. Siis saad liikuda järgmisele reale TAB klahvi või ALLA NOOLEGA. Eelmisele valikule saab liikuda SHIFT+TAB klahvidega või ÜLES NOOLEGA. Kirje valimiseks vajuta TÜHIK või ENTER. Alamenüü saab valida kui alammenüü kirje on aktiivne ja valida kas TÜHIK, ENTER või PAREMALE NOOL. Ülemisse menüüsse tagasi saab ESC klahvi või VASAKULE NOOLEGA. Menüü saab sulgeda ESC klahviga.'
+				},
 
-			{
-			name: 'Redaktori loetelu kast',
-			legend: 'Loetelu kasti sees saab järgmisele reale liikuda TAB klahvi või ALLANOOLEGA. Eelmisele reale saab liikuda SHIFT+TAB klahvide või ÜLESNOOLEGA. Kirje valimiseks vajuta TÜHIKUT või ENTERIT. Loetelu kasti sulgemiseks vajuta ESC klahvi.'
-		},
+				{
+					name: 'Redaktori loetelu kast',
+					legend: 'Loetelu kasti sees saab järgmisele reale liikuda TAB klahvi või ALLANOOLEGA. Eelmisele reale saab liikuda SHIFT+TAB klahvide või ÜLESNOOLEGA. Kirje valimiseks vajuta TÜHIKUT või ENTERIT. Loetelu kasti sulgemiseks vajuta ESC klahvi.'
+				},
 
-			{
-			name: 'Redaktori elementide järjestuse riba',
-			legend: 'Vajuta ${elementsPathFocus} et liikuda asukoha ribal asuvatele elementidele. Järgmise elemendi nupule saab liikuda TAB klahviga või PAREMALE NOOLEGA. Eelmisele nupule saab liikuda SHIFT+TAB klahvi või VASAKULE NOOLEGA. Vajuta TÜHIK või ENTER, et valida redaktoris vastav element.'
-		}
-		]
-	},
+				{
+					name: 'Redaktori elementide järjestuse riba',
+					legend: 'Vajuta ${elementsPathFocus} et liikuda asukoha ribal asuvatele elementidele. Järgmise elemendi nupule saab liikuda TAB klahviga või PAREMALE NOOLEGA. Eelmisele nupule saab liikuda SHIFT+TAB klahvi või VASAKULE NOOLEGA. Vajuta TÜHIK või ENTER, et valida redaktoris vastav element.'
+				}
+			]
+		},
 		{
-		name: 'Käsud',
-		items: [
-			{
-			name: 'Tühistamise käsk',
-			legend: 'Vajuta ${undo}'
-		},
-			{
-			name: 'Uuesti tegemise käsk',
-			legend: 'Vajuta ${redo}'
-		},
-			{
-			name: 'Rasvase käsk',
-			legend: 'Vajuta ${bold}'
-		},
-			{
-			name: 'Kursiivi käsk',
-			legend: 'Vajuta ${italic}'
-		},
-			{
-			name: 'Allajoonimise käsk',
-			legend: 'Vajuta ${underline}'
-		},
-			{
-			name: 'Lingi käsk',
-			legend: 'Vajuta ${link}'
-		},
-			{
-			name: 'Tööriistariba peitmise käsk',
-			legend: 'Vajuta ${toolbarCollapse}'
-		},
-			{
-			name: 'Ligipääs eelmisele fookuskohale',
-			legend: 'Vajuta ${accessPreviousSpace}, et pääseda ligi lähimale liigipääsematule fookuskohale enne kursorit, näiteks: kahe järjestikuse HR elemendi vahele. Vajuta kombinatsiooni uuesti, et pääseda ligi kaugematele kohtadele.'
-		},
-			{
-			name: 'Ligipääs järgmisele fookuskohale',
-			legend: 'Vajuta ${accessNextSpace}, et pääseda ligi lähimale liigipääsematule fookuskohale pärast kursorit, näiteks: kahe järjestikuse HR elemendi vahele. Vajuta kombinatsiooni uuesti, et pääseda ligi kaugematele kohtadele.'
-		},
-			{
-			name: 'Hõlbustuste abi',
-			legend: 'Vajuta ${a11yHelp}'
-		},
-			{
-			name: 'Asetamine tavalise tekstina',
-			legend: 'Vajuta ${pastetext}',
-			legendEdge: 'Vajuta ${pastetext}, siis ${paste}'
+			name: 'Käsud',
+			items: [
+				{
+					name: 'Tühistamise käsk',
+					legend: 'Vajuta ${undo}'
+				},
+				{
+					name: 'Uuesti tegemise käsk',
+					legend: 'Vajuta ${redo}'
+				},
+				{
+					name: 'Rasvase käsk',
+					legend: 'Vajuta ${bold}'
+				},
+				{
+					name: 'Kursiivi käsk',
+					legend: 'Vajuta ${italic}'
+				},
+				{
+					name: 'Allajoonimise käsk',
+					legend: 'Vajuta ${underline}'
+				},
+				{
+					name: 'Lingi käsk',
+					legend: 'Vajuta ${link}'
+				},
+				{
+					name: 'Tööriistariba peitmise käsk',
+					legend: 'Vajuta ${toolbarCollapse}'
+				},
+				{
+					name: 'Ligipääs eelmisele fookuskohale',
+					legend: 'Vajuta ${accessPreviousSpace}, et pääseda ligi lähimale liigipääsematule fookuskohale enne kursorit, näiteks: kahe järjestikuse HR elemendi vahele. Vajuta kombinatsiooni uuesti, et pääseda ligi kaugematele kohtadele.'
+				},
+				{
+					name: 'Ligipääs järgmisele fookuskohale',
+					legend: 'Vajuta ${accessNextSpace}, et pääseda ligi lähimale liigipääsematule fookuskohale pärast kursorit, näiteks: kahe järjestikuse HR elemendi vahele. Vajuta kombinatsiooni uuesti, et pääseda ligi kaugematele kohtadele.'
+				},
+				{
+					name: 'Hõlbustuste abi',
+					legend: 'Vajuta ${a11yHelp}'
+				},
+				{
+					name: 'Asetamine tavalise tekstina',
+					legend: 'Vajuta ${pastetext}',
+					legendEdge: 'Vajuta ${pastetext}, siis ${paste}'
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tabulaator',
 	pause: 'Paus',

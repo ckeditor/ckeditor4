@@ -188,7 +188,7 @@
 					[
 						// Transformation 3.1.
 						{
-							left: new CKEDITOR.style( { element: 's', attributes: { 'class': 'xyz abc' } } ),
+							left: new CKEDITOR.style( { element: 's', attributes: { class: 'xyz abc' } } ),
 							right: function( el ) {
 								el.attributes.ok = '4';
 							}
@@ -231,7 +231,7 @@
 					]
 				} );
 
-				var emStyle = new CKEDITOR.style( { element: 'span', attributes: { 'class': 'i' } } );
+				var emStyle = new CKEDITOR.style( { element: 'span', attributes: { class: 'i' } } );
 				editor.addFeature( {
 					allowedContent: 'em',
 					contentForms: [
@@ -240,7 +240,7 @@
 					]
 				} );
 
-				var sStyle = new CKEDITOR.style( { element: 's', attributes: { 'class': 'X', foo: '1' }, styles: { color: 'red' } } );
+				var sStyle = new CKEDITOR.style( { element: 's', attributes: { class: 'X', foo: '1' }, styles: { color: 'red' } } );
 				editor.addFeature( {
 					allowedContent: sStyle,
 					contentForms: [
@@ -318,7 +318,7 @@
 					]
 				} );
 
-				var emStyle = new CKEDITOR.style( { element: 'span', attributes: { 'class': 'i' } } );
+				var emStyle = new CKEDITOR.style( { element: 'span', attributes: { class: 'i' } } );
 				editor.addFeature( {
 					allowedContent: emStyle,
 					contentForms: [

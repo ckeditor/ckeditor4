@@ -16,13 +16,15 @@
 	 * should match its DOM order. This class will not help to sort them.
 	 */
 	CKEDITOR.dom.rangeList = function( ranges ) {
-		if ( ranges instanceof CKEDITOR.dom.rangeList )
+		if ( ranges instanceof CKEDITOR.dom.rangeList ) {
 			return ranges;
+		}
 
-		if ( !ranges )
+		if ( !ranges ) {
 			ranges = [];
-		else if ( ranges instanceof CKEDITOR.dom.range )
+		} else if ( ranges instanceof CKEDITOR.dom.range ) {
 			ranges = [ ranges ];
+		}
 
 		return CKEDITOR.tools.extend( ranges, mixins );
 	};
@@ -62,8 +64,9 @@
 						// restore them before the next iteration.
 						if ( !current ) {
 							// Make sure bookmark correctness by reverse processing.
-							for ( var i = rangeList.length - 1; i >= 0; i-- )
+							for ( var i = rangeList.length - 1; i >= 0; i-- ) {
 								bookmarks.unshift( rangeList[ i ].createBookmark( true ) );
+							}
 						}
 
 						if ( mergeConsequent ) {
@@ -93,8 +96,9 @@
 									break;
 								}
 
-								if ( !found )
+								if ( !found ) {
 									break;
+								}
 
 								mergeCount++;
 							}
@@ -146,8 +150,9 @@
 		createBookmarks2: function( normalized ) {
 			var bookmarks = [];
 
-			for ( var i = 0; i < this.length; i++ )
+			for ( var i = 0; i < this.length; i++ ) {
 				bookmarks.push( this[ i ].createBookmark2( normalized ) );
+			}
 
 			return bookmarks;
 		},
@@ -158,8 +163,9 @@
 		 * @param {Array} bookmarks The list of bookmarks, each one matching a range in the list.
 		 */
 		moveToBookmarks: function( bookmarks ) {
-			for ( var i = 0; i < this.length; i++ )
+			for ( var i = 0; i < this.length; i++ ) {
 				this[ i ].moveToBookmark( bookmarks[ i ] );
+			}
 		}
 	};
 

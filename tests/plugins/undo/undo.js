@@ -59,7 +59,6 @@ bender.test( {
 					assert.areSame( input, output );
 				}, 0 );
 			} );
-
 		}, 0 );
 	},
 
@@ -352,8 +351,9 @@ bender.test( {
 		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
 
 		// Check if test isn't outdated and really works.
-		if ( CKEDITOR.env.webkit )
+		if ( CKEDITOR.env.webkit ) {
 			assert.isTrue( initialHtml.length > editable.getHtml().length, 'Filling char has been removed' );
+		}
 
 		editor.fire( 'saveSnapshot' );
 
@@ -403,8 +403,9 @@ bender.test( {
 		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
 
 		// Check if test isn't outdated and really works.
-		if ( CKEDITOR.env.webkit )
+		if ( CKEDITOR.env.webkit ) {
 			assert.isTrue( initialHtml.length > editable.getHtml().length, 'Filling char has been removed' );
+		}
 
 		editor.fire( 'lockSnapshot' );
 
@@ -435,8 +436,9 @@ bender.test( {
 		editor.getSelection().selectRanges( [ range ] );
 
 		// Check if test isn't outdated.
-		if ( CKEDITOR.env.webkit )
+		if ( CKEDITOR.env.webkit ) {
 			assert.isTrue( initialHtml.length < editable.getHtml().length, 'Filling char has been added' );
+		}
 
 		editor.fire( 'lockSnapshot' );
 
@@ -579,7 +581,6 @@ bender.test( {
 			editor.getSelection().reset();
 			editor.resetUndo();
 		}
-
 	},
 
 	'test lock with dontUpdate option': function() {
@@ -839,8 +840,9 @@ bender.test( {
 	},
 
 	'test undo with "control" type selection in IE': function() {
-		if ( !CKEDITOR.env.ie || ( document.documentMode || CKEDITOR.env.version ) > 8 )
+		if ( !CKEDITOR.env.ie || ( document.documentMode || CKEDITOR.env.version ) > 8 ) {
 			assert.ignore();
+		}
 
 		var bot = this.editorBot;
 

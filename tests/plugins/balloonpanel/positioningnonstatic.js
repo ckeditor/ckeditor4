@@ -8,7 +8,7 @@
 
 	var getViewPaneSizeStub;
 
-/*
+	/*
 Editors' order is important (#2350).
 When inline editor is added as a last one, there appear an error for test:
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
@@ -7,21 +7,21 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'fi', {
 	bgColorTitle: 'Taustaväri',
 	colors: {
 		'000': 'Musta',
-		'800000': 'Kastanjanruskea',
+		800000: 'Kastanjanruskea',
 		'8B4513': 'Satulanruskea',
 		'2F4F4F': 'Tumma liuskekivenharmaa',
 		'008080': 'Sinivihreä',
 		'000080': 'Laivastonsininen',
 		'4B0082': 'Indigonsininen',
-		'696969': 'Tummanharmaa',
+		696969: 'Tummanharmaa',
 		B22222: 'Tiili',
 		A52A2A: 'Ruskea',
 		DAA520: 'Kultapiisku',
 		'006400': 'Tummanvihreä',
 		'40E0D0': 'Turkoosi',
 		'0000CD': 'Keskisininen',
-		'800080': 'Purppura',
-		'808080': 'Harmaa',
+		800080: 'Purppura',
+		808080: 'Harmaa',
 		F00: 'Punainen',
 		FF8C00: 'Tumma oranssi',
 		FFD700: 'Kulta',
@@ -51,23 +51,23 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'fi', {
 		'3498DB': 'Bright Blue', // MISSING
 		'9B59B6': 'Amethyst', // MISSING
 		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
+		F1C40F: 'Vivid Yellow', // MISSING
 		'16A085': 'Dark Cyan', // MISSING
 		'27AE60': 'Dark Emerald', // MISSING
 		'2980B9': 'Strong Blue', // MISSING
 		'8E44AD': 'Dark Violet', // MISSING
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
+		F39C12: 'Orange', // MISSING
+		E67E22: 'Carrot', // MISSING
+		E74C3C: 'Pale Red', // MISSING
+		ECF0F1: 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
+		DDD: 'Light Gray', // MISSING
+		D35400: 'Pumpkin', // MISSING
+		C0392B: 'Strong Red', // MISSING
+		BDC3C7: 'Silver', // MISSING
 		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		999: 'Dark Gray' // MISSING
 	},
 	more: 'Lisää värejä...',
 	panelTitle: 'Värit',

@@ -26,10 +26,10 @@ bender.test( {
 		jsonpCallback = function( urlTemplate, urlParams, callback ) {
 			resume( function() {
 				callback( {
-					'url': decodeURIComponent( urlParams.url ),
-					'type': 'rich',
-					'version': '1.0',
-					'html': '<img src="' + decodeURIComponent( urlParams.url ) + '">'
+					url: decodeURIComponent( urlParams.url ),
+					type: 'rich',
+					version: '1.0',
+					html: '<img src="' + decodeURIComponent( urlParams.url ) + '">'
 				} );
 
 				showNotificationSpy.restore();

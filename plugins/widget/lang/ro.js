@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'ro', {
-	'move': 'Apasă și trage pentru a muta',
-	'label': '%1 widget'
+	move: 'Apasă și trage pentru a muta',
+	label: '%1 widget'
 } );

@@ -60,7 +60,6 @@
 
 		proto: {
 			focus: function() {
-
 				var active;
 
 				// [Webkit] When DOM focus is inside of nested contenteditable elements,
@@ -99,16 +98,17 @@
 					}
 				} catch ( e ) {
 					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
-					if ( !CKEDITOR.env.ie )
+					if ( !CKEDITOR.env.ie ) {
 						throw e;
+					}
 				}
 
 				// Remedy if Safari doens't applies focus properly. (https://dev.ckeditor.com/ticket/279)
 				if ( CKEDITOR.env.safari && !this.isInline() ) {
 					active = CKEDITOR.document.getActive();
-					if ( !active.equals( this.getWindow().getFrame() ) )
+					if ( !active.equals( this.getWindow().getFrame() ) ) {
 						this.getWindow().focus();
-
+					}
 				}
 			},
 
@@ -200,8 +200,9 @@
 				var listeners = this._.listeners;
 				// Don't get broken by this.
 				try {
-					while ( listeners.length )
+					while ( listeners.length ) {
 						listeners.pop().removeListener();
+					}
 				} catch ( e ) {}
 			},
 
@@ -245,8 +246,9 @@
 					!this._.attrChanges && ( this._.attrChanges = {} );
 
 					// Saved the original attribute val.
-					if ( !( attr in this._.attrChanges ) )
+					if ( !( attr in this._.attrChanges ) ) {
 						this._.attrChanges[ attr ] = orgVal;
+					}
 
 					this.setAttribute( attr, val );
 				}
@@ -385,11 +387,13 @@
 
 						if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.is( CKEDITOR.dtd.$block ) ) {
 							// If the next one is a text block, move cursor to the start of it's content.
-							if ( next.getDtd()[ '#' ] )
+							if ( next.getDtd()[ '#' ] ) {
 								range.moveToElementEditStart( next );
+							}
 							// Otherwise move cursor to the before end of the last element.
-							else
+							else {
 								range.moveToElementEditEnd( element );
+							}
 						}
 						// Open a new line if the block is inserted at the end of parent.
 						else if ( !next && enterMode != CKEDITOR.ENTER_BR ) {
@@ -431,8 +435,9 @@
 					elementName = element.getName(),
 					isBlock = CKEDITOR.dtd.$block[ elementName ];
 
-				if ( range.checkReadOnly() )
+				if ( range.checkReadOnly() ) {
 					return false;
+				}
 
 				// Remove the original contents, merge split nodes.
 				range.deleteContents( 1 );
@@ -496,15 +501,17 @@
 			 * @see CKEDITOR.editor#setData
 			 */
 			setData: function( data, isSnapshot ) {
-				if ( !isSnapshot )
+				if ( !isSnapshot ) {
 					data = this.editor.dataProcessor.toHtml( data );
+				}
 
 				this.setHtml( data );
 				this.fixInitialSelection();
 
 				// Editable is ready after first setData.
-				if ( this.status == 'unloaded' )
+				if ( this.status == 'unloaded' ) {
 					this.status = 'ready';
+				}
 
 				this.editor.fire( 'dataReady' );
 			},
@@ -515,8 +522,9 @@
 			getData: function( isSnapshot ) {
 				var data = this.getHtml();
 
-				if ( !isSnapshot )
+				if ( !isSnapshot ) {
 					data = this.editor.dataProcessor.toDataFormat( data );
+				}
 
 				return data;
 			},
@@ -548,7 +556,7 @@
 					this._.cleanCustomData();
 				} catch ( error ) {
 					if ( !CKEDITOR.env.ie || error.number !== -2146828218 ) {
-						throw( error );
+						throw ( error );
 					}
 				}
 
@@ -679,8 +687,9 @@
 			 */
 			getHtmlFromRange: function( range ) {
 				// There's nothing to return if range is collapsed.
-				if ( range.collapsed )
+				if ( range.collapsed ) {
 					return new CKEDITOR.dom.documentFragment( range.document );
+				}
 
 				// Info object passed between methods.
 				var that = {
@@ -808,8 +817,9 @@
 					helpers.autoParagraph( this.editor, range );
 
 					// Let's have a bogus next to the caret, if needed.
-					if ( isEmpty( range.startContainer ) )
+					if ( isEmpty( range.startContainer ) ) {
 						range.startContainer.appendBogus();
+					}
 				}
 
 				// Merge inline siblings if any around the caret.
@@ -833,10 +843,11 @@
 					// Post processing html output of wysiwyg editable.
 					if ( !this.is( 'textarea' ) ) {
 						// Reset empty if the document contains only one empty paragraph.
-						if ( editor.config.ignoreEmptyParagraph !== false )
+						if ( editor.config.ignoreEmptyParagraph !== false ) {
 							data = data.replace( emptyParagraphRegexp, function( match, lookback ) {
 								return lookback;
 							} );
+						}
 					}
 
 					editor.setData( data, null, 1 );
@@ -861,8 +872,9 @@
 					// IE considers control-type element as separate
 					// focus host when selected, avoid destroying the
 					// selection in such case. (https://dev.ckeditor.com/ticket/5812) (https://dev.ckeditor.com/ticket/8949)
-					if ( ieSel && ieSel.type == 'Control' )
+					if ( ieSel && ieSel.type == 'Control' ) {
 						return;
+					}
 
 					this.focus();
 				}, this );
@@ -921,7 +933,6 @@
 				// [Edge] This is the other part of the workaround for Edge which restores saved
 				// scrollTop value and removes listener which is not needed anymore. (https://dev.ckeditor.com/ticket/14825)
 				if ( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) {
-
 					var fixScrollOnFocus = function() {
 						var editable = editor.editable();
 
@@ -949,15 +960,15 @@
 
 				// Apply tab index on demand, with original direction saved.
 				if ( this.isInline() ) {
-
 					// tabIndex of the editable is different than editor's one.
 					// Update the attribute of the editable.
 					this.changeAttr( 'tabindex', editor.tabIndex );
 				}
 
 				// The above is all we'll be doing for a <textarea> editable.
-				if ( this.is( 'textarea' ) )
+				if ( this.is( 'textarea' ) ) {
 					return;
+				}
 
 				// The DOM document which the editing acts upon.
 				editor.document = this.getDocument();
@@ -969,8 +980,9 @@
 
 				// Apply contents direction on demand, with original direction saved.
 				var dir = editor.config.contentsLangDirection;
-				if ( this.getDirection( 1 ) != dir )
+				if ( this.getDirection( 1 ) != dir ) {
 					this.changeAttr( 'dir', dir );
+				}
 
 				// Create the content stylesheet for this document.
 				var styles = CKEDITOR.getCss();
@@ -1001,8 +1013,9 @@
 
 					var link = new CKEDITOR.dom.elementPath( evt.getTarget(), this ).contains( 'a' );
 
-					if ( link && evt.$.button != 2 && link.isReadOnly() )
+					if ( link && evt.$.button != 2 && link.isReadOnly() ) {
 						evt.preventDefault();
+					}
 				} );
 
 				var backspaceOrDelete = { 8: 1, 46: 1 };
@@ -1010,8 +1023,9 @@
 				// Override keystrokes which should have deletion behavior
 				//  on fully selected element . (https://dev.ckeditor.com/ticket/4047) (https://dev.ckeditor.com/ticket/7645)
 				this.attachListener( editor, 'key', function( evt ) {
-					if ( editor.readOnly )
+					if ( editor.readOnly ) {
 						return true;
+					}
 
 					// Use getKey directly in order to ignore modifiers.
 					// Justification: https://dev.ckeditor.com/ticket/11861#comment:13
@@ -1036,8 +1050,8 @@
 
 
 						if (
-								// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (https://dev.ckeditor.com/ticket/10055)
-								( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && ( selected = sel.getSelectedElement() ) ) ||
+						// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (https://dev.ckeditor.com/ticket/10055)
+							( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && ( selected = sel.getSelectedElement() ) ) ||
 								// Remove the entire list/table on fully selected content. (https://dev.ckeditor.com/ticket/7645)
 								( selected = getSelectedTableList( sel ) ) ) {
 							// Make undo snapshot.
@@ -1065,8 +1079,9 @@
 								editor.fire( 'saveSnapshot' );
 
 								// Remove the current empty block.
-								if ( range[ rtl ? 'checkEndOfBlock' : 'checkStartOfBlock' ]() )
+								if ( range[ rtl ? 'checkEndOfBlock' : 'checkStartOfBlock' ]() ) {
 									block.remove();
+								}
 
 								// Move cursor to the beginning/end of table cell.
 								range[ 'moveToElementEdit' + ( rtl ? 'End' : 'Start' ) ]( next );
@@ -1075,8 +1090,7 @@
 								editor.fire( 'saveSnapshot' );
 
 								isHandled = 1;
-							}
-							else if ( path.blockLimit && path.blockLimit.is( 'td' ) &&
+							} else if ( path.blockLimit && path.blockLimit.is( 'td' ) &&
 									( parent = path.blockLimit.getAscendant( 'table' ) ) &&
 									range.checkBoundaryOfElement( parent, rtl ? CKEDITOR.START : CKEDITOR.END ) &&
 									( next = parent[ rtl ? 'getPrevious' : 'getNext' ]( isNotWhitespace ) ) ) {
@@ -1086,10 +1100,11 @@
 								range[ 'moveToElementEdit' + ( rtl ? 'End' : 'Start' ) ]( next );
 
 								// Remove any previous empty block.
-								if ( range.checkStartOfBlock() && range.checkEndOfBlock() )
+								if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
 									next.remove();
-								else
+								} else {
 									range.select();
+								}
 
 								editor.fire( 'saveSnapshot' );
 
@@ -1101,7 +1116,6 @@
 								isHandled = 1;
 							}
 						}
-
 					}
 
 					return !isHandled;
@@ -1122,8 +1136,9 @@
 				}
 
 				this.attachListener( this, 'dblclick', function( evt ) {
-					if ( editor.readOnly )
+					if ( editor.readOnly ) {
 						return false;
+					}
 
 					var data = { element: evt.data.getTarget() };
 					editor.fire( 'doubleclick', data );
@@ -1144,8 +1159,9 @@
 							editor.getSelection().selectElement( control );
 
 							// Prevent focus from stealing from the editable. (https://dev.ckeditor.com/ticket/9515)
-							if ( control.is( 'input', 'textarea', 'select' ) )
+							if ( control.is( 'input', 'textarea', 'select' ) ) {
 								ev.data.preventDefault();
+							}
 						}
 					} );
 				}
@@ -1181,14 +1197,16 @@
 				if ( CKEDITOR.env.webkit ) {
 					// Prevent from tick checkbox/radiobox/select
 					this.attachListener( this, 'click', function( ev ) {
-						if ( ev.data.getTarget().is( 'input', 'select' ) )
+						if ( ev.data.getTarget().is( 'input', 'select' ) ) {
 							ev.data.preventDefault();
+						}
 					} );
 
 					// Prevent from editig textfield/textarea value.
 					this.attachListener( this, 'mouseup', function( ev ) {
-						if ( ev.data.getTarget().is( 'input', 'textarea' ) )
+						if ( ev.data.getTarget().is( 'input', 'textarea' ) ) {
 							ev.data.preventDefault();
+						}
 					} );
 				}
 
@@ -1204,8 +1222,9 @@
 						// Justification: https://dev.ckeditor.com/ticket/11861#comment:13
 						var key = evt.data.domEvent.getKey();
 
-						if ( !( key in backspaceOrDelete ) )
+						if ( !( key in backspaceOrDelete ) ) {
 							return;
+						}
 
 						// Prevent of reading path of empty range (https://dev.ckeditor.com/ticket/13096, #457).
 						var sel = editor.getSelection();
@@ -1218,11 +1237,13 @@
 							startPath = range.startPath();
 
 						if ( range.collapsed ) {
-							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) )
+							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) ) {
 								return;
+							}
 						} else {
-							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) )
+							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) ) {
 								return;
+							}
 						}
 
 						// Scroll to the new position of the caret (https://dev.ckeditor.com/ticket/11960).
@@ -1304,8 +1325,9 @@
 
 		// This editor has already associated with
 		// an editable element, silently fails.
-		if ( editable && element )
+		if ( editable && element ) {
 			return 0;
+		}
 
 		if ( !arguments.length ) {
 			return editable;
@@ -1329,15 +1351,17 @@
 			var element = evt.data;
 			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
 				// // The element is still not inserted yet, force attribute-based check.
-				if ( element.getAttribute( 'contentEditable' ) != 'false' )
+				if ( element.getAttribute( 'contentEditable' ) != 'false' ) {
 					element.data( 'cke-editable', element.hasAttribute( 'contenteditable' ) ? 'true' : '1' );
+				}
 				element.setAttribute( 'contentEditable', false );
 			}
 		} );
 
 		editor.on( 'selectionChange', function( evt ) {
-			if ( editor.readOnly )
+			if ( editor.readOnly ) {
 				return;
+			}
 
 			// Auto fixing on some document structure weakness to enhance usabilities. (https://dev.ckeditor.com/ticket/3190 and https://dev.ckeditor.com/ticket/3189)
 			var sel = editor.getSelection();
@@ -1360,21 +1384,20 @@
 		var editor = evt.editor;
 
 		editor.on( 'mode', function() {
-
 			var editable = editor.editable();
 
 			// Setup proper ARIA roles and properties for inline editable, classic
 			// (iframe-based) editable is instead handled by plugin.
 			if ( editable && editable.isInline() ) {
-
 				var ariaLabel = editor.title;
 
 				editable.changeAttr( 'role', 'textbox' );
 				editable.changeAttr( 'aria-multiline', 'true' ); // (#1034)
 				editable.changeAttr( 'aria-label', ariaLabel );
 
-				if ( ariaLabel )
+				if ( ariaLabel ) {
 					editable.changeAttr( 'title', ariaLabel );
+				}
 
 				var helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
 				if ( helpLabel ) {
@@ -1455,8 +1478,9 @@
 				// For IE<11, we should remove any filler node which was introduced before.
 				if ( !CKEDITOR.env.needsBrFiller ) {
 					var first = fixedBlock.getFirst( isNotEmpty );
-					if ( first && isNbsp( first ) )
+					if ( first && isNbsp( first ) ) {
 						first.remove();
+					}
 				}
 
 				selectionUpdateNeeded = 1;
@@ -1466,16 +1490,18 @@
 			}
 		}
 
-		if ( selectionUpdateNeeded )
+		if ( selectionUpdateNeeded ) {
 			range.select();
+		}
 	}
 
 	// Checks whether current selection requires br filler to be appended.
 	// @returns Block which needs filler or falsy value.
 	function needsBrFiller( selection, path ) {
 		// Fake selection does not need filler, because it is fake.
-		if ( selection.isFake )
+		if ( selection.isFake ) {
 			return 0;
+		}
 
 		// Ensure bogus br could help to move cursor (out of styles) to the end of block. (https://dev.ckeditor.com/ticket/7041)
 		var pathBlock = path.block || path.blockLimit,
@@ -1489,16 +1515,18 @@
 			pathBlock && pathBlock.isBlockBoundary() &&
 			!( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) &&
 			!pathBlock.is( 'pre' ) && !pathBlock.getBogus()
-		)
+		) {
 			return pathBlock;
+		}
 	}
 
 	function blockInputClick( evt ) {
 		var element = evt.data.getTarget();
 		if ( element.is( 'input' ) ) {
 			var type = element.getAttribute( 'type' );
-			if ( type == 'submit' || type == 'reset' )
+			if ( type == 'submit' || type == 'reset' ) {
 				evt.data.preventDefault();
+			}
 		}
 	}
 
@@ -1519,8 +1547,9 @@
 			// so let's also check the node type.
 			other = ( other && other.nodeType == CKEDITOR.NODE_ELEMENT ) ? new CKEDITOR.dom.element( other ) : null;
 
-			if ( !( other && ( src.equals( other ) || src.contains( other ) ) ) )
+			if ( !( other && ( src.equals( other ) || src.contains( other ) ) ) ) {
 				fn.call( this, evt );
+			}
 		};
 	}
 
@@ -1605,14 +1634,16 @@
 			return function( node, isWalkOut ) {
 				// Save the encountered node as selected if going down the DOM structure
 				// and the node is structured element.
-				if ( isWalkOut && node.type == CKEDITOR.NODE_ELEMENT && node.is( structural ) )
+				if ( isWalkOut && node.type == CKEDITOR.NODE_ELEMENT && node.is( structural ) ) {
 					selected = node;
+				}
 
 				// Stop the walker when either traversing another non-empty node at the same
 				// DOM level as in previous step.
 				// NOTE: When going forwards, stop if encountered a bogus.
-				if ( !isWalkOut && isNotEmpty( node ) && !( forwardGuard && isBogus( node ) ) )
+				if ( !isWalkOut && isNotEmpty( node ) && !( forwardGuard && isBogus( node ) ) ) {
 					return false;
+				}
 			};
 		}
 	}
@@ -1653,8 +1684,9 @@
 			}
 
 			// Check range spans in non-editable.
-			if ( range.checkReadOnly() )
+			if ( range.checkReadOnly() ) {
 				return;
+			}
 
 			// RANGE PREPARATIONS
 
@@ -1755,8 +1787,9 @@
 				( previous = getRangePrevious( range ) ) && checkIfElement( previous ) && previous.isBlockBoundary() &&
 				// Check if previousNode was parent of range's startContainer before deleteContents.
 				startPath.contains( previous )
-			)
+			) {
 				range.moveToPosition( previous, CKEDITOR.POSITION_BEFORE_END );
+			}
 
 			// Rule 5.
 			mergeAncestorElementsOfSelectionEnds( range, that.blockLimit, startPath, endPath );
@@ -1807,8 +1840,9 @@
 			// Rule 8. - wrap entire data in inline styles.
 			// (e.g. <p><b>x^z</b></p> + <p>a</p><p>b</p> -> <b><p>a</p><p>b</p></b>)
 			// Incorrect tags order will be fixed by htmlDataProcessor.
-			if ( that.type == 'text' && that.inlineStylesRoot )
+			if ( that.type == 'text' && that.inlineStylesRoot ) {
 				data = wrapDataWithInlineStyles( data, that );
+			}
 
 
 			var context = that.blockLimit.getName();
@@ -1817,7 +1851,7 @@
 			// when going through the below procedure.
 			if ( /^\s+|\s+$/.test( data ) && 'span' in CKEDITOR.dtd[ context ] ) {
 				var protect = '<span data-cke-marker="1">&nbsp;</span>';
-				data =  protect + data + protect;
+				data = protect + data + protect;
 			}
 
 			// Process the inserted html, in context of the insertion root.
@@ -1904,8 +1938,9 @@
 					fixBlock = doc.createElement( fixBlock );
 					fixBlock.appendBogus();
 					range.insertNode( fixBlock );
-					if ( CKEDITOR.env.needsBrFiller && ( bogus = fixBlock.getBogus() ) )
+					if ( CKEDITOR.env.needsBrFiller && ( bogus = fixBlock.getBogus() ) ) {
 						bogus.remove();
+					}
 					range.moveToPosition( fixBlock, CKEDITOR.POSITION_BEFORE_END );
 				}
 
@@ -1924,8 +1959,9 @@
 				}
 
 				// First not allowed node reached - start splitting original container
-				if ( nodeData.firstNotAllowed )
+				if ( nodeData.firstNotAllowed ) {
 					splittingContainer = 1;
+				}
 
 				if ( splittingContainer && nodeData.isElement ) {
 					insertionContainer = range.startContainer;
@@ -1959,8 +1995,9 @@
 				}
 
 				if ( filteredNodes ) {
-					while ( ( node = filteredNodes.pop() ) )
+					while ( ( node = filteredNodes.pop() ) ) {
 						range.insertNode( node );
+					}
 					filteredNodes = 0;
 				} else {
 					// Insert current node at the start of range.
@@ -2007,8 +2044,9 @@
 			// And replace <div><p><span data="cke-bookmark"/></p></div> with found bookmark.
 			while ( ( node = that.zombies.pop() ) ) {
 				// Detached element.
-				if ( !node.getParent() )
+				if ( !node.getParent() ) {
 					continue;
+				}
 
 				testRange = range.clone();
 				testRange.moveToElementEditStart( node );
@@ -2018,16 +2056,18 @@
 			if ( bogusNeededBlocks ) {
 				// Bring back all block bogus nodes.
 				while ( ( node = bogusNeededBlocks.pop() ) ) {
-					if ( CKEDITOR.env.needsBrFiller )
+					if ( CKEDITOR.env.needsBrFiller ) {
 						node.appendBogus();
-					else
+					} else {
 						node.append( range.document.createText( '\u00a0' ) );
+					}
 				}
 			}
 
 			// Eventually merge identical inline elements.
-			while ( ( node = that.mergeCandidates.pop() ) )
+			while ( ( node = that.mergeCandidates.pop() ) ) {
 				node.mergeSiblings();
+			}
 
 			range.moveToBookmark( bm );
 
@@ -2038,9 +2078,9 @@
 				node = getRangePrevious( range );
 
 				while ( node && checkIfElement( node ) && !node.is( DTD.$empty ) ) {
-					if ( node.isBlockBoundary() )
+					if ( node.isBlockBoundary() ) {
 						range.moveToPosition( node, CKEDITOR.POSITION_BEFORE_END );
-					else {
+					} else {
 						// Don't move into inline element (which ends with a text node)
 						// found which contains white-space at its end.
 						// If not - move range's end to the end of this element.
@@ -2058,7 +2098,6 @@
 
 				movedIntoInline && range.moveToRange( movedIntoInline );
 			}
-
 		}
 
 		//
@@ -2111,10 +2150,12 @@
 						blockSibling = sibling && checkIfElement( sibling ) && DTD.$block[ sibling.getName() ];
 					}
 
-					if ( firstNotAllowed == -1 && !allowed )
+					if ( firstNotAllowed == -1 && !allowed ) {
 						firstNotAllowed = nodeIndex;
-					if ( !allowed )
+					}
+					if ( !allowed ) {
 						lastNotAllowed = nodeIndex;
+					}
 
 					nodesData.push( {
 						isElement: 1,
@@ -2135,10 +2176,12 @@
 
 			// Mark first node that cannot be inserted directly into startContainer
 			// and last node for which startContainer has to be split.
-			if ( firstNotAllowed > -1 )
+			if ( firstNotAllowed > -1 ) {
 				nodesData[ firstNotAllowed ].firstNotAllowed = 1;
-			if ( lastNotAllowed > -1 )
+			}
+			if ( lastNotAllowed > -1 ) {
 				nodesData[ lastNotAllowed ].lastNotAllowed = 1;
+			}
 
 			return nodesData;
 		}
@@ -2173,8 +2216,9 @@
 			}
 
 			// Remove trailing space.
-			if ( isLast && lastSpaceIndex == nodes2.length )
+			if ( isLast && lastSpaceIndex == nodes2.length ) {
 				nodes2.pop();
+			}
 
 			return nodes2;
 		}
@@ -2188,20 +2232,23 @@
 				allowedNames = DTD[ parentName ],
 				surroundBySpaces = !element.is( DTD.$inline ) || element.is( 'br' );
 
-			if ( surroundBySpaces )
+			if ( surroundBySpaces ) {
 				nodes.push( ' ' );
+			}
 
 			for ( ; childIndex < childrenCount; childIndex++ ) {
 				child = children.getItem( childIndex );
 
-				if ( checkIfElement( child ) && !child.is( allowedNames ) )
+				if ( checkIfElement( child ) && !child.is( allowedNames ) ) {
 					nodes = nodes.concat( filterElementInner( child, parentName ) );
-				else
+				} else {
 					nodes.push( child );
+				}
 			}
 
-			if ( surroundBySpaces )
+			if ( surroundBySpaces ) {
 				nodes.push( ' ' );
+			}
 
 			return nodes;
 		}
@@ -2216,8 +2263,9 @@
 
 		// Checks if only non-editable element is being inserted.
 		function isSingleNonEditableElement( nodesData ) {
-			if ( nodesData.length != 1 )
+			if ( nodesData.length != 1 ) {
 				return false;
+			}
 
 			var nodeData = nodesData[ 0 ];
 
@@ -2244,7 +2292,7 @@
 				( previousNode = nextNode.getPrevious() ) &&				// Take previous one
 				checkIfElement( previousNode ) &&							// which also has to be an element.
 				!previousNode.getParent().equals( range.startContainer ) && // Fail if caret is on the same level.
-																			// This means that caret is between these nodes.
+			// This means that caret is between these nodes.
 				startPath.contains( previousNode ) &&						// Elements path of start of selection has
 				endPath.contains( nextNode ) &&								// to contain prevNode and vice versa.
 				nextNode.isIdentical( previousNode )						// Check if elements are identical.
@@ -2263,8 +2311,9 @@
 			var succeedingNode = range.endContainer.getChild( range.endOffset ),
 				precedingNode = range.endContainer.getChild( range.endOffset - 1 );
 
-			if ( succeedingNode )
+			if ( succeedingNode ) {
 				remove( succeedingNode, nodesData[ nodesData.length - 1 ] );
+			}
 
 			if ( precedingNode && remove( precedingNode, nodesData[ 0 ] ) ) {
 				// If preceding <br> was removed - move range left.
@@ -2285,17 +2334,20 @@
 		function splitOnLineBreak( range, blockLimit, nodeData ) {
 			var firstBlockAscendant, pos;
 
-			if ( nodeData.hasBlockSibling )
+			if ( nodeData.hasBlockSibling ) {
 				return 1;
+			}
 
 			firstBlockAscendant = range.startContainer.getAscendant( DTD.$block, 1 );
-			if ( !firstBlockAscendant || !firstBlockAscendant.is( { div: 1, p: 1 } ) )
+			if ( !firstBlockAscendant || !firstBlockAscendant.is( { div: 1, p: 1 } ) ) {
 				return 0;
+			}
 
 			pos = firstBlockAscendant.getPosition( blockLimit );
 
-			if ( pos == CKEDITOR.POSITION_IDENTICAL || pos == CKEDITOR.POSITION_CONTAINS )
+			if ( pos == CKEDITOR.POSITION_IDENTICAL || pos == CKEDITOR.POSITION_CONTAINS ) {
 				return 0;
+			}
 
 			var newContainer = range.splitElement( firstBlockAscendant );
 			range.moveToPosition( newContainer, CKEDITOR.POSITION_AFTER_START );
@@ -2320,8 +2372,9 @@
 				children = block.getElementsByTag( '*' );
 				for ( var i = 0, child, count = children.count(); i < count; i++ ) {
 					child = children.getItem( i );
-					if ( !child.is( inlineButNotBr ) )
+					if ( !child.is( inlineButNotBr ) ) {
 						return;
+					}
 				}
 
 				block.moveChildren( block.getParent( 1 ) );
@@ -2379,10 +2432,12 @@
 		function getFixTableSelectionWalker( testRange ) {
 			var walker = new CKEDITOR.dom.walker( testRange );
 			walker.guard = function( node, isMovingOut ) {
-				if ( isMovingOut )
+				if ( isMovingOut ) {
 					return false;
-				if ( node.type == CKEDITOR.NODE_ELEMENT )
+				}
+				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 					return node.is( CKEDITOR.dtd.$tableContent );
+				}
 			};
 			walker.evaluator = function( node ) {
 				return node.type == CKEDITOR.NODE_ELEMENT;
@@ -2409,8 +2464,9 @@
 
 				if ( !CKEDITOR.tools.trim( cell.getHtml() ) ) {
 					cell.appendBogus();
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && cell.getChildCount() )
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && cell.getChildCount() ) {
 						cell.getFirst().remove();
+					}
 				}
 			}
 		}
@@ -2439,8 +2495,9 @@
 			}
 
 			// If there's no deeper nested element in both direction - container is empty - we'll use it then.
-			if ( !deeperSibling )
+			if ( !deeperSibling ) {
 				deeperSibling = container;
+			}
 
 			// Fix structure...
 
@@ -2453,18 +2510,21 @@
 			}
 
 			// Found an empty txxx element - append tr.
-			if ( deeperSibling.is( { tbody: 1, thead: 1, tfoot: 1 } ) )
+			if ( deeperSibling.is( { tbody: 1, thead: 1, tfoot: 1 } ) ) {
 				deeperSibling = fixTableStructure( deeperSibling, 'tr', appendToStart );
+			}
 
 			// Found an empty tr element - append td/th.
-			if ( deeperSibling.is( 'tr' ) )
+			if ( deeperSibling.is( 'tr' ) ) {
 				deeperSibling = fixTableStructure( deeperSibling, deeperSibling.getParent().is( 'thead' ) ? 'th' : 'td', appendToStart );
+			}
 
 			// To avoid setting selection after bogus, remove it from the current cell.
 			// We can safely do that, because we'll insert element into that cell.
 			var bogus = deeperSibling.getBogus();
-			if ( bogus )
+			if ( bogus ) {
 				bogus.remove();
+			}
 
 			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
 		};
@@ -2475,10 +2535,12 @@
 		function getFixListSelectionWalker( testRange ) {
 			var walker = new CKEDITOR.dom.walker( testRange );
 			walker.guard = function( node, isMovingOut ) {
-				if ( isMovingOut )
+				if ( isMovingOut ) {
 					return false;
-				if ( node.type == CKEDITOR.NODE_ELEMENT )
+				}
+				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 					return node.is( CKEDITOR.dtd.$list ) || node.is( CKEDITOR.dtd.$listItem );
+				}
 			};
 			walker.evaluator = function( node ) {
 				return node.type == CKEDITOR.NODE_ELEMENT && node.is( CKEDITOR.dtd.$listItem );
@@ -2507,8 +2569,9 @@
 			}
 
 			// If there's no deeper nested element in both direction - container is empty - we'll use it then.
-			if ( !deeperSibling )
+			if ( !deeperSibling ) {
 				deeperSibling = container;
+			}
 
 			// We found a list what means that it's empty - remove it completely.
 			if ( deeperSibling.is( CKEDITOR.dtd.$list ) ) {
@@ -2521,8 +2584,9 @@
 			// To avoid setting selection after bogus, remove it from the target list item.
 			// We can safely do that, because we'll insert element into that cell.
 			var bogus = deeperSibling.getBogus();
-			if ( bogus )
+			if ( bogus ) {
 				bogus.remove();
+			}
 
 			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
 			range.select();
@@ -2533,25 +2597,28 @@
 		var startBlock = startPath.block;
 
 		// Selection must be collapsed and to be anchored in a block.
-		if ( !startBlock )
+		if ( !startBlock ) {
 			return false;
+		}
 
 		// Exclude cases where, i.e. if pressed arrow key, selection
 		// would move within the same block (merge inside a block).
-		if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
+		if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() ) {
 			return false;
+		}
 
 		// Make sure, there's an editable position to put selection,
 		// which i.e. would be used if pressed arrow key, but abort
 		// if such position exists but means a selected non-editable element.
-		if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
+		if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed ) {
 			return false;
+		}
 
 		// Handle special case, when block's sibling is a <hr>. Delete it and keep selection
 		// in the same place (https://dev.ckeditor.com/ticket/11861#comment:9).
 		if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
 			var touched = range.startContainer.getChild( range.startOffset - ( backspace ? 1 : 0 ) );
-			if ( touched && touched.type  == CKEDITOR.NODE_ELEMENT && touched.is( 'hr' ) ) {
+			if ( touched && touched.type == CKEDITOR.NODE_ELEMENT && touched.is( 'hr' ) ) {
 				editor.fire( 'saveSnapshot' );
 				touched.remove();
 				return true;
@@ -2563,15 +2630,17 @@
 		// Abort if an editable position exists, but either it's not
 		// in a block or that block is the parent of the start block
 		// (merging child into parent).
-		if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) )
+		if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) ) {
 			return;
+		}
 
 		editor.fire( 'saveSnapshot' );
 
 		// Remove bogus to avoid duplicated boguses.
 		var bogus;
-		if ( ( bogus = ( backspace ? siblingBlock : startBlock ).getBogus() ) )
+		if ( ( bogus = ( backspace ? siblingBlock : startBlock ).getBogus() ) ) {
 			bogus.remove();
+		}
 
 		// Save selection. It will be restored.
 		var selection = editor.getSelection(),
@@ -2598,15 +2667,17 @@
 			endBlock = endPath.block;
 
 		// Selection must be anchored in two different blocks.
-		if ( !startBlock || !endBlock || startBlock.equals( endBlock ) )
+		if ( !startBlock || !endBlock || startBlock.equals( endBlock ) ) {
 			return false;
+		}
 
 		editor.fire( 'saveSnapshot' );
 
 		// Remove bogus to avoid duplicated boguses.
 		var bogus;
-		if ( ( bogus = startBlock.getBogus() ) )
+		if ( ( bogus = startBlock.getBogus() ) ) {
 			bogus.remove();
+		}
 
 		// Changing end container to element from text node (https://dev.ckeditor.com/ticket/12503).
 		range.enlarge( CKEDITOR.ENLARGE_INLINE );
@@ -2663,8 +2734,9 @@
 			node = isPruneToEnd ? second : first,
 			removableParent = node;
 
-		while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
+		while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 ) {
 			removableParent = node;
+		}
 
 		removableParent.remove();
 	}
@@ -2739,8 +2811,9 @@
 					endNode = boundaryNodes.endNode;
 
 				// If bogus is the last node in range but not the only node, exclude it.
-				if ( endNode && isBogus( endNode ) && ( !startNode || !startNode.equals( endNode ) ) )
+				if ( endNode && isBogus( endNode ) && ( !startNode || !startNode.equals( endNode ) ) ) {
 					that.range.setEndBefore( endNode );
+				}
 			}
 		},
 
@@ -2755,8 +2828,9 @@
 					endPath = new CKEDITOR.dom.elementPath( range.endContainer, editable ),
 					limit;
 
-				if ( node.type == CKEDITOR.NODE_TEXT )
+				if ( node.type == CKEDITOR.NODE_TEXT ) {
 					node = node.getParent();
+				}
 
 				// Fix DOM of partially enclosed tables
 				// 		<table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table>
@@ -2841,8 +2915,9 @@
 		function optimizeBookmarkNode( node, toStart ) {
 			var parent = node.getParent();
 
-			if ( parent.is( CKEDITOR.dtd.$inline ) )
+			if ( parent.is( CKEDITOR.dtd.$inline ) ) {
 				node[ toStart ? 'insertBefore' : 'insertAfter' ]( parent );
+			}
 		}
 
 		function mergeElements( merged, startBookmark, endBookmark ) {
@@ -2857,8 +2932,9 @@
 				startBookmark = next;
 			}
 
-			if ( isEmpty( merged ) )
+			if ( isEmpty( merged ) ) {
 				merged.remove();
+			}
 		}
 
 		function getPath( startElement, root ) {
@@ -2909,8 +2985,9 @@
 			},
 
 			merge: function( that, editable ) {
-				if ( !that.mergeListBookmark )
+				if ( !that.mergeListBookmark ) {
 					return;
+				}
 
 				var startNode = that.mergeListBookmark.startNode,
 					endNode = that.mergeListBookmark.endNode,
@@ -2947,8 +3024,9 @@
 			// Detects whether blocks should be merged once contents are extracted.
 			detectMerge: function( that, editable ) {
 				// Don't merge blocks if lists or tables are already involved.
-				if ( that.tableContentsRanges || that.mergeListBookmark )
+				if ( that.tableContentsRanges || that.mergeListBookmark ) {
 					return;
+				}
 
 				var rangeClone = new CKEDITOR.dom.range( editable );
 
@@ -2959,8 +3037,9 @@
 			},
 
 			merge: function( that, editable ) {
-				if ( !that.mergeBlockBookmark || that.purgeTableBookmark )
+				if ( !that.mergeBlockBookmark || that.purgeTableBookmark ) {
 					return;
+				}
 
 				var startNode = that.mergeBlockBookmark.startNode,
 					endNode = that.mergeBlockBookmark.endNode,
@@ -3253,8 +3332,9 @@
 					while ( ( range = that.tableContentsRanges.pop() ) ) {
 						range.extractContents();
 
-						if ( isEmpty( range.startContainer ) )
+						if ( isEmpty( range.startContainer ) ) {
 							range.startContainer.appendBogus();
+						}
 					}
 
 					// Finally delete surroundings of the table.
@@ -3264,8 +3344,9 @@
 				},
 
 				purge: function( that ) {
-					if ( !that.purgeTableBookmark )
+					if ( !that.purgeTableBookmark ) {
 						return;
+					}
 
 					var doc = that.doc,
 						range = that.range,
@@ -3317,7 +3398,6 @@
 			}
 		};
 	} )();
-
 } )();
 
 /**

@@ -66,7 +66,6 @@
 
 				assert.isFalse( viewElement.hasClass( 'cke_autocomplete_opened' ),
 					'View should be closed for "' + expected + '" character' );
-
 			}
 		},
 
@@ -508,5 +507,4 @@
 			callback( [] );
 		};
 	}
-
 } )();

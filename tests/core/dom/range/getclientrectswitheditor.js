@@ -27,7 +27,7 @@
 			element.setStyles( {
 				'font-family': 'sans-serif',
 				'font-size': '13px',
-				'margin': 0
+				margin: 0
 			} );
 
 			bot.editor.editable().setStyle( 'line-height', 1.6 );
@@ -41,7 +41,7 @@
 				if ( key === 'width' ) {
 					assert.isTrue( rects[ 0 ][ key ] === 0, 'Rect[ ' + key + ' ]' );
 				} else {
-					assert.isTrue( rects[ 0 ][ key ] > 0, 'Rect[ ' + key + ' ]'  );
+					assert.isTrue( rects[ 0 ][ key ] > 0, 'Rect[ ' + key + ' ]' );
 				}
 			} );
 		},

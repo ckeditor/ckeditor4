@@ -52,8 +52,9 @@
 		}
 
 		function getResponseText( xhr ) {
-			if ( checkStatus( xhr ) )
+			if ( checkStatus( xhr ) ) {
 				return xhr.responseText;
+			}
 			return null;
 		}
 
@@ -70,8 +71,9 @@
 
 			var xhr = createXMLHttpRequest();
 
-			if ( !xhr )
+			if ( !xhr ) {
 				return null;
+			}
 
 			xhr.open( 'GET', url, async );
 
@@ -93,8 +95,9 @@
 		function post( url, data, contentType, callback, getResponseFn ) {
 			var xhr = createXMLHttpRequest();
 
-			if ( !xhr )
+			if ( !xhr ) {
 				return null;
+			}
 
 			xhr.open( 'POST', url, true );
 
@@ -183,5 +186,4 @@
 			}
 		};
 	} )();
-
 } )();

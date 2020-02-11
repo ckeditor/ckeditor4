@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -8,7 +8,6 @@
  */
 
 ( function() {
-
 	CKEDITOR.plugins.add( 'image', {
 		requires: 'dialog',
 		// jscs:disable maximumLineLength
@@ -31,8 +30,9 @@
 			var allowed = 'img[alt,!src]{border-style,border-width,float,height,margin,margin-bottom,margin-left,margin-right,margin-top,width}',
 				required = 'img[alt,src]';
 
-			if ( CKEDITOR.dialog.isTabEnabled( editor, pluginName, 'advanced' ) )
+			if ( CKEDITOR.dialog.isTabEnabled( editor, pluginName, 'advanced' ) ) {
 				allowed = 'img[alt,dir,id,lang,longdesc,!src,title]{*}(*)';
+			}
 
 			// Register the command.
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
@@ -54,8 +54,9 @@
 			editor.on( 'doubleclick', function( evt ) {
 				var element = evt.data.element;
 
-				if ( element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() )
+				if ( element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() ) {
 					evt.data.dialog = 'image';
+				}
 			} );
 
 			// If the "menu" plugin is loaded, register the menu items.
@@ -72,16 +73,18 @@
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element ) {
-					if ( getSelectedImage( editor, element ) )
+					if ( getSelectedImage( editor, element ) ) {
 						return { image: CKEDITOR.TRISTATE_OFF };
+					}
 				} );
 			}
 		},
 		afterInit: function( editor ) {
 			// Abort when Image2 is to be loaded since both plugins
 			// share the same button, command, etc. names (https://dev.ckeditor.com/ticket/11222).
-			if ( editor.plugins.image2 )
+			if ( editor.plugins.image2 ) {
 				return;
+			}
 
 			// Customize the behavior of the alignment commands. (https://dev.ckeditor.com/ticket/7430)
 			setupAlignCommand( 'left' );
@@ -102,8 +105,9 @@
 									img.removeStyle( 'float' );
 
 									// Remove "align" attribute when necessary.
-									if ( value == getImageAlignment( img ) )
+									if ( value == getImageAlignment( img ) ) {
 										img.removeAttribute( 'align' );
+									}
 								} else {
 									img.setStyle( 'float', value );
 								}
@@ -120,7 +124,7 @@
 							align = getImageAlignment( img );
 
 							this.setState(
-							( align == value ) ? CKEDITOR.TRISTATE_ON : ( value == 'right' || value == 'left' ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+								( align == value ) ? CKEDITOR.TRISTATE_ON : ( value == 'right' || value == 'left' ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 
 							evt.cancel();
 						}
@@ -136,22 +140,24 @@
 			element = sel.getSelectedElement();
 		}
 
-		if ( element && element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() )
+		if ( element && element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() ) {
 			return element;
+		}
 	}
 
 	function getImageAlignment( element ) {
 		var align = element.getStyle( 'float' );
 
-		if ( align == 'inherit' || align == 'none' )
+		if ( align == 'inherit' || align == 'none' ) {
 			align = 0;
+		}
 
-		if ( !align )
+		if ( !align ) {
 			align = element.getAttribute( 'align' );
+		}
 
 		return align;
 	}
-
 } )();
 
 /**

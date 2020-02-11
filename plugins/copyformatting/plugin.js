@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -281,10 +281,10 @@
 	 * @private
 	 */
 	State.prototype._isContextAllowed = function( testedContext ) {
-			var configValue = this.editor.config.copyFormatting_allowedContexts;
+		var configValue = this.editor.config.copyFormatting_allowedContexts;
 
-			return configValue === true || indexOf( configValue, testedContext ) !== -1;
-		};
+		return configValue === true || indexOf( configValue, testedContext ) !== -1;
+	};
 
 	CKEDITOR.event.implementOn( State.prototype );
 

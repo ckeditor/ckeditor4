@@ -10,9 +10,9 @@ bender.editor = {
 };
 
 var simpleStyles = {
-	inline: { element: 'span', attributes: { 'class': 'foo' }, styles: { 'font-weight': 'bold' } },
-	block: { element: 'h1', attributes: { 'class': 'foo' }, styles: { 'text-align': 'right' } },
-	object: { element: 'img', attributes: { 'class': 'foo' }, styles: { 'float': 'left' } }
+	inline: { element: 'span', attributes: { class: 'foo' }, styles: { 'font-weight': 'bold' } },
+	block: { element: 'h1', attributes: { class: 'foo' }, styles: { 'text-align': 'right' } },
+	object: { element: 'img', attributes: { class: 'foo' }, styles: { float: 'left' } }
 };
 
 function simpleStyle( type ) {
@@ -230,8 +230,9 @@ bender.test( {
 	},
 
 	'test br filler is preserved when applying block style': function() {
-		if ( !CKEDITOR.env.needsBrFiller )
+		if ( !CKEDITOR.env.needsBrFiller ) {
 			assert.ignore();
+		}
 
 		this.applyStyle( '<p>^<br></p>', new CKEDITOR.style( { element: 'h1' } ) );
 

@@ -31,5 +31,4 @@
 				'spaces and text were inserted into the inline element' );
 		}
 	} );
-
 } )();

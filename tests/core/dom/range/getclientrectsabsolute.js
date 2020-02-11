@@ -64,15 +64,12 @@
 				rects = range.getClientRects( true );
 
 				for ( var index in expected ) {
-
 					for ( var rectKey in expected[ index ] ) {
 						actual = rects[ index ][ rectKey ];
 
 						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-
 							if ( rectKey === 'width' || rectKey === 'right' ) {
 								actual = Math.floor( actual * 10 ) / 10;
-
 							} else if ( rectKey === 'height' || rectKey === 'top' ) {
 								continue;
 							}

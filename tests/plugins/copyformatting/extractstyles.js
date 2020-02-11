@@ -28,7 +28,7 @@
 			testConvertingStyles( '<strong class="important" title="Neil Armstrong">Neil Armstrong</strong>', {
 				element: 'strong',
 				attributes: {
-					'class': 'important',
+					class: 'important',
 					title: 'Neil Armstrong'
 				},
 				styles: {},
@@ -111,7 +111,7 @@
 			objectAssert.areDeepEqual( {
 				element: 'strong',
 				attributes: {
-					'class': 'important',
+					class: 'important',
 					title: 'Neil Armstrong'
 				},
 				styles: {},
@@ -141,4 +141,4 @@
 			}, styles[ 1 ]._.definition );
 		}
 	} );
-}() );
+} )() ;

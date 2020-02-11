@@ -119,8 +119,9 @@
 		},
 
 		'test switch mode without changes': function( editor ) {
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				assert.ignore();
+			}
 
 			var undo = editor.getCommand( 'undo' ),
 				redo = editor.getCommand( 'redo' );
@@ -140,8 +141,9 @@
 		},
 
 		'test switch mode with changes in source': function( editor ) {
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				assert.ignore();
+			}
 
 			var undo = editor.getCommand( 'undo' ),
 				redo = editor.getCommand( 'redo' );
@@ -167,8 +169,9 @@
 		},
 
 		'test switch mode with setData in source': function( editor ) {
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				assert.ignore();
+			}
 
 			var undo = editor.getCommand( 'undo' ),
 				redo = editor.getCommand( 'redo' );
@@ -199,8 +202,9 @@
 		},
 
 		'test switch mode with content that is differently represented in data and inner HTML': function( editor ) {
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				assert.ignore();
+			}
 
 			var undo = editor.getCommand( 'undo' ),
 				redo = editor.getCommand( 'redo' );
@@ -228,8 +232,9 @@
 
 		// https://dev.ckeditor.com/ticket/5217#comment:20
 		'test switch mode with unrecoreded, inner HTML specific content (boguses)': function( editor ) {
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				assert.ignore();
+			}
 
 			var undo = editor.getCommand( 'undo' ),
 				redo = editor.getCommand( 'redo' );
@@ -259,8 +264,9 @@
 
 		// https://dev.ckeditor.com/ticket/5217#comment:20
 		'test switch mode with unrecoreded, inner HTML specific content (boguses) plus changes in source mode': function( editor ) {
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				assert.ignore();
+			}
 
 			var undo = editor.getCommand( 'undo' ),
 				redo = editor.getCommand( 'redo' );

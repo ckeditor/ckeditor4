@@ -80,9 +80,9 @@ function addBookmarkTCs( readyTCs, tcs, tcsGroupName ) {
 
 	for ( tcName in tcs ) {
 		tc = tcs[ tcName ];
-		if ( !CKEDITOR.tools.isArray( tc ) )
+		if ( !CKEDITOR.tools.isArray( tc ) ) {
 			addBookmarkTCs( readyTCs, tc, tcName );
-		else {
+		} else {
 			readyTCs[ 'test ' + ( tcsGroupName ? tcsGroupName + ' - ' : '' ) + tcName + ' - createBookmark' ] =
 				createBookmarkTC( tc );
 		}
@@ -109,9 +109,9 @@ function addBookmark2TCs( readyTCs, tcs, tcsGroupName ) {
 
 	for ( tcName in tcs ) {
 		tc = tcs[ tcName ];
-		if ( !CKEDITOR.tools.isArray( tc ) )
+		if ( !CKEDITOR.tools.isArray( tc ) ) {
 			addBookmark2TCs( readyTCs, tc, tcName );
-		else {
+		} else {
 			readyTCs[ 'test ' + ( tcsGroupName ? tcsGroupName + ' - ' : '' ) + tcName + ' - createBookmark2' ] =
 				createBookmark2TC( tc );
 			readyTCs[ 'test ' + ( tcsGroupName ? tcsGroupName + ' - ' : '' ) + tcName + ' - createBookmark2, normalized' ] =
@@ -163,18 +163,20 @@ function createRange( root, position ) {
 	var range = new CKEDITOR.dom.range( root );
 
 	range.setStart( findNode( root, position.sc ), position.so );
-	if ( position.ec )
+	if ( position.ec ) {
 		range.setEnd( findNode( root, position.ec ), position.eo );
-	else
+	} else {
 		range.collapse( true );
+	}
 
 	return range;
 }
 
 function findNode( container, query ) {
 	// Special case.
-	if ( query == 'root' )
+	if ( query == 'root' ) {
 		return container;
+	}
 
 	var fcseqQuery = query == '%',
 		textQuery = query.indexOf( '#' ) === 0 ? query.slice( 1 ) : false,
@@ -250,14 +252,14 @@ addBookmarkTCs( tcs, {
 	},
 
 	'element selection': {
-		'a': [ '<i>a</i>', { sc: 'root', so: 0, ec: 'root', eo: 1 }, { sc: 'root', so: 1, ec: 'root', eo: 2 } ],
+		a: [ '<i>a</i>', { sc: 'root', so: 0, ec: 'root', eo: 1 }, { sc: 'root', so: 1, ec: 'root', eo: 2 } ],
 
-		'b': [ 'x<i>b</i>y', { sc: 'root', so: 1, ec: 'root', eo: 2 }, { sc: 'root', so: 2, ec: 'root', eo: 3 } ],
+		b: [ 'x<i>b</i>y', { sc: 'root', so: 1, ec: 'root', eo: 2 }, { sc: 'root', so: 2, ec: 'root', eo: 3 } ],
 		'b 2': [ 'x.y<i>b</i>z', { sc: '#y', so: 1, ec: '#z', eo: 0 }, { sc: 'root', so: 3, ec: 'root', eo: 4 }, { sc: 'root', so: 2, ec: 'root', eo: 3 } ],
 
-		'c': [ '<u><i>c</i></u>', { sc: 'u', so: 0, ec: 'u', eo: 1 }, { sc: 'u', so: 1, ec: 'u', eo: 2 } ],
+		c: [ '<u><i>c</i></u>', { sc: 'u', so: 0, ec: 'u', eo: 1 }, { sc: 'u', so: 1, ec: 'u', eo: 2 } ],
 
-		'd': [ '<u>x<i>d</i><b>y</b></u>', { sc: '#x', so: 1, ec: 'u', eo: 2 }, { sc: 'u', so: 2, ec: 'u', eo: 3 }, { sc: 'u', so: 1, ec: 'u', eo: 2 } ]
+		d: [ '<u>x<i>d</i><b>y</b></u>', { sc: '#x', so: 1, ec: 'u', eo: 2 }, { sc: 'u', so: 2, ec: 'u', eo: 3 }, { sc: 'u', so: 1, ec: 'u', eo: 2 } ]
 	},
 
 	'text selection': {
@@ -282,7 +284,7 @@ addBookmarkTCs( tcs, {
 			{ sc: 'p', so: 1, ec: 'p', eo: 3 }
 		],
 
-		'end': [ '<p>a</p><div data-cke-temp="1"></div><p>b</p>',
+		end: [ '<p>a</p><div data-cke-temp="1"></div><p>b</p>',
 			{ sc: '#a', so: 0, ec: 'div', eo: 0 },
 			{ sc: 'p', so: 1, ec: 'root', eo: 2 },
 			{ sc: 'p', so: 0, ec: 'root', eo: 2 }
@@ -300,13 +302,13 @@ addBookmarkTCs( tcs, {
 			{ sc: 'p', so: 1, ec: 'p', eo: 4 }
 		],
 
-		'copybin': [ '<p>a<span id="cke_copybin" data-cke-temp="1"></span></p>',
+		copybin: [ '<p>a<span id="cke_copybin" data-cke-temp="1"></span></p>',
 			{ sc: 'span', so: 0 },
 			{ sc: 'span', so: 1 },
 			{ sc: 'span', so: 0 }
 		],
 
-		'pastebin': [ '<p>a<span id="cke_pastebin" data-cke-temp="1"></span></p>',
+		pastebin: [ '<p>a<span id="cke_pastebin" data-cke-temp="1"></span></p>',
 			{ sc: 'span', so: 0 },
 			{ sc: 'span', so: 1 },
 			{ sc: 'span', so: 0 }
@@ -399,14 +401,14 @@ addBookmark2TCs( tcs, {
 	},
 
 	'element selection': {
-		'a': [ '<i>a</i>', { sc: 'root', so: 0, ec: 'root', eo: 1 }, { sc: 'root', so: 0, ec: 'root', eo: 1 } ],
+		a: [ '<i>a</i>', { sc: 'root', so: 0, ec: 'root', eo: 1 }, { sc: 'root', so: 0, ec: 'root', eo: 1 } ],
 
-		'b': [ 'x<i>b</i>y', { sc: 'root', so: 1, ec: 'root', eo: 2 }, { sc: 'root', so: 1, ec: 'root', eo: 2 } ],
+		b: [ 'x<i>b</i>y', { sc: 'root', so: 1, ec: 'root', eo: 2 }, { sc: 'root', so: 1, ec: 'root', eo: 2 } ],
 		'b 2': [ 'x.y<i>b</i>z', { sc: '#y', so: 1, ec: '#z', eo: 0 }, { sc: '#xy', so: 2, ec: '#z', eo: 0 } ],
 
-		'c': [ '<u><i>c</i></u>', { sc: 'u', so: 0, ec: 'u', eo: 1 }, { sc: 'u', so: 0, ec: 'u', eo: 1 } ],
+		c: [ '<u><i>c</i></u>', { sc: 'u', so: 0, ec: 'u', eo: 1 }, { sc: 'u', so: 0, ec: 'u', eo: 1 } ],
 
-		'd': [ '<u>x<i>d</i><b>y</b></u>', { sc: '#x', so: 1, ec: 'u', eo: 2 }, { sc: '#x', so: 1, ec: 'u', eo: 2 } ]
+		d: [ '<u>x<i>d</i><b>y</b></u>', { sc: '#x', so: 1, ec: 'u', eo: 2 }, { sc: '#x', so: 1, ec: 'u', eo: 2 } ]
 	},
 
 	'text selection': {

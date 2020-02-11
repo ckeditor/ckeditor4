@@ -7,7 +7,7 @@ var manualPlayground = {
 	init: function() {
 		editor.on( 'notificationShow', logEvent );
 		editor.on( 'notificationUpdate', logEvent );
-		editor.on( 'notificationHide',  logEvent );
+		editor.on( 'notificationHide', logEvent );
 	},
 
 	emulateProgress: function() {

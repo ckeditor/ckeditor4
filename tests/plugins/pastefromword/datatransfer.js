@@ -41,7 +41,7 @@
 			wait();
 		},
 
-		'test PFW uses dataValue when dataTransfer is empty':  function() {
+		'test PFW uses dataValue when dataTransfer is empty': function() {
 			var editor = this.editor;
 
 			editor.once( 'afterPasteFromWord', function( evt ) {
@@ -88,5 +88,4 @@
 	ptTools.ignoreTestsOnMobiles( tests );
 
 	bender.test( tests );
-
 } )();

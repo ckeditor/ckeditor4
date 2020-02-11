@@ -4,7 +4,6 @@
 /* bender-include: ../../_helpers/tableselection.js */
 
 ( function() {
-
 	'use strict';
 
 	var tests = {
@@ -34,5 +33,4 @@
 	};
 
 	bender.test( tests );
-
 } )();

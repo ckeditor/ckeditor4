@@ -86,8 +86,9 @@
 
 		for ( var i = 0; i < links.count(); ++i ) {
 			link = links.getItem( i );
-			if ( link.getAttribute( 'rel' ) == 'stylesheet' )
+			if ( link.getAttribute( 'rel' ) == 'stylesheet' ) {
 				hrefs.push( link.getAttribute( 'href' ).replace( /\?t=[a-z0-9]+$/i, '' ) );
+			}
 		}
 
 		return hrefs;

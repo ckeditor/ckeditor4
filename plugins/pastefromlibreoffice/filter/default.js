@@ -49,7 +49,7 @@
 						el.replaceWithChildren();
 					},
 
-					'span': function( element ) {
+					span: function( element ) {
 						if ( element.attributes.style ) {
 							element.attributes.style = Style.normalizedStyles( element, editor );
 
@@ -59,7 +59,7 @@
 						replaceEmptyElementWithChildren( element );
 					},
 
-					'p': function( element ) {
+					p: function( element ) {
 						var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 						if ( editor.plugins.pagebreak &&
@@ -79,45 +79,45 @@
 						Style.createStyleStack( element, filter, editor );
 					},
 
-					'div': function( element ) {
+					div: function( element ) {
 						Style.createStyleStack( element, filter, editor );
 					},
 
-					'a': function( el ) {
+					a: function( el ) {
 						if ( el.attributes.style ) {
 							el.attributes.style = removeDefaultLinkStyles( el.attributes.style );
 						}
 					},
 
-					'h1': function( el ) {
+					h1: function( el ) {
 						Style.createStyleStack( el, filter, editor );
 					},
 
-					'h2': function( el ) {
+					h2: function( el ) {
 						Style.createStyleStack( el, filter, editor );
 					},
 
-					'h3': function( el ) {
+					h3: function( el ) {
 						Style.createStyleStack( el, filter, editor );
 					},
 
-					'h4': function( el ) {
+					h4: function( el ) {
 						Style.createStyleStack( el, filter, editor );
 					},
 
-					'h5': function( el ) {
+					h5: function( el ) {
 						Style.createStyleStack( el, filter, editor );
 					},
 
-					'h6': function( el ) {
+					h6: function( el ) {
 						Style.createStyleStack( el, filter, editor );
 					},
 
-					'pre': function( el ) {
+					pre: function( el ) {
 						Style.createStyleStack( el, filter, editor );
 					},
 
-					'font': function( el ) {
+					font: function( el ) {
 						if ( shouldReplaceFontWithChildren( el ) ) {
 							el.replaceWithChildren();
 						}
@@ -147,19 +147,19 @@
 						}
 					},
 
-					'ul': function( el ) {
+					ul: function( el ) {
 						if ( listMerger( el, filter ) ) {
 							return false;
 						}
 					},
 
-					'ol': function( el ) {
+					ol: function( el ) {
 						if ( listMerger( el, filter ) ) {
 							return false;
 						}
 					},
 
-					'img': function( el ) {
+					img: function( el ) {
 						var src = el.attributes.src;
 
 						if ( !src ) {
@@ -169,16 +169,16 @@
 				},
 
 				attributes: {
-					'style': function( styles, element ) {
+					style: function( styles, element ) {
 						// Returning false deletes the attribute.
 						return Style.normalizedStyles( element, editor ) || false;
 					},
 
-					'cellspacing': remove,
+					cellspacing: remove,
 
-					'cellpadding': remove,
+					cellpadding: remove,
 
-					'border': remove
+					border: remove
 				}
 			};
 		}

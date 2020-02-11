@@ -142,7 +142,7 @@
 					editor: editor
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-			}, { 'case': 'emptyTableSingleColumn', markCells: true, skipCheckingSelection: true } );
+			}, { case: 'emptyTableSingleColumn', markCells: true, skipCheckingSelection: true } );
 		},
 
 		'test delete in the middle': function( editor, bot ) {

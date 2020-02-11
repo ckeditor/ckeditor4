@@ -106,16 +106,16 @@ CKEDITOR.plugins.setLang( 'specialchar', 'tt', {
 	yuml: 'Диерезис белән латин y юл хәрефе',
 	OElig: 'Латин лигатура OE баш хәрефе',
 	oelig: 'Латин лигатура oe юл хәрефе',
-	'372': 'Циркумфлекс белән латин W баш хәрефе',
-	'374': 'Циркумфлекс белән латин Y баш хәрефе',
-	'373': 'Циркумфлекс белән латин w юл хәрефе',
-	'375': 'Циркумфлекс белән латин y юл хәрефе',
+	372: 'Циркумфлекс белән латин W баш хәрефе',
+	374: 'Циркумфлекс белән латин Y баш хәрефе',
+	373: 'Циркумфлекс белән латин w юл хәрефе',
+	375: 'Циркумфлекс белән латин y юл хәрефе',
 	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
+	8219: 'Single high-reversed-9 quotation mark', // MISSING
 	bdquo: 'Double low-9 quotation mark', // MISSING
 	hellip: 'Ятма эллипс',
 	trade: 'Сәүдә маркасы билгесе',
-	'9658': 'Black right-pointing pointer', // MISSING
+	9658: 'Black right-pointing pointer', // MISSING
 	bull: 'Маркер',
 	rarr: 'Уң якка ук',
 	rArr: 'Уң якка икеләтә ук',

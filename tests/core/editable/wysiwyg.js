@@ -24,8 +24,9 @@
 		setUp: function() {
 			var tc = this;
 			var editor = tc.editor;
-			if ( !editor.editable() )
+			if ( !editor.editable() ) {
 				editor.editable( doc.getById( 'editable' ) );
+			}
 			editor.setData( '' );
 		},
 
@@ -55,10 +56,11 @@
 
 			var counter = {};
 			function recorder( evt ) {
-				if ( !counter[ evt.name ] )
+				if ( !counter[ evt.name ] ) {
 					counter[ evt.name ] = 1;
-				else
+				} else {
 					counter[ evt.name ]++;
+				}
 			}
 
 			editable.on( 'foo', recorder );
@@ -78,7 +80,7 @@
 			editor.editable( doc.getById( 'editable' ) );
 		},
 
-		'testAttachClass': function() {
+		testAttachClass: function() {
 			var ed = this.editor,
 				edt = ed.editable();
 
@@ -88,7 +90,7 @@
 			assert.isFalse( edt.hasClass( 'foo' ), 'check class cleaned up' );
 		},
 
-		'testChangeAttr': function() {
+		testChangeAttr: function() {
 			var ed = this.editor;
 
 			// Attach a new editable for test.
@@ -118,5 +120,4 @@
 			assert.isUndefined( this.editor.document );
 		}
 	} );
-
 } )();

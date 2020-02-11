@@ -182,10 +182,11 @@
 
 				this.keyTools.keyEvent( keyCodesEnum.DELETE, null, null, function() {
 					// We need to chceck if it's a text node, coz IE11 inserts BR there.
-					if ( secondTextNode && secondTextNode.type == CKEDITOR.NODE_TEXT )
+					if ( secondTextNode && secondTextNode.type == CKEDITOR.NODE_TEXT ) {
 						secondTextNode.setText( '' );
-					else
+					} else {
 						textNode.setText( '_' );
+					}
 				} );
 
 				this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, null, function() {
@@ -224,7 +225,6 @@
 				}
 
 				assert.areSame( 3, this.undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ], 'undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ] should be increased' );
-
 			} ),
 
 			'test undoManager.strokesRecorded reseting': function() {
@@ -317,8 +317,9 @@
 
 				assert.areEqual( 1, bookmark.startOffset, 'Invalid bookmark start offset' );
 				// IE8 sets bookmark end to 0 for some weird reason.
-				if ( !this.isIe8 )
+				if ( !this.isIe8 ) {
 					assert.areEqual( 1, bookmark.endOffset, 'Invalid bookmark start offset' );
+				}
 
 				// Now go back with HOME key, and ensure that selection updated.
 				this.keyTools.keyEvent( keyCodesEnum.HOME, null, true, function() {
@@ -390,10 +391,11 @@
 					// Should insert letter to text node, and move the caret.
 					// Ofc IE8 will split text nodes next to selection, so we need
 					// to be aware.
-					if ( that.isIe8 )
+					if ( that.isIe8 ) {
 						textNode.setText( 'foo D' );
-					else
+					} else {
 						textNode.setText( 'foo Dbar' );
+					}
 					that._moveTextNodeRange( 5 );
 				} );
 

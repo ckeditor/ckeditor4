@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -61,8 +61,9 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	// Basing black-white decision off of luma scheme using the Rec. 709 version.
 	function isLightColor( color ) {
 		color = color.replace( /^#/, '' );
-		for ( var i = 0, rgb = []; i <= 2; i++ )
+		for ( var i = 0, rgb = []; i <= 2; i++ ) {
 			rgb[ i ] = parseInt( color.substr( i * 2, 2 ), 16 );
+		}
 		var luma = ( 0.2126 * rgb[ 0 ] ) + ( 0.7152 * rgb[ 1 ] ) + ( 0.0722 * rgb[ 2 ] );
 		return luma >= 165;
 	}
@@ -120,7 +121,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		if ( color ) {
 			$doc.getById( hicolorId ).setStyle( 'background-color', color );
 			$doc.getById( hicolorTextId ).setHtml( color );
-
 		} else {
 			$doc.getById( hicolorId ).removeStyle( 'background-color' );
 			$doc.getById( hicolorTextId ).setHtml( '&nbsp;' );
@@ -261,7 +261,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 
 		// Create the gray scale colors cells.
 		appendColorCell( oRow.$, '#000000' );
-		for ( var n = 0; n < 16; n++  ) {
+		for ( var n = 0; n < 16; n++ ) {
 			var c = n.toString( 16 );
 			appendColorCell( oRow.$, '#' + c + c + c + c + c + c );
 		}

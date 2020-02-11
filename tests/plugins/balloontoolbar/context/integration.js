@@ -56,9 +56,9 @@
 		'test moving focus out of the editor hides the toolbar': function() {
 			// Note: this test is verified to fail with testing window blurred (e.g. when dev console window focused).
 			var context = this.editor.balloonToolbars.create( {
-					buttons: 'Bold,Italic',
-					refresh: sinon.stub().returns( true )
-				} );
+				buttons: 'Bold,Italic',
+				refresh: sinon.stub().returns( true )
+			} );
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
 

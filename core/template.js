@@ -58,7 +58,6 @@
 	 * template output data; otherwise the new length of `buffer`.
 	 */
 	CKEDITOR.template.prototype.output = function( data, buffer ) {
-
 		var template = typeof this.source === 'function' ? this.source( data ) : this.source,
 			output = template.replace( rePlaceholder, function( fullMatch, dataKey ) {
 				return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;

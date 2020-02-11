@@ -17,7 +17,7 @@
 			type: 'widget',
 			widget: 'image',
 			attributes: {
-				'class': 'never gonna give you up'
+				class: 'never gonna give you up'
 			}
 		};
 
@@ -80,7 +80,7 @@
 					fixHtml( editor.getData() ), 'Styles in output data' );
 
 				widget.removeStyle( new CKEDITOR.style( {
-					attributes: { 'class': 'never' }
+					attributes: { class: 'never' }
 				} ) );
 
 				assert.areSame( fixHtml( '<img src="_assets/foo.png" alt="rick" class="give gonna up you ar" id="x" />' ),
@@ -117,7 +117,7 @@
 					fixHtml( editor.getData() ), 'Styles in output data' );
 
 				widget.removeStyle( new CKEDITOR.style( {
-					attributes: { 'class': 'never' }
+					attributes: { class: 'never' }
 				} ) );
 
 				assert.areSame( fixHtml( expectedRemoveStyle ),
@@ -148,8 +148,9 @@
 
 				assert.isFalse( widget.parts.image.hasAttribute( 'class' ), 'Image has no classes left' );
 
-				for ( var c in widget.data.classes )
+				for ( var c in widget.data.classes ) {
 					assert.isTrue( widget.element.hasClass( c ), '.' + c + ' class transferred from img' );
+				}
 
 				assert.areSame( fixHtml( expected ),
 					fixHtml( editor.getData() ), 'Styles in output data' );
@@ -176,8 +177,9 @@
 
 				widget = getWidgetById( editor, 'x' );
 
-				for ( var c in widget.data.classes )
+				for ( var c in widget.data.classes ) {
 					assert.isTrue( widget.parts.image.hasClass( c ), '.' + c + ' class of img is set' );
+				}
 
 				assert.areSame( fixHtml( expected ),
 					fixHtml( editor.getData() ), 'Styles in output data' );

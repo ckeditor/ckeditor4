@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -240,7 +240,7 @@
 		tabindex: 'advTabIndex',
 		title: 'advTitle',
 		type: 'advContentType',
-		'class': 'advCSSClasses',
+		class: 'advCSSClasses',
 		charset: 'advCharset',
 		style: 'advStyles',
 		rel: 'advRel'
@@ -717,8 +717,7 @@
 
 					onclickList.push( featureList.join( ',' ), '\'); return false;' );
 					set[ 'data-cke-pa-onclick' ] = onclickList.join( '' );
-				}
-				else if ( data.target.type != 'notSet' && data.target.name ) {
+				} else if ( data.target.type != 'notSet' && data.target.name ) {
 					set.target = data.target.name;
 				}
 			}
@@ -753,7 +752,7 @@
 				onclick: 1,
 				'data-cke-pa-onclick': 1,
 				'data-cke-saved-name': 1,
-				'download': 1
+				download: 1
 			};
 
 			if ( data.advanced ) {

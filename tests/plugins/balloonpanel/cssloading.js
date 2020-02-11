@@ -34,6 +34,4 @@
 				balloonTestsTools.removeDotsFromUrl( '%BASE_PATH%../../apps/ckeditor/plugins/balloonpanel/skins/kama/balloonpanel.css' ) );
 		}
 	} );
-
-
 } )();

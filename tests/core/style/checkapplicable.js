@@ -1,7 +1,6 @@
 /* bender-tags: editor */
 
 ( function() {
-
 	'use strict';
 
 	bender.editor = true;
@@ -10,8 +9,9 @@
 		tcs = {};
 
 	function getStyle( definitionOrStyle, enterMode ) {
-		if ( definitionOrStyle instanceof CKEDITOR.style )
+		if ( definitionOrStyle instanceof CKEDITOR.style ) {
 			return definitionOrStyle;
+		}
 
 		var style = new CKEDITOR.style( definitionOrStyle );
 
@@ -29,8 +29,9 @@
 		var range = bender.tools.setHtmlWithRange( container, expandShortcuts( htmlWithRange ), container )[ 0 ],
 			start = range.startContainer;
 
-		if ( start.type != CKEDITOR.NODE_ELEMENT )
+		if ( start.type != CKEDITOR.NODE_ELEMENT ) {
 			start = start.getParent();
+		}
 
 		var applicable = getStyle( definitionOrStyle ).checkApplicable( new CKEDITOR.dom.elementPath( start, container ), filter );
 
@@ -44,11 +45,13 @@
 			var name = tcsGroupName + ' - ' + msg,
 				filter;
 
-			if ( filterRules )
+			if ( filterRules ) {
 				filter = new CKEDITOR.filter( filterRules );
+			}
 
-			if ( tcs[ name ] )
+			if ( tcs[ name ] ) {
 				throw new Error( 'Test named "' + name + '" already exists' );
+			}
 
 			tcs[ name ] = function() {
 				assertCheckApplicable( containerName, style, expected, htmlWithRange, filter );
@@ -77,7 +80,7 @@
 	a( true, 'p', 'a^b', null, 'tc3' );
 	a( true, 'div', '<div @c=f><p @c=t>a^b</p></div>', null, 'tc4' );
 
-	a = createAssertionFunction( tcs, 'test filter', { element: 'p', attributes: { 'class': 'foo' } } );
+	a = createAssertionFunction( tcs, 'test filter', { element: 'p', attributes: { class: 'foo' } } );
 
 	a( true, 'div', '<div>a^b</div>', 'p(foo)', 'tc1' );
 	a( false, 'div', '<div>a^b</div>', 'p(bar)', 'tc2' );
@@ -87,7 +90,7 @@
 		// Make sure that discovering arguments order works.
 		'test checkApplicable arguments (filter vs editor) discovery': function() {
 			var editor = this.editor,
-				style = getStyle( { element: 'p', attributes: { 'class': 'foo' } } ),
+				style = getStyle( { element: 'p', attributes: { class: 'foo' } } ),
 				filter = new CKEDITOR.filter( 'p(bar)' );
 
 			this.editorBot.setHtmlWithSelection( '<p>^foo</p>' );
@@ -100,5 +103,4 @@
 	} );
 
 	bender.test( tcs );
-
 } )();

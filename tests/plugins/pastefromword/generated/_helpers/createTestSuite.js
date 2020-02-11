@@ -37,12 +37,10 @@ function createTestSuite( options ) {
 		for ( i = 0; i < testsKeys.length; i++ ) {
 			for ( j = 0; j < options.browsers.length; j++ ) {
 				for ( k = 0; k < options.wordVersions.length; k++ ) {
-
 					wordVersion = options.wordVersions[ k ];
 					testKey = testsKeys[ i ];
 
 					if ( options.tests[ testKey ] === true || CKEDITOR.tools.indexOf( options.tests[ testKey ], wordVersion ) !== -1 ) {
-
 						testName = [ 'test', testKey, wordVersion, options.browsers[ j ] ].join( ' ' );
 
 						if ( options.ignoreAll ) {

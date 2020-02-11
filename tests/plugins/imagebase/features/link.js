@@ -183,7 +183,6 @@
 
 			objectAssert.ownsKeys( [ 'testWidget' ], editor.widgets.registered );
 			objectAssert.areDeepEqual( expectedParts, editor.widgets.registered.testWidget.parts );
-
 		},
 
 		'test upcasting image widget with link': function( editor, bot ) {

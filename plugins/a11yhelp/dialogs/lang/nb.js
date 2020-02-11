@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 	contents: 'Innhold for hjelp. Trykk ESC for å lukke denne dialogen.',
 	legend: [
 		{
-		name: 'Generelt',
-		items: [
-			{
-			name: 'Verktøylinje for editor',
-			legend: 'Trykk ${toolbarFocus} for å navigere til verktøylinjen. Flytt til neste og forrige verktøylinjegruppe med TAB og SHIFT+TAB. Flytt til neste og forrige verktøylinjeknapp med HØYRE PILTAST og VENSTRE PILTAST. Trykk MELLOMROM eller ENTER for å aktivere verktøylinjeknappen.'
-		},
+			name: 'Generelt',
+			items: [
+				{
+					name: 'Verktøylinje for editor',
+					legend: 'Trykk ${toolbarFocus} for å navigere til verktøylinjen. Flytt til neste og forrige verktøylinjegruppe med TAB og SHIFT+TAB. Flytt til neste og forrige verktøylinjeknapp med HØYRE PILTAST og VENSTRE PILTAST. Trykk MELLOMROM eller ENTER for å aktivere verktøylinjeknappen.'
+				},
 
-			{
-			name: 'Dialog for editor',
-			legend:
-				'Mens du er i en dialog, trykk TAB for å navigere til neste dialogelement, trykk SHIFT+TAB for å flytte til forrige dialogelement, trykk ENTER for å akseptere dialogen, trykk ESC for å avbryte dialogen. Når en dialog har flere faner, kan fanelisten nås med enten ALT+F10 eller med TAB. Når fanelisten er fokusert, går man til neste og forrige fane med henholdsvis HØYRE og VENSTRE PILTAST.' 
-		},
+				{
+					name: 'Dialog for editor',
+					legend:
+				'Mens du er i en dialog, trykk TAB for å navigere til neste dialogelement, trykk SHIFT+TAB for å flytte til forrige dialogelement, trykk ENTER for å akseptere dialogen, trykk ESC for å avbryte dialogen. Når en dialog har flere faner, kan fanelisten nås med enten ALT+F10 eller med TAB. Når fanelisten er fokusert, går man til neste og forrige fane med henholdsvis HØYRE og VENSTRE PILTAST.'
+				},
 
-			{
-			name: 'Kontekstmeny for editor',
-			legend: 'Trykk ${contextMenu} eller MENYKNAPP for å åpne kontekstmeny. Gå til neste alternativ i menyen med TAB eller PILTAST NED. Gå til forrige alternativ med SHIFT+TAB eller PILTAST OPP. Trykk MELLOMROM eller ENTER for å velge menyalternativet. Åpne undermenyen på valgt alternativ med MELLOMROM eller ENTER eller HØYRE PILTAST. Gå tilbake til overordnet menyelement med ESC eller VENSTRE PILTAST. Lukk kontekstmenyen med ESC.'
-		},
+				{
+					name: 'Kontekstmeny for editor',
+					legend: 'Trykk ${contextMenu} eller MENYKNAPP for å åpne kontekstmeny. Gå til neste alternativ i menyen med TAB eller PILTAST NED. Gå til forrige alternativ med SHIFT+TAB eller PILTAST OPP. Trykk MELLOMROM eller ENTER for å velge menyalternativet. Åpne undermenyen på valgt alternativ med MELLOMROM eller ENTER eller HØYRE PILTAST. Gå tilbake til overordnet menyelement med ESC eller VENSTRE PILTAST. Lukk kontekstmenyen med ESC.'
+				},
 
-			{
-			name: 'Listeboks for editor',
-			legend: 'I en listeboks, gå til neste alternativ i listen med TAB eller PILTAST NED. Gå til forrige alternativ i listen med SHIFT+TAB eller PILTAST OPP. Trykk MELLOMROM eller ENTER for å velge alternativet i listen. Trykk ESC for å lukke listeboksen.'
-		},
+				{
+					name: 'Listeboks for editor',
+					legend: 'I en listeboks, gå til neste alternativ i listen med TAB eller PILTAST NED. Gå til forrige alternativ i listen med SHIFT+TAB eller PILTAST OPP. Trykk MELLOMROM eller ENTER for å velge alternativet i listen. Trykk ESC for å lukke listeboksen.'
+				},
 
-			{
-			name: 'Verktøylinje for elementsti',
-			legend: 'Trykk ${elementsPathFocus} for å navigere til verktøylinjen som viser elementsti. Gå til neste elementknapp med TAB eller HØYRE PILTAST. Gå til forrige elementknapp med SHIFT+TAB eller VENSTRE PILTAST. Trykk MELLOMROM eller ENTER for å velge elementet i editoren.'
-		}
-		]
-	},
+				{
+					name: 'Verktøylinje for elementsti',
+					legend: 'Trykk ${elementsPathFocus} for å navigere til verktøylinjen som viser elementsti. Gå til neste elementknapp med TAB eller HØYRE PILTAST. Gå til forrige elementknapp med SHIFT+TAB eller VENSTRE PILTAST. Trykk MELLOMROM eller ENTER for å velge elementet i editoren.'
+				}
+			]
+		},
 		{
-		name: 'Hurtigtaster',
-		items: [
-			{
-			name: 'Angre',
-			legend: 'Trykk ${undo}'
-		},
-			{
-			name: 'Gjør om',
-			legend: 'Trykk ${redo}'
-		},
-			{
-			name: 'Fet tekst',
-			legend: 'Trykk ${bold}'
-		},
-			{
-			name: 'Kursiv tekst',
-			legend: 'Trykk ${italic}'
-		},
-			{
-			name: 'Understreking',
-			legend: 'Trykk ${underline}'
-		},
-			{
-			name: 'Lenke',
-			legend: 'Trykk ${link}'
-		},
-			{
-			name: 'Skjul verktøylinje',
-			legend: 'Trykk ${toolbarCollapse}'
-		},
-			{
-			name: 'Gå til forrige fokusområde',
-			legend: 'Trykk ${accessPreviousSpace} for å komme til nærmeste fokusområde før skrivemarkøren som ikke kan nås på vanlig måte, for eksempel to tilstøtende HR-elementer. Gjenta tastekombinasjonen for å komme til fokusområder lenger unna i dokumentet.'
-		},
-			{
-			name: 'Gå til neste fokusområde',
-			legend: 'Trykk ${accessNextSpace} for å komme til nærmeste fokusområde etter skrivemarkøren som ikke kan nås på vanlig måte, for eksempel to tilstøtende HR-elementer. Gjenta tastekombinasjonen for å komme til fokusområder lenger unna i dokumentet.'
-		},
-			{
-			name: 'Hjelp for tilgjengelighet',
-			legend: 'Trykk ${a11yHelp}'
-		},
-			{
-			name: 'Lim inn som ren tekst',
-			legend: 'Trykk ${pastetext}',
-			legendEdge: 'Trykk ${pastetext}, etterfulgt av ${past}'
+			name: 'Hurtigtaster',
+			items: [
+				{
+					name: 'Angre',
+					legend: 'Trykk ${undo}'
+				},
+				{
+					name: 'Gjør om',
+					legend: 'Trykk ${redo}'
+				},
+				{
+					name: 'Fet tekst',
+					legend: 'Trykk ${bold}'
+				},
+				{
+					name: 'Kursiv tekst',
+					legend: 'Trykk ${italic}'
+				},
+				{
+					name: 'Understreking',
+					legend: 'Trykk ${underline}'
+				},
+				{
+					name: 'Lenke',
+					legend: 'Trykk ${link}'
+				},
+				{
+					name: 'Skjul verktøylinje',
+					legend: 'Trykk ${toolbarCollapse}'
+				},
+				{
+					name: 'Gå til forrige fokusområde',
+					legend: 'Trykk ${accessPreviousSpace} for å komme til nærmeste fokusområde før skrivemarkøren som ikke kan nås på vanlig måte, for eksempel to tilstøtende HR-elementer. Gjenta tastekombinasjonen for å komme til fokusområder lenger unna i dokumentet.'
+				},
+				{
+					name: 'Gå til neste fokusområde',
+					legend: 'Trykk ${accessNextSpace} for å komme til nærmeste fokusområde etter skrivemarkøren som ikke kan nås på vanlig måte, for eksempel to tilstøtende HR-elementer. Gjenta tastekombinasjonen for å komme til fokusområder lenger unna i dokumentet.'
+				},
+				{
+					name: 'Hjelp for tilgjengelighet',
+					legend: 'Trykk ${a11yHelp}'
+				},
+				{
+					name: 'Lim inn som ren tekst',
+					legend: 'Trykk ${pastetext}',
+					legendEdge: 'Trykk ${pastetext}, etterfulgt av ${past}'
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tabulator',
 	pause: 'Pause',

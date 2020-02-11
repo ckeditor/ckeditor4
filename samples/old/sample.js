@@ -17,8 +17,9 @@
 
 		if ( requires.length ) {
 			for ( i = 0; i < requires.length; i++ ) {
-				if ( !editor.plugins[ requires[ i ] ] )
+				if ( !editor.plugins[ requires[ i ] ] ) {
 					missing.push( '<code>' + requires[ i ] + '</code>' );
+				}
 			}
 
 			if ( missing.length ) {
@@ -44,7 +45,6 @@
 			icon.addClass( 'cke_button__' + name + '_icon' );
 			icon.setAttribute( 'style', style );
 			icon.setStyle( 'float', 'none' );
-
 		}
 	} );
 } )();

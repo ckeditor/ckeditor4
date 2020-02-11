@@ -113,12 +113,14 @@
 			if ( name ) {
 				name = name.toLowerCase();
 				// If we're in RTL, try to get the RTL version of the icon.
-				if ( rtl )
+				if ( rtl ) {
 					icon = this.icons[ name + '-rtl' ];
+				}
 
 				// If not in LTR or no RTL version available, get the generic one.
-				if ( !icon )
+				if ( !icon ) {
 					icon = this.icons[ name ];
+				}
 			}
 
 			path = overridePath || ( icon && icon.path ) || '';
@@ -126,8 +128,9 @@
 			bgsize = overrideBgsize || ( icon && icon.bgsize ) || '16px';
 
 			// If we use apostrophes in background-image, we must escape apostrophes in path (just to be sure). (https://dev.ckeditor.com/ticket/13361)
-			if ( path )
+			if ( path ) {
 				path = path.replace( /'/g, '\\\'' );
+			}
 
 			return path &&
 				( 'background-image:url(\'' + CKEDITOR.getUrl( path ) + '\');background-position:0 ' + offset + 'px;background-size:' + bgsize + ';' );
@@ -138,7 +141,6 @@
 		// Check for ua-specific version of skin part.
 		var uas = CKEDITOR.skin[ 'ua_' + part ], env = CKEDITOR.env;
 		if ( uas ) {
-
 			// Having versioned UA checked first.
 			uas = uas.split( ',' ).sort( function( a, b ) {
 				return a > b ? -1 : 1;
@@ -149,8 +151,9 @@
 				ua = uas[ i ];
 
 				if ( env.ie ) {
-					if ( ( ua.replace( /^ie/, '' ) == env.version ) || ( env.quirks && ua == 'iequirks' ) )
+					if ( ( ua.replace( /^ie/, '' ) == env.version ) || ( env.quirks && ua == 'iequirks' ) ) {
 						ua = 'ie';
+					}
 				}
 
 				if ( env[ ua ] ) {
@@ -241,28 +244,32 @@
 		// We have to split CSS declarations for webkit.
 		if ( CKEDITOR.env.webkit ) {
 			styleContent = styleContent.split( '}' ).slice( 0, -1 );
-			for ( i = 0; i < styleContent.length; i++ )
+			for ( i = 0; i < styleContent.length; i++ ) {
 				styleContent[ i ] = styleContent[ i ].split( '{' );
+			}
 		}
 
 		for ( var id = 0; id < styleNodes.length; id++ ) {
 			if ( CKEDITOR.env.webkit ) {
 				for ( i = 0; i < styleContent.length; i++ ) {
 					content = styleContent[ i ][ 1 ];
-					for ( r = 0; r < replace.length; r++ )
+					for ( r = 0; r < replace.length; r++ ) {
 						content = content.replace( replace[ r ][ 0 ], replace[ r ][ 1 ] );
+					}
 
 					styleNodes[ id ].$.sheet.addRule( styleContent[ i ][ 0 ], content );
 				}
 			} else {
 				content = styleContent;
-				for ( r = 0; r < replace.length; r++ )
+				for ( r = 0; r < replace.length; r++ ) {
 					content = content.replace( replace[ r ][ 0 ], replace[ r ][ 1 ] );
+				}
 
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 )
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 					styleNodes[ id ].$.styleSheet.cssText += content;
-				else
+				} else {
 					styleNodes[ id ].$.innerHTML += content;
+				}
 			}
 		}
 	}
@@ -302,8 +309,9 @@
 		editor.on( 'menuShow', showCallback );
 
 		// Apply UI color if specified in config.
-		if ( editor.config.uiColor )
+		if ( editor.config.uiColor ) {
 			editor.setUiColor( editor.config.uiColor );
+		}
 	} );
 } )();
 

@@ -155,7 +155,7 @@
 							element.filterChildren( filter );
 						},
 						elements: {
-							'$': function( element ) {
+							$: function( element ) {
 								element.filterChildren( element );
 							}
 						}

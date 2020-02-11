@@ -50,14 +50,17 @@ CKEDITOR.dom.event.prototype = {
 	getKeystroke: function() {
 		var keystroke = this.getKey();
 
-		if ( this.$.ctrlKey || this.$.metaKey )
+		if ( this.$.ctrlKey || this.$.metaKey ) {
 			keystroke += CKEDITOR.CTRL;
+		}
 
-		if ( this.$.shiftKey )
+		if ( this.$.shiftKey ) {
 			keystroke += CKEDITOR.SHIFT;
+		}
 
-		if ( this.$.altKey )
+		if ( this.$.altKey ) {
 			keystroke += CKEDITOR.ALT;
+		}
 
 		return keystroke;
 	},
@@ -79,13 +82,15 @@ CKEDITOR.dom.event.prototype = {
 	 */
 	preventDefault: function( stopPropagation ) {
 		var $ = this.$;
-		if ( $.preventDefault )
+		if ( $.preventDefault ) {
 			$.preventDefault();
-		else
+		} else {
 			$.returnValue = false;
+		}
 
-		if ( stopPropagation )
+		if ( stopPropagation ) {
 			this.stopPropagation();
+		}
 	},
 
 	/**
@@ -93,10 +98,11 @@ CKEDITOR.dom.event.prototype = {
 	 */
 	stopPropagation: function() {
 		var $ = this.$;
-		if ( $.stopPropagation )
+		if ( $.stopPropagation ) {
 			$.stopPropagation();
-		else
+		} else {
 			$.cancelBubble = true;
+		}
 	},
 
 	/**

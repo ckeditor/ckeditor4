@@ -6,7 +6,6 @@
 'use strict';
 
 ( function() {
-
 	CKEDITOR.plugins.add( 'textwatcher', {} );
 
 	/**
@@ -291,5 +290,4 @@
 	CKEDITOR.event.implementOn( TextWatcher.prototype );
 
 	CKEDITOR.plugins.textWatcher = TextWatcher;
-
 } )();

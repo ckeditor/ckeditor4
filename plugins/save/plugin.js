@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -23,8 +23,9 @@
 						// If there's a button named "submit" then the form.submit
 						// function is masked and can't be called in IE/FF, so we
 						// call the click() method of that button.
-						if ( $form.submit.click )
+						if ( $form.submit.click ) {
 							$form.submit.click();
+						}
 					}
 				}
 			}
@@ -42,8 +43,9 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			// Save plugin is for replace mode only.
-			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE )
+			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE ) {
 				return;
+			}
 
 			var command = editor.addCommand( pluginName, saveCmd );
 			command.startDisabled = !( editor.element.$.form );

@@ -101,8 +101,9 @@
 			var filter = createFilter( 'p b' );
 
 			filter.filter.addElementCallback( function( el ) {
-				if ( el.name == 'i' )
+				if ( el.name == 'i' ) {
 					return CKEDITOR.FILTER_SKIP_TREE;
+				}
 			} );
 
 			filter( '<p foo="1"><b bar="1">x</b></p>',				'<p><b>x</b></p>' );

@@ -54,5 +54,4 @@
 
 		'1 row, 2 cols, both -> both': testHeadersManipulation( 'both', 'both' )
 	} );
-
 } )();

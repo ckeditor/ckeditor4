@@ -24,44 +24,44 @@
 			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 		},
 		'test insert row before': function( editor, bot ) {
-			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before', cells: [ 0 ] } );
-			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-2', cells: [ 1 ] } );
-			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-3', cells: [ 0 ] } );
-			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-multi', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'rowInsertBefore', { case: 'add-row-before', cells: [ 0 ] } );
+			doCommandTest( bot, 'rowInsertBefore', { case: 'add-row-before-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'rowInsertBefore', { case: 'add-row-before-3', cells: [ 0 ] } );
+			doCommandTest( bot, 'rowInsertBefore', { case: 'add-row-before-multi', cells: [ 0, 1 ] } );
 		},
 
 		'test insert row after': function( editor, bot ) {
-			doCommandTest( bot, 'rowInsertAfter', { 'case': 'add-row-after', cells: [ 0 ] } );
-			doCommandTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-2', cells: [ 1 ] } );
-			doCommandTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-3', cells: [ 0 ] } );
-			doCommandTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-multi', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'rowInsertAfter', { case: 'add-row-after', cells: [ 0 ] } );
+			doCommandTest( bot, 'rowInsertAfter', { case: 'add-row-after-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'rowInsertAfter', { case: 'add-row-after-3', cells: [ 0 ] } );
+			doCommandTest( bot, 'rowInsertAfter', { case: 'add-row-after-multi', cells: [ 0, 1 ] } );
 		},
 
 		'test insert col before': function( editor, bot ) {
-			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before', cells: [ 0 ] } );
-			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-2', cells: [ 1 ] } );
-			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-3', cells: [ 0 ] } );
-			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-4', cells: [ 1 ] } );
-			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi', cells: [ 0, 1 ] } );
-			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi2', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { case: 'add-col-before', cells: [ 0 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { case: 'add-col-before-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { case: 'add-col-before-3', cells: [ 0 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { case: 'add-col-before-4', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { case: 'add-col-before-multi', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { case: 'add-col-before-multi2', cells: [ 1 ] } );
 
 			// (#591)
-			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-vertical-split', cells: [ 3 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { case: 'add-col-before-vertical-split', cells: [ 3 ] } );
 		},
 
 		'test insert col after': function( editor, bot ) {
-			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after', cells: [ 0 ] } );
-			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-2', cells: [ 1 ] } );
-			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-3', cells: [ 0 ] } );
-			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-4', cells: [ 1 ] } );
-			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-multi', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { case: 'add-col-after', cells: [ 0 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { case: 'add-col-after-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { case: 'add-col-after-3', cells: [ 0 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { case: 'add-col-after-4', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { case: 'add-col-after-multi', cells: [ 0, 1 ] } );
 		},
 
 		'test merge cells': function( editor, bot ) {
-			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells', cells: [ 0, 1, 2, 3, 4, 5 ] } );
-			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells-2', cells: [ 0, 1 ] } );
-			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells-3', cells: [ 2, 3, 5 ] } );
-			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells-5', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'cellMerge', { case: 'merge-cells', cells: [ 0, 1, 2, 3, 4, 5 ] } );
+			doCommandTest( bot, 'cellMerge', { case: 'merge-cells-2', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'cellMerge', { case: 'merge-cells-3', cells: [ 2, 3, 5 ] } );
+			doCommandTest( bot, 'cellMerge', { case: 'merge-cells-5', cells: [ 0, 1 ] } );
 		},
 
 		'test merge cells (4)': function( editor, bot ) {
@@ -69,58 +69,58 @@
 				assert.ignore();
 			}
 
-			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells-4', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'cellMerge', { case: 'merge-cells-4', cells: [ 0, 1 ] } );
 		},
 
 		'test split cells': function( editor, bot ) {
-			doCommandTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells', cells: [ 0 ], skipCheckingSelection: true } );
-			doCommandTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells-2', cells: [ 3 ], skipCheckingSelection: true } );
-			doCommandTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells-3', cells: [ 2 ], skipCheckingSelection: true } );
-			doCommandTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-4', cells: [ 1 ], skipCheckingSelection: true } );
-			doCommandTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-5', cells: [ 0 ], skipCheckingSelection: true } );
-			doCommandTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-6', cells: [ 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellHorizontalSplit', { case: 'split-cells', cells: [ 0 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellHorizontalSplit', { case: 'split-cells-2', cells: [ 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellHorizontalSplit', { case: 'split-cells-3', cells: [ 2 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellVerticalSplit', { case: 'split-cells-4', cells: [ 1 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellVerticalSplit', { case: 'split-cells-5', cells: [ 0 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellVerticalSplit', { case: 'split-cells-6', cells: [ 3 ], skipCheckingSelection: true } );
 		},
 
 		'test merge one cell': function( editor, bot ) {
-			doCommandTest( bot, 'cellMergeRight', { 'case': 'merge-cell-right', cells: [ 0 ] } );
-			doCommandTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down', cells: [ 0 ] } );
-			doCommandTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'cellMergeRight', { case: 'merge-cell-right', cells: [ 0 ] } );
+			doCommandTest( bot, 'cellMergeDown', { case: 'merge-cell-down', cells: [ 0 ] } );
+			doCommandTest( bot, 'cellMergeDown', { case: 'merge-cell-down-2', cells: [ 1 ] } );
 		},
 
 		'test merge one cell (collapsed selection)': function( editor, bot ) {
-			doCommandTest( bot, 'cellMergeRight', { 'case': 'merge-cell-right' } );
-			doCommandTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down' } );
-			doCommandTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down-2' } );
+			doCommandTest( bot, 'cellMergeRight', { case: 'merge-cell-right' } );
+			doCommandTest( bot, 'cellMergeDown', { case: 'merge-cell-down' } );
+			doCommandTest( bot, 'cellMergeDown', { case: 'merge-cell-down-2' } );
 		},
 
 		'test delete nested cells': function( editor, bot ) {
-			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells', cells: [ 1, 2 ], skipCheckingSelection: true } );
-			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-2', cells: [ 2, 3 ], skipCheckingSelection: true } );
-			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { case: 'delete-nested-cells', cells: [ 1, 2 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { case: 'delete-nested-cells-2', cells: [ 2, 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { case: 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
 		},
 
 		// To reproduce https://dev.ckeditor.com/ticket/11058 we need 4 rows
 		// in the table (https://dev.ckeditor.com/ticket/10308, https://dev.ckeditor.com/ticket/11058).
 		'test remove row from middle row': function( editor, bot ) {
-			doCommandTest( bot, 'rowDelete', { 'case': 'delete-row-from-middle', cells: [ 1 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'rowDelete', { case: 'delete-row-from-middle', cells: [ 1 ], skipCheckingSelection: true } );
 		},
 
 		'test remove all rows': function( editor, bot ) {
-			doCommandTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'rowDelete', { case: 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
 		},
 
 		'test remove all rows partial selection': function( editor, bot ) {
-			doCommandTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 2 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'rowDelete', { case: 'delete-all-cells', cells: [ 0, 2 ], skipCheckingSelection: true } );
 		},
 
 		// (https://dev.ckeditor.com/ticket/10308)
 		'test remove trailing column': function( editor, bot ) {
-			doCommandTest( bot, 'columnDelete', { 'case': 'delete-column-trailing', cells: [ 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'columnDelete', { case: 'delete-column-trailing', cells: [ 3 ], skipCheckingSelection: true } );
 		},
 
 		// (https://dev.ckeditor.com/ticket/10308)
 		'test remove trailing cell': function( editor, bot ) {
-			doCommandTest( bot, 'cellDelete', { 'case': 'delete-cell-trailing', cells: [ 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { case: 'delete-cell-trailing', cells: [ 3 ], skipCheckingSelection: true } );
 		},
 
 		'test getSelectedCells restricted to the given table': function( editor, bot ) {
@@ -176,7 +176,7 @@
 		},
 
 		'test delete all cells': function( editor, bot ) {
-			doCommandTest( bot, 'cellDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { case: 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
 		}
 	};
 

@@ -42,7 +42,7 @@
 		'div.z { background: orange; overflow: hidden; height: 100px; } ' +
 		'div.z > div { background: white; margin: 5px; } ' +
 		'div.z > div > div { height: 45px; outline: 1px solid black; } ' +
-		'div.z > div > .za { background: green; } '  +
+		'div.z > div > .za { background: green; } ' +
 		'div.z > div > .zb { background: violet; } ' +
 		'div.z > div > p { height: 90px }' +
 
@@ -63,67 +63,72 @@
 	}
 
 	var widgets = {
-			'u': {
-				allowedContent: 'div[id](*){*}; blockquote',
-				editables: {
-					div: {
-						selector: 'div.nested',
-						allowedContent: 'blockquote'
-					}
-				},
-				parts: {
-					nested: 'div.nested'
-				},
-				upcast: function( el ) {
-					if ( el.hasClass( 'u' ) )
-						return el;
+		u: {
+			allowedContent: 'div[id](*){*}; blockquote',
+			editables: {
+				div: {
+					selector: 'div.nested',
+					allowedContent: 'blockquote'
 				}
 			},
-			// Block for testing non-editable internals.
-			'w': {
-				allowedContent: 'div[id](*){*};',
-				upcast: function( el ) {
-					if ( el.hasClass( 'w' ) )
-						return el;
-				}
+			parts: {
+				nested: 'div.nested'
 			},
-			// Plain block
-			'x': {
-				allowedContent: 'div[id](x){*}',
-				editables: 'p',
-				parts: {
-					caption: 'p'
-				},
-				upcast: function( el ) {
-					if ( el.hasClass( 'x' ) )
-						return el;
-				}
-			},
-			// Plain inline
-			'y': {
-				allowedContent: 'span[id](y){*}',
-				upcast: function( el ) {
-					if ( el.hasClass( 'y' ) )
-						return el;
-				}
-			},
-			// Block for testing nested editables
-			'z': {
-				allowedContent: 'div[id](*){*};',
-				editables: {
-					div: {
-						selector: 'div.nested'
-					}
-				},
-				parts: {
-					nested: 'div.nested'
-				},
-				upcast: function( el ) {
-					if ( el.hasClass( 'z' ) )
-						return el;
+			upcast: function( el ) {
+				if ( el.hasClass( 'u' ) ) {
+					return el;
 				}
 			}
-		};
+		},
+		// Block for testing non-editable internals.
+		w: {
+			allowedContent: 'div[id](*){*};',
+			upcast: function( el ) {
+				if ( el.hasClass( 'w' ) ) {
+					return el;
+				}
+			}
+		},
+		// Plain block
+		x: {
+			allowedContent: 'div[id](x){*}',
+			editables: 'p',
+			parts: {
+				caption: 'p'
+			},
+			upcast: function( el ) {
+				if ( el.hasClass( 'x' ) ) {
+					return el;
+				}
+			}
+		},
+		// Plain inline
+		y: {
+			allowedContent: 'span[id](y){*}',
+			upcast: function( el ) {
+				if ( el.hasClass( 'y' ) ) {
+					return el;
+				}
+			}
+		},
+		// Block for testing nested editables
+		z: {
+			allowedContent: 'div[id](*){*};',
+			editables: {
+				div: {
+					selector: 'div.nested'
+				}
+			},
+			parts: {
+				nested: 'div.nested'
+			},
+			upcast: function( el ) {
+				if ( el.hasClass( 'z' ) ) {
+					return el;
+				}
+			}
+		}
+	};
 
 	bender.editor = {
 		config: {
@@ -138,7 +143,6 @@
 						this.widgets.add( name, widgets[ name ] );
 						this.filter.allow( widgets[ name ].allowedContent );
 					}
-
 				}
 			}
 		}
@@ -152,8 +156,9 @@
 			var backdoor = editor._.magiclineBackdoor;
 
 			this.editorBot.setData( html, function() {
-				if ( cfg.that.element )
+				if ( cfg.that.element ) {
 					cfg.that.element = cfg.that.element();
+				}
 
 				CKEDITOR.tools.extend( backdoor.that, cfg.that, true );
 
@@ -162,16 +167,17 @@
 				if ( typeof cfg.trigger.upper != 'undefined' && typeof cfg.trigger.lower != 'undefined' ) {
 					assert.isObject( trigger, 'Trigger should be returned' );
 
-					if ( cfg.trigger.upper )
+					if ( cfg.trigger.upper ) {
 						assert.isTrue( cfg.trigger.upper().equals( trigger.upper ), 'Upper element matches.' );
-					else
+					} else {
 						assert.isNull( trigger.upper, 'Upper element doesn\'t exist' );
+					}
 
-					if ( cfg.trigger.lower )
+					if ( cfg.trigger.lower ) {
 						assert.isTrue( cfg.trigger.lower().equals( trigger.lower ), 'Lower element matches' );
-					else
+					} else {
 						assert.isNull( trigger.lower, 'Lower element doesn\'t exist' );
-
+					}
 				} else {
 					assert.isNull( trigger, 'No valid trigger should be returned' );
 				}

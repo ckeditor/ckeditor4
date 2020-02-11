@@ -25,7 +25,7 @@ bender.editors = {
 var stubs = [];
 
 bender.test( {
-	'tearDown': function() {
+	tearDown: function() {
 		var stub;
 
 		while ( stub = stubs.pop() ) {

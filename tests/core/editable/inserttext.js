@@ -18,7 +18,7 @@
 
 			a.insertion = 'abc\r\n\r\ndef\r\nghi\r\n\r\njkl';
 			a( '<p>foo^bar</p>',
-					'<p>foo</p><p>abc</p><p>def<br />ghi</p><p>jkl^</p><p>bar</p>',				'2 LFs - wrapped blocks' );
+				'<p>foo</p><p>abc</p><p>def<br />ghi</p><p>jkl^</p><p>bar</p>',				'2 LFs - wrapped blocks' );
 			a.insertion = '\n\n\n\nfoo';
 			a( '^', '<p>&nbsp;</p><p>&nbsp;</p><p>foo^</p>',									'4 LFs - empty blocks' );
 			a.insertion = 'foo\n\n\nbar';
@@ -35,7 +35,7 @@
 
 			a.insertion = 'aaa\n2bbb\tccc\n\n  3ddd\n  4eee\n\t5fff\n\n\n6ggg  hhh\n';
 			a( '^',
-			'<p>aaa<br />2bbb&nbsp;&nbsp; &nbsp;ccc</p><p>&nbsp; 3ddd<br />&nbsp; 4eee<br />' +
+				'<p>aaa<br />2bbb&nbsp;&nbsp; &nbsp;ccc</p><p>&nbsp; 3ddd<br />&nbsp; 4eee<br />' +
 			'&nbsp;&nbsp; &nbsp;5fff</p><p><br />6ggg &nbsp;hhh<br />^&nbsp;</p>',				'mixed LFs and tabs' );
 
 			a.insertion = 'aa <bb cc';
@@ -72,5 +72,4 @@
 			a( '<p>a^b</p>',			'<p>ax &nbsp;y^b</p>',									'text + spaces into paragraph' );
 		}
 	} );
-
 } )();

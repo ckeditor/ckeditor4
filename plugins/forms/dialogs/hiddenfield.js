@@ -40,9 +40,9 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 			var fakeElement = editor.createFakeElement( element, 'cke_hidden', 'hiddenfield' ),
 				hiddenField = this.getModel( editor );
 
-			if ( !hiddenField )
+			if ( !hiddenField ) {
 				editor.insertElement( fakeElement );
-			else {
+			} else {
 				fakeElement.replace( hiddenField );
 				editor.getSelection().selectElement( fakeElement );
 			}
@@ -56,33 +56,34 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 				id: '_cke_saved_name',
 				type: 'text',
 				label: editor.lang.forms.hidden.name,
-				'default': '',
+				default: '',
 				accessKey: 'N',
 				setup: function( element ) {
 					this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.setAttribute( 'name', this.getValue() );
-					else
+					} else {
 						element.removeAttribute( 'name' );
-
+					}
 				}
 			},
 			{
 				id: 'value',
 				type: 'text',
 				label: editor.lang.forms.hidden.value,
-				'default': '',
+				default: '',
 				accessKey: 'V',
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'value' ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.setAttribute( 'value', this.getValue() );
-					else
+					} else {
 						element.removeAttribute( 'value' );
+					}
 				}
 			} ]
 		} ]

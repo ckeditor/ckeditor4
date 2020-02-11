@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 	contents: 'Onlinehjælp. For at lukke dette vindue klik ESC',
 	legend: [
 		{
-		name: 'Generelt',
-		items: [
-			{
-			name: 'Editor værktøjslinje',
-			legend: 'Tryk ${toolbarFocus} for at navigere til værktøjslinjen. Flyt til næste eller forrige værktøjsline gruppe ved hjælp af TAB eller SHIFT+TAB. Flyt til næste eller forrige værktøjslinje knap med venstre- eller højre piltast. Tryk på SPACE eller ENTER for at aktivere værktøjslinje knappen.'
-		},
+			name: 'Generelt',
+			items: [
+				{
+					name: 'Editor værktøjslinje',
+					legend: 'Tryk ${toolbarFocus} for at navigere til værktøjslinjen. Flyt til næste eller forrige værktøjsline gruppe ved hjælp af TAB eller SHIFT+TAB. Flyt til næste eller forrige værktøjslinje knap med venstre- eller højre piltast. Tryk på SPACE eller ENTER for at aktivere værktøjslinje knappen.'
+				},
 
-			{
-			name: 'Editor dialogboks',
-			legend:
-				'Inde i en dialogboks kan du, trykke på TAB for at navigere til næste element, trykke på SHIFT+TAB for at navigere til forrige element, trykke på ENTER for at afsende eller trykke på ESC for at lukke dialogboksen. Når en dialogboks har flere faner, fanelisten kan tilgås med ALT+F10 eller med TAB. Hvis fanelisten er i fokus kan du skifte til næste eller forrige tab, med højre- og venstre piltast.' 
-		},
+				{
+					name: 'Editor dialogboks',
+					legend:
+				'Inde i en dialogboks kan du, trykke på TAB for at navigere til næste element, trykke på SHIFT+TAB for at navigere til forrige element, trykke på ENTER for at afsende eller trykke på ESC for at lukke dialogboksen. Når en dialogboks har flere faner, fanelisten kan tilgås med ALT+F10 eller med TAB. Hvis fanelisten er i fokus kan du skifte til næste eller forrige tab, med højre- og venstre piltast.'
+				},
 
-			{
-			name: 'Redaktør kontekstmenu',
-			legend: 'Tryk ${contextMenu} eller APPLICATION KEY for at åbne kontekstmenuen. Flyt derefter til næste menuvalg med TAB eller PIL NED. Flyt til forrige valg med SHIFT+TAB eller PIL OP. Tryk MELLEMRUM eller RETUR for at vælge menu-muligheder. Åben under-menu af aktuelle valg med MELLEMRUM eller RETUR eller HØJRE PIL. Gå tilbage til overliggende menu-emne med ESC eller VENSTRE PIL. Luk kontekstmenu med ESC.'
-		},
+				{
+					name: 'Redaktør kontekstmenu',
+					legend: 'Tryk ${contextMenu} eller APPLICATION KEY for at åbne kontekstmenuen. Flyt derefter til næste menuvalg med TAB eller PIL NED. Flyt til forrige valg med SHIFT+TAB eller PIL OP. Tryk MELLEMRUM eller RETUR for at vælge menu-muligheder. Åben under-menu af aktuelle valg med MELLEMRUM eller RETUR eller HØJRE PIL. Gå tilbage til overliggende menu-emne med ESC eller VENSTRE PIL. Luk kontekstmenu med ESC.'
+				},
 
-			{
-			name: 'Redaktør listeboks',
-			legend: 'Flyt til næste emne med TAB eller PIL NED inde i en listeboks. Flyt til forrige listeemne med SHIFT+TAB eller PIL OP. Tryk MELLEMRUM eller RETUR for at vælge liste-muligheder. Tryk ESC for at lukke liste-boksen.'
-		},
+				{
+					name: 'Redaktør listeboks',
+					legend: 'Flyt til næste emne med TAB eller PIL NED inde i en listeboks. Flyt til forrige listeemne med SHIFT+TAB eller PIL OP. Tryk MELLEMRUM eller RETUR for at vælge liste-muligheder. Tryk ESC for at lukke liste-boksen.'
+				},
 
-			{
-			name: 'Redaktør elementsti-bar',
-			legend: 'Tryk ${elementsPathFocus} for at navigere til elementernes sti-bar. Flyt til næste element-knap med TAB eller HØJRE PIL. Flyt til forrige knap med SHIFT+TAB eller VENSTRE PIL. Klik MELLEMRUM eller RETUR for at vælge element i editoren.'
-		}
-		]
-	},
+				{
+					name: 'Redaktør elementsti-bar',
+					legend: 'Tryk ${elementsPathFocus} for at navigere til elementernes sti-bar. Flyt til næste element-knap med TAB eller HØJRE PIL. Flyt til forrige knap med SHIFT+TAB eller VENSTRE PIL. Klik MELLEMRUM eller RETUR for at vælge element i editoren.'
+				}
+			]
+		},
 		{
-		name: 'Kommandoer',
-		items: [
-			{
-			name: 'Fortryd kommando',
-			legend: 'Klik på ${undo}'
-		},
-			{
-			name: 'Gentag kommando',
-			legend: 'Klik ${redo}'
-		},
-			{
-			name: 'Fed kommando',
-			legend: 'Klik ${bold}'
-		},
-			{
-			name: 'Kursiv kommando',
-			legend: 'Klik ${italic}'
-		},
-			{
-			name: 'Understregnings kommando',
-			legend: 'Klik ${underline}'
-		},
-			{
-			name: 'Link kommando',
-			legend: 'Klik ${link}'
-		},
-			{
-			name: 'Klap værktøjslinje sammen kommando ',
-			legend: 'Klik ${toolbarCollapse}'
-		},
-			{
-			name: 'Adgang til forrige fokusområde kommando',
-			legend: 'Klik på ${accessPreviousSpace} for at få adgang til det nærmeste utilgængelige fokusmellemrum før indskudstegnet, for eksempel: To nærliggende HR-elementer. Gentag nøglekombinationen for at nå fjentliggende fokusmellemrum.'
-		},
-			{
-			name: 'Gå til næste fokusmellemrum kommando',
-			legend: 'Klik på ${accessNextSpace} for at få adgang til det nærmeste utilgængelige fokusmellemrum efter indskudstegnet, for eksempel: To nærliggende HR-elementer. Gentag nøglekombinationen for at nå fjentliggende fokusmellemrum.'
-		},
-			{
-			name: 'Tilgængelighedshjælp',
-			legend: 'Kilk ${a11yHelp}'
-		},
-			{
-			name: 'Indsæt som ren tekst',
-			legend: 'Klik ${pastetext}',
-			legendEdge: 'Klik ${pastetext}, efterfult af ${paste}'
+			name: 'Kommandoer',
+			items: [
+				{
+					name: 'Fortryd kommando',
+					legend: 'Klik på ${undo}'
+				},
+				{
+					name: 'Gentag kommando',
+					legend: 'Klik ${redo}'
+				},
+				{
+					name: 'Fed kommando',
+					legend: 'Klik ${bold}'
+				},
+				{
+					name: 'Kursiv kommando',
+					legend: 'Klik ${italic}'
+				},
+				{
+					name: 'Understregnings kommando',
+					legend: 'Klik ${underline}'
+				},
+				{
+					name: 'Link kommando',
+					legend: 'Klik ${link}'
+				},
+				{
+					name: 'Klap værktøjslinje sammen kommando ',
+					legend: 'Klik ${toolbarCollapse}'
+				},
+				{
+					name: 'Adgang til forrige fokusområde kommando',
+					legend: 'Klik på ${accessPreviousSpace} for at få adgang til det nærmeste utilgængelige fokusmellemrum før indskudstegnet, for eksempel: To nærliggende HR-elementer. Gentag nøglekombinationen for at nå fjentliggende fokusmellemrum.'
+				},
+				{
+					name: 'Gå til næste fokusmellemrum kommando',
+					legend: 'Klik på ${accessNextSpace} for at få adgang til det nærmeste utilgængelige fokusmellemrum efter indskudstegnet, for eksempel: To nærliggende HR-elementer. Gentag nøglekombinationen for at nå fjentliggende fokusmellemrum.'
+				},
+				{
+					name: 'Tilgængelighedshjælp',
+					legend: 'Kilk ${a11yHelp}'
+				},
+				{
+					name: 'Indsæt som ren tekst',
+					legend: 'Klik ${pastetext}',
+					legendEdge: 'Klik ${pastetext}, efterfult af ${paste}'
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tab',
 	pause: 'Pause',

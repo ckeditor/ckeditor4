@@ -34,8 +34,9 @@ bender.test( {
 
 			// 'editor' for <textarea>, nothing for others
 			className = elements[ i ] == 'editor' ? 'editor' : '';
-			if ( className )
+			if ( className ) {
 				editorCount++;
+			}
 
 			$( '#dymanicTests' ).append( tpl.output( { tag: tag, className: className } ) );
 		}
@@ -79,8 +80,9 @@ bender.test( {
 	setUp: function() {
 		var instances = CKEDITOR.instances;
 
-		for ( var i in instances )
+		for ( var i in instances ) {
 			CKEDITOR.instances[ i ].destroy();
+		}
 
 		// Reset counters.
 		instanceCount = 0;
@@ -150,10 +152,10 @@ bender.test( {
 		$.when(
 			$( '#editorMultipleGetA' ).val( FOO ),
 			$( '#editorMultipleGetB' ).val( BAR ) ).then( function() {
-				resume( function() {
-					assert.areSame( FOO, bender.tools.compatHtml( $( '.editorMultipleGet' ).val() ), 'The value returned by val() called on multiple objects should return first result.' );
-				} );
+			resume( function() {
+				assert.areSame( FOO, bender.tools.compatHtml( $( '.editorMultipleGet' ).val() ), 'The value returned by val() called on multiple objects should return first result.' );
 			} );
+		} );
 
 		wait();
 	},

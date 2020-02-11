@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -42,8 +42,7 @@
 		// errors when accessing window.top object. Do it safely first then.
 		try {
 			that.debug = window.top.DEBUG;
-		}
-		catch ( e ) {}
+		} catch ( e ) {}
 
 		that.debug = that.debug || {
 			groupEnd: function() {},
@@ -89,8 +88,9 @@
 
 			// Enabling the box inside of inline editable is pointless.
 			// There's no need to access spaces inside paragraphs, links, spans, etc.
-			if ( editable.is( dtd.$inline ) )
+			if ( editable.is( dtd.$inline ) ) {
 				return;
+			}
 
 			// Handle in-line editing by setting appropriate position.
 			// If current position is static, make it relative and clear top/left coordinates.
@@ -135,8 +135,9 @@
 
 			// Hide the box on mouseout if mouse leaves document.
 			editable.attachListener( that.inInlineMode ? doc : doc.getWindow().getFrame(), 'mouseout', function( event ) {
-				if ( editor.mode != 'wysiwyg' )
+				if ( editor.mode != 'wysiwyg' ) {
 					return;
+				}
 
 				// Check for inline-mode editor. If so, check mouse position
 				// and remove the box if mouse outside of an editor.
@@ -158,9 +159,7 @@
 						checkMouseTimer = null;
 						that.line.detach();
 					}
-				}
-
-				else {
+				} else {
 					clearTimeout( checkMouseTimer );
 					checkMouseTimer = null;
 					that.line.detach();
@@ -175,8 +174,9 @@
 			} );
 
 			editable.attachListener( editable, 'keydown', function( event ) {
-				if ( editor.mode != 'wysiwyg' )
+				if ( editor.mode != 'wysiwyg' ) {
 					return;
+				}
 
 				var keyStroke = event.data.getKeystroke();
 
@@ -198,8 +198,9 @@
 			editable.attachListener( that.inInlineMode ? editable : doc, 'mousemove', function( event ) {
 				checkMouseTimeoutPending = true;
 
-				if ( editor.mode != 'wysiwyg' || editor.readOnly || checkMouseTimer )
+				if ( editor.mode != 'wysiwyg' || editor.readOnly || checkMouseTimer ) {
 					return;
+				}
 
 				// IE<9 requires this event-driven object to be created
 				// outside of the setTimeout statement.
@@ -217,8 +218,9 @@
 			// This one removes box on scroll event.
 			// It is to avoid box displacement.
 			editable.attachListener( win, 'scroll', function() {
-				if ( editor.mode != 'wysiwyg' )
+				if ( editor.mode != 'wysiwyg' ) {
 					return;
+				}
 
 				that.line.detach();
 
@@ -231,8 +233,9 @@
 					scrollTimeout = setTimeout( function() {
 						// Don't leave hidden mode until mouse remains pressed and
 						// scroll is being used, i.e. when dragging something.
-						if ( !that.mouseDown )
+						if ( !that.mouseDown ) {
 							that.hiddenMode = 0;
+						}
 						that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 					}, 50 );
 
@@ -245,8 +248,9 @@
 			// It is to prevent box insertion e.g. while scrolling
 			// (w/ scrollbar), selecting and so on.
 			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function() {
-				if ( editor.mode != 'wysiwyg' )
+				if ( editor.mode != 'wysiwyg' ) {
 					return;
+				}
 
 				that.line.detach();
 				that.hiddenMode = 1;
@@ -435,8 +439,9 @@
 		}
 
 		return function( that, ignoreBox, forceMouse ) {
-			if ( !that.mouse )
+			if ( !that.mouse ) {
 				return null;
+			}
 
 			var doc = that.doc,
 				lineWrap = that.line.wrap,
@@ -455,8 +460,9 @@
 
 			// Return nothing if:
 			//	\-> Element is not HTML.
-			if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) )
+			if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) ) {
 				return null;
+			}
 
 			// Also return nothing if:
 			//	\-> We're IE<9 and element is out of the top-level element (editable for inline and HTML for classic (`iframe`-based)).
@@ -464,8 +470,9 @@
 			//		with contenteditable=true while doing selection out (far, away) of the element.
 			//		Thus we must always be sure that we stay in editable or HTML.
 			if ( env.ie && env.version < 9 ) {
-				if ( !( that.boundary.equals( element ) || that.boundary.contains( element ) ) )
+				if ( !( that.boundary.equals( element ) || that.boundary.contains( element ) ) ) {
 					return null;
+				}
 			}
 
 			return element;
@@ -487,13 +494,15 @@
 				var limit = getClosestEditableLimit( trigger );
 
 				// Trigger in nested editable area.
-				if ( limit.getAttribute( 'contenteditable' ) == 'true' )
+				if ( limit.getAttribute( 'contenteditable' ) == 'true' ) {
 					return trigger;
+				}
 				// Trigger in non-editable area.
-				else if ( limit.is( that.triggers ) )
+				else if ( limit.is( that.triggers ) ) {
 					return limit;
-				else
+				} else {
 					return null;
+				}
 			} else {
 				return null;
 			}
@@ -533,18 +542,22 @@
 	// Such ancestor is the limit of (non-)editable DOM branch that element
 	// belongs to. This method omits editor editable.
 	function getClosestEditableLimit( element, includeSelf ) {
-		if ( element.data( 'cke-editable' ) )
+		if ( element.data( 'cke-editable' ) ) {
 			return null;
+		}
 
-		if ( !includeSelf )
+		if ( !includeSelf ) {
 			element = element.getParent();
+		}
 
 		while ( element ) {
-			if ( element.data( 'cke-editable' ) )
+			if ( element.data( 'cke-editable' ) ) {
 				return null;
+			}
 
-			if ( element.hasAttribute( 'contenteditable' ) )
+			if ( element.hasAttribute( 'contenteditable' ) ) {
 				return element;
+			}
 
 			element = element.getParent();
 		}
@@ -577,8 +590,9 @@
 
 			attach: function() {
 				// Only if not already attached
-				if ( !this.wrap.getParent() )
+				if ( !this.wrap.getParent() ) {
 					this.wrap.appendTo( that.editable, true );
+				}
 
 				return this;
 			},
@@ -621,8 +635,9 @@
 
 			detach: function() {
 				// Detach only if already attached.
-				if ( this.wrap.getParent() )
+				if ( this.wrap.getParent() ) {
 					this.wrap.remove();
+				}
 
 				return this;
 			},
@@ -669,8 +684,9 @@
 				updateSize( that, parent, true );
 
 				// Yeah, that's gonna be useful in inline-mode case.
-				if ( that.inInlineMode )
+				if ( that.inInlineMode ) {
 					updateEditableSize( that, true );
+				}
 
 				// Set X coordinate (left, right, width).
 				if ( parent.equals( editable ) ) {
@@ -686,21 +702,23 @@
 				// Set Y coordinate (top) for trigger consisting of two elements.
 				if ( upper && lower ) {
 					// No margins at all or they're equal. Place box right between.
-					if ( upper.size.margin.bottom === lower.size.margin.top )
+					if ( upper.size.margin.bottom === lower.size.margin.top ) {
 						styleSet.top = 0 | ( upper.size.bottom + upper.size.margin.bottom / 2 );
-					else {
+					} else {
 						// Upper margin < lower margin. Place at lower margin.
-						if ( upper.size.margin.bottom < lower.size.margin.top )
+						if ( upper.size.margin.bottom < lower.size.margin.top ) {
 							styleSet.top = upper.size.bottom + upper.size.margin.bottom;
+						}
 						// Upper margin > lower margin. Place at upper margin - lower margin.
-						else
+						else {
 							styleSet.top = upper.size.bottom + upper.size.margin.bottom - lower.size.margin.top;
+						}
 					}
 				}
 				// Set Y coordinate (top) for single-edge trigger.
-				else if ( !upper )
+				else if ( !upper ) {
 					styleSet.top = lower.size.top - lower.size.margin.top;
-				else if ( !lower ) {
+				} else if ( !lower ) {
 					styleSet.top = upper.size.bottom + upper.size.margin.bottom;
 				}
 
@@ -711,15 +729,16 @@
 					this.look( LOOK_TOP );
 				} else if ( trigger.is( LOOK_BOTTOM ) || inBetween( styleSet.top, view.pane.bottom - 5, view.pane.bottom + 15 ) ) {
 					styleSet.top = that.inInlineMode ? (
-							view.editable.height + view.editable.padding.top + view.editable.padding.bottom
-						) : (
-							view.pane.bottom - 1
-						);
+						view.editable.height + view.editable.padding.top + view.editable.padding.bottom
+					) : (
+						view.pane.bottom - 1
+					);
 
 					this.look( LOOK_BOTTOM );
 				} else {
-					if ( that.inInlineMode )
+					if ( that.inInlineMode ) {
 						styleSet.top -= view.editable.top + view.editable.border.top;
+					}
 
 					this.look( LOOK_NORMAL );
 				}
@@ -736,8 +755,9 @@
 				}
 
 				// Append `px` prefixes.
-				for ( var style in styleSet )
+				for ( var style in styleSet ) {
 					styleSet[ style ] = CKEDITOR.tools.cssLength( styleSet[ style ] );
+				}
 
 				this.setStyles( styleSet );
 			},
@@ -745,11 +765,13 @@
 			// Changes look of the box according to current needs.
 			// Three different styles are available: [ LOOK_TOP, LOOK_BOTTOM, LOOK_NORMAL ].
 			look: function( look ) {
-				if ( this.oldLook == look )
+				if ( this.oldLook == look ) {
 					return;
+				}
 
-				for ( var i = this.lineChildren.length, child; i--; )
+				for ( var i = this.lineChildren.length, child; i--; ) {
 					( child = this.lineChildren[ i ] ).setAttribute( 'style', child.base + child.looks[ 0 | look / 2 ] );
+				}
 
 				this.oldLook = look;
 			},
@@ -759,8 +781,9 @@
 		} );
 
 		// Insert children into the box.
-		for ( var i = line.lineChildren.length; i--; )
+		for ( var i = line.lineChildren.length; i--; ) {
 			line.lineChildren[ i ].appendTo( line );
+		}
 
 		// Set default look of the box.
 		line.look( LOOK_NORMAL );
@@ -787,8 +810,9 @@
 
 			that.editor.focus();
 
-			if ( !env.ie && that.enterMode != CKEDITOR.ENTER_BR )
+			if ( !env.ie && that.enterMode != CKEDITOR.ENTER_BR ) {
 				that.hotNode.scrollIntoView();
+			}
 
 			event.data.preventDefault( true );
 		} );
@@ -814,8 +838,9 @@
 			accessNode;
 
 		// IE requires text node of &nbsp; in ENTER_BR mode.
-		if ( env.ie && that.enterMode == CKEDITOR.ENTER_BR )
+		if ( env.ie && that.enterMode == CKEDITOR.ENTER_BR ) {
 			accessNode = that.doc.createText( WHITE_SPACE );
+		}
 
 		// In other cases a regular element is used.
 		else {
@@ -892,7 +917,6 @@
 			canUndo: true,
 			modes: { wysiwyg: 1 },
 			exec: ( function() {
-
 				// Inserts line (accessNode) at the position by taking target node as a reference.
 				function doAccess( target ) {
 					// Remove old hotNode under certain circumstances.
@@ -904,8 +928,9 @@
 							that.lastCmdDirection === !!insertAfter; // jshint ignore:line
 
 					accessFocusSpace( that, function( accessNode ) {
-						if ( removeOld && that.hotNode )
+						if ( removeOld && that.hotNode ) {
 							that.hotNode.remove();
+						}
 
 						accessNode[ insertAfter ? 'insertAfter' : 'insertBefore' ]( target );
 
@@ -920,8 +945,9 @@
 						that.lastCmdDirection = !!insertAfter;
 					} );
 
-					if ( !env.ie && that.enterMode != CKEDITOR.ENTER_BR )
+					if ( !env.ie && that.enterMode != CKEDITOR.ENTER_BR ) {
 						that.hotNode.scrollIntoView();
+					}
 
 					// Detach the line if was visible (previously triggered by mouse).
 					that.line.detach();
@@ -936,19 +962,22 @@
 					selected = selected.getAscendant( DTD_BLOCK, 1 );
 
 					// Stop if selected is a child of a tabu-list element.
-					if ( isInTabu( that, selected ) )
+					if ( isInTabu( that, selected ) ) {
 						return;
+					}
 
 					// Sometimes it may happen that there's no parent block below selected element
 					// or, for example, getAscendant reaches editable or editable parent.
 					// We must avoid such pathological cases.
-					if ( !selected || selected.equals( that.editable ) || selected.contains( that.editable ) )
+					if ( !selected || selected.equals( that.editable ) || selected.contains( that.editable ) ) {
 						return;
+					}
 
 					// Executing the command directly in nested editable should
 					// access space before/after it.
-					if ( ( limit = getClosestEditableLimit( selected ) ) && limit.getAttribute( 'contenteditable' ) == 'false' )
+					if ( ( limit = getClosestEditableLimit( selected ) ) && limit.getAttribute( 'contenteditable' ) == 'false' ) {
 						selected = limit;
+					}
 
 					// That holds element from mouse. Replace it with the
 					// element under the caret.
@@ -988,8 +1017,9 @@
 					var target = getAscendantTrigger( that, selected );
 
 					// No HTML target -> no access.
-					if ( !isHtml( target ) )
+					if ( !isHtml( target ) ) {
 						return;
+					}
 
 					// (1.) Target is first/last child -> access.
 					if ( !getNonEmptyNeighbour( that, target, !insertAfter ) ) {
@@ -1010,8 +1040,9 @@
 	}
 
 	function isLine( that, node ) {
-		if ( !( node && node.type == CKEDITOR.NODE_ELEMENT && node.$ ) )
+		if ( !( node && node.type == CKEDITOR.NODE_ELEMENT && node.$ ) ) {
 			return false;
+		}
 
 		var line = that.line;
 
@@ -1027,8 +1058,9 @@
 	}
 
 	function isFloated( element ) {
-		if ( !isHtml( element ) )
+		if ( !isHtml( element ) ) {
 			return false;
+		}
 
 		var options = { left: 1, right: 1, center: 1 };
 
@@ -1036,8 +1068,9 @@
 	}
 
 	function isFlowBreaker( element ) {
-		if ( !isHtml( element ) )
+		if ( !isHtml( element ) ) {
 			return false;
+		}
 
 		return isPositioned( element ) || isFloated( element );
 	}
@@ -1059,15 +1092,17 @@
 	}
 
 	function isInTabu( that, element ) {
-		if ( !element )
+		if ( !element ) {
 			return false;
+		}
 
 		var parents = element.getParents( 1 );
 
 		for ( var i = parents.length ; i-- ; ) {
 			for ( var j = that.tabuList.length ; j-- ; ) {
-				if ( parents[ i ].hasAttribute( that.tabuList[ j ] ) )
+				if ( parents[ i ].hasAttribute( that.tabuList[ j ] ) ) {
 					return true;
+				}
 			}
 		}
 
@@ -1082,8 +1117,9 @@
 			return that.isRelevant( node ) && !node.is( DTD_TABLECONTENT );
 		} );
 
-		if ( !edgeChild )
+		if ( !edgeChild ) {
 			return false;
+		}
 
 		updateSize( that, edgeChild );
 
@@ -1135,10 +1171,10 @@
 				)
 			),
 
-		// Edge node according to bottomTrigger.
-		edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( function( node ) {
-			return !( isEmptyTextNode( node ) || isComment( node ) );
-		} );
+			// Edge node according to bottomTrigger.
+			edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( function( node ) {
+				return !( isEmptyTextNode( node ) || isComment( node ) );
+			} );
 
 		// There's no edge node. Abort.
 		if ( !edgeNode ) {
@@ -1171,7 +1207,6 @@
 		if ( !bottomTrigger &&													// Top trigger case.
 			edgeNode.size.top >= 0 &&											// Check if the first element is fully visible.
 			inBetween( mouse.y, 0, edgeNode.size.top + triggerOffset ) ) {		// Check if mouse in [0, edgeNode.top + triggerOffset].
-
 			// Determine trigger look.
 			triggerLook = that.inInlineMode || view.scroll.y === 0 ?
 				LOOK_TOP : LOOK_NORMAL;
@@ -1190,11 +1225,10 @@
 			edgeNode.size.bottom <= view.pane.height &&							// Check if the last element is fully visible
 			inBetween( mouse.y,													// Check if mouse in...
 				edgeNode.size.bottom - triggerOffset, view.pane.height ) ) {	// [ edgeNode.bottom - triggerOffset, paneHeight ]
-
 			// Determine trigger look.
 			triggerLook = that.inInlineMode ||
 				inBetween( edgeNode.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ?
-					LOOK_BOTTOM : LOOK_NORMAL;
+				LOOK_BOTTOM : LOOK_NORMAL;
 
 			that.debug.logEnd( 'SUCCESS. Created box trigger. EDGE_BOTTOM.' ); // %REMOVE_LINE%
 
@@ -1265,19 +1299,21 @@
 		var fixedOffset = Math.min( triggerOffset,
 				0 | ( element.size.outerHeight / 2 ) ),
 
-		// This variable will hold the trigger to be returned.
+			// This variable will hold the trigger to be returned.
 			triggerSetup = [],
 			triggerLook,
 
-		// This flag determines whether dealing with a bottom trigger.
+			// This flag determines whether dealing with a bottom trigger.
 			bottomTrigger;
 
 		//	\-> Top trigger.
-		if ( inBetween( mouse.y, element.size.top - 1, element.size.top + fixedOffset ) )
+		if ( inBetween( mouse.y, element.size.top - 1, element.size.top + fixedOffset ) ) {
 			bottomTrigger = false;
+		}
 		//	\-> Bottom trigger.
-		else if ( inBetween( mouse.y, element.size.bottom - fixedOffset, element.size.bottom + 1 ) )
+		else if ( inBetween( mouse.y, element.size.bottom - fixedOffset, element.size.bottom + 1 ) ) {
 			bottomTrigger = true;
+		}
 		//	\-> Abort. Not in a valid trigger space.
 		else {
 			that.debug.logEnd( 'ABORT. Not around of any edge.' ); // %REMOVE_LINE%
@@ -1312,7 +1348,7 @@
 
 				if (
 					bottomTrigger && inBetween( mouse.y,
-					element.size.bottom - fixedOffset, view.pane.height ) &&
+						element.size.bottom - fixedOffset, view.pane.height ) &&
 					inBetween( element.size.bottom, view.pane.height - fixedOffset, view.pane.height )
 				) {
 					triggerLook = LOOK_BOTTOM;
@@ -1328,7 +1364,7 @@
 				TYPE_EDGE,
 				triggerLook,
 				element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ?
-						( bottomTrigger ? LOOK_BOTTOM : LOOK_TOP ) : LOOK_NORMAL
+					( bottomTrigger ? LOOK_BOTTOM : LOOK_TOP ) : LOOK_NORMAL
 			] );
 
 			that.debug.log( 'Configured edge trigger of ' + ( bottomTrigger ? 'EDGE_BOTTOM' : 'EDGE_TOP' ) ); // %REMOVE_LINE%
@@ -1417,8 +1453,9 @@
 			}
 
 			// Stop searching if element is in non-editable branch of DOM.
-			if ( startElement.isReadOnly() )
+			if ( startElement.isReadOnly() ) {
 				return null;
+			}
 
 			trigger = verticalSearch( that,
 				function( current, startElement ) {
@@ -1467,8 +1504,9 @@
 
 			// 1.1., 1.2.
 			if ( upper && startElement.contains( upper ) ) {
-				while ( !upper.getParent().equals( startElement ) )
+				while ( !upper.getParent().equals( startElement ) ) {
 					upper = upper.getParent();
+				}
 			} else {
 				upper = startElement.getFirst( function( node ) {
 					return expandSelector( that, node );
@@ -1476,8 +1514,9 @@
 			}
 
 			if ( lower && startElement.contains( lower ) ) {
-				while ( !lower.getParent().equals( startElement ) )
+				while ( !lower.getParent().equals( startElement ) ) {
 					lower = lower.getParent();
+				}
 			} else {
 				lower = startElement.getLast( function( node ) {
 					return expandSelector( that, node );
@@ -1504,8 +1543,9 @@
 
 			while ( lower && !lower.equals( upper ) ) {
 				// 3.1.
-				if ( !( upperNext = upper.getNext( that.isRelevant ) ) )
+				if ( !( upperNext = upper.getNext( that.isRelevant ) ) ) {
 					break;
+				}
 
 				// 3.2.
 				currentDistance = Math.abs( getMidpoint( that, upper, upperNext ) - that.mouse.y );
@@ -1638,8 +1678,9 @@
 		}
 
 		// updateWindowSize if forced to do so OR NOT ignoring scroll.
-		if ( !ignoreScroll || force )
+		if ( !ignoreScroll || force ) {
 			updateWindowSize( that, force );
+		}
 
 		box.top = docPosition.y - ( ignoreScroll ? 0 : that.view.scroll.y ), box.left = docPosition.x - ( ignoreScroll ? 0 : that.view.scroll.x ),
 
@@ -1672,10 +1713,13 @@
 
 	function updateSize( that, element, ignoreScroll ) {
 		if ( !isHtml( element ) ) // i.e. an element is hidden
-			return ( element.size = null ); //	-> reset size to make it useless for other methods
+		{
+			return ( element.size = null );
+		} //	-> reset size to make it useless for other methods
 
-		if ( !element.size )
+		if ( !element.size ) {
 			element.size = {};
+		}
 
 		// Abort if there was a similar query performed recently.
 		// This kind of caching provides great performance improvement.
@@ -1700,8 +1744,9 @@
 	}
 
 	function updateWindowSize( that, force ) {
-		if ( !that.view )
+		if ( !that.view ) {
 			that.view = {};
+		}
 
 		var view = that.view;
 
@@ -1744,21 +1789,26 @@
 			mouse = that.mouse;
 
 		while ( mouse.y + mouseStep < viewPaneHeight && mouse.y - mouseStep > 0 ) {
-			if ( !upperFound )
+			if ( !upperFound ) {
 				upperFound = stopCondition( upper, startElement );
+			}
 
-			if ( !lowerFound )
+			if ( !lowerFound ) {
 				lowerFound = stopCondition( lower, startElement );
+			}
 
 			// Still not found...
-			if ( !upperFound && mouse.y - mouseStep > 0 )
+			if ( !upperFound && mouse.y - mouseStep > 0 ) {
 				upper = selectCriterion( that, { x: mouse.x, y: mouse.y - mouseStep } );
+			}
 
-			if ( !lowerFound && mouse.y + mouseStep < viewPaneHeight )
+			if ( !lowerFound && mouse.y + mouseStep < viewPaneHeight ) {
 				lower = selectCriterion( that, { x: mouse.x, y: mouse.y + mouseStep } );
+			}
 
-			if ( upperFound && lowerFound )
+			if ( upperFound && lowerFound ) {
 				break;
+			}
 
 			// Instead of ++ to reduce the number of invocations by half.
 			// It's trades off accuracy in some edge cases for improved performance.
@@ -1767,7 +1817,6 @@
 
 		return new boxTrigger( [ upper, lower, null, null ] );
 	}
-
 } )();
 
 /**

@@ -20,16 +20,16 @@
 		isIE11 = CKEDITOR.env.ie && CKEDITOR.env.version === 11,
 		// IE 11 does not support logical CSS properties.
 		customFilters = isIE11 ? [
-				new CKEDITOR.htmlParser.filter( {
-					attributes: {
-						style: function( attribute ) {
-							if ( attribute.indexOf( 'text-align:start' ) !== -1 ) {
-								return false;
-							}
+			new CKEDITOR.htmlParser.filter( {
+				attributes: {
+					style: function( attribute ) {
+						if ( attribute.indexOf( 'text-align:start' ) !== -1 ) {
+							return false;
 						}
 					}
-				} )
-			] : [];
+				}
+			} )
+		] : [];
 
 	bender.test( createTestSuite( {
 		browsers: [

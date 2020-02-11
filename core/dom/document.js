@@ -43,9 +43,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @param {String} cssFileUrl The CSS file URL.
 	 */
 	appendStyleSheet: function( cssFileUrl ) {
-		if ( this.$.createStyleSheet )
+		if ( this.$.createStyleSheet ) {
 			this.$.createStyleSheet( cssFileUrl );
-		else {
+		} else {
 			var link = new CKEDITOR.dom.element( 'link' );
 			link.setAttributes( {
 				rel: 'stylesheet',
@@ -89,11 +89,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 		var element = new CKEDITOR.dom.element( name, this );
 
 		if ( attribsAndStyles ) {
-			if ( attribsAndStyles.attributes )
+			if ( attribsAndStyles.attributes ) {
 				element.setAttributes( attribsAndStyles.attributes );
+			}
 
-			if ( attribsAndStyles.styles )
+			if ( attribsAndStyles.styles ) {
 				element.setStyles( attribsAndStyles.styles );
+			}
 		}
 
 		return element;
@@ -172,8 +174,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 			for ( var j = 0; j < $.childNodes.length; j++ ) {
 				var candidate = $.childNodes[ j ];
 
-				if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 )
+				if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 ) {
 					continue;
+				}
 
 				currentIndex++;
 
@@ -194,8 +197,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @returns {CKEDITOR.dom.nodeList} The nodes list.
 	 */
 	getElementsByTag: function( tagName, namespace ) {
-		if ( !( CKEDITOR.env.ie && ( document.documentMode <= 8 ) ) && namespace )
+		if ( !( CKEDITOR.env.ie && ( document.documentMode <= 8 ) ) && namespace ) {
 			tagName = namespace + ':' + tagName;
+		}
 		return new CKEDITOR.dom.nodeList( this.$.getElementsByTagName( tagName ) );
 	},
 
@@ -209,10 +213,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 */
 	getHead: function() {
 		var head = this.$.getElementsByTagName( 'head' )[ 0 ];
-		if ( !head )
+		if ( !head ) {
 			head = this.getDocumentElement().append( new CKEDITOR.dom.element( 'head' ), true );
-		else
+		} else {
 			head = new CKEDITOR.dom.element( head );
+		}
 
 		return head;
 	},
@@ -270,8 +275,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 		// The script must be appended because if placed before the
 		// doctype, IE will go into quirks mode and mess with
 		// the editable, e.g. by changing its default height.
-		if ( CKEDITOR.env.ie )
+		if ( CKEDITOR.env.ie ) {
 			html = html.replace( /(?:^\s*<!DOCTYPE[^>]*?>)|^/i, '$&\n<script data-cke-temp="1">(' + CKEDITOR.tools.fixDomain + ')();</script>' );
+		}
 
 		this.$.write( html );
 		this.$.close();

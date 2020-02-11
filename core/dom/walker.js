@@ -9,8 +9,9 @@
 		var range = this.range;
 
 		// Return null if we have reached the end.
-		if ( this._.end )
+		if ( this._.end ) {
 			return null;
+		}
 
 		// This is the first call. Initialize it.
 		if ( !this._.start ) {
@@ -69,8 +70,9 @@
 		// otherwise simply use the boundary guard.
 		if ( userGuard ) {
 			guard = function( node, movingOut ) {
-				if ( stopGuard( node, movingOut ) === false )
+				if ( stopGuard( node, movingOut ) === false ) {
 					return false;
+				}
 
 				return userGuard( node, movingOut );
 			};
@@ -78,38 +80,42 @@
 			guard = stopGuard;
 		}
 
-		if ( this.current )
+		if ( this.current ) {
 			node = this.current[ getSourceNodeFn ]( false, type, guard );
-		else {
+		} else {
 			// Get the first node to be returned.
 			if ( rtl ) {
 				node = endCt;
 
 				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
-					if ( endOffset > 0 )
+					if ( endOffset > 0 ) {
 						node = node.getChild( endOffset - 1 );
-					else
+					} else {
 						node = ( guard( node, true ) === false ) ? null : node.getPreviousSourceNode( true, type, guard );
+					}
 				}
 			} else {
 				node = startCt;
 
 				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
-					if ( !( node = node.getChild( startOffset ) ) )
+					if ( !( node = node.getChild( startOffset ) ) ) {
 						node = ( guard( startCt, true ) === false ) ? null : startCt.getNextSourceNode( true, type, guard );
+					}
 				}
 			}
 
-			if ( node && guard( node ) === false )
+			if ( node && guard( node ) === false ) {
 				node = null;
+			}
 		}
 
 		while ( node && !this._.end ) {
 			this.current = node;
 
 			if ( !this.evaluator || this.evaluator( node ) !== false ) {
-				if ( !breakOnFalse )
+				if ( !breakOnFalse ) {
 					return node;
+				}
 			} else if ( breakOnFalse && this.evaluator ) {
 				return false;
 			}
@@ -125,8 +131,9 @@
 		var node,
 			last = null;
 
-		while ( ( node = iterate.call( this, rtl ) ) )
+		while ( ( node = iterate.call( this, rtl ) ) ) {
 			last = node;
+		}
 
 		return last;
 	}
@@ -322,8 +329,9 @@
 		// Don't consider floated or positioned formatting as block boundary, fall back to dtd check in that case. (https://dev.ckeditor.com/ticket/6297)
 		var inPageFlow = this.getComputedStyle( 'float' ) == 'none' && !( this.getComputedStyle( 'position' ) in outOfFlowPositions );
 
-		if ( inPageFlow && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] )
+		if ( inPageFlow && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] ) {
 			return true;
+		}
 
 		// Either in $block or in customNodeNames if defined.
 		return !!( this.is( CKEDITOR.dtd.$block ) || customNodeNames && this.is( customNodeNames ) );
@@ -412,12 +420,13 @@
 		return function( node ) {
 			var invisible;
 
-			if ( whitespace( node ) )
+			if ( whitespace( node ) ) {
 				invisible = 1;
-			else {
+			} else {
 				// Visibility should be checked on element.
-				if ( node.type == CKEDITOR.NODE_TEXT )
+				if ( node.type == CKEDITOR.NODE_TEXT ) {
 					node = node.getParent();
+				}
 
 				// Nodes that take no spaces in wysiwyg:
 				// 1. White-spaces but not including NBSP.
@@ -483,8 +492,9 @@
 	 */
 	CKEDITOR.dom.walker.temp = function( isReject ) {
 		return function( node ) {
-			if ( node.type != CKEDITOR.NODE_ELEMENT )
+			if ( node.type != CKEDITOR.NODE_ELEMENT ) {
 				node = node.getParent();
+			}
 
 			var isTemp = node && node.hasAttribute( 'data-cke-temp' );
 
@@ -558,8 +568,9 @@
 			name;
 
 		for ( name in dtd ) {
-			if ( CKEDITOR.dtd[ name ][ '#' ] )
+			if ( CKEDITOR.dtd[ name ][ '#' ] ) {
 				hash[ name ] = 1;
+			}
 		}
 		return hash;
 	}
@@ -579,23 +590,27 @@
 
 	function isEditable( node ) {
 		// Skip temporary elements, bookmarks and whitespaces.
-		if ( isIgnored( node ) )
+		if ( isIgnored( node ) ) {
 			return false;
+		}
 
-		if ( node.type == CKEDITOR.NODE_TEXT )
+		if ( node.type == CKEDITOR.NODE_TEXT ) {
 			return true;
+		}
 
 		if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 			// All inline and non-editable elements are valid editable places.
 			// Note: the <hr> is currently the only element in CKEDITOR.dtd.$empty and CKEDITOR.dtd.$block,
 			// but generally speaking we need an intersection of these two sets.
 			// Note: non-editable block has to be treated differently (should be selected entirely).
-			if ( node.is( CKEDITOR.dtd.$inline ) || node.is( 'hr' ) || node.getAttribute( 'contenteditable' ) == 'false' )
+			if ( node.is( CKEDITOR.dtd.$inline ) || node.is( 'hr' ) || node.getAttribute( 'contenteditable' ) == 'false' ) {
 				return true;
+			}
 
 			// Empty blocks are editable on IE.
-			if ( !CKEDITOR.env.needsBrFiller && node.is( validEmptyBlocks ) && isEmpty( node ) )
+			if ( !CKEDITOR.env.needsBrFiller && node.is( validEmptyBlocks ) && isEmpty( node ) ) {
 				return true;
+			}
 		}
 
 		// Skip all other nodes.
@@ -643,10 +658,10 @@
 		}
 		while ( toSkip( tail ) );
 
-		if ( tail && ( CKEDITOR.env.needsBrFiller ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) )
+		if ( tail && ( CKEDITOR.env.needsBrFiller ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) ) {
 			return tail;
+		}
 
 		return false;
 	};
-
 } )();

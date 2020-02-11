@@ -633,7 +633,7 @@
 		},
 		'test cloneContents - multiple nested elements': function() {
 			this.assertHtmlFragment( this.editors.classic, '<p>fo[o <strong>bar <em>baz</em></strong></p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo]o</p>',
-			'<p>o <strong>bar <em>baz</em></strong>@</p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo</p>' );
+				'<p>o <strong>bar <em>baz</em></strong>@</p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo</p>' );
 		}
 	} );
 } )();

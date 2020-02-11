@@ -62,7 +62,7 @@
 				filters = [
 					new CKEDITOR.htmlParser.filter( {
 						elements: {
-							'p': function( element ) {
+							p: function( element ) {
 								delete element.attributes[ 'data-some-attr' ];
 							}
 						}
@@ -70,7 +70,7 @@
 
 					new CKEDITOR.htmlParser.filter( {
 						elements: {
-							'span': function( element ) {
+							span: function( element ) {
 								element.name = 'em';
 							}
 						}

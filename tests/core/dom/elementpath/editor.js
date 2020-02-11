@@ -7,7 +7,7 @@ function assertPath( path, tags, block, blockLimit ) {
 	assert.areSame( blockLimit, path.blockLimit ? path.blockLimit.getName() : '', 'path block limit' );
 	var elements = path.elements;
 	for ( var i = 0, element, length = elements.length;
-			element = elements[ i ], i < length; i++ ) {
+		element = elements[ i ], i < length; i++ ) {
 		assert.areSame( tags[ i ], element.getName(), 'path element of index: ' + i );
 	}
 }

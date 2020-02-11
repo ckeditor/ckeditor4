@@ -86,7 +86,7 @@
 				bot.setHtmlWithSelection( source );
 				bot.dialog( 'tableProperties', function( dialog ) {
 					var captionField = dialog.getContentElement( 'info', 'txtCaption' ),
-					summaryField = dialog.getContentElement( 'info', 'txtSummary' );
+						summaryField = dialog.getContentElement( 'info', 'txtSummary' );
 
 					captionField.setValue( 'Caption' );
 					summaryField.setValue( 'Summary' );

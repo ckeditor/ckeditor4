@@ -35,8 +35,9 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 			editor = editor || testSuite.editor;
 			eventInfo = eventInfo || {};
 
-			if ( !eventInfo.type )
+			if ( !eventInfo.type ) {
 				throw new TypeError( 'keyEvent(): eventInfo must have type property' );
+			}
 
 			eventInfo.keyCode = keyCode;
 			event.editableEvent( eventInfo.type, eventInfo );
@@ -62,8 +63,9 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 			}
 
 			// If any DOM operation should be performed before input.
-			if ( domModificationFn )
+			if ( domModificationFn ) {
 				domModificationFn();
+			}
 
 			if ( !skipInputEvent ) {
 				// Eventually we might fire textInput right before input event.
@@ -79,8 +81,9 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 		 * Calls keyEvent() with given ammount of times.
 		 */
 		keyEventMultiple: function( repeatTimes, keyCode, eventInfo, skipInputEvent, domModificationFn ) {
-			for ( var i = 0; i < repeatTimes; i++ )
+			for ( var i = 0; i < repeatTimes; i++ ) {
 				this.keyEvent( keyCode, eventInfo, skipInputEvent, domModificationFn );
+			}
 		},
 
 		/**
@@ -118,8 +121,9 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 		 * @returns {Number}
 		 */
 		_keyCodeFromChar: function( character, forKeyPressEvent ) {
-			if ( forKeyPressEvent )
+			if ( forKeyPressEvent ) {
 				return character.charCodeAt( 0 );
+			}
 
 			return character.toUpperCase().charCodeAt( 0 );
 		},
@@ -157,9 +161,9 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 		 * want change range here.
 		 */
 		click: function( target, domModificationFn ) {
-
-			if ( !target )
+			if ( !target ) {
 				target = testSuite.editor.editable();
+			}
 
 			var domEventMockup = {
 				target: target.$
@@ -167,8 +171,9 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 
 			event.editableEvent( 'mousedown', domEventMockup );
 
-			if ( domModificationFn )
+			if ( domModificationFn ) {
 				domModificationFn();
+			}
 
 			event.editableEvent( 'click', domEventMockup );
 			event.editableEvent( 'mouseup', domEventMockup );

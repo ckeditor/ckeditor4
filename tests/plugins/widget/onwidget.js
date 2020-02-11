@@ -24,7 +24,7 @@
 	};
 
 	bender.test( {
-		'setUp': function() {
+		setUp: function() {
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 			repo = new Repository( bender.editors.editor );
@@ -32,7 +32,7 @@
 			onSpy = sinon.spy( Widget.prototype, 'on' );
 		},
 
-		'tearDown': function() {
+		tearDown: function() {
 			Widget.prototype.on.restore();
 		},
 
@@ -94,4 +94,4 @@
 			assert.isTrue( onSpy.firstCall.calledWithExactly( 'action', cbMock, null, null, 5 ) );
 		}
 	} );
-}() );
+} )() ;

@@ -779,7 +779,6 @@
 				this._deregisterItemFocusables();
 
 				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
-
 					// If next element to render is richCombo and we have already opened group we have to close it.
 					if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo && groupStarted ) {
 						groupStarted = false;
@@ -811,7 +810,6 @@
 			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
 			CKEDITOR.ui.balloonToolbarView.prototype.attach = function( element, options ) {
-
 				/**
 				 * The DOM element used by the balloon toolbar to attach to.
 				 *
@@ -944,4 +942,4 @@
 	 *
 	 * @property {Number} [priority=CKEDITOR.plugins.balloontoolbar.PRIORITY.MEDIUM]
 	 */
-}() );
+} )() ;

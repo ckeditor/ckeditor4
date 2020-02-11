@@ -23,8 +23,7 @@
 			if ( expected.hasOwnProperty( name ) ) {
 				if ( typeof expected[ name ] === 'object' ) {
 					areEqual( expected[ name ], actual[ name ] );
-				}
-				else if ( expected[ name ] !== actual[ name ] ) {
+				} else if ( expected[ name ] !== actual[ name ] ) {
 					throw new YUITest.ComparisonFailure( YUITest.Assert._formatMessage( message,
 						'Values should be equal for property ' + name ), expected[ name ], actual[ name ] );
 				}

@@ -13,10 +13,11 @@
 
 		bender.tools.setHtmlWithSelection( editor, data );
 
-		if ( action === true )
+		if ( action === true ) {
 			editor.execCommand( 'enter' );
-		else
+		} else {
 			action( editor );
+		}
 
 		assert[ expected.exec ? 'isMatching' : 'areSame' ](
 			expected,
@@ -68,8 +69,9 @@
 		test_enterkey_before_nestedList: function() {
 			// We're unable to put the collapsed cursor at exact position
 			// before sub list in this case in IE.
-			if ( CKEDITOR.env.ie )
+			if ( CKEDITOR.env.ie ) {
 				assert.ignore();
+			}
 
 			assertEnter( 'enterP',
 				'<ol>' +
@@ -172,8 +174,9 @@
 				'<p>&nbsp;</p>',
 				function( editor ) {
 					var i = 0;
-					while ( i++ < 3 )
+					while ( i++ < 3 ) {
 						editor.execCommand( 'enter' );
+					}
 				},
 				true );
 		},
@@ -227,7 +230,7 @@
 					'</li>' +
 				'</ul>',
 
-			true, 'List should collapse.', true );
+				true, 'List should collapse.', true );
 		},
 
 		'test enterkey in middle empty &lt;li&gt;, block-less: split list': function() {

@@ -14,10 +14,12 @@
 
 		// On IE we add the fixDomain script (see document#write).
 		// On IE8 also the title lands before the base tag (magic...).
-		if ( CKEDITOR.env.ie && base.is( { script: 1, title: 1 } ) )
+		if ( CKEDITOR.env.ie && base.is( { script: 1, title: 1 } ) ) {
 			base = base.getNext();
-		if ( CKEDITOR.env.ie && base.is( { script: 1, title: 1 } ) )
+		}
+		if ( CKEDITOR.env.ie && base.is( { script: 1, title: 1 } ) ) {
 			base = base.getNext();
+		}
 
 		return base;
 	}
@@ -94,5 +96,4 @@
 			} );
 		}
 	} );
-
 } )();

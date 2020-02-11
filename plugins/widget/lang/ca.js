@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'ca', {
-	'move': 'Clicar i arrossegar per moure',
-	'label': '%1 widget'
+	move: 'Clicar i arrossegar per moure',
+	label: '%1 widget'
 } );

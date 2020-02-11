@@ -3,7 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.dialog.add( 'textfield', function( editor ) {
-
 	var acceptedTypes = { email: 1, password: 1, search: 1, tel: 1, text: 1, url: 1 };
 
 	function autoCommit( data ) {
@@ -57,16 +56,19 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 			this.commitContent( data );
 
 			// Element might be replaced by commitment.
-			if ( !isInsertMode )
+			if ( !isInsertMode ) {
 				editor.getSelection().selectElement( data.element );
+			}
 		},
 		onLoad: function() {
 			this.foreach( function( contentObj ) {
 				if ( contentObj.getValue ) {
-					if ( !contentObj.setup )
+					if ( !contentObj.setup ) {
 						contentObj.setup = autoSetup;
-					if ( !contentObj.commit )
+					}
+					if ( !contentObj.commit ) {
 						contentObj.commit = autoCommit;
+					}
 				}
 			} );
 		},
@@ -81,7 +83,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					id: '_cke_saved_name',
 					type: 'text',
 					label: editor.lang.forms.textfield.name,
-					'default': '',
+					default: '',
 					accessKey: 'N',
 					setup: function( element ) {
 						this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
@@ -89,9 +91,9 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					commit: function( data ) {
 						var element = data.element;
 
-						if ( this.getValue() )
+						if ( this.getValue() ) {
 							element.data( 'cke-saved-name', this.getValue() );
-						else {
+						} else {
 							element.data( 'cke-saved-name', false );
 							element.removeAttribute( 'name' );
 						}
@@ -101,7 +103,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					id: 'value',
 					type: 'text',
 					label: editor.lang.forms.textfield.value,
-					'default': '',
+					default: '',
 					accessKey: 'V',
 					commit: function( data ) {
 						if ( CKEDITOR.env.ie && !this.getValue() ) {
@@ -123,7 +125,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					id: 'size',
 					type: 'text',
 					label: editor.lang.forms.textfield.charWidth,
-					'default': '',
+					default: '',
 					accessKey: 'C',
 					style: 'width:50px',
 					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed )
@@ -132,22 +134,23 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					id: 'maxLength',
 					type: 'text',
 					label: editor.lang.forms.textfield.maxChars,
-					'default': '',
+					default: '',
 					accessKey: 'M',
 					style: 'width:50px',
 					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed )
 				} ],
 				onLoad: function() {
 					// Repaint the style for IE7 (https://dev.ckeditor.com/ticket/6068)
-					if ( CKEDITOR.env.ie7Compat )
+					if ( CKEDITOR.env.ie7Compat ) {
 						this.getElement().setStyle( 'zoom', '100%' );
+					}
 				}
 			},
 			{
 				id: 'type',
 				type: 'select',
 				label: editor.lang.forms.textfield.type,
-				'default': 'text',
+				default: 'text',
 				accessKey: 'M',
 				items: [
 					[ editor.lang.forms.textfield.typeEmail,	'email' ],
@@ -182,16 +185,17 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 				id: 'required',
 				type: 'checkbox',
 				label: editor.lang.forms.textfield.required,
-				'default': '',
+				default: '',
 				accessKey: 'Q',
 				value: 'required',
 				setup: CKEDITOR.plugins.forms._setupRequiredAttribute,
 				commit: function( data ) {
 					var element = data.element;
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.setAttribute( 'required', 'required' );
-					else
+					} else {
 						element.removeAttribute( 'required' );
+					}
 				}
 			} ]
 		} ]

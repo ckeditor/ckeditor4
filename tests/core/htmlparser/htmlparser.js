@@ -15,42 +15,42 @@
 	bender.test( {
 		test_parse_inline: function() {
 			assert.areSame( '<span class="outer">text</span>',
-					htmlParse( '<span class="outer"><span></span>text</span>' ) );
+				htmlParse( '<span class="outer"><span></span>text</span>' ) );
 		},
 
 		test_parse_inline_2: function() {
 			assert.areSame( '<span class="outer">text</span>',
-					htmlParse( '<span class="outer"><span><span></span></span>text</span>' ) );
+				htmlParse( '<span class="outer"><span><span></span></span>text</span>' ) );
 		},
 
 		test_parse_inline_3: function() {
 			assert.areSame( '<span class="outer"><b>text</b></span>',
-					htmlParse( '<span class="outer"><span><b></span>text</b></span>' ) );
+				htmlParse( '<span class="outer"><span><b></span>text</b></span>' ) );
 		},
 
 		test_parse_inline_4: function() {
 			assert.areSame( '<span class="outer"><span><b>some</b></span>text</span>',
-					htmlParse( '<span class="outer"><span><b>some</span></b>text</span>' ) );
+				htmlParse( '<span class="outer"><span><b>some</span></b>text</span>' ) );
 		},
 
 		test_parse_inline_5: function() {
 			assert.areSame( '<strong>some</strong>text',
-					htmlParse( '<strong>some</span></strong>text' ) );
+				htmlParse( '<strong>some</span></strong>text' ) );
 		},
 
 		test_survive_1: function() {
 			assert.areSame( '<span class="outer"><span data-cke-survive="true"></span></span>',
-					htmlParse( '<span class="outer"><span data-cke-survive="true"></span><span></span></span>' ) );
+				htmlParse( '<span class="outer"><span data-cke-survive="true"></span><span></span></span>' ) );
 		},
 
 		test_survive_2: function() {
 			assert.areSame( '<span class="outer"><span class="cls" data-cke-survive="true"></span>text</span>',
-					htmlParse( '<span class="outer"><span class="cls" data-cke-survive="true"><span></span></span>text<span><span class="cls"></span></span></span>' ) );
+				htmlParse( '<span class="outer"><span class="cls" data-cke-survive="true"><span></span></span>text<span><span class="cls"></span></span></span>' ) );
 		},
 
 		test_survive_3: function() {
 			assert.areSame( '<span class="outer"><span data-cke-survive="true">text</span>text</span>',
-					htmlParse( '<span class="outer"><span data-cke-survive="true">text</span>text</span>' ) );
+				htmlParse( '<span class="outer"><span data-cke-survive="true">text</span>text</span>' ) );
 		},
 
 		// Attribute name may contains hypen and dot.(https://dev.ckeditor.com/ticket/4351)
@@ -169,8 +169,9 @@
 			};
 
 			parser.onTagOpen = parser.onTagClose = function( tagName ) {
-				if ( tagName !== 'style' )
+				if ( tagName !== 'style' ) {
 					nodes_counter += 1;
+				}
 			};
 			parser.onComment = parser.onText = function() {
 				nodes_counter += 1;
@@ -276,10 +277,11 @@
 
 					assert.areSame( 'img', tagName, 'tagName - ' + msg );
 
-					if ( barValue )
+					if ( barValue ) {
 						assert.areSame( barValue, attributes.bar, 'attributes.bar\'s value is correct - ' + msg );
-					else
+					} else {
 						assert.isFalse( 'bar' in attributes, 'attributes.bar should not exist - ' + msg );
+					}
 				};
 
 				parser.parse( html );
@@ -350,5 +352,4 @@
 			assert.areSame( '<a id="foo" name="bom"></a>', htmlParse( '<a id="foo" name="bom"></a>' ) );
 		}
 	} );
-
 } )();

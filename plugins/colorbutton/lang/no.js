@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
@@ -7,21 +7,21 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'no', {
 	bgColorTitle: 'Bakgrunnsfarge',
 	colors: {
 		'000': 'Svart',
-		'800000': 'Rødbrun',
+		800000: 'Rødbrun',
 		'8B4513': 'Salbrun',
 		'2F4F4F': 'Grønnsvart',
 		'008080': 'Blågrønn',
 		'000080': 'Marineblått',
 		'4B0082': 'Indigo',
-		'696969': 'Mørk grå',
+		696969: 'Mørk grå',
 		B22222: 'Mørkerød',
 		A52A2A: 'Brun',
 		DAA520: 'Lys brun',
 		'006400': 'Mørk grønn',
 		'40E0D0': 'Turkis',
 		'0000CD': 'Medium blå',
-		'800080': 'Purpur',
-		'808080': 'Grå',
+		800080: 'Purpur',
+		808080: 'Grå',
 		F00: 'Rød',
 		FF8C00: 'Mørk oransje',
 		FFD700: 'Gull',
@@ -51,23 +51,23 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'no', {
 		'3498DB': 'Lyseblå',
 		'9B59B6': 'Amethyst', // MISSING
 		'4E5F70': 'Gråblå',
-		'F1C40F': 'Vivid Yellow', // MISSING
+		F1C40F: 'Vivid Yellow', // MISSING
 		'16A085': 'Mørk turkis',
 		'27AE60': 'Dark Emerald', // MISSING
 		'2980B9': 'Signalblå',
 		'8E44AD': 'Mørk fiolett',
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange',
-		'E67E22': 'Gulrotfarge',
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Lys sølv',
+		F39C12: 'Orange',
+		E67E22: 'Gulrotfarge',
+		E74C3C: 'Pale Red', // MISSING
+		ECF0F1: 'Lys sølv',
 		'95A5A6': 'Lys gråturkis',
-		'DDD': 'Lysegrå',
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Signalrød',
-		'BDC3C7': 'Sølv',
+		DDD: 'Lysegrå',
+		D35400: 'Pumpkin', // MISSING
+		C0392B: 'Signalrød',
+		BDC3C7: 'Sølv',
 		'7F8C8D': 'Gråturkis',
-		'999': 'Mørkegrå'
+		999: 'Mørkegrå'
 	},
 	more: 'Flere farger...',
 	panelTitle: 'Farger',

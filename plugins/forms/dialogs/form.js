@@ -38,10 +38,11 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 			}
 
 			function autoCommit( element ) {
-				if ( this.getValue() )
+				if ( this.getValue() ) {
 					element.setAttribute( this.id, this.getValue() );
-				else
+				} else {
 					element.removeAttribute( this.id );
+				}
 			}
 
 			this.foreach( function( contentObj ) {
@@ -60,15 +61,15 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 				bidi: true,
 				type: 'text',
 				label: editor.lang.common.name,
-				'default': '',
+				default: '',
 				accessKey: 'N',
 				setup: function( element ) {
 					this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() )
+					if ( this.getValue() ) {
 						element.data( 'cke-saved-name', this.getValue() );
-					else {
+					} else {
 						element.data( 'cke-saved-name', false );
 						element.removeAttribute( 'name' );
 					}
@@ -78,7 +79,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 				id: 'action',
 				type: 'text',
 				label: editor.lang.forms.form.action,
-				'default': '',
+				default: '',
 				accessKey: 'T'
 			},
 			{
@@ -88,7 +89,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					id: 'id',
 					type: 'text',
 					label: editor.lang.common.id,
-					'default': '',
+					default: '',
 					accessKey: 'I'
 				},
 				{
@@ -97,7 +98,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					label: editor.lang.forms.form.encoding,
 					style: 'width:100%',
 					accessKey: 'E',
-					'default': '',
+					default: '',
 					items: [
 						[ '' ],
 						[ 'text/plain' ],
@@ -115,7 +116,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					label: editor.lang.common.target,
 					style: 'width:100%',
 					accessKey: 'M',
-					'default': '',
+					default: '',
 					items: [
 						[ editor.lang.common.notSet, '' ],
 						[ editor.lang.common.targetNew, '_blank' ],
@@ -129,7 +130,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					type: 'select',
 					label: editor.lang.forms.form.method,
 					accessKey: 'M',
-					'default': 'GET',
+					default: 'GET',
 					items: [
 						[ 'GET', 'get' ],
 						[ 'POST', 'post' ]

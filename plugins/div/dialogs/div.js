@@ -4,7 +4,6 @@
  */
 
 ( function() {
-
 	// Add to collection with DUP examination.
 	// @param {Object} collection
 	// @param {Object} element
@@ -24,7 +23,6 @@
 	function divDialog( editor, command ) {
 		// Definition of elements at which div operation should stopped.
 		var divLimitDefinition = ( function() {
-
 			// Customzie from specialize blockLimit elements
 			var definition = CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$blockLimit );
 
@@ -45,8 +43,9 @@
 
 			// Never consider read-only (i.e. contenteditable=false) element as
 			// a first div limit (https://dev.ckeditor.com/ticket/11083).
-			if ( container.isReadOnly() )
+			if ( container.isReadOnly() ) {
 				container = container.getParent();
+			}
 
 			// Dont stop at 'td' and 'th' when div should wrap entire table.
 			if ( editor.config.div_wrapTable && container.is( [ 'td', 'th' ] ) ) {
@@ -80,10 +79,11 @@
 								return;
 							}
 
-							if ( fieldValue )
+							if ( fieldValue ) {
 								element.setAttribute( field.id, fieldValue );
-							else
+							} else {
 								element.removeAttribute( field.id );
+							}
 						};
 					}
 				}
@@ -115,11 +115,13 @@
 					if ( block.getName() in divLimitDefinition && !block.isReadOnly() ) {
 						var j,
 							childNodes = block.getChildren();
-						for ( j = 0; j < childNodes.count(); j++ )
+						for ( j = 0; j < childNodes.count(); j++ ) {
 							addSafely( containedBlocks, childNodes.getItem( j ), database );
+						}
 					} else {
-						while ( !dtd[ block.getName() ] && !block.equals( ranges[ i ].root ) )
+						while ( !dtd[ block.getName() ] && !block.equals( ranges[ i ].root ) ) {
 							block = block.getParent();
+						}
 						addSafely( containedBlocks, block, database );
 					}
 				}
@@ -260,7 +262,7 @@
 						type: 'select',
 						style: 'width: 100%;',
 						label: editor.lang.div.styleSelectLabel,
-						'default': '',
+						default: '',
 						// Options are loaded dynamically.
 						items: [
 							[ editor.lang.common.notSet, '' ]
@@ -269,16 +271,16 @@
 							commitInternally.call( this, [ 'info:elementStyle', 'info:class', 'advanced:dir', 'advanced:style' ] );
 						},
 						setup: function( element ) {
-							for ( var name in styles )
+							for ( var name in styles ) {
 								styles[ name ].checkElementRemovable( element, true, editor ) && this.setValue( name, 1 );
+							}
 						},
 						commit: function( element ) {
 							var styleName;
 							if ( ( styleName = this.getValue() ) ) {
 								var style = styles[ styleName ];
 								style.applyToObject( element, editor );
-							}
-							else {
+							} else {
 								element.removeAttribute( 'style' );
 							}
 						}
@@ -288,7 +290,7 @@
 						type: 'text',
 						requiredContent: 'div(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 						label: editor.lang.common.cssClass,
-						'default': ''
+						default: ''
 					} ]
 				} ]
 			},
@@ -307,14 +309,14 @@
 							id: 'id',
 							requiredContent: 'div[id]',
 							label: editor.lang.common.id,
-							'default': ''
+							default: ''
 						},
 						{
 							type: 'text',
 							id: 'lang',
 							requiredContent: 'div[lang]',
 							label: editor.lang.common.langCode,
-							'default': ''
+							default: ''
 						} ]
 					},
 					{
@@ -325,7 +327,7 @@
 							requiredContent: 'div{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
 							style: 'width: 100%;',
 							label: editor.lang.common.cssStyle,
-							'default': '',
+							default: '',
 							commit: function( element ) {
 								element.setAttribute( 'style', this.getValue() );
 							}
@@ -339,7 +341,7 @@
 							requiredContent: 'div[title]',
 							style: 'width: 100%;',
 							label: editor.lang.common.advisoryTitle,
-							'default': ''
+							default: ''
 						} ]
 					},
 					{
@@ -348,7 +350,7 @@
 						requiredContent: 'div[dir]',
 						style: 'width: 100%;',
 						label: editor.lang.common.langDir,
-						'default': '',
+						default: '',
 						items: [
 							[ editor.lang.common.notSet, '' ],
 							[ editor.lang.common.langDirLtr, 'ltr' ],
@@ -450,7 +452,6 @@
 	CKEDITOR.dialog.add( 'editdiv', function( editor ) {
 		return divDialog( editor, 'editdiv' );
 	} );
-
 } )();
 
 /**

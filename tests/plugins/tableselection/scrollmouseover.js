@@ -34,7 +34,6 @@
 				'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
 				'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
 				'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>', function() {
-
 				editable.$.scrollTop = 150;
 				editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
 					target: editable.getDocument()
@@ -42,7 +41,6 @@
 
 				assert.pass();
 			} );
-
 		}
 	};
 

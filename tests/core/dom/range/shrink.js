@@ -102,7 +102,7 @@
 
 			// <p id="_P1">some text and <a href="#">a [link]</a></p>
 			assert.areSame( doc.getById( '_L1' ).getFirst().$,
-							range.startContainer.$ );
+				range.startContainer.$ );
 			assert.areSame( doc.getById( '_L1' ).$, range.endContainer.$ );
 			assert.areSame( 2, range.startOffset );
 			assert.areSame( 1, range.endOffset );
@@ -119,7 +119,7 @@
 
 			// <p id="_P1">some text and <a href="#">a [link]</a></p>
 			assert.areSame( doc.getById( '_L1' ).getFirst().$,
-							range.startContainer.$ );
+				range.startContainer.$ );
 			assert.areSame( doc.getById( '_L1' ).$, range.endContainer.$ );
 			assert.areSame( 2, range.startOffset );
 			assert.areSame( 1, range.endOffset );
@@ -137,9 +137,9 @@
 			// <p id="_P1">some text and <a href="#">a [li]nk</a></p>
 			assert.isFalse( retval );
 			assert.areSame( doc.getById( '_L1' ).getFirst().$,
-							range.startContainer.$ );
+				range.startContainer.$ );
 			assert.areSame( doc.getById( '_L1' ).getFirst().$,
-							range.endContainer.$ );
+				range.endContainer.$ );
 			assert.areSame( 2, range.startOffset );
 			assert.areSame( 4, range.endOffset );
 		},

@@ -17,11 +17,12 @@ bender.test( {
 		this.tearDownListeners = [];
 	},
 
-	'tearDown': function() {
+	tearDown: function() {
 		var listener;
 
-		while ( ( listener = this.tearDownListeners.pop() ) )
+		while ( ( listener = this.tearDownListeners.pop() ) ) {
 			this.editor.unbind( listener[ 0 ], listener[ 1 ] );
+		}
 	},
 
 	'test event instanceReady': function() {

@@ -12,9 +12,9 @@
 	var functions = [],
 		cssVendorPrefix =
 			CKEDITOR.env.gecko ? '-moz-' :
-			CKEDITOR.env.webkit ? '-webkit-' :
-			CKEDITOR.env.ie ? '-ms-' :
-			'',
+				CKEDITOR.env.webkit ? '-webkit-' :
+					CKEDITOR.env.ie ? '-ms-' :
+						'',
 		ampRegex = /&/g,
 		gtRegex = />/g,
 		ltRegex = /</g,
@@ -69,15 +69,18 @@
 		 * their elements match.
 		 */
 		arrayCompare: function( arrayA, arrayB ) {
-			if ( !arrayA && !arrayB )
+			if ( !arrayA && !arrayB ) {
 				return true;
+			}
 
-			if ( !arrayA || !arrayB || arrayA.length != arrayB.length )
+			if ( !arrayA || !arrayB || arrayA.length != arrayB.length ) {
 				return false;
+			}
 
 			for ( var i = 0; i < arrayA.length; i++ ) {
-				if ( arrayA[ i ] != arrayB[ i ] )
+				if ( arrayA[ i ] != arrayB[ i ] ) {
 					return false;
+				}
 			}
 
 			return true;
@@ -97,8 +100,9 @@
 		 */
 		getIndex: function( arr, compareFunction ) {
 			for ( var i = 0; i < arr.length; ++i ) {
-				if ( compareFunction( arr[ i ] ) )
+				if ( compareFunction( arr[ i ] ) ) {
 					return i;
+				}
 			}
 			return -1;
 		},
@@ -134,19 +138,22 @@
 			if ( obj && ( obj instanceof Array ) ) {
 				clone = [];
 
-				for ( var i = 0; i < obj.length; i++ )
+				for ( var i = 0; i < obj.length; i++ ) {
 					clone[ i ] = CKEDITOR.tools.clone( obj[ i ] );
+				}
 
 				return clone;
 			}
 
 			// "Static" types.
-			if ( obj === null || ( typeof obj != 'object' ) || ( obj instanceof String ) || ( obj instanceof Number ) || ( obj instanceof Boolean ) || ( obj instanceof Date ) || ( obj instanceof RegExp ) )
+			if ( obj === null || ( typeof obj != 'object' ) || ( obj instanceof String ) || ( obj instanceof Number ) || ( obj instanceof Boolean ) || ( obj instanceof Date ) || ( obj instanceof RegExp ) ) {
 				return obj;
+			}
 
 			// DOM objects and window.
-			if ( obj.nodeType || obj.window === obj )
+			if ( obj.nodeType || obj.window === obj ) {
 				return obj;
+			}
 
 			// Objects.
 			clone = new obj.constructor();
@@ -203,9 +210,9 @@
 			var argsLength = arguments.length,
 				overwrite, propertiesList;
 
-			if ( typeof ( overwrite = arguments[ argsLength - 1 ] ) == 'boolean' )
+			if ( typeof( overwrite = arguments[ argsLength - 1 ] ) == 'boolean' ) {
 				argsLength--;
-			else if ( typeof ( overwrite = arguments[ argsLength - 2 ] ) == 'boolean' ) {
+			} else if ( typeof( overwrite = arguments[ argsLength - 2 ] ) == 'boolean' ) {
 				propertiesList = arguments[ argsLength - 1 ];
 				argsLength -= 2;
 			}
@@ -217,10 +224,10 @@
 					// Only copy existed fields if in overwrite mode.
 					if ( overwrite === true || target[ propertyName ] == null ) {
 						// Only copy specified fields if list is provided.
-						if ( !propertiesList || ( propertyName in propertiesList ) )
+						if ( !propertiesList || ( propertyName in propertiesList ) ) {
 							target[ propertyName ] = source[ propertyName ];
+						}
 					}
-
 				} );
 			}
 
@@ -256,8 +263,9 @@
 			var obj = {},
 				name;
 
-			for ( name in source )
+			for ( name in source ) {
 				obj[ name ] = source[ name ];
+			}
 
 			return obj;
 		},
@@ -283,8 +291,9 @@
 		 */
 		isEmpty: function( object ) {
 			for ( var i in object ) {
-				if ( object.hasOwnProperty( i ) )
+				if ( object.hasOwnProperty( i ) ) {
 					return false;
+				}
 			}
 			return true;
 		},
@@ -302,8 +311,9 @@
 		 * @returns {Object/String} The object containing CSS properties or its stringified version.
 		 */
 		cssVendorPrefix: function( property, value, asString ) {
-			if ( asString )
+			if ( asString ) {
 				return cssVendorPrefix + property + ':' + value + ';' + property + ':' + value;
+			}
 
 			var ret = {};
 			ret[ property ] = value;
@@ -328,9 +338,9 @@
 			var cssFloat = ( typeof test.cssFloat != 'undefined' ) ? 'cssFloat' : ( typeof test.styleFloat != 'undefined' ) ? 'styleFloat' : 'float';
 
 			return function( cssName ) {
-				if ( cssName == 'float' )
+				if ( cssName == 'float' ) {
 					return cssFloat;
-				else {
+				} else {
 					return cssName.replace( /-./g, function( match ) {
 						return match.substr( 1 ).toUpperCase();
 					} );
@@ -352,10 +362,11 @@
 			for ( var i = 0; i < css.length; i++ ) {
 				if ( ( item = css[ i ] ) ) {
 					// Is CSS style text ?
-					if ( /@import|[{}]/.test( item ) )
+					if ( /@import|[{}]/.test( item ) ) {
 						retval.push( '<style>' + item + '</style>' );
-					else
+					} else {
 						retval.push( '<link type="text/css" rel=stylesheet href="' + item + '">' );
+					}
 				}
 			}
 			return retval.join( '' );
@@ -567,17 +578,20 @@
 		 * @returns {Object} A value that can be used to cancel the function execution.
 		 */
 		setTimeout: function( func, milliseconds, scope, args, ownerWindow ) {
-			if ( !ownerWindow )
+			if ( !ownerWindow ) {
 				ownerWindow = window;
+			}
 
-			if ( !scope )
+			if ( !scope ) {
 				scope = ownerWindow;
+			}
 
 			return ownerWindow.setTimeout( function() {
-				if ( args )
+				if ( args ) {
 					func.apply( scope, [].concat( args ) );
-				else
+				} else {
 					func.apply( scope );
+				}
 			}, milliseconds || 0 );
 		},
 
@@ -665,15 +679,17 @@
 		indexOf: function( array, value ) {
 			if ( typeof value == 'function' ) {
 				for ( var i = 0, len = array.length; i < len; i++ ) {
-					if ( value( array[ i ] ) )
+					if ( value( array[ i ] ) ) {
 						return i;
+					}
 				}
-			} else if ( array.indexOf )
+			} else if ( array.indexOf ) {
 				return array.indexOf( value );
-			else {
+			} else {
 				for ( i = 0, len = array.length; i < len; i++ ) {
-					if ( array[ i ] === value )
+					if ( array[ i ] === value ) {
 						return i;
+					}
 				}
 			}
 			return -1;
@@ -799,11 +815,13 @@
 				};
 			}
 
-			if ( proto )
+			if ( proto ) {
 				this.extend( $.prototype, proto, true );
+			}
 
-			if ( statics )
+			if ( statics ) {
 				this.extend( $, statics, true );
+			}
 
 			return $;
 		},
@@ -878,10 +896,11 @@
 			return function( length ) {
 				lengthTrimmed = CKEDITOR.tools.trim( length + '' ) + 'px';
 
-				if ( pixelRegex.test( lengthTrimmed ) )
+				if ( pixelRegex.test( lengthTrimmed ) ) {
 					return lengthTrimmed;
-				else
+				} else {
 					return length || '';
+				}
 			};
 		} )(),
 
@@ -1003,8 +1022,9 @@
 				name,
 				parsedProps = CKEDITOR.tools.parseCssText( styleText, true, nativeNormalize );
 
-			for ( name in parsedProps )
+			for ( name in parsedProps ) {
 				props.push( name + ':' + parsedProps[ name ] );
+			}
 
 			props.sort();
 
@@ -1021,8 +1041,9 @@
 			return styleText.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) {
 				var color = [ red, green, blue ];
 				// Add padding zeros if the hex value is less than 0x10.
-				for ( var i = 0; i < 3; i++ )
+				for ( var i = 0; i < 3; i++ ) {
 					color[ i ] = ( '0' + parseInt( color[ i ], 10 ).toString( 16 ) ).slice( -2 );
+				}
 				return '#' + color.join( '' );
 			} );
 		},
@@ -1069,15 +1090,17 @@
 			}
 
 			// IE will leave a single semicolon when failed to parse the style text. (https://dev.ckeditor.com/ticket/3891)
-			if ( !styleText || styleText == ';' )
+			if ( !styleText || styleText == ';' ) {
 				return retval;
+			}
 
 			styleText.replace( /&quot;/g, '"' ).replace( /\s*([^:;\s]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
 				if ( normalize ) {
 					name = name.toLowerCase();
 					// Drop extra whitespacing from font-family.
-					if ( name == 'font-family' )
+					if ( name == 'font-family' ) {
 						value = value.replace( /\s*,\s*/g, ',' );
+					}
 					value = CKEDITOR.tools.trim( value );
 				}
 
@@ -1103,11 +1126,13 @@
 			var name,
 				stylesArr = [];
 
-			for ( name in styles )
+			for ( name in styles ) {
 				stylesArr.push( name + ':' + styles[ name ] );
+			}
 
-			if ( sort )
+			if ( sort ) {
 				stylesArr.sort();
+			}
 
 			return stylesArr.join( '; ' );
 		},
@@ -1126,21 +1151,24 @@
 		objectCompare: function( left, right, onlyLeft ) {
 			var name;
 
-			if ( !left && !right )
+			if ( !left && !right ) {
 				return true;
-			if ( !left || !right )
+			}
+			if ( !left || !right ) {
 				return false;
+			}
 
 			for ( name in left ) {
-				if ( left[ name ] != right[ name ] )
+				if ( left[ name ] != right[ name ] ) {
 					return false;
-
+				}
 			}
 
 			if ( !onlyLeft ) {
 				for ( name in right ) {
-					if ( left[ name ] != right[ name ] )
+					if ( left[ name ] != right[ name ] ) {
 						return false;
+					}
 				}
 			}
 
@@ -1173,11 +1201,13 @@
 		convertArrayToObject: function( arr, fillWith ) {
 			var obj = {};
 
-			if ( arguments.length == 1 )
+			if ( arguments.length == 1 ) {
 				fillWith = true;
+			}
 
-			for ( var i = 0, l = arr.length; i < l; ++i )
+			for ( var i = 0, l = arr.length; i < l; ++i ) {
 				obj[ arr[ i ] ] = fillWith;
+			}
 
 			return obj;
 		},
@@ -1213,8 +1243,9 @@
 						document.domain;
 
 					// Stop here if there is no more domain parts available.
-					if ( !domain )
+					if ( !domain ) {
 						break;
+					}
 
 					document.domain = domain;
 				}
@@ -1254,8 +1285,9 @@
 
 			while ( i-- ) {
 				el = doc.createElement( els[ i ] );
-				if ( withAppend )
+				if ( withAppend ) {
 					doc.appendChild( el );
+				}
 			}
 		},
 
@@ -1269,8 +1301,9 @@
 		 */
 		checkIfAnyArrayItemMatches: function( arr, regexp ) {
 			for ( var i = 0, l = arr.length; i < l; ++i ) {
-				if ( arr[ i ].match( regexp ) )
+				if ( arr[ i ].match( regexp ) ) {
 					return true;
+				}
 			}
 			return false;
 		},
@@ -1285,8 +1318,9 @@
 		 */
 		checkIfAnyObjectPropertyMatches: function( obj, regexp ) {
 			for ( var i in obj ) {
-				if ( i.match( regexp ) )
+				if ( i.match( regexp ) ) {
 					return true;
+				}
 			}
 			return false;
 		},
@@ -1632,7 +1666,6 @@
 						base64string += '=';
 					}
 				}
-
 			}
 			return base64string;
 		},
@@ -2804,7 +2837,6 @@
 							return;
 						}
 					}
-
 				} );
 
 				return new CKEDITOR.tools.style.border( props );

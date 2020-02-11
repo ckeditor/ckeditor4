@@ -52,7 +52,7 @@
 	// Maintain the map of smiley-to-description.
 	// jscs:disable maximumLineLength
 	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
-	// jscs:enable maximumLineLength
+		// jscs:enable maximumLineLength
 		smileyReverseMap = {},
 		smileyRegExp = [];
 
@@ -73,8 +73,9 @@
 				shy: '\u00AD' // IE
 			};
 
-		for ( var entity in entities )
+		for ( var entity in entities ) {
 			regex.push( entity );
+		}
 
 		regex = new RegExp( '&(' + regex.join( '|' ) + ');', 'g' );
 
@@ -133,12 +134,13 @@
 
 					if ( optionPart ) {
 						if ( part == 'list' ) {
-							if ( !isNaN( optionPart ) )
+							if ( !isNaN( optionPart ) ) {
 								optionPart = 'decimal';
-							else if ( /^[a-z]+$/.test( optionPart ) )
+							} else if ( /^[a-z]+$/.test( optionPart ) ) {
 								optionPart = 'lower-alpha';
-							else if ( /^[A-Z]+$/.test( optionPart ) )
+							} else if ( /^[A-Z]+$/.test( optionPart ) ) {
 								optionPart = 'upper-alpha';
+							}
 						}
 
 						if ( stylesMap[ part ] ) {
@@ -161,8 +163,9 @@
 
 					// Two special handling - image and email, protect them
 					// as "span" with an attribute marker.
-					if ( part == 'email' || part == 'img' )
+					if ( part == 'email' || part == 'img' ) {
 						attribs.bbcode = part;
+					}
 
 					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
 				}
@@ -172,8 +175,9 @@
 				}
 			}
 
-			if ( bbcode.length > lastIndex )
+			if ( bbcode.length > lastIndex ) {
 				this.onText( bbcode.substring( lastIndex, bbcode.length ), 1 );
+			}
 		}
 	};
 
@@ -230,18 +234,21 @@
 				lineBreakPrevious = previous && previous.type == CKEDITOR.NODE_ELEMENT && writer.getRule( tagnameMap[ previous.name ], 'breakAfterClose' ),
 				lineBreakCurrent = tagName && writer.getRule( tagnameMap[ tagName ], closing ? 'breakBeforeClose' : 'breakBeforeOpen' );
 
-			if ( pendingBrs && ( lineBreakParent || lineBreakPrevious || lineBreakCurrent ) )
+			if ( pendingBrs && ( lineBreakParent || lineBreakPrevious || lineBreakCurrent ) ) {
 				pendingBrs--;
+			}
 
 			// 1. Either we're at the end of block, where it requires us to compensate the br filler
 			// removing logic (from htmldataprocessor).
 			// 2. Or we're at the end of pseudo block, where it requires us to compensate
 			// the bogus br effect.
-			if ( pendingBrs && tagName in blockLikeTags )
+			if ( pendingBrs && tagName in blockLikeTags ) {
 				pendingBrs++;
+			}
 
-			while ( pendingBrs && pendingBrs-- )
+			while ( pendingBrs && pendingBrs-- ) {
 				currentNode.children.push( previous = new CKEDITOR.htmlParser.element( 'br' ) );
+			}
 		}
 
 		function addElement( node, target ) {
@@ -285,9 +292,9 @@
 				// then just close the current one and append the new one to the
 				// parent. This situation usually happens with <p>, <li>, <dt> and
 				// <dd>, specially in IE. Do not enter in this if block in this case.
-				if ( tagName == currentName )
+				if ( tagName == currentName ) {
 					addElement( currentNode, currentNode.parent );
-				else if ( tagName in CKEDITOR.dtd.$listItem ) {
+				} else if ( tagName in CKEDITOR.dtd.$listItem ) {
 					parser.onTagOpen( 'ul', {} );
 					addPoint = currentNode;
 					reApply = true;
@@ -301,11 +308,13 @@
 					reApply = true;
 				}
 
-				if ( addPoint )
+				if ( addPoint ) {
 					currentNode = addPoint;
+				}
 				// Try adding it to the return point, or the parent element.
-				else
+				else {
 					currentNode = currentNode.returnPoint || currentNode.parent;
+				}
 
 				if ( reApply ) {
 					parser.onTagOpen.apply( this, arguments );
@@ -320,10 +329,11 @@
 			element.returnPoint = returnPoint;
 			returnPoint = 0;
 
-			if ( element.isEmpty )
+			if ( element.isEmpty ) {
 				addElement( element );
-			else
+			} else {
 				currentNode = element;
+			}
 		};
 
 		parser.onTagClose = function( tagName ) {
@@ -344,8 +354,9 @@
 				// If this is an inline element, add it to the pending list, if we're
 				// really closing one of the parents element later, they will continue
 				// after it.
-				if ( !candidate._.isBlockLike )
+				if ( !candidate._.isBlockLike ) {
 					newPendingInline.unshift( candidate );
+				}
 
 				// This node should be added to it's parent at this point. But,
 				// it should happen only if the closing tag is really closing
@@ -369,8 +380,9 @@
 
 				// The parent should start receiving new nodes now, except if
 				// addElement changed the currentNode.
-				if ( candidate == currentNode )
+				if ( candidate == currentNode ) {
 					currentNode = currentNode.parent;
+				}
 
 				pendingInline = pendingInline.concat( newPendingInline );
 			}
@@ -383,9 +395,9 @@
 				checkPending();
 
 				text.replace( /(\r\n|[\r\n])|[^\r\n]*/g, function( piece, lineBreak ) {
-					if ( lineBreak !== undefined && lineBreak.length )
+					if ( lineBreak !== undefined && lineBreak.length ) {
 						pendingBrs++;
-					else if ( piece.length ) {
+					} else if ( piece.length ) {
 						var lastIndex = 0;
 
 						// Create smiley from text emotion.
@@ -395,8 +407,9 @@
 							lastIndex = index + match.length;
 						} );
 
-						if ( lastIndex != piece.length )
+						if ( lastIndex != piece.length ) {
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, piece.length ) ), currentNode );
+						}
 					}
 				} );
 			}
@@ -467,10 +480,11 @@
 			setRules: function( tagName, rules ) {
 				var currentRules = this._.rules[ tagName ];
 
-				if ( currentRules )
+				if ( currentRules ) {
 					CKEDITOR.tools.extend( currentRules, rules, true );
-				else
+				} else {
 					this._.rules[ tagName ] = rules;
+				}
 			},
 
 			getRule: function( tagName, ruleName ) {
@@ -479,20 +493,22 @@
 
 			openTag: function( tag ) {
 				if ( tag in bbcodeMap ) {
-					if ( this.getRule( tag, 'breakBeforeOpen' ) )
+					if ( this.getRule( tag, 'breakBeforeOpen' ) ) {
 						this.lineBreak( 1 );
+					}
 
 					this.write( '[', tag );
 				}
 			},
 
 			openTagClose: function( tag ) {
-				if ( tag == 'br' )
+				if ( tag == 'br' ) {
 					this._.output.push( '\n' );
-				else if ( tag in bbcodeMap ) {
+				} else if ( tag in bbcodeMap ) {
 					this.write( ']' );
-					if ( this.getRule( tag, 'breakAfterOpen' ) )
+					if ( this.getRule( tag, 'breakAfterOpen' ) ) {
 						this.lineBreak( 1 );
+					}
 				}
 			},
 
@@ -504,13 +520,15 @@
 
 			closeTag: function( tag ) {
 				if ( tag in bbcodeMap ) {
-					if ( this.getRule( tag, 'breakBeforeClose' ) )
+					if ( this.getRule( tag, 'breakBeforeClose' ) ) {
 						this.lineBreak( 1 );
+					}
 
 					tag != '*' && this.write( '[/', tag, ']' );
 
-					if ( this.getRule( tag, 'breakAfterClose' ) )
+					if ( this.getRule( tag, 'breakAfterClose' ) ) {
 						this.lineBreak( 1 );
+					}
 				}
 			},
 
@@ -545,8 +563,9 @@
 			getHtml: function( reset ) {
 				var bbcode = this._.output.join( '' );
 
-				if ( reset )
+				if ( reset ) {
 					this.reset();
+				}
 
 				return decodeHtml( bbcode );
 			}
@@ -622,8 +641,9 @@
 					},
 					ol: function( element ) {
 						if ( element.attributes.listType ) {
-							if ( element.attributes.listType != 'decimal' )
+							if ( element.attributes.listType != 'decimal' ) {
 								element.attributes.style = 'list-style-type:' + element.attributes.listType;
+							}
 						} else {
 							element.name = 'ul';
 						}
@@ -631,8 +651,9 @@
 						delete element.attributes.listType;
 					},
 					a: function( element ) {
-						if ( !element.attributes.href )
+						if ( !element.attributes.href ) {
 							element.attributes.href = element.children[ 0 ].value;
+						}
 					},
 					smiley: function( element ) {
 						element.name = 'img';
@@ -659,9 +680,9 @@
 							value;
 
 						var tagName = element.name;
-						if ( tagName in convertMap )
+						if ( tagName in convertMap ) {
 							tagName = convertMap[ tagName ];
-						else if ( tagName == 'span' ) {
+						} else if ( tagName == 'span' ) {
 							if ( ( value = style.color ) ) {
 								tagName = 'color';
 								value = CKEDITOR.tools.convertRgbToHex( value );
@@ -697,7 +718,6 @@
 									value = '"' + citeText + '"';
 									element.children = quoted.children;
 								}
-
 							} catch ( er ) {}
 
 							tagName = 'quote';
@@ -710,8 +730,9 @@
 									value = '';
 								} else {
 									var singleton = element.children.length == 1 && element.children[ 0 ];
-									if ( singleton && singleton.type == CKEDITOR.NODE_TEXT && singleton.value == value )
+									if ( singleton && singleton.type == CKEDITOR.NODE_TEXT && singleton.value == value ) {
 										value = '';
+									}
 
 									tagName = 'url';
 								}
@@ -723,10 +744,11 @@
 							var src = attributes[ 'data-cke-saved-src' ] || attributes.src,
 								alt = attributes.alt;
 
-							if ( src && src.indexOf( editor.config.smiley_path ) != -1 && alt )
+							if ( src && src.indexOf( editor.config.smiley_path ) != -1 && alt ) {
 								return new CKEDITOR.htmlParser.text( smileyMap[ alt ] );
-							else
+							} else {
 								element.children = [ new CKEDITOR.htmlParser.text( src ) ];
+							}
 						}
 
 						element.name = tagName;
@@ -748,8 +770,9 @@
 					// e.g. <div>some text<br /><p>paragraph</p></div>
 					br: function( element ) {
 						var next = element.next;
-						if ( next && next.name in blockLikeTags )
+						if ( next && next.name in blockLikeTags ) {
 							return false;
+						}
 					}
 				}
 			}, 1 );
@@ -763,13 +786,13 @@
 
 			// Skip the first "setData" call from inline creator, to allow content of
 			// HTML to be loaded from the page element.
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				editor.once( 'contentDom', function() {
 					editor.on( 'setData', onSetData );
 				} );
-			else
+			} else {
 				editor.on( 'setData', onSetData );
-
+			}
 		},
 
 		afterInit: function( editor ) {
@@ -782,21 +805,24 @@
 							name = tagnameMap[ htmlName ] || false;
 
 						// Specialized anchor presents as email.
-						if ( name == 'link' && element.getAttribute( 'href' ).indexOf( 'mailto:' ) === 0 )
+						if ( name == 'link' && element.getAttribute( 'href' ).indexOf( 'mailto:' ) === 0 ) {
 							name = 'email';
+						}
 						// Styled span could be either size or color.
 						else if ( htmlName == 'span' ) {
-							if ( element.getStyle( 'font-size' ) )
+							if ( element.getStyle( 'font-size' ) ) {
 								name = 'size';
-							else if ( element.getStyle( 'color' ) )
+							} else if ( element.getStyle( 'color' ) ) {
 								name = 'color';
+							}
 						// Styled div could be align
 						} else if ( htmlName == 'div' && element.getStyle( 'text-align' ) ) {
 							name = element.getStyle( 'text-align' );
 						} else if ( name == 'img' ) {
 							var src = element.data( 'cke-saved-src' ) || element.getAttribute( 'src' );
-							if ( src && src.indexOf( editor.config.smiley_path ) === 0 )
+							if ( src && src.indexOf( editor.config.smiley_path ) === 0 ) {
 								name = 'smiley';
+							}
 						}
 
 						return name;
@@ -805,5 +831,4 @@
 			}
 		}
 	} );
-
 } )();

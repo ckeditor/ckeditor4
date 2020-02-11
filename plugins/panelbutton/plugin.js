@@ -9,8 +9,9 @@ CKEDITOR.plugins.add( 'panelbutton', {
 		function clickFn( editor ) {
 			var _ = this._;
 
-			if ( _.state == CKEDITOR.TRISTATE_DISABLED )
+			if ( _.state == CKEDITOR.TRISTATE_DISABLED ) {
 				return;
+			}
 
 			this.createPanel( editor );
 
@@ -144,7 +145,6 @@ CKEDITOR.plugins.add( 'panelbutton', {
 				}
 			}
 		} );
-
 	},
 	beforeInit: function( editor ) {
 		editor.ui.addHandler( CKEDITOR.UI_PANELBUTTON, CKEDITOR.ui.panelButton.handler );

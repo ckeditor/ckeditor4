@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -281,8 +281,9 @@
 					}
 
 					// If editable wrapper was found strip it and bogus <br> (added on FF).
-					if ( editable_wrapper )
+					if ( editable_wrapper ) {
 						data = editable_wrapper.getHtml().replace( /<br>$/i, '' );
+					}
 				}
 
 				if ( CKEDITOR.env.ie ) {
@@ -405,8 +406,9 @@
 		if ( withBeforePaste ) {
 			// Fire 'beforePaste' event so clipboard flavor get customized
 			// by other plugins.
-			if ( editor.fire( 'beforePaste', data ) === false )
-				return false; // Event canceled
+			if ( editor.fire( 'beforePaste', data ) === false ) {
+				return false;
+			} // Event canceled
 		}
 
 		// Do not fire paste if there is no data (dataValue and dataTranfser are empty).
@@ -732,8 +734,9 @@
 
 				editable.on( 'beforepaste', function( evt ) {
 					// Do not prevent event on CTRL+V and SHIFT+INS because it blocks paste (https://dev.ckeditor.com/ticket/11970).
-					if ( evt.data && !evt.data.$.ctrlKey && !evt.data.$.shiftKey )
+					if ( evt.data && !evt.data.$.ctrlKey && !evt.data.$.shiftKey ) {
 						preventBeforePasteEventNow();
+					}
 				}, null, null, 0 );
 			}
 
@@ -766,12 +769,13 @@
 				type: type,
 				canUndo: type == 'cut', // We can't undo copy to clipboard.
 				startDisabled: true,
-				fakeKeystroke: type == 'cut' ? CKEDITOR.CTRL + 88 /*X*/ :  CKEDITOR.CTRL + 67 /*C*/,
+				fakeKeystroke: type == 'cut' ? CKEDITOR.CTRL + 88 /*X*/ : CKEDITOR.CTRL + 67 /*C*/,
 				exec: function() {
 					// Attempts to execute the Cut and Copy operations.
 					function tryToCutCopy( type ) {
-						if ( CKEDITOR.env.ie )
+						if ( CKEDITOR.env.ie ) {
 							return execIECommand( type );
+						}
 
 						// non-IEs part
 						try {
@@ -927,8 +931,9 @@
 
 		// Cutting off control type element in IE standards breaks the selection entirely. (https://dev.ckeditor.com/ticket/4881)
 		function fixCut() {
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.quirks )
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.quirks ) {
 				return;
+			}
 
 			var sel = editor.getSelection(),
 				control, range, dummy;
@@ -963,8 +968,9 @@
 				blurListener;
 
 			// Avoid recursions on 'paste' event or consequent paste too fast. (https://dev.ckeditor.com/ticket/5730)
-			if ( doc.getById( 'cke_pastebin' ) )
+			if ( doc.getById( 'cke_pastebin' ) ) {
 				return;
+			}
 
 			var sel = editor.getSelection();
 			var bms = sel.createBookmarks();
@@ -975,8 +981,9 @@
 			// before creating bookmark (cached selection will be invalid, because bookmarks modified the DOM),
 			// so we need to fire selectionchange one more time, to store current seleciton.
 			// Selection will be locked when we focus pastebin.
-			if ( CKEDITOR.env.ie )
+			if ( CKEDITOR.env.ie ) {
 				sel.root.fire( 'selectionchange' );
+			}
 
 			// Create container to paste into.
 			// For rich content we prefer to use "body" since it holds
@@ -1010,11 +1017,13 @@
 				if ( !editable.is( 'body' ) ) {
 					// We're not able to get offsetParent from pastebin (body element), so check whether
 					// its parent (editable) is positioned.
-					if ( editable.getComputedStyle( 'position' ) != 'static' )
+					if ( editable.getComputedStyle( 'position' ) != 'static' ) {
 						offsetParent = editable;
+					}
 					// And if not - safely get offsetParent from editable.
-					else
+					else {
 						offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
+					}
 
 					containerOffset = offsetParent.getDocumentPosition().y;
 				}
@@ -1038,8 +1047,9 @@
 			} );
 
 			// Paste fails in Safari when the body tag has 'user-select: none'. (https://dev.ckeditor.com/ticket/12506)
-			if ( CKEDITOR.env.safari )
+			if ( CKEDITOR.env.safari ) {
 				pastebin.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'text' ) );
+			}
 
 			// Check if the paste bin now establishes new editing host.
 			var isEditingHost = pastebin.getParent().isReadOnly();
@@ -1062,8 +1072,9 @@
 			// pastebin (if body is used). Cancel it because it causes incorrect
 			// selection lock in case of inline editor (https://dev.ckeditor.com/ticket/10644).
 			// The same seems to apply to Firefox (https://dev.ckeditor.com/ticket/10787).
-			if ( CKEDITOR.env.webkit || CKEDITOR.env.gecko )
+			if ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) {
 				blurListener = editable.once( 'blur', cancel, null, null, -100 );
+			}
 
 			// Temporarily move selection to the pastebin.
 			isEditingHost && pastebin.focus();
@@ -1087,15 +1098,17 @@
 			setTimeout( function() {
 				// Restore main window's scroll position which could have been changed
 				// by browser in cases described in https://dev.ckeditor.com/ticket/9771.
-				if ( CKEDITOR.env.webkit )
+				if ( CKEDITOR.env.webkit ) {
 					CKEDITOR.document.getBody().$.scrollTop = scrollTop;
+				}
 
 				// Blur will be fired only on non-native paste. In other case manually remove listener.
 				blurListener && blurListener.removeListener();
 
 				// Restore properly the document focus. (https://dev.ckeditor.com/ticket/8849)
-				if ( CKEDITOR.env.ie )
+				if ( CKEDITOR.env.ie ) {
 					editable.focus();
+				}
 
 				// IE7: selection must go before removing pastebin. (https://dev.ckeditor.com/ticket/8691)
 				sel.selectBookmarks( bms );
@@ -1106,8 +1119,9 @@
 				// a div wrapper if you copy/paste the body of the editor.
 				// Remove hidden div and restore selection.
 				var bogusSpan;
-				if ( CKEDITOR.env.webkit && ( bogusSpan = pastebin.getFirst() ) && ( bogusSpan.is && bogusSpan.hasClass( 'Apple-style-span' ) ) )
+				if ( CKEDITOR.env.webkit && ( bogusSpan = pastebin.getFirst() ) && ( bogusSpan.is && bogusSpan.hasClass( 'Apple-style-span' ) ) ) {
 					pastebin = bogusSpan;
+				}
 
 				editor.removeListener( 'selectionChange', cancel );
 				callback( pastebin.getHtml() );
@@ -1151,8 +1165,9 @@
 		// Listens for some clipboard related keystrokes, so they get customized.
 		// Needs to be bind to keydown event.
 		function onKey( event ) {
-			if ( editor.mode != 'wysiwyg' )
+			if ( editor.mode != 'wysiwyg' ) {
 				return;
+			}
 
 			switch ( event.data.keyCode ) {
 				// Paste
@@ -1185,10 +1200,10 @@
 		function pasteDataFromClipboard( evt ) {
 			// Default type is 'auto', but can be changed by beforePaste listeners.
 			var eventData = {
-					type: 'auto',
-					method: 'paste',
-					dataTransfer: clipboard.initPasteDataTransfer( evt )
-				};
+				type: 'auto',
+				method: 'paste',
+				dataTransfer: clipboard.initPasteDataTransfer( evt )
+			};
 
 			eventData.dataTransfer.cacheData();
 
@@ -1259,16 +1274,19 @@
 	function recogniseContentType( data ) {
 		if ( CKEDITOR.env.webkit ) {
 			// Plain text or ( <div><br></div> and text inside <div> ).
-			if ( !data.match( /^[^<]*$/g ) && !data.match( /^(<div><br( ?\/)?><\/div>|<div>[^<]*<\/div>)*$/gi ) )
+			if ( !data.match( /^[^<]*$/g ) && !data.match( /^(<div><br( ?\/)?><\/div>|<div>[^<]*<\/div>)*$/gi ) ) {
 				return 'html';
+			}
 		} else if ( CKEDITOR.env.ie ) {
 			// Text and <br> or ( text and <br> in <p> - paragraphs can be separated by new \r\n ).
-			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) && !data.match( /^(<p>([^<]|<br( ?\/)?>)*<\/p>|(\r\n))*$/gi ) )
+			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) && !data.match( /^(<p>([^<]|<br( ?\/)?>)*<\/p>|(\r\n))*$/gi ) ) {
 				return 'html';
+			}
 		} else if ( CKEDITOR.env.gecko ) {
 			// Text or <br>.
-			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) )
+			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) ) {
 				return 'html';
+			}
 		} else {
 			return 'html';
 		}
@@ -1286,8 +1304,8 @@
 			return CKEDITOR.tools.repeat( '</p><p>', ~~( repeats / 2 ) ) + ( repeats % 2 == 1 ? '<br>' : '' );
 		}
 
-			// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
-			// We have to skip \u3000 (IDEOGRAPHIC SPACE) character - it's special space character correctly rendered by the browsers (#1321).
+		// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
+		// We have to skip \u3000 (IDEOGRAPHIC SPACE) character - it's special space character correctly rendered by the browsers (#1321).
 		data = data.replace( /(?!\u3000)\s+/g, ' ' )
 			// Remove spaces from between tags.
 			.replace( /> +</g, '><' )
@@ -1300,12 +1318,13 @@
 		} );
 
 		// Don't touch single lines (no <br|p|div>) - nothing to do here.
-		if ( data.match( /^[^<]$/ ) )
+		if ( data.match( /^[^<]$/ ) ) {
 			return data;
+		}
 
 		// Webkit.
 		if ( CKEDITOR.env.webkit && data.indexOf( '<div>' ) > -1 ) {
-				// One line break at the beginning - insert <br>
+			// One line break at the beginning - insert <br>
 			data = data.replace( /^(<div>(<br>|)<\/div>)(?!$|(<div>(<br>|)<\/div>))/g, '<br>' )
 				// Two or more - reduce number of new lines by one.
 				.replace( /^(<div>(<br>|)<\/div>){2}(?!$)/g, '<div></div>' );
@@ -1328,8 +1347,9 @@
 		if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR ) {
 			// Remove bogus <br> - Fx generates two <brs> for one line break.
 			// For two line breaks it still produces two <brs>, but it's better to ignore this case than the first one.
-			if ( CKEDITOR.env.gecko )
+			if ( CKEDITOR.env.gecko ) {
 				data = data.replace( /^<br><br>$/, '<br>' );
+			}
 
 			// This line satisfy edge case when for Opera we have two line breaks
 			//data = data.replace( /)
@@ -1548,7 +1568,7 @@
 				}
 
 				// Fire drop.
-				fireDragEvent( evt, dragRange, dropRange  );
+				fireDragEvent( evt, dragRange, dropRange );
 			}, null, null, 9999 );
 
 			// Create dataTransfer or get it, if it was created before.
@@ -1615,9 +1635,9 @@
 			// Fire drag/drop events (dragstart, dragend, drop).
 			function fireDragEvent( evt, dragRange, dropRange ) {
 				var eventData = {
-						$: evt.data.$,
-						target: evt.data.getTarget()
-					};
+					$: evt.data.$,
+					target: evt.data.getTarget()
+				};
 
 				if ( dragRange ) {
 					eventData.dragRange = dragRange;
@@ -2041,8 +2061,9 @@
 				range = editor.createRange();
 
 			// Make testing possible.
-			if ( dropEvt.data.testRange )
+			if ( dropEvt.data.testRange ) {
 				return dropEvt.data.testRange;
+			}
 
 			// Webkits.
 			if ( document.caretRangeFromPoint && editor.document.$.caretRangeFromPoint( x, y ) ) {
@@ -2162,7 +2183,6 @@
 						} else {
 							return null;
 						}
-
 					}
 				} catch ( err ) {
 					return null;
@@ -3061,7 +3081,6 @@
 			CKEDITOR.tools.array.forEach( fallbackTypes, function( type ) {
 				if ( cache[ type ] !== undefined ) {
 					fallbackTypeData[ type ] = cache[ type ];
-
 				} else if ( fallbackTypeData[ type ] !== undefined ) {
 					fallbackTypeData[ type ] = fallbackTypeData[ type ];
 				}
@@ -3128,7 +3147,6 @@
 			return customData + ( content && content.length ? content : '' );
 		}
 	};
-
 } )();
 
 /**

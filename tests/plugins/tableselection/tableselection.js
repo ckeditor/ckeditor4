@@ -115,7 +115,7 @@
 			}, null, null, -2 );
 
 			realSelection = editor.getSelection( 1 );
-			range = tableSelectionHelpers.getRangesForCells( editor, [ 2 ] ) [ 0 ];
+			range = tableSelectionHelpers.getRangesForCells( editor, [ 2 ] )[ 0 ];
 
 			range.collapse();
 			realSelection.selectRanges( [ range ] );

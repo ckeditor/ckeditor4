@@ -19,87 +19,87 @@
 				this.plugin = plugin;
 				this.editor = editor;
 				this.groups = [
-						{
-							name: 'people',
-							sectionName: lang.groups.people,
-							svgId: 'cke4-icon-emoji-2',
-							position: {
-								x: -1 * ICON_SIZE,
-								y: 0
-							},
-							items: []
+					{
+						name: 'people',
+						sectionName: lang.groups.people,
+						svgId: 'cke4-icon-emoji-2',
+						position: {
+							x: -1 * ICON_SIZE,
+							y: 0
 						},
-						{
-							name: 'nature',
-							sectionName: lang.groups.nature,
-							svgId: 'cke4-icon-emoji-3',
-							position: {
-								x: -2 * ICON_SIZE,
-								y: 0
-							},
-							items: []
+						items: []
+					},
+					{
+						name: 'nature',
+						sectionName: lang.groups.nature,
+						svgId: 'cke4-icon-emoji-3',
+						position: {
+							x: -2 * ICON_SIZE,
+							y: 0
 						},
-						{
-							name: 'food',
-							sectionName: lang.groups.food,
-							svgId: 'cke4-icon-emoji-4',
-							position: {
-								x: -3 * ICON_SIZE,
-								y: 0
-							},
-							items: []
+						items: []
+					},
+					{
+						name: 'food',
+						sectionName: lang.groups.food,
+						svgId: 'cke4-icon-emoji-4',
+						position: {
+							x: -3 * ICON_SIZE,
+							y: 0
 						},
-						{
-							name: 'travel',
-							sectionName: lang.groups.travel,
-							svgId: 'cke4-icon-emoji-6',
-							position: {
-								x: -2 * ICON_SIZE,
-								y: -1 * ICON_SIZE
-							},
-							items: []
+						items: []
+					},
+					{
+						name: 'travel',
+						sectionName: lang.groups.travel,
+						svgId: 'cke4-icon-emoji-6',
+						position: {
+							x: -2 * ICON_SIZE,
+							y: -1 * ICON_SIZE
 						},
-						{
-							name: 'activities',
-							sectionName: lang.groups.activities,
-							svgId: 'cke4-icon-emoji-5',
-							position: {
-								x: -4 * ICON_SIZE,
-								y: 0
-							},
-							items: []
+						items: []
+					},
+					{
+						name: 'activities',
+						sectionName: lang.groups.activities,
+						svgId: 'cke4-icon-emoji-5',
+						position: {
+							x: -4 * ICON_SIZE,
+							y: 0
 						},
-						{
-							name: 'objects',
-							sectionName: lang.groups.objects,
-							svgId: 'cke4-icon-emoji-7',
-							position: {
-								x: 0,
-								y: -1 * ICON_SIZE
-							},
-							items: []
+						items: []
+					},
+					{
+						name: 'objects',
+						sectionName: lang.groups.objects,
+						svgId: 'cke4-icon-emoji-7',
+						position: {
+							x: 0,
+							y: -1 * ICON_SIZE
 						},
-						{
-							name: 'symbols',
-							sectionName: lang.groups.symbols,
-							svgId: 'cke4-icon-emoji-8',
-							position: {
-								x: -1 * ICON_SIZE,
-								y: -1 * ICON_SIZE
-							},
-							items: []
+						items: []
+					},
+					{
+						name: 'symbols',
+						sectionName: lang.groups.symbols,
+						svgId: 'cke4-icon-emoji-8',
+						position: {
+							x: -1 * ICON_SIZE,
+							y: -1 * ICON_SIZE
 						},
-						{
-							name: 'flags',
-							sectionName: lang.groups.flags,
-							svgId: 'cke4-icon-emoji-9',
-							position: {
-								x: -3 * ICON_SIZE,
-								y: -1 * ICON_SIZE
-							},
-							items: []
-						}
-					];
+						items: []
+					},
+					{
+						name: 'flags',
+						sectionName: lang.groups.flags,
+						svgId: 'cke4-icon-emoji-9',
+						position: {
+							x: -3 * ICON_SIZE,
+							y: -1 * ICON_SIZE
+						},
+						items: []
+					}
+				];
 
 				// Keeps html elements references to not find them again.
 				this.elements = {};
@@ -163,7 +163,6 @@
 						self.elements.statusName = block.element.findOne( 'p.cke_emoji-status_full_name' );
 						self.elements.sections = block.element.find( 'section' );
 						self.registerListeners();
-
 					},
 
 					onOpen: self.openReset()
@@ -381,12 +380,12 @@
 						function( acc, item ) {
 							addEncodedName( item );
 							return acc + emojiTpl.output( {
-									symbol: htmlEncode( item.symbol ),
-									id: htmlEncode( item.id ),
-									name: item.name,
-									group: htmlEncode( item.group ),
-									keywords: htmlEncode( ( item.keywords || [] ).join( ',' ) )
-								} );
+								symbol: htmlEncode( item.symbol ),
+								id: htmlEncode( item.id ),
+								name: item.name,
+								group: htmlEncode( item.group ),
+								keywords: htmlEncode( ( item.keywords || [] ).join( ',' ) )
+							} );
 						},
 						'',
 						this
@@ -450,7 +449,6 @@
 						firstCall;
 
 					return function() {
-
 						if ( !firstCall ) {
 							self.filter( '' );
 							firstCall = true;
@@ -656,7 +654,6 @@
 			if ( editor.plugins.toolbar ) {
 				new EmojiDropdown( editor, this );
 			}
-
 		}
 	} );
 

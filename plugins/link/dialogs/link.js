@@ -146,7 +146,6 @@
 					targetName.getElement().hide();
 					break;
 			}
-
 		};
 
 		// Handles the event when the "Type" selection box is changed.
@@ -257,7 +256,7 @@
 					id: 'linkType',
 					type: 'select',
 					label: linkLang.type,
-					'default': 'url',
+					default: 'url',
 					items: [
 						[ linkLang.toUrl, 'url' ],
 						[ linkLang.toAnchor, 'anchor' ],
@@ -290,7 +289,7 @@
 								[ 'news://\u200E', 'news://' ],
 								[ linkLang.other, '' ]
 							],
-							'default': editor.config.linkDefaultProtocol,
+							default: editor.config.linkDefaultProtocol,
 							setup: function( data ) {
 								if ( data.url ) {
 									this.setValue( data.url.protocol || '' );
@@ -361,7 +360,6 @@
 									this.setValue( data.url.url );
 								}
 								this.allowOnChange = true;
-
 							},
 							commit: function( data ) {
 								// IE will not trigger the onChange event if the mouse has been used
@@ -411,7 +409,7 @@
 							children: [ {
 								type: 'select',
 								id: 'anchorName',
-								'default': '',
+								default: '',
 								label: linkLang.anchorName,
 								style: 'width: 100%;',
 								items: [
@@ -449,7 +447,7 @@
 							{
 								type: 'select',
 								id: 'anchorId',
-								'default': '',
+								default: '',
 								label: linkLang.anchorId,
 								style: 'width: 100%;',
 								items: [
@@ -560,7 +558,7 @@
 						id: 'emailBody',
 						label: linkLang.emailBody,
 						rows: 3,
-						'default': '',
+						default: '',
 						setup: function( data ) {
 							if ( data.email ) {
 								this.setValue( data.email.body );
@@ -623,9 +621,9 @@
 						type: 'select',
 						id: 'linkTargetType',
 						label: commonLang.target,
-						'default': 'notSet',
+						default: 'notSet',
 						style: 'width : 100%;',
-						'items': [
+						items: [
 							[ commonLang.notSet, 'notSet' ],
 							[ linkLang.targetFrame, 'frame' ],
 							[ linkLang.targetPopup, 'popup' ],
@@ -653,7 +651,7 @@
 						type: 'text',
 						id: 'linkTargetName',
 						label: linkLang.targetFrameName,
-						'default': '',
+						default: '',
 						setup: function( data ) {
 							if ( data.target ) {
 								this.setValue( data.target.name );
@@ -808,7 +806,7 @@
 					id: 'uploadButton',
 					label: commonLang.uploadSubmit,
 					filebrowser: 'info:url',
-					'for': [ 'upload', 'upload' ]
+					for: [ 'upload', 'upload' ]
 				} ]
 			},
 			{
@@ -834,7 +832,7 @@
 							id: 'advLangDir',
 							requiredContent: 'a[dir]',
 							label: linkLang.langDir,
-							'default': '',
+							default: '',
 							style: 'width:110px',
 							items: [
 								[ commonLang.notSet, '' ],
@@ -872,7 +870,7 @@
 							id: 'advLangCode',
 							requiredContent: 'a[lang]',
 							width: '110px',
-							'default': '',
+							default: '',
 							setup: setupAdvParams,
 							commit: commitAdvParams
 						},
@@ -898,7 +896,7 @@
 							type: 'text',
 							label: linkLang.advisoryTitle,
 							requiredContent: 'a[title]',
-							'default': '',
+							default: '',
 							id: 'advTitle',
 							setup: setupAdvParams,
 							commit: commitAdvParams
@@ -907,7 +905,7 @@
 							type: 'text',
 							label: linkLang.advisoryContentType,
 							requiredContent: 'a[type]',
-							'default': '',
+							default: '',
 							id: 'advContentType',
 							setup: setupAdvParams,
 							commit: commitAdvParams
@@ -920,7 +918,7 @@
 							type: 'text',
 							label: linkLang.cssClasses,
 							requiredContent: 'a(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
-							'default': '',
+							default: '',
 							id: 'advCSSClasses',
 							setup: setupAdvParams,
 							commit: commitAdvParams
@@ -929,7 +927,7 @@
 							type: 'text',
 							label: linkLang.charset,
 							requiredContent: 'a[charset]',
-							'default': '',
+							default: '',
 							id: 'advCharset',
 							setup: setupAdvParams,
 							commit: commitAdvParams
@@ -942,7 +940,7 @@
 							type: 'text',
 							label: linkLang.rel,
 							requiredContent: 'a[rel]',
-							'default': '',
+							default: '',
 							id: 'advRel',
 							setup: setupAdvParams,
 							commit: commitAdvParams
@@ -951,7 +949,7 @@
 							type: 'text',
 							label: linkLang.styles,
 							requiredContent: 'a{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
-							'default': '',
+							default: '',
 							id: 'advStyles',
 							validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
 							setup: setupAdvParams,
@@ -1049,7 +1047,7 @@
 	function validateTelNumber() {
 		var dialog = this.getDialog(),
 			editor = dialog._.editor,
-			regExp =  editor.config.linkPhoneRegExp,
+			regExp = editor.config.linkPhoneRegExp,
 			msg = editor.config.linkPhoneMsg,
 			linkLang = editor.lang.link,
 			messageWhenEmpty = CKEDITOR.dialog.validate.notEmpty( linkLang.noTel ).apply( this );

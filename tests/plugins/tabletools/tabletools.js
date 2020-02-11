@@ -97,8 +97,9 @@
 		},
 
 		'test merge cells (2)': function() {
-			if ( !CKEDITOR.env.gecko )
+			if ( !CKEDITOR.env.gecko ) {
 				assert.ignore();
+			}
 
 			this.doTest( 'merge-cells-2', 'cellMerge' );
 		},
@@ -108,15 +109,17 @@
 		},
 
 		'test merge cells (4)': function() {
-			if ( !CKEDITOR.env.gecko )
+			if ( !CKEDITOR.env.gecko ) {
 				assert.ignore();
+			}
 
 			this.doTest( 'merge-cells-4', 'cellMerge' );
 		},
 
 		'test merge cells (5)': function() {
-			if ( !CKEDITOR.env.gecko )
+			if ( !CKEDITOR.env.gecko ) {
 				assert.ignore();
+			}
 
 			this.doTest( 'merge-cells-5', 'cellMerge' );
 		},

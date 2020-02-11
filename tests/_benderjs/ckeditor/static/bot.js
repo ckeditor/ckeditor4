@@ -135,7 +135,6 @@
 	 */
 	function menuOrPanel( isPanel ) {
 		return function( name, callback ) {
-
 			var editor = this.editor,
 				btn = editor.ui.get( name ),
 				tc = this.testCase,
@@ -149,7 +148,7 @@
 						function() {
 							callback.call( tc, isPanel ? btn._.panel : btn._.menu );
 						}
-						);
+					);
 				} );
 			} );
 
@@ -401,5 +400,4 @@
 			wait();
 		}
 	};
-
 } )( bender );

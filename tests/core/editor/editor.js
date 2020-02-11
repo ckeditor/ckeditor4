@@ -23,8 +23,9 @@ bender.test( {
 
 		var config = CKEDITOR.instances.editor1.config;
 
-		for ( var prop in CKEDITOR.config )
+		for ( var prop in CKEDITOR.config ) {
 			assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
+		}
 	},
 
 	'ignore:test_config_inpage': function() {
@@ -45,8 +46,9 @@ bender.test( {
 
 						// All other settings must match CKEDITOR.config.
 						for ( var prop in CKEDITOR.config ) {
-							if ( prop != 'test1' && prop != 'baseHref' )
+							if ( prop != 'test1' && prop != 'baseHref' ) {
 								assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
+							}
 						}
 					} );
 				}
@@ -75,8 +77,9 @@ bender.test( {
 
 						// All other settings must match CKEDITOR.config.
 						for ( var prop in CKEDITOR.config ) {
-							if ( !Object.hasOwnProperty( CKEDITOR.config, prop ) )
+							if ( !Object.hasOwnProperty( CKEDITOR.config, prop ) ) {
 								continue;
+							}
 
 							// Creators might add required plugin to core.
 							if ( prop != 'plugins' && prop != 'customConfig' && prop != 'test_custom1' &&
@@ -97,32 +100,36 @@ bender.test( {
 			editor = new CKEDITOR.editor( {}, CKEDITOR.document.getById( 'editor4' ), CKEDITOR.ELEMENT_MODE_REPLACE );
 
 		function checkEventData( value ) {
-			return function( evt  ) {
+			return function( evt ) {
 				events.push( evt.name );
 				// Check data value.
-				if ( value )
+				if ( value ) {
 					assert.areSame( value, evt.data.dataValue, 'check data on event: ' + evt.name );
+				}
 				// Alter the data value.
-				if ( evt.name == 'setData' )
+				if ( evt.name == 'setData' ) {
 					evt.data.dataValue = 'bar';
+				}
 			};
 		}
 
 		// This function allows to call either older API or new object based setData().
 		// It takes setData() params in new format (as editor#setData()).
 		function callSetData( data, params, legacyInterface ) {
-			if ( legacyInterface )
+			if ( legacyInterface ) {
 				editor.setData( data, params.callback, params.internal );
-			else
+			} else {
 				editor.setData( data, params );
+			}
 		}
 
 		var listeners = [],
 			allEvents = [ 'setData', 'afterSetData', 'beforeGetData', 'getData', 'saveSnapshot' ],
 			listener = checkEventData();
 
-		for ( var i = 0; i < allEvents.length; i++ )
+		for ( var i = 0; i < allEvents.length; i++ ) {
 			listeners.push( editor.on( allEvents[ i ], listener ) );
+		}
 
 		for ( i = 0; i <= 1; i++ ) {
 			var useOldAPI = Boolean( i ),
@@ -217,9 +224,10 @@ bender.test( {
 
 		bot.setData( '<p>foo</p>', function() {
 			// Test update element explicit call.
-			if ( editor.updateElement() )
+			if ( editor.updateElement() ) {
 				assert.areSame( '<p>foo</p>', getHtml( element ),
 					'editor data update to element' );
+			}
 
 			// Test update element implicitly on editor destroy.
 			bot.setData( '<p>bar</p>', function() {

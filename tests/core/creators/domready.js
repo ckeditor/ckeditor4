@@ -17,8 +17,9 @@ $( window ).on( 'load', function() {
 
 	bender.test( {
 		'check instances are created before "onload" event': function() {
-			if ( CKEDITOR.env.ie && ( document.documentMode || CKEDITOR.env.version ) < 9 )
+			if ( CKEDITOR.env.ie && ( document.documentMode || CKEDITOR.env.version ) < 9 ) {
 				assert.ignore();
+			}
 
 			wait( function() {
 				assert.isTrue( passed );

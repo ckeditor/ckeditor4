@@ -11,8 +11,9 @@ CKEDITOR.plugins.add( 'menu', {
 			groupsOrder = editor._.menuGroups = {},
 			menuItems = editor._.menuItems = {};
 
-		for ( var i = 0; i < groups.length; i++ )
+		for ( var i = 0; i < groups.length; i++ ) {
 			groupsOrder[ groups[ i ] ] = i + 1;
+		}
 
 		/**
 		 * Registers an item group to the editor context menu in order to make it
@@ -36,8 +37,9 @@ CKEDITOR.plugins.add( 'menu', {
 		 * @member CKEDITOR.editor
 		 */
 		editor.addMenuItem = function( name, definition ) {
-			if ( groupsOrder[ definition.group ] )
+			if ( groupsOrder[ definition.group ] ) {
 				menuItems[ name ] = new CKEDITOR.menuItem( this, name, definition );
+			}
 		};
 
 		/**
@@ -99,8 +101,9 @@ CKEDITOR.plugins.add( 'menu', {
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
 	// TODO: Check if really needed.
-	if ( CKEDITOR.env.gecko && CKEDITOR.env.mac )
+	if ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) {
 		menuItemSource += ' onkeypress="return false;"';
+	}
 
 	// With Firefox, we need to force the button to redraw, otherwise it
 	// will remain in the focus state. Also we some extra help to prevent dragging (https://dev.ckeditor.com/ticket/10373).
@@ -204,20 +207,22 @@ CKEDITOR.plugins.add( 'menu', {
 			onClick: function( item ) {
 				this.hide();
 
-				if ( item.onClick )
+				if ( item.onClick ) {
 					item.onClick();
-				else if ( item.command )
+				} else if ( item.command ) {
 					this.editor.execCommand( item.command );
+				}
 			},
 
 			onEscape: function( keystroke ) {
 				var parent = this.parent;
 				// 1. If it's sub-menu, close it, with focus restored on this.
 				// 2. In case of a top-menu, close it, with focus returned to page.
-				if ( parent )
+				if ( parent ) {
 					parent._.panel.hideChild( 1 );
-				else if ( keystroke == 27 )
+				} else if ( keystroke == 27 ) {
 					this.hide( 1 );
+				}
 
 				return false;
 			},
@@ -241,9 +246,9 @@ CKEDITOR.plugins.add( 'menu', {
 
 				// Create the submenu, if not available, or clean the existing
 				// one.
-				if ( menu )
+				if ( menu ) {
 					menu.removeAll();
-				else {
+				} else {
 					menu = this._.subMenu = new CKEDITOR.menu( this.editor, CKEDITOR.tools.extend( {}, this._.definition, { level: this._.level + 1 }, true ) );
 					menu.parent = this;
 					menu._.onClick = CKEDITOR.tools.bind( this._.onClick, this );
@@ -280,8 +285,9 @@ CKEDITOR.plugins.add( 'menu', {
 				// Later we may sort the items, but Array#sort is not stable in
 				// some browsers, here we're forcing the original sequence with
 				// 'order' attribute if it hasn't been assigned. (https://dev.ckeditor.com/ticket/3868)
-				if ( !item.order )
+				if ( !item.order ) {
 					item.order = this.items.length;
+				}
 
 				this.items.push( item );
 			},
@@ -306,8 +312,9 @@ CKEDITOR.plugins.add( 'menu', {
 				if ( !this.parent ) {
 					this._.onShow();
 					// Don't menu with zero items.
-					if ( !this.items.length )
+					if ( !this.items.length ) {
 						return;
+					}
 				}
 
 				corner = corner || ( this.editor.lang.dir == 'rtl' ? 2 : 1 );
@@ -322,8 +329,9 @@ CKEDITOR.plugins.add( 'menu', {
 					panel = this._.panel = new CKEDITOR.ui.floatPanel( this.editor, CKEDITOR.document.getBody(), this._.panelDefinition, this._.level );
 
 					panel.onEscape = CKEDITOR.tools.bind( function( keystroke ) {
-						if ( this._.onEscape( keystroke ) === false )
+						if ( this._.onEscape( keystroke ) === false ) {
 							return false;
+						}
 					}, this );
 
 					panel.onShow = function() {
@@ -372,10 +380,11 @@ CKEDITOR.plugins.add( 'menu', {
 							return;
 						}
 
-						if ( item.getItems )
+						if ( item.getItems ) {
 							this._.showSubMenu( index );
-						else
+						} else {
 							this._.onClick( item );
+						}
 					}, this );
 				}
 
@@ -478,10 +487,11 @@ CKEDITOR.plugins.add( 'menu', {
 
 	function sortItems( items ) {
 		items.sort( function( itemA, itemB ) {
-			if ( itemA.group < itemB.group )
+			if ( itemA.group < itemB.group ) {
 				return -1;
-			else if ( itemA.group > itemB.group )
+			} else if ( itemA.group > itemB.group ) {
 				return 1;
+			}
 
 			return itemA.order < itemB.order ? -1 : itemA.order > itemB.order ? 1 : 0;
 		} );
@@ -495,10 +505,10 @@ CKEDITOR.plugins.add( 'menu', {
 		$: function( editor, name, definition ) {
 			CKEDITOR.tools.extend( this, definition,
 			// Defaults
-			{
-				order: 0,
-				className: 'cke_menubutton__' + name
-			} );
+				{
+					order: 0,
+					className: 'cke_menubutton__' + name
+				} );
 
 			// Transform the group name into its order number.
 			this.group = editor._.menuGroups[ this.group ];
@@ -519,8 +529,9 @@ CKEDITOR.plugins.add( 'menu', {
 
 				var stateName = state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off';
 
-				if ( this.role in { menuitemcheckbox: 1, menuitemradio: 1 } )
+				if ( this.role in { menuitemcheckbox: 1, menuitemradio: 1 } ) {
 					ariaChecked = ' aria-checked="' + ( state == CKEDITOR.TRISTATE_ON ? 'true' : 'false' ) + '"';
+				}
 
 				var hasSubMenu = this.getItems;
 				// ltr: BLACK LEFT-POINTING POINTER
@@ -528,8 +539,9 @@ CKEDITOR.plugins.add( 'menu', {
 				var arrowLabel = '&#' + ( this.editor.lang.dir == 'rtl' ? '9668' : '9658' ) + ';';
 
 				var iconName = this.name;
-				if ( this.icon && !( /\./ ).test( this.icon ) )
+				if ( this.icon && !( /\./ ).test( this.icon ) ) {
 					iconName = this.icon;
+				}
 
 				if ( this.command ) {
 					command = editor.getCommand( this.command );
@@ -571,7 +583,6 @@ CKEDITOR.plugins.add( 'menu', {
 			}
 		}
 	} );
-
 } )();
 
 

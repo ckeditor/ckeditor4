@@ -2,7 +2,6 @@
 /* bender-ckeditor-plugins: toolbar, wysiwygarea */
 
 
-
 bender.editor = true;
 
 bender.test( {

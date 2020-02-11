@@ -465,8 +465,9 @@
 			editor.dataProcessor.dataFilter.addRules( {
 				elements: {
 					i: function( el ) {
-						if ( el.attributes.testsetdata1 )
+						if ( el.attributes.testsetdata1 ) {
 							el.attributes.testsetdata1 = '2';
+						}
 					}
 				}
 			} );
@@ -560,8 +561,9 @@
 			editor.dataProcessor.htmlFilter.addRules( {
 				elements: {
 					i: function( el ) {
-						if ( el.attributes.testgetdata1 )
+						if ( el.attributes.testgetdata1 ) {
 							el.attributes.testgetdata1 = '2';
+						}
 					}
 				}
 			} );
@@ -663,8 +665,9 @@
 				editor.dataProcessor.htmlFilter.addRules( {
 					elements: {
 						i: function( el ) {
-							if ( el.attributes.testprocessing2 )
+							if ( el.attributes.testprocessing2 ) {
 								el.attributes.testprocessing2 = '2';
+							}
 						}
 					}
 				} );
@@ -914,10 +917,11 @@
 
 						assert.areSame( selC, selectionChanged, 'selectionChange fired' + msg );
 
-						if ( widgetHoldingFocusedEditable )
+						if ( widgetHoldingFocusedEditable ) {
 							assert.areSame( widgetHoldingFocusedEditable, editor.widgets.widgetHoldingFocusedEditable, 'widget holds focused editable' + msg );
-						else
+						} else {
 							assert.isFalse( !!editor.widgets.widgetHoldingFocusedEditable, 'none widget holds focused editable' + msg );
+						}
 
 						var allWidgets = [ widget1, widget2 ],
 							widget;
@@ -945,8 +949,9 @@
 							}
 						}
 
-						if ( CKEDITOR.env.gecko && focusedEditable )
+						if ( CKEDITOR.env.gecko && focusedEditable ) {
 							assert.isTrue( !!focusedEditable.getBogus(), 'bogus was appended to editable' + msg );
+						}
 					}
 				}
 			);
@@ -1191,8 +1196,9 @@
 					isBogus = CKEDITOR.dom.walker.bogus(),
 					node;
 
-				while ( ( node = walker.next() ) )
+				while ( ( node = walker.next() ) ) {
 					assert.isFalse( isBogus( node ), 'bogus is not selected' );
+				}
 
 				editor.widgets.destroy( widget, true );
 
@@ -1254,8 +1260,9 @@
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_AFTER_START );
 					testDelKey( editor,	'del',	range,	false,	'e2 - ^bar' );
 					// This case is handled on Webkits and Gecko because of https://dev.ckeditor.com/ticket/11861, https://dev.ckeditor.com/ticket/13798.
-					if ( CKEDITOR.env.ie )
+					if ( CKEDITOR.env.ie ) {
 						testDelKey( editor,	'bspc',	range,	false,	'e2 - ^bar' );
+					}
 
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_BEFORE_END );
 					testDelKey( editor,	'del',	range,	true,	'e2 - bar^' );
@@ -1676,8 +1683,8 @@
 			bot.setData( '<p>foo</p><div data-widget="testpreexistingnumericid"><p id="123">X</p></div><p>foo</p>',
 				function() {
 				// If that code is being executed, it means that everything is OK.
-				assert.pass( 'Editables with numeric ids are handled correctly.' );
-			} );
+					assert.pass( 'Editables with numeric ids are handled correctly.' );
+				} );
 		}
 	} );
 } )();

@@ -23,5 +23,4 @@
 			assert.areSame( 0, ret.length, 'Array length' );
 		}
 	} );
-
 } )();

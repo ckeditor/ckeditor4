@@ -84,12 +84,12 @@
 		assertListBlockAdd: function( expected, input ) {
 			// Mockup of listBlock object required by add() method.
 			var mock = {
-					_: {
-						items: {},
-						getClick: function() {},
-						pendingList: []
-					}
-				};
+				_: {
+					items: {},
+					getClick: function() {},
+					pendingList: []
+				}
+			};
 
 			// Executed tested function in context of mock.
 			CKEDITOR.ui.listBlock.prototype.add.call( mock, input.value, input.html, input.title );
@@ -103,7 +103,7 @@
 
 			// Replace the remaining {clickFn} part of template with clickFnId label, to avoid incorrect JS
 			// which makes IE8 cry.
-			producedString = producedString.replace( /\{clickFn\}/, 'clickFnId'  );
+			producedString = producedString.replace( /\{clickFn\}/, 'clickFnId' );
 
 			elem.setHtml( producedString );
 
@@ -114,8 +114,9 @@
 				decoratedExpectedOnclick = 'CKEDITOR.tools.callFunction(clickFnId,\'' + this._escapeSingleQuote( expected.value ) + '\'); return false;';
 
 			// All IEs have changed onclick attr.
-			if ( CKEDITOR.env.ie )
+			if ( CKEDITOR.env.ie ) {
 				decoratedExpectedOnclick = 'return false;';
+			}
 
 			assert.areEqual( expected.title, anchor.getAttribute( 'title' ), 'Invalid value in to a[title] attribute' );
 			// Checking expected.value, which occurs in 2 attributes.

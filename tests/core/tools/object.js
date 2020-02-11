@@ -60,13 +60,13 @@
 					c: 3
 				},
 
-			result = CKEDITOR.tools.object.entries( obj );
+				result = CKEDITOR.tools.object.entries( obj );
 
 			assert.areEqual( 3, result.length );
 
-			arrayAssert.itemsAreEqual( [ 'a', 1 ], result [0] );
-			arrayAssert.itemsAreEqual( [ 'b', 2 ], result [1] );
-			arrayAssert.itemsAreEqual( [ 'c', 3 ], result [2] );
+			arrayAssert.itemsAreEqual( [ 'a', 1 ], result[0] );
+			arrayAssert.itemsAreEqual( [ 'b', 2 ], result[1] );
+			arrayAssert.itemsAreEqual( [ 'c', 3 ], result[2] );
 		},
 
 		// (#3123)
@@ -82,11 +82,11 @@
 
 		'test object.findKey': function() {
 			var inputObject = {
-				'a': 1,
-				'b': 'something',
-				'c': true
-			},
-			returned;
+					a: 1,
+					b: 'something',
+					c: true
+				},
+				returned;
 
 			returned = this.object.findKey( inputObject, 1 );
 			assert.areSame( returned, 'a' );
@@ -96,14 +96,13 @@
 
 			returned = this.object.findKey( inputObject, true );
 			assert.areSame( returned, 'c' );
-
 		},
 
 		'test object.findKey for returning null': function() {
 			var inputObject = {
-				'a': 1
-			},
-			returned;
+					a: 1
+				},
+				returned;
 
 			returned = this.object.findKey( 'notObject', 'a' );
 			assert.isNull( returned );
@@ -118,14 +117,14 @@
 		'test object.findKeys for reference object\'s values': function() {
 			var example = function() {};
 			var innerArray = [ 1, 2, 3 ];
-			var innerObject = { 'a': 1, 'b': 2 };
+			var innerObject = { a: 1, b: 2 };
 
 			var inputObject = {
-				'a': example,
-				'b': innerArray,
-				'c': innerObject
-			},
-			returned;
+					a: example,
+					b: innerArray,
+					c: innerObject
+				},
+				returned;
 
 			returned = this.object.findKey( inputObject, example );
 			assert.areSame( returned, 'a' );

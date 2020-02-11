@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -17,14 +17,16 @@
 		icons: 'creatediv', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			if ( editor.blockless )
+			if ( editor.blockless ) {
 				return;
+			}
 
 			var lang = editor.lang.div,
 				allowed = 'div(*)';
 
-			if ( CKEDITOR.dialog.isTabEnabled( editor, 'editdiv', 'advanced' ) )
+			if ( CKEDITOR.dialog.isTabEnabled( editor, 'editdiv', 'advanced' ) ) {
 				allowed += ';div[dir,id,lang,title]{*}';
+			}
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', {
 				allowedContent: allowed,
@@ -60,17 +62,18 @@
 
 					for ( var i = 0; i < ranges.length; i++ ) {
 						range = ranges[ i ];
-						if ( range.collapsed )
+						if ( range.collapsed ) {
 							findDiv( selection.getStartElement() );
-						else {
+						} else {
 							walker = new CKEDITOR.dom.walker( range );
 							walker.evaluator = findDiv;
 							walker.lastForward();
 						}
 					}
 
-					for ( i = 0; i < toRemove.length; i++ )
+					for ( i = 0; i < toRemove.length; i++ ) {
 						toRemove[ i ].remove( true );
+					}
 
 					selection.selectBookmarks( bookmarks );
 				}
@@ -101,8 +104,9 @@
 
 				if ( editor.contextMenu ) {
 					editor.contextMenu.addListener( function( element ) {
-						if ( !element || element.isReadOnly() )
+						if ( !element || element.isReadOnly() ) {
 							return null;
+						}
 
 
 						if ( CKEDITOR.plugins.div.getSurroundDiv( editor ) ) {

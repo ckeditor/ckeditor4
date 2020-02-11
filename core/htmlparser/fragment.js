@@ -58,8 +58,9 @@ CKEDITOR.htmlParser.fragment = function() {
 
 	function isRemoveEmpty( node ) {
 		// Keep marked element event if it is empty.
-		if ( node.attributes[ 'data-cke-survive' ] )
+		if ( node.attributes[ 'data-cke-survive' ] ) {
 			return false;
+		}
 
 		// Empty link is to be removed when empty but not anchor. (https://dev.ckeditor.com/ticket/7894)
 		return node.name == 'a' && node.attributes.href || CKEDITOR.dtd.$removeEmpty[ node.name ];
@@ -131,30 +132,32 @@ CKEDITOR.htmlParser.fragment = function() {
 					} else {
 						// Some element of the same type cannot be nested, flat them,
 						// e.g. <a href="#">foo<a href="#">bar</a></a>. (https://dev.ckeditor.com/ticket/7894)
-						if ( pendingName == currentNode.name )
+						if ( pendingName == currentNode.name ) {
 							addElement( currentNode, currentNode.parent, 1 ), i--;
+						}
 					}
 				}
 			}
 		}
 
 		function sendPendingBRs() {
-			while ( pendingBRs.length )
+			while ( pendingBRs.length ) {
 				addElement( pendingBRs.shift(), currentNode );
+			}
 		}
 
 		// Rtrim empty spaces on block end boundary. (https://dev.ckeditor.com/ticket/3585)
 		function removeTailWhitespace( element ) {
 			if ( element._.isBlockLike && element.name != 'pre' && element.name != 'textarea' ) {
-
 				var length = element.children.length,
 					lastChild = element.children[ length - 1 ],
 					text;
 				if ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT ) {
-					if ( !( text = CKEDITOR.tools.rtrim( lastChild.value ) ) )
+					if ( !( text = CKEDITOR.tools.rtrim( lastChild.value ) ) ) {
 						element.children.length = length - 1;
-					else
+					} else {
 						lastChild.value = text;
+					}
 				}
 			}
 		}
@@ -189,14 +192,17 @@ CKEDITOR.htmlParser.fragment = function() {
 				removeTailWhitespace( element );
 
 				// Avoid adding empty inline.
-				if ( !( isRemoveEmpty( element ) && !element.children.length ) )
+				if ( !( isRemoveEmpty( element ) && !element.children.length ) ) {
 					target.add( element );
+				}
 
-				if ( element.name == 'pre' )
+				if ( element.name == 'pre' ) {
 					inPre = false;
+				}
 
-				if ( element.name == 'textarea' )
+				if ( element.name == 'textarea' ) {
 					inTextarea = false;
+				}
 			}
 
 			if ( element.returnPoint ) {
@@ -209,16 +215,16 @@ CKEDITOR.htmlParser.fragment = function() {
 
 		// Auto paragraphing should happen when inline content enters the root element.
 		function checkAutoParagraphing( parent, node ) {
-
 			// Check for parent that can contain block.
 			if ( ( parent == root || parent.name == 'body' ) && fixingBlock &&
 					( !parent.name || CKEDITOR.dtd[ parent.name ][ fixingBlock ] ) ) {
 				var name, realName;
 
-				if ( node.attributes && ( realName = node.attributes[ 'data-cke-real-element-type' ] ) )
+				if ( node.attributes && ( realName = node.attributes[ 'data-cke-real-element-type' ] ) ) {
 					name = realName;
-				else
+				} else {
 					name = node.name;
+				}
 
 				// Text node, inline elements are subjected, except for <script>/<style>.
 				return name && name in CKEDITOR.dtd.$inline &&
@@ -231,9 +237,9 @@ CKEDITOR.htmlParser.fragment = function() {
 		// Judge whether two element tag names are likely the siblings from the same
 		// structural element.
 		function possiblySibling( tag1, tag2 ) {
-
-			if ( tag1 in CKEDITOR.dtd.$listItem || tag1 in CKEDITOR.dtd.$tableContent )
+			if ( tag1 in CKEDITOR.dtd.$listItem || tag1 in CKEDITOR.dtd.$tableContent ) {
 				return tag1 == tag2 || tag1 == 'dt' && tag2 == 'dd' || tag1 == 'dd' && tag2 == 'dt';
+			}
 
 			return false;
 		}
@@ -243,8 +249,9 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			// "isEmpty" will be always "false" for unknown elements, so we
 			// must force it if the parser has identified it as a selfClosing tag.
-			if ( element.isUnknown && selfClosing )
+			if ( element.isUnknown && selfClosing ) {
 				element.isEmpty = true;
+			}
 
 			// Check for optional closed elements, including browser quirks and manually opened blocks.
 			element.isOptionalClose = optionalClose;
@@ -253,9 +260,9 @@ CKEDITOR.htmlParser.fragment = function() {
 			if ( isRemoveEmpty( element ) ) {
 				pendingInline.push( element );
 				return;
-			} else if ( tagName == 'pre' )
+			} else if ( tagName == 'pre' ) {
 				inPre = true;
-			else if ( tagName == 'br' && inPre ) {
+			} else if ( tagName == 'br' && inPre ) {
 				currentNode.add( new CKEDITOR.htmlParser.text( '\n' ) );
 				return;
 			} else if ( tagName == 'textarea' ) {
@@ -276,16 +283,18 @@ CKEDITOR.htmlParser.fragment = function() {
 				if ( !element.isUnknown && !currentNode.isUnknown && !currentDtd[ tagName ] ) {
 					// Current node doesn't have a close tag, time for a close
 					// as this element isn't fit in. (https://dev.ckeditor.com/ticket/7497)
-					if ( currentNode.isOptionalClose )
+					if ( currentNode.isOptionalClose ) {
 						parser.onTagClose( currentName );
+					}
 					// Fixing malformed nested lists by moving it into a previous list item. (https://dev.ckeditor.com/ticket/3828)
 					else if ( tagName in listBlocks && currentName in listBlocks ) {
 						var children = currentNode.children,
 							lastChild = children[ children.length - 1 ];
 
 						// Establish the list item if it's not existed.
-						if ( !( lastChild && lastChild.name == 'li' ) )
+						if ( !( lastChild && lastChild.name == 'li' ) ) {
 							addElement( ( lastChild = new CKEDITOR.htmlParser.element( 'li' ) ), currentNode );
+						}
 
 						!element.returnPoint && ( element.returnPoint = currentNode );
 						currentNode = lastChild;
@@ -310,13 +319,15 @@ CKEDITOR.htmlParser.fragment = function() {
 						// The current element is an inline element, which
 						// need to be continued even after the close, so put
 						// it in the pending list.
-						if ( currentName in CKEDITOR.dtd.$inline )
+						if ( currentName in CKEDITOR.dtd.$inline ) {
 							pendingInline.unshift( currentNode );
+						}
 
 						// The most common case where we just need to close the
 						// current one and append the new one to the parent.
-						if ( currentNode.parent )
+						if ( currentNode.parent ) {
 							addElement( currentNode, currentNode.parent, 1 );
+						}
 						// We've tried our best to fix the embarrassment here, while
 						// this element still doesn't find it's parent, mark it as
 						// orphan and show our tolerance to it.
@@ -335,10 +346,11 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			element.parent = currentNode;
 
-			if ( element.isEmpty )
+			if ( element.isEmpty ) {
 				addElement( element );
-			else
+			} else {
 				currentNode = element;
+			}
 		};
 
 		parser.onTagClose = function( tagName ) {
@@ -359,8 +371,9 @@ CKEDITOR.htmlParser.fragment = function() {
 				// If this is an inline element, add it to the pending list, if we're
 				// really closing one of the parents element later, they will continue
 				// after it.
-				if ( !candidate._.isBlockLike )
+				if ( !candidate._.isBlockLike ) {
 					newPendingInline.unshift( candidate );
+				}
 
 				// This node should be added to it's parent at this point. But,
 				// it should happen only if the closing tag is really closing
@@ -380,21 +393,24 @@ CKEDITOR.htmlParser.fragment = function() {
 
 				currentNode = candidate;
 
-				if ( candidate._.isBlockLike )
+				if ( candidate._.isBlockLike ) {
 					sendPendingBRs();
+				}
 
 				addElement( candidate, candidate.parent );
 
 				// The parent should start receiving new nodes now, except if
 				// addElement changed the currentNode.
-				if ( candidate == currentNode )
+				if ( candidate == currentNode ) {
 					currentNode = currentNode.parent;
+				}
 
 				pendingInline = pendingInline.concat( newPendingInline );
 			}
 
-			if ( tagName == 'body' )
+			if ( tagName == 'body' ) {
 				fixingBlock = false;
+			}
 		};
 
 		parser.onText = function( text ) {
@@ -402,8 +418,9 @@ CKEDITOR.htmlParser.fragment = function() {
 			if ( ( !currentNode._.hasInlineStarted || pendingBRs.length ) && !inPre && !inTextarea ) {
 				text = CKEDITOR.tools.ltrim( text );
 
-				if ( text.length === 0 )
+				if ( text.length === 0 ) {
 					return;
+				}
 			}
 
 			var currentName = currentNode.name,
@@ -421,14 +438,16 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			// Shrinking consequential spaces into one single for all elements
 			// text contents.
-			if ( !inPre && !inTextarea )
+			if ( !inPre && !inTextarea ) {
 				text = text.replace( /[\t\r\n ]{2,}|[\t\r\n]/g, ' ' );
+			}
 
 			text = new CKEDITOR.htmlParser.text( text );
 
 
-			if ( checkAutoParagraphing( currentNode, text ) )
+			if ( checkAutoParagraphing( currentNode, text ) ) {
 				this.onTagOpen( fixingBlock, {}, 0, 1 );
+			}
 
 			currentNode.add( text );
 		};
@@ -449,8 +468,9 @@ CKEDITOR.htmlParser.fragment = function() {
 		sendPendingBRs();
 
 		// Close all pending nodes, make sure return point is properly restored.
-		while ( currentNode != root )
+		while ( currentNode != root ) {
 			addElement( currentNode, currentNode.parent, 1 );
+		}
 
 		removeTailWhitespace( root );
 
@@ -500,8 +520,9 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			this.children.splice( index, 0, node );
 
-			if ( !this._.hasInlineStarted )
+			if ( !this._.hasInlineStarted ) {
 				this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
+			}
 		},
 
 		/**
@@ -536,14 +557,16 @@ CKEDITOR.htmlParser.fragment = function() {
 			// (filterChildren() called manually in element's filter),
 			// or in unpredictable edge cases when filter
 			// is manipulating DOM structure.
-			if ( this.childrenFilteredBy == filter.id )
+			if ( this.childrenFilteredBy == filter.id ) {
 				return;
+			}
 
 			context = this.getFilterContext( context );
 
 			// Filtering root if enforced.
-			if ( filterRoot && !this.parent )
+			if ( filterRoot && !this.parent ) {
 				filter.onRoot( context, this );
+			}
 
 			this.childrenFilteredBy = filter.id;
 
@@ -551,8 +574,9 @@ CKEDITOR.htmlParser.fragment = function() {
 			for ( var i = 0; i < this.children.length; i++ ) {
 				// Stay in place if filter returned false, what means
 				// that node has been removed.
-				if ( this.children[ i ].filter( filter, context ) === false )
+				if ( this.children[ i ].filter( filter, context ) === false ) {
 					i--;
+				}
 			}
 		},
 
@@ -568,8 +592,9 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to use when writing the HTML.
 		 */
 		writeHtml: function( writer, filter ) {
-			if ( filter )
+			if ( filter ) {
 				this.filter( filter );
+			}
 
 			this.writeChildrenHtml( writer );
 		},
@@ -585,14 +610,17 @@ CKEDITOR.htmlParser.fragment = function() {
 			var context = this.getFilterContext();
 
 			// Filtering root if enforced.
-			if ( filterRoot && !this.parent && filter )
+			if ( filterRoot && !this.parent && filter ) {
 				filter.onRoot( context, this );
+			}
 
-			if ( filter )
+			if ( filter ) {
 				this.filterChildren( filter, false, context );
+			}
 
-			for ( var i = 0, children = this.children, l = children.length; i < l; i++ )
+			for ( var i = 0, children = this.children, l = children.length; i < l; i++ ) {
 				children[ i ].writeHtml( writer );
+			}
 		},
 
 		/**
@@ -618,12 +646,14 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * @param {Boolean} [skipRoot] Don't execute `callback` on this fragment.
 		 */
 		forEach: function( callback, type, skipRoot ) {
-			if ( !skipRoot && ( !type || this.type == type ) )
+			if ( !skipRoot && ( !type || this.type == type ) ) {
 				var ret = callback( this );
+			}
 
 			// Do not filter children if callback returned false.
-			if ( ret === false )
+			if ( ret === false ) {
 				return;
+			}
 
 			var children = this.children,
 				node,
@@ -632,10 +662,11 @@ CKEDITOR.htmlParser.fragment = function() {
 			// We do not cache the size, because the list of nodes may be changed by the callback.
 			for ( ; i < children.length; i++ ) {
 				node = children[ i ];
-				if ( node.type == CKEDITOR.NODE_ELEMENT )
+				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 					node.forEach( callback, type );
-				else if ( !type || node.type == type )
+				} else if ( !type || node.type == type ) {
 					callback( node );
+				}
 			}
 		},
 

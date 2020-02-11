@@ -52,8 +52,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 			// In case of editor with floating toolbar append panels that should float
 			// to the main UI element.
-			if ( definition.toolbarRelated && editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( definition.toolbarRelated && editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				parentElement = CKEDITOR.document.getById( 'cke_' + editor.name );
+			}
 
 			var doc = parentElement.getDocument(),
 				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
@@ -167,13 +168,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
 
 				// Floating panels are off by (-1px, 0px) in RTL mode. (https://dev.ckeditor.com/ticket/3438)
-				if ( rtl && ( corner == 1 || corner == 4 ) )
+				if ( rtl && ( corner == 1 || corner == 4 ) ) {
 					left += offsetParent.$.offsetWidth;
-				else if ( !rtl && ( corner == 2 || corner == 3 ) )
+				} else if ( !rtl && ( corner == 2 || corner == 3 ) ) {
 					left += offsetParent.$.offsetWidth - 1;
+				}
 
-				if ( corner == 3 || corner == 4 )
+				if ( corner == 3 || corner == 4 ) {
 					top += offsetParent.$.offsetHeight - 1;
+				}
 
 				// Memorize offsetParent by it's ID.
 				this._.panel._.offsetParentId = offsetParent.getId();
@@ -196,7 +199,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				// Configure the IFrame blur event. Do that only once.
 				if ( !this._.blurSet ) {
-
 					// With addEventListener compatible browsers, we must
 					// useCapture when registering the focus/blur events to
 					// guarantee they will be firing in all situations. (https://dev.ckeditor.com/ticket/3068, https://dev.ckeditor.com/ticket/3222 )
@@ -207,15 +209,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// the blur event may get fired even when focusing
 						// inside the window itself, so we must ensure the
 						// target is out of it.
-						if ( !this.allowBlur() || ev.data.getPhase() != CKEDITOR.EVENT_PHASE_AT_TARGET )
+						if ( !this.allowBlur() || ev.data.getPhase() != CKEDITOR.EVENT_PHASE_AT_TARGET ) {
 							return;
+						}
 
 						if ( this.visible && !this._.activeChild ) {
 							// [iOS] Allow hide to be prevented if touch is bound
 							// to any parent of the iframe blur happens before touch (https://dev.ckeditor.com/ticket/10714).
 							if ( CKEDITOR.env.iOS ) {
-								if ( !this._.hideTimeout )
+								if ( !this._.hideTimeout ) {
 									this._.hideTimeout = CKEDITOR.tools.setTimeout( doHide, 0, this );
+								}
 							} else {
 								doHide.call( this );
 							}
@@ -258,8 +262,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				}
 
 				panel.onEscape = CKEDITOR.tools.bind( function( keystroke ) {
-					if ( this.onEscape && this.onEscape( keystroke ) === false )
+					if ( this.onEscape && this.onEscape( keystroke ) === false ) {
 						return false;
+					}
 				}, this );
 
 				CKEDITOR.tools.setTimeout( function() {
@@ -277,8 +282,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							// Account for extra height needed due to IE quirks box model bug:
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
 							// (https://dev.ckeditor.com/ticket/3426)
-							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && width > 0 )
+							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && width > 0 ) {
 								width += ( target.$.offsetWidth || 0 ) - ( target.$.clientWidth || 0 ) + 3;
+							}
 
 							// Add some extra pixels to improve the appearance.
 							width += 10;
@@ -290,8 +296,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							// Account for extra height needed due to IE quirks box model bug:
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
 							// (https://dev.ckeditor.com/ticket/3426)
-							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && height > 0 )
+							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && height > 0 ) {
 								height += ( target.$.offsetHeight || 0 ) - ( target.$.clientHeight || 0 ) + 3;
+							}
 
 							target.setStyle( 'height', height + 'px' );
 
@@ -302,8 +309,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						}
 
 						// Flip panel layout horizontally in RTL with known width.
-						if ( rtl )
+						if ( rtl ) {
 							left -= element.$.offsetWidth;
+						}
 
 						// Pop the style now for measurement.
 						element.setStyle( 'left', left + 'px' );
@@ -325,25 +333,31 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						if ( rtl ) {
 							if ( spaceAfter < rectWidth ) {
 								// Flip to show on right.
-								if ( spaceBefore > rectWidth )
+								if ( spaceBefore > rectWidth ) {
 									left += rectWidth;
+								}
 								// Align to window left.
-								else if ( viewportSize.width > rectWidth )
+								else if ( viewportSize.width > rectWidth ) {
 									left = left - rect.left;
+								}
 								// Align to window right, never cutting the panel at right.
-								else
+								else {
 									left = left - rect.right + viewportSize.width;
+								}
 							}
 						} else if ( spaceAfter < rectWidth ) {
 							// Flip to show on left.
-							if ( spaceBefore > rectWidth )
+							if ( spaceBefore > rectWidth ) {
 								left -= rectWidth;
+							}
 							// Align to window right.
-							else if ( viewportSize.width > rectWidth )
+							else if ( viewportSize.width > rectWidth ) {
 								left = left - rect.right + viewportSize.width;
+							}
 							// Align to window left, never cutting the panel at left.
-							else
+							else {
 								left = left - rect.left;
+							}
 						}
 
 
@@ -353,14 +367,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						if ( spaceBelow < rectHeight ) {
 							// Flip to show above.
-							if ( spaceAbove > rectHeight )
+							if ( spaceAbove > rectHeight ) {
 								top -= rectHeight;
+							}
 							// Align to window bottom.
-							else if ( viewportSize.height > rectHeight )
+							else if ( viewportSize.height > rectHeight ) {
 								top = top - rect.bottom + viewportSize.height;
+							}
 							// Align to top, never cutting the panel at top.
-							else
+							else {
 								top = top - rect.top;
+							}
 						}
 
 						// If IE is in RTL, we have troubles with absolute
@@ -389,8 +406,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// incorrect styles from being applied (https://dev.ckeditor.com/ticket/6170)
 						var innerElement = element.getFirst(),
 							activePanel;
-						if ( ( activePanel = innerElement.getCustomData( 'activePanel' ) ) )
+						if ( ( activePanel = innerElement.getCustomData( 'activePanel' ) ) ) {
 							activePanel.onHide && activePanel.onHide.call( this, 1 );
+						}
 						innerElement.setCustomData( 'activePanel', this );
 
 						element.setStyles( {
@@ -414,8 +432,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						block.element.focus();
 
 						// https://dev.ckeditor.com/ticket/10623, https://dev.ckeditor.com/ticket/10951 - restore the viewport's scroll position after focusing list element.
-						if ( CKEDITOR.env.webkit )
+						if ( CKEDITOR.env.webkit ) {
 							CKEDITOR.document.getBody().$.scrollTop = scrollTop;
+						}
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
@@ -436,8 +455,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				}, CKEDITOR.env.air ? 200 : 0, this );
 				this.visible = 1;
 
-				if ( this.onShow )
+				if ( this.onShow ) {
 					this.onShow.call( this );
+				}
 			},
 
 			/**
@@ -498,8 +518,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					var focusReturn = returnFocus && this._.returnFocus;
 					if ( focusReturn ) {
 						// Webkit requires focus moved out panel iframe first.
-						if ( CKEDITOR.env.webkit && focusReturn.type )
+						if ( CKEDITOR.env.webkit && focusReturn.type ) {
 							focusReturn.getWindow().$.focus();
+						}
 
 						focusReturn.focus();
 					}
@@ -517,8 +538,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			allowBlur: function( allow ) {
 				// Prevent editor from hiding the panel. (https://dev.ckeditor.com/ticket/3222)
 				var panel = this._.panel;
-				if ( allow !== undefined )
+				if ( allow !== undefined ) {
 					panel.allowBlur = allow;
+				}
 
 				return panel.allowBlur;
 			},
@@ -548,8 +570,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			 */
 			showAsChild: function( panel, blockName, offsetParent, corner, offsetX, offsetY ) {
 				// Skip reshowing of child which is already visible.
-				if ( this._.activeChild == panel && panel._.panel._.offsetParentId == offsetParent.getId() )
+				if ( this._.activeChild == panel && panel._.panel._.offsetParentId == offsetParent.getId() ) {
 					return;
+				}
 
 				this.hideChild();
 
@@ -557,8 +580,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					// Use a timeout, so we give time for this menu to get
 					// potentially focused.
 					CKEDITOR.tools.setTimeout( function() {
-						if ( !this._.focused )
+						if ( !this._.focused ) {
 							this.hide();
+						}
 					}, 0, this );
 				}, this );
 
@@ -600,14 +624,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 		for ( var i in panels ) {
 			var panel = panels[ i ];
 			// Safe to destroy it since there're no more instances.(https://dev.ckeditor.com/ticket/4241)
-			if ( isLastInstance )
+			if ( isLastInstance ) {
 				panel.destroy();
+			}
 			// Panel might be used by other instances, just hide them.(https://dev.ckeditor.com/ticket/4552)
-			else
+			else {
 				panel.element.hide();
+			}
 		}
 		// Remove the registration.
 		isLastInstance && ( panels = {} );
-
 	} );
 } )();

@@ -28,7 +28,7 @@
 				image2_disableResizer: true,
 
 				stylesSet: [
-					{ name: 'Image 30%', type: 'widget', widget: 'image', attributes: { 'class': 'image30' } }
+					{ name: 'Image 30%', type: 'widget', widget: 'image', attributes: { class: 'image30' } }
 				]
 			}
 		}
@@ -38,8 +38,9 @@
 		var parents = el.getParents(),
 			arr = [];
 
-		for ( var i = 0; i < parents.length; i++ )
+		for ( var i = 0; i < parents.length; i++ ) {
 			arr.push( parents[ i ].getName() );
+		}
 
 		return arr.join( ',' );
 	}
@@ -82,8 +83,9 @@
 
 				assertStructure( widget, afterStructure );
 
-				for ( var d in afterData )
+				for ( var d in afterData ) {
 					objectAssert.areEqual( afterData[ d ], widget.data.link[ d ], 'Data is set properly' );
+				}
 
 				assert.areSame( 'a', widget.parts.link.getName(), 'Widget.parts.link is registered' );
 
@@ -213,8 +215,9 @@
 						for ( var t in fields ) {
 							tab = fields[ t ];
 
-							for ( var f in tab )
+							for ( var f in tab ) {
 								assert.isMatching( tab[ f ], dialog.getValueOf( t, f ), 'Field ' + t + '.' + f + ': value must match.' );
+							}
 						}
 					} catch ( e ) {
 						throw e;

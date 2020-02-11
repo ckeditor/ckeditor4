@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'id', {
 	contents: 'Bantuan. Tekan ESC untuk menutup dialog ini.',
 	legend: [
 		{
-		name: 'Umum',
-		items: [
-			{
-			name: 'Toolbar Editor',
-			legend: 'Tekan ${toolbarFocus} untuk berpindah ke toolbar. Untuk berpindah ke group toolbar selanjutnya dan sebelumnya gunakan TAB dan SHIFT+TAB. Untuk berpindah ke tombol toolbar selanjutnya dan sebelumnya gunakan RIGHT ARROW atau LEFT ARROW. Tekan SPASI atau ENTER untuk mengaktifkan tombol toolbar.'
-		},
+			name: 'Umum',
+			items: [
+				{
+					name: 'Toolbar Editor',
+					legend: 'Tekan ${toolbarFocus} untuk berpindah ke toolbar. Untuk berpindah ke group toolbar selanjutnya dan sebelumnya gunakan TAB dan SHIFT+TAB. Untuk berpindah ke tombol toolbar selanjutnya dan sebelumnya gunakan RIGHT ARROW atau LEFT ARROW. Tekan SPASI atau ENTER untuk mengaktifkan tombol toolbar.'
+				},
 
-			{
-			name: 'Dialog Editor',
-			legend:
-				'Pada jendela dialog, tekan TAB untuk berpindah pada elemen dialog selanjutnya, tekan SHIFT+TAB untuk berpindah pada elemen dialog sebelumnya, tekan ENTER untuk submit dialog, tekan ESC untuk membatalkan dialog. Pada dialog dengan multi tab, daftar tab dapat diakses dengan ALT+F10 ataupun dengan tombol TAB sesuai urutan tab pada dialog. Jika daftar tab aktif terpilih, untuk berpindah tab dapat menggunakan RIGHT dan LEFT ARROW.' 
-		},
+				{
+					name: 'Dialog Editor',
+					legend:
+				'Pada jendela dialog, tekan TAB untuk berpindah pada elemen dialog selanjutnya, tekan SHIFT+TAB untuk berpindah pada elemen dialog sebelumnya, tekan ENTER untuk submit dialog, tekan ESC untuk membatalkan dialog. Pada dialog dengan multi tab, daftar tab dapat diakses dengan ALT+F10 ataupun dengan tombol TAB sesuai urutan tab pada dialog. Jika daftar tab aktif terpilih, untuk berpindah tab dapat menggunakan RIGHT dan LEFT ARROW.'
+				},
 
-			{
-			name: 'Context Menu Editor',
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
-		},
+				{
+					name: 'Context Menu Editor',
+					legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+				},
 
-			{
-			name: 'List Box Editor',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
-		},
+				{
+					name: 'List Box Editor',
+					legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+				},
 
-			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
-		}
-		]
-	},
+				{
+					name: 'Editor Element Path Bar', // MISSING
+					legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+				}
+			]
+		},
 		{
-		name: 'Commands', // MISSING
-		items: [
-			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
-		},
-			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
-		},
-			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
-		},
-			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
-		},
-			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
-		},
-			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
-		},
-			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
-		},
-			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
-		},
-			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
-		},
-			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Commands', // MISSING
+			items: [
+				{
+					name: ' Undo command', // MISSING
+					legend: 'Press ${undo}' // MISSING
+				},
+				{
+					name: ' Redo command', // MISSING
+					legend: 'Press ${redo}' // MISSING
+				},
+				{
+					name: ' Bold command', // MISSING
+					legend: 'Press ${bold}' // MISSING
+				},
+				{
+					name: ' Italic command', // MISSING
+					legend: 'Press ${italic}' // MISSING
+				},
+				{
+					name: ' Underline command', // MISSING
+					legend: 'Press ${underline}' // MISSING
+				},
+				{
+					name: ' Link command', // MISSING
+					legend: 'Press ${link}' // MISSING
+				},
+				{
+					name: ' Toolbar Collapse command', // MISSING
+					legend: 'Press ${toolbarCollapse}' // MISSING
+				},
+				{
+					name: ' Access previous focus space command', // MISSING
+					legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+				},
+				{
+					name: ' Access next focus space command', // MISSING
+					legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+				},
+				{
+					name: ' Accessibility Help', // MISSING
+					legend: 'Press ${a11yHelp}' // MISSING
+				},
+				{
+					name: ' Paste as plain text', // MISSING
+					legend: 'Press ${pastetext}', // MISSING
+					legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tab', // MISSING
 	pause: 'Pause', // MISSING

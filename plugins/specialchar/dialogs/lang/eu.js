@@ -106,16 +106,16 @@ CKEDITOR.plugins.setLang( 'specialchar', 'eu', {
 	yuml: 'Latin small letter y with diaeresis', // MISSING
 	OElig: 'Latin capital ligature OE', // MISSING
 	oelig: 'Latin small ligature oe', // MISSING
-	'372': 'Latin capital letter W with circumflex', // MISSING
-	'374': 'Latin capital letter Y with circumflex', // MISSING
-	'373': 'Latin small letter w with circumflex', // MISSING
-	'375': 'Latin small letter y with circumflex', // MISSING
+	372: 'Latin capital letter W with circumflex', // MISSING
+	374: 'Latin capital letter Y with circumflex', // MISSING
+	373: 'Latin small letter w with circumflex', // MISSING
+	375: 'Latin small letter y with circumflex', // MISSING
 	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
+	8219: 'Single high-reversed-9 quotation mark', // MISSING
 	bdquo: 'Double low-9 quotation mark', // MISSING
 	hellip: 'Horizontal ellipsis', // MISSING
 	trade: 'Trade mark sign', // MISSING
-	'9658': 'Black right-pointing pointer', // MISSING
+	9658: 'Black right-pointing pointer', // MISSING
 	bull: 'Buleta',
 	rarr: 'Rightwards arrow', // MISSING
 	rArr: 'Rightwards double arrow', // MISSING

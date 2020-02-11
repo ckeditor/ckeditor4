@@ -16,8 +16,8 @@
 				pluginsLoaded: function( evt ) {
 					var ed = evt.editor;
 
-					CKEDITOR.skin.addIcon( 'custom_save',  saveIcon );
-					CKEDITOR.skin.addIcon( 'custom_paste',  pasteIcon );
+					CKEDITOR.skin.addIcon( 'custom_save', saveIcon );
+					CKEDITOR.skin.addIcon( 'custom_paste', pasteIcon );
 					CKEDITOR.skin.addIcon( 'custom_undo', undoIcon );
 
 					ed.ui.addButton( 'custom_save', {

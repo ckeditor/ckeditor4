@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -11,8 +11,9 @@ CKEDITOR.plugins.add( 'table', {
 	icons: 'table', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
-		if ( editor.blockless )
+		if ( editor.blockless ) {
 			return;
+		}
 
 		var lang = editor.lang.table;
 
@@ -42,7 +43,6 @@ CKEDITOR.plugins.add( 'table', {
 								if ( styleData[ 'border-left' ] && styleData[ 'border-left' ] === styleData[ 'border-right' ] &&
 									styleData[ 'border-right' ] === styleData[ 'border-top' ] &&
 									styleData[ 'border-top' ] === styleData[ 'border-bottom' ] ) {
-
 									parsedStyle = CKEDITOR.tools.style.parse.border( styleData[ 'border-top' ] );
 								}
 							}
@@ -74,16 +74,18 @@ CKEDITOR.plugins.add( 'table', {
 				var path = editor.elementPath(),
 					table = path.contains( 'table', 1 );
 
-				if ( !table )
+				if ( !table ) {
 					return;
+				}
 
 				// If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element)
 				//(https://dev.ckeditor.com/ticket/5416, https://dev.ckeditor.com/ticket/6289, https://dev.ckeditor.com/ticket/12110)
 				var parent = table.getParent(),
 					editable = editor.editable();
 
-				if ( parent.getChildCount() == 1 && !parent.is( 'td', 'th' ) && !parent.equals( editable ) )
+				if ( parent.getChildCount() == 1 && !parent.is( 'td', 'th' ) && !parent.equals( editable ) ) {
 					table = parent;
+				}
 
 				var range = editor.createRange();
 				range.moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
@@ -123,8 +125,9 @@ CKEDITOR.plugins.add( 'table', {
 		editor.on( 'doubleclick', function( evt ) {
 			var element = evt.data.element;
 
-			if ( element.is( 'table' ) )
+			if ( element.is( 'table' ) ) {
 				evt.data.dialog = 'tableProperties';
+			}
 		} );
 
 		// If the "contextmenu" plugin is loaded, register the listeners.

@@ -18,18 +18,20 @@ function assertPasteEvent( editor, eventData, expected, message, async, skipCanc
 	editor.once( 'paste', onPaste, null, null, priority );
 	paste( editor, eventData );
 
-	if ( async )
+	if ( async ) {
 		wait();
-	else
+	} else {
 		assert.isTrue( executed, message + 'paste listener was executed' );
+	}
 
 	function assertPaste( data ) {
-		if ( typeof expected == 'function' )
+		if ( typeof expected == 'function' ) {
 			expected( data, message );
-		else {
+		} else {
 			// Compare all expected values.
-			for ( var name in expected )
+			for ( var name in expected ) {
 				assert.areSame( expected[ name ], data[ name ], message + 'data.' + name );
+			}
 		}
 	}
 
@@ -43,12 +45,13 @@ function assertPasteEvent( editor, eventData, expected, message, async, skipCanc
 
 		executed = true;
 
-		if ( async )
+		if ( async ) {
 			resume( function() {
 				assertPaste( data );
 			} );
-		else
+		} else {
 			assertPaste( data );
+		}
 	}
 }
 
@@ -182,7 +185,7 @@ function testResetScenario( editor, queue ) {
 
 function getDefaultNotification( editor, command, keyInfo ) {
 	var keystroke = keyInfo || CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
-		editor.getCommandKeystroke( editor.commands[ command ] ) ),
+			editor.getCommandKeystroke( editor.commands[ command ] ) ),
 		msg = editor.lang[ command === 'paste' ? 'clipboard' : command ].pasteNotification
 			.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' );
 

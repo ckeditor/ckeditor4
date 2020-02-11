@@ -50,10 +50,11 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass( {
 		 * like `<br>` or `<img>`.
 		 */
 		openTagClose: function( tagName, isSelfClose ) {
-			if ( isSelfClose )
+			if ( isSelfClose ) {
 				this._.output.push( ' />' );
-			else
+			} else {
 				this._.output.push( '>' );
+			}
 		},
 
 		/**
@@ -68,8 +69,9 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass( {
 		 */
 		attribute: function( attName, attValue ) {
 			// Browsers don't always escape special character in attribute values. (https://dev.ckeditor.com/ticket/4683, https://dev.ckeditor.com/ticket/4719).
-			if ( typeof attValue == 'string' )
+			if ( typeof attValue == 'string' ) {
 				attValue = CKEDITOR.tools.htmlEncodeAttr( attValue );
+			}
 
 			this._.output.push( ' ', attName, '="', attValue, '"' );
 		},
@@ -143,8 +145,9 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass( {
 		getHtml: function( reset ) {
 			var html = this._.output.join( '' );
 
-			if ( reset )
+			if ( reset ) {
 				this.reset();
+			}
 
 			return html;
 		}

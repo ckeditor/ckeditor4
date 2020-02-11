@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
@@ -7,21 +7,21 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ka', {
 	bgColorTitle: 'ფონის ფერი',
 	colors: {
 		'000': 'შავი',
-		'800000': 'მუქი შინდისფერი',
+		800000: 'მუქი შინდისფერი',
 		'8B4513': 'ყავისფერი',
 		'2F4F4F': 'მოლურჯო ნაცრისფერი',
 		'008080': 'ჩამქრალი ლურჯი',
 		'000080': 'მუქი ლურჯი',
 		'4B0082': 'იასამნისფერი',
-		'696969': 'მუქი ნაცრისფერი',
+		696969: 'მუქი ნაცრისფერი',
 		B22222: 'აგურისფერი',
 		A52A2A: 'მუქი ყავისფერი',
 		DAA520: 'მოყვითალო',
 		'006400': 'მუქი მწვანე',
 		'40E0D0': 'ცისფერი',
 		'0000CD': 'ზომიერად ლურჯი',
-		'800080': 'იისფერი',
-		'808080': 'ნაცრისფერი',
+		800080: 'იისფერი',
+		808080: 'ნაცრისფერი',
 		F00: 'წითელი',
 		FF8C00: 'მუქი სტაფილოსფერი',
 		FFD700: 'ოქროსფერი',
@@ -51,23 +51,23 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ka', {
 		'3498DB': 'Bright Blue', // MISSING
 		'9B59B6': 'Amethyst', // MISSING
 		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
+		F1C40F: 'Vivid Yellow', // MISSING
 		'16A085': 'Dark Cyan', // MISSING
 		'27AE60': 'Dark Emerald', // MISSING
 		'2980B9': 'Strong Blue', // MISSING
 		'8E44AD': 'Dark Violet', // MISSING
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
+		F39C12: 'Orange', // MISSING
+		E67E22: 'Carrot', // MISSING
+		E74C3C: 'Pale Red', // MISSING
+		ECF0F1: 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
+		DDD: 'Light Gray', // MISSING
+		D35400: 'Pumpkin', // MISSING
+		C0392B: 'Strong Red', // MISSING
+		BDC3C7: 'Silver', // MISSING
 		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		999: 'Dark Gray' // MISSING
 	},
 	more: 'მეტი ფერი...',
 	panelTitle: 'ფერები',

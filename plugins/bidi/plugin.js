@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -18,8 +18,9 @@
 		useComputedState = useComputedState === undefined || useComputedState;
 
 		// We can use computedState provided by the browser or traverse parents manually.
-		if ( !useComputedState )
+		if ( !useComputedState ) {
 			selectedElement = getElementForDirection( path.lastElement, editor.editable() );
+		}
 
 		selectedElement = selectedElement || path.block || path.blockLimit;
 
@@ -29,8 +30,9 @@
 			enclosedNode && enclosedNode.type == CKEDITOR.NODE_ELEMENT && ( selectedElement = enclosedNode );
 		}
 
-		if ( !selectedElement )
+		if ( !selectedElement ) {
 			return;
+		}
 
 		var selectionDir = useComputedState ? selectedElement.getComputedStyle( 'direction' ) : selectedElement.getStyle( 'direction' ) || selectedElement.getAttribute( 'dir' );
 
@@ -52,8 +54,9 @@
 	function getElementForDirection( node, root ) {
 		while ( node && !( node.getName() in allGuardElements || node.equals( root ) ) ) {
 			var parent = node.getParent();
-			if ( !parent )
+			if ( !parent ) {
 				break;
+			}
 
 			node = parent;
 		}
@@ -62,8 +65,9 @@
 	}
 
 	function switchDir( element, dir, editor, database ) {
-		if ( element.isReadOnly() || element.equals( editor.editable() ) )
+		if ( element.isReadOnly() || element.equals( editor.editable() ) ) {
 			return;
+		}
 
 		// Mark this element as processed by switchDir.
 		CKEDITOR.dom.element.setMarker( database, element, 'bidi_processed', 1 );
@@ -85,8 +89,9 @@
 		var elementDir = useComputedState ? element.getComputedStyle( 'direction' ) : element.getStyle( 'direction' ) || element.hasAttribute( 'dir' );
 
 		// Stop if direction is same as present.
-		if ( elementDir == dir )
+		if ( elementDir == dir ) {
 			return;
+		}
 
 		// Clear direction on this element.
 		element.removeStyle( 'direction' );
@@ -116,8 +121,9 @@
 
 		if ( range.checkBoundaryOfElement( ancestor, CKEDITOR.START ) && range.checkBoundaryOfElement( ancestor, CKEDITOR.END ) ) {
 			var parent;
-			while ( ancestor && ancestor.type == CKEDITOR.NODE_ELEMENT && ( parent = ancestor.getParent() ) && parent.getChildCount() == 1 && !( ancestor.getName() in elements ) )
+			while ( ancestor && ancestor.type == CKEDITOR.NODE_ELEMENT && ( parent = ancestor.getParent() ) && parent.getChildCount() == 1 && !( ancestor.getName() in elements ) ) {
 				ancestor = parent;
+			}
 
 			return ancestor.type == CKEDITOR.NODE_ELEMENT && ( ancestor.getName() in elements ) && ancestor;
 		}
@@ -158,8 +164,9 @@
 						var selectedElement = range.getEnclosedNode();
 
 						// If this is not our element of interest, apply to fully selected elements from guardElements.
-						if ( !selectedElement || selectedElement && !( selectedElement.type == CKEDITOR.NODE_ELEMENT && selectedElement.getName() in directSelectionGuardElements ) )
+						if ( !selectedElement || selectedElement && !( selectedElement.type == CKEDITOR.NODE_ELEMENT && selectedElement.getName() in directSelectionGuardElements ) ) {
 							selectedElement = getFullySelected( range, guardElements, enterMode );
+						}
 
 						selectedElement && switchDir( selectedElement, dir, editor, database );
 
@@ -188,14 +195,16 @@
 							( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
 						};
 
-						while ( ( block = walker.next() ) )
+						while ( ( block = walker.next() ) ) {
 							switchDir( block, dir, editor, database );
+						}
 
 						iterator = range.createIterator();
 						iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
-						while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
+						while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
 							switchDir( block, dir, editor, database );
+						}
 					}
 
 					CKEDITOR.dom.element.clearAllMarkers( database );
@@ -217,8 +226,9 @@
 		icons: 'bidiltr,bidirtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			if ( editor.blockless )
+			if ( editor.blockless ) {
 				return;
+			}
 
 			// All buttons use the same code to register. So, to avoid
 			// duplications, let's use this tool function.
@@ -252,8 +262,9 @@
 			editor.on( 'contentDirChanged', function( evt ) {
 				var func = ( editor.lang.dir != evt.data ? 'add' : 'remove' ) + 'Class';
 				var toolbar = editor.ui.space( editor.config.toolbarLocation );
-				if ( toolbar )
+				if ( toolbar ) {
 					toolbar[ func ]( 'cke_mixed_dir_content' );
+				}
 			} );
 		}
 	} );
@@ -264,8 +275,9 @@
 	function isOffline( el ) {
 		var html = el.getDocument().getBody().getParent();
 		while ( el ) {
-			if ( el.equals( html ) )
+			if ( el.equals( html ) ) {
 				return false;
+			}
 			el = el.getParent();
 		}
 		return true;
@@ -295,8 +307,9 @@
 
 	var elementProto = CKEDITOR.dom.element.prototype,
 		methods = [ 'setStyle', 'removeStyle', 'setAttribute', 'removeAttribute' ];
-	for ( var i = 0; i < methods.length; i++ )
+	for ( var i = 0; i < methods.length; i++ ) {
 		elementProto[ methods[ i ] ] = CKEDITOR.tools.override( elementProto[ methods[ i ] ], dirChangeNotifier );
+	}
 } )();
 
 /**

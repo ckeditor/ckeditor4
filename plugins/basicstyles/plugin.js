@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -14,35 +14,36 @@ CKEDITOR.plugins.add( 'basicstyles', {
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
 		var addButtonCommand = function( buttonName, buttonLabel, commandName, styleDefiniton ) {
-				// Disable the command if no definition is configured.
-				if ( !styleDefiniton )
-					return;
+			// Disable the command if no definition is configured.
+			if ( !styleDefiniton ) {
+				return;
+			}
 
-				var style = new CKEDITOR.style( styleDefiniton ),
-					forms = contentForms[ commandName ];
+			var style = new CKEDITOR.style( styleDefiniton ),
+				forms = contentForms[ commandName ];
 
-				// Put the style as the most important form.
-				forms.unshift( style );
+			// Put the style as the most important form.
+			forms.unshift( style );
 
-				// Listen to contextual style activation.
-				editor.attachStyleStateChange( style, function( state ) {
-					!editor.readOnly && editor.getCommand( commandName ).setState( state );
+			// Listen to contextual style activation.
+			editor.attachStyleStateChange( style, function( state ) {
+				!editor.readOnly && editor.getCommand( commandName ).setState( state );
+			} );
+
+			// Create the command that can be used to apply the style.
+			editor.addCommand( commandName, new CKEDITOR.styleCommand( style, {
+				contentForms: forms
+			} ) );
+
+			// Register the button, if the button plugin is loaded.
+			if ( editor.ui.addButton ) {
+				editor.ui.addButton( buttonName, {
+					label: buttonLabel,
+					command: commandName,
+					toolbar: 'basicstyles,' + ( order += 10 )
 				} );
-
-				// Create the command that can be used to apply the style.
-				editor.addCommand( commandName, new CKEDITOR.styleCommand( style, {
-					contentForms: forms
-				} ) );
-
-				// Register the button, if the button plugin is loaded.
-				if ( editor.ui.addButton ) {
-					editor.ui.addButton( buttonName, {
-						label: buttonLabel,
-						command: commandName,
-						toolbar: 'basicstyles,' + ( order += 10 )
-					} );
-				}
-			};
+			}
+		};
 
 		var contentForms = {
 				bold: [

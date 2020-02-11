@@ -26,8 +26,9 @@
 		var parents = widget.parts.code.getParents(),
 			parentsNames = [];
 
-		for ( var i = 0; i < parents.length; i++ )
+		for ( var i = 0; i < parents.length; i++ ) {
 			parentsNames.push( parents[ i ].getName() );
+		}
 
 		assert.areSame( 'html,body,div,pre,code', parentsNames.join( ',' ), 'Structure is valid' );
 	}
@@ -40,8 +41,9 @@
 			this.editorBot.setData( markup, function() {
 				assert.areSame( 6, objToArray( editor.widgets.instances ).length, 'A number of instances created' );
 
-				for ( var i in editor.widgets.instances )
+				for ( var i in editor.widgets.instances ) {
 					assertInternalStructure( editor.widgets.instances[ i ] );
+				}
 			} );
 		},
 

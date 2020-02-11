@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -9,8 +9,9 @@ CKEDITOR.plugins.add( 'format', {
 	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	// jscs:enable maximumLineLength
 	init: function( editor ) {
-		if ( editor.blockless )
+		if ( editor.blockless ) {
 			return;
+		}
 
 		var config = editor.config,
 			lang = editor.lang.format;
@@ -34,8 +35,9 @@ CKEDITOR.plugins.add( 'format', {
 		}
 
 		// Hide entire combo when all formats are rejected.
-		if ( stylesCount === 0 )
+		if ( stylesCount === 0 ) {
 			return;
+		}
 
 		editor.ui.addRichCombo( 'Format', {
 			label: lang.label,
@@ -87,15 +89,15 @@ CKEDITOR.plugins.add( 'format', {
 
 					for ( var tag in styles ) {
 						if ( styles[ tag ].checkActive( elementPath, editor ) ) {
-							if ( tag != currentTag )
+							if ( tag != currentTag ) {
 								this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
+							}
 							return;
 						}
 					}
 
 					// If no styles match, just empty it.
 					this.setValue( '' );
-
 				}, this );
 			},
 
@@ -105,17 +107,18 @@ CKEDITOR.plugins.add( 'format', {
 					var style = styles[ name ];
 
 					// Check if that style is enabled in activeFilter.
-					if ( !editor.activeFilter.check( style ) )
+					if ( !editor.activeFilter.check( style ) ) {
 						this.hideItem( name );
-
+					}
 				}
 			},
 
 			refresh: function() {
 				var elementPath = editor.elementPath();
 
-				if ( !elementPath )
-						return;
+				if ( !elementPath ) {
+					return;
+				}
 
 				// Check if element path contains 'p' element.
 				if ( !elementPath.isContextFor( 'p' ) ) {
@@ -125,8 +128,9 @@ CKEDITOR.plugins.add( 'format', {
 
 				// Check if there is any available style.
 				for ( var name in styles ) {
-					if ( editor.activeFilter.check( styles[ name ] ) )
+					if ( editor.activeFilter.check( styles[ name ] ) ) {
 						return;
+					}
 				}
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}

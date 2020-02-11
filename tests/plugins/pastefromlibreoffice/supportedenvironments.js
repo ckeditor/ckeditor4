@@ -20,7 +20,7 @@
 					return handler.canHandle( pasteEvt );
 				} ),
 				isSupportedEnv = editor.plugins.pastefromlibreoffice.isSupportedEnvironment(),
-				assertion =  isSupportedEnv ? 'isNotUndefined' : 'isUndefined';
+				assertion = isSupportedEnv ? 'isNotUndefined' : 'isUndefined';
 
 			assert[ assertion ]( pfloHandler );
 		}

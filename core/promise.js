@@ -83,5 +83,4 @@
 	 * @param {Function} resolver.reject
 	 * @constructor
 	 */
-
 } )();

@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'pl', {
-	'move': 'Kliknij i przeciągnij, by przenieść.',
-	'label': 'Widget %1'
+	move: 'Kliknij i przeciągnij, by przenieść.',
+	label: 'Widget %1'
 } );

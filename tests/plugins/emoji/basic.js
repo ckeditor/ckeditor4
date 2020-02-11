@@ -139,7 +139,6 @@
 				// Asserted data might not be initialised yet or reset to null value with `onTextUnmatch` method.
 				emojiTools.assertIsNullOrUndefined( autocomplete.model.query );
 				emojiTools.assertIsNullOrUndefined( autocomplete.model.data );
-
 			} );
 		},
 

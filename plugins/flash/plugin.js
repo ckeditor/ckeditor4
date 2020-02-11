@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -33,18 +33,19 @@
 					'width: 80px;' +
 					'height: 80px;' +
 				'}'
-				);
-
+			);
 		},
 		init: function( editor ) {
 			var allowed = 'object[classid,codebase,height,hspace,vspace,width];' +
 				'param[name,value];' +
 				'embed[height,hspace,pluginspage,src,type,vspace,width]';
 
-			if ( CKEDITOR.dialog.isTabEnabled( editor, 'flash', 'properties' ) )
+			if ( CKEDITOR.dialog.isTabEnabled( editor, 'flash', 'properties' ) ) {
 				allowed += ';object[align]; embed[allowscriptaccess,quality,scale,wmode]';
-			if ( CKEDITOR.dialog.isTabEnabled( editor, 'flash', 'advanced' ) )
+			}
+			if ( CKEDITOR.dialog.isTabEnabled( editor, 'flash', 'advanced' ) ) {
 				allowed += ';object[id]{*}; embed[bgcolor]{*}(*)';
+			}
 
 			editor.addCommand( 'flash', new CKEDITOR.dialogCommand( 'flash', {
 				allowedContent: allowed,
@@ -71,15 +72,17 @@
 			editor.on( 'doubleclick', function( evt ) {
 				var element = evt.data.element;
 
-				if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'flash' )
+				if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'flash' ) {
 					evt.data.dialog = 'flash';
+				}
 			} );
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element ) {
-					if ( element && element.is( 'img' ) && !element.isReadOnly() && element.data( 'cke-real-element-type' ) == 'flash' )
+					if ( element && element.is( 'img' ) && !element.isReadOnly() && element.data( 'cke-real-element-type' ) == 'flash' ) {
 						return { flash: CKEDITOR.TRISTATE_OFF };
+					}
 				} );
 			}
 		},
@@ -99,8 +102,9 @@
 								// Look for the inner <embed>
 								for ( var i = 0; i < element.children.length; i++ ) {
 									if ( element.children[ i ].name == 'cke:embed' ) {
-										if ( !isFlashEmbed( element.children[ i ] ) )
+										if ( !isFlashEmbed( element.children[ i ] ) ) {
 											return null;
+										}
 
 										return createFakeElement( editor, element );
 									}
@@ -112,8 +116,9 @@
 						},
 
 						'cke:embed': function( element ) {
-							if ( !isFlashEmbed( element ) )
+							if ( !isFlashEmbed( element ) ) {
 								return null;
+							}
 
 							return createFakeElement( editor, element );
 						}

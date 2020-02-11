@@ -50,8 +50,9 @@
 			removeListeners: function() {
 				var listener;
 
-				while ( ( listener = that.listeners.pop() ) )
+				while ( ( listener = that.listeners.pop() ) ) {
 					listener.removeListener();
+				}
 			}
 		};
 
@@ -70,8 +71,9 @@
 			that.repoWidgetsBlurred.push( evt.data.widget );
 		} ) );
 
-		for ( var i = 0; i < widgets.length; ++i )
+		for ( var i = 0; i < widgets.length; ++i ) {
 			addWidgetListeners( that, widgets[ i ] );
+		}
 
 		that.reset();
 		return that;
@@ -104,8 +106,9 @@
 	}
 
 	function assertHasBeenBlurred( editor, widget, noFocusedCheck ) {
-		if ( !noFocusedCheck )
+		if ( !noFocusedCheck ) {
 			assert.isNull( editor.widgets.focused, 'widgets.focused' );
+		}
 		assert.isFalse( widget.wrapper.hasClass( 'cke_widget_focused' ), 'wrapper does not have cke_widget_focused class' );
 		assertHasBeenDeselected( editor, widget );
 	}

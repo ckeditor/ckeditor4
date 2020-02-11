@@ -13,16 +13,19 @@
 	CKEDITOR.plugins.add( 'autogrow', {
 		init: function( editor ) {
 			// This feature is available only for themed ui instance.
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				return;
+			}
 
 			editor.on( 'instanceReady', function() {
 				// Simply set auto height with div wysiwyg.
-				if ( editor.editable().isInline() )
+				if ( editor.editable().isInline() ) {
 					editor.ui.space( 'contents' ).setStyle( 'height', 'auto' );
+				}
 				// For classic (`iframe`-based) wysiwyg we need to resize the editor.
-				else
+				else {
 					initIframeAutogrow( editor );
+				}
 			} );
 		}
 	} );
@@ -62,8 +65,9 @@
 						// Second pass to make correction upon the first resize, e.g. scrollbar.
 						// If height is unlimited vertical scrollbar was removed in the first
 						// resizeEditor() call, so we don't need the second pass.
-						if ( !maxHeightIsUnlimited )
+						if ( !maxHeightIsUnlimited ) {
 							resizeEditor();
+						}
 					}, 100 );
 				}
 			} );
@@ -72,10 +76,11 @@
 		// Coordinate with the "maximize" plugin. (https://dev.ckeditor.com/ticket/9311)
 		editor.on( 'afterCommandExec', function( evt ) {
 			if ( evt.data.name == 'maximize' && evt.editor.mode == 'wysiwyg' ) {
-				if ( evt.data.command.state == CKEDITOR.TRISTATE_ON )
+				if ( evt.data.command.state == CKEDITOR.TRISTATE_ON ) {
 					scrollable.removeStyle( 'overflow-y' );
-				else
+				} else {
 					resizeEditor();
+				}
 			}
 		} );
 
@@ -132,8 +137,9 @@
 		function resizeEditor() {
 			// Hide scroll because we won't need it at all.
 			// Thanks to that we'll need only one resizeEditor() call per change.
-			if ( maxHeightIsUnlimited )
+			if ( maxHeightIsUnlimited ) {
 				scrollable.setStyle( 'overflow-y', 'hidden' );
+			}
 
 			var currentHeight = editor.window.getViewPaneSize().height,
 				newHeight = contentHeight();
@@ -152,10 +158,11 @@
 			}
 
 			if ( !maxHeightIsUnlimited ) {
-				if ( newHeight < configMaxHeight && scrollable.$.scrollHeight > scrollable.$.clientHeight )
+				if ( newHeight < configMaxHeight && scrollable.$.scrollHeight > scrollable.$.clientHeight ) {
 					scrollable.setStyle( 'overflow-y', 'hidden' );
-				else
+				} else {
 					scrollable.removeStyle( 'overflow-y' );
+				}
 			}
 		}
 	}

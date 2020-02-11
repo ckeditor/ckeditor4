@@ -106,7 +106,7 @@
 			if ( filterArray.length === 1 ) {
 				extraAllowedContent[ elementName ] = true;
 				return;
-			} else if ( !extraAllowedContent[ filterArray [ 0 ] ] ) {
+			} else if ( !extraAllowedContent[ filterArray[ 0 ] ] ) {
 				extraAllowedContent[ elementName ] = {};
 			}
 

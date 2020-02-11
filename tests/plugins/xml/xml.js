@@ -32,5 +32,4 @@
 			assert.isMatching( /^<bar x=\"2\"( )?\/>bom<bar x=\"1\"( )?\/>$/, xml.getInnerXml( 'foo' ) );
 		}
 	} );
-
 } )();

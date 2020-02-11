@@ -37,7 +37,7 @@ bender.editor = {
 bender.test( {
 	'test button class names': function() {
 		var btn = this.editor.ui.get( 'custom_btn' ),
-		btnEl = CKEDITOR.document.getById( btn._.id );
+			btnEl = CKEDITOR.document.getById( btn._.id );
 
 		assert.isTrue( btnEl.hasClass( 'cke_button' ), 'check ui type class name' );
 		assert.isTrue( btnEl.hasClass( 'cke_button__custom_btn' ), 'check named ui type class name' );
@@ -49,7 +49,7 @@ bender.test( {
 	// (#2483)
 	'test expandable button class name': function() {
 		var btn = this.editor.ui.get( 'expandable_btn' ),
-		btnEl = CKEDITOR.document.getById( btn._.id );
+			btnEl = CKEDITOR.document.getById( btn._.id );
 
 		assert.isTrue( btnEl.hasClass( 'cke_button_expandable' ), 'check ui item expandable class name' );
 	},

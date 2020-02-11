@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'widget', 'lt', {
-	'move': 'Paspauskite ir tempkite kad perkeltumėte',
-	'label': '%1 valdiklis'
+	move: 'Paspauskite ir tempkite kad perkeltumėte',
+	label: '%1 valdiklis'
 } );

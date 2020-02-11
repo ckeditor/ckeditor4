@@ -30,7 +30,7 @@
 			'word2013'
 		],
 		tests: {
-			'List_indentation': true
+			List_indentation: true
 		},
 
 		ignoreAll: CKEDITOR.env.ie

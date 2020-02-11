@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -18,10 +18,12 @@
 		// Omit pixel length unit when necessary,
 		// e.g. replaceCssLength( 10, '20px' ) -> 20
 		if ( parts1 ) {
-			if ( !parts1[ 2 ] && parts2[ 2 ] == 'px' )
+			if ( !parts1[ 2 ] && parts2[ 2 ] == 'px' ) {
 				return parts2[ 1 ];
-			if ( parts1[ 2 ] == 'px' && !parts2[ 2 ] )
+			}
+			if ( parts1[ 2 ] == 'px' && !parts2[ 2 ] ) {
 				return parts2[ 1 ] + 'px';
+			}
 		}
 
 		return length2;
@@ -90,7 +92,7 @@
 			label = lang[ realElementType ] || lang.unknown;
 
 		var attributes = {
-			'class': className,
+			class: className,
 			'data-cke-realelement': encodeURIComponent( realElement.getOuterHtml() ),
 			'data-cke-real-node-type': realElement.type,
 			alt: label,
@@ -99,11 +101,13 @@
 		};
 
 		// Do not set "src" on high-contrast so the alt text is displayed. (https://dev.ckeditor.com/ticket/8945)
-		if ( !CKEDITOR.env.hc )
+		if ( !CKEDITOR.env.hc ) {
 			attributes.src = CKEDITOR.tools.transparentImageData;
+		}
 
-		if ( realElementType )
+		if ( realElementType ) {
 			attributes[ 'data-cke-real-element-type' ] = realElementType;
+		}
 
 		if ( isResizable ) {
 			attributes[ 'data-cke-resizable' ] = isResizable;
@@ -141,7 +145,7 @@
 		html = writer.getHtml();
 
 		var attributes = {
-			'class': className,
+			class: className,
 			'data-cke-realelement': encodeURIComponent( html ),
 			'data-cke-real-node-type': realElement.type,
 			alt: label,
@@ -150,11 +154,13 @@
 		};
 
 		// Do not set "src" on high-contrast so the alt text is displayed. (https://dev.ckeditor.com/ticket/8945)
-		if ( !CKEDITOR.env.hc )
+		if ( !CKEDITOR.env.hc ) {
 			attributes.src = CKEDITOR.tools.transparentImageData;
+		}
 
-		if ( realElementType )
+		if ( realElementType ) {
 			attributes[ 'data-cke-real-element-type' ] = realElementType;
+		}
 
 		if ( isResizable ) {
 			attributes[ 'data-cke-resizable' ] = isResizable;
@@ -180,8 +186,9 @@
 	 * @returns {CKEDITOR.dom.element/null} Returns real element or `null` if transformed element wasn't fake.
 	 */
 	CKEDITOR.editor.prototype.restoreRealElement = function( fakeElement ) {
-		if ( fakeElement.data( 'cke-real-node-type' ) != CKEDITOR.NODE_ELEMENT )
+		if ( fakeElement.data( 'cke-real-node-type' ) != CKEDITOR.NODE_ELEMENT ) {
 			return null;
+		}
 
 		var element = CKEDITOR.dom.element.createFromHtml( decodeURIComponent( fakeElement.data( 'cke-realelement' ) ), this.document );
 
@@ -195,5 +202,4 @@
 
 		return element;
 	};
-
 } )();

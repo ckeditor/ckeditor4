@@ -26,8 +26,9 @@
  * the element in case of element creation.
  */
 CKEDITOR.dom.element = function( element, ownerDocument ) {
-	if ( typeof element == 'string' )
+	if ( typeof element == 'string' ) {
 		element = ( ownerDocument ? ownerDocument.$ : document ).createElement( element );
+	}
 
 	// Call the base constructor (we must not call CKEDITOR.dom.node).
 	CKEDITOR.dom.domObject.call( this, element );
@@ -118,8 +119,9 @@ CKEDITOR.dom.element.setMarker = function( database, element, name, value ) {
  * @static
  */
 CKEDITOR.dom.element.clearAllMarkers = function( database ) {
-	for ( var i in database )
+	for ( var i in database ) {
 		CKEDITOR.dom.element.clearMarkers( database, database[ i ], 1 );
+	}
 };
 
 /**
@@ -144,8 +146,9 @@ CKEDITOR.dom.element.clearAllMarkers = function( database ) {
 CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatabase ) {
 	var names = element.getCustomData( 'list_marker_names' ),
 		id = element.getCustomData( 'list_marker_id' );
-	for ( var i in names )
+	for ( var i in names ) {
 		element.removeCustomData( i );
+	}
 	element.removeCustomData( 'list_marker_names' );
 	if ( removeFromDatabase ) {
 		element.removeCustomData( 'list_marker_id' );
@@ -195,8 +198,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			} : function( className ) {
 				var c = this.$.className;
 				if ( c ) {
-					if ( !hasClass( c, className ) )
+					if ( !hasClass( c, className ) ) {
 						c += ' ' + className;
+					}
 				}
 				this.$.className = c || className;
 
@@ -222,8 +226,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				var $ = this.$;
 				$.classList.remove( className );
 
-				if ( !$.className )
+				if ( !$.className ) {
 					$.removeAttribute( 'class' );
+				}
 
 				return this;
 			} : function( className ) {
@@ -233,10 +238,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						.replace( new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)' ), '' )
 						.replace( /^\s+/, '' );
 
-					if ( c )
+					if ( c ) {
 						this.setAttribute( 'class', c );
-					else
+					} else {
 						this.removeAttribute( 'class' );
+					}
 				}
 
 				return this;
@@ -269,13 +275,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {CKEDITOR.dom.node} The appended node.
 		 */
 		append: function( node, toStart ) {
-			if ( typeof node == 'string' )
+			if ( typeof node == 'string' ) {
 				node = this.getDocument().createElement( node );
+			}
 
-			if ( toStart )
+			if ( toStart ) {
 				this.$.insertBefore( node.$, this.$.firstChild );
-			else
+			} else {
 				this.$.appendChild( node.$ );
+			}
 
 			return node;
 		},
@@ -286,9 +294,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @param {String} html
 		 */
 		appendHtml: function( html ) {
-			if ( !this.$.childNodes.length )
+			if ( !this.$.childNodes.length ) {
 				this.setHtml( html );
-			else {
+			} else {
 				var temp = new CKEDITOR.dom.element( 'div', this.getDocument() );
 				temp.setHtml( html );
 				temp.moveChildren( this );
@@ -309,10 +317,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		appendText: function( text ) {
 			// On IE8 it is impossible to append node to script tag, so we use its text.
 			// On the contrary, on Safari the text property is unpredictable in links. (https://dev.ckeditor.com/ticket/13232)
-			if ( this.$.text != null && CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			if ( this.$.text != null && CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				this.$.text += text;
-			else
+			} else {
 				this.append( new CKEDITOR.dom.text( text ) );
+			}
 		},
 
 		/**
@@ -323,14 +332,16 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @param {Boolean} [force] Append filler regardless of the environment.
 		 */
 		appendBogus: function( force ) {
-			if ( !force && !CKEDITOR.env.needsBrFiller )
+			if ( !force && !CKEDITOR.env.needsBrFiller ) {
 				return;
+			}
 
 			var lastChild = this.getLast();
 
 			// Ignore empty/spaces text.
-			while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
+			while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) ) {
 				lastChild = lastChild.getPrevious();
+			}
 			if ( !lastChild || !lastChild.is || !lastChild.is( 'br' ) ) {
 				var bogus = this.getDocument().createElement( 'br' );
 
@@ -435,10 +446,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			}
 
 			return function( defer ) {
-				if ( defer )
+				if ( defer ) {
 					CKEDITOR.tools.setTimeout( exec, 100, this );
-				else
+				} else {
 					exec.call( this );
+				}
 			};
 		} )(),
 
@@ -535,9 +547,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					// HTML5 shiv used for document in which this element was created
 					// won't affect that detached element. So get document fragment with
 					// all HTML5 elements enabled and set innerHTML while this element is appended to it.
-					if ( this.getParent() )
+					if ( this.getParent() ) {
 						return ( $.innerHTML = html );
-					else {
+					} else {
 						var $frag = this.getDocument()._getHtml5ShivFrag();
 						$frag.appendChild( $ );
 						$.innerHTML = html;
@@ -545,16 +557,16 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 						return html;
 					}
-				}
-				catch ( e ) {
+				} catch ( e ) {
 					this.$.innerHTML = '';
 
 					var temp = new CKEDITOR.dom.element( 'body', this.getDocument() );
 					temp.$.innerHTML = html;
 
 					var children = temp.getChildren();
-					while ( children.count() )
+					while ( children.count() ) {
 						this.append( children.getItem( 0 ) );
+					}
 
 					return html;
 				}
@@ -594,8 +606,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		getAttribute: ( function() {
 			var standard = function( name ) {
-					return this.$.getAttribute( name, 2 );
-				};
+				return this.$.getAttribute( name, 2 );
+			};
 
 			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 				return function( name ) {
@@ -619,15 +631,16 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 							// getAtrribute( 'tabindex', 2 ) returns 32768
 							// instead. So, we must make this check to give a
 							// uniform result among all browsers.
-							if ( tabIndex !== 0 && this.$.tabIndex === 0 )
+							if ( tabIndex !== 0 && this.$.tabIndex === 0 ) {
 								tabIndex = null;
+							}
 
 							return tabIndex;
 
 						case 'checked':
 							var attr = this.$.attributes.getNamedItem( name ),
-								attrValue = attr.specified ? attr.nodeValue // For value given by parser.
-								: this.$.checked; // For value created via DOM interface.
+								attrValue = attr.specified ? attr.nodeValue : // For value given by parser.
+									this.$.checked; // For value created via DOM interface.
 
 							return attrValue ? 'checked' : null;
 
@@ -707,14 +720,14 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {String} The property value.
 		 */
 		getComputedStyle: ( document.defaultView && document.defaultView.getComputedStyle ) ?
-				function( propertyName ) {
-					var style = this.getWindow().$.getComputedStyle( this.$, null );
+			function( propertyName ) {
+				var style = this.getWindow().$.getComputedStyle( this.$, null );
 
-					// Firefox may return null if we call the above on a hidden iframe. (https://dev.ckeditor.com/ticket/9117)
-					return style ? style.getPropertyValue( propertyName ) : '';
-				} : function( propertyName ) {
-					return this.$.currentStyle[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
-				},
+				// Firefox may return null if we call the above on a hidden iframe. (https://dev.ckeditor.com/ticket/9117)
+				return style ? style.getPropertyValue( propertyName ) : '';
+			} : function( propertyName ) {
+				return this.$.currentStyle[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
+			},
 
 		/**
 		 * Gets the DTD entries for this element.
@@ -756,8 +769,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			// those cases we must check that the element really has
 			// the tabindex attribute set to zero, or it is one of
 			// those element that should have zero by default.
-			if ( tabIndex === 0 && !CKEDITOR.dtd.$tabIndex[ this.getName() ] && parseInt( this.getAttribute( 'tabindex' ), 10 ) !== 0 )
+			if ( tabIndex === 0 && !CKEDITOR.dtd.$tabIndex[ this.getName() ] && parseInt( this.getAttribute( 'tabindex' ), 10 ) !== 0 ) {
 				return -1;
+			}
 
 			return tabIndex;
 		},
@@ -827,8 +841,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 			if ( CKEDITOR.env.ie && ( document.documentMode <= 8 ) ) {
 				var scopeName = this.$.scopeName;
-				if ( scopeName != 'HTML' )
+				if ( scopeName != 'HTML' ) {
 					nodeName = scopeName.toLowerCase() + ':' + nodeName;
+				}
 			}
 
 			this.getName = function() {
@@ -861,8 +876,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		getFirst: function( evaluator ) {
 			var first = this.$.firstChild,
 				retval = first && new CKEDITOR.dom.node( first );
-			if ( retval && evaluator && !evaluator( retval ) )
+			if ( retval && evaluator && !evaluator( retval ) ) {
 				retval = retval.getNext( evaluator );
+			}
 
 			return retval;
 		},
@@ -876,8 +892,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		getLast: function( evaluator ) {
 			var last = this.$.lastChild,
 				retval = last && new CKEDITOR.dom.node( last );
-			if ( retval && evaluator && !evaluator( retval ) )
+			if ( retval && evaluator && !evaluator( retval ) ) {
 				retval = retval.getPrevious( evaluator );
+			}
 
 			return retval;
 		},
@@ -909,13 +926,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			var name = this.getName();
 
 			// Check against the specified DTD liternal.
-			if ( typeof arguments[ 0 ] == 'object' )
+			if ( typeof arguments[ 0 ] == 'object' ) {
 				return !!arguments[ 0 ][ name ];
+			}
 
 			// Check for tag names
 			for ( var i = 0; i < arguments.length; i++ ) {
-				if ( arguments[ i ] == name )
+				if ( arguments[ i ] == name ) {
 					return true;
+				}
 			}
 			return false;
 		},
@@ -1007,9 +1026,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			if ( isVisible && CKEDITOR.env.webkit ) {
 				elementWindow = this.getWindow();
 
-				if ( !elementWindow.equals( CKEDITOR.document.getWindow() ) && ( elementWindowFrame = elementWindow.$.frameElement ) )
+				if ( !elementWindow.equals( CKEDITOR.document.getWindow() ) && ( elementWindowFrame = elementWindow.$.frameElement ) ) {
 					isVisible = new CKEDITOR.dom.element( elementWindowFrame ).isVisible();
-
+				}
 			}
 
 			return !!isVisible;
@@ -1021,19 +1040,21 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {Boolean}
 		 */
 		isEmptyInlineRemoveable: function() {
-			if ( !CKEDITOR.dtd.$removeEmpty[ this.getName() ] )
+			if ( !CKEDITOR.dtd.$removeEmpty[ this.getName() ] ) {
 				return false;
+			}
 
 			var children = this.getChildren();
 			for ( var i = 0, count = children.count(); i < count; i++ ) {
 				var child = children.getItem( i );
 
-				if ( child.type == CKEDITOR.NODE_ELEMENT && child.data( 'cke-bookmark' ) )
+				if ( child.type == CKEDITOR.NODE_ELEMENT && child.data( 'cke-bookmark' ) ) {
 					continue;
+				}
 
-				if ( child.type == CKEDITOR.NODE_ELEMENT && !child.isEmptyInlineRemoveable() || child.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( child.getText() ) )
+				if ( child.type == CKEDITOR.NODE_ELEMENT && !child.isEmptyInlineRemoveable() || child.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( child.getText() ) ) {
 					return false;
-
+				}
 			}
 			return true;
 		},
@@ -1117,8 +1138,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					}
 				}
 
-				if ( !$attr )
+				if ( !$attr ) {
 					return false;
+				}
 
 				return $attr.specified;
 			}
@@ -1129,8 +1151,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						// On IE < 8 the name attribute cannot be retrieved
 						// right after the element creation and setting the
 						// name with setAttribute.
-						if ( name == 'name' )
+						if ( name == 'name' ) {
 							return !!this.$.name;
+						}
 
 						return ieHasAttribute.call( this, name );
 					};
@@ -1167,17 +1190,20 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			var $ = this.$;
 			target = target.$;
 
-			if ( $ == target )
+			if ( $ == target ) {
 				return;
+			}
 
 			var child;
 
 			if ( toStart ) {
-				while ( ( child = $.lastChild ) )
+				while ( ( child = $.lastChild ) ) {
 					target.insertBefore( $.removeChild( child ), target.firstChild );
+				}
 			} else {
-				while ( ( child = $.firstChild ) )
+				while ( ( child = $.firstChild ) ) {
 					target.appendChild( $.removeChild( child ) );
+				}
 			}
 		},
 
@@ -1201,8 +1227,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					while ( sibling.data( 'cke-bookmark' ) || sibling.isEmptyInlineRemoveable() ) {
 						pendingNodes.push( sibling );
 						sibling = isNext ? sibling.getNext() : sibling.getPrevious();
-						if ( !sibling || sibling.type != CKEDITOR.NODE_ELEMENT )
+						if ( !sibling || sibling.type != CKEDITOR.NODE_ELEMENT ) {
 							return;
+						}
 					}
 
 					if ( element.isIdentical( sibling ) ) {
@@ -1211,15 +1238,17 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						var innerSibling = isNext ? element.getLast() : element.getFirst();
 
 						// Move pending nodes first into the target element.
-						while ( pendingNodes.length )
+						while ( pendingNodes.length ) {
 							pendingNodes.shift().move( element, !isNext );
+						}
 
 						sibling.moveChildren( element, !isNext );
 						sibling.remove();
 
 						// Now check the last inner child (see two comments above).
-						if ( innerSibling && innerSibling.type == CKEDITOR.NODE_ELEMENT )
+						if ( innerSibling && innerSibling.type == CKEDITOR.NODE_ELEMENT ) {
 							innerSibling.mergeSiblings();
+						}
 					}
 				}
 			}
@@ -1262,24 +1291,26 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		setAttribute: ( function() {
 			var standard = function( name, value ) {
-					this.$.setAttribute( name, value );
-					return this;
-				};
+				this.$.setAttribute( name, value );
+				return this;
+			};
 
 			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 				return function( name, value ) {
-					if ( name == 'class' )
+					if ( name == 'class' ) {
 						this.$.className = value;
-					else if ( name == 'style' )
+					} else if ( name == 'style' ) {
 						this.$.style.cssText = value;
-					else if ( name == 'tabindex' ) // Case sensitive.
-					this.$.tabIndex = value;
-					else if ( name == 'checked' )
+					} else if ( name == 'tabindex' ) // Case sensitive.
+					{
+						this.$.tabIndex = value;
+					} else if ( name == 'checked' ) {
 						this.$.checked = value;
-					else if ( name == 'contenteditable' )
+					} else if ( name == 'contenteditable' ) {
 						standard.call( this, 'contentEditable', value );
-					else
+					} else {
 						standard.apply( this, arguments );
+					}
 					return this;
 				};
 			} else if ( CKEDITOR.env.ie8Compat && CKEDITOR.env.secure ) {
@@ -1314,8 +1345,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {CKEDITOR.dom.element} This element instance.
 		 */
 		setAttributes: function( attributesPairs ) {
-			for ( var name in attributesPairs )
+			for ( var name in attributesPairs ) {
 				this.setAttribute( name, attributesPairs[ name ] );
+			}
 			return this;
 		},
 
@@ -1343,17 +1375,18 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		removeAttribute: ( function() {
 			var standard = function( name ) {
-					this.$.removeAttribute( name );
-				};
+				this.$.removeAttribute( name );
+			};
 
 			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 				return function( name ) {
-					if ( name == 'class' )
+					if ( name == 'class' ) {
 						name = 'className';
-					else if ( name == 'tabindex' )
+					} else if ( name == 'tabindex' ) {
 						name = 'tabIndex';
-					else if ( name == 'contenteditable' )
+					} else if ( name == 'contenteditable' ) {
 						name = 'contentEditable';
+					}
 					standard.call( this, name );
 				};
 			} else {
@@ -1396,16 +1429,18 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			// "removeProperty" need to be specific on the following styles.
 			if ( !$.removeProperty && ( name == 'border' || name == 'margin' || name == 'padding' ) ) {
 				var names = expandedRules( name );
-				for ( var i = 0 ; i < names.length ; i++ )
+				for ( var i = 0 ; i < names.length ; i++ ) {
 					this.removeStyle( names[ i ] );
+				}
 				return;
 			}
 
 			$.removeProperty ? $.removeProperty( name ) : $.removeAttribute( CKEDITOR.tools.cssStyleToDomStyle( name ) );
 
 			// Eventually remove empty style attribute.
-			if ( !this.$.style.cssText )
+			if ( !this.$.style.cssText ) {
 				this.removeAttribute( 'style' );
+			}
 		},
 
 		/**
@@ -1440,8 +1475,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {CKEDITOR.dom.element} This element instance.
 		 */
 		setStyles: function( stylesPairs ) {
-			for ( var name in stylesPairs )
+			for ( var name in stylesPairs ) {
 				this.setStyle( name, stylesPairs[ name ] );
+			}
 			return this;
 		},
 
@@ -1498,8 +1534,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		getPositionedAncestor: function() {
 			var current = this;
 			while ( current.getName() != 'html' ) {
-				if ( current.getComputedStyle( 'position' ) != 'static' )
+				if ( current.getComputedStyle( 'position' ) != 'static' ) {
 					return current;
+				}
 
 				current = current.getParent();
 			}
@@ -1623,8 +1660,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		scrollIntoView: function( alignToTop ) {
 			var parent = this.getParent();
-			if ( !parent )
+			if ( !parent ) {
 				return;
+			}
 
 			// Scroll the element into parent container from the inner out.
 			do {
@@ -1635,8 +1673,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 				// Skip body element, which will report wrong clientHeight when containing
 				// floated content. (https://dev.ckeditor.com/ticket/9523)
-				if ( overflowed && !parent.is( 'body' ) )
+				if ( overflowed && !parent.is( 'body' ) ) {
 					this.scrollIntoParent( parent, alignToTop, 1 );
+				}
 
 				// Walk across the frame.
 				if ( parent.is( 'html' ) ) {
@@ -1669,16 +1708,17 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			var isQuirks = doc.$.compatMode == 'BackCompat';
 
 			// On window <html> is scrolled while quirks scrolls <body>.
-			if ( parent instanceof CKEDITOR.dom.window )
+			if ( parent instanceof CKEDITOR.dom.window ) {
 				parent = isQuirks ? doc.getBody() : doc.getDocumentElement();
+			}
 
 			// Scroll the parent by the specified amount.
 			function scrollBy( x, y ) {
 				// Webkit doesn't support "scrollTop/scrollLeft"
 				// on documentElement/body element.
-				if ( /body|html/.test( parent.getName() ) )
+				if ( /body|html/.test( parent.getName() ) ) {
 					parent.getWindow().$.scrollBy( x, y );
-				else {
+				} else {
 					parent.$.scrollLeft += x;
 					parent.$.scrollTop += y;
 				}
@@ -1743,11 +1783,13 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			// 2. Otherwise be smart to scroll only the minimum amount;
 			// 3. Never cut at the top;
 			// 4. DO NOT scroll when already visible.
-			if ( lt.y < 0 || br.y > 0 )
+			if ( lt.y < 0 || br.y > 0 ) {
 				scrollBy( 0, alignToTop === true ? lt.y : alignToTop === false ? br.y : lt.y < 0 ? lt.y : br.y );
+			}
 
-			if ( hscroll && ( lt.x < 0 || br.x > 0 ) )
+			if ( hscroll && ( lt.x < 0 || br.x > 0 ) ) {
 				scrollBy( lt.x < 0 ? lt.x : br.x, 0 );
+			}
 		},
 
 		/**
@@ -1842,25 +1884,29 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					attrValue;
 
 				// We can set the type only once, so do it with the proper value, not copying it.
-				if ( attrName in skipAttributes )
+				if ( attrName in skipAttributes ) {
 					continue;
+				}
 
-				if ( attrName == 'checked' && ( attrValue = this.getAttribute( attrName ) ) )
+				if ( attrName == 'checked' && ( attrValue = this.getAttribute( attrName ) ) ) {
 					dest.setAttribute( attrName, attrValue );
+				}
 				// IE contains not specified attributes in $.attributes so we need to check
 				// if elements attribute is specified using hasAttribute.
 				else if ( !CKEDITOR.env.ie || this.hasAttribute( attrName ) ) {
 					attrValue = this.getAttribute( attrName );
-					if ( attrValue === null )
+					if ( attrValue === null ) {
 						attrValue = attribute.nodeValue;
+					}
 
 					dest.setAttribute( attrName, attrValue );
 				}
 			}
 
 			// The style:
-			if ( this.$.style.cssText !== '' )
+			if ( this.$.style.cssText !== '' ) {
 				dest.$.style.cssText = this.$.style.cssText;
+			}
 		},
 
 		/**
@@ -1870,8 +1916,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		renameNode: function( newTag ) {
 			// If it's already correct exit here.
-			if ( this.getName() == newTag )
+			if ( this.getName() == newTag ) {
 				return;
+			}
 
 			var doc = this.getDocument();
 
@@ -1905,19 +1952,21 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			function getChild( rawNode, index ) {
 				var childNodes = rawNode.childNodes;
 
-				if ( index >= 0 && index < childNodes.length )
+				if ( index >= 0 && index < childNodes.length ) {
 					return childNodes[ index ];
+				}
 			}
 
 			return function( indices ) {
 				var rawNode = this.$;
 
-				if ( !indices.slice )
+				if ( !indices.slice ) {
 					rawNode = getChild( rawNode, indices );
-				else {
+				} else {
 					indices = indices.slice();
-					while ( indices.length > 0 && rawNode )
+					while ( indices.length > 0 && rawNode ) {
 						rawNode = getChild( rawNode, indices.shift() );
+					}
 				}
 
 				return rawNode ? new CKEDITOR.dom.node( rawNode ) : null;
@@ -1939,8 +1988,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		disableContextMenu: function() {
 			this.on( 'contextmenu', function( evt ) {
 				// Cancel the browser context menu.
-				if ( !evt.data.getTarget().getAscendant( enablesContextMenu, true ) )
+				if ( !evt.data.getTarget().getAscendant( enablesContextMenu, true ) ) {
 					evt.data.preventDefault();
+				}
 			} );
 
 			function enablesContextMenu( node ) {
@@ -1958,8 +2008,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						this.getParent() && this.getParent().getDirection( 1 ) ||
 						this.getDocument().$.dir ||
 						'ltr';
-			}
-			else {
+			} else {
 				return this.getStyle( 'direction' ) || this.getAttribute( 'dir' );
 			}
 		},
@@ -1976,12 +2025,13 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		data: function( name, value ) {
 			name = 'data-' + name;
-			if ( value === undefined )
+			if ( value === undefined ) {
 				return this.getAttribute( name );
-			else if ( value === false )
+			} else if ( value === false ) {
 				this.removeAttribute( name );
-			else
+			} else {
 				this.setAttribute( name, value );
+			}
 
 			return null;
 		},
@@ -2012,8 +2062,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			for ( name in instances ) {
 				instance = instances[ name ];
 
-				if ( instance.element.equals( this ) && instance.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO )
+				if ( instance.element.equals( this ) && instance.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO ) {
 					return instance;
+				}
 
 				if ( !optimized ) {
 					editable = instance.editable();
@@ -2107,12 +2158,14 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @param {Boolean} [skipRoot] Don't execute `callback` on this element.
 		 */
 		forEach: function( callback, type, skipRoot ) {
-			if ( !skipRoot && ( !type || this.type == type ) )
-					var ret = callback( this );
+			if ( !skipRoot && ( !type || this.type == type ) ) {
+				var ret = callback( this );
+			}
 
 			// Do not filter children if callback returned false.
-			if ( ret === false )
+			if ( ret === false ) {
 				return;
+			}
 
 			var children = this.getChildren(),
 				node,
@@ -2121,10 +2174,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			// We do not cache the size, because the live list of nodes may be changed by the callback.
 			for ( ; i < children.count(); i++ ) {
 				node = children.getItem( i );
-				if ( node.type == CKEDITOR.NODE_ELEMENT )
+				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 					node.forEach( callback, type );
-				else if ( !type || node.type == type )
+				} else if ( !type || node.type == type ) {
 					callback( node );
+				}
 			}
 		},
 
@@ -2196,8 +2250,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		}
 
 		return function() {
-			if ( !hadId )
+			if ( !hadId ) {
 				element.removeAttribute( 'id' );
+			}
 		};
 	}
 
@@ -2215,15 +2270,16 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	function expandedRules( style ) {
 		var sides = [ 'top', 'left', 'right', 'bottom' ], components;
 
-		if ( style == 'border' )
-				components = [ 'color', 'style', 'width' ];
+		if ( style == 'border' ) {
+			components = [ 'color', 'style', 'width' ];
+		}
 
 		var styles = [];
 		for ( var i = 0 ; i < sides.length ; i++ ) {
-
 			if ( components ) {
-				for ( var j = 0 ; j < components.length ; j++ )
+				for ( var j = 0 ; j < components.length ; j++ ) {
 					styles.push( [ style, sides[ i ], components[ j ] ].join( '-' ) );
+				}
 			} else {
 				styles.push( [ style, sides[ i ] ].join( '-' ) );
 			}
@@ -2234,8 +2290,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 	function marginAndPaddingSize( type ) {
 		var adjustment = 0;
-		for ( var i = 0, len = sides[ type ].length; i < len; i++ )
+		for ( var i = 0, len = sides[ type ].length; i < len; i++ ) {
 			adjustment += parseFloat( this.getComputedStyle( sides[ type ][ i ] ) || 0, 10 ) || 0;
+		}
 		return adjustment;
 	}
 
@@ -2248,8 +2305,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	 */
 	CKEDITOR.dom.element.prototype.setSize = function( type, size, isBorderBox ) {
 		if ( typeof size == 'number' ) {
-			if ( isBorderBox && !( CKEDITOR.env.ie && CKEDITOR.env.quirks ) )
+			if ( isBorderBox && !( CKEDITOR.env.ie && CKEDITOR.env.quirks ) ) {
 				size -= marginAndPaddingSize.call( this, type );
+			}
 
 			this.setStyle( type, size + 'px' );
 		}
@@ -2264,8 +2322,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	CKEDITOR.dom.element.prototype.getSize = function( type, isBorderBox ) {
 		var size = Math.max( this.$[ 'offset' + CKEDITOR.tools.capitalize( type ) ], this.$[ 'client' + CKEDITOR.tools.capitalize( type ) ] ) || 0;
 
-		if ( isBorderBox )
+		if ( isBorderBox ) {
 			size -= marginAndPaddingSize.call( this, type );
+		}
 
 		return size;
 	};

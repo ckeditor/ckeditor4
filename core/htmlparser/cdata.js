@@ -6,7 +6,6 @@
 'use strict';
 
 ( function() {
-
 	/**
 	 * A lightweight representation of HTML CDATA.
 	 *

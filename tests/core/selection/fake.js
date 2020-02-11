@@ -16,13 +16,13 @@ function countHiddenContainers( doc ) {
 
 function assertFakeSelection( editor, el, msg ) {
 	var sel = editor.getSelection();
-	assert.isTrue( !!sel.isFake,  msg + ' - sel.isFake' );
+	assert.isTrue( !!sel.isFake, msg + ' - sel.isFake' );
 	assert.areSame( el, sel.getSelectedElement(), msg + ' - sel.getSelectedElement' );
 }
 
 function assertNoFakeSelection( editor, el, msg ) {
 	var sel = editor.getSelection();
-	assert.isFalse( !!sel.isFake,  msg + ' - sel.isFake' );
+	assert.isFalse( !!sel.isFake, msg + ' - sel.isFake' );
 	assert.areNotSame( el, sel.getSelectedElement(), msg + ' - sel.getSelectedElement' );
 }
 
@@ -1066,7 +1066,6 @@ bender.test( {
 
 	// #1516
 	'Test delete/backspace keys are not removing readonly selection': function() {
-
 		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 			assert.ignore();

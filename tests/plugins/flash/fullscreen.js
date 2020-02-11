@@ -16,8 +16,9 @@
 		tearDown: function() {
 			var currentDialog = CKEDITOR.dialog.getCurrent();
 
-			if ( currentDialog )
+			if ( currentDialog ) {
 				currentDialog.hide();
+			}
 		},
 
 		// true is default value for allowFullScreen property

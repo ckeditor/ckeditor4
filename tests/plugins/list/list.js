@@ -152,7 +152,6 @@ bender.test( {
 			bot.setHtmlWithSelection( source );
 			bot.execCommand( 'numberedlist' );
 			assert.areSame( bender.tools.compatHtml( expected ), bot.getData( false, true ) );
-
 		} );
 	},
 
@@ -206,7 +205,6 @@ bender.test( {
 		bot.setHtmlWithSelection( '<ol dir="rtl"><li>rtl</li></ol><p dir="ltr">^ltr</p>' );
 		bot.execCommand( 'numberedlist' );
 		assert.areSame( '<ol dir="rtl"><li>rtl</li><li dir="ltr">ltr</li></ol>', bot.getData( true ) );
-
 	},
 
 	'test single list type active inside of nested list': function() {
@@ -215,7 +213,6 @@ bender.test( {
 		var nList = ed.getCommand( 'numberedlist' ), bList = ed.getCommand( 'bulletedlist' );
 		assert.areSame( CKEDITOR.TRISTATE_OFF, nList.state, 'check numbered list inactive' );
 		assert.areSame( CKEDITOR.TRISTATE_ON, bList.state, 'check bulleted list active' );
-
 	},
 
 	'test inactive when list is out of block limit': function() {

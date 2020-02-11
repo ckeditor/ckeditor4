@@ -8,12 +8,14 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		var val = this.getValue();
 		if ( val ) {
 			element.attributes[ this.id ] = val;
-			if ( this.id == 'name' )
+			if ( this.id == 'name' ) {
 				element.attributes[ 'data-cke-saved-name' ] = val;
+			}
 		} else {
 			delete element.attributes[ this.id ];
-			if ( this.id == 'name' )
+			if ( this.id == 'name' ) {
 				delete element.attributes[ 'data-cke-saved-name' ];
+			}
 		}
 	}
 
@@ -52,9 +54,9 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 			fake.writeHtml( writer );
 			var newElement = CKEDITOR.dom.element.createFromHtml( writer.getHtml(), editor.document );
 
-			if ( isInsertMode )
+			if ( isInsertMode ) {
 				editor.insertElement( newElement );
-			else {
+			} else {
 				newElement.replace( element );
 				editor.getSelection().selectElement( newElement );
 			}
@@ -69,7 +71,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 					type: 'text',
 					bidi: true,
 					label: editor.lang.common.name,
-					'default': '',
+					default: '',
 					setup: function( element ) {
 						this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
 					},
@@ -80,7 +82,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 					type: 'text',
 					label: editor.lang.forms.button.text,
 					accessKey: 'V',
-					'default': '',
+					default: '',
 					setup: function( element ) {
 						this.setValue( element.getAttribute( 'value' ) || '' );
 					},
@@ -90,7 +92,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 					id: 'type',
 					type: 'select',
 					label: editor.lang.forms.button.type,
-					'default': 'button',
+					default: 'button',
 					accessKey: 'T',
 					items: [
 						[ editor.lang.forms.button.typeBtn, 'button' ],

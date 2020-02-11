@@ -8,8 +8,9 @@
  *		load core scripts and their dependencies from _source.
  */
 
-if ( typeof CKEDITOR == 'undefined' )
-	CKEDITOR = {}; // jshint ignore:line
+if ( typeof CKEDITOR == 'undefined' ) {
+	CKEDITOR = {};
+} // jshint ignore:line
 
 if ( !CKEDITOR.loader ) {
 	/**
@@ -21,22 +22,22 @@ if ( !CKEDITOR.loader ) {
 	CKEDITOR.loader = ( function() {
 		// Table of script names and their dependencies.
 		var scripts = {
-			'_bootstrap': [
+			_bootstrap: [
 				'config', 'creators/inline', 'creators/themedui', 'editable', 'ckeditor', 'plugins',
 				'scriptloader', 'style', 'tools', 'promise', 'selection/optimization',
 				// The following are entries that we want to force loading at the end to avoid dependence recursion.
 				'dom/comment', 'dom/elementpath', 'dom/text', 'dom/rangelist', 'skin'
 			],
-			'ckeditor': [
+			ckeditor: [
 				'ckeditor_basic', 'log', 'dom', 'dtd', 'dom/document', 'dom/element', 'dom/iterator', 'editor', 'event',
 				'htmldataprocessor', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter',
 				'htmlparser/basicwriter', 'template', 'tools'
 			],
-			'ckeditor_base': [],
-			'ckeditor_basic': [ 'editor_basic', 'env', 'event' ],
-			'command': [],
-			'config': [ 'ckeditor_base' ],
-			'dom': [],
+			ckeditor_base: [],
+			ckeditor_basic: [ 'editor_basic', 'env', 'event' ],
+			command: [],
+			config: [ 'ckeditor_base' ],
+			dom: [],
 			'dom/comment': [ 'dom/node' ],
 			'dom/document': [ 'dom/node', 'dom/window' ],
 			'dom/documentfragment': [ 'dom/element' ],
@@ -52,19 +53,19 @@ if ( !CKEDITOR.loader ) {
 			'dom/text': [ 'dom/node', 'dom/domobject' ],
 			'dom/walker': [ 'dom/node' ],
 			'dom/window': [ 'dom/domobject' ],
-			'dtd': [ 'tools' ],
-			'editable': [ 'editor', 'tools' ],
-			'editor': [
+			dtd: [ 'tools' ],
+			editable: [ 'editor', 'tools' ],
+			editor: [
 				'command', 'config', 'editor_basic', 'filter', 'focusmanager', 'keystrokehandler', 'lang',
 				'plugins', 'tools', 'ui'
 			],
-			'editor_basic': [ 'event' ],
-			'env': [],
-			'event': [],
-			'filter': [ 'dtd', 'tools' ],
-			'focusmanager': [],
-			'htmldataprocessor': [ 'htmlparser', 'htmlparser/basicwriter', 'htmlparser/fragment', 'htmlparser/filter' ],
-			'htmlparser': [],
+			editor_basic: [ 'event' ],
+			env: [],
+			event: [],
+			filter: [ 'dtd', 'tools' ],
+			focusmanager: [],
+			htmldataprocessor: [ 'htmlparser', 'htmlparser/basicwriter', 'htmlparser/fragment', 'htmlparser/filter' ],
+			htmlparser: [],
 			'htmlparser/comment': [ 'htmlparser', 'htmlparser/node' ],
 			'htmlparser/element': [ 'htmlparser', 'htmlparser/fragment', 'htmlparser/node' ],
 			'htmlparser/fragment': [ 'htmlparser', 'htmlparser/comment', 'htmlparser/text', 'htmlparser/cdata' ],
@@ -73,21 +74,21 @@ if ( !CKEDITOR.loader ) {
 			'htmlparser/filter': [ 'htmlparser' ],
 			'htmlparser/basicwriter': [ 'htmlparser' ],
 			'htmlparser/node': [ 'htmlparser' ],
-			'keystrokehandler': [ 'event' ],
-			'lang': [],
-			'log': [ 'ckeditor_basic' ],
-			'plugins': [ 'resourcemanager' ],
-			'resourcemanager': [ 'scriptloader', 'tools' ],
-			'scriptloader': [ 'dom/element', 'env' ],
-			'selection': [ 'dom/range', 'dom/walker' ],
-			'skin': [],
-			'style': [ 'selection' ],
-			'template': [],
-			'tools': [ 'env' ],
-			'ui': [],
+			keystrokehandler: [ 'event' ],
+			lang: [],
+			log: [ 'ckeditor_basic' ],
+			plugins: [ 'resourcemanager' ],
+			resourcemanager: [ 'scriptloader', 'tools' ],
+			scriptloader: [ 'dom/element', 'env' ],
+			selection: [ 'dom/range', 'dom/walker' ],
+			skin: [],
+			style: [ 'selection' ],
+			template: [],
+			tools: [ 'env' ],
+			ui: [],
 			'creators/themedui': [],
 			'creators/inline': [],
-			'promise': [ 'tools' ],
+			promise: [ 'tools' ],
 			'selection/optimization': [ 'selection' ]
 		};
 
@@ -97,11 +98,12 @@ if ( !CKEDITOR.loader ) {
 		timestamp = ( CKEDITOR && CKEDITOR.timestamp ) || ( new Date() ).valueOf();		// %REMOVE_LINE%
 
 		var getUrl = function( resource ) {
-				if ( CKEDITOR && CKEDITOR.getUrl )
-					return CKEDITOR.getUrl( resource );
+			if ( CKEDITOR && CKEDITOR.getUrl ) {
+				return CKEDITOR.getUrl( resource );
+			}
 
-				return CKEDITOR.basePath + resource + ( resource.indexOf( '?' ) >= 0 ? '&' : '?' ) + 't=' + timestamp;
-			};
+			return CKEDITOR.basePath + resource + ( resource.indexOf( '?' ) >= 0 ? '&' : '?' ) + 't=' + timestamp;
+		};
 
 		var pendingLoad = [];
 
@@ -126,8 +128,9 @@ if ( !CKEDITOR.loader ) {
 			loadPending: function() {
 				var scriptName = pendingLoad.shift();
 
-				if ( !scriptName )
+				if ( !scriptName ) {
 					return;
+				}
 
 				var scriptSrc = getUrl( 'core/' + scriptName + '.js' );
 
@@ -183,13 +186,15 @@ if ( !CKEDITOR.loader ) {
 			 */
 			load: function( scriptName, defer ) {
 				// Check if the script has already been loaded.
-				if ( ( 's:' + scriptName ) in this.loadedScripts )
+				if ( ( 's:' + scriptName ) in this.loadedScripts ) {
 					return;
+				}
 
 				// Get the script dependencies list.
 				var dependencies = scripts[ scriptName ];
-				if ( !dependencies )
+				if ( !dependencies ) {
 					throw 'The script name"' + scriptName + '" is not defined.';
+				}
 
 				// Mark the script as loaded, even before really loading it, to
 				// avoid cross references recursion.
@@ -197,8 +202,9 @@ if ( !CKEDITOR.loader ) {
 				this.loadedScripts[ 's:' + scriptName ] = true;
 
 				// Load all dependencies first.
-				for ( var i = 0; i < dependencies.length; i++ )
+				for ( var i = 0; i < dependencies.length; i++ ) {
 					this.load( dependencies[ i ], true );
+				}
 
 				var scriptSrc = getUrl( 'core/' + scriptName + '.js' );
 
@@ -209,8 +215,9 @@ if ( !CKEDITOR.loader ) {
 				if ( document.body && ( !document.readyState || document.readyState == 'complete' ) ) {
 					pendingLoad.push( scriptName );
 
-					if ( !defer )
+					if ( !defer ) {
 						this.loadPending();
+					}
 				} else {
 					// Append this script to the list of loaded scripts.
 					this.loadedScripts.push( scriptName );

@@ -32,18 +32,20 @@
 		var range = new CKEDITOR.dom.range( root );
 
 		range.setStart( findNode( root, position.sc ), position.so );
-		if ( position.ec )
+		if ( position.ec ) {
 			range.setEnd( findNode( root, position.ec ), position.eo );
-		else
+		} else {
 			range.collapse( true );
+		}
 
 		return range;
 	}
 
 	function findNode( container, query ) {
 		// Special case.
-		if ( query == 'root' )
+		if ( query == 'root' ) {
 			return container;
+		}
 
 		var textQuery = query.indexOf( '#' ) === 0 ? query.slice( 1 ) : false,
 			range = new CKEDITOR.dom.range( container ),
@@ -54,10 +56,11 @@
 		walker = new CKEDITOR.dom.walker( range );
 
 		while ( ( node = walker.next() ) ) {
-			if ( textQuery && node.type == CKEDITOR.NODE_TEXT && node.getText() == textQuery )
+			if ( textQuery && node.type == CKEDITOR.NODE_TEXT && node.getText() == textQuery ) {
 				return node;
-			else if ( !textQuery && node.type == CKEDITOR.NODE_ELEMENT && node.is( query ) )
+			} else if ( !textQuery && node.type == CKEDITOR.NODE_ELEMENT && node.is( query ) ) {
 				return node;
+			}
 		}
 	}
 
@@ -121,7 +124,6 @@
 	tcs[ 'test textMatch' ] = function() {
 		var range = bender.tools.range.setWithHtml( rangeRoot, '<p>Hel{}lo</p>' ),
 			result = CKEDITOR.plugins.textMatch.match( range, function( text, offset ) {
-
 				assert.areEqual( 'Hello', text );
 				assert.areEqual( 3, offset );
 
@@ -142,7 +144,6 @@
 		var html = '<p>' + CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE + 'Hel{}lo</p>',
 			range = bender.tools.range.setWithHtml( rangeRoot, html ),
 			result = CKEDITOR.plugins.textMatch.match( range, function( text, offset ) {
-
 				assert.areEqual( 'Hello', text );
 				assert.areEqual( 3, offset );
 
@@ -160,29 +161,29 @@
 
 	addTestCases( tcs, {
 		getAdjacentTextNodes: {
-			'a0': [ '<p>he.llo</p>', { sc: 'p', so: 0 }, [ 'he', 'llo' ] ],
-			'a1': [ '<p>he.llo</p>', { sc: 'p', so: 1 }, [ 'he', 'llo' ] ],
-			'a2': [ '<p>he.llo</p>', { sc: 'p', so: 2 }, [ 'he', 'llo' ] ],
+			a0: [ '<p>he.llo</p>', { sc: 'p', so: 0 }, [ 'he', 'llo' ] ],
+			a1: [ '<p>he.llo</p>', { sc: 'p', so: 1 }, [ 'he', 'llo' ] ],
+			a2: [ '<p>he.llo</p>', { sc: 'p', so: 2 }, [ 'he', 'llo' ] ],
 
-			'b0': [ '<p>he.ll<i>o</i></p>', { sc: 'p', so: 0 }, [ 'he', 'll' ] ],
-			'b1': [ '<p>he.ll<i>o</i></p>', { sc: 'p', so: 1 }, [ 'he', 'll' ] ],
-			'b2': [ '<p>he.ll<i>o</i></p>', { sc: 'p', so: 2 }, [ 'he', 'll' ] ],
-			'b3': [ '<p>he.ll<i>o</i></p>', { sc: 'p', so: 3 }, [] ],
+			b0: [ '<p>he.ll<i>o</i></p>', { sc: 'p', so: 0 }, [ 'he', 'll' ] ],
+			b1: [ '<p>he.ll<i>o</i></p>', { sc: 'p', so: 1 }, [ 'he', 'll' ] ],
+			b2: [ '<p>he.ll<i>o</i></p>', { sc: 'p', so: 2 }, [ 'he', 'll' ] ],
+			b3: [ '<p>he.ll<i>o</i></p>', { sc: 'p', so: 3 }, [] ],
 
-			'c0': [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 0 }, [ 'he' ] ],
-			'c1': [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 1 }, [ 'he' ] ],
-			'c2': [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 2 }, [ 'o', 'i' ] ],
-			'c3': [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 3 }, [ 'o', 'i' ] ],
-			'c4': [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 4 }, [ 'o', 'i' ] ],
+			c0: [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 0 }, [ 'he' ] ],
+			c1: [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 1 }, [ 'he' ] ],
+			c2: [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 2 }, [ 'o', 'i' ] ],
+			c3: [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 3 }, [ 'o', 'i' ] ],
+			c4: [ '<p>he<i>ll</i>o.i<p>', { sc: 'p', so: 4 }, [ 'o', 'i' ] ],
 
-			'd0': [ '<p><i></i>me.to</p>', { sc: 'p', so: 0 }, [] ],
-			'd1': [ '<p><i></i>me.to</p>', { sc: 'p', so: 1 }, [ 'me', 'to' ] ],
-			'd2': [ '<p><i></i>me.to</p>', { sc: 'p', so: 2 }, [ 'me', 'to' ] ],
-			'd3': [ '<p><i></i>me.to</p>', { sc: 'p', so: 3 }, [ 'me', 'to' ] ],
+			d0: [ '<p><i></i>me.to</p>', { sc: 'p', so: 0 }, [] ],
+			d1: [ '<p><i></i>me.to</p>', { sc: 'p', so: 1 }, [ 'me', 'to' ] ],
+			d2: [ '<p><i></i>me.to</p>', { sc: 'p', so: 2 }, [ 'me', 'to' ] ],
+			d3: [ '<p><i></i>me.to</p>', { sc: 'p', so: 3 }, [ 'me', 'to' ] ],
 
-			'e0': [ '<p><i></i><i></i></p>', { sc: 'p', so: 0 }, [] ],
-			'e1': [ '<p><i></i><i></i></p>', { sc: 'p', so: 1 }, [] ],
-			'e2': [ '<p><i></i><i></i></p>', { sc: 'p', so: 2 }, [] ],
+			e0: [ '<p><i></i><i></i></p>', { sc: 'p', so: 0 }, [] ],
+			e1: [ '<p><i></i><i></i></p>', { sc: 'p', so: 1 }, [] ],
+			e2: [ '<p><i></i><i></i></p>', { sc: 'p', so: 2 }, [] ],
 
 			'#a0': [ '<p>he.llo</p>', { sc: '#he', so: 0 }, [ 'he', 'llo' ] ],
 			'#a1': [ '<p>he.llo</p>', { sc: '#he', so: 1 }, [ 'he', 'llo' ] ],
@@ -225,7 +226,7 @@
 			'single paragraph index 0': [ '<p>{}Hello</p>', { sc: '#Hello', so: 0 }, 'Hello', 0 ],
 			'single paragraph index 3': [ '<p>Hel{}lo</p>', { sc: '#Hello', so: 3 }, 'Hello', 3 ],
 			'single paragraph index 5': [ '<p>Hello{}</p>', { sc: '#Hello', so: 5 }, 'Hello', 5 ],
-			'sophisticated': [ '<p><strong>Foo</strong>Hell{}o<br />You</p>', { sc: '#Hello', so: 4 }, 'Hello', 4 ],
+			sophisticated: [ '<p><strong>Foo</strong>Hell{}o<br />You</p>', { sc: '#Hello', so: 4 }, 'Hello', 4 ],
 
 			'collapsed in text bc offset 1 #1': [ '<p>a.bc</p>', { sc: '#bc', so: 1 }, 'abc', 2 ],
 			'collapsed in text bc offset 1 #2': [ '<p><i>foo</i>a.bc</p>', { sc: '#bc', so: 1 }, 'abc', 2 ],

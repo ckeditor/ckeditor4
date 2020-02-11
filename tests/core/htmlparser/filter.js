@@ -16,9 +16,9 @@ function assertFilter( expectedOutput, input, filter, msg, method ) {
 		method = 'applyTo';
 	}
 
-	if ( method == 'write' )
+	if ( method == 'write' ) {
 		fragment.writeHtml( writer, filter );
-	else {
+	} else {
 		filter.applyTo( fragment );
 		fragment.writeHtml( writer );
 	}
@@ -29,8 +29,9 @@ function assertFilter( expectedOutput, input, filter, msg, method ) {
 function addNormalAndNonEditableRules( filter ) {
 	filter.addRules( {
 		root: function( el ) {
-			if ( el.type == CKEDITOR.NODE_ELEMENT )
+			if ( el.type == CKEDITOR.NODE_ELEMENT ) {
 				el.attributes.roote = '1';
+			}
 		},
 		elements: {
 			$: function( el ) {
@@ -50,8 +51,9 @@ function addNormalAndNonEditableRules( filter ) {
 
 	filter.addRules( {
 		root: function( el ) {
-			if ( el.type == CKEDITOR.NODE_ELEMENT )
+			if ( el.type == CKEDITOR.NODE_ELEMENT ) {
 				el.attributes.rootn = '1';
+			}
 		},
 		elements: {
 			$: function( el ) {
@@ -226,7 +228,7 @@ bender.test( {
 			elementNames: [
 				[ 'c', 'x' ], // 3rd change
 				[ 'a', 'b' ], // 1st change
-				[ 'b', 'c' ]  // 2nd change
+				[ 'b', 'c' ] // 2nd change
 			]
 		} );
 
@@ -266,8 +268,9 @@ bender.test( {
 		filter.addRules( {
 			attributes: {
 				foo: function( value ) {
-					if ( value == 'bom' )
+					if ( value == 'bom' ) {
 						return false;
+					}
 				}
 			}
 		} );
@@ -355,7 +358,7 @@ bender.test( {
 				}
 			},
 			attributes: {
-				'class': function( attrValue ) {
+				class: function( attrValue ) {
 					assert.areSame( 'class1', attrValue );
 					return 'class2';
 				}
@@ -373,7 +376,7 @@ bender.test( {
 				}
 			},
 			attributes: {
-				'class': function( attrValue ) {
+				class: function( attrValue ) {
 					assert.areSame( 'class2', attrValue );
 					return attrValue;
 				}
@@ -396,10 +399,10 @@ bender.test( {
 				'^': function( element ) {
 					element.attributes[ 'data-^' ] = order++;
 				},
-				'$': function( element ) {
+				$: function( element ) {
 					element.attributes[ 'data-$' ] = order++;
 				},
-				'p': function( element ) {
+				p: function( element ) {
 					element.attributes[ 'data-p' ] = order++;
 				}
 			}
@@ -419,8 +422,9 @@ bender.test( {
 			root: function( el ) {
 				els.push( el.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT ? '#frag' : el.name );
 
-				if ( el.type == CKEDITOR.NODE_ELEMENT )
+				if ( el.type == CKEDITOR.NODE_ELEMENT ) {
 					el.attributes[ 'data-filtered' ] = 1;
+				}
 			}
 		} );
 
@@ -724,8 +728,9 @@ bender.test( {
 
 		filter.addRules( {
 			root: function( el ) {
-				if ( el.type == CKEDITOR.NODE_ELEMENT )
+				if ( el.type == CKEDITOR.NODE_ELEMENT ) {
 					el.attributes.roota = '1';
+				}
 			},
 			elements: {
 				$: function( el ) {
@@ -867,11 +872,11 @@ bender.test( {
 
 		filter.addRules( {
 			elements: {
-				'span': function() {
+				span: function() {
 					return new CKEDITOR.htmlParser.text( 'test' );
 				},
 
-				'$': function( el ) {
+				$: function( el ) {
 					el.filterChildren( filter );
 				}
 			},
@@ -891,11 +896,11 @@ bender.test( {
 
 		filter.addRules( {
 			elements: {
-				'span': function() {
+				span: function() {
 					return new CKEDITOR.htmlParser.comment( 'test' );
 				},
 
-				'$': function( el ) {
+				$: function( el ) {
 					el.filterChildren( filter );
 				}
 			},

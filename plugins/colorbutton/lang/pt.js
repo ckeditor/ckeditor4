@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
@@ -7,21 +7,21 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'pt', {
 	bgColorTitle: 'Cor de fundo',
 	colors: {
 		'000': 'Black',
-		'800000': 'Castanho',
+		800000: 'Castanho',
 		'8B4513': 'Saddle Brown',
 		'2F4F4F': 'Cinza lousa escuro',
 		'008080': 'Teal',
 		'000080': 'Azul naval',
 		'4B0082': 'Indigo',
-		'696969': 'Cinza escuro',
+		696969: 'Cinza escuro',
 		B22222: 'Vermelho tijolo',
 		A52A2A: 'Castanho',
 		DAA520: 'Dourado (daa520)',
 		'006400': 'Verde escuro (006400)',
 		'40E0D0': 'Turquesa',
 		'0000CD': 'Azul médio (0000cd)',
-		'800080': 'Purple',
-		'808080': 'Cinza',
+		800080: 'Purple',
+		808080: 'Cinza',
 		F00: 'Vermelho',
 		FF8C00: 'Laranja escuro',
 		FFD700: 'Dourado',
@@ -51,23 +51,23 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'pt', {
 		'3498DB': 'Azul brilhante',
 		'9B59B6': 'Amethyst', // MISSING
 		'4E5F70': 'Azul acinzentado',
-		'F1C40F': 'Amarelo vívido',
+		F1C40F: 'Amarelo vívido',
 		'16A085': 'Ciano escuro',
 		'27AE60': 'Esmeralda escuro',
 		'2980B9': 'Azul forte',
 		'8E44AD': 'Violeta escuro',
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Laranja',
-		'E67E22': 'Cenoura',
-		'E74C3C': 'Vermelho claro',
-		'ECF0F1': 'Prateado brilhante',
+		F39C12: 'Laranja',
+		E67E22: 'Cenoura',
+		E74C3C: 'Vermelho claro',
+		ECF0F1: 'Prateado brilhante',
 		'95A5A6': 'Ciano acinzentado claro',
-		'DDD': 'Cinza claro',
-		'D35400': 'Abóbora',
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Prateado',
+		DDD: 'Cinza claro',
+		D35400: 'Abóbora',
+		C0392B: 'Strong Red', // MISSING
+		BDC3C7: 'Prateado',
 		'7F8C8D': 'Ciano acinzentado',
-		'999': 'Cinza escuro'
+		999: 'Cinza escuro'
 	},
 	more: 'Mais cores...',
 	panelTitle: 'Cores',

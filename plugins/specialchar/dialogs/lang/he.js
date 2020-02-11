@@ -106,16 +106,16 @@ CKEDITOR.plugins.setLang( 'specialchar', 'he', {
 	yuml: 'Latin small letter y with diaeresis', // MISSING
 	OElig: 'Latin capital ligature OE', // MISSING
 	oelig: 'Latin small ligature oe', // MISSING
-	'372': 'Latin capital letter W with circumflex', // MISSING
-	'374': 'Latin capital letter Y with circumflex', // MISSING
-	'373': 'Latin small letter w with circumflex', // MISSING
-	'375': 'Latin small letter y with circumflex', // MISSING
+	372: 'Latin capital letter W with circumflex', // MISSING
+	374: 'Latin capital letter Y with circumflex', // MISSING
+	373: 'Latin small letter w with circumflex', // MISSING
+	375: 'Latin small letter y with circumflex', // MISSING
 	sbquo: 'סימן ציטוט נמוך יחיד',
-	'8219': 'סימן ציטוט',
+	8219: 'סימן ציטוט',
 	bdquo: 'סימן ציטוט נמוך כפול',
 	hellip: 'שלוש נקודות',
 	trade: 'סימן טריידמארק',
-	'9658': 'סמן שחור לצד ימין',
+	9658: 'סמן שחור לצד ימין',
 	bull: 'תבליט (רשימה)',
 	rarr: 'חץ לימין',
 	rArr: 'חץ כפול לימין',

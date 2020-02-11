@@ -265,7 +265,7 @@
 				t.i( '<ul><li>x<ul><li>x[x<ol><li>y]y</li></ol></li></ul></li><li>x</li></ul>',					'First indent creates 2nd level nesting.' );
 				t.s( 2, 2 );
 				t.i( '<ul><li>x<ul style="margin-left:10px;"><li>x[x<ol><li>y]y</li></ol></li></ul></li><li>x</li></ul>',
-																												'Second indent is margin to 1st level nested list.' );
+					'Second indent is margin to 1st level nested list.' );
 				t.s( 2, 2 );
 				t.o( '<ul><li>x<ul><li>x[x<ol><li>y]y</li></ol></li></ul></li><li>x</li></ul>',					'Outdent margin back.' );
 				t.s( 2, 2 );
@@ -282,13 +282,13 @@
 
 				t.s( 2, 2 );
 				t.i( '<ul style="margin-left:10px;"><li>x[x</li><li>xx<ol><li>y]y</li></ol></li><li>x</li></ul>',
-																												'First indent increases margin.' );
+					'First indent increases margin.' );
 				t.s( 2, 2 );
 				t.i( '<ul style="margin-left:20px;"><li>x[x</li><li>xx<ol><li>y]y</li></ol></li><li>x</li></ul>',
-																												'Second indent increases margin.' );
+					'Second indent increases margin.' );
 				t.s( 2, 2 );
 				t.o( '<ul style="margin-left:10px;"><li>x[x</li><li>xx<ol><li>y]y</li></ol></li><li>x</li></ul>',
-																												'First outdent reduces margin.' );
+					'First outdent reduces margin.' );
 				t.s( 2, 2 );
 				t.o( '<ul><li>x[x</li><li>xx<ol><li>y]y</li></ol></li><li>x</li></ul>',							'Second outdent reduces margin.' );
 				t.s( 2, 2 );
@@ -322,13 +322,13 @@
 
 				t.s( 2, 0 );
 				t.i( '<p style="margin-left:10px;">[x</p><ul><li><p style="margin-left:10px;">x</p></li><li><p style="margin-left:10px;">y</p></li></ul><p style="margin-left:10px;">x]</p>',
-																												'Indent it once.' );
+					'Indent it once.' );
 				t.s( 2, 2 );
 				t.i( '<p style="margin-left:20px;">[x</p><ul><li><p style="margin-left:20px;">x</p></li><li><p style="margin-left:20px;">y</p></li></ul><p style="margin-left:20px;">x]</p>',
-																												'Indent it twice.' );
+					'Indent it twice.' );
 				t.s( 2, 2 );
 				t.o( '<p style="margin-left:10px;">[x</p><ul><li><p style="margin-left:10px;">x</p></li><li><p style="margin-left:10px;">y</p></li></ul><p style="margin-left:10px;">x]</p>',
-																												'Outdent it back.' );
+					'Outdent it back.' );
 				t.s( 2, 2 );
 				t.o( '<p>[x</p><ul><li><p>x</p></li><li><p>y</p></li></ul><p>x]</p>',							'Outdent it back again.' );
 				t.s( 2, 0 );
@@ -341,13 +341,13 @@
 
 				t.s( 2, 0 );
 				t.i( '<p style="margin-left:10px;">x[x</p><ul><li><p style="margin-left:10px;">x]</p></li><li>y</li></ul>',
-																												'Indent it once.' );
+					'Indent it once.' );
 				t.s( 2, 2 );
 				t.i( '<p style="margin-left:20px;">x[x</p><ul><li><p style="margin-left:20px;">x]</p></li><li>y</li></ul>',
-																												'Indent it twice.' );
+					'Indent it twice.' );
 				t.s( 2, 2 );
 				t.o( '<p style="margin-left:10px;">x[x</p><ul><li><p style="margin-left:10px;">x]</p></li><li>y</li></ul>',
-																												'Outdent it back.' );
+					'Outdent it back.' );
 				t.s( 2, 2 );
 				t.o( '<p>x[x</p><ul><li><p>x]</p></li><li>y</li></ul>',											'Outdent it back again.' );
 				t.s( 2, 0 );
@@ -430,16 +430,16 @@
 
 				t.s( 2, 0 );
 				t.i( '<table><tbody><tr><td><p style="margin-left:10px;">y^</p></td><td>&nbsp;</td></tr></tbody></table>',
-																												'Indent it once.' );
+					'Indent it once.' );
 				t.s( 2, 2 );
 				t.i( '<table><tbody><tr><td><p style="margin-left:20px;">y^</p></td><td>&nbsp;</td></tr></tbody></table>',
-																												'Indent it twice.' );
+					'Indent it twice.' );
 				t.s( 2, 2 );
 				t.o( '<table><tbody><tr><td><p style="margin-left:10px;">y^</p></td><td>&nbsp;</td></tr></tbody></table>',
-																												'Outdent it back.' );
+					'Outdent it back.' );
 				t.s( 2, 2 );
 				t.o( '<table><tbody><tr><td><p>y^</p></td><td>&nbsp;</td></tr></tbody></table>',
-																												'Outdent it back again.' );
+					'Outdent it back again.' );
 				t.s( 2, 0 );
 			} );
 		},
@@ -451,18 +451,18 @@
 				t.s( 2, 0 );
 				t.i( '<p style="margin-left:10px;">[x</p><table><tbody><tr><td><p style="margin-left:10px;">y</p></td>' +
 					'<td style="margin-left:10px;">&nbsp;</td></tr></tbody></table><p style="margin-left:10px;">z]</p>',
-																												'Indent it once.' );
+				'Indent it once.' );
 				t.s( 2, 2 );
 				t.i( '<p style="margin-left:20px;">[x</p><table><tbody><tr><td><p style="margin-left:20px;">y</p></td>' +
 					'<td style="margin-left:20px;">&nbsp;</td></tr></tbody></table><p style="margin-left:20px;">z]</p>',
-																												'Indent it twice.' );
+				'Indent it twice.' );
 				t.s( 2, 2 );
 				t.o( '<p style="margin-left:10px;">[x</p><table><tbody><tr><td><p style="margin-left:10px;">y</p></td>' +
 					'<td style="margin-left:10px;">&nbsp;</td></tr></tbody></table><p style="margin-left:10px;">z]</p>',
-																												'Outdent it back.' );
+				'Outdent it back.' );
 				t.s( 2, 2 );
 				t.o( '<p>[x</p><table><tbody><tr><td><p>y</p></td><td>&nbsp;</td></tr></tbody></table><p>z]</p>',
-																												'Outdent it back again.' );
+					'Outdent it back again.' );
 				t.s( 2, 0 );
 			} );
 		},

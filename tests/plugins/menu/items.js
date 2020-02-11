@@ -79,17 +79,17 @@ bender.test( {
 
 	'test menuitemcheckbox role': function() {
 		var definition = {
-				role: 'menuitemcheckbox'
-			};
+			role: 'menuitemcheckbox'
+		};
 
 		this._testMenuItemRender( 'menuitemcheckbox', definition );
 	},
 
 	'test menuitemcheckbox sate OFF': function() {
 		var definition = {
-				role: 'menuitemcheckbox',
-				state: CKEDITOR.TRISTATE_ON
-			};
+			role: 'menuitemcheckbox',
+			state: CKEDITOR.TRISTATE_ON
+		};
 
 		this._testMenuItemRender( 'menuitemcheckbox', definition, function( html ) {
 			this._assertAriaChecked( true, html );
@@ -98,9 +98,9 @@ bender.test( {
 
 	'test menuitemcheckbox state ON': function() {
 		var definition = {
-				role: 'menuitemcheckbox',
-				state: CKEDITOR.TRISTATE_OFF
-			};
+			role: 'menuitemcheckbox',
+			state: CKEDITOR.TRISTATE_OFF
+		};
 
 		this._testMenuItemRender( 'menuitemcheckbox', definition, function( html ) {
 			this._assertAriaChecked( false, html );
@@ -109,8 +109,8 @@ bender.test( {
 
 	'test menuitemcheckbox undefined state': function() {
 		var definition = {
-				role: 'menuitemcheckbox'
-			};
+			role: 'menuitemcheckbox'
+		};
 
 		this._testMenuItemRender( 'menuitemcheckbox', definition, function( html ) {
 			this._assertAriaChecked( false, html );
@@ -119,16 +119,16 @@ bender.test( {
 
 	'test menuitemradio role': function() {
 		var definition = {
-				role: 'menuitemradio'
-			};
+			role: 'menuitemradio'
+		};
 		this._testMenuItemRender( 'menuitemradio', definition );
 	},
 
 	'test menuitemradio state ON': function() {
 		var definition = {
-				role: 'menuitemradio',
-				state: CKEDITOR.TRISTATE_ON
-			};
+			role: 'menuitemradio',
+			state: CKEDITOR.TRISTATE_ON
+		};
 
 		this._testMenuItemRender( 'menuitemradio', definition, function( html ) {
 			this._assertAriaChecked( true, html );

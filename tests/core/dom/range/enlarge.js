@@ -23,11 +23,11 @@
 		// @param Node startContainer
 		// @param Node [endContainer] If not given will be set to startContainer.
 		assertRangeContainers: function( range, startOffset, endOffset, startContainer, endContainer ) {
-
 			assert.isInstanceOf( CKEDITOR.dom.range, range, 'assertRangeContainers: range parameter has invalid type, should be instance of CKEDITOR.dom.range' );
 
-			if ( typeof endContainer == 'undefined' )
+			if ( typeof endContainer == 'undefined' ) {
 				endContainer = startContainer;
+			}
 
 			// do asserts...
 			assert.areSame( startContainer, range.startContainer.$, 'range.startContainer' );
@@ -40,8 +40,9 @@
 		// https://dev.ckeditor.com/ticket/8732
 		'test enlarge element (HTML comments)': function() {
 			// IE9+Compat throws exception with the below content.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
+			}
 
 			var ct = CKEDITOR.document.getById( '_EnlargeP19' ),
 				ranges = bender.tools.setHtmlWithRange( ct, '<!-- foo --><p><strong>foo</strong></p><p>[bar]</p><!--bar-->' );
@@ -104,8 +105,7 @@
 				assert.areSame( document.getElementById( '_EnlargeP4' ), range.endContainer.$, 'range.endContainer' );
 				assert.areSame( 2, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			}
-			:
+			}			:
 			function() {
 				// <p>Test <i> [Enlarge</i>]</p>
 				// <p>Test [<i> Enlarge</i>]</p>
@@ -234,10 +234,11 @@
 			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
 			// IE8 has its ways to select
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 				this.assertRangeContainers( range, 1, 2, doc.getById( '_EnlargeP22' ).$, expectedSelectContainer );
-			else
+			} else {
 				this.assertRangeContainers( range, 1, 2, expectedSelectContainer, expectedSelectContainer );
+			}
 		},
 
 		'test enlarge with whitespaced contenteditable as preceding item': function() {
@@ -251,10 +252,11 @@
 
 			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 				this.assertRangeContainers( range, 1, 2, doc.getById( '_EnlargeP24' ).$, expectedSelectContainer );
-			else
+			} else {
 				this.assertRangeContainers( range, 1, 2, expectedSelectContainer, expectedSelectContainer );
+			}
 		},
 
 		'test enlarge with contenteditable as preceding item': function() {

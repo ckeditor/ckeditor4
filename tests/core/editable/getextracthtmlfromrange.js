@@ -105,21 +105,22 @@
 		};
 	}
 
-// # '@' meaning in HTML patterns
-//
-// pattern				|	needs br filler					|	needs nbsp filler
-// ------------------------------------------------------------------------------------------------------------
-// input HTML	|	@	|	<br>							|	nothing						(we use it to simulate bogus <br> in non-empty blocks)
-// ------------------------------------------------------------------------------------------------------------
-// output HTML	|	@	|	like compareInnerHtml (accept)	|	like compareInnerHtml		(we use it for uncertain cases)
-//				|	@!	|	like compareInnerHtml (expect)	|	like compareInnerHtml		(we use it for empty blocks)
+	// # '@' meaning in HTML patterns
+	//
+	// pattern				|	needs br filler					|	needs nbsp filler
+	// ------------------------------------------------------------------------------------------------------------
+	// input HTML	|	@	|	<br>							|	nothing						(we use it to simulate bogus <br> in non-empty blocks)
+	// ------------------------------------------------------------------------------------------------------------
+	// output HTML	|	@	|	like compareInnerHtml (accept)	|	like compareInnerHtml		(we use it for uncertain cases)
+	//				|	@!	|	like compareInnerHtml (expect)	|	like compareInnerHtml		(we use it for empty blocks)
 
 	tests = {
 		init: function() {
 			this.editables = {};
 
-			for ( var e in this.editors )
+			for ( var e in this.editors ) {
 				this.editables[ e ] = this.editors[ e ].editable();
+			}
 		},
 
 		'test node markers are cleared': function() {
@@ -137,7 +138,7 @@
 	};
 
 	addTests( {
-		'block': [
+		block: [
 			[ '<p>{a}</p>',															'a',															'<p>[]@!</p>' ],
 			[ '<p>a{b}</p>',														'b',															'<p>a[]</p>' ],
 			[ '<p>{a}b</p>',														'a',															'<p>[]b</p>' ],
@@ -164,7 +165,7 @@
 			[ '<h1>{abc</h1><p><strong>de</strong>gh}<strong>jl</strong>mn</p>',	'<h1>abc</h1><p><strong>de</strong>gh</p>',						'<h1>[]<strong>jl</strong>mn</h1>' ]
 		],
 
-		'inline': [
+		inline: [
 			[ '<p>a<b>{b}</b>c</p>',												'<b>b</b>',														'<p>a[]c</p>' ],
 			[ '<p>a<b>b{c}d</b>e</p>',												'<b>c</b>',														'<p>a<b>b[]d</b>e</p>' ],
 			[ '<p><b>{a}</b></p>',													'<b>a</b>',														'<p>[]@!</p>' ],
@@ -193,7 +194,7 @@
 			[ '<p>a<b class="a">{b</b>c<b class="b">d}</b>e</p>',					'<b class="a">b</b>c<b class="b">d</b>',						'<p>a[]e</p>' ]
 		],
 
-		'bogus': [
+		bogus: [
 			[ '<p>{a}@</p>',														'a',															'<p>[]@!</p>' ],
 			[ '<p>{a@]</p>',														'a',															'<p>[]@!</p>' ],
 			[ '<p><b>{a}</b>@</p>',													'<b>a</b>',														'<p>[]@!</p>' ],
@@ -206,12 +207,12 @@
 		],
 
 		// (https://dev.ckeditor.com/ticket/13101)
-		'html5': [
+		html5: [
 			[ '<div>[<figure>img</figure>]</div>',											'<figure>img</figure>',											'<div>[]@!</div>' ],
 			[ '<div>[<div><figure>img<figcaption>cap</figcaption></figure></div>]</div>',	'<div><figure>img<figcaption>cap</figcaption></figure></div>',	'<div>[]@!</div>' ]
 		],
 
-		'tables': [
+		tables: [
 			// #1
 			[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>',				'a',															'<table><tbody><tr><td>[]@!</td></tr></tbody></table>' ],
 			// #2
@@ -321,7 +322,7 @@
 				'<table><tbody><tr><td>ab<table><tbody><tr><td>[]@!</td></tr></tbody></table>ef</td></tr></tbody></table>' ]
 		],
 
-		'lists': [
+		lists: [
 			[ '<ol><li>a{b}c</li></ol>',											'b',															'<ol><li>a[]c</li></ol>' ],
 			[ '<ol><li>{a}</li></ol>',												'a',															'<ol><li>[]@!</li></ol>' ],
 			[ '<div><ol><li>{a}</li></ol></div>',									'a',															'<div><ol><li>[]@!</li></ol></div>' ],
@@ -352,7 +353,7 @@
 	}, 'inline' );
 
 	addTests( {
-		'header': [
+		header: [
 			[ '{a}',																'a',															'[]@' ],
 			[ 'a<b>{b}</b>c',														'<b>b</b>',														'a[]c' ],
 			[ '{a<b>b</b>c}',														'a<b>b</b>c',													'[]@' ],
@@ -368,7 +369,7 @@
 
 	// With removeEmptyBlock = true.
 	addTests( {
-		'block': [
+		block: [
 			[ '<p>a</p>[<p>b</p>]<p>c</p>',											'<p>b</p>',														'<p>a</p><p>c</p>' ],
 			[ '<p>a</p><p>[b]</p><p>c</p>',											'b',															'<p>a</p><p>c</p>' ],
 			[ '<p>a</p>[<p>b</p>]',													'<p>b</p>',														'<p>a</p>' ],

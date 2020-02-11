@@ -9,9 +9,9 @@
 
 ( function() {
 	// Disable HC detection in WebKit. (https://dev.ckeditor.com/ticket/5429)
-	if ( CKEDITOR.env.webkit )
+	if ( CKEDITOR.env.webkit ) {
 		CKEDITOR.env.hc = false;
-	else {
+	} else {
 		// Check whether high contrast is active by creating a colored border.
 		var hcDetect = CKEDITOR.dom.element.createFromHtml( '<div style="width:0;height:0;position:absolute;left:-10000px;' +
 			'border:1px solid;border-color:red blue"></div>', CKEDITOR.document );
@@ -34,8 +34,9 @@
 		hcDetect.remove();
 	}
 
-	if ( CKEDITOR.env.hc )
+	if ( CKEDITOR.env.hc ) {
 		CKEDITOR.env.cssClass += ' cke_hc';
+	}
 
 	// Initially hide UI spaces when relevant skins are loading, later restored by skin css.
 	CKEDITOR.document.appendStyleText( '.cke{visibility:hidden;}' );

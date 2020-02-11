@@ -26,7 +26,7 @@
 			'word2013'
 		],
 		tests: {
-			'Page_break': true
+			Page_break: true
 		},
 		testData: {
 			_should: {

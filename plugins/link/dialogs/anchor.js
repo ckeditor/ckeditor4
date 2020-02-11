@@ -6,9 +6,9 @@
 CKEDITOR.dialog.add( 'anchor', function( editor ) {
 	// Function called in onShow to load selected element.
 	var loadElements = function( element ) {
-			var attributeValue = element.data( 'cke-saved-name' );
-			this.setValueOf( 'info', 'txtName', attributeValue || '' );
-		};
+		var attributeValue = element.data( 'cke-saved-name' );
+		this.setValueOf( 'info', 'txtName', attributeValue || '' );
+	};
 
 	function createFakeAnchor( editor, attributes ) {
 		return editor.createFakeElement( editor.document.createElement( 'a', {
@@ -73,8 +73,9 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					var anchor = createFakeAnchor( editor, attributes );
 					range.insertNode( anchor );
 				} else {
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 						attributes[ 'class' ] = 'cke_anchor';
+					}
 
 					// Apply style.
 					var style = new CKEDITOR.style( { element: 'a', attributes: attributes } );

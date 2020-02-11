@@ -61,27 +61,27 @@
 	}
 
 	var tests = {
-			setUp: function() {
-				bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
-			},
-			'test the copied image to table shoud be initialized (collapsed selection)': function( editor, bot ) {
-				bot.setHtmlWithSelection( '<table border="1"><tbody><tr><td>Cel^l</td></tr></tbody></table>' );
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
+		'test the copied image to table shoud be initialized (collapsed selection)': function( editor, bot ) {
+			bot.setHtmlWithSelection( '<table border="1"><tbody><tr><td>Cel^l</td></tr></tbody></table>' );
 
-				editor.undoManager.reset();
-				pasteImage( editor, function() {
-					testUndo( editor, [ 0 ] );
-				} );
-			},
+			editor.undoManager.reset();
+			pasteImage( editor, function() {
+				testUndo( editor, [ 0 ] );
+			} );
+		},
 
-			'test the copied image to table shoud be initialized (multiple selection)': function( editor, bot ) {
-				bot.setHtmlWithSelection( '<table border="1"><tbody><tr>[<td>Cell 1</td>][<td>Cell 2</td>]</tr></tbody></table>' );
+		'test the copied image to table shoud be initialized (multiple selection)': function( editor, bot ) {
+			bot.setHtmlWithSelection( '<table border="1"><tbody><tr>[<td>Cell 1</td>][<td>Cell 2</td>]</tr></tbody></table>' );
 
-				editor.undoManager.reset();
-				pasteImage( editor, function() {
-					testUndo( editor, [ 0, 1 ] );
-				} );
-			}
-		};
+			editor.undoManager.reset();
+			pasteImage( editor, function() {
+				testUndo( editor, [ 0, 1 ] );
+			} );
+		}
+	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 

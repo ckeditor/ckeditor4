@@ -66,8 +66,9 @@
 							next = new CKEDITOR.dom.element( next );
 							resultRange.moveToElementEditStart( next );
 							// Avoid selecting empty block makes the cursor blind.
-							if ( !( resultRange.checkStartOfBlock() && resultRange.checkEndOfBlock() ) )
+							if ( !( resultRange.checkStartOfBlock() && resultRange.checkEndOfBlock() ) ) {
 								resultRange.selectNodeContents( next );
+							}
 						} else {
 							return true;
 						}
@@ -88,8 +89,9 @@
 				tabSpaces = editor.config.tabSpaces || 0,
 				tabText = '';
 
-			while ( tabSpaces-- )
+			while ( tabSpaces-- ) {
 				tabText += '\xa0';
+			}
 
 			if ( tabText ) {
 				editor.on( 'key', function( ev ) {
@@ -105,7 +107,9 @@
 				editor.on( 'key', function( ev ) {
 					if ( ev.data.keyCode == 9 && editor.execCommand( 'selectNextCell' ) || // TAB
 					ev.data.keyCode == ( CKEDITOR.SHIFT + 9 ) && editor.execCommand( 'selectPreviousCell' ) ) // SHIFT+TAB
-					ev.cancel();
+					{
+						ev.cancel();
+					}
 				} );
 			}
 
@@ -161,8 +165,9 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
 
 					// Ignore this element, if required.
 					if ( ignoreChildren ) {
-						if ( !( element = element.getNextSourceNode( true, CKEDITOR.NODE_ELEMENT ) ) )
+						if ( !( element = element.getNextSourceNode( true, CKEDITOR.NODE_ELEMENT ) ) ) {
 							break;
+						}
 						passedCurrent = 1;
 					}
 				} else if ( enteredCurrent && !this.contains( element ) ) {
@@ -170,8 +175,9 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
 				}
 			}
 
-			if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 )
+			if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 ) {
 				continue;
+			}
 
 			if ( passedCurrent && elementTabIndex == curTabIndex ) {
 				elected = element;
@@ -188,8 +194,9 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
 		}
 	}
 
-	if ( elected )
+	if ( elected ) {
 		elected.focus();
+	}
 };
 
 /**
@@ -217,8 +224,9 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 
 				// Ignore this element, if required.
 				if ( ignoreChildren ) {
-					if ( !( element = element.getPreviousSourceNode( true, CKEDITOR.NODE_ELEMENT ) ) )
+					if ( !( element = element.getPreviousSourceNode( true, CKEDITOR.NODE_ELEMENT ) ) ) {
 						break;
+					}
 					passedCurrent = 1;
 				}
 			} else if ( enteredCurrent && !this.contains( element ) ) {
@@ -226,8 +234,9 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 			}
 		}
 
-		if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 )
+		if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 ) {
 			continue;
+		}
 
 		if ( curTabIndex <= 0 ) {
 			// If this element has tabindex <= 0 then we must look for:
@@ -261,8 +270,9 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 		}
 	}
 
-	if ( elected )
+	if ( elected ) {
 		elected.focus();
+	}
 };
 
 /**

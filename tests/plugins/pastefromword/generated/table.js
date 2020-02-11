@@ -24,8 +24,8 @@
 			'office365'
 		],
 		tests: {
-			'Table_word': true,
-			'Table_excel': true
+			Table_word: true,
+			Table_excel: true
 		},
 		testData: {
 			_should: {
@@ -35,7 +35,7 @@
 					'test Table_word office365 edge': !CKEDITOR.env.edge,
 					'test Table_excel office365 edge': !CKEDITOR.env.edge,
 					'test Table_word office365 ie': !CKEDITOR.env.ie || CKEDITOR.env.edge,
-					'test Table_excel office365 ie':  !CKEDITOR.env.ie || CKEDITOR.env.edge
+					'test Table_excel office365 ie': !CKEDITOR.env.ie || CKEDITOR.env.edge
 				}
 			}
 		},

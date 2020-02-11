@@ -34,8 +34,9 @@
 
 		this._createModifier( config ? this.actualConfig : undefined );
 
-		if ( typeof callback === 'function' )
+		if ( typeof callback === 'function' ) {
 			callback( this.mainContainer );
+		}
 	};
 
 	/**
@@ -63,12 +64,12 @@
 
 		if ( CKEDITOR.tools.isArray( toolbarCfg ) ) {
 			var stringifiedToolbar = '[\n\t\t' + FullToolbarEditor.map( toolbarCfg, function( json ) {
-					return AbstractToolbarModifier.stringifyJSONintoOneLine( json, {
-						addSpaces: true,
-						noQuotesOnKey: true,
-						singleQuotes: true
-					} );
-				} ).join( ',\n\t\t' ) + '\n\t]';
+				return AbstractToolbarModifier.stringifyJSONintoOneLine( json, {
+					addSpaces: true,
+					noQuotesOnKey: true,
+					singleQuotes: true
+				} );
+			} ).join( ',\n\t\t' ) + '\n\t]';
 
 			cfgValue = '\tconfig.toolbar = ' + stringifiedToolbar + ';';
 		} else {
@@ -77,7 +78,7 @@
 
 		cfgValue = [
 			'CKEDITOR.editorConfig = function( config ) {\n',
-				cfgValue,
+			cfgValue,
 			'\n};'
 		].join( '' );
 
@@ -96,13 +97,15 @@
 
 			// determine that we are at beginning of group,
 			// so first key is "name"
-			if ( prevToken.string === '{' )
+			if ( prevToken.string === '{' ) {
 				unused = [ 'name' ];
+			}
 
 			// preventing close with special character and move cursor forward
 			// when no autocomplete
-			if ( unused.length === 0 )
+			if ( unused.length === 0 ) {
 				return;
+			}
 
 			return new HintData( from, to, unused );
 		}
@@ -182,8 +185,8 @@
 			tabSize: 4,
 			theme: 'neo',
 			extraKeys: {
-				'Left': complete,
-				'Right': complete,
+				Left: complete,
+				Right: complete,
 				"'''": complete,
 				"'\"'": complete,
 				Backspace: complete,
@@ -197,8 +200,9 @@
 
 			// preventing close with special character and move cursor forward
 			// when no autocomplete
-			if ( completionData === undefined )
+			if ( completionData === undefined ) {
 				return;
+			}
 
 			cm.replaceSelection( data.endChar );
 		} );
@@ -206,7 +210,7 @@
 		this.codeContainer.on( 'change', function() {
 			var value = that.codeContainer.getValue();
 
-			value =  that._evaluateValue( value );
+			value = that._evaluateValue( value );
 
 			if ( value !== null ) {
 				that.actualConfig.toolbar = ( value.toolbar ? value.toolbar : that.actualConfig.toolbar );
@@ -244,10 +248,10 @@
 
 			return [
 				'<dt>',
-					'<code>', elem.name, '</code>',
+				'<code>', elem.name, '</code>',
 				'</dt>',
 				'<dd>',
-					buttonsList,
+				buttonsList,
 				'</dd>'
 			].join( '' );
 		} ).join( ' ' );
@@ -275,7 +279,7 @@
 	ToolbarTextModifier.prototype.getToolbarGroupByButtonName = function( buttonName ) {
 		var buttonNames = this.fullToolbarEditor.buttonNamesByGroup;
 
-		for ( var groupName in  buttonNames ) {
+		for ( var groupName in buttonNames ) {
 			var buttons = buttonNames[ groupName ];
 
 			var i = buttons.length;
@@ -284,7 +288,6 @@
 					return groupName;
 				}
 			}
-
 		}
 
 		return null;
@@ -316,8 +319,9 @@
 			return CKEDITOR.tools.indexOf( providedElements, elem ) == -1;
 		} );
 
-		if ( sorted )
+		if ( sorted ) {
 			elementsNotUsed.sort();
+		}
 
 		return elementsNotUsed;
 	};
@@ -343,7 +347,6 @@
 					buttons: currGroup
 				} );
 			}
-
 		}
 
 		return result;
@@ -369,8 +372,9 @@
 
 		var max = toolbar.length;
 		for ( var i = 0; i < max; i += 1 ) {
-			if ( !toolbar[ i ] || typeof toolbar[ i ] === 'string' )
+			if ( !toolbar[ i ] || typeof toolbar[ i ] === 'string' ) {
 				continue;
+			}
 
 			elements = elements.concat( FullToolbarEditor.filter( toolbar[ i ].items, checker ) );
 		}
@@ -390,12 +394,14 @@
 		cfg = cfg || this.editorInstance.config;
 
 		// if toolbar already exists in config, there is nothing to do
-		if ( CKEDITOR.tools.isArray( cfg.toolbar ) )
+		if ( CKEDITOR.tools.isArray( cfg.toolbar ) ) {
 			return;
+		}
 
 		// if toolbar group not present, we need to pick them from full toolbar instance
-		if ( !cfg.toolbarGroups )
+		if ( !cfg.toolbarGroups ) {
 			cfg.toolbarGroups = this.fullToolbarEditor.getFullToolbarGroupsConfig( true );
+		}
 
 		this._fixGroups( cfg );
 
@@ -432,9 +438,9 @@
 				continue;
 			}
 
-			if ( typeof mappedSubgroup == 'string' )
+			if ( typeof mappedSubgroup == 'string' ) {
 				toolbarGroups[ i ] = mappedSubgroup;
-			else {
+			} else {
 				toolbarGroups[ i ] = {
 					name: toolbarGroups[ i ].name,
 					items: mappedSubgroup
@@ -454,8 +460,9 @@
 	 */
 	ToolbarTextModifier.prototype._mapToolbarSubgroup = function( group, removedBtns ) {
 		var totalBtns = 0;
-		if ( typeof group == 'string' )
+		if ( typeof group == 'string' ) {
 			return group;
+		}
 
 		var max = group.groups ? group.groups.length : 0,
 			result = [];
@@ -468,12 +475,14 @@
 			totalBtns += currTotalBtns;
 			result = result.concat( buttons );
 
-			if ( currTotalBtns )
+			if ( currTotalBtns ) {
 				result.push( '-' );
+			}
 		}
 
-		if ( result[ result.length - 1 ] == '-' )
+		if ( result[ result.length - 1 ] == '-' ) {
 			result.pop();
+		}
 
 		return result;
 	};
@@ -528,9 +537,11 @@
 			// CKEditor does not handle empty arrays in configuration files
 			// on IE8
 			var i = parsed.toolbar.length;
-			while ( i-- )
-				if ( !parsed.toolbar[ i ] ) parsed.toolbar.splice( i, 1 );
-
+			while ( i-- ) {
+				if ( !parsed.toolbar[ i ] ) {
+					parsed.toolbar.splice( i, 1 );
+				}
+			}
 		} catch ( e ) {
 			parsed = null;
 		}

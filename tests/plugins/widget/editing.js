@@ -616,8 +616,9 @@
 
 				data: function() {
 					// Trigger transformation after closing dialog.
-					if ( editFired === 0 )
+					if ( editFired === 0 ) {
 						return;
+					}
 
 					// Control whether test case works correctly.
 					assert.isFalse( editor.editable().contains( this.element ), 'widget has not been inserted yet' );

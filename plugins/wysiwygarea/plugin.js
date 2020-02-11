@@ -48,15 +48,17 @@
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
 				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
-				if ( useOnloadEvent )
+				if ( useOnloadEvent ) {
 					iframe.on( 'load', onLoad );
+				}
 
 				var frameLabel = editor.title,
 					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
 
 				if ( frameLabel ) {
-					if ( CKEDITOR.env.ie && helpLabel )
+					if ( CKEDITOR.env.ie && helpLabel ) {
 						frameLabel += ', ' + helpLabel;
+					}
 
 					iframe.setAttribute( 'title', frameLabel );
 				}
@@ -72,8 +74,9 @@
 				// Remove the ARIA description.
 				editor.on( 'beforeModeUnload', function( evt ) {
 					evt.removeListener();
-					if ( desc )
+					if ( desc ) {
 						desc.remove();
+					}
 				} );
 
 				iframe.setAttributes( {
@@ -117,8 +120,9 @@
 			curContentsCss = cfg.contentsCss;
 
 		// Convert current value into array.
-		if ( !CKEDITOR.tools.isArray( curContentsCss ) )
+		if ( !CKEDITOR.tools.isArray( curContentsCss ) ) {
 			cfg.contentsCss = curContentsCss ? [ curContentsCss ] : [];
+		}
 
 		cfg.contentsCss.push( cssPath );
 	};
@@ -175,7 +179,7 @@
 			removeSuperfluousElement( 'p' );
 		}
 		// Starting from Edge 15 additional `div` is not added to the editor.
-		else if ( CKEDITOR.env.edge && CKEDITOR.env.version < 15 && editor.enterMode != CKEDITOR.ENTER_DIV  ) {
+		else if ( CKEDITOR.env.edge && CKEDITOR.env.version < 15 && editor.enterMode != CKEDITOR.ENTER_DIV ) {
 			removeSuperfluousElement( 'div' );
 		}
 
@@ -261,13 +265,15 @@
 		// [IE] JAWS will not recognize the aria label we used on the iframe
 		// unless the frame window title string is used as the voice label,
 		// backup the original one and restore it on output.
-		if ( CKEDITOR.env.ie )
+		if ( CKEDITOR.env.ie ) {
 			editor.document.$.title = this._.docTitle;
+		}
 
 		CKEDITOR.tools.setTimeout( function() {
 			// Editable is ready after first setData.
-			if ( this.status == 'unloaded' )
+			if ( this.status == 'unloaded' ) {
 				this.status = 'ready';
+			}
 
 			editor.fire( 'contentDom' );
 
@@ -343,8 +349,7 @@
 					// Fire dataReady for the consistency with inline editors
 					// and because it makes sense. (https://dev.ckeditor.com/ticket/10370)
 					editor.fire( 'dataReady' );
-				}
-				else {
+				} else {
 					this._.isLoadingData = true;
 					editor._.dataStore = { id: 1 };
 
@@ -355,8 +360,9 @@
 					// Build the additional stuff to be included into <head>.
 					var headExtra = CKEDITOR.tools.buildStyleHtml( iframeCssFixes() ).replace( /<style>/, '<style data-cke-temp="1">' );
 
-					if ( !fullPage )
+					if ( !fullPage ) {
 						headExtra += CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss );
+					}
 
 					var baseTag = config.baseHref ? '<base href="' + config.baseHref + '" data-cke-temp="1" />' : '';
 
@@ -376,18 +382,21 @@
 
 					if ( fullPage ) {
 						// Check if the <body> tag is available.
-						if ( !( /<body[\s|>]/ ).test( data ) )
+						if ( !( /<body[\s|>]/ ).test( data ) ) {
 							data = '<body>' + data;
+						}
 
 						// Check if the <html> tag is available.
-						if ( !( /<html[\s|>]/ ).test( data ) )
+						if ( !( /<html[\s|>]/ ).test( data ) ) {
 							data = '<html>' + data + '</html>';
+						}
 
 						// Check if the <head> tag is available.
-						if ( !( /<head[\s|>]/ ).test( data ) )
+						if ( !( /<head[\s|>]/ ).test( data ) ) {
 							data = data.replace( /<html[^>]*>/, '$&<head><title></title></head>' );
-						else if ( !( /<title[\s|>]/ ).test( data ) )
+						} else if ( !( /<title[\s|>]/ ).test( data ) ) {
 							data = data.replace( /<head[^>]*>/, '$&<title></title>' );
+						}
 
 						// The base must be the first tag in the HEAD, e.g. to get relative
 						// links on styles.
@@ -426,8 +435,9 @@
 						// Another hack which is used by onDomReady to remove a leading
 						// <br> which is inserted by Firefox 3.6 when document.write is called.
 						// This additional <br> is present because of contenteditable="true"
-						if ( CKEDITOR.env.version < 20000 )
-							data = data.replace( /<body[^>]*>/, '$&<!-- cke-content-start -->'  );
+						if ( CKEDITOR.env.version < 20000 ) {
+							data = data.replace( /<body[^>]*>/, '$&<!-- cke-content-start -->' );
+						}
 					}
 
 					// The script that launches the bootstrap logic on 'domReady', so the document
@@ -485,9 +495,9 @@
 			},
 
 			getData: function( isSnapshot ) {
-				if ( isSnapshot )
+				if ( isSnapshot ) {
 					return this.getHtml();
-				else {
+				} else {
 					var editor = this.editor,
 						config = editor.config,
 						fullPage = config.fullPage,
@@ -500,25 +510,29 @@
 					// BR at the end of document is bogus node for Mozilla. (https://dev.ckeditor.com/ticket/5293).
 					// Prevent BRs from disappearing from the end of the content
 					// while enterMode is ENTER_BR (https://dev.ckeditor.com/ticket/10146).
-					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
+					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR ) {
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
+					}
 
 					data = editor.dataProcessor.toDataFormat( data );
 
-					if ( xmlDeclaration )
+					if ( xmlDeclaration ) {
 						data = xmlDeclaration + '\n' + data;
-					if ( docType )
+					}
+					if ( docType ) {
 						data = docType + '\n' + data;
+					}
 
 					return data;
 				}
 			},
 
 			focus: function() {
-				if ( this._.isLoadingData )
+				if ( this._.isLoadingData ) {
 					this._.isPendingFocus = true;
-				else
+				} else {
 					framedWysiwyg.baseProto.focus.call( this );
+				}
 			},
 
 			detach: function() {
@@ -604,8 +618,9 @@
 
 			var selectors = [];
 
-			for ( var tag in CKEDITOR.dtd.$removeEmpty )
+			for ( var tag in CKEDITOR.dtd.$removeEmpty ) {
 				selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
+			}
 
 			css.push( selectors.join( ',' ) + '{display:inline-block}' );
 		}

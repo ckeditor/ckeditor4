@@ -47,8 +47,9 @@
 		for ( var i = 0; i < els.count(); ++i ) {
 			el = els.getItem( i );
 			// Item may contain the element returned by buildPreview - e.g. styled span. Skip it.
-			if ( el.getFirst().type == CKEDITOR.NODE_ELEMENT )
+			if ( el.getFirst().type == CKEDITOR.NODE_ELEMENT ) {
 				el = el.getFirst();
+			}
 
 			ret.push( el.getHtml() );
 		}
@@ -73,5 +74,4 @@
 			assert.areSame( 'St1, St6, St2', buildPreviewCalled.join( ', ' ), 'custom buildPreview were called on every style' );
 		}
 	} );
-
 } )();

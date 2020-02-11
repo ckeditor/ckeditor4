@@ -121,8 +121,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 				textarea = textareas[ i ];
 
 			// The "name" and/or "id" attribute must exist.
-			if ( !textarea.name && !textarea.id )
+			if ( !textarea.name && !textarea.id ) {
 				continue;
+			}
 
 			if ( typeof arguments[ 0 ] == 'string' ) {
 				// The textarea class name could be passed as the function
@@ -130,14 +131,16 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 				var classRegex = new RegExp( '(?:^|\\s)' + arguments[ 0 ] + '(?:$|\\s)' );
 
-				if ( !classRegex.test( textarea.className ) )
+				if ( !classRegex.test( textarea.className ) ) {
 					continue;
+				}
 			} else if ( typeof arguments[ 0 ] == 'function' ) {
 				// An evaluation function could be passed as the function parameter.
 				// It must explicitly return "false" to ignore a specific <textarea>.
 				config = {};
-				if ( arguments[ 0 ]( textarea, config ) === false )
+				if ( arguments[ 0 ]( textarea, config ) === false ) {
 					continue;
+				}
 			}
 
 			this.replace( textarea, config );
@@ -176,8 +179,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var modes = this._.modes;
 
 		// Mode loading quickly fails.
-		if ( newMode == editor.mode || !modes || !modes[ newMode ] )
+		if ( newMode == editor.mode || !modes || !modes[ newMode ] ) {
 			return;
+		}
 
 		editor.fire( 'beforeSetMode', newMode );
 
@@ -226,16 +230,19 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// Set the current mode.
 			editor.mode = newMode;
 
-			if ( isDirty !== undefined )
+			if ( isDirty !== undefined ) {
 				!isDirty && editor.resetDirty();
+			}
 
-			if ( unlockSnapshot )
+			if ( unlockSnapshot ) {
 				editor.fire( 'unlockSnapshot' );
+			}
 			// Since snapshot made on dataReady (which normally catches changes done by setData)
 			// won't work because editor.mode was not set yet (it's set in this function), we need
 			// to make special snapshot for changes done in source mode here.
-			else if ( newMode == 'wysiwyg' )
+			else if ( newMode == 'wysiwyg' ) {
 				editor.fire( 'saveSnapshot' );
+			}
 
 			// Delay to avoid race conditions (setMode inside setMode).
 			setTimeout( function() {
@@ -292,7 +299,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Get the height delta between the outer table and the content area.
 		var contentsOuterDelta = ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 ),
 
-		// If we're setting the content area's height, then we don't need the delta.
+			// If we're setting the content area's height, then we don't need the delta.
 			resultContentsHeight = Math.max( height - ( isContentHeight ? 0 : contentsOuterDelta ), 0 ),
 			resultOuterHeight = ( isContentHeight ? height + contentsOuterDelta : height );
 
@@ -352,8 +359,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 			loadTheme( editor );
 
-			if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement && element.$.form )
+			if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement && element.$.form ) {
 				editor._attachToForm();
+			}
 
 			editor.setMode( editor.config.startupMode, function() {
 				// Clean on startup.
@@ -384,8 +392,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			element.clearCustomData();
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 				element.show();
-				if ( editor._.required )
+				if ( editor._.required ) {
 					element.setAttribute( 'required', 'required' );
+				}
 			}
 			delete editor.element;
 		}
@@ -445,12 +454,14 @@ CKEDITOR.replaceClass = 'ckeditor';
 		bottomHtml && editor.ui.space( 'bottom' ).unselectable();
 
 		var width = editor.config.width, height = editor.config.height;
-		if ( width )
+		if ( width ) {
 			container.setStyle( 'width', CKEDITOR.tools.cssLength( width ) );
+		}
 
 		// The editor height is applied to the contents space.
-		if ( height )
+		if ( height ) {
 			editor.ui.space( 'contents' ).setStyle( 'height', CKEDITOR.tools.cssLength( height ) );
+		}
 
 		// Disable browser context menu for editor's chrome.
 		container.disableContextMenu();

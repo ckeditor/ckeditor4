@@ -5,8 +5,9 @@
 ( function() {
 	'use strict';
 
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 		CKEDITOR.tools.enableHtml5Elements( document );
+	}
 
 	// Elements path feature is only available in themed UI creators.
 	bender.editor = {

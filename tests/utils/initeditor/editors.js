@@ -13,7 +13,7 @@ bender.editors = {
 };
 
 bender.test( {
-	'test': function() {
+	test: function() {
 		assert.areSame( 2, CKEDITOR.tools.object.keys( this.editors ).length, 'this.editors' );
 		assert.areSame( 2, CKEDITOR.tools.object.keys( this.editorBots ).length, 'this.editorBots' );
 		assert.areSame( 2, CKEDITOR.tools.object.keys( bender.editors ).length, 'bender.editors' );

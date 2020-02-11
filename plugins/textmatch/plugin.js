@@ -6,7 +6,6 @@
 'use strict';
 
 ( function() {
-
 	CKEDITOR.plugins.add( 'textmatch', {} );
 
 	/**

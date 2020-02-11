@@ -149,8 +149,8 @@
 					'^<div ' + widgetWrapperAttributes + '><h1 data-cke-widget-keep-attr="1" data-widget="test2">TEST2</h1></div>' +
 					'<p>foo</p>' +
 					'<div ' + widgetWrapperAttributes + '><h1 data-cke-widget-keep-attr="1" data-widget="test2">TEST2</h1></div>$'
-					),
-					fixHtml( editor.dataProcessor.toHtml( sampleWidget2 + '<p>foo</p>' + sampleWidget2 ) )
+				),
+				fixHtml( editor.dataProcessor.toHtml( sampleWidget2 + '<p>foo</p>' + sampleWidget2 ) )
 				);
 			} );
 		},
@@ -176,8 +176,9 @@
 			dataProcessor.htmlFilter.addRules( {
 				elements: {
 					$: function( el ) {
-						if ( !enableTest )
+						if ( !enableTest ) {
 							return;
+						}
 
 						el.attributes.foo += '2';
 					}
@@ -187,8 +188,9 @@
 			dataProcessor.dataFilter.addRules( {
 				elements: {
 					$: function( el ) {
-						if ( !enableTest )
+						if ( !enableTest ) {
 							return;
+						}
 
 						el.attributes.foo = '1';
 					}
@@ -246,8 +248,9 @@
 					assert.areSame( 1, createdInstances, '1 instance was created' );
 
 					// On IE this will fire 'permission denied', because this is old doc's node.
-					if ( !CKEDITOR.env.ie )
+					if ( !CKEDITOR.env.ie ) {
 						assert.isTrue( el.getParent().hasAttribute( 'data-cke-widget-id' ), 'Widgets were destroyed in offline mode' );
+					}
 
 					listener1.removeListener();
 					listener2.removeListener();
@@ -489,8 +492,9 @@
 			} );
 
 			function map2WidgetIds( ids, collection ) {
-				for ( var i = 0; i < collection.count(); ++i )
+				for ( var i = 0; i < collection.count(); ++i ) {
 					ids.push( editor.widgets.getByElement( collection.getItem( i ) ).id );
+				}
 			}
 		},
 
@@ -498,7 +502,7 @@
 			var pattern = new RegExp(
 				'^<p><span ' + widgetInitedWrapperAttributes + '>' +
 					'<span class="cke_widget_element" data-cke-widget-data="' +
-					data2Attr( { 'classes': null } ) +
+					data2Attr( { classes: null } ) +
 					'" data-cke-widget-keep-attr="0" data-cke-widget-upcasted="1" data-widget="test_upcasted_pasting"><i class="upcasted_pasting">foo</i></span>' +
 					widgetTestsTools.widgetDragHanlder +
 				'</span>X?(<br />)?</p>' +
@@ -510,8 +514,9 @@
 
 			editor.widgets.add( 'test_upcasted_pasting', {
 				upcast: function( el ) {
-					if ( el.name == 'i' && el.hasClass( 'upcasted_pasting' ) )
+					if ( el.name == 'i' && el.hasClass( 'upcasted_pasting' ) ) {
 						return el.wrapWith( new CKEDITOR.htmlParser.element( 'span' ) );
+					}
 				}
 			} );
 
@@ -567,8 +572,9 @@
 				var html = editor.editable().getHtml();
 
 				// https://bugzilla.mozilla.org/show_bug.cgi?id=911201
-				if ( CKEDITOR.env.gecko )
+				if ( CKEDITOR.env.gecko ) {
 					html = html.replace( /^<br>/, '' );
+				}
 
 				editor.once( 'afterPaste', function() {
 					resume( function() {

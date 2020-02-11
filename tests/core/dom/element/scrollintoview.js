@@ -16,10 +16,11 @@ bender.test( {
 		assert.isTrue( rect.top > -1 && rect.top < view.height, 'check element inside of viewport' );
 
 		// Check within offset.
-		if ( offset < 0 )
+		if ( offset < 0 ) {
 			assert.isTrue( rect.bottom - view.height > offset, 'check element at the bottom of page' );
-		else if ( offset > 0 )
+		} else if ( offset > 0 ) {
 			assert.isTrue( rect.top < offset, 'check element at the top of page' );
+		}
 	},
 
 	notScrolledAssertion: function() {

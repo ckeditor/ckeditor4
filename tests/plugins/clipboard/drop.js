@@ -128,8 +128,9 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 				assert.isInnerHtmlMatching( 'x' + config.expectedDataValue + 'x', 'x' + values.pasteDataValue + 'x', 'On paste: data value should match.' );
 			}
 
-			if ( onFinish )
+			if ( onFinish ) {
 				return onFinish();
+			}
 		} );
 	};
 
@@ -403,9 +404,9 @@ var testsForMultipleEditor = {
 				expectedDataValue: '<a href="foo">ipsum</a>'
 			}, null, function() {
 				assert.isInnerHtmlMatching( [
-						'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">ipsum</a>^ amet.@</p>',
-						'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">ipsum^</a> amet.@</p>'
-					], getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+					'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">ipsum</a>^ amet.@</p>',
+					'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">ipsum^</a> amet.@</p>'
+				], getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 			} );
 		},
 
@@ -712,7 +713,7 @@ var testsForMultipleEditor = {
 		}
 	},
 	testsForOneEditor = {
-		'init': function() {
+		init: function() {
 			for ( var name in this.editors ) {
 				this.editors[ name ].dataProcessor.writer.sortAttributes = true;
 			}

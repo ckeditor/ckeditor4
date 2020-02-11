@@ -8,85 +8,85 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 	contents: 'Ayuda. Para cerrar presione ESC.',
 	legend: [
 		{
-		name: 'General',
-		items: [
-			{
-			name: 'Barra de herramientas del editor',
-			legend: 'Presiona ${toolbarFocus} para navegar por la barra de herramientas. Para moverse por los distintos grupos de herramientas usa las teclas TAB y MAY+TAB. Para moverse por las distintas herramientas usa FLECHA DERECHA o FECHA IZQUIERDA. Presiona "espacio" o "intro" para activar la herramienta.'
-		},
+			name: 'General',
+			items: [
+				{
+					name: 'Barra de herramientas del editor',
+					legend: 'Presiona ${toolbarFocus} para navegar por la barra de herramientas. Para moverse por los distintos grupos de herramientas usa las teclas TAB y MAY+TAB. Para moverse por las distintas herramientas usa FLECHA DERECHA o FECHA IZQUIERDA. Presiona "espacio" o "intro" para activar la herramienta.'
+				},
 
-			{
-			name: 'Editor de diálogo',
-			legend:
-				'Dentro del diálogo, presione TAB para navegar a los siguientes elementos de diálogo, presione SHIFT+TAB para moverse a los anteriores elementos de diálogo, presione ENTER para enviar el diálogo, presiona ESC para cancelar el diálogo. Cuando el diálogo tiene multiples pestañas, la lista de pestañas puede ser abarcada con ALT + F10 or con TAB como parte del orden de pestañas del diálogo. ECon la pestaña enfocada, puede moverse a la siguiente o anterior pestaña con las FLECHAS IZQUIRDA y DERECHA respectivamente.' 
-		},
+				{
+					name: 'Editor de diálogo',
+					legend:
+				'Dentro del diálogo, presione TAB para navegar a los siguientes elementos de diálogo, presione SHIFT+TAB para moverse a los anteriores elementos de diálogo, presione ENTER para enviar el diálogo, presiona ESC para cancelar el diálogo. Cuando el diálogo tiene multiples pestañas, la lista de pestañas puede ser abarcada con ALT + F10 or con TAB como parte del orden de pestañas del diálogo. ECon la pestaña enfocada, puede moverse a la siguiente o anterior pestaña con las FLECHAS IZQUIRDA y DERECHA respectivamente.'
+				},
 
-			{
-			name: 'Editor del menú contextual',
-			legend: 'Presiona ${contextMenu} o TECLA MENÚ para abrir el menú contextual. Entonces muévete a la siguiente opción del menú con TAB o FLECHA ABAJO. Muévete a la opción previa con SHIFT + TAB o FLECHA ARRIBA. Presiona ESPACIO o ENTER para seleccionar la opción del menú. Abre el submenú de la opción actual con ESPACIO o ENTER o FLECHA DERECHA. Regresa al elemento padre del menú con ESC o FLECHA IZQUIERDA. Cierra el menú contextual con ESC.'
-		},
+				{
+					name: 'Editor del menú contextual',
+					legend: 'Presiona ${contextMenu} o TECLA MENÚ para abrir el menú contextual. Entonces muévete a la siguiente opción del menú con TAB o FLECHA ABAJO. Muévete a la opción previa con SHIFT + TAB o FLECHA ARRIBA. Presiona ESPACIO o ENTER para seleccionar la opción del menú. Abre el submenú de la opción actual con ESPACIO o ENTER o FLECHA DERECHA. Regresa al elemento padre del menú con ESC o FLECHA IZQUIERDA. Cierra el menú contextual con ESC.'
+				},
 
-			{
-			name: 'Lista del Editor',
-			legend: 'Dentro de una lista, te mueves al siguiente elemento de la lista con TAB o FLECHA ABAJO. Te mueves al elemento previo de la lista con SHIFT+TAB o FLECHA ARRIBA. Presiona ESPACIO o ENTER para elegir la opción de la lista. Presiona ESC para cerrar la lista.'
-		},
+				{
+					name: 'Lista del Editor',
+					legend: 'Dentro de una lista, te mueves al siguiente elemento de la lista con TAB o FLECHA ABAJO. Te mueves al elemento previo de la lista con SHIFT+TAB o FLECHA ARRIBA. Presiona ESPACIO o ENTER para elegir la opción de la lista. Presiona ESC para cerrar la lista.'
+				},
 
-			{
-			name: 'Barra de Ruta del Elemento en el Editor',
-			legend: 'Presiona ${elementsPathFocus} para navegar a los elementos de la barra de ruta. Te mueves al siguiente elemento botón con TAB o FLECHA DERECHA. Te mueves al botón previo con SHIFT+TAB o FLECHA IZQUIERDA. Presiona ESPACIO o ENTER para seleccionar el elemento en el editor.'
-		}
-		]
-	},
+				{
+					name: 'Barra de Ruta del Elemento en el Editor',
+					legend: 'Presiona ${elementsPathFocus} para navegar a los elementos de la barra de ruta. Te mueves al siguiente elemento botón con TAB o FLECHA DERECHA. Te mueves al botón previo con SHIFT+TAB o FLECHA IZQUIERDA. Presiona ESPACIO o ENTER para seleccionar el elemento en el editor.'
+				}
+			]
+		},
 		{
-		name: 'Comandos',
-		items: [
-			{
-			name: 'Comando deshacer',
-			legend: 'Presiona ${undo}'
-		},
-			{
-			name: 'Comando rehacer',
-			legend: 'Presiona ${redo}'
-		},
-			{
-			name: 'Comando negrita',
-			legend: 'Presiona ${bold}'
-		},
-			{
-			name: 'Comando itálica',
-			legend: 'Presiona ${italic}'
-		},
-			{
-			name: 'Comando subrayar',
-			legend: 'Presiona ${underline}'
-		},
-			{
-			name: 'Comando liga',
-			legend: 'Presiona ${liga}'
-		},
-			{
-			name: 'Comando colapsar barra de herramientas',
-			legend: 'Presiona ${toolbarCollapse}'
-		},
-			{
-			name: 'Comando accesar el anterior espacio de foco',
-			legend: 'Presiona ${accessPreviousSpace} para accesar el espacio de foco no disponible más cercano anterior al cursor, por ejemplo: dos elementos HR adyacentes. Repite la combinación de teclas para alcanzar espacios de foco distantes.'
-		},
-			{
-			name: 'Comando accesar el siguiente spacio de foco',
-			legend: 'Presiona ${accessNextSpace} para accesar el espacio de foco no disponible más cercano después del cursor, por ejemplo: dos elementos HR adyacentes. Repite la combinación de teclas para alcanzar espacios de foco distantes.'
-		},
-			{
-			name: 'Ayuda de Accesibilidad',
-			legend: 'Presiona ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Comandos',
+			items: [
+				{
+					name: 'Comando deshacer',
+					legend: 'Presiona ${undo}'
+				},
+				{
+					name: 'Comando rehacer',
+					legend: 'Presiona ${redo}'
+				},
+				{
+					name: 'Comando negrita',
+					legend: 'Presiona ${bold}'
+				},
+				{
+					name: 'Comando itálica',
+					legend: 'Presiona ${italic}'
+				},
+				{
+					name: 'Comando subrayar',
+					legend: 'Presiona ${underline}'
+				},
+				{
+					name: 'Comando liga',
+					legend: 'Presiona ${liga}'
+				},
+				{
+					name: 'Comando colapsar barra de herramientas',
+					legend: 'Presiona ${toolbarCollapse}'
+				},
+				{
+					name: 'Comando accesar el anterior espacio de foco',
+					legend: 'Presiona ${accessPreviousSpace} para accesar el espacio de foco no disponible más cercano anterior al cursor, por ejemplo: dos elementos HR adyacentes. Repite la combinación de teclas para alcanzar espacios de foco distantes.'
+				},
+				{
+					name: 'Comando accesar el siguiente spacio de foco',
+					legend: 'Presiona ${accessNextSpace} para accesar el espacio de foco no disponible más cercano después del cursor, por ejemplo: dos elementos HR adyacentes. Repite la combinación de teclas para alcanzar espacios de foco distantes.'
+				},
+				{
+					name: 'Ayuda de Accesibilidad',
+					legend: 'Presiona ${a11yHelp}'
+				},
+				{
+					name: ' Paste as plain text', // MISSING
+					legend: 'Press ${pastetext}', // MISSING
+					legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+				}
+			]
 		}
-		]
-	}
 	],
 	tab: 'Tabulador',
 	pause: 'Pausa',

@@ -146,7 +146,6 @@
 	 * @param {Function} callback
 	 */
 	window.mockMouseEventForCell = function( editor, type, cell, callback ) {
-
 		var host = editor.editable().isInline() ? editor.editable() : editor.document,
 			event = {
 				getTarget: function() {

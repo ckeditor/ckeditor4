@@ -31,10 +31,9 @@
 					return element.name == 'div' && element.hasClass( 'mockup_widget' );
 				}
 			};
-
 		},
 
-		'test1': function() {
+		test1: function() {
 			var editor = this.editor,
 				bot = this.editorBot;
 
@@ -49,7 +48,7 @@
 			} );
 		},
 
-		'test2': function() {
+		test2: function() {
 			var bot = this.editorBot;
 
 			bot.setData( bender.tools.getValueAsHtml( 'editorContent' ), function() {

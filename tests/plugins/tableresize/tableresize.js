@@ -55,8 +55,8 @@ function createMoveEventMock( table ) {
 function init( table, editor ) {
 	var evtMock = createMoveEventMock( table ),
 		mouseElement = !editor ? new CKEDITOR.dom.document( document ) :
-						editor.editable().isInline() ? editor.editable() :
-						editor.document;
+			editor.editable().isInline() ? editor.editable() :
+				editor.document;
 
 	// Run for the first time to create pillars
 	mouseElement.fire( 'mousemove', evtMock );
