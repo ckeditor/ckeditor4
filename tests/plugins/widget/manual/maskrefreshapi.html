@@ -1,6 +1,6 @@
 <div id="editor">
 	<p>bar</p>
-	<div class="partialMasked"><div class="notmasked">You can type here...</div></div>
+	<div class="partiallyMasked"><div class="notmasked">You can type here...</div></div>
 </div>
 <button id="fill-widget">Fetch widget</button>
 
@@ -13,20 +13,20 @@
 	CKEDITOR.addCss( '.left { float: left; width: 200px; } .right { float: right; width: 200px; } .cke_widget_partial_mask { border: 1px solid red };' );
 
 	CKEDITOR.stylesSet.add( 'default', [
-		{ name: 'None', type: 'widget', widget: 'partialMasked', attributes: { 'class': '' }, group: 'alignment' },
-		{ name: 'Left', type: 'widget', widget: 'partialMasked', attributes: { 'class': 'left' }, group: 'alignment' },
-		{ name: 'Right', type: 'widget', widget: 'partialMasked', attributes: { 'class': 'right' }, group: 'alignment' }
+		{ name: 'None', type: 'widget', widget: 'partiallyMasked', attributes: { 'class': '' }, group: 'alignment' },
+		{ name: 'Left', type: 'widget', widget: 'partiallyMasked', attributes: { 'class': 'left' }, group: 'alignment' },
+		{ name: 'Right', type: 'widget', widget: 'partiallyMasked', attributes: { 'class': 'right' }, group: 'alignment' }
 	] );
 
-	CKEDITOR.plugins.add( 'partialMasked', {
+	CKEDITOR.plugins.add( 'partiallyMasked', {
 		requires: 'widget',
 		init: function( editor ) {
-			editor.widgets.add( 'partialMasked', {
+			editor.widgets.add( 'partiallyMasked', {
 				button: 'Partial mask widget',
 				pathName: 'test-widget',
 
 				template:
-					'<div class="partialMasked">' +
+					'<div class="partiallyMasked">' +
 						'<div class="notmasked"></div>' +
 						'<div class="content"></div>' +
 					'</div>',
@@ -47,20 +47,20 @@
 					content: '.content'
 				},
 
-				allowedContent: 'div(partialMasked,content,notmasked,left,right)',
-				requiredContent: 'div(partialMasked)',
+				allowedContent: 'div(partiallyMasked,content,notmasked,left,right)',
+				requiredContent: 'div(partiallyMasked)',
 
 				mask: 'content',
 
 				upcast: function( element ) {
-					return element.name == 'div' && element.hasClass( 'partialMasked' );
+					return element.name == 'div' && element.hasClass( 'partiallyMasked' );
 				}
 			} );
 		}
 	} );
 
 	var editor = CKEDITOR.replace( 'editor', {
-		extraPlugins: 'partialMasked'
+		extraPlugins: 'partiallyMasked'
 	} );
 
 	CKEDITOR.document.findOne( '#fill-widget' ).on( 'click', function() {
