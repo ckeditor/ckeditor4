@@ -1,0 +1,73 @@
+<style>
+#selected-color {
+	margin-top: 10px;
+	width: 100px;
+	height: 20px;
+	border: 1px solid black;
+}
+</style>
+<div id="editor"></div>
+<select id="choose-color"></select>
+<div id="selected-color"></span>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+
+	editor.once( 'instanceReady', overwriteUIOpen( 'TextColor' ) );
+	editor.once( 'instanceReady', overwriteUIOpen( 'BGColor' ) );
+	editor.once( 'instanceReady', initializeColorSelector );
+
+	function overwriteUIOpen( uiName ) {
+		return function() {
+			var ui = editor.ui.get( uiName );
+
+			ui.onOpen = CKEDITOR.tools.override( ui.onOpen, function( onOpen ) {
+				return function() {
+					if ( !onOpen.call( this, arguments ) ) {
+						return;
+					}
+
+					var currentColor = CKEDITOR.document.getById( 'choose-color' ).getValue();
+
+					currentColor = CKEDITOR.tools.normalizeColor( currentColor );
+
+					ui.select( function( color ) {
+						return currentColor === color;
+					} );
+				}
+			} )
+
+		}
+	}
+
+	function initializeColorSelector() {
+		var selectElement = CKEDITOR.document.getById( 'choose-color' ),
+			colors = CKEDITOR.config.colorButton_colors.split( ',' );
+
+		selectElement.append( createOptionElement( 'initial' ) )
+
+		for ( var i = 0; i < colors.length; i++ ) {
+			var color = '#' + CKEDITOR.tools.normalizeColor( colors[ i ] );
+			selectElement.append( createOptionElement( color ) );
+		}
+
+		selectElement.on( 'change', selectColor );
+
+		selectColor.call( selectElement );
+	}
+
+	function createOptionElement( color ) {
+		var colorOption = new CKEDITOR.dom.element( 'option' );
+
+		colorOption.setValue( color );
+		colorOption.setStyle( 'background-color', color );
+		colorOption.setText( color );
+
+		return colorOption;
+	}
+
+	function selectColor() {
+		var selectedColorElement = CKEDITOR.document.getById( 'selected-color' );
+		selectedColorElement.setStyle( 'background-color', this.getValue() );
+	}
+</script>
