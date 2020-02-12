@@ -1231,7 +1231,6 @@
 		return editable && this.mode == 'wysiwyg' ? new CKEDITOR.dom.selection( editable ) : null;
 	};
 
-
 	/**
 	 * Retrieves the {@link CKEDITOR.dom.range} instances that represent the current selection.
 	 *
@@ -1239,6 +1238,7 @@
 	 *
 	 * @method
 	 * @since 4.14.0
+	 * @member CKEDITOR.editor
 	 * @param {Boolean} [onlyEditables] If set to `true`, this function retrieves editable ranges only.
 	 * @returns {Array} Range instances that represent the current selection.
 	 */
