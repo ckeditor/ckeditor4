@@ -23,8 +23,6 @@
 			'chrome',
 			'firefox',
 			'edge', // v18
-			'ie11',
-			'safari'
 		],
 		wordVersions: [
 			'libreoffice6'
