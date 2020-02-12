@@ -5,11 +5,6 @@
 <button id="fill-widget">Fetch widget</button>
 
 <script>
-	// Ignore on mobiles.
-	if ( bender.tools.env.mobile ) {
-		bender.ignore();
-	}
-
 	CKEDITOR.addCss( '.left { float: left; width: 200px; } .right { float: right; width: 200px; } .cke_widget_partial_mask { border: 1px solid red };' );
 
 	CKEDITOR.stylesSet.add( 'default', [
