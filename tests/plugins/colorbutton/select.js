@@ -42,8 +42,6 @@
 	function selectColor( editor, uiName, colorToSelect ) {
 		var ui = editor.ui.get( uiName );
 
-		colorToSelect = CKEDITOR.tools.normalizeColor( colorToSelect );
-
 		ui.select( function( color ) {
 			return color === colorToSelect;
 		} );

@@ -159,10 +159,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						colorToSelect;
 
 					for ( var i = 0; i < colors.length; i++ ) {
-						var color = CKEDITOR.tools.normalizeColor( colors[ i ] );
+						var color = colors[ i ];
 
 						if ( callback( color ) ) {
-							colorToSelect = color;
+							colorToSelect = normalizeColor( color );
 							break;
 						}
 					}
@@ -242,7 +242,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								element = element.getParent();
 							}
 
-							currentColor = CKEDITOR.tools.normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) );
+							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) );
 							finalColor = finalColor || currentColor;
 
 							if ( finalColor !== currentColor ) {
@@ -257,7 +257,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							finalColor = '';
 						}
 						if ( type == 'fore' ) {
-							colorData.automaticTextColor = '#' + CKEDITOR.tools.normalizeColor( automaticColor );
+							colorData.automaticTextColor = '#' + normalizeColor( automaticColor );
 						}
 						colorData.selectionColor = finalColor ? '#' + finalColor : '';
 
@@ -407,10 +407,23 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				item.removeAttribute( 'aria-selected' );
 
-				if ( color && color == CKEDITOR.tools.normalizeColor( item.getAttribute( 'data-value' ) ) ) {
+				if ( color && color == normalizeColor( item.getAttribute( 'data-value' ) ) ) {
 					item.setAttribute( 'aria-selected', true );
 				}
 			}
+		}
+
+		/*
+		 * Converts a CSS color value to an easily comparable form.
+		 *
+		 * @private
+		 * @member CKEDITOR.plugins.colorbutton
+		 * @param {String} color
+		 * @returns {String}
+		 */
+		function normalizeColor( color ) {
+			// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
+			return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
 		}
 	}
 } );

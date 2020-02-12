@@ -29,14 +29,11 @@
 
 					var currentColor = CKEDITOR.document.getById( 'choose-color' ).getValue();
 
-					currentColor = CKEDITOR.tools.normalizeColor( currentColor );
-
 					ui.select( function( color ) {
 						return currentColor === color;
 					} );
 				}
-			} )
-
+			} );
 		}
 	}
 
@@ -47,8 +44,7 @@
 		selectElement.append( createOptionElement( 'initial' ) )
 
 		for ( var i = 0; i < colors.length; i++ ) {
-			var color = '#' + CKEDITOR.tools.normalizeColor( colors[ i ] );
-			selectElement.append( createOptionElement( color ) );
+			selectElement.append( createOptionElement( colors[ i ] ) );
 		}
 
 		selectElement.on( 'change', selectColor );
@@ -60,6 +56,9 @@
 		var colorOption = new CKEDITOR.dom.element( 'option' );
 
 		colorOption.setValue( color );
+
+		color = CKEDITOR.tools.normalizeHex( '#' + color );
+
 		colorOption.setStyle( 'background-color', color );
 		colorOption.setText( color );
 
