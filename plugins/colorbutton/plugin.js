@@ -155,17 +155,19 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				select: function( callback ) {
-					var colors = config.colorButton_colors.split( ',' );
+					var colors = config.colorButton_colors.split( ',' ),
+						colorToSelect;
 
 					for ( var i = 0; i < colors.length; i++ ) {
 						var color = CKEDITOR.tools.normalizeColor( colors[ i ] );
 
 						if ( callback( color ) ) {
-							selectColor( panelBlock, color )
+							colorToSelect = color;
 							break;
 						}
 					}
 
+					selectColor( panelBlock, colorToSelect );
 					panelBlock._.markFirstDisplayed();
 				},
 
