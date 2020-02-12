@@ -41,10 +41,11 @@
 		var selectElement = CKEDITOR.document.getById( 'choose-color' ),
 			colors = CKEDITOR.config.colorButton_colors.split( ',' );
 
-		selectElement.append( createOptionElement( 'initial' ) )
+		selectElement.append( createOptionElement( 'auto', '', '' ) )
 
 		for ( var i = 0; i < colors.length; i++ ) {
-			selectElement.append( createOptionElement( colors[ i ] ) );
+			var hexCode = CKEDITOR.tools.normalizeHex( '#' + colors[ i ] );
+			selectElement.append( createOptionElement( hexCode, colors[ i ], hexCode ) );
 		}
 
 		selectElement.on( 'change', selectColor );
@@ -52,21 +53,22 @@
 		selectColor.call( selectElement );
 	}
 
-	function createOptionElement( color ) {
+	function createOptionElement( text, value, style ) {
 		var colorOption = new CKEDITOR.dom.element( 'option' );
 
-		colorOption.setValue( color );
-
-		color = CKEDITOR.tools.normalizeHex( '#' + color );
-
-		colorOption.setStyle( 'background-color', color );
-		colorOption.setText( color );
+		colorOption.setText( text );
+		colorOption.setValue( value );
+		colorOption.setStyle( 'background-color', style );
 
 		return colorOption;
 	}
 
 	function selectColor() {
-		var selectedColorElement = CKEDITOR.document.getById( 'selected-color' );
-		selectedColorElement.setStyle( 'background-color', this.getValue() );
+		var selectedColorElement = CKEDITOR.document.getById( 'selected-color' ),
+			value = this.getValue();
+
+		value = value && CKEDITOR.tools.normalizeHex( '#' + value ) || '';
+
+		selectedColorElement.setStyle( 'background-color', value );
 	}
 </script>

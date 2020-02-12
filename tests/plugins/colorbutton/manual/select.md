@@ -6,12 +6,12 @@
 
 **Expected:** Color button panel focus points into automatic color.
 
-3. Change `initial` color using select dropdown below the editor.
+3. Change `auto` color using select dropdown below the editor.
 4. Open text color panel again.
 
 **Expected:** Color button panel focus points into selected color.
 
-5. Select `initial` color again using select dropdown below the editor.
+5. Select `auto` color again using select dropdown below the editor.
 6. Open text color panel again.
 
 **Expected:** Color button panel focus points into automatic color.
