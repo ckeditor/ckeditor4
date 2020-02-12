@@ -1420,10 +1420,17 @@
 			this.editor.focus();
 		},
 
+		/**
+		 * Refreshes widget's mask. Can be used together with {@link CKEDITOR.plugins.widget#refreshParts} method to reinitialize mask
+		 * for dynamically created widgets.
+		 */
 		refreshMask: function() {
 			setupMask( this );
 		},
 
+		/**
+		 * Reinitializes widget's {@link CKEDITOR.plugins.widget#parts parts}.
+		 */
 		refreshParts: function() {
 			setupParts( this );
 		},
