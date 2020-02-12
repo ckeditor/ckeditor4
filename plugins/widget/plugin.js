@@ -2832,6 +2832,11 @@
 			} );
 		} );
 
+		// (#3498)
+		if ( !CKEDITOR.env.ie ) {
+			widgetsRepo.on( 'checkSelection', fixCrossContentSelection );
+		}
+
 		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );
 
 		editor.on( 'selectionChange', function( evt ) {
@@ -2869,6 +2874,42 @@
 			if ( ( widget = widgetsRepo.widgetHoldingFocusedEditable ) )
 				setFocusedEditable( widgetsRepo, widget, null );
 		} );
+
+		// Selection is fixed only when it starts in content and ends in a widget (and vice versa).
+		// It's not possible to manually create selection which starts inside one widget and ends in another,
+		// so we are skipping this case to simplify implementation (#3498).
+		function fixCrossContentSelection() {
+			var selection = editor.getSelection(),
+				ranges = selection && selection.getRanges(),
+				range = ranges[ 0 ];
+
+			if ( !range || range.collapsed ) {
+				return;
+			}
+
+			var startWidget = findWidget( range.startContainer ),
+				endWidget = findWidget( range.endContainer );
+
+			if ( !startWidget && endWidget ) {
+				range.setEndBefore( endWidget.wrapper );
+				range.select();
+			} else if ( startWidget && !endWidget ) {
+				range.setStartAfter( startWidget.wrapper );
+				range.select();
+			}
+		}
+
+		function findWidget( node ) {
+			if ( !node ) {
+				return null;
+			}
+
+			if ( node.type == CKEDITOR.NODE_TEXT ) {
+				return findWidget( node.getParent() );
+			}
+
+			return editor.widgets.getByElement( node );
+		}
 
 		function fireCheckSelection() {
 			widgetsRepo.fire( 'checkSelection' );

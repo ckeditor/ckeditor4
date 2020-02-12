@@ -1232,6 +1232,24 @@
 	};
 
 	/**
+	 * Retrieves the {@link CKEDITOR.dom.range} instances that represent the current selection.
+	 *
+	 * **Note:** This function is an alias for {@link CKEDITOR.dom.selection#getRanges} method.
+	 *
+	 * @method
+	 * @since 4.14.0
+	 * @member CKEDITOR.editor
+	 * @param {Boolean} [onlyEditables] If set to `true`, this function retrieves editable ranges only.
+	 * @returns {Array} Range instances that represent the current selection.
+	 */
+	CKEDITOR.editor.prototype.getSelectedRanges = function( onlyEditables ) {
+		var selection = this.getSelection(),
+			ranges = selection && selection.getRanges( onlyEditables );
+
+		return ranges || [];
+	};
+
+	/**
 	 * Locks the selection made in the editor in order to make it possible to
 	 * manipulate it without browser interference. A locked selection is
 	 * cached and remains unchanged until it is released with the
