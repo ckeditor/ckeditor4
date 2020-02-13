@@ -15,9 +15,9 @@
 
 		isSupportedEnvironment: function() {
 			var isSafari = CKEDITOR.env.webkit && !CKEDITOR.env.chrome,
-				isOldIE = CKEDITOR.env.ie && CKEDITOR.env.version < 11;
+				isIE = CKEDITOR.env.ie && CKEDITOR.env.version <= 11;
 
-			return !isSafari && !isOldIE;
+			return !isSafari && !isIE;
 		},
 
 		init: function( editor ) {
@@ -48,8 +48,7 @@
 
 					generatorName = CKEDITOR.plugins.pastetools.getContentGeneratorName( textHtml );
 
-					// The filter will be run also for a regular content, as there is no way to detect apropriate source under IE11 and Safari.
-					return generatorName ? generatorName === 'libreoffice' : true;
+					return generatorName === 'libreoffice';
 				},
 
 				handle: function( evt, next ) {
