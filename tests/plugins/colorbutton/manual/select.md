@@ -1,4 +1,5 @@
 @bender-tags: feature, 4.14.0, 3743
+@bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton
 
 1. Focus the editor.
