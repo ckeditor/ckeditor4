@@ -156,18 +156,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				select: function( callback ) {
 					var colors = config.colorButton_colors.split( ',' ),
-						colorToSelect;
+						color = CKEDITOR.tools.array.find( colors, callback );
 
-					for ( var i = 0; i < colors.length; i++ ) {
-						var color = colors[ i ];
+					color = normalizeColor( color );
 
-						if ( callback( color ) ) {
-							colorToSelect = normalizeColor( color );
-							break;
-						}
-					}
-
-					selectColor( panelBlock, colorToSelect );
+					selectColor( panelBlock, color );
 					panelBlock._.markFirstDisplayed();
 				},
 
