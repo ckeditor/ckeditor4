@@ -13,28 +13,28 @@
 <script>
 	var editor = CKEDITOR.replace( 'editor' );
 
-	editor.once( 'instanceReady', overwriteUIOpen( 'TextColor' ) );
-	editor.once( 'instanceReady', overwriteUIOpen( 'BGColor' ) );
-	editor.once( 'instanceReady', initializeColorSelector );
+	editor.once( 'instanceReady', function() {
+		overwriteUIOpen( 'TextColor' );
+		overwriteUIOpen( 'BGColor' );
+		initializeColorSelector();
+	} );
 
 	function overwriteUIOpen( uiName ) {
-		return function() {
-			var ui = editor.ui.get( uiName );
+		var ui = editor.ui.get( uiName );
 
-			ui.onOpen = CKEDITOR.tools.override( ui.onOpen, function( onOpen ) {
-				return function() {
-					if ( !onOpen.call( this, arguments ) ) {
-						return;
-					}
-
-					var currentColor = CKEDITOR.document.getById( 'choose-color' ).getValue();
-
-					ui.select( function( color ) {
-						return currentColor === color;
-					} );
+		ui.onOpen = CKEDITOR.tools.override( ui.onOpen, function( onOpen ) {
+			return function() {
+				if ( !onOpen.call( this, arguments ) ) {
+					return;
 				}
-			} );
-		}
+
+				var currentColor = CKEDITOR.document.getById( 'choose-color' ).getValue();
+
+				ui.select( function( color ) {
+					return currentColor === color;
+				} );
+			}
+		} );
 	}
 
 	function initializeColorSelector() {
