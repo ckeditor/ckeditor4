@@ -24,9 +24,7 @@
 
 		ui.onOpen = CKEDITOR.tools.override( ui.onOpen, function( onOpen ) {
 			return function() {
-				if ( !onOpen.call( this, arguments ) ) {
-					return;
-				}
+				onOpen.call( this, arguments );
 
 				var currentColor = CKEDITOR.document.getById( 'choose-color' ).getValue();
 

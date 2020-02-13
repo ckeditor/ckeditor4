@@ -2,19 +2,18 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton
 
-1. Focus the editor.
-2. Open text color panel.
+1. Open text color panel.
 
 **Expected:** Color button panel focus points into automatic color.
 
-3. Change `auto` color using select dropdown below the editor.
-4. Open text color panel again.
+2. Change `auto` color using select dropdown below the editor.
+3. Open text color panel again.
 
 **Expected:** Color button panel focus points into selected color.
 
-5. Select `auto` color again using select dropdown below the editor.
-6. Open text color panel again.
+4. Select `auto` color again using select dropdown below the editor.
+5. Open text color panel again.
 
 **Expected:** Color button panel focus points into automatic color.
 
-7. Repeat 1-6 using background color feature instead.
+6. Repeat 1-5 using background color feature instead.
