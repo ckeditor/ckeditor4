@@ -444,6 +444,123 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
+		var ColorBox = CKEDITOR.tools.createClass( {
+			$: function( index, color ) {
+				this.index = index;
+				this.color = color;
+			},
+
+			proto: {
+				getElement: function() {
+					// Self explaining.
+				},
+				pushBack: function( row ) {
+					// You have some logic responsible for moving cell boxes inside a row when
+					// user selected a new color. In that case the given color should be moved
+					// at the begining of the row where you could reuse `moveAtTheBegining` method
+					// and `pushBack`. It could be nicely accomplished by using visitor pattern, so
+					// every component knows about it's implementation as much as it should, nothing more.
+					// E.g. some pseudo code:
+
+					this.index = this.index + 1;
+					this.updateHtml();
+					// Updates the position of the element inside a row.
+					row.setPosition( row, this.index );
+				},
+				moveAtTheBegining: function() {
+					// See `pushBack`.
+
+				}
+			}
+		} );
+
+		var ColorRow = CKEDITOR.tools.createClass( {
+			$: function() {
+
+			},
+
+			proto: {
+				getElement: function() {
+
+				}
+			}
+		} )
+
+		var ColorHistory = CKEDITOR.tools.createClass( {
+			$: function( editor, type ) {
+				this.editor = editor;
+				this.type = type;
+
+				this.rowLimit = editor.config.colorButton_historyRowLimit;
+				this.colorNames = editor.lang.colorbutton.colors;
+				this.colorList = CKEDITOR.tools.style.parse._colors;
+			},
+
+			_: {
+				extractColorInfo: function() {
+					// ...
+				},
+
+				sortByOccurrencesAscending: function() {
+					// ...
+				},
+
+				limitByCapacity: function( colors ) {
+					// ...
+				},
+
+				createColorBoxes: function( colors ) {
+					// You want to reuse ColorRow and ColorBox classes, so instead of operating on raw html,
+					// initialize correct objects. As an example, to create a single row filled with colors,
+					// you should have something like:
+					var row = new CellRow();
+					for ( var i = 0; i < colors.length; i++ ) {
+						row.append( new ColorBox( colors[ i ] ) );
+					}
+
+					this.rows = [ row ];
+				},
+
+				appendColorBoxes: function() {
+					for ( var i = 0; i < this.rows.length; i++ ) {
+						this.element.append( this.rows[ i ].getElement() );
+					}
+				},
+
+				appendPanelSeparator: function() {
+					// Keep separator as an property if you need to reference it every time when panel is opened.
+					this.panelSeparator = new CKEDITOR.dom.element.createFromHtml( '...' );
+					this.element.append( this.panelSeparator );
+				}
+			},
+
+			proto: {
+				render: function( container, clickFn ) {
+					var colorOccurrences = this._.extractColorInfo( colorSpans, options.cssProperty, htmlColorsList );
+
+					if ( CKEDITOR.tools.isEmpty( colorOccurrences ) ) {
+						return;
+					}
+
+					var colors = this._.sortByOccurrencesAscending( colorOccurrences, 'colorCode' );
+
+					colors = this._.limitByCapacity( colors );
+
+					this._.addLabels( sortedColors, colorNames );
+
+					this._.appendPanelSeparator();
+					this._.appendColorBoxes( sortedColors );
+
+					container.append( this.element );
+				},
+
+				update: function( color ) {
+					// Mostly the logic you have inside `saveColor` function,
+					// but note to extract logic into components (CellBox, CellRow) where
+					// it suit better.
+				}
+			}
+		} );
 		// This function is called on the first panel opening.
 		function fillColorHistory( options ) {
 			if ( !colorHistoryRow.rowLimit ) {
