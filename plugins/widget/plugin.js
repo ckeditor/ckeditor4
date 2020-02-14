@@ -3620,7 +3620,7 @@
 				partName;
 
 			for ( partName in widget.parts ) {
-				if ( typeof widget.parts[ partName ] !== "string" ) {
+				if ( typeof widget.parts[ partName ] !== 'string' ) {
 					parts[ partName ] = widget.parts[ partName ];
 					continue;
 				}
