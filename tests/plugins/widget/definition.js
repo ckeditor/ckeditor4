@@ -411,7 +411,7 @@
 
 				assert.areSame( elP.getElementsByTag( 'b' ).getItem( 0 ), widget.parts.foo, 'foo' );
 				assert.areSame( elP.getElementsByTag( 'i' ).getItem( 0 ), widget.parts.bar, 'bar' );
-				assert.areEqual( widget.parts.xxx, '#xxx' );
+				assert.isNull( widget.parts.xxx, 'xxx' );
 				assert.areSame( elP, widget.parts.p, 'p' );
 				assert.areSame( elP.getElementsByTag( 'b' ).getItem( 0 ), fooInInit, 'parts are already ready when init method is executed' );
 			} );
