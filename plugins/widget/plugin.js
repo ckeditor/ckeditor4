@@ -3613,20 +3613,23 @@
 	// partName => selector pairs
 	// with:
 	// partName => element pairs
-	function setupParts( widget ) {
+	function setupParts( widget, refreshInitialised ) {
+		if ( !widget.partSelectors ) {
+			widget.partSelectors = widget.parts;
+		}
+
 		if ( widget.parts ) {
 			var parts = {},
 				el,
 				partName;
 
-			for ( partName in widget.parts ) {
-				if ( typeof widget.parts[ partName ] !== 'string' ) {
+			for ( partName in widget.partSelectors ) {
+				if ( refreshInitialised || !widget.parts[ partName ] || typeof widget.parts[ partName ] == 'string' ) {
+					el = widget.wrapper.findOne( widget.partSelectors[ partName ] );
+					parts[ partName ] = el;
+				} else {
 					parts[ partName ] = widget.parts[ partName ];
-					continue;
 				}
-
-				el = widget.wrapper.findOne( widget.parts[ partName ] );
-				parts[ partName ] = el ? el : widget.parts[ partName ];
 			}
 			widget.parts = parts;
 		}
