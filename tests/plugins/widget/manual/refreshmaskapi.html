@@ -1,8 +1,16 @@
 <div id="editor">
 	<p>bar</p>
-	<div class="partiallyMasked"><div class="notmasked">You can type here...</div></div>
+	<div id="widget" class="partiallyMasked"><div class="notmasked">You can type here...</div></div>
 </div>
-<button id="fill-widget">Fetch widget</button>
+<div>
+	<button id="add-content">Add missing widget HTML</button>
+</div>
+<div>
+	<button id="refresh-parts">Refresh widget parts</button>
+</div>
+<div>
+	<button id="refresh-mask">Refresh mask</button>
+</div>
 
 <script>
 	CKEDITOR.addCss( '.left { float: left; width: 200px; } .right { float: right; width: 200px; } .cke_widget_partial_mask { border: 1px solid red };' );
@@ -58,16 +66,22 @@
 		extraPlugins: 'partiallyMasked'
 	} );
 
-	CKEDITOR.document.findOne( '#fill-widget' ).on( 'click', function() {
+	CKEDITOR.document.findOne( '#add-content' ).on( 'click', function() {
 		var div = new CKEDITOR.dom.element( 'div' ),
 			widget = editor.widgets.instances[ 0 ];
 
-		div.setText( '...but not here' );
-		div.addClass( 'content' );
+		if ( !widget.element.findOne( '.content' ) ) {
+			div.setText( '...but not here' );
+			div.addClass( 'content' );
 
-		widget.element.append( div );
-		widget.refreshParts();
-		widget.refreshMask();
+			widget.element.append( div );
+		}
+	} );
+	CKEDITOR.document.findOne( '#refresh-parts' ).on( 'click', function() {
+		editor.widgets.instances[ 0 ].refreshParts();
+	} );
+	CKEDITOR.document.findOne( '#refresh-mask' ).on( 'click', function() {
+		editor.widgets.instances[ 0 ].refreshMask();
 	} );
 
 </script>
