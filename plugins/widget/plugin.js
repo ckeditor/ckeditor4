@@ -986,9 +986,21 @@
 		 *
 		 * For every `partName => selector` pair in {@link CKEDITOR.plugins.widget.definition#parts},
 		 * one `partName => element` pair is added to this object during the widget initialization.
+		 * Parts can be reinitialized via {@link #refreshParts} method.
 		 *
 		 * @readonly
 		 * @property {Object} parts
+		 */
+
+		/**
+		 * An object containing definitions of widget components (`part name => CSS selector`).
+		 *
+		 * Unlike {@link #parts} object, it stays unchanged throughout the widget lifecycle
+		 * and is used in {@link #refreshParts} method.
+		 *
+		 * @readonly
+		 * @property {Object} partSelectors
+		 * @since 4.14.0
 		 */
 
 		/**
@@ -1421,18 +1433,25 @@
 		},
 
 		/**
-		 * Refreshes widget's mask. Can be used together with {@link CKEDITOR.plugins.widget#refreshParts} method to reinitialize mask
+		 * Refreshes widget's mask. Can be used together with {@link #refreshParts} method to reinitialize mask
 		 * for dynamically created widgets.
+		 *
+		 * @since 4.14.0
 		 */
 		refreshMask: function() {
 			setupMask( this );
 		},
 
 		/**
-		 * Reinitializes widget's {@link CKEDITOR.plugins.widget#parts parts}.
+		 * Reinitializes widget's {@link #parts}. This method can be used to link new DOM elements to parts,
+		 * e.g. in the case when widget's HTML is created asynchronously or modified during widget lifecycle.
+		 *
+		 * @since 4.14.0
+		 * @param {Boolean} [refreshInitialized=false] A flag telling if parts that are already initialized should be reinitialized.
 		 */
-		refreshParts: function() {
-			setupParts( this );
+		refreshParts: function( refreshInitialized ) {
+			refreshInitialized = refreshInitialized || false;
+			setupParts( this, refreshInitialized );
 		},
 
 		/**
@@ -3613,7 +3632,7 @@
 	// partName => selector pairs
 	// with:
 	// partName => element pairs
-	function setupParts( widget, refreshInitialised ) {
+	function setupParts( widget, refreshInitialized ) {
 		if ( !widget.partSelectors ) {
 			widget.partSelectors = widget.parts;
 		}
@@ -3624,7 +3643,7 @@
 				partName;
 
 			for ( partName in widget.partSelectors ) {
-				if ( refreshInitialised || !widget.parts[ partName ] || typeof widget.parts[ partName ] == 'string' ) {
+				if ( refreshInitialized || !widget.parts[ partName ] || typeof widget.parts[ partName ] == 'string' ) {
 					el = widget.wrapper.findOne( widget.partSelectors[ partName ] );
 					parts[ partName ] = el;
 				} else {
