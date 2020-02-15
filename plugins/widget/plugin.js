@@ -1443,8 +1443,11 @@
 		},
 
 		/**
-		 * Reinitializes widget's {@link #parts}. This method can be used to link new DOM elements to parts,
-		 * e.g. in the case when widget's HTML is created asynchronously or modified during widget lifecycle.
+		 * Reinitializes widget's {@link #parts}.
+		 *
+		 * This method can be used to link new DOM elements to parts, * e.g. in the case when widget's HTML is created
+		 * asynchronously or modified during widget lifecycle. Note that it uses {@link #partSelectors }, so it doesn't
+		 * refresh parts that were created manually.
 		 *
 		 * @since 4.14.0
 		 * @param {Boolean} [refreshInitialized=false] A flag telling if parts that are already initialized should be reinitialized.
