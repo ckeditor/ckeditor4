@@ -50,7 +50,7 @@
 						secondEditable = editor.document.$.elementFromPoint( 40, 60 ),
 						thirdEditable;
 
-					assert.areEqual( '.cksource', widget.parts.cksource, 'Part should still be just a selector.' );
+					assert.areEqual( null, widget.parts.cksource, 'Part should be null.' );
 
 					div.setText( 'cksource' );
 					div.addClass( 'cksource' );
