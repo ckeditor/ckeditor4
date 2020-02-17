@@ -80,6 +80,7 @@
 		 *
 		 * @param {String[]} filters An array of filter URLs.
 		 * @param {Function} callback A callback that will be invoked after loading all scripts.
+		 * @returns {Boolean} Returns `true` when there is no filters to load, `false` otherwise.
 		 * @member CKEDITOR.plugins.pastetools
 		 */
 		loadFilters: loadFilters,
