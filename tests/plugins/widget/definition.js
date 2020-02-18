@@ -417,6 +417,7 @@
 			} );
 		},
 
+		// (#3775)
 		'test parts refresh': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
@@ -447,6 +448,7 @@
 			} );
 		},
 
+		// (#3775)
 		'test parts refresh flag': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
