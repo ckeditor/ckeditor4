@@ -1453,7 +1453,7 @@
 		 * @param {Boolean} [refreshInitialized=true] Whether parts that are already initialized should be reinitialized.
 		 */
 		refreshParts: function( refreshInitialized ) {
-			refreshInitialized = refreshInitialized || false;
+			refreshInitialized = typeof refreshInitialized !== 'undefined' ? refreshInitialized : true;
 			setupParts( this, refreshInitialized );
 		},
 
