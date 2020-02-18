@@ -986,14 +986,14 @@
 		 *
 		 * For every `partName => selector` pair in {@link CKEDITOR.plugins.widget.definition#parts},
 		 * one `partName => element` pair is added to this object during the widget initialization.
-		 * Parts can be reinitialized via {@link #refreshParts} method.
+		 * Parts can be reinitialized with {@link #refreshParts} method.
 		 *
 		 * @readonly
 		 * @property {Object} parts
 		 */
 
 		/**
-		 * An object containing definitions of widget components (`part name => CSS selector`).
+		 * An object containing definitions of widget parts (`part name => CSS selector`).
 		 *
 		 * Unlike {@link #parts} object, it stays unchanged throughout the widget lifecycle
 		 * and is used in {@link #refreshParts} method.
@@ -1445,12 +1445,12 @@
 		/**
 		 * Reinitializes widget's {@link #parts}.
 		 *
-		 * This method can be used to link new DOM elements to parts, * e.g. in the case when widget's HTML is created
-		 * asynchronously or modified during widget lifecycle. Note that it uses {@link #partSelectors } object, so it doesn't
+		 * This method can be used to link new DOM elements to widget parts, for example in case when widget's HTML is created
+		 * asynchronously or modified during widget lifecycle. Note that it uses {@link #partSelectors} object, so it doesn't
 		 * refresh parts that were created manually.
 		 *
 		 * @since 4.14.0
-		 * @param {Boolean} [refreshInitialized=true] A flag telling if parts that are already initialized should be reinitialized.
+		 * @param {Boolean} [refreshInitialized=true] Whether parts that are already initialized should be reinitialized.
 		 */
 		refreshParts: function( refreshInitialized ) {
 			refreshInitialized = refreshInitialized || false;
