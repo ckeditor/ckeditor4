@@ -15,7 +15,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.ie || CKEDITOR.env.mac ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 
