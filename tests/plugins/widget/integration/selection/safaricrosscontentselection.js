@@ -13,15 +13,14 @@
 		}
 	};
 
-	// Due the fact how incomparable MACOSX output selection is when selecting content between editables,
+	// Due the fact how incomparable Safari output selection is when selecting content between editables,
 	// we are going with less strict selection comparison in this test file.
 	// So, instead of verifying if selection is placed in expected position, we are checking if it gives expected results
-	// when doing cross selection between content and widget. Note that this test file should only contain MACOSX
+	// when doing cross selection between content and widget. Note that this test file should only contain Safari
 	// unit tests. See crosscontentselection.js file for Chrome and Firefox unit tests.
-
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.mac ) {
+			if ( bender.tools.env.mobile || !CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 
