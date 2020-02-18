@@ -28,6 +28,7 @@ API Changes:
 * [#3727](https://github.com/ckeditor/ckeditor4/issues/3727): Added new commands `textColor` and `bgColor` which applies the selected color choosen by the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin.
 * [#3728](https://github.com/ckeditor/ckeditor4/issues/3728): Added new commands `font` and `fontSize` which applies the selected font style choosen by the [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin.
 * [#3842](https://github.com/ckeditor/ckeditor4/issues/3842): Added [`editor.getSelectedRanges`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getSelectedRanges) alias.
+* [#3775](https://github.com/ckeditor/ckeditor4/issues/3775): Widget [mask](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#property-mask) and [parts](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#property-parts) can now be refreshed dynamically via API calls.
 
 ## CKEditor 4.13.1
 

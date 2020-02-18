@@ -986,9 +986,21 @@
 		 *
 		 * For every `partName => selector` pair in {@link CKEDITOR.plugins.widget.definition#parts},
 		 * one `partName => element` pair is added to this object during the widget initialization.
+		 * Parts can be reinitialized with {@link #refreshParts} method.
 		 *
 		 * @readonly
 		 * @property {Object} parts
+		 */
+
+		/**
+		 * An object containing definitions of widget parts (`part name => CSS selector`).
+		 *
+		 * Unlike {@link #parts} object, it stays unchanged throughout the widget lifecycle
+		 * and is used in {@link #refreshParts} method.
+		 *
+		 * @readonly
+		 * @property {Object} partSelectors
+		 * @since 4.14.0
 		 */
 
 		/**
@@ -1418,6 +1430,31 @@
 
 			// Always focus editor (not only when focusManger.hasFocus is false) (because of https://dev.ckeditor.com/ticket/10483).
 			this.editor.focus();
+		},
+
+		/**
+		 * Refreshes widget's mask. Can be used together with {@link #refreshParts} method to reinitialize mask
+		 * for dynamically created widgets.
+		 *
+		 * @since 4.14.0
+		 */
+		refreshMask: function() {
+			setupMask( this );
+		},
+
+		/**
+		 * Reinitializes widget's {@link #parts}.
+		 *
+		 * This method can be used to link new DOM elements to widget parts, for example in case when widget's HTML is created
+		 * asynchronously or modified during widget lifecycle. Note that it uses {@link #partSelectors} object, so it doesn't
+		 * refresh parts that were created manually.
+		 *
+		 * @since 4.14.0
+		 * @param {Boolean} [refreshInitialized=true] Whether parts that are already initialized should be reinitialized.
+		 */
+		refreshParts: function( refreshInitialized ) {
+			refreshInitialized = typeof refreshInitialized !== 'undefined' ? refreshInitialized : true;
+			setupParts( this, refreshInitialized );
 		},
 
 		/**
@@ -3598,15 +3635,23 @@
 	// partName => selector pairs
 	// with:
 	// partName => element pairs
-	function setupParts( widget ) {
+	function setupParts( widget, refreshInitialized ) {
+		if ( !widget.partSelectors ) {
+			widget.partSelectors = widget.parts;
+		}
+
 		if ( widget.parts ) {
 			var parts = {},
 				el,
 				partName;
 
-			for ( partName in widget.parts ) {
-				el = widget.wrapper.findOne( widget.parts[ partName ] );
-				parts[ partName ] = el;
+			for ( partName in widget.partSelectors ) {
+				if ( refreshInitialized || !widget.parts[ partName ] || typeof widget.parts[ partName ] == 'string' ) {
+					el = widget.wrapper.findOne( widget.partSelectors[ partName ] );
+					parts[ partName ] = el;
+				} else {
+					parts[ partName ] = widget.parts[ partName ];
+				}
 			}
 			widget.parts = parts;
 		}
@@ -3727,8 +3772,8 @@
 		var part = this.parts[ this.maskPart ],
 			mask;
 
-		// If requested part is invalid, don't create mask.
-		if ( !part ) {
+		// If requested part is invalid or wasn't fetched yet (#3775), don't create mask.
+		if ( !part || typeof part == 'string' ) {
 			return;
 		}
 
