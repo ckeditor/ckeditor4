@@ -5,7 +5,7 @@
 **Note:** Mask has a red border so it's positioning is visible without inspecting mask element,
 but still keep the console opened and watch out for errors.
 
-1. Click `Refresh mask` button below editor.
+1. Click `Refresh widget mask` button below editor.
 
   **Expected:**
 
@@ -15,7 +15,7 @@ but still keep the console opened and watch out for errors.
 
   Error was thrown.
 
-1. Click `Add missing HTML` button below editor.
+1. Click `Add missing widget HTML` button below editor.
 
   **Expected:**
 
@@ -25,7 +25,7 @@ but still keep the console opened and watch out for errors.
 
   Second row didn't appear.
 
-1. Click `Refresh mask` button below editor.
+1. Click `Refresh widget mask` button below editor.
 
   **Expected:**
 
@@ -35,9 +35,9 @@ but still keep the console opened and watch out for errors.
 
   Error was thrown.
 
-1. Click `Refresh parts` button below editor.
+1. Click `Refresh widget parts` button below editor.
 
-1. Click `Refresh mask` button below editor.
+1. Click `Refresh widget mask` button below editor.
 
   **Expected:**
 
