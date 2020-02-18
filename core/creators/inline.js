@@ -54,6 +54,12 @@
 			if ( textarea.$.form )
 				editor._attachToForm();
 		} else {
+			// If editor element does not have contenteditable attribute, but config.readOnly
+			// is explicitly set to false, set the contentEditable property to true (#3866).
+			if ( instanceConfig && typeof instanceConfig.readOnly !== 'undefined' && !instanceConfig.readOnly ) {
+				element.$.contentEditable = true;
+			}
+
 			// Initial editor data is simply loaded from the page element content to make
 			// data retrieval possible immediately after the editor creation.
 			editor.setData( element.getHtml(), null, true );
