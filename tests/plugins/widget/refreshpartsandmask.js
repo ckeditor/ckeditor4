@@ -36,27 +36,32 @@
 			editor.widgets.add( 'testPartialMask', widgetDef );
 
 			this.editorBot.setData( '<div data-widget="testPartialMask" id="widget">' +
-				'<p id="foo">foo</p><p id="bar">bar</p><p class="cksource">cksource</p></div>',
+				'<p id="foo">foo</p><p id="bar">bar</p></div>',
 				function() {
-					var element = editor.document.getById( 'widget' ),
+					var div = new CKEDITOR.dom.element( 'div' ),
+						element = editor.document.getById( 'widget' ),
 						widget = editor.widgets.getByElement( element ),
 						firstEditable = editor.document.$.elementFromPoint( 40, 30 ),
 						secondEditable = editor.document.$.elementFromPoint( 40, 60 ),
 						thirdEditable;
 
-					assert.isNull( widget.wrapper.findOne( '.cke_widget_mask' ), 'Complete mask was created instead of partial.' );
-					assert.isInstanceOf( CKEDITOR.dom.element, widget.wrapper.findOne( '.cke_widget_partial_mask' ), 'Mask element was not found.' );
+					assert.areEqual( null, widget.parts.cksource, 'Part should be null.' );
 
-					widget.wrapper.findOne( '.cke_widget_partial_mask' ).remove();
+					div.setText( 'cksource' );
+					div.addClass( 'cksource' );
+					widget.element.append( div );
+					widget.refreshParts();
 
-					assert.isNull( widget.wrapper.findOne( '.cke_widget_partial_mask' ), 'Mask wasn\t removed.' );
+					assert.isInstanceOf( CKEDITOR.dom.element, widget.parts.cksource, 'Part should already be an element instance.' );
 
 					widget.refreshMask();
 
-					thirdEditable = editor.document.$.elementFromPoint( 40, 90 );
-
+					assert.isNull( widget.wrapper.findOne( '.cke_widget_mask' ), 'Complete mask was created instead of partial.' );
+					assert.isInstanceOf( CKEDITOR.dom.element, widget.wrapper.findOne( '.cke_widget_partial_mask' ), 'Mask element was not found.' );
 					assert.areSame( 'foo', firstEditable.innerText, 'Mask covers the first editable instead of the third.' );
 					assert.areSame( 'bar', secondEditable.innerText, 'Mask covers the second editable instead of the third.' );
+
+					thirdEditable = editor.document.$.elementFromPoint( 40, 90 );
 
 					// IE8 is just IE8. It needs to do the same again (as for the first time it returns null).
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
