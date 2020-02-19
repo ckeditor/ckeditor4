@@ -12,12 +12,15 @@
 2. Try to **remove** style from not styled text.
 
 ### Expected:
-Each click into richcombo option, should generate related command execution.
+* Each click into richcombo option, should generate related command execution.
+* Removing non-existing style shouldn't generate command log.
 
 ### Unexpected:
-* Command is not executed
-* Command is executed multiple times for one richcombo click
-* Command is executed with wrong style
+* Command is not executed.
+* Command is executed multiple times for one richcombo click.
+* Command is executed with wrong style.
+* Command is executed when removing non-existing style.
 
-<br>_Please notice there is a bug [#1116](https://github.com/ckeditor/ckeditor-dev/issues/1116),
+
+_Please notice there is a bug [#1116](https://github.com/ckeditor/ckeditor-dev/issues/1116),
 which doesn't remove font style if selection starts outside of styled element._
