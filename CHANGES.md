@@ -3,6 +3,14 @@
 
 ## CKEditor 4.14
 
+**Security Updates:**
+
+* Fixed XSS vulnerability in the HTML data processor reported by [Michał Bentkowski](https://twitter.com/securitymb) of Securitum.
+
+	Issue summary: It was possible to execute XSS inside CKEditor after persuading the victim to: (i) switch CKEditor to source mode, then (ii) paste a specially crafted HTML code, prepared by the attacker, into the opened CKEditor source area, and (iii) switch back to WYSIWYG mode or (i) copy specially crafted HTML code, prepared by the attacker and (ii) paste it into CKEditor in WYSIWYG mode.
+
+**An upgrade is highly recommended!**
+
 New features:
 
 * [#2374](https://github.com/ckeditor/ckeditor4/issues/2374): Added support for pasting rich content from LibreOffice with the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin.
