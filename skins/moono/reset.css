@@ -93,9 +93,10 @@ https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_reset.html
 
 .cke_reset_all textarea[disabled],
 .cke_reset_all input[type="text"][disabled],
-.cke_reset_all input[type="password"][disabled]
+.cke_reset_all input[type="password"][disabled] 
 {
-	cursor: default;
+    background-color: #efefef;
+    cursor: default;
 }
 
 .cke_reset_all fieldset

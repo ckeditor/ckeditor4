@@ -15,6 +15,17 @@ CKEDITOR.plugins.add( 'format', {
 		var config = editor.config,
 			lang = editor.lang.format;
 
+        var node = CKEDITOR.document.getHead().append('style');
+        node.setAttribute('type', 'text/css');
+        var content = '.cke_combopanel__format { height: 200px; width: 175px; }' +
+            '.cke_combo__format .cke_combo_text { width: 80px;}';
+
+        if (CKEDITOR.env.ie && CKEDITOR.env.version < 11) {
+            node.$.styleSheet.cssText = content;
+        } else {
+            node.$.innerHTML = content;
+        }
+
 		// Gets the list of tags from the settings.
 		var tags = config.format_tags.split( ';' );
 
@@ -70,7 +81,11 @@ CKEDITOR.plugins.add( 'format', {
 				// Always apply style, do not allow to toggle it by clicking on corresponding list item (#584).
 				if ( !style.checkActive( elementPath, editor ) ) {
 					editor.applyStyle( style );
-				}
+                }
+
+                // start: own hanges
+                this.label = lang['tag_' + value];
+                // end: own hanges
 
 				// Save the undo snapshot after all changes are affected. (https://dev.ckeditor.com/ticket/4899)
 				setTimeout( function() {

@@ -60,23 +60,21 @@ The visual representation of a rich combo widget looks as follows:
 }
 
 /* The container for combo text and arrow. */
-a.cke_combo_button
+a.cke_combo_button 
 {
-	cursor: default;
-	display: inline-block;
-	float: left;
-	margin: 0 6px 5px 0;
+    cursor: default;
+    display: inline-block;
+    float: left;
+    margin: 0 3px 5px 0;
+    height: 24px;
 
-	border: 1px solid #a6a6a6;
-	border-bottom-color: #979797;
+    border: 1px solid #a6a6a6;
+    border-bottom-color: #979797;
 
-	border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
-	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-
-	background: #e4e4e4;
-	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
+    background: #e4e4e4;
+    background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
 }
 
 /* Different states of the container. */
@@ -136,14 +134,14 @@ a.cke_combo_button
 .cke_combo_text
 {
 	line-height: 26px;
-	padding-left: 10px;
+	padding-left: 4px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	float: left;
 	cursor: default;
 	color: #474747;
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
-    width: 60px;
+    width: 65px;
 }
 
 .cke_rtl .cke_combo_text

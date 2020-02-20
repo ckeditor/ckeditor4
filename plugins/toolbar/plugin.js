@@ -195,7 +195,10 @@
 						toolbarName,
 						row = toolbar[ r ],
 						lastToolbarInRow = row !== '/' && ( toolbar[ r + 1 ] === '/' || r == toolbarLength - 1 ),
-						items;
+                        items,
+                        // start: own hanges
+                        canHide = toolbar[r].canHide;
+                        // end: own hanges
 
 					// It's better to check if the row object is really
 					// available because it's a common mistake to leave
@@ -241,9 +244,14 @@
 								toolbarObj = { id: toolbarId, items: [] };
 								toolbarName = row.name && ( editor.lang.toolbar.toolbarGroups[ row.name ] || row.name );
 
+                                // start: own hanges
 								// Output the toolbar opener.
-								output.push( '<span id="', toolbarId, '" class="cke_toolbar' + ( lastToolbarInRow ? ' cke_toolbar_last"' : '"' ),
-									( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
+								output.push('<span id="', toolbarId, 
+                                             '" class="cke_toolbar' + (canHide ? ' cke_toolgroup__hidden"' : '"') + (lastToolbarInRow ? ' cke_toolbar_last"' : '"'),
+                                             (toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : ''),
+                                             (canHide ? ' canHide' : ''),
+                                             ' role="toolbar">');
+                                // end: own hanges
 
 								// If a toolbar name is available, send the voice label.
 								toolbarName && output.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );
@@ -312,6 +320,61 @@
 
 				if ( editor.config.toolbarCanCollapse )
 					output.push( '</span>' );
+
+                // start: own hanges
+                if (editor.config.canHideEnabled && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE) {
+                    var hiddenClass = 'cke_toolgroup__hidden';
+                    var minClass = 'cke_toolbox_canHide_min';
+                    var rightArrow = '\u25b6';
+                    var leftArrow = '\u25c0';
+                    var spaceId = 'toolbar_canHide';
+
+                    var getElementsByAttrName = function (attr) {
+                        return document.querySelectorAll('[' + attr + ']');
+                    }
+
+                    var collapserFn = CKEDITOR.tools.addFunction(function () {
+                        editor.execCommand('toolbarCanHide');
+                    });
+
+                    editor.on('destroy', function () {
+                        CKEDITOR.tools.removeFunction(collapserFn);
+                    });
+
+                    editor.addCommand('toolbarCanHide', {
+                        exec: function (editor) {
+                            var button = editor.ui.space(spaceId);
+                            var isHidden = button.hasClass(minClass);
+
+                            var collapsibleElements = getElementsByAttrName('canHide');
+
+                            var toolbox = editor.ui.space('top');
+                            var toolboxHeight = toolbox.$.offsetHeight;
+
+                            for (var i = 0; i < collapsibleElements.length; ++i) {
+                                var elem = collapsibleElements[i];
+                                elem.className = isHidden ? elem.className.replace(hiddenClass, '') : elem.className + ' ' + hiddenClass;
+                            }
+
+                            if (isHidden) {
+                                button.removeClass(minClass);
+                            } else {
+                                button.addClass(minClass);
+                            }
+
+                            button.getFirst().setText(isHidden ? leftArrow : rightArrow);
+
+                            var contents = editor.ui.space('contents');
+                            contents.setStyle('height', (parseInt(contents.$.style.height, 10) - (toolbox.$.offsetHeight - toolboxHeight)) + 'px');
+                        },
+                        modes: { wysiwyg: 1, source: 1 }
+                    });
+
+                    output.push('<a id="' + editor.ui.spaceId(spaceId) + '" class="cke_toolbox_collapser ' + minClass + '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ')">',
+                        '<span class="cke_arrow_text" style="cursor: default;">' + rightArrow + '</span>',
+                        '</a>');
+                }
+                // end: own hanges
 
 				// Not toolbar collapser for inline mode.
 				if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
@@ -546,7 +609,12 @@
 				}
 				else if ( group.items ) {
 					fillGroup( newGroup, CKEDITOR.tools.clone( group.items ) );
-					newGroup.name = group.name;
+                    newGroup.name = group.name;
+                    // start: own hanges
+                    if (typeof group.canHide === 'boolean') {
+                        newGroup.canHide = group.canHide;
+                    }
+                    // end: own hanges
 					toolbar.push( newGroup );
 				}
 			}

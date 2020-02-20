@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -505,7 +505,22 @@
 					lineBreak = doc.createElement( 'br' );
 
 				range.deleteContents();
-				range.insertNode( lineBreak );
+
+                // start: own changes
+                var a;
+
+                for (var i = 0; i < elementPath.elements.length; ++i) {
+                    if (elementPath.elements[i].$.nodeName === 'A') {
+                        a = elementPath.elements[i];
+                    }
+                }
+
+                if (a) {
+                    lineBreak.insertAfter(a);
+                } else {
+                    range.insertNode(lineBreak);
+                }
+                // end: own changes
 
 				// Old IEs have different behavior regarding position.
 				if ( !CKEDITOR.env.needsBrFiller )

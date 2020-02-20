@@ -1,0 +1,4 @@
+span.misspelled-word {
+	border: none;
+	background: url('error_underline.png') repeat-x bottom left;
+}

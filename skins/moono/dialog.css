@@ -54,7 +54,6 @@ Comments in this file will give more details about each of the above blocks.
 	background: #eaeaea;
 	border: 1px solid #b2b2b2;
 	border-bottom-color: #999;
-	border-radius: 3px;
 	box-shadow: 0 0 3px rgba(0, 0, 0, .15);
 }
 
@@ -67,23 +66,20 @@ Comments in this file will give more details about each of the above blocks.
 /* The dialog title. */
 .cke_dialog_title
 {
-	font-weight: bold;
-	font-size: 13px;
-	cursor: move;
-	position: relative;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: move;
+    position: relative;
 
-	color: #474747;
-	text-shadow: 0 1px 0 rgba(255,255,255,.75);
+    color: #474747;
+    text-shadow: 0 1px 0 rgba(255,255,255,.75);
 
-	border-bottom: 1px solid #999;
-	padding: 6px 10px;
+    border-bottom: 1px solid #999;
+    padding: 6px 10px;
 
-	border-radius: 2px 2px 0 0;
-	box-shadow: 0 1px 0 #fff inset;
+    box-shadow: 0 1px 0 #fff inset;
 
-	background: #cfd1cf;
-	background-image: linear-gradient(to bottom, #f5f5f5, #cfd1cf);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
+    background: #ebebeb;
 }
 
 .cke_dialog_spinner
@@ -163,15 +159,14 @@ Comments in this file will give more details about each of the above blocks.
    well as a resize handler. */
 .cke_dialog_footer
 {
-	text-align: right;
-	position: relative;
-	border: none;
-	outline: 1px solid #bfbfbf;
-	box-shadow: 0 1px 0 #fff inset;
-	border-radius: 0 0 2px 2px;
-	background: #cfd1cf;
-	background-image: linear-gradient(to bottom, #ebebeb, #cfd1cf);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');
+    text-align: right;
+    position: relative;
+    border: none;
+    outline: 1px solid #bfbfbf;
+    box-shadow: 0 1px 0 #fff inset;
+    background: #ebebeb;
+    background-image: linear-gradient(to bottom, #ebebeb, #cfd1cf);
+    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');
 }
 
 .cke_rtl .cke_dialog_footer
@@ -251,11 +246,7 @@ a.cke_dialog_tab
 	color: #595959;
 	border: 1px solid #bfbfbf;
 
-	border-radius: 3px 3px 0 0;
-
 	background: #d4d4d4;
-	background-image: linear-gradient(to bottom, #fafafa, #ededed);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fafafa', endColorstr='#ededed');
 }
 
 .cke_rtl a.cke_dialog_tab
@@ -269,8 +260,6 @@ a.cke_dialog_tab:hover,
 a.cke_dialog_tab:focus
 {
 	background: #ebebeb;
-	background: linear-gradient(to bottom, #ebebeb 0%,#dfdfdf 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebebeb', endColorstr='#dfdfdf',GradientType=0 );
 }
 
 a.cke_dialog_tab_selected
@@ -535,8 +524,6 @@ textarea.cke_dialog_ui_input_textarea
 
 	box-sizing: border-box;
 
-	border-radius: 3px;
-
 	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 }
 
@@ -588,13 +575,9 @@ a.cke_dialog_ui_button
 
 	border: 1px solid #b6b6b6;
 	border-bottom-color: #999;
-	border-radius: 3px;
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;
-	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
-
 }
 
 span.cke_dialog_ui_button
@@ -607,8 +590,6 @@ a.cke_dialog_ui_button:hover
 	border-color: #9e9e9e;
 
 	background: #ccc;
-	background-image: linear-gradient(to bottom, #f2f2f2, #ccc);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 }
 
 /* 	:focus/:active styles for dialog buttons: regular and footer. */
@@ -768,7 +749,6 @@ select.cke_dialog_ui_input_select
 	border-top-color: #aeb3b9;
 	padding: 3px 3px 3px 6px;
 	outline: none;
-	border-radius: 3px;
 	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 }
 
@@ -881,12 +861,11 @@ tendency that these will be moved to the plugins code in the future.
 
 .cke_dialog  .ImagePreviewBox
 {
-	border: 2px ridge black;
-	overflow: scroll;
-	height: 200px;
-	width: 300px;
-	padding: 2px;
-	background-color: white;
+    border: 1px ridge black;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 200px;
+    background-color: white;
 }
 
 .cke_dialog .ImagePreviewBox table td
@@ -939,7 +918,6 @@ tendency that these will be moved to the plugins code in the future.
 	height: 130px;
 	background-color: white;
 	border: 1px solid #aeb3b9;
-	border-radius: 3px;
 }
 
 .cke_dialog .cke_hand

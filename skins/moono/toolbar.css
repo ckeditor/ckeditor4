@@ -64,17 +64,14 @@ Special outer level classes used in this file:
 .cke_toolgroup
 {
 	float: left;
-	margin: 0 6px 5px 0;
+	margin: 0 3px 5px 0;
 	border: 1px solid #a6a6a6;
 	border-bottom-color: #979797;
-
-	border-radius: 3px;
 
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;
 	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
 }
 
 .cke_hc .cke_toolgroup
@@ -91,12 +88,16 @@ Special outer level classes used in this file:
 	margin-right: 0;
 }
 
+.cke_toolgroup__hidden {
+    display: none;
+}
+
 /* A toolbar button . */
 a.cke_button
 {
 	display: inline-block;
 	height: 18px;
-	padding: 4px 6px;
+	padding: 3px 4px;
 	outline: none;
 	cursor: default;
 	float: left;
@@ -106,8 +107,6 @@ a.cke_button
 .cke_ltr .cke_button:last-child,
 .cke_rtl .cke_button:first-child
 {
-	/* Don't distort parent's rounded border. */
-	border-radius: 0 2px 2px 0;
 }
 
 .cke_ltr .cke_button:first-child,
@@ -315,33 +314,28 @@ a.cke_button_disabled:active
 }
 
 /* The button, which when clicked hides (collapses) all the toolbars. */
-a.cke_toolbox_collapser
+a.cke_toolbox_collapser 
 {
-	width: 12px;
-	height: 11px;
-	float: right;
-	margin: 11px 0 0;
-	font-size: 0;
-	cursor: default;
-	text-align: center;
+    width: 14px;
+    height: 24px;
+    float: right;
+    margin: 0;
+    cursor: default;
+    text-align: center;
 
-	border: 1px solid #a6a6a6;
-	border-bottom-color: #979797;
+    border: 1px solid #a6a6a6;
+    border-bottom-color: #979797;
 
-	border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
-	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-
-	background: #e4e4e4;
-	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
+    background: #e4e4e4;
+    background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
 }
 
 .cke_toolbox_collapser:hover
 {
 	background: #ccc;
 	background-image: linear-gradient(to bottom, #f2f2f2, #ccc);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 }
 
 .cke_toolbox_collapser.cke_toolbox_collapser_min
@@ -368,6 +362,12 @@ a.cke_toolbox_collapser
 	border-right: 3px solid transparent;
 	border-bottom: 3px solid #474747;
 	border-top: 3px solid transparent;
+}
+
+.cke_toolbox_collapser .cke_arrow_text 
+{
+    display: inline-block;
+    line-height: 24px;
 }
 
 .cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow

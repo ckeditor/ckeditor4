@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -214,37 +214,20 @@
 
 		return {
 			title: linkLang.title,
-			minWidth: ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 350,
-			minHeight: 240,
+            minWidth: 350,
+            minHeight: 230,
 			contents: [ {
 				id: 'info',
 				label: linkLang.info,
 				title: linkLang.info,
 				elements: [ {
-					type: 'text',
-					id: 'linkDisplayText',
-					label: linkLang.displayText,
-					setup: function() {
-						this.enable();
-
-						this.setValue( editor.getSelection().getSelectedText() );
-
-						// Keep inner text so that it can be compared in commit function. By obtaining value from getData()
-						// we get value stripped from new line chars which is important when comparing the value later on.
-						initialLinkText = this.getValue();
-					},
-					commit: function( data ) {
-						data.linkText = this.isEnabled() ? this.getValue() : '';
-					}
-				},
-				{
 					id: 'linkType',
 					type: 'select',
 					label: linkLang.type,
 					'default': 'url',
 					items: [
 						[ linkLang.toUrl, 'url' ],
-						[ linkLang.toAnchor, 'anchor' ],
+						//[ linkLang.toAnchor, 'anchor' ], InsERT: #123244
 						[ linkLang.toEmail, 'email' ]
 					],
 					onChange: linkTypeChanged,
@@ -920,48 +903,78 @@
 					} ]
 				} ]
 			} ],
-			onShow: function() {
-				var editor = this.getParentEditor(),
-					selection = editor.getSelection(),
-					displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent(),
-					elements = plugin.getSelectedLink( editor, true ),
-					firstLink = elements[ 0 ] || null;
+            onShow: function () {
+                var editor = this.getParentEditor(),
+                    selection = editor.getSelection(),
+                    element = null;
 
-				// Fill in all the relevant fields if there's already one link selected.
-				if ( firstLink && firstLink.hasAttribute( 'href' ) ) {
-					// Don't change selection if some element is already selected.
-					// For example - don't destroy fake selection.
-					if ( !selection.getSelectedElement() && !selection.isInTable() ) {
-						selection.selectElement( firstLink );
-					}
-				}
+                // Fill in all the relevant fields if there's already one link selected.
+                if ((element = plugin.getSelectedLink(editor)) && element.hasAttribute('href')) {
+                    // Don't change selection if some element is already selected.
+                    // For example - don't destroy fake selection.
+                    if (!selection.getSelectedElement())
+                        selection.selectElement(element);
+                } else {
+                    element = null;
+                }
 
-				var data = plugin.parseLinkAttributes( editor, firstLink );
+                var data = plugin.parseLinkAttributes(editor, element);
 
-				// Here we'll decide whether or not we want to show Display Text field.
-				if ( elements.length <= 1 && plugin.showDisplayTextForElement( firstLink, editor ) ) {
-					displayTextField.show();
-				} else {
-					displayTextField.hide();
-				}
+                // Record down the selected element in the dialog.
+                this._.selectedElement = element;
 
-				// Record down the selected element in the dialog.
-				this._.selectedElements = elements;
-
-				this.setupContent( data );
-			},
+                this.setupContent(data);
+            },
 			onOk: function() {
 				var data = {};
 
 				// Collect data from fields.
 				this.commitContent( data );
 
-				if ( !this._.selectedElements.length ) {
-					insertLinksIntoSelection( editor, data );
-				} else {
-					editLinksInSelection( editor, this._.selectedElements, data );
+                var selection = editor.getSelection(),
+                    attributes = plugin.getLinkAttributes( editor, data );
 
-					delete this._.selectedElements;
+                if ( !this._.selectedElement ) {
+                    var range = selection.getRanges()[ 0 ];
+
+                    // Use link URL as text with a collapsed cursor.
+                    if ( range.collapsed ) {
+                        // Short mailto link text view (#5736).
+                        var text = new CKEDITOR.dom.text( data.type == 'email' ?
+                            data.email.address : attributes.set[ 'data-cke-saved-href' ], editor.document );
+                        range.insertNode( text );
+                        range.selectNodeContents( text );
+                    }
+
+                    // Apply style.
+                    var style = new CKEDITOR.style( {
+                        element: 'a',
+                        attributes: attributes.set
+                    } );
+
+                    style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
+                    style.applyToRange( range, editor );
+                    range.select();
+                } else {
+                    // We're only editing an existing link, so just overwrite the attributes.
+                    var element = this._.selectedElement,
+                        href = element.data( 'cke-saved-href' ),
+                        textView = element.getHtml();
+
+                    element.setAttributes( attributes.set );
+                    element.removeAttributes( attributes.removed );
+
+                    // Update text view when user changes protocol (#4612).
+                    if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
+                        // Short mailto link text view (#5736).
+                        element.setHtml( data.type == 'email' ?
+                            data.email.address : attributes.set[ 'data-cke-saved-href' ] );
+
+                        // We changed the content, so need to select it again.
+                        selection.selectElement( element );
+                    }
+
+                    delete this._.selectedElement;
 				}
 			},
 			onLoad: function() {

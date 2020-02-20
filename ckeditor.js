@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 // Compressed version of core/ckeditor_base.js. See original for instructions.
@@ -42,7 +42,7 @@ else {
  *
  *		CKEDITOR.skinName = 'myskin,/customstuff/myskin/';
  *
- * @cfg {String} [skinName='moono-lisa']
+ * @cfg {String} [skinName='moono']
  * @member CKEDITOR
  */
-CKEDITOR.skinName = 'moono-lisa';
+CKEDITOR.skinName = 'moono';

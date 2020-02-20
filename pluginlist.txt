@@ -1,0 +1,49 @@
+﻿Lista pluginów wykorzystywanych przez edytor. Niektóre z nich mają nasze zmiany, które przy podbijaniu wersji też trzeba przenieść. 
+Część zmian została one objęta w komentarze: "// start: own hanges" i "// end: own changes".
+
+basicstyles - https://ckeditor.com/cke4/addon/basicstyles
+blockquote - https://ckeditor.com/cke4/addon/blockquote
+button - https://ckeditor.com/cke4/addon/button
+clipboard - https://ckeditor.com/cke4/addon/clipboard
+codemirror - https://ckeditor.com/cke4/addon/codemirror
+colorbutton - https://ckeditor.com/cke4/addon/colorbutton
+colordialog - https://ckeditor.com/cke4/addon/colordialog
+contextmenu - https://ckeditor.com/cke4/addon/contextmenu
+dialog - https://ckeditor.com/cke4/addon/dialog
+dialogui - https://ckeditor.com/cke4/addon/dialogui
+enterkey - https://ckeditor.com/cke4/addon/enterkey
+entities - https://ckeditor.com/cke4/addon/entities
+fakeobjects - https://ckeditor.com/cke4/addon/fakeobjects
+find - https://ckeditor.com/cke4/addon/find
+floatingspace - https://ckeditor.com/cke4/addon/floatingspace
+floatpanel - https://ckeditor.com/cke4/addon/floatpanel
+font - https://ckeditor.com/cke4/addon/font
+format - https://ckeditor.com/cke4/addon/format
+image - https://ckeditor.com/cke4/addon/image
+indent - https://ckeditor.com/cke4/addon/indent
+indentblock - https://ckeditor.com/cke4/addon/indentblock
+indentlist - https://ckeditor.com/cke4/addon/indentlist
+justify - https://ckeditor.com/cke4/addon/justify
+link - https://ckeditor.com/cke4/addon/link
+list - https://ckeditor.com/cke4/addon/list
+listblock - https://ckeditor.com/cke4/addon/listblock
+liststyle - https://ckeditor.com/cke4/addon/liststyle
+menu - https://ckeditor.com/cke4/addon/menu
+panel - https://ckeditor.com/cke4/addon/panel
+panelbutton - https://ckeditor.com/cke4/addon/panelbutton
+pastefromword - https://ckeditor.com/cke4/addon/pastefromword
+pastetext - https://ckeditor.com/cke4/addon/pastetext
+removeformat - https://ckeditor.com/cke4/addon/removeformat
+richcombo - https://ckeditor.com/cke4/addon/richcombo
+showborders - https://ckeditor.com/cke4/addon/showborders
+sourcedialog - https://ckeditor.com/cke4/addon/sourcedialog
+table - https://ckeditor.com/cke4/addon/table
+tableresize - https://ckeditor.com/cke4/addon/tableresize
+tabletools - https://ckeditor.com/cke4/addon/tabletools
+toolbar - https://ckeditor.com/cke4/addon/toolbar
+undo - https://ckeditor.com/cke4/addon/undo
+wysiwygarea - https://ckeditor.com/cke4/addon/wysiwygarea
+
+ins_commands
+ins_emailquote
+ins_spellchecker
