@@ -27,7 +27,7 @@
 				computed = 0;
 		}
 
-		return parseInt( computed, 10 );
+		return parseFloat( computed );
 	}
 
 	// Sets pillar height and position based on given table element (head, body, footer).
@@ -51,7 +51,9 @@
 				pillarRow,
 				pillarHeight = 0,
 				pillarPosition = null,
-				pillarDimensions = setPillarDimensions( $tr );
+				pillarDimensions = setPillarDimensions( $tr ),
+				isIE = CKEDITOR.env.ie && !CKEDITOR.env.edge,
+				isBorderCollapse = table.getComputedStyle( 'border-collapse' ) === 'collapse'
 
 			pillarHeight = pillarDimensions.height;
 			pillarPosition = pillarDimensions.position;
@@ -89,6 +91,17 @@
 				}
 
 				pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
+
+				// In case of IE and collapsed table border, we must substract all borders
+				// from previous and current cells (#2823).
+				if ( isIE && isBorderCollapse ) {
+					var borderLeft = getBorderWidth( table, 'left' ),
+						borderRight = getBorderWidth( table, 'right' ),
+						index = td.$.cellIndex + 1;
+
+					pillarLeft -= ( borderLeft * index ) + ( borderRight * index ) + pillarWidth;
+				}
+
 
 				// The pillar should reflects exactly the shape of the hovered
 				// column border line.
