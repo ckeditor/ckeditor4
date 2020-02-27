@@ -69,13 +69,19 @@
 		var fragment = evt.data.dataValue,
 			children = fragment.children;
 
-
-		if ( children.length !== 1 ||
-			typeof children[ 0 ].attributes[ 'data-cke-placeholdertext' ] === 'undefined' ) {
+		if ( children.length !== 1 || checkPlaceholder( children[ 0 ] ) ) {
 			return;
 		}
 
 		children[ 0 ].remove();
+
+		function checkPlaceholder( element ) {
+			if ( element.type !== CKEDITOR.NODE_ELEMENT ) {
+				return true;
+			}
+
+			return typeof element.attributes[ 'data-cke-placeholdertext' ] === 'undefined';
+		}
 	}
 
 	CKEDITOR.plugins.add( 'placeholdertext', {

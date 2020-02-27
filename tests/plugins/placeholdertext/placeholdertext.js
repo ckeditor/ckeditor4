@@ -116,5 +116,23 @@
 		} );
 	};
 
+	tests[ 'test integration with easyimage' ] = function() {
+		if ( CKEDITOR.env.ie || CKEDITOR.env.version <= 11 ) {
+			assert.ignore();
+		}
+
+		bender.editorBot.create( {
+			config: {
+				extraPlugins: 'easyimage',
+				placeholdertext: 'Some placeholder'
+			},
+			startupData: '<p><figure class="easyimage"><img src="/tests/_assets/lena.jpg" alt=""><figcaption>Lena</figcaption></figure>'
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.areSame( 0, editor.editable().find( '[data-cke-caption-hidden]' ).count() );
+		} );
+	};
+
 	bender.test( tests );
 }() );
