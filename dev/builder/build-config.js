@@ -74,6 +74,7 @@ var CKBUILDER_CONFIG = {
 		pastefromlibreoffice: 1,
 		pastefromword: 1,
 		pastetext: 1,
+		placeholdertext: 1,
 		preview: 1,
 		print: 1,
 		removeformat: 1,
