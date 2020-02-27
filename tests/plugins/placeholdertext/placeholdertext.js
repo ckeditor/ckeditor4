@@ -82,7 +82,7 @@
 			}, 150 );
 
 			wait();
-		},
+		}
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );

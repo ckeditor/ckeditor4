@@ -54,7 +54,7 @@
 			range = editor.createRange(),
 			placeholder = editable.findOne( '[data-cke-placeholdertext]' );
 
-		if ( !placeholder) {
+		if ( !placeholder ) {
 			return;
 		}
 
@@ -121,5 +121,5 @@
 	 * @cfg {String} [placeholdertext='']
 	 * @member CKEDITOR.config
 	 */
-	 CKEDITOR.config.placeholdertext = '';
+	CKEDITOR.config.placeholdertext = '';
 }() );
