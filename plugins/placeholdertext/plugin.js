@@ -12,6 +12,7 @@
 	 *
 	 * @singleton
 	 * @class CKEDITOR.plugins.placeholdertext
+	 * @member CKEDITOR.plugins
 	 */
 	var pluginNamespace = {
 		/**
@@ -100,14 +101,18 @@
 	/**
 	 * Text that will be used as a placeholder inside the editor.
 	 *
-	 * If set to falsy value, it will disable placeholder.
+	 * ```js
+	 * config.placeholdertext = 'Type your comment…'
+	 * ```
+	 *
+	 * If it is set to an empty string, it will disable placeholder.
 	 *
 	 * ```js
 	 * // Disable placeholder.
-	 * config.placeholdertext = false;
+	 * config.placeholdertext = '';
 	 * ```
 	 *
-	 * @cfg {String} placeholdertext
+	 * @cfg {String} [placeholdertext='']
 	 * @member CKEDITOR.config
 	 */
 	 CKEDITOR.config.placeholdertext = '';
