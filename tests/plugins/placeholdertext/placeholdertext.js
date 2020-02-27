@@ -117,7 +117,7 @@
 	};
 
 	tests[ 'test integration with easyimage' ] = function() {
-		if ( CKEDITOR.env.ie || CKEDITOR.env.version <= 11 ) {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 			assert.ignore();
 		}
 
