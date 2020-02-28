@@ -345,7 +345,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			},
 
 			/**
-			 * Adds entry displayed inside richcombo panel.
+			 * Adds an entry displayed inside the rich combo panel.
 			 *
 			 * @param {String} value
 			 * @param {String} html
@@ -412,15 +412,15 @@ CKEDITOR.plugins.add( 'richcombo', {
 			},
 
 			/**
-			 * Selects richcombo item based on the first matching result from the given filter function.
-			 * Filter function takes an object as an argument with `value` and `text` fields. Values of those
-			 * fields match to arguments passed in {@link #add} method.
-			 * In order to obtain correct result by this method, it's required to open or initialize the richcombo panel.
+			 * Selects a rich combo item based on the first matching result from the given filter function.
+			 * The filter function takes an object as an argument with `value` and `text` fields. The values of these
+			 * fields match to arguments passed in the {@link #add} method.
+			 * In order to obtain a correct result with this method, it is required to open or initialize the rich combo panel.
 			 *
-			 * ```javascript
+			 * ```js
 			 * 	var richCombo = editor.ui.get( 'Font' );
 			 *
-			 * 	// Required, when 'richcombo' was never open in given editor instance.
+			 * 	// Required when 'richcombo' was never open in a given editor instance.
 			 * 	richCombo.createPanel( editor );
 			 *
 			 * 	richCombo.select( function( item ) {
@@ -429,8 +429,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * ```
 			 *
 			 * @since 4.14.0
-			 * @param {Function} callback Function should return `true` if found matching element.
-			 * @param {Object} callback.item Object containing `value` and `text` fields which are compared by this callback.
+			 * @param {Function} callback The function should return `true` if a matching element is found.
+			 * @param {Object} callback.item An object containing the `value` and `text` fields which are compared by this callback.
 			 */
 			select: function( callback ) {
 				if ( CKEDITOR.tools.isEmpty( this._.items ) ) {
