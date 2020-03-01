@@ -165,6 +165,12 @@
 						if ( !src ) {
 							return false;
 						}
+					},
+
+					// All tables in LO assume collapsed borders, but the style is
+					// not always provided during the paste.
+					'table': function( element ) {
+						element.attributes.style = addBorderCollapse( element.attributes.style );
 					}
 				},
 
@@ -323,6 +329,18 @@
 		pagebreakEl = CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
 
 		pagebreakEl.insertBefore( element );
+	}
+
+	function addBorderCollapse( styles ) {
+		var parsedStyles = CKEDITOR.tools.parseCssText( styles );
+
+		if ( parsedStyles[ 'border-collapse' ] ) {
+			return styles;
+		}
+
+		parsedStyles[ 'border-collapse' ] = 'collapse';
+
+		return CKEDITOR.tools.writeCssText( parsedStyles );
 	}
 
 	CKEDITOR.pasteFilters.libreoffice = pastetools.createFilter( {
