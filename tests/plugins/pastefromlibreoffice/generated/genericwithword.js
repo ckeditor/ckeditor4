@@ -22,7 +22,7 @@
 		browsers: [
 			'chrome',
 			'firefox',
-			'edge', // v18
+			'edge' // v18
 		],
 		wordVersions: [
 			'libreoffice6'
