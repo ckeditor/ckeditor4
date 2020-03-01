@@ -36,6 +36,7 @@
 			Lists: true,
 			Mixed_list: true,
 			Text_align: true,
+			Simple_table: true,
 			Table_background: true,
 			Paragraph_format: true,
 			Page_break: true
