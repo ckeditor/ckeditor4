@@ -13,7 +13,7 @@
 		Style = commonFilter.styles;
 
 	/**
-	 * Set of Paste from Libre Office plugin helpers.
+	 * A set of Paste from LibreOffice plugin helpers.
 	 *
 	 * @since 4.14.0
 	 * @private
@@ -21,7 +21,7 @@
 	 */
 	CKEDITOR.plugins.pastetools.filters.libreoffice = {
 		/**
-		 * Rules for the Paste from Libre Office filter.
+		 * Rules for the Paste from LibreOffice filter.
 		 *
 		 * @since 4.14.0
 		 * @private
@@ -191,12 +191,12 @@
 	}
 
 	function shouldReplaceFontWithChildren( element ) {
-		// Anchor is additionaly styled with font.
+		// Anchor is additionally styled with font.
 		if ( element.parent.name === 'a' && element.attributes.color === '#000080' ) {
 			return true;
 		}
 
-		// Sub or sup is additionaly styled with font
+		// Sub or sup is additionally styled with font.
 		if ( element.parent.children.length === 1 && ( element.parent.name === 'sup' || element.parent.name === 'sub' ) && element.attributes.size === '2' ) {
 			return true;
 		}
@@ -204,7 +204,7 @@
 		return false;
 	}
 
-	// Return true if sucesfuly merge list to previous item.
+	// Return true if a list is successfully merged to the previous item..
 	function listMerger( el, filter ) {
 		if ( !shouldMergeToPreviousList( el ) ) {
 			return false;
@@ -225,17 +225,17 @@
 	}
 
 	function shouldMergeToPreviousList( element ) {
-		// There need to be previous list where element should be merged.
+		// There needs to be a previous list that the element should be merged to.
 		if ( !element.previous || !isList( element.previous ) ) {
 			return false;
 		}
 
-		// There might be cases in PFW where li element has no children (test Tickets/7131 word2013 chrome)
+		// There might be cases in PFW where a li element has no children (test Tickets/7131 word2013 chrome).
 		if ( !element.getFirst().children.length ) {
 			return false;
 		}
 
-		// Current list need to be nested list, what points that is sublist.
+		// The current list needs to be a nested list, what points that is sublist.
 		if ( element.children.length !== 1 || !isList( element.getFirst().getFirst() ) ) {
 			return false;
 		}
@@ -243,8 +243,8 @@
 		return true;
 	}
 
-	// Checks level of nested list for given element.
-	// It's exepected that argument is the `li` element.
+	// Checks the evel of nested list for a given element.
+	// It's exepected that the argument is the `li` element.
 	function checkDepth( element ) {
 		var level = 0,
 			currentElement = element,
@@ -271,8 +271,8 @@
 		var isInBlock = false;
 
 		return function( element ) {
-			// There might be situation that list is somehow nested in other type of element, quotes, div, table, etc.
-			// When such situation happen we should not search for any above list.
+			// There might be situation that the list is somehow nested in another type of element, quotes, div, table, etc.
+			// When such situation happens, we should not search for any above list.
 			if ( isInBlock ) {
 				return false;
 			}
@@ -286,7 +286,7 @@
 		};
 	}
 
-	// Get nested list by first items
+	// Get a nested list by first items.
 	function unwrapList( list, count ) {
 		if ( count ) {
 			return unwrapList( list.getFirst().getFirst(), --count );

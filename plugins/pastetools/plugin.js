@@ -178,14 +178,14 @@
 		},
 
 		/**
-		 * Gets name of generator used to create given content.
+		 * Gets the name of the generator used to create the given content.
 		 *
-		 * It returns `undefined` if `<meta>` tag with generator name was not present.
-		 * It returns `'unknown'` if `<meta>` tag has generator other than `'microsoft'` or `'libreoffice'`.
+		 * It returns `undefined` if the `<meta>` tag with the generator name was not present.
+		 * It returns `'unknown'` if the `<meta>` tag has a generator other than `'microsoft'` or `'libreoffice'`.
 		 *
 		 * @member CKEDITOR.plugins.pastetools
-		 * @param {String} content clipboard data
-		 * @returns {String/undefined} name of a recognized content generator. Possible values: `'microsoft'`, `'libreoffice'`, `'unknown'`, `undefiend`.
+		 * @param {String} content The clipboard data.
+		 * @returns {String/undefined} The name of the recognized content generator. Possible values: `'microsoft'`, `'libreoffice'`, `'unknown'`, `undefiend`.
 		 */
 		getContentGeneratorName: function( content ) {
 			var metaGeneratorTag = /<meta\s+name=["']?generator["']?\s+content=["']?(\w+)/gi,

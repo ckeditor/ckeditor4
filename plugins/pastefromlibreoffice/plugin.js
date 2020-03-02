@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview This plugin handles pasting content from Libre Office.
+ * @fileOverview This plugin handles pasting content from LibreOffice.
  */
 
 ( function() {
@@ -41,7 +41,7 @@
 						textHtml = data.dataTransfer.getData( 'text/html', true ) || data.dataValue,
 						generatorName;
 
-					// Do not run filter if there is no input data.
+					// Do not run the filter if there is no input data.
 					if ( !textHtml ) {
 						return false;
 					}
@@ -55,7 +55,7 @@
 					var data = evt.data,
 						clipboardHtml = data.dataValue || CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' );
 
-					// Do not apply the paste filter to data filtered by the LibreOffice filter (https://dev.ckeditor.com/ticket/13093).
+					// Do not apply the paste filter to the data filtered by the LibreOffice filter (https://dev.ckeditor.com/ticket/13093).
 					// TO DO it might be unnecessary!!!
 					data.dontFilter = true;
 
