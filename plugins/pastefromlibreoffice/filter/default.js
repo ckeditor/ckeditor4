@@ -68,11 +68,6 @@
 							insertPageBreakBefore( editor, element );
 						}
 
-						if ( element.attributes.align ) {
-							styles[ 'text-align' ] = element.attributes.align;
-							delete element.attributes.align;
-						}
-
 						element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 
 						element.filterChildren( filter );
@@ -165,6 +160,12 @@
 						if ( !src ) {
 							return false;
 						}
+					},
+
+					// All tables in LO assume collapsed borders, but the style is
+					// not always provided during the paste.
+					'table': function( element ) {
+						element.attributes.style = addBorderCollapse( element.attributes.style );
 					}
 				},
 
@@ -172,6 +173,22 @@
 					'style': function( styles, element ) {
 						// Returning false deletes the attribute.
 						return Style.normalizedStyles( element, editor ) || false;
+					},
+
+					// Many elements can have [align] attribute. Let's make it a wildcard
+					// transformation then!
+					'align': function( align, element ) {
+						// Images have their own handling logic.
+						if ( element.name === 'img' ) {
+							return;
+						}
+
+						var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
+
+						styles[ 'text-align' ] = element.attributes.align;
+						element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+
+						return false;
 					},
 
 					'cellspacing': remove,
@@ -323,6 +340,18 @@
 		pagebreakEl = CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
 
 		pagebreakEl.insertBefore( element );
+	}
+
+	function addBorderCollapse( styles ) {
+		var parsedStyles = CKEDITOR.tools.parseCssText( styles );
+
+		if ( parsedStyles[ 'border-collapse' ] ) {
+			return styles;
+		}
+
+		parsedStyles[ 'border-collapse' ] = 'collapse';
+
+		return CKEDITOR.tools.writeCssText( parsedStyles );
 	}
 
 	CKEDITOR.pasteFilters.libreoffice = pastetools.createFilter( {

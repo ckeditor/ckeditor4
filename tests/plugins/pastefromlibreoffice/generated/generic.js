@@ -22,7 +22,7 @@
 		browsers: [
 			'chrome',
 			'firefox',
-			'edge', // v18
+			'edge' // v18
 		],
 		wordVersions: [
 			'libreoffice6'
@@ -36,6 +36,8 @@
 			Lists: true,
 			Mixed_list: true,
 			Text_align: true,
+			Heading_alignment: true,
+			Simple_table: true,
 			Table_background: true,
 			Paragraph_format: true,
 			Page_break: true
