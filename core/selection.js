@@ -17,8 +17,8 @@
 
 	// #### table selection : START
 	// @param {CKEDITOR.dom.range[]} ranges
-	// @param {Boolean} allowPartially Whether a collapsed selection within table is recognized to be a valid selection.
-	// This happens for WebKits on MacOS, when you right click inside the table.
+	// @param {Boolean} allowPartially Whether a collapsed selection within a table is recognized to be a valid selection.
+	// This happens for WebKit browsers on MacOS when you right-click inside the table.
 	function isTableSelection( ranges, allowPartially ) {
 		if ( ranges.length === 0 ) {
 			return false;
@@ -1234,7 +1234,7 @@
 	/**
 	 * Retrieves the {@link CKEDITOR.dom.range} instances that represent the current selection.
 	 *
-	 * **Note:** This function is an alias for {@link CKEDITOR.dom.selection#getRanges} method.
+	 * **Note:** This function is an alias for the {@link CKEDITOR.dom.selection#getRanges} method.
 	 *
 	 * @method
 	 * @since 4.14.0

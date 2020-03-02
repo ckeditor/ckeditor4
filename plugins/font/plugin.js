@@ -6,12 +6,12 @@
 ( function() {
 	var StyleData = CKEDITOR.tools.createClass( {
 		// @param {Object} options
-		// @param {String} options.entries Values from the configuration used to build richcombo.
-		// Values should be obtained from ( CKEDITOR.config#fontSize_sizes | CKEDITOR.config#font_names )
-		// @param {String} options.styleVariable variable name used in style definition to build proper CKEDITOR.style.
+		// @param {String} options.entries Values from the configuration used to build a rich combo.
+		// The values should be obtained from ( CKEDITOR.config#fontSize_sizes | CKEDITOR.config#font_names )
+		// @param {String} options.styleVariable A variable name used in the style definition to build proper CKEDITOR.style.
 		// By default it should be: ( 'size' | 'family' )
-		// @param {Object} options.styleDefinition template used to build each individual style definition based on entries.
-		// Values should be obtained from ( CKEDITOR.config#fontSize_style | CKEDITOR.config#font_style )
+		// @param {Object} options.styleDefinition A template used to build each individual style definition based on entries.
+		// The values should be obtained from ( CKEDITOR.config#fontSize_style | CKEDITOR.config#font_style )
 		$: function( options ) {
 			var entries = options.entries.split( ';' );
 
@@ -85,13 +85,14 @@
 	// @param {CKEDITOR.editor} editor
 	// @param {Object} definition
 	// @param {String} definition.comboName
-	// @oaram {String} definition.commandName name used to register command in editor
-	// @param {String} definition.styleVariable it has value 'size' or 'family'
-	// @param {Object} definition.lang reference to lang object used for given combo
-	// @param {String} definition.entries values used for given combo options
-	// @param {String} definition.defaultLabel label used to describe default value
-	// @param {Object} definition.styleDefinition object representing defintion for given font combo obtained from the configuration
-	// @param {Number} definition.order value used to position icon in toolbar
+	// @oaram {String} definition.commandName The name used to register the command in the editor.
+	// @param {String} definition.styleVariable It has 'size' or 'family' as a value.
+	// @param {Object} definition.lang A reference to the language object used for a given combo.
+	// @param {String} definition.entries Values used for given combo options.
+	// @param {String} definition.defaultLabel The label used to describe the default value.
+	// @param {Object} definition.styleDefinition An object representing the defintion for a given font combo obtained
+	// from the the configuration.
+	// @param {Number} definition.order A value used to position the icon in the toolbar.
 	function addCombo( editor, definition ) {
 		var config = editor.config,
 			lang = definition.lang,
@@ -266,9 +267,9 @@
 	}
 
 	//  * @param {Object} options
-	//  * @param {CKEDITOR.editor} options.editor instance of the editor
-	//  * @param {CKEDITOR.dom.range} options.range analyzed range
-	//  * @param {CKEDITOR.style} options.style old style which might already exist on this range
+	//  * @param {CKEDITOR.editor} options.editor An instance of the editor.
+	//  * @param {CKEDITOR.dom.range} options.range The analyzed range.
+	//  * @param {CKEDITOR.style} options.style The old style which might already exist on this range.
 	function splitElementOnCollapsedRange( options ) {
 		var editor = options.editor,
 			range = options.range,
@@ -322,7 +323,7 @@
 		editor.getSelection().selectRanges( [ range ] );
 	}
 
-	// Clones the subtree between subtreeStart (exclusive) and the
+	// Clones the subtree between `subtreeStart` (exclusive) and the
 	// leaf (inclusive) and inserts it into the range.
 	//
 	// @param range
@@ -379,13 +380,13 @@
 } )();
 
 /**
- * The list of fonts names to be displayed in the Font combo in the toolbar.
- * Entries are separated by semi-colons (`';'`), while it's possible to have more
- * than one font for each entry, in the HTML way (separated by comma).
+ * The list of font names to be displayed in the Font combo in the toolbar.
+ * Entries are separated by semi-colons (`';'`) and it is possible to have more
+ * than one font for each entry, in the HTML way (separated by commas).
  *
  * A display name may be optionally defined by prefixing the entries with the
  * name and the slash character. For example, `'Arial/Arial, Helvetica, sans-serif'`
- * will be displayed as `'Arial'` in the list, but will be outputted as
+ * will be displayed as `'Arial'` in the list, but will be output as
  * `'Arial, Helvetica, sans-serif'`.
  *
  *		config.font_names =
@@ -409,10 +410,10 @@ CKEDITOR.config.font_names = 'Arial/Arial, Helvetica, sans-serif;' +
 	'Verdana/Verdana, Geneva, sans-serif';
 
 /**
- * The text to be displayed in the Font combo is none of the available values
+ * The text to be displayed in the Font combo if none of the available values
  * matches the current cursor position or text selection.
  *
- *		// If the default site font is Arial, we may making it more explicit to the end user.
+ *		// If the default site font is Arial, we may make it more explicit to the end user.
  *		config.font_defaultLabel = 'Arial';
  *
  * @cfg {String} [font_defaultLabel='']
@@ -442,15 +443,15 @@ CKEDITOR.config.font_style = {
 };
 
 /**
- * The list of fonts size to be displayed in the Font Size combo in the
+ * The list of font sizes to be displayed in the Font Size combo in the
  * toolbar. Entries are separated by semi-colons (`';'`).
  *
- * Any kind of "CSS like" size can be used, like `'12px'`, `'2.3em'`, `'130%'`,
+ * Any kind of "CSS-like" size can be used, like `'12px'`, `'2.3em'`, `'130%'`,
  * `'larger'` or `'x-small'`.
  *
  * A display name may be optionally defined by prefixing the entries with the
  * name and the slash character. For example, `'Bigger Font/14px'` will be
- * displayed as `'Bigger Font'` in the list, but will be outputted as `'14px'`.
+ * displayed as `'Bigger Font'` in the list, but will be output as `'14px'`.
  *
  *		config.fontSize_sizes = '16/16px;24/24px;48/48px;';
  *
@@ -464,10 +465,10 @@ CKEDITOR.config.font_style = {
 CKEDITOR.config.fontSize_sizes = '8/8px;9/9px;10/10px;11/11px;12/12px;14/14px;16/16px;18/18px;20/20px;22/22px;24/24px;26/26px;28/28px;36/36px;48/48px;72/72px';
 
 /**
- * The text to be displayed in the Font Size combo is none of the available
+ * The text to be displayed in the Font Size combo if none of the available
  * values matches the current cursor position or text selection.
  *
- *		// If the default site font size is 12px, we may making it more explicit to the end user.
+ *		// If the default site font size is 12px, we may make it more explicit to the end user.
  *		config.fontSize_defaultLabel = '12px';
  *
  * @cfg {String} [fontSize_defaultLabel='']

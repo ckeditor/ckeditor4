@@ -35,7 +35,7 @@
 	} );
 
 	/**
-	 * Namespace providing a set of helper functions for working with editor's content preview, exposed by the
+	 * Namespace providing a set of helper functions for working with the editor content preview, exposed by the
 	 * [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
 	 *
 	 * @since 4.14.0
@@ -44,12 +44,12 @@
 	 */
 	CKEDITOR.plugins.preview = {
 		/**
-		 * Generates print preview for the given editor.
+		 * Generates the print preview for the given editor.
 		 *
-		 * **Note** that this function will open a new browser window with editor's content HTML.
+		 * **Note**: This function will open a new browser window with the editor's content HTML.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @returns {CKEDITOR.dom.window} Newly created window, which contains the preview HTML.
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @returns {CKEDITOR.dom.window} A newly created window that contains the preview HTML.
 		 */
 		createPreview: function( editor ) {
 			var previewHtml = createPreviewHtml( editor ),
@@ -211,7 +211,7 @@
 } )();
 
 /**
- * Event fired when executing `preview` command, which allows additional data manipulation.
+ * Event fired when executing the `preview` command that allows for additional data manipulation.
  * With this event, the raw HTML content of the preview window to be displayed can be altered
  * or modified.
  *

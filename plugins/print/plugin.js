@@ -29,14 +29,14 @@
 	} );
 
 	/**
-	 * Allows to customise editor's content printing implementation
+	 * Allows to customize the implementation of printing the editor content
 	 * provided by the [Print](https://ckeditor.com/cke4/addon/print) plugin.
 	 *
-	 * **Note** that this class represents {@link CKEDITOR.commandDefinition}
+	 * **Note**: This class represents the {@link CKEDITOR.commandDefinition}
 	 * type and should be compatible with its API.
 	 *
 	 * ```javascript
-	 * // Using external API to generate PDF.
+	 * // Using an external API to generate PDF.
 	 * CKEDITOR.plugins.print = {
 	 * 	exec: function( editor ) {
 	 * 		var data = editor.getData();

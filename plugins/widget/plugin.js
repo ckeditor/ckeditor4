@@ -986,7 +986,7 @@
 		 *
 		 * For every `partName => selector` pair in {@link CKEDITOR.plugins.widget.definition#parts},
 		 * one `partName => element` pair is added to this object during the widget initialization.
-		 * Parts can be reinitialized with {@link #refreshParts} method.
+		 * Parts can be reinitialized with the {@link #refreshParts} method.
 		 *
 		 * @readonly
 		 * @property {Object} parts
@@ -995,8 +995,8 @@
 		/**
 		 * An object containing definitions of widget parts (`part name => CSS selector`).
 		 *
-		 * Unlike {@link #parts} object, it stays unchanged throughout the widget lifecycle
-		 * and is used in {@link #refreshParts} method.
+		 * Unlike the {@link #parts} object, it stays unchanged throughout the widget lifecycle
+		 * and is used in the {@link #refreshParts} method.
 		 *
 		 * @readonly
 		 * @property {Object} partSelectors
@@ -1433,7 +1433,7 @@
 		},
 
 		/**
-		 * Refreshes widget's mask. Can be used together with {@link #refreshParts} method to reinitialize mask
+		 * Refreshes the widget's mask. It can be used together with the {@link #refreshParts} method to reinitialize the mask
 		 * for dynamically created widgets.
 		 *
 		 * @since 4.14.0
@@ -1443,14 +1443,14 @@
 		},
 
 		/**
-		 * Reinitializes widget's {@link #parts}.
+		 * Reinitializes the widget's {@link #parts}.
 		 *
-		 * This method can be used to link new DOM elements to widget parts, for example in case when widget's HTML is created
-		 * asynchronously or modified during widget lifecycle. Note that it uses {@link #partSelectors} object, so it doesn't
+		 * This method can be used to link new DOM elements to widget parts, for example in case when the widget's HTML is created
+		 * asynchronously or modified during the widget lifecycle. Note that it uses the {@link #partSelectors} object, so it does not
 		 * refresh parts that were created manually.
 		 *
 		 * @since 4.14.0
-		 * @param {Boolean} [refreshInitialized=true] Whether parts that are already initialized should be reinitialized.
+		 * @param {Boolean} [refreshInitialized=true] Whether the parts that are already initialized should be reinitialized.
 		 */
 		refreshParts: function( refreshInitialized ) {
 			refreshInitialized = typeof refreshInitialized !== 'undefined' ? refreshInitialized : true;
