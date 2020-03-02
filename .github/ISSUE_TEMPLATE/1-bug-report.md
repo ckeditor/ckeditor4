@@ -14,10 +14,10 @@ Bug
 ## Provide detailed reproduction steps (if any)
 
 <!--
-Including simple sample reproducing the issue is also a good idea. It can drastically
+Including a simple sample reproducing the issue is also a good idea. It can drastically
 decrease the time needed to reproduce the issue by our team, which means it can speed up helping you!
 
-You can use one of our samples to create reproduction sample:
+You can use one of our samples to create the reproduction sample:
 
 * CodePen: https://codepen.io/Comandeer/pen/ExaMgpz?editors=1010
 * JSFiddle: https://jsfiddle.net/Comandeer/d6ey8a2w
