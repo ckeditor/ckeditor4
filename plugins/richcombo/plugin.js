@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -120,7 +120,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * to this button will be appended to.
 			 */
 			render: function( editor, output ) {
-				var env = CKEDITOR.env;
+				var env = CKEDITOR.env,
+					instance,
+					selLocked;
 
 				var id = 'cke_' + this.id;
 				var clickFn = CKEDITOR.tools.addFunction( function( el ) {
@@ -133,7 +135,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}, this );
 
 				var combo = this;
-				var instance = {
+
+				instance = {
 					id: id,
 					combo: this,
 					focus: function() {
@@ -215,7 +218,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 					instance.onfocus && instance.onfocus();
 				} );
 
-				var selLocked = 0;
+				selLocked = 0;
 
 				// For clean up
 				instance.keyDownFn = keyDownFn;
@@ -341,6 +344,13 @@ CKEDITOR.plugins.add( 'richcombo', {
 				this._.list.showAll();
 			},
 
+			/**
+			 * Adds an entry displayed inside the rich combo panel.
+			 *
+			 * @param {String} value
+			 * @param {String} html
+			 * @param {String} text
+			 */
 			add: function( value, html, text ) {
 				this._.items[ value ] = text || value;
 				this._.list.add( value, html, text );
@@ -399,6 +409,43 @@ CKEDITOR.plugins.add( 'richcombo', {
 					listener.removeListener();
 				} );
 				this._.listeners = [];
+			},
+
+			/**
+			 * Selects a rich combo item based on the first matching result from the given filter function.
+			 * The filter function takes an object as an argument with `value` and `text` fields. The values of these
+			 * fields match to arguments passed in the {@link #add} method.
+			 * In order to obtain a correct result with this method, it is required to open or initialize the rich combo panel.
+			 *
+			 * ```js
+			 * 	var richCombo = editor.ui.get( 'Font' );
+			 *
+			 * 	// Required when 'richcombo' was never open in a given editor instance.
+			 * 	richCombo.createPanel( editor );
+			 *
+			 * 	richCombo.select( function( item ) {
+			 * 		return item.value === 'Tahoma' || item.text === 'Tahoma';
+			 * 	} );
+			 * ```
+			 *
+			 * @since 4.14.0
+			 * @param {Function} callback The function should return `true` if a matching element is found.
+			 * @param {Object} callback.item An object containing the `value` and `text` fields which are compared by this callback.
+			 */
+			select: function( callback ) {
+				if ( CKEDITOR.tools.isEmpty( this._.items ) ) {
+					return;
+				}
+
+				for ( var value in this._.items ) {
+					if ( callback( {
+						value: value,
+						text: this._.items[ value ]
+					} ) ) {
+						this.setValue( value );
+						return;
+					}
+				}
 			}
 		},
 

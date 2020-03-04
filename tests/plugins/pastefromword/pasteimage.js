@@ -9,32 +9,42 @@
 	bender.editor = true;
 
 	var tests = {
-		init: function() {
-			this.isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported;
-		},
-
 		// (https://dev.ckeditor.com/ticket/16912)
 		'test root image': function() {
-			testOutput( this.isCustomDataTypesSupported ? 'root-image' : 'root-image-simple', this.editor );
+			var editor = this.editor,
+				sampleName = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ? 'root-image' : 'root-image-simple',
+				filterPaths = [
+					CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
+					CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
+				];
+
+			return ptTools.asyncLoadFilters( filterPaths, 'CKEDITOR.cleanWord' )
+				.then( testOutput( sampleName, editor ) );
 		},
 
 		'test nested image': function() {
-			testOutput( this.isCustomDataTypesSupported ? 'nested-image' : 'nested-image-simple', this.editor );
+			var editor = this.editor,
+				sampleName = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ? 'nested-image' : 'nested-image-simple',
+				filterPaths = [
+					CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
+					CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
+				];
+
+			return ptTools.asyncLoadFilters( filterPaths, 'CKEDITOR.cleanWord' )
+				.then( testOutput( sampleName, editor ) );
 		}
 	};
 
 	ptTools.ignoreTestsOnMobiles( tests );
 
-	ptTools.testWithFilters( tests, [
-		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
-		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
-	], function() {
-		bender.test( tests );
-	} );
+	tests = bender.tools.createAsyncTests( tests );
+	bender.test( tests );
 
 	function testOutput( name, editor ) {
-		bender.tools.testInputOut( name, function( input, output ) {
-			bender.assert.beautified.html( output, CKEDITOR.cleanWord( input, editor ) , name );
-		} );
+		return function( filter ) {
+			bender.tools.testInputOut( name, function( input, output ) {
+				bender.assert.beautified.html( output, filter( input, editor ) , name );
+			} );
+		};
 	}
 } )();

@@ -28,6 +28,22 @@
 		setUp: function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
 		},
+
+		// This test should be on top of test suite, cause other tests will cache emojis (#2583).
+		'test emoji names cache': function() {
+			var bot = this.editorBot,
+				collision = CKEDITOR.tools.array.filter( bot.editor._.emoji.list, function( item ) {
+				return item.id === ':collision:';
+			} )[ 0 ];
+
+			assert.isUndefined( collision.name, 'Emoji name should be undefined.' );
+
+			bot.panel( 'EmojiPanel', function( panel ) {
+				panel.hide();
+				assert.areEqual( 'collision', collision.name, 'Emoji name should be cached.' );
+			} );
+		},
+
 		'test emoji dropdown has proper components': function() {
 			var bot = this.editorBot;
 
@@ -90,6 +106,9 @@
 			var bot = this.editorBot;
 
 			waitForEmoji( bot.editor, function() {
+				// Overlay is required to not trigger mouse event what happens on CI (#3744).
+				var overlay = addOverlayCover();
+
 				bot.panel( 'EmojiPanel', function( panel ) {
 					try {
 						var doc = panel._.iframe.getFrameDocument(),
@@ -110,6 +129,7 @@
 						assert.areSame( 'star', statusBarDescription.getText(), 'Status bar description should contain "star" name after mouseover.' );
 					} finally {
 						panel.hide();
+						overlay.remove();
 					}
 				} );
 			} );
@@ -355,5 +375,11 @@
 
 			wait();
 		}
+	}
+
+	function addOverlayCover() {
+		var overlay = CKEDITOR.dom.element.createFromHtml( '<div style="width:1000px;height:1000px;z-index:20000;position:fixed;top:0;left:0;"></div>' );
+		CKEDITOR.document.getBody().append( overlay );
+		return overlay;
 	}
 } )();

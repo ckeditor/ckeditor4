@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -25,7 +25,7 @@
 				configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages,
 				defaultFilters = [
 					CKEDITOR.getUrl( pastetoolsPath + 'filter/common.js' ),
-					CKEDITOR.getUrl(  path + 'filter/default.js' )
+					CKEDITOR.getUrl( path + 'filter/default.js' )
 				];
 
 			editor.addCommand( 'pastefromword', {
@@ -76,9 +76,10 @@
 					var data = evt.data,
 						// Always get raw clipboard data (#3586).
 						mswordHtml = CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' ),
-						officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
-						wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
-						isOfficeContent = officeMetaRegexp.test( mswordHtml ) || wordRegexp.test( mswordHtml );
+						generatorName = CKEDITOR.plugins.pastetools.getContentGeneratorName( mswordHtml ),
+						wordRegexp = /(class="?Mso|style=["'][^"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
+						// Use wordRegexp only when there is no meta generator tag in the content
+						isOfficeContent = generatorName ? generatorName === 'microsoft' : wordRegexp.test( mswordHtml );
 
 					return mswordHtml && ( forceFromWord || isOfficeContent );
 				},
@@ -98,7 +99,7 @@
 					// Do not apply paste filter to data filtered by the Word filter (https://dev.ckeditor.com/ticket/13093).
 					data.dontFilter = true;
 
-					if (  forceFromWord || confirmCleanUp() ) {
+					if ( forceFromWord || confirmCleanUp() ) {
 						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );

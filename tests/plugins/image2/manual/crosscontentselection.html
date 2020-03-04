@@ -1,0 +1,17 @@
+<div id="editor">
+	<figure class="image">
+		<img alt="" width="200" height="200" src="/tests/_assets/lena.jpg" />
+		<figcaption>Caption</figcaption>
+	</figure>
+	<p>Start selection here ^</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie || bender.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		height: 400
+	} );
+</script>

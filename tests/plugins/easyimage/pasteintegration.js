@@ -17,34 +17,37 @@
 	bender.editor = true;
 
 	function assertEasyImageUpcast( config ) {
-		var editor = config.editor,
+		var bot = config.bot,
+			editor = bot.editor,
 			pastedData = config.pastedData,
 			shouldUpcast = config.shouldUpcast,
 			// spy checks if paste listener in easyimage plugin activates an early return,
 			// by spying the method available after the early return statement.
 			upcastSpy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
 
-		bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
+		bot.setData( '', function() {
+			bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
 
-		bender.tools.emulatePaste( editor, pastedData );
+			bender.tools.emulatePaste( editor, pastedData );
 
-		editor.once( 'afterPaste', function() {
-			resume( function() {
-				upcastSpy.restore();
+			editor.once( 'afterPaste', function() {
+				resume( function() {
+					upcastSpy.restore();
 
-				if ( shouldUpcast ) {
-					sinon.assert.calledOnce( upcastSpy );
+					if ( shouldUpcast ) {
+						sinon.assert.calledOnce( upcastSpy );
 
-					assert.areNotSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should be the image upcasted to the easyimage widget' );
-				} else {
-					sinon.assert.notCalled( upcastSpy );
+						assert.areNotSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should be the image upcasted to the easyimage widget' );
+					} else {
+						sinon.assert.notCalled( upcastSpy );
 
-					assert.areSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should not be an image upcasted to the easyimage widget' );
-				}
+						assert.areSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should not be an image upcasted to the easyimage widget' );
+					}
+				} );
 			} );
-		} );
 
-		wait();
+			wait();
+		} );
 	}
 
 	bender.test( {
@@ -54,7 +57,7 @@
 
 		'test easyimage upcasts image/jpeg': function() {
 			assertEasyImageUpcast( {
-				editor: this.editor,
+				bot: this.editorBot,
 				pastedData: IMG.JPEG,
 				shouldUpcast: true
 			} );
@@ -62,7 +65,7 @@
 
 		'test easyimage upcasts image/gif': function() {
 			assertEasyImageUpcast( {
-				editor: this.editor,
+				bot: this.editorBot,
 				pastedData: IMG.GIF,
 				shouldUpcast: true
 			} );
@@ -70,7 +73,7 @@
 
 		'test easyimage upcasts image/png': function() {
 			assertEasyImageUpcast( {
-				editor: this.editor,
+				bot: this.editorBot,
 				pastedData: IMG.PNG,
 				shouldUpcast: true
 			} );
@@ -78,7 +81,7 @@
 
 		'test easyimage upcasts image/bmp': function() {
 			assertEasyImageUpcast( {
-				editor: this.editor,
+				bot: this.editorBot,
 				pastedData: IMG.BMP,
 				shouldUpcast: true
 			} );
@@ -86,7 +89,7 @@
 
 		'test easyimage not upcasts image/svg': function() {
 			assertEasyImageUpcast( {
-				editor: this.editor,
+				bot: this.editorBot,
 				pastedData: IMG.SVG,
 				shouldUpcast: false
 			} );
@@ -94,7 +97,7 @@
 
 		'test easyimage not upcasts image/foobar': function() {
 			assertEasyImageUpcast( {
-				editor: this.editor,
+				bot: this.editorBot,
 				pastedData: IMG.FAKE_IMAGE,
 				shouldUpcast: false
 			} );
@@ -102,7 +105,7 @@
 
 		'test easyimage not upcasts text/html': function() {
 			assertEasyImageUpcast( {
-				editor: this.editor,
+				bot: this.editorBot,
 				pastedData: IMG.HTML,
 				shouldUpcast: false
 			} );

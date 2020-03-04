@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -236,7 +236,11 @@
 					},
 					'font': function( element ) {
 						if ( element.getHtml().match( /^\s*$/ ) ) {
-							new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
+							// There might be font tag directly in document fragment, we cannot replace it with a textnode as this generates
+							// superfluous spaces in output. What later might be transformed into empty paragraphs, so just remove such element.
+							if ( element.parent.type === CKEDITOR.NODE_ELEMENT ) {
+								new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
+							}
 							return false;
 						}
 

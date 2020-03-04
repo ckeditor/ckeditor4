@@ -1,0 +1,74 @@
+<style>
+	#color-indicator {
+		min-width: 100px;
+		min-height: 60px;
+		box-shadow: 0 0 0 5px yellow;
+		outline: dashed 5px black;
+		padding: 15px;
+	}
+
+	#color-indicator p {
+		margin-top: 25px;
+		margin-left: 25px;
+	}
+
+	#message {
+		padding: 5px;
+		border: 1px solid red;
+	}
+</style>
+<div id="editor">
+	<p>This is unstyled text.</p>
+
+	<p><span style="color:#c0392b">This text has font color.</span></p>
+
+	<p><span style="background-color:#f39c12">This text has background color.</span></p>
+</div>
+
+<div>
+	<p>There is a color indicator below, which shows color recently applied in the editor.</p>
+	<p id="message">Here will be present information about executed command.</p>
+	<div id="color-indicator">
+		<p><strong>This is a test text to present applied text color in this box.</strong></p>
+	</div>
+</div>
+
+<script>
+	var index = 1,
+		colorIndicator = new CKEDITOR.dom.element( document.getElementById( 'color-indicator' ) ),
+		messageElement = new CKEDITOR.dom.element( document.getElementById( 'message' ) );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		height: 400,
+		on: {
+			'beforeCommandExec': function( evt ) {
+				if ( evt.data.name === 'textColor' || evt.data.name === 'bgColor' ) {
+					updateOuterContainer( evt.data.name, evt.data.commandData.newStyle );
+				}
+			}
+		}
+	} );
+
+	function updateOuterContainer( commandName, newStyle ) {
+		var styleName = commandName === 'textColor' ? 'color' : 'background-color',
+			styleValue,
+			message = index + '. "' + commandName + '" command is executed';
+
+		if ( !newStyle ) {
+			colorIndicator.removeStyle( styleName );
+			message += ' which removes style: "' + styleName +'".';
+		} else {
+			styleValue = newStyle.getDefinition().styles[ styleName ];
+			colorIndicator.setStyle( styleName, styleValue );
+			message += ' which applies style: "' + styleName +'" with value: "' + styleValue + '".';
+		}
+
+		if ( window.console ) {
+			console.log( message );
+		}
+
+		messageElement.setText( message );
+
+		index++;
+	}
+</script>
