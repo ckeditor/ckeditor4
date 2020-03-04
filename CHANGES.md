@@ -9,6 +9,10 @@
 
 	Issue summary: It was possible to execute XSS inside CKEditor after persuading the victim to: (i) switch CKEditor to source mode, then (ii) paste a specially crafted HTML code, prepared by the attacker, into the opened CKEditor source area, and (iii) switch back to WYSIWYG mode or (i) copy the specially crafted HTML code, prepared by the attacker and (ii) paste it into CKEditor in WYSIWYG mode.
 
+* Fixed XSS vulnerability in the WebSpellChecker plugin reported by [Pham Van Khanh](https://twitter.com/rskvp93) from Viettel Cyber Security.
+
+	Issue summary: It was possible to execute XSS using CKEditor after persuading the victim to: (i) switch CKEditor to source mode, then (ii) paste a specially crafted HTML code, prepared by the attacker, into the opened CKEditor source area, then (iii) switch back to WYSIWYG mode, and (iv) preview CKEditor content outside CKEditor editable area.
+
 **An upgrade is highly recommended!**
 
 New features:
