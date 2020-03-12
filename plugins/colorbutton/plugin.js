@@ -166,6 +166,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					if ( index >= 0 ) {
 						this.boxes[ index ].getElement().remove();
+						this.length -= 1;
 						return this.boxes.splice( index, 1 )[ 0 ];
 					}
 				},
@@ -175,6 +176,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				addNewColor: function( colorBox ) {
+					this.length += 1;
 					this.boxes.unshift( colorBox );
 					this.$.append( colorBox.getElement(), true );
 				}
@@ -294,6 +296,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				moveLastBoxToNextRow: function( index ) {
 					this.rows[ index + 1 ].boxes.unshift( this.rows[ index ].boxes.pop() );
 					this.rows[ index ].getElement().getLast().move( this.rows[ index + 1 ].getElement(), true );
+
+					this.rows[ index ].length -= 1;
+					this.rows[ index + 1 ].length += 1;
 				},
 
 				pushToBeginning: function( color ) {
