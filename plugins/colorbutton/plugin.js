@@ -127,7 +127,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			proto: {
 				setHtml: function() {
-					this.$.setHtml( '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
+					this.getElement().setHtml( '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 							' title="' + this.label + '"' +
 							' draggable="false"' +
 							' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
