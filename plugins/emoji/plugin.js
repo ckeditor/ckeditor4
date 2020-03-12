@@ -202,7 +202,7 @@
 						imgUrl,
 						useAttr;
 
-					if ( !this.isSVGSupported() ) {
+					if ( !this.editor.plugins.emoji.isSVGSupported() ) {
 						imgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' );
 
 						itemTemplate = new CKEDITOR.template(
@@ -274,9 +274,6 @@
 					} );
 
 					return '<nav aria-label="' + htmlEncode( this.lang.navigationLabel ) + '"><ul>' + items + '</ul></nav>';
-				},
-				isSVGSupported: function() {
-					return !CKEDITOR.env.ie || CKEDITOR.env.edge;
 				},
 				createSearchSection: function() {
 					var self = this;
@@ -540,7 +537,7 @@
 				 * This method ensures that the icons are loaded locally.
 				*/
 				loadSVGNavigationIcons: function() {
-					if ( !this.isSVGSupported() ) {
+					if ( !this.editor.plugins.emoji.isSVGSupported() ) {
 						return;
 					}
 
@@ -683,6 +680,10 @@
 				new EmojiDropdown( editor, this );
 			}
 
+		},
+
+		isSVGSupported: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
 		}
 	} );
 
