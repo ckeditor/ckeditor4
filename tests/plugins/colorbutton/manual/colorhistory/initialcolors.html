@@ -73,14 +73,13 @@
 <script>
 	CKEDITOR.replace( 'editor-classic', {
 		colorButton_colorsPerRow: 4,
-		colorButton_historyRowLimit: 2
+		colorButton_historyRowLimit: 2,
+		colorButton_renderContentColors: true
 	} );
 	CKEDITOR.replace( 'editor-divarea', {
-		extraPlugins: 'divarea',
-		colorButton_colorsPerRow: 4
+		extraPlugins: 'divarea'
 	} );
 	CKEDITOR.inline( 'editor-inline', {
-		extraPlugins: 'floatingspace',
-		colorButton_colorsPerRow: 4
+		extraPlugins: 'floatingspace'
 	} );
 </script>
