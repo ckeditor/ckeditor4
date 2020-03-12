@@ -189,12 +189,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			},
 
 			statics: {
-				renderTBodyContainer: function() {
-					return '<tbody class="cke_colorhistory" role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
-						'<td colspan="' + ColorHistoryRowClass.maxLength + '" align="center">' +
-							'<span class="cke_colorhistory_sep"><hr></span>' +
-						'</td>' +
-					'</tbody>';
+				renderContainer: function( tag ) {
+					return '<' + tag + ' class="cke_colorhistory" role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
+						'<tr>' +
+							'<td colspan="' + ColorHistoryRowClass.maxLength + '" align="center">' +
+								'<span class="cke_colorhistory_sep"><hr></span>' +
+							'</td>' +
+						'</tr>' +
+					'</' + tag + '>';
 				},
 
 				rowLimit: editor.config.colorButton_historyRowLimit,
@@ -601,7 +603,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			if ( editor.config.colorButton_historyRowLimit ) {
 				output.push( '</tbody>' +
-						ColorHistoryClass.renderTBodyContainer() +
+						ColorHistoryClass.renderContainer( 'tbody' ) +
 					'<tbody>' );
 			}
 
