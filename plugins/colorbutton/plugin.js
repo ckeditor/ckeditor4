@@ -128,15 +128,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			proto: {
 				setHtml: function() {
 					this.$.setHtml( '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
-						' title="' + this.label + '"' +
-						' draggable="false"' +
-						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-						' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + this.color + '\');' +
-						' return false;"' +
-						' href="javascript:void(\'' + this.color + '\')"' +
-						' data-value="' + this.color + '"' +
-						/* ' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + */ '">' +
-						'<span class="cke_colorbox" style="background-color:#' + this.color + '"></span>' +
+							' title="' + this.label + '"' +
+							' draggable="false"' +
+							' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
+							' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + this.color + '\');' +
+							' return false;"' +
+							' href="javascript:void(\'' + this.color + '\')"' +
+							' data-value="' + this.color + '"' +
+							/* ' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + */ '">' +
+							'<span class="cke_colorbox" style="background-color:#' + this.color + '"></span>' +
 						'</a>' );
 				},
 
