@@ -140,9 +140,6 @@
 						self.blockElement = block.element;
 						self.emojiList = self.editor._.emoji.list;
 
-						// (#2607)
-						self.loadNavigationIcons();
-
 						self.addEmojiToGroups();
 
 						block.element.getAscendant( 'html' ).addClass( 'cke_emoji' );
@@ -189,6 +186,9 @@
 				createEmojiBlock: function() {
 					var output = [];
 
+					// (#2607)
+					this.loadSVGNavigationIcons();
+
 					output.push( this.createGroupsNavigation() );
 					output.push( this.createSearchSection() );
 					output.push( this.createEmojiListBlock() );
@@ -202,7 +202,7 @@
 						imgUrl,
 						useAttr;
 
-					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					if ( !this.isSVGSupported() ) {
 						imgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' );
 
 						itemTemplate = new CKEDITOR.template(
@@ -274,6 +274,9 @@
 					} );
 
 					return '<nav aria-label="' + htmlEncode( this.lang.navigationLabel ) + '"><ul>' + items + '</ul></nav>';
+				},
+				isSVGSupported: function() {
+					return !CKEDITOR.env.ie || CKEDITOR.env.edge;
 				},
 				createSearchSection: function() {
 					var self = this;
@@ -536,7 +539,11 @@
 				 *
 				 * This method ensures that the icons are loaded locally.
 				*/
-				loadNavigationIcons: function() {
+				loadSVGNavigationIcons: function() {
+					if ( !this.isSVGSupported() ) {
+						return;
+					}
+
 					var doc = this.blockElement.getDocument();
 
 					CKEDITOR.ajax.load( CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' ), function( html ) {
