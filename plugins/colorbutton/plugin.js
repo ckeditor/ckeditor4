@@ -890,4 +890,14 @@ CKEDITOR.config.colorButton_colorsPerRow = 6;
 
 CKEDITOR.config.colorButton_historyRowLimit = 1;
 
+/**
+ * Defines if color history should be initially filled by colors found in content.
+ *
+ *		config.colorButton_renderContentColors = false;
+ *
+ * @since 4.15.0
+ * @cfg {Number} [colorButton_renderContentColors=true]
+ * @member CKEDITOR.config
+ */
+
 CKEDITOR.config.colorButton_renderContentColors = true;
