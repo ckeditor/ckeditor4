@@ -135,9 +135,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							' return false;"' +
 							' href="javascript:void(\'' + this.color + '\')"' +
 							' data-value="' + this.color + '"' +
-							/* ' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + */ '">' +
+							' role="option">' +
 							'<span class="cke_colorbox" style="background-color:#' + this.color + '"></span>' +
 						'</a>' );
+				},
+
+				setAriaAttributes: function( posinset, setsize ) {
+					this.getElement().getChild( 0 ).setAttributes( {
+						'aria-posinset': posinset,
+						'aria-setsize': setsize
+					} );
 				},
 
 				getElement: function() {
@@ -310,6 +317,24 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					this.rows[ 0 ].addNewColor( colorBox );
+				},
+
+				updateAriaAttributes: function() {
+					var position = 1,
+						historyLength = this._.getLength();
+
+					CKEDITOR.tools.array.forEach( this.rows, function( row ) {
+						CKEDITOR.tools.array.forEach( row.boxes, function( colorBox ) {
+							colorBox.setAriaAttributes( position, historyLength );
+							position += 1;
+						} );
+					} );
+				},
+
+				getLength: function() {
+					return CKEDITOR.tools.array.reduce( this.rows, function( total, row ) {
+						return total += row.length;
+					}, 0 );
 				}
 			},
 
@@ -352,7 +377,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					this._.rearrangeColorsInRows();
-					// updateAriaAttributes( options.colorHistoryRows, colorBoxesNumber );
+					this._.updateAriaAttributes();
 				}
 			}
 		} );
