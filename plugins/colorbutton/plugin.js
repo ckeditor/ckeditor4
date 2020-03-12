@@ -95,235 +95,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
-		function addButton( options ) {
-			var name = options.name,
-				type = options.type,
-				title = options.title,
-				order = options.order,
-				commandName = options.commandName,
-				contentTransformations = options.contentTransformations || {},
-				style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
-				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
-				colorData = { type: type },
-				defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
-				panelBlock;
-
-			editor.addCommand( commandName, {
-				contextSensitive: true,
-				exec: function( editor, data ) {
-					if ( editor.readOnly ) {
-						return;
-					}
-
-					var newStyle = data.newStyle;
-
-					editor.removeStyle( defaultColorStyle );
-
-					editor.focus();
-
-					if ( newStyle ) {
-						editor.applyStyle( newStyle );
-					}
-
-					editor.fire( 'saveSnapshot' );
-				},
-
-				refresh: function( editor, path ) {
-					if ( !defaultColorStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
-					} else if ( defaultColorStyle.checkActive( path, editor ) ) {
-						this.setState( CKEDITOR.TRISTATE_ON );
-					} else {
-						this.setState( CKEDITOR.TRISTATE_OFF );
-					}
-				}
-			} );
-
-			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
-				label: title,
-				title: title,
-				command: commandName,
-				editorFocus: 0,
-				toolbar: 'colors,' + order,
-				allowedContent: style,
-				requiredContent: style,
-				contentTransformations: contentTransformations,
-
-				panel: {
-					css: CKEDITOR.skin.getPath( 'editor' ),
-					attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
-				},
-
-				// Selects the color based on the first matching result from the given filter function.
-				//
-				// The filter function should accept a color iterated from the
-				// {@link CKEDITOR.config#colorButton_colors} list as a parameter. If the color could not be found,
-				// this method will fall back to the first color from the panel.
-				//
-				// @since 4.14.0
-				// @private
-				// @member CKEDITOR.ui.colorButton
-				// @param {Function} callback The filter function which should return `true` if a matching color is found.
-				// @param {String} callback.color The color compared by the filter function.
-				select: function( callback ) {
-					var colors = config.colorButton_colors.split( ',' ),
-						color = CKEDITOR.tools.array.find( colors, callback );
-
-					color = normalizeColor( color );
-
-					selectColor( panelBlock, color );
-					panelBlock._.markFirstDisplayed();
-				},
-
-				onBlock: function( panel, block ) {
-					var history = new ColorHistoryClass( editor, type == 'back' ? 'background-color' : 'color' );
-
-					panelBlock = block;
-
-					block.autoSize = true;
-					block.element.addClass( 'cke_colorblock' );
-					block.element.setHtml( renderColors( {
-						type: type,
-						colorBoxId: colorBoxId,
-						colorData: colorData,
-						commandName: commandName,
-						panel: panelBlock,
-						colorHistory: history
-					} ) );
-
-					history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
-					history.setClickFn( block.element.data( 'clickFn' ) );
-
-					if ( editor.config.colorButton_renderContentColors ) {
-						history.render();
-					}
-
-					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
-					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
-
-					CKEDITOR.ui.fire( 'ready', this );
-
-					var keys = block.keys;
-					var rtl = editor.lang.dir == 'rtl';
-					keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
-					keys[ 40 ] = 'next'; // ARROW-DOWN
-					keys[ 9 ] = 'next'; // TAB
-					keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
-					keys[ 38 ] = 'prev'; // ARROW-UP
-					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
-					keys[ 32 ] = 'click'; // SPACE
-				},
-
-				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
-				onOpen: function() {
-					var selection = editor.getSelection(),
-						block = selection && selection.getStartElement(),
-						path = editor.elementPath( block ),
-						cssProperty = type == 'back' ? 'background-color' : 'color',
-						automaticColor;
-
-					if ( !path ) {
-						return null;
-					}
-
-					// Find the closest block element.
-					block = path.block || path.blockLimit || editor.document.getBody();
-
-					// The background color might be transparent. In that case, look up the color in the DOM tree.
-					do {
-						automaticColor = block && block.getComputedStyle( cssProperty ) || 'transparent';
-					}
-					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
-
-					// The box should never be transparent.
-					if ( !automaticColor || automaticColor == 'transparent' ) {
-						automaticColor = '#ffffff';
-					}
-
-					if ( config.colorButton_enableAutomatic !== false ) {
-						panelBlock.element.findOne( '#' + colorBoxId ).setStyle( 'background-color', automaticColor );
-					}
-
-					var range = selection && selection.getRanges()[ 0 ];
-
-					if ( range ) {
-						var walker = new CKEDITOR.dom.walker( range ),
-							element = range.collapsed ? range.startContainer : walker.next(),
-							finalColor = '',
-							currentColor;
-
-						while ( element ) {
-							// (#2296)
-							if ( element.type !== CKEDITOR.NODE_ELEMENT ) {
-								element = element.getParent();
-							}
-
-							currentColor = normalizeColor( element.getComputedStyle( cssProperty ) );
-							finalColor = finalColor || currentColor;
-
-							if ( finalColor !== currentColor ) {
-								finalColor = '';
-								break;
-							}
-
-							element = walker.next();
-						}
-
-						if ( finalColor == 'transparent' ) {
-							finalColor = '';
-						}
-						if ( type == 'fore' ) {
-							colorData.automaticTextColor = '#' + normalizeColor( automaticColor );
-						}
-						colorData.selectionColor = finalColor ? '#' + finalColor : '';
-
-						selectColor( panelBlock, finalColor );
-					}
-
-					return automaticColor;
-				}
-			} );
-		}
-
-		var colorHistoryRow = {
-			colorsPerRow: config.colorButton_colorsPerRow || 6,
-
-			rowLimit: config.colorButton_historyRowLimit == undefined ? 1 : config.colorButton_historyRowLimit,
-
-			addColor: function( options ) {
-				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
-				// so table cell has to be created separately.
-				var colorBox = new CKEDITOR.dom.element( 'td' );
-
-				colorBox.setHtml( generateColorBoxHtml( options ) );
-
-				options.colorHistoryRow.append( colorBox, true );
-			},
-
-			appendNewAfter: function( currentRow ) {
-				var newRow = editor.document.createElement( 'tr' );
-
-				newRow.addClass( 'cke_colorhistory_row' );
-				newRow.insertAfter( currentRow );
-
-				return newRow;
-			},
-
-			capacity: function() {
-				return this.colorsPerRow * this.rowLimit;
-			},
-
-			getHtml: function() {
-				return '</tr>' +
-					'<tr>' +
-						'<td colspan="' + this.colorsPerRow + '" align="center">' +
-							'<span class="cke_colorhistory_separator" style="display:none"><hr></span>' +
-						'</td>' +
-					'</tr>' +
-					'<tr class="cke_colorhistory_row">'; // </tr> is later in the code.
-			}
-		};
-
 		var ColorBoxClass = CKEDITOR.tools.createClass( {
 			$: function( color, clickFn ) {
 				this.$ = new CKEDITOR.dom.element( 'td' );
@@ -562,6 +333,175 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 			}
 		} );
+
+		function addButton( options ) {
+			var name = options.name,
+				type = options.type,
+				title = options.title,
+				order = options.order,
+				commandName = options.commandName,
+				contentTransformations = options.contentTransformations || {},
+				style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
+				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
+				colorData = { type: type },
+				defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
+				panelBlock;
+
+			editor.addCommand( commandName, {
+				contextSensitive: true,
+				exec: function( editor, data ) {
+					if ( editor.readOnly ) {
+						return;
+					}
+
+					var newStyle = data.newStyle;
+
+					editor.removeStyle( defaultColorStyle );
+
+					editor.focus();
+
+					if ( newStyle ) {
+						editor.applyStyle( newStyle );
+					}
+
+					editor.fire( 'saveSnapshot' );
+				},
+
+				refresh: function( editor, path ) {
+					if ( !defaultColorStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
+					} else if ( defaultColorStyle.checkActive( path, editor ) ) {
+						this.setState( CKEDITOR.TRISTATE_ON );
+					} else {
+						this.setState( CKEDITOR.TRISTATE_OFF );
+					}
+				}
+			} );
+
+			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
+				label: title,
+				title: title,
+				command: commandName,
+				editorFocus: 0,
+				toolbar: 'colors,' + order,
+				allowedContent: style,
+				requiredContent: style,
+				contentTransformations: contentTransformations,
+
+				panel: {
+					css: CKEDITOR.skin.getPath( 'editor' ),
+					attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
+				},
+
+				onBlock: function( panel, block ) {
+					var history = new ColorHistoryClass( editor, type == 'back' ? 'background-color' : 'color' );
+
+					panelBlock = block;
+
+					block.autoSize = true;
+					block.element.addClass( 'cke_colorblock' );
+					block.element.setHtml( renderColors( {
+						type: type,
+						colorBoxId: colorBoxId,
+						colorData: colorData,
+						commandName: commandName,
+						panel: panelBlock,
+						colorHistory: history
+					} ) );
+
+					history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
+					history.setClickFn( block.element.data( 'clickFn' ) );
+
+					if ( editor.config.colorButton_renderContentColors ) {
+						history.render();
+					}
+
+					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
+					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
+
+					CKEDITOR.ui.fire( 'ready', this );
+
+					var keys = block.keys;
+					var rtl = editor.lang.dir == 'rtl';
+					keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
+					keys[ 40 ] = 'next'; // ARROW-DOWN
+					keys[ 9 ] = 'next'; // TAB
+					keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
+					keys[ 38 ] = 'prev'; // ARROW-UP
+					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+					keys[ 32 ] = 'click'; // SPACE
+				},
+
+				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
+				onOpen: function() {
+					var selection = editor.getSelection(),
+						block = selection && selection.getStartElement(),
+						path = editor.elementPath( block ),
+						cssProperty = type == 'back' ? 'background-color' : 'color',
+						automaticColor;
+
+					if ( !path ) {
+						return;
+					}
+
+					// Find the closest block element.
+					block = path.block || path.blockLimit || editor.document.getBody();
+
+					// The background color might be transparent. In that case, look up the color in the DOM tree.
+					do {
+						automaticColor = block && block.getComputedStyle( cssProperty ) || 'transparent';
+					}
+					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
+
+					// The box should never be transparent.
+					if ( !automaticColor || automaticColor == 'transparent' ) {
+						automaticColor = '#ffffff';
+					}
+
+					if ( config.colorButton_enableAutomatic !== false ) {
+						panelBlock.element.findOne( '#' + colorBoxId ).setStyle( 'background-color', automaticColor );
+					}
+
+					var range = selection && selection.getRanges()[ 0 ];
+
+					if ( range ) {
+						var walker = new CKEDITOR.dom.walker( range ),
+							element = range.collapsed ? range.startContainer : walker.next(),
+							finalColor = '',
+							currentColor;
+
+						while ( element ) {
+							// (#2296)
+							if ( element.type !== CKEDITOR.NODE_ELEMENT ) {
+								element = element.getParent();
+							}
+
+							currentColor = normalizeColor( element.getComputedStyle( cssProperty ) );
+							finalColor = finalColor || currentColor;
+
+							if ( finalColor !== currentColor ) {
+								finalColor = '';
+								break;
+							}
+
+							element = walker.next();
+						}
+
+						if ( finalColor == 'transparent' ) {
+							finalColor = '';
+						}
+						if ( type == 'fore' ) {
+							colorData.automaticTextColor = '#' + normalizeColor( automaticColor );
+						}
+						colorData.selectionColor = finalColor ? '#' + finalColor : '';
+
+						selectColor( panelBlock, finalColor );
+					}
+
+					return automaticColor;
+				}
+			} );
+		}
 
 		function renderColors( options ) {
 			var type = options.type,
