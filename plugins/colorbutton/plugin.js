@@ -599,11 +599,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							options.colorHistory.addNew( color.substr( 1 ).toUpperCase() );
 						}
 					}, null, colorData );
-				} else {
+				} else if ( color ) {
 					setColor( color && '#' + color );
 					options.colorHistory.addNew( color.toUpperCase() );
 				}
-
 			} );
 
 			panel.element.data( 'clickfn', clickFn );
