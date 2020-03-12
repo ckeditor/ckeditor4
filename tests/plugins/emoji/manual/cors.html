@@ -10,8 +10,8 @@
 
 	doc.open();
 	// CDN points into commit revision with bug fix. To verify if test fails on older revision, replace CDN script with:
-	// doc.write( '<script src="https://cdn.jsdelivr.net/npm/ckeditor4@4.14.0/ckeditor.js"><\/script>' );
-	doc.write( '<script src="https://cdn.jsdelivr.net/gh/ckeditor/ckeditor4@3ab1c74/ckeditor.js"><\/script>' );
+	// doc.write( '<script src="https://raw.githack.com/ckeditor/ckeditor4/4.14.0/ckeditor.js"><\/script>' );
+	doc.write( '<script src="https://rawcdn.githack.com/ckeditor/ckeditor4/3ab1c74c3019ca61f1e3392f06d3870c032b482d/ckeditor.js"><\/script>' );
 	doc.write( '<div id="editor"></div>' );
 	doc.write( '<script>CKEDITOR.replace( "editor", { plugins: "wysiwygarea,toolbar,emoji" } )<\/script>' );
 	doc.close();
