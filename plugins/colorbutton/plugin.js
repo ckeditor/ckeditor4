@@ -106,7 +106,23 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			},
 
 			statics: {
-				colorNames: editor.lang.colorbutton.colors
+				colorNames: editor.lang.colorbutton.colors,
+
+				generateHtml: function( options ) {
+					return '<td>' +
+							'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
+								' title="' + options.label + '"' +
+								' draggable="false"' +
+								' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
+								' onclick="CKEDITOR.tools.callFunction(' + options.clickFn + ',\'' + options.color + '\');' +
+								' return false;"' +
+								' href="javascript:void(\'' + options.color + '\')"' +
+								' data-value="' + options.color + '"' +
+								' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + '">' +
+								'<span class="cke_colorbox" style="background-color:#' + options.color + '"></span>' +
+							'</a>' +
+						'</td>';
+				}
 			},
 
 			proto: {
@@ -574,14 +590,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorLabel = colorName;
 				}
 
-				output.push( '<td>' + generateColorBoxHtml( {
-					colorLabel: colorLabel,
+				output.push( ColorBoxClass.generateHtml( {
+					label: colorLabel,
 					clickFn: clickFn,
-					colorCode: colorCode,
-					type: type,
+					color: colorCode,
 					position: i + 2, // First color box should have position 2 as position 1 is for Automatic Button.
 					setSize: total
-				} ) + '</td>' );
+				} ) );
 			}
 
 			if ( editor.config.colorButton_historyRowLimit ) {
@@ -636,20 +651,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				editor.execCommand( commandName, { newStyle: colorStyle } );
 			}
-		}
-
-		function generateColorBoxHtml( options ) {
-			return '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
-				' title="' + options.colorLabel + '"' +
-				' draggable="false"' +
-				' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-				' onclick="CKEDITOR.tools.callFunction(' + options.clickFn + ',\'' + options.colorCode + '\');' +
-				' return false;"' +
-				' href="javascript:void(\'' + options.colorCode + '\')"' +
-				' data-value="' + options.colorCode + '"' +
-				' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + '">' +
-				'<span class="cke_colorbox" style="background-color:#' + options.colorCode + '"></span>' +
-				'</a>';
 		}
 
 		function isUnstylable( ele ) {
