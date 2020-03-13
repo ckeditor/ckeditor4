@@ -374,6 +374,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return;
 					}
 
+					if ( !colorCode ) {
+						return;
+					}
+
 					var existingBox = this._.extractColorBox( colorCode );
 
 					if ( existingBox ) {
@@ -593,9 +597,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							options.colorHistory.addColor( color.substr( 1 ).toUpperCase() );
 						}
 					}, null, colorData );
-				} else if ( color ) {
-					setColor( '#' + color );
-					options.colorHistory.addColor( color.toUpperCase() );
+				} else {
+					setColor( color && '#' + color );
+					options.colorHistory.addColor( color && color.toUpperCase() );
 				}
 			} );
 

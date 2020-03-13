@@ -1,4 +1,4 @@
-/* bender-tags: editor,colorbutton */
+/* bender-tags: editor,colorbutton, 1795 */
 /* bender-ckeditor-plugins: colorbutton,undo,toolbar,wysiwygarea */
 /* bender-include: _helpers/tools.js */
 /* global colorHistoryTools */
