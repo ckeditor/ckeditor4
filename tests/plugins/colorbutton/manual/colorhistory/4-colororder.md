@@ -1,4 +1,4 @@
-@bender-tags: 4.14.0, feature, 1795
+@bender-tags: 4.15.0, feature, 1795
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, sourcearea, removeformat, undo
 
@@ -11,7 +11,7 @@
   1. Below default palette there is horizontal rule and color history row.
   1. There are 4 color boxes in color history row.
   1. Color boxes are ordered by number of occurences and further by order in document:
-      * Blue (occures 2 times in document)
+      * Strong Blue (occures 2 times in document)
 	  * Red (occures 1 time and is 1st color in doc)
 	  * Grey (occures 1 time and is 2nd color in doc)
 	  * Yellow (occures 1 time and is 3rd color in doc)
@@ -20,25 +20,18 @@
 
   * Any of the above conditions is not met.
 
-1. Hover over the first color box from color history.
+1. Click on `Automatic` color button.
+
+1. Click on color button.
 
   **Expected:**
 
-  * Tooltip contains color name (`Strong Blue` or it's equivalent in other lang).
+  * There is no error in console.
+  * New color box didn't appear.
 
   **Unexpected:**
 
-  * Tooltip is empty or contains hex code instead of name.
-
-1. Hover over the second color box from color history.
-
-  **Expected:**
-
-  * Tooltip contains uppercase hex color code without `#` hash (`FF0000`).
-
-  **Unexpected:**
-
-  * Tooltip is empty or contains lowercase content.
+  * Empty color box appeared at the beginning of history or error occurred.
 
 1. Delete the entire editor contents.
 

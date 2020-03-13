@@ -4,10 +4,7 @@
 		<span style="color:#1abc9c">Hello</span>
 		<span style="color:#e74c3c">world</span>!
 	</p>
-	<p>I'm an
-		<span style="color:#3498db">instance</span> of
-		<span style="color:#f1c40f">CKEditor</span>.
-	</p>
+	<p>I'm an instance of CKEditor.</p>
 </textarea>
 
 <h2>Divarea editor:</h2>
@@ -16,10 +13,7 @@
 		<span style="color:#1abc9c">Hello</span>
 		<span style="color:#e74c3c">world</span>!
 	</p>
-	<p>I'm an
-		<span style="color:#3498db">instance</span> of
-		<span style="color:#f1c40f">CKEditor</span>.
-	</p>
+	<p>I'm an instance of CKEditor.</p>
 </div>
 
 <h2>Inline editor:</h2>
@@ -28,18 +22,19 @@
 		<span style="color:#1abc9c">Hello</span>
 		<span style="color:#e74c3c">world</span>!
 	</p>
-	<p>I'm an
-		<span style="color:#3498db">instance</span> of
-		<span style="color:#f1c40f">CKEditor</span>.
-	</p>
+	<p>I'm an instance of CKEditor.</p>
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor-classic' );
+	CKEDITOR.replace( 'editor-classic', {
+		colorButton_renderContentColors: false
+	} );
 	CKEDITOR.replace( 'editor-divarea', {
-		extraPlugins: 'divarea'
+		extraPlugins: 'divarea',
+		colorButton_renderContentColors: false
 	} );
 	CKEDITOR.inline( 'editor-inline', {
-		extraPlugins: 'floatingspace'
+		extraPlugins: 'floatingspace',
+		colorButton_renderContentColors: false
 	} );
 </script>
