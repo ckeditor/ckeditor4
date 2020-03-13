@@ -1,5 +1,5 @@
 /* bender-tags: editor,colorbutton,colordialog,1795 */
-/* bender-ckeditor-plugins: colorbutton,colordialog,toolbar */
+/* bender-ckeditor-plugins: colorbutton,colordialog,undo,toolbar,wysiwygarea */
 /* bender-include: _helpers/tools.js */
 /* global colorHistoryTools */
 

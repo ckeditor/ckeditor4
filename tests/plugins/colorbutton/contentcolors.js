@@ -1,4 +1,4 @@
-/* bender-tags: editor,colorbutton, 1795 */
+/* bender-tags: editor,colorbutton,1795 */
 /* bender-ckeditor-plugins: colorbutton,undo,toolbar,wysiwygarea */
 /* bender-include: _helpers/tools.js */
 /* global colorHistoryTools */
@@ -6,10 +6,8 @@
 ( function() {
 	'use strict';
 
-	// bender.editor = true;
-
 	bender.test( {
-		'test color history row exists': function() {
+		'test color history exists': function() {
 			bender.editorBot.create( {
 				name: 'editor1'
 			}, function( bot ) {
@@ -20,16 +18,16 @@
 				bot.setHtmlWithSelection( '[<p>Moo</p>]' );
 
 				txtColorBtn.click( editor );
-				assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ),
-					'Color history row for txtColor should exist.' );
+				assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorhistory', txtColorBtn ),
+					'Color history for txtColor should exist.' );
 
 				bgColorBtn.click( editor );
-				assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorhistory_row', bgColorBtn ),
-					'Color history row for bgColor should exist.' );
+				assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorhistory', bgColorBtn ),
+					'Color history for bgColor should exist.' );
 			} );
 		},
 
-		'test horizontal rule is hidden and row is empty when there are no colors in content': function() {
+		'test horizontal rule is visible and row doesn\'t exist when there are no colors in content': function() {
 			bender.editorBot.create( {
 				name: 'editor2'
 			}, function( bot ) {
@@ -40,16 +38,16 @@
 				bot.setHtmlWithSelection( '[<p>Moo</p>]' );
 
 				txtColorBtn.click( editor );
-				assert.isFalse( colorHistoryTools.findInPanel( '.cke_colorhistory_separator', txtColorBtn ).isVisible(),
-					'Horizontal rule for txtColor shouldn\'t be visible.' );
-				assert.areEqual( 0, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(),
-					'Row for txtColor should be empty.' );
+				assert.isNotNull( colorHistoryTools.findInPanel( 'hr', txtColorBtn ),
+					'Horizontal rule for txtColor should be visible.' );
+				assert.isNull( colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ),
+					'Row for txtColor shouldn\'t exist.' );
 
 				bgColorBtn.click( editor );
-				assert.isFalse( colorHistoryTools.findInPanel( '.cke_colorhistory_separator', bgColorBtn ).isVisible(),
-					'Horizontal rule shouldn\'t be visible.' );
-				assert.areEqual( 0, colorHistoryTools.findInPanel( '.cke_colorhistory_row', bgColorBtn ).getChildCount(),
-					'Row for bgColor should be empty.' );
+				assert.isNotNull( colorHistoryTools.findInPanel( 'hr', bgColorBtn ),
+					'Horizontal rule should be visible.' );
+				assert.isNull( colorHistoryTools.findInPanel( '.cke_colorhistory_row', bgColorBtn ),
+					'Row for bgColor shouldn\'t exist.' );
 			} );
 		},
 
