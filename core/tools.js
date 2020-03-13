@@ -1188,9 +1188,8 @@
 		 * @since 4.15.0
 		 * @param {String} property CSS property which will be used in query.
 		 * @returns {Array} Returns an array of {@link CKEDITOR.dom.element}s.
-		 * @member CKEDITOR.editor
 		 */
-		getStyledSpans : function( property, source ) {
+		getStyledSpans: function( property, source ) {
 			var spans = source.find( 'span[style*=' + property + ']' ).toArray();
 
 			// This is to filter out spans e.g. with background color when we want text color.
