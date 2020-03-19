@@ -3,6 +3,10 @@
 
 ## CKEditor 4.14.1
 
+Fixed Issues:
+
+* [#2607](https://github.com/ckeditor/ckeditor4/issues/2607): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) SVG icons file is not loaded in CORS context.
+
 ## CKEditor 4.14
 
 **Security Updates:**

@@ -1,5 +1,5 @@
 /* bender-tags: emoji */
-/* bender-ckeditor-plugins: emoji,toolbar,clipboard,undo */
+/* bender-ckeditor-plugins: emoji,ajax,toolbar,clipboard,undo */
 /* bender-include: _helpers/tools.js */
 /* global emojiTools */
 
@@ -358,6 +358,35 @@
 						panel.hide();
 					}
 				} );
+			} );
+		},
+
+		// (#2607)
+		'test SVG icons support': function() {
+			if ( !this.editor.plugins.emoji.isSVGSupported() ) {
+				assert.ignore();
+			}
+
+			var bot = this.editorBot;
+
+			bot.panel( 'EmojiPanel', function( panel ) {
+				var doc = panel._.iframe.getFrameDocument();
+
+				CKEDITOR.ajax.load( this.editor.plugins.emoji.path + 'assets/iconsall.svg', function( html ) {
+					var container = new CKEDITOR.dom.element( 'div' );
+
+					container.setHtml( html );
+
+					resume( function() {
+						var icons = doc.findOne( '.cke_emoji-navigation_icons' );
+
+						assert.beautified.html( container.getHtml(), icons.getHtml(), 'Icons should be loaded as a part of panel' );
+
+						panel.hide();
+					} );
+				} );
+
+				wait();
 			} );
 		}
 	} );

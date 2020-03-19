@@ -186,6 +186,9 @@
 				createEmojiBlock: function() {
 					var output = [];
 
+					// (#2607)
+					this.loadSVGNavigationIcons();
+
 					output.push( this.createGroupsNavigation() );
 					output.push( this.createSearchSection() );
 					output.push( this.createEmojiListBlock() );
@@ -196,11 +199,10 @@
 				createGroupsNavigation: function() {
 					var itemTemplate,
 						items,
-						svgUrl,
 						imgUrl,
 						useAttr;
 
-					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					if ( !this.editor.plugins.emoji.isSVGSupported() ) {
 						imgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' );
 
 						itemTemplate = new CKEDITOR.template(
@@ -224,10 +226,9 @@
 							}
 						}, '' );
 					} else {
-						svgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' );
 						// iOS has problem with reading `href` attribute, that's why,
 						// its necessary to use `xlink:href` even its deprecated: https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/xlink:href
-						useAttr = CKEDITOR.env.safari ? 'xlink:href="' + svgUrl + '#{svgId}"' : 'href="' + svgUrl + '#{svgId}"';
+						useAttr = CKEDITOR.env.safari ? 'xlink:href="#{svgId}"' : 'href="#{svgId}"';
 
 						itemTemplate = new CKEDITOR.template(
 							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#" title="{name}" draggable="false" _cke_focus="1">' +
@@ -342,14 +343,13 @@
 						'</div>';
 				},
 				getLoupeIcon: function() {
-					var loupeSvgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' ),
-						loupePngUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' ),
+					var loupePngUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' ),
 						useAttr;
 
-					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					if ( !this.editor.plugins.emoji.isSVGSupported() ) {
 						return '<span class="cke_emoji-search_loupe" aria-hidden="true" style="background-image:url(' + loupePngUrl + ');"></span>';
 					} else {
-						useAttr = CKEDITOR.env.safari ? 'xlink:href="' + loupeSvgUrl + '#cke4-icon-emoji-10"' : 'href="' + loupeSvgUrl + '#cke4-icon-emoji-10"';
+						useAttr = CKEDITOR.env.safari ? 'xlink:href="#cke4-icon-emoji-10"' : 'href="#cke4-icon-emoji-10"';
 						return '<svg viewBox="0 0 34 34" role="img" aria-hidden="true" class="cke_emoji-search_loupe"><use ' + useAttr + '></use></svg>';
 					}
 				},
@@ -530,6 +530,29 @@
 						return element.equals( item );
 					} );
 				},
+
+				/**
+				 * To avoid CORS issues due to XML based SVG icons, they should be loaded into panel document.
+				 *
+				 * This method ensures that the icons are loaded locally.
+				*/
+				loadSVGNavigationIcons: function() {
+					if ( !this.editor.plugins.emoji.isSVGSupported() ) {
+						return;
+					}
+
+					var doc = this.blockElement.getDocument();
+
+					CKEDITOR.ajax.load( CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' ), function( html ) {
+						var container = new CKEDITOR.dom.element( 'div' );
+
+						container.addClass( 'cke_emoji-navigation_icons' );
+						container.setHtml( html );
+
+						doc.getBody().append( container );
+					} );
+				},
+
 				addEmojiToGroups: function() {
 					var groupObj = {};
 					arrTools.forEach( this.groups, function( group ) {
@@ -657,6 +680,10 @@
 				new EmojiDropdown( editor, this );
 			}
 
+		},
+
+		isSVGSupported: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
 		}
 	} );
 
