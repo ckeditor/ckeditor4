@@ -346,7 +346,7 @@
 					var loupePngUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' ),
 						useAttr;
 
-					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					if ( !this.editor.plugins.emoji.isSVGSupported() ) {
 						return '<span class="cke_emoji-search_loupe" aria-hidden="true" style="background-image:url(' + loupePngUrl + ');"></span>';
 					} else {
 						useAttr = CKEDITOR.env.safari ? 'xlink:href="#cke4-icon-emoji-10"' : 'href="#cke4-icon-emoji-10"';
