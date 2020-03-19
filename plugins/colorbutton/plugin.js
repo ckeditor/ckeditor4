@@ -451,6 +451,27 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 				},
 
+				// Selects the color based on the first matching result from the given filter function.
+				//
+				// The filter function should accept a color iterated from the
+				// {@link CKEDITOR.config#colorButton_colors} list as a parameter. If the color could not be found,
+				// this method will fall back to the first color from the panel.
+				//
+				// @since 4.14.0
+				// @private
+				// @member CKEDITOR.ui.colorButton
+				// @param {Function} callback The filter function which should return `true` if a matching color is found.
+				// @param {String} callback.color The color compared by the filter function.
+				select: function( callback ) {
+					var colors = config.colorButton_colors.split( ',' ),
+						color = CKEDITOR.tools.array.find( colors, callback );
+
+					color = normalizeColor( color );
+
+					selectColor( panelBlock, color );
+					panelBlock._.markFirstDisplayed();
+				},
+
 				onBlock: function( panel, block ) {
 					var history = new ColorHistory( type == 'back' ? 'background-color' : 'color' );
 
