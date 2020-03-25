@@ -3,6 +3,83 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_bbcodeMap = [
+ *			b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div',
+ *          justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol'
+ *		];
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_bbcodeMap = {
+	b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div',
+	justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol'
+};
+
+/**
+ *		// This is actually the default value.
+ *		{ strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', code: 'code', li: '*' };
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', code: 'code', li: '*' };
+
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_tagnameMap = {
+ *			strong: 'b', em: 'i', u: 'u', s: 's', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link',
+ *			img: 'img', blockquote: 'quote'
+ *		};
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_tagnameMap = {
+	strong: 'b', em: 'i', u: 'u', s: 's', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link',
+	img: 'img', blockquote: 'quote'
+};
+
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_stylesMap = [
+ *			b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div',
+ *          justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol'
+ *		];
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_stylesMap = {
+	color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align', justify: 'text-align'
+};
+
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
+
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_smileyMap = {
+ *			smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|',
+ *			angry: '>:(',angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*'
+ *		};
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_smileyMap = {
+	smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|',
+	angry: '>:(',angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*'
+};
+
 ( function() {
 	CKEDITOR.on( 'dialogDefinition', function( ev ) {
 		var tab,
@@ -26,20 +103,19 @@
 		}
 	} );
 
-	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
-		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', code: 'code', li: '*' },
-		tagnameMap = { strong: 'b', em: 'i', u: 'u', s: 's', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
-		stylesMap = { color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align', justify: 'text-align' },
-		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
+	var bbcodeMap = {},
+		convertMap = {},
+		tagnameMap = {},
+		stylesMap = {},
+		attributesMap = {};
 
 	// List of block-like tags.
 	var dtd = CKEDITOR.dtd,
 		blockLikeTags = CKEDITOR.tools.extend( { table: 1 }, dtd.$block, dtd.$listItem, dtd.$tableContent, dtd.$list );
 
-	var semicolonFixRegex = /\s*(?:;\s*|$)/;
-
 	function serializeStyleText( stylesObject ) {
 		var styleText = '';
+		var semicolonFixRegex = /\s*(?:;\s*|$)/;
 		for ( var style in stylesObject ) {
 			var styleVal = stylesObject[ style ],
 				text = ( style + ':' + styleVal ).replace( semicolonFixRegex, ';' );
@@ -49,22 +125,21 @@
 		return styleText;
 	}
 
-	// Maintain the map of smiley-to-description.
-	// jscs:disable maximumLineLength
-	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
-	// jscs:enable maximumLineLength
+	var smileyMap = {},
 		smileyReverseMap = {},
 		smileyRegExp = [];
 
-	// Build regexp for the list of smiley text.
-	for ( var i in smileyMap ) {
-		smileyReverseMap[ smileyMap[ i ] ] = i;
-		smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
-			return '\\' + match;
-		} ) );
-	}
+	function buildSmileyRegExp() {
+		// Build regexp for the list of smiley text.
+		for ( var i in smileyMap ) {
+			smileyReverseMap[ smileyMap[ i ] ] = i;
+			smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
+				return '\\' + match;
+			} ) );
+		}
 
-	smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
+		smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
+	}
 
 	var decodeHtml = ( function() {
 		var regex = [],
@@ -562,6 +637,15 @@
 		// of BBCode environment.
 		beforeInit: function( editor ) {
 			var config = editor.config;
+
+			bbcodeMap = editor.config.bbcode_bbcodeMap;
+			convertMap = editor.config.bbcode_convertMap;
+			tagnameMap = editor.config.bbcode_tagnameMap;
+			stylesMap = editor.config.bbcode_stylesMap;
+			attributesMap = editor.config.bbcode_attributesMap;
+			smileyMap = editor.config.bbcode_smileyMap;
+
+			buildSmileyRegExp();
 
 			CKEDITOR.tools.extend( config, {
 				// This one is for backwards compatibility only as
