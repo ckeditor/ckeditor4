@@ -4,24 +4,15 @@
 
 1. Click on color button.
 
-  **Expected:**
+  **Expected:** Color history is empty (only horizontal rule is visible).
 
-  Color history is empty (only horizontal rule is visible).
-
-  **Unexpected:**
-
-  Color history was initially filled with colors.
+  **Unexpected:** Color history was initially filled with colors.
 
 1. Choose any color.
-
 1. Click on color button.
 
-  **Expected:**
+  **Expected:** New color was added to color history.
 
-  New color was added to color history.
-
-  **Unexpected:**
-
-  Color history is still empty.
+  **Unexpected:** Color history is still empty.
 
 1. Repeat all previous steps for each editor type.

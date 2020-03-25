@@ -16,12 +16,9 @@
 	  * Grey (occures 1 time and is 2nd color in doc)
 	  * Yellow (occures 1 time and is 3rd color in doc)
 
-  **Unexpected:**
-
-  * Any of the above conditions is not met.
+  **Unexpected:** Any of the above conditions is not met.
 
 1. Click on `Automatic` color button.
-
 1. Click on color button.
 
   **Expected:**
@@ -29,30 +26,19 @@
   * There is no error in console.
   * New color box didn't appear.
 
-  **Unexpected:**
-
-  * Empty color box appeared at the beginning of history or error occurred.
+  **Unexpected:** Empty color box appeared at the beginning of history or error occurred.
 
 1. Delete the entire editor contents.
-
 1. Click on color button.
 
-  **Expected:**
+  **Expected:** Colors are still present and in the same order in history.
 
-  * Colors are still present and in the same order in history.
-
-  **Unexpected:**
-
-  * Colors disappeared or reordered.
+  **Unexpected:** Colors disappeared or reordered.
 
 1. Click on background color button.
 
-  **Expected:**
+  **Expected:** Color history row doesn't appear.
 
-  * Color history row doesn't appear.
-
-  **Unexpected:**
-
-  * Color history is the same as for text color.
+  **Unexpected:** Color history is the same as for text color.
 
 1. Repeat all previous steps for each editor type.
