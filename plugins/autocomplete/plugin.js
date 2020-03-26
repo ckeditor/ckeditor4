@@ -288,26 +288,28 @@
 				this.viewRepositionListener();
 			}, this ) );
 
-			this._listeners.push( editor.on( 'contentDom', onContentDom, this ) );
-
 			// Don't let browser to focus dropdown element (#2107).
 			this._listeners.push( this.view.element.on( 'mousedown', function( e ) {
 				e.data.preventDefault();
 			}, null, null, 9999 ) );
 
-			// Attach if editor is already initialized.
+			// Register keybindings if editor is already initialized.
 			if ( editable ) {
-				onContentDom.call( this );
+				this.registerPanelNavigation();
 			}
 
-			function onContentDom() {
-				// Priority 5 to get before the enterkey.
-				// Note: CKEditor's event system has a limitation that one function (in this case this.onKeyDown)
-				// cannot be used as listener for the same event more than once. Hence, wrapper function.
-				this._listeners.push( editable.on( 'keydown', function( evt ) {
-					this.onKeyDown( evt );
-				}, this, null, 5 ) );
-			}
+			editor.on( 'contentDom', this.registerPanelNavigation, this );
+		},
+
+		registerPanelNavigation: function() {
+			var editable = this.editor.editable();
+
+			// Priority 5 to get before the enterkey.
+			// Note: CKEditor's event system has a limitation that one function (in this case this.onKeyDown)
+			// cannot be used as listener for the same event more than once. Hence, wrapper function.
+			this._listeners.push( editable.attachListener( editable, 'keydown', function( evt ) {
+				this.onKeyDown( evt );
+			}, this, null, 5 ) );
 		},
 
 		/**
