@@ -21,7 +21,10 @@ bender.test( {
 			on: {
 				instanceReady: function( evt ) {
 					resume( function() {
-						assert.isFalse( evt.editor.readOnly, 'Editor is in read-only mode' );
+						var editor = evt.editor;
+
+						assert.isFalse( editor.readOnly, 'Editor is in read-only mode', 'Editor should be in read-only mode' );
+						assert.areEqual( 'true', editor.element.getAttribute( 'contenteditable' ), 'Editor should be editable' );
 					} );
 				}
 			}

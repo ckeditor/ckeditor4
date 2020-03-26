@@ -1,13 +1,13 @@
-@bender-tags: bug, 4.14.0, 3866
+@bender-tags: bug, 4.14.1, 3866
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, wysiwygarea, basicstyles, floatingspace
 
-1. Focus the editor.
+Focus the editor.
 
 ## Expected
 
-* Editor is in editable mode.
+Editor is in editable mode.
 
 ## Unexpected
 
-* Editor is in read-only mode.
+Editor is in read-only mode.
