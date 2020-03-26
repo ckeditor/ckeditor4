@@ -360,11 +360,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				addColor: function( colorCode ) {
-					if ( ColorHistory.getCapacity() == 0 ) {
-						return;
-					}
-
-					if ( !colorCode ) {
+					if ( ColorHistory.getCapacity() == 0 || !colorCode ) {
 						return;
 					}
 
