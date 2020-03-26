@@ -1,4 +1,4 @@
-﻿CKEditor 4 Changelog
+CKEditor 4 Changelog
 ====================
 
 ## CKEditor 4.14.1
@@ -6,6 +6,7 @@
 Fixed Issues:
 
 * [#2607](https://github.com/ckeditor/ckeditor4/issues/2607): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) SVG icons file is not loaded in CORS context.
+* [#3866](https://github.com/ckeditor/ckeditor4/issues/3866): Fixed: [`config.readOnly`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-readOnly) config variable not considered for startup read-only mode of inline editor.
 
 ## CKEditor 4.14
 
