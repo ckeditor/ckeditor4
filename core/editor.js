@@ -1117,9 +1117,9 @@
 		 * @param {Function} [options.callback] Function to be called after `setData` is completed (on {@link #dataReady}).
 		 * @param {Boolean} [options.noSnapshot=false] If set to `true`, it will prevent recording an undo snapshot.
 		 * Introduced in CKEditor 4.4.2.
-		 * @param {Boolean} [internal=false] Old equivalent of `options.internal=false`. This parameter is only available
-		 * to provide backward compatibility in calls with `data, callback, internal` parameters. It is recommended to use
-		 * `data, [options]` parameters instead.
+		 * @param {Boolean} [internal=false] Old equivalent of `options.internal` parameter. It is only available
+		 * to provide backwards compatibility for calls with `data, callback, internal` parameters.
+		 * It is recommended to use `options.internal` parameter instead.
 		 */
 		setData: function( data, options, internal ) {
 			var fireSnapshot = true,
