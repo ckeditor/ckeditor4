@@ -169,7 +169,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				extractColorBox: function( colorCode ) {
 					var index = CKEDITOR.tools.getIndex( this.boxes, function( box ) {
-						return box.color == colorCode;
+						return box.color === colorCode;
 					} );
 
 					if ( index < 0 ) {
