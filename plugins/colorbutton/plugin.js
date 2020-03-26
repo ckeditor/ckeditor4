@@ -264,13 +264,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return;
 					}
 
-					var existing;
+					for ( var i = 0; i < this.rows.length; i++ ) {
+						var box = this.rows[ i ].extractColorBox( colorCode );
 
-					CKEDITOR.tools.array.forEach( this.rows, function( row ) {
-						existing = existing || row.extractColorBox( colorCode );
-					} );
+						if ( box ) {
+							return box;
+						}
+					}
 
-					return existing;
+					return null;
 				},
 
 				moveToBeginning: function( colorBox ) {
