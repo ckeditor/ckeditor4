@@ -600,13 +600,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
-							setColor( color );
-							options.colorHistory.addColor( color.substr( 1 ).toUpperCase() );
+							setColor( color, options.colorHistory );
 						}
 					}, null, colorData );
 				} else {
-					setColor( color && '#' + color );
-					options.colorHistory.addColor( color && color.toUpperCase() );
+					setColor( color && '#' + color, options.colorHistory );
 				}
 			} );
 
@@ -681,10 +679,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						'</td>'; // </tr> is later in the code.
 			}
 
-			function setColor( color ) {
+			function setColor( color, colorHistory ) {
 				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
 
 				editor.execCommand( commandName, { newStyle: colorStyle } );
+				colorHistory.addColor( color.substr( 1 ).toUpperCase() );
 			}
 		}
 
