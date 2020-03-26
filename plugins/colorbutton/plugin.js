@@ -96,38 +96,26 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		var ColorBox = CKEDITOR.tools.createClass( {
-			$: function( color, clickFn ) {
+			$: function( color, clickFn, label ) {
 				this.$ = new CKEDITOR.dom.element( 'td' );
 				this.color = color;
-				this.label = ColorBox.colorNames[ this.color ] || this.color;
+				this.label = label || ColorBox.colorNames[ this.color ] || this.color;
 				this.clickFn = clickFn;
 
 				this.setHtml();
 			},
 
 			statics: {
-				colorNames: editor.lang.colorbutton.colors,
-
-				generateHtml: function( options ) {
-					return '<td>' +
-							'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
-								' title="' + options.label + '"' +
-								' draggable="false"' +
-								' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-								' onclick="CKEDITOR.tools.callFunction(' + options.clickFn + ',\'' + options.color + '\');' +
-								' return false;"' +
-								' href="javascript:void(\'' + options.color + '\')"' +
-								' data-value="' + options.color + '"' +
-								' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + '">' +
-								'<span class="cke_colorbox" style="background-color:#' + options.color + '"></span>' +
-							'</a>' +
-						'</td>';
-				}
+				colorNames: editor.lang.colorbutton.colors
 			},
 
 			proto: {
 				getElement: function() {
 					return this.$;
+				},
+
+				getHtml: function() {
+					return this.getElement().getOuterHtml();
 				},
 
 				setHtml: function() {
@@ -642,26 +630,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				var parts = colors[ i ].split( '/' ),
 					colorName = parts[ 0 ],
 					colorCode = parts[ 1 ] || colorName,
-					colorLabel;
+					colorLabel = parts[ 1 ] ? colorName : undefined,
+					box = new ColorBox( colorCode, clickFn, colorLabel ),
+					position = i + 2; // At position #1 we have automatic button, so the first position is equal to 2.
 
-				// The data can be only a color code (without #) or colorName + color code
-				// If only a color code is provided, then the colorName is the color with the hash
-				// Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See https://dev.ckeditor.com/ticket/5676
-				// Additionally, if the data is a single color code then let's try to translate it or fallback on the
-				// color code. If the data is a color name/code, then use directly the color name provided.
-				if ( !parts[ 1 ] ) {
-					colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
-				} else {
-					colorLabel = colorName;
-				}
-
-				output.push( ColorBox.generateHtml( {
-					label: colorLabel,
-					clickFn: clickFn,
-					color: colorCode,
-					position: i + 2, // First color box should have position 2 as position 1 is for Automatic Button.
-					setSize: total
-				} ) );
+				box.setAriaAttributes( position, total );
+				output.push( box.getHtml() );
 			}
 
 			if ( ColorHistory.rowLimit ) {
