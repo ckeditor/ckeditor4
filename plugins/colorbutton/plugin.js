@@ -184,10 +184,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return box.color == colorCode;
 					} );
 
-					if ( index >= 0 ) {
-						this.boxes[ index ].getElement().remove();
-						return this.boxes.splice( index, 1 )[ 0 ];
+					if ( index < 0 ) {
+						return;
 					}
+
+					this.boxes[ index ].getElement().remove();
+					return this.boxes.splice( index, 1 )[ 0 ];
 				}
 			}
 		} );
