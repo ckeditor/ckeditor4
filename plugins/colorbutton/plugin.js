@@ -284,7 +284,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						this._.addNewRow();
 					}
 
-					this.rows[ 0 ].addNewColor( colorBox );
+					this._.moveToBeginning( colorBox );
 				},
 
 				addNewRow: function() {
