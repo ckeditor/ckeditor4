@@ -611,7 +611,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			panel.data( 'clickfn', clickFn );
 
 			if ( config.colorButton_enableAutomatic !== false ) {
-				output.push( generateAutomaticButtonHtml() );
+				generateAutomaticButtonHtml( output );
 			}
 
 			output.push( '<table role="presentation" cellspacing=0 cellpadding=0 width="100%"><tbody>' );
@@ -639,44 +639,44 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			if ( moreColorsEnabled ) {
-				output.push( generateMoreColorsButtonHtml() );
+				generateMoreColorsButtonHtml( output );
 			}
 
 			output.push( '</tr></tbody></table>' );
 
 			return output.join( '' );
 
-			function generateAutomaticButtonHtml() {
-				return '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
-					' title="' + lang.auto + '"' +
-					' draggable="false"' +
-					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-					' onclick="CKEDITOR.tools.callFunction(' + clickFn + ',null,\'' + type + '\');return false;"' +
-					' href="javascript:void(\'' + lang.auto + '\')"' +
-					' role="option" aria-posinset="1" aria-setsize="' + total + '">' +
-						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
-							'<tr>' +
-								'<td colspan="' + ColorHistoryRow.maxLength + '" align="center">' +
-									'<span class="cke_colorbox" id="' + colorBoxId + '"></span>' + lang.auto +
-								'</td>' +
-							'</tr>' +
-						'</table>' +
-					'</a>';
+			function generateAutomaticButtonHtml( output ) {
+				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true',
+					' title="', lang.auto, '"',
+					' draggable="false"',
+					' ondragstart="return false;"', // Draggable attribute is buggy on Firefox.
+					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"',
+					' href="javascript:void(\'', lang.auto, '\')"',
+					' role="option" aria-posinset="1" aria-setsize="', total, '">',
+						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">',
+							'<tr>',
+								'<td colspan="', ColorHistoryRow.maxLength, '" align="center">',
+									'<span class="cke_colorbox" id="', colorBoxId, '"></span>', lang.auto,
+								'</td>',
+							'</tr>',
+						'</table>',
+					'</a>' );
 			}
 
-			function generateMoreColorsButtonHtml() {
-				return '</tr>' +
-					'<tr>' +
-						'<td colspan="' + ColorHistoryRow.maxLength + '" align="center">' +
-							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
-								' title="' + lang.more + '"' +
-								' draggable="false"' +
-								' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-								' onclick="CKEDITOR.tools.callFunction(' + clickFn + ',\'?\',\'' + type + '\');return false;"' +
-								' href="javascript:void(\'' + lang.more + '\')"' + ' role="option" aria-posinset="' + total +
-								'" aria-setsize="' + total + '">' + lang.more +
-							'</a>' +
-						'</td>'; // </tr> is later in the code.
+			function generateMoreColorsButtonHtml( output ) {
+				output.push( '</tr>',
+					'<tr>',
+						'<td colspan="', ColorHistoryRow.maxLength, '" align="center">',
+							'<a class="cke_colormore" _cke_focus=1 hidefocus=true',
+								' title="', lang.more, '"',
+								' draggable="false"',
+								' ondragstart="return false;"', // Draggable attribute is buggy on Firefox.
+								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"',
+								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total,
+								'" aria-setsize="', total, '">', lang.more,
+							'</a>',
+						'</td>' ); // </tr> is later in the code.
 			}
 
 			function setColor( color, colorHistory ) {
