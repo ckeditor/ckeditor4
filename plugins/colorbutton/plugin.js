@@ -132,7 +132,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						'</a>' );
 				},
 
-				setAriaAttributes: function( posinset, setsize ) {
+				setPositionIndex: function( posinset, setsize ) {
 					this.getElement().getChild( 0 ).setAttributes( {
 						'aria-posinset': posinset,
 						'aria-setsize': setsize
@@ -208,7 +208,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			},
 
 			_: {
-				gatherColorInfo: function() {
+				countColors: function() {
 					var spans = CKEDITOR.tools.getStyledSpans( this.cssProperty, editor.editable() ),
 						colorOccurrences = CKEDITOR.tools.array.reduce( spans, function( occurrences, span ) {
 							var colorCode = this._.getHexCode( span, this.cssProperty, ColorHistory.colorList );
@@ -321,7 +321,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					CKEDITOR.tools.array.forEach( this.rows, function( row ) {
 						CKEDITOR.tools.array.forEach( row.boxes, function( colorBox ) {
-							colorBox.setAriaAttributes( position, historyLength );
+							colorBox.setPositionIndex( position, historyLength );
 							position += 1;
 						} );
 					} );
@@ -348,7 +348,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return;
 					}
 
-					var colorOccurrences = this._.gatherColorInfo();
+					var colorOccurrences = this._.countColors();
 
 					if ( CKEDITOR.tools.isEmpty( colorOccurrences ) ) {
 						return;
@@ -634,7 +634,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					box = new ColorBox( colorCode, clickFn, colorLabel ),
 					position = i + 2; // At position #1 we have automatic button, so the first position is equal to 2.
 
-				box.setAriaAttributes( position, total );
+				box.setPositionIndex( position, total );
 				output.push( box.getHtml() );
 			}
 
