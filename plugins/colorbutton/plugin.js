@@ -261,7 +261,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				extractColorBox: function( colorCode ) {
 					if ( !this.rows ) {
-						return;
+						return null;
 					}
 
 					for ( var i = 0; i < this.rows.length; i++ ) {
