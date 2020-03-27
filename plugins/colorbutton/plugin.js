@@ -694,15 +694,19 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		 * @param {String} color
 		 */
 		function selectColor( block, color ) {
-			var items = block._.getItems();
+			var items = block._.getItems(),
+				selected = block.element.findOne( '[aria-selected]' );
+
+			if ( selected ) {
+				selected.removeAttribute( 'aria-selected' );
+			}
 
 			for ( var i = 0; i < items.count(); i++ ) {
 				var item = items.getItem( i );
 
-				item.removeAttribute( 'aria-selected' );
-
 				if ( color && color == normalizeColor( item.getAttribute( 'data-value' ) ) ) {
 					item.setAttribute( 'aria-selected', true );
+					return;
 				}
 			}
 		}
