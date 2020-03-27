@@ -461,6 +461,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
+					var clickFn = CKEDITOR.tools.addFunction( function addClickFn() {
+						return 'click';
+					} );
 					var history = new ColorHistory( type == 'back' ? 'background-color' : 'color' );
 
 					panelBlock = block;
@@ -473,7 +476,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						colorData: colorData,
 						commandName: commandName,
 						panel: block.element,
-						colorHistory: history
+						colorHistory: history,
+						clickFn: clickFn
 					} ) );
 
 					history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
