@@ -525,7 +525,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
 
 						editor.execCommand( commandName, { newStyle: colorStyle } );
-						colorHistory.addColor( color.substr( 1 ).toUpperCase() );
+						if ( color ) {
+							colorHistory.addColor( color.substr( 1 ).toUpperCase() );
+						}
 					}
 				},
 
