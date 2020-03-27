@@ -11,10 +11,10 @@
   1. Below default palette there is horizontal rule and color history row.
   1. There are 4 color boxes in color history row.
   1. Color boxes are ordered by number of occurences and further by order in document:
-      * Strong Blue (occures 2 times in document)
-	  * Red (occures 1 time and is 1st color in doc)
-	  * Grey (occures 1 time and is 2nd color in doc)
-	  * Yellow (occures 1 time and is 3rd color in doc)
+      * Strong Blue
+	  * Red
+	  * Grey
+	  * Yellow
 
   **Unexpected:** Any of the above conditions is not met.
 
