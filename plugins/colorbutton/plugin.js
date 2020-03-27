@@ -189,12 +189,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			statics: {
 				renderContainer: function( output ) {
-					output.push( '<tbody class="cke_colorhistory">' +
-						'<tr>' +
-							'<td colspan="' + ColorHistoryRow.maxLength + '" align="center">' +
-								'<span><hr></span>' +
-							'</td>' +
-						'</tr>' +
+					output.push( '<tbody class="cke_colorhistory">',
+						'<tr>',
+							'<td colspan="', ColorHistoryRow.maxLength, '" align="center">',
+								'<span><hr></span>',
+							'</td>',
+						'</tr>',
 					'</tbody>' );
 				},
 
