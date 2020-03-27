@@ -27,7 +27,7 @@
 			} );
 		},
 
-		'test horizontal rule is visible and row doesn\'t exist when there are no colors in content': function() {
+		'test horizontal rule is visible and history row doesn\'t exist when there are no colors in content': function() {
 			bender.editorBot.create( {
 				name: 'editor2'
 			}, function( bot ) {
