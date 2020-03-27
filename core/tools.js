@@ -1194,7 +1194,7 @@
 
 			// This is to filter out spans e.g. with background color when we want text color.
 			return CKEDITOR.tools.array.filter( spans, function( span ) {
-				return span.getStyle( property );
+				return ( span.getStyle( property ) && span.getText() );
 			} );
 		},
 
