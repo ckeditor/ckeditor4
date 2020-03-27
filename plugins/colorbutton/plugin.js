@@ -461,27 +461,45 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
-					var clickFn = CKEDITOR.tools.addFunction( function addClickFn() {
-						return 'click';
+					var history = new ColorHistory( type == 'back' ? 'background-color' : 'color' ),
+						colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
+
+					colorStyleTemplate.childRule = type == 'back' ?
+						function( element ) {
+							// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
+							// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
+							return isUnstylable( element );
+						} : function( element ) {
+							// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
+							return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
+						};
+
+					var clickFn = CKEDITOR.tools.addFunction( function addClickFn( color ) {
+						editor.focus();
+						editor.fire( 'saveSnapshot' );
+
+						if ( color == '?' ) {
+							editor.getColorFromDialog( function( color ) {
+								if ( color ) {
+									setColor( color, history );
+								}
+							}, null, colorData );
+						} else {
+							setColor( color && '#' + color, history );
+						}
 					} );
-					var history = new ColorHistory( type == 'back' ? 'background-color' : 'color' );
 
 					panelBlock = block;
-
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
 					block.element.setHtml( renderColors( {
 						type: type,
 						colorBoxId: colorBoxId,
-						colorData: colorData,
-						commandName: commandName,
-						panel: block.element,
-						colorHistory: history,
 						clickFn: clickFn
 					} ) );
 
 					history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
-					history.setClickFn( block.element.data( 'clickFn' ) );
+					history.setClickFn( clickFn );
 
 					if ( editor.config.colorButton_renderContentColors ) {
 						history.renderContentColors();
@@ -492,8 +510,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					CKEDITOR.ui.fire( 'ready', this );
 
-					var keys = block.keys;
-					var rtl = editor.lang.dir == 'rtl';
+					var keys = block.keys,
+						rtl = editor.lang.dir == 'rtl';
+
 					keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
 					keys[ 40 ] = 'next'; // ARROW-DOWN
 					keys[ 9 ] = 'next'; // TAB
@@ -501,6 +520,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
+
+					function setColor( color, colorHistory ) {
+						var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
+
+						editor.execCommand( commandName, { newStyle: colorStyle } );
+						colorHistory.addColor( color.substr( 1 ).toUpperCase() );
+					}
 				},
 
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
@@ -577,44 +603,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function renderColors( options ) {
 			var type = options.type,
 				colorBoxId = options.colorBoxId,
-				colorData = options.colorData,
-				commandName = options.commandName,
-				panel = options.panel,
 				output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				// Tells if we should include "More Colors..." button.
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (https://dev.ckeditor.com/ticket/12097).
-				total = colors.length + ( moreColorsEnabled ? 2 : 1 ),
-				colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
-
-			colorStyleTemplate.childRule = type == 'back' ?
-				function( element ) {
-					// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
-					// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
-					return isUnstylable( element );
-				} : function( element ) {
-					// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
-					return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
-				};
-
-			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, colorName ) {
-				editor.focus();
-				editor.fire( 'saveSnapshot' );
-
-				if ( color == '?' ) {
-					editor.getColorFromDialog( function( color ) {
-						if ( color ) {
-							setColor( color, options.colorHistory );
-						}
-					}, null, colorData );
-				} else {
-					setColor( color && '#' + color, options.colorHistory );
-				}
-			} );
-
-			panel.data( 'clickfn', clickFn );
+				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			if ( config.colorButton_enableAutomatic !== false ) {
 				generateAutomaticButtonHtml( output );
@@ -631,7 +626,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorName = parts[ 0 ],
 					colorCode = parts[ 1 ] || colorName,
 					colorLabel = parts[ 1 ] ? colorName : undefined,
-					box = new ColorBox( colorCode, clickFn, colorLabel ),
+					box = new ColorBox( colorCode, options.clickFn, colorLabel ),
 					position = i + 2; // At position #1 we have automatic button, so the first position is equal to 2.
 
 				box.setPositionIndex( position, total );
@@ -657,7 +652,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					' title="', lang.auto, '"',
 					' draggable="false"',
 					' ondragstart="return false;"', // Draggable attribute is buggy on Firefox.
-					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"',
+					' onclick="CKEDITOR.tools.callFunction(', options.clickFn, ',null,\'', type, '\');return false;"',
 					' href="javascript:void(\'', lang.auto, '\')"',
 					' role="option" aria-posinset="1" aria-setsize="', total, '">',
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">',
@@ -678,18 +673,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								' title="', lang.more, '"',
 								' draggable="false"',
 								' ondragstart="return false;"', // Draggable attribute is buggy on Firefox.
-								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"',
+								' onclick="CKEDITOR.tools.callFunction(', options.clickFn, ',\'?\',\'', type, '\');return false;"',
 								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total,
 								'" aria-setsize="', total, '">', lang.more,
 							'</a>',
 						'</td>' ); // </tr> is later in the code.
-			}
-
-			function setColor( color, colorHistory ) {
-				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
-
-				editor.execCommand( commandName, { newStyle: colorStyle } );
-				colorHistory.addColor( color.substr( 1 ).toUpperCase() );
 			}
 		}
 
