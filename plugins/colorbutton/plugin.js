@@ -188,14 +188,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			},
 
 			statics: {
-				renderContainer: function( tag ) {
-					return '<' + tag + ' class="cke_colorhistory">' +
+				renderContainer: function( output ) {
+					output.push( '<tbody class="cke_colorhistory">' +
 						'<tr>' +
 							'<td colspan="' + ColorHistoryRow.maxLength + '" align="center">' +
 								'<span><hr></span>' +
 							'</td>' +
 						'</tr>' +
-					'</' + tag + '>';
+					'</tbody>' );
 				},
 
 				rowLimit: editor.config.colorButton_historyRowLimit,
@@ -634,9 +634,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			if ( ColorHistory.rowLimit ) {
-				output.push( '</tbody>' +
-						ColorHistory.renderContainer( 'tbody' ) +
-					'<tbody>' );
+				output.push( '</tbody>' );
+				ColorHistory.renderContainer( output );
+				output.push( '<tbody>' );
 			}
 
 			if ( moreColorsEnabled ) {
