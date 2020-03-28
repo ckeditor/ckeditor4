@@ -638,12 +638,12 @@ CKEDITOR.config.bbcode_smileyMap = {
 		beforeInit: function( editor ) {
 			var config = editor.config;
 
-			bbcodeMap = editor.config.bbcode_bbcodeMap;
-			convertMap = editor.config.bbcode_convertMap;
-			tagnameMap = editor.config.bbcode_tagnameMap;
-			stylesMap = editor.config.bbcode_stylesMap;
-			attributesMap = editor.config.bbcode_attributesMap;
-			smileyMap = editor.config.bbcode_smileyMap;
+			bbcodeMap = config.bbcode_bbcodeMap;
+			convertMap = config.bbcode_convertMap;
+			tagnameMap = config.bbcode_tagnameMap;
+			stylesMap = config.bbcode_stylesMap;
+			attributesMap = config.bbcode_attributesMap;
+			smileyMap = config.bbcode_smileyMap;
 
 			buildSmileyRegExp();
 
