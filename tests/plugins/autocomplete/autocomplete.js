@@ -179,8 +179,6 @@
 						spy.restore();
 
 						assert.isTrue( spy.called );
-
-						ac.destroy();
 					} );
 				} );
 			} );
