@@ -62,6 +62,7 @@
 			editor.on( 'contentDom', togglePlaceholder, null, { editor: editor } );
 			editor.on( 'focus', togglePlaceholder, null, { editor: editor } );
 			editor.on( 'blur', togglePlaceholder, null, { editor: editor } );
+			editor.on( 'change', togglePlaceholder, null, { editor: editor } );
 		}
 	} );
 
