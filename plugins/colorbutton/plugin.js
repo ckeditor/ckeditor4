@@ -317,7 +317,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					this.rows[ index + 1 ].addNewColor( this.rows[ index ].removeLastColor() );
 				},
 
-				updateAriaAttributes: function() {
+				refreshPositions: function() {
 					var position = 1,
 						historyLength = this._.getLength();
 
@@ -375,7 +375,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					this._.alignRows();
-					this._.updateAriaAttributes();
+					this._.refreshPositions();
 				}
 			}
 		} );
