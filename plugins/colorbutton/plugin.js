@@ -173,7 +173,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					} );
 
 					if ( index < 0 ) {
-						return;
+						return null;
 					}
 
 					this.boxes[ index ].getElement().remove();
