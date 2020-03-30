@@ -70,6 +70,10 @@
 		return true;
 	}
 
+	function isSupportingTableSelectionPlugin( editor ) {
+		return editor && editor.plugins.tableselection && editor.plugins.tableselection.isSupportedEnvironment( editor );
+	}
+
 	// After performing fake table selection, the real selection is limited
 	// to the first selected cell. Therefore to check if the real selection
 	// matches the fake selection, we check if the table cell from fake selection's
@@ -1971,7 +1975,7 @@
 			var editor = this.root.editor;
 
 			// Use fake selection on tables only with tableselection plugin (#3136).
-			if ( editor.plugins.tableselection && isTableSelection( ranges ) ) {
+			if ( isSupportingTableSelectionPlugin( editor ) && isTableSelection( ranges ) ) {
 				// Tables have it's own selection method.
 				performFakeTableSelection.call( this, ranges );
 				return;
@@ -2082,8 +2086,7 @@
 			}
 
 			// Handle special case - fake selection of table cells.
-			if ( editor && editor.plugins.tableselection &&
-				editor.plugins.tableselection.isSupportedEnvironment() &&
+			if ( isSupportingTableSelectionPlugin( editor ) &&
 				isTableSelection( ranges ) && !isSelectingTable &&
 				!ranges[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( 'data-cke-tableselection-ignored' )
 			) {

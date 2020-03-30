@@ -370,6 +370,22 @@ bender.test( {
 		assert.isTrue( sel.rev > initialRev, 'unlocked selection gets new rev' );
 	},
 
+	// (#3931)
+	'test unlock with no root editor': function() {
+		makeSelection( '<p>[abc]</p>' );
+
+		var sel = doc.getSelection();
+
+		sel.lock();
+
+		try {
+			sel.unlock( true );
+			assert.pass();
+		} catch ( e ) {
+			assert.fail();
+		}
+	},
+
 	'test unlock outdated selection 1': function() {
 		makeSelection( '<p>a[b<b id="bold">c]d</b></p>' );
 
