@@ -149,7 +149,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			},
 
 			statics: {
-				maxLength: editor.config.colorButton_colorsPerRow
+				colorsPerRow: editor.config.colorButton_colorsPerRow
 			},
 
 			proto: {
@@ -191,7 +191,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				renderContainer: function( output ) {
 					output.push( '</tbody><tbody class="cke_colorhistory">',
 						'<tr>',
-							'<td colspan="', ColorHistoryRow.maxLength, '" align="center">',
+							'<td colspan="', ColorHistoryRow.colorsPerRow, '" align="center">',
 								'<span><hr></span>',
 							'</td>',
 						'</tr>',
@@ -201,7 +201,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				rowLimit: editor.config.colorButton_historyRowLimit,
 
 				getCapacity: function() {
-					return ColorHistory.rowLimit * ColorHistoryRow.maxLength;
+					return ColorHistory.rowLimit * ColorHistoryRow.colorsPerRow;
 				},
 
 				colorList: CKEDITOR.tools.style.parse._colors
@@ -300,7 +300,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				alignRows: function() {
 					for ( var rowIndex = 0; rowIndex < ColorHistory.rowLimit; rowIndex++ ) {
-						if ( this.rows[ rowIndex ].boxes.length <= ColorHistoryRow.maxLength ) {
+						if ( this.rows[ rowIndex ].boxes.length <= ColorHistoryRow.colorsPerRow ) {
 							return;
 						} else if ( this.rows[ rowIndex + 1 ] ) {
 							this._.moveLastBoxToNextRow( rowIndex );
@@ -621,7 +621,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
-				if ( ( i % ColorHistoryRow.maxLength ) === 0 )
+				if ( ( i % ColorHistoryRow.colorsPerRow ) === 0 )
 					output.push( '</tr><tr>' );
 
 				var parts = colors[ i ].split( '/' ),
@@ -657,7 +657,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					' role="option" aria-posinset="1" aria-setsize="', total, '">',
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">',
 							'<tr>',
-								'<td colspan="', ColorHistoryRow.maxLength, '" align="center">',
+								'<td colspan="', ColorHistoryRow.colorsPerRow, '" align="center">',
 									'<span class="cke_colorbox" id="', colorBoxId, '"></span>', lang.auto,
 								'</td>',
 							'</tr>',
@@ -668,7 +668,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			function generateMoreColorsButtonHtml( output ) {
 				output.push( '</tr>',
 					'<tr>',
-						'<td colspan="', ColorHistoryRow.maxLength, '" align="center">',
+						'<td colspan="', ColorHistoryRow.colorsPerRow, '" align="center">',
 							'<a class="cke_colormore" _cke_focus=1 hidefocus=true',
 								' title="', lang.more, '"',
 								' draggable="false"',
