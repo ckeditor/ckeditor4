@@ -54,6 +54,10 @@
 	}
 
 	CKEDITOR.plugins.add( 'placeholdertext', {
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version >= 9;
+		},
+
 		onLoad: function() {
 			CKEDITOR.addCss( pluginNamespace.styles );
 		},
