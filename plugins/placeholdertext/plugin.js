@@ -7,33 +7,26 @@
  * @fileOverview Simple CKEditor 4 plugin that adds placeholder text to the editor.
  */
 ( function() {
-	/**
-	 * Namespace providing configuration for placeholdertext plugin..
-	 *
-	 * @singleton
-	 * @class CKEDITOR.plugins.placeholdertext
-	 * @member CKEDITOR.plugins
-	 */
-	var pluginNamespace = {
+	var ATTRIBUTE_NAME = 'data-cke-placeholdertext',
 		/**
-		 * Template, which will be used to create placeholder element.
+		 * Namespace providing configuration for placeholdertext plugin..
 		 *
-		 * `{PLACEHOLDER}` is replaced by the value of CKEDITOR.config.placeholdertext.
-		 *
-		 * @property {String}
+		 * @singleton
+		 * @class CKEDITOR.plugins.placeholdertext
+		 * @member CKEDITOR.plugins
 		 */
-		template: '<p data-cke-placeholdertext>{PLACEHOLDER}</p>',
-
-		/**
-		 * Styles that would be applied to the placeholder element.
-		 *
-		 * @property {String}
-		 */
-		styles: '[data-cke-placeholdertext] {' +
-				'opacity: .8;' +
-				'color: #aaa;' +
-			'}'
-	};
+		pluginNamespace = {
+			/**
+			 * Styles that would be applied to the placeholder element.
+			 *
+			 * @property {String}
+			 */
+			styles: '[' + ATTRIBUTE_NAME + ']::before {' +
+					'opacity: .8;' +
+					'color: #aaa;' +
+					'content: attr( ' + ATTRIBUTE_NAME + ' );' +
+				'}'
+		};
 
 	function isEditorEmpty( editor ) {
 		return editor.getData().length === 0;
@@ -41,47 +34,23 @@
 
 	function applyPlaceholder( evt ) {
 		var editor = evt.listenerData.editor,
-			placeholder = pluginNamespace.template.replace( '{PLACEHOLDER}', editor.config.placeholdertext );
+			placeholder = editor.config.placeholdertext;
 
 		if ( isEditorEmpty( editor ) ) {
-			editor.editable().setHtml( placeholder );
+			editor.editable().setAttribute( ATTRIBUTE_NAME, placeholder );
 		}
 	}
 
 	function removePlaceholder( evt ) {
 		var editor = evt.listenerData.editor,
 			editable = editor.editable(),
-			range = editor.createRange(),
-			placeholder = editable.findOne( '[data-cke-placeholdertext]' );
+			placeholder = editable.hasAttribute( ATTRIBUTE_NAME );
 
 		if ( !placeholder ) {
 			return;
 		}
 
-		editor.fire( 'lockSnapshot' );
-		placeholder.remove();
-		range.moveToElementEditStart( editable );
-		range.select();
-		editor.fire( 'unlockSnapshot' );
-	}
-
-	function fixGetData( evt ) {
-		var fragment = evt.data.dataValue,
-			children = fragment.children;
-
-		if ( children.length !== 1 || checkPlaceholder( children[ 0 ] ) ) {
-			return;
-		}
-
-		children[ 0 ].remove();
-
-		function checkPlaceholder( element ) {
-			if ( element.type !== CKEDITOR.NODE_ELEMENT ) {
-				return true;
-			}
-
-			return typeof element.attributes[ 'data-cke-placeholdertext' ] === 'undefined';
-		}
+		editable.removeAttribute( ATTRIBUTE_NAME );
 	}
 
 	CKEDITOR.plugins.add( 'placeholdertext', {
@@ -97,8 +66,6 @@
 			editor.on( 'contentDom', applyPlaceholder, null, { editor: editor } );
 			editor.on( 'focus', removePlaceholder, null, { editor: editor } );
 			editor.on( 'blur', applyPlaceholder, null, { editor: editor } );
-
-			editor.on( 'toDataFormat', fixGetData, null, null, 9 );
 		}
 	} );
 
