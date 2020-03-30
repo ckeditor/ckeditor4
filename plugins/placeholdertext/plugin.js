@@ -59,14 +59,23 @@
 				return;
 			}
 
-			editor.on( 'contentDom', togglePlaceholder, null, { editor: editor } );
-			editor.on( 'focus', togglePlaceholder, null, { editor: editor } );
-			editor.on( 'blur', togglePlaceholder, null, { editor: editor } );
-			editor.on( 'change', togglePlaceholder, null, { editor: editor } );
+			bindPlaceholderEvents( editor, [
+				'contentDom',
+				'focus',
+				'blur',
+				'change'
+			] );
+
 		}
 	} );
 
 	CKEDITOR.plugins.placeholdertext = pluginNamespace;
+
+	function bindPlaceholderEvents( editor, events ) {
+		CKEDITOR.tools.array.forEach( events, function( event ) {
+			editor.on( event, togglePlaceholder, null, { editor: editor } );
+		} );
+	}
 
 	/**
 	 * Text that will be used as a placeholder inside the editor.
