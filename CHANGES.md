@@ -7,6 +7,7 @@ Fixed Issues:
 
 * [#2607](https://github.com/ckeditor/ckeditor4/issues/2607): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) SVG icons file is not loaded in CORS context.
 * [#3866](https://github.com/ckeditor/ckeditor4/issues/3866): Fixed: [`config.readOnly`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-readOnly) config variable not considered for startup read-only mode of inline editor.
+* [#3931](https://github.com/ckeditor/ckeditor4/issues/3931): [IE] Fixed: Error is thrown when pasting using paste button after accepting browser Clipboard Access Prompt dialog.
 
 ## CKEditor 4.14
 
