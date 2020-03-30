@@ -32,25 +32,17 @@
 		return editor.getData().length === 0;
 	}
 
-	function applyPlaceholder( evt ) {
+	function togglePlaceholder( evt ) {
 		var editor = evt.listenerData.editor,
+			hasFocus = editor.focusManager.hasFocus,
+			editable = editor.editable(),
 			placeholder = editor.config.placeholdertext;
 
-		if ( isEditorEmpty( editor ) ) {
-			editor.editable().setAttribute( ATTRIBUTE_NAME, placeholder );
-		}
-	}
-
-	function removePlaceholder( evt ) {
-		var editor = evt.listenerData.editor,
-			editable = editor.editable(),
-			placeholder = editable.hasAttribute( ATTRIBUTE_NAME );
-
-		if ( !placeholder ) {
-			return;
+		if ( !isEditorEmpty( editor ) || hasFocus ) {
+			return editable.removeAttribute( ATTRIBUTE_NAME );
 		}
 
-		editable.removeAttribute( ATTRIBUTE_NAME );
+		editable.setAttribute( ATTRIBUTE_NAME, placeholder );
 	}
 
 	CKEDITOR.plugins.add( 'placeholdertext', {
@@ -67,9 +59,9 @@
 				return;
 			}
 
-			editor.on( 'contentDom', applyPlaceholder, null, { editor: editor } );
-			editor.on( 'focus', removePlaceholder, null, { editor: editor } );
-			editor.on( 'blur', applyPlaceholder, null, { editor: editor } );
+			editor.on( 'contentDom', togglePlaceholder, null, { editor: editor } );
+			editor.on( 'focus', togglePlaceholder, null, { editor: editor } );
+			editor.on( 'blur', togglePlaceholder, null, { editor: editor } );
 		}
 	} );
 
