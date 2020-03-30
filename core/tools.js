@@ -1183,7 +1183,7 @@
 		},
 
 		/**
-		 * Finds all spans styled with the given property in the editor contents.
+		 * Finds all span {@link CKEDITOR.dom.element elements} styled with the given property in the editor contents.
 		 *
 		 * @since 4.15.0
 		 * @param {String} property CSS property which will be used in query.
