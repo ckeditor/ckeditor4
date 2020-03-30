@@ -50,6 +50,10 @@
 
 	<script>
 		( function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				bender.ignore();
+			}
+
 			var commonConfig = {
 					placeholdertext: 'Type your comment',
 					height: 100

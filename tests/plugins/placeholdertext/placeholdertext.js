@@ -27,6 +27,12 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+		},
+
 		'test getting data from editor': function( editor ) {
 			assert.areSame( '', editor.getData(), 'placeholder text is not part of editor data' );
 		},
