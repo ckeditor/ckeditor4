@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, basicstyles, clipboard
 
-**Note:** Make sure that you have default level for Clipboard access. E.g. for IE 11 can change it in a browser options at `Internet Options > Security > Custom Level > Scripting > Allow Programmatic Clipboard Access > Prompt`.
+**Note:** Make sure that you have default level for Clipboard access. For example in IE 11 you can change it in a browser options at: _Internet Options > Security > Custom Level > Scripting > Allow Programmatic Clipboard Access > Prompt_.
 
 1. Open browser console.
 1. Copy HTML above the editor.
@@ -10,4 +10,4 @@
 1. Make sure that Clipboard Access Prompt alert showed up.
 1. Allow Clipboard Access.
 
-**Expected:** No console error.
+  **Expected:** No console error. Content gets pasted.
