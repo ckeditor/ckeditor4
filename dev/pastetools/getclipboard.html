@@ -9,7 +9,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<title>Get Clipboard HTML and RTF</title>
 	<style>
 
-		textarea {
+		.ui-textarea {
 			border: 1px solid #808080;
 			float: left;
 			height: 200px;
@@ -17,14 +17,20 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 			overflow: auto;
 			margin-bottom: 20px;;
 		}
-		label {
-			display: block;
+		.ui-label {
+			display: inline-block;
+			max-width: 20em;
 			line-height: 2;
 		}
-		span {
+		.ui-label + .ui-label {
+			margin-left: 1em;
+			padding-left: 1em;
+			border-left: 1px #000 solid;
+		}
+		.marker-ok {
 			background-color: #88FFAA;
 		}
-		.marker {
+		.marker-not-ok {
 			background-color: #FF9999;
 		}
 	</style>
@@ -37,19 +43,19 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	</div>
 	<div>
 		<div style="float: left; width: 49%">
-			<p>Raw HTML Data Received: <span id="emHtml"></span></p>
-			<textarea data-name="input.html" id="rawHtml" readonly="readonly"></textarea>
+			<p>Raw HTML Data Received: <span class="marker-ok" id="emHtml"></span></p>
+			<textarea class="ui-textarea" data-name="input.html" id="rawHtml" readonly="readonly"></textarea>
 			<button id="htmlData">Save HTML Data</button>
 		</div>
 		<div style="float: right; width: 49%">
-			<p>Raw RTF Data Received: <span id="emRtf"></span></p>
-			<textarea data-name="input.rtf" id="rawRtf" readonly="readonly"></textarea>
+			<p>Raw RTF Data Received: <span class="marker-ok" id="emRtf"></span></p>
+			<textarea class="ui-textarea" data-name="input.rtf" id="rawRtf" readonly="readonly"></textarea>
 			<button id="rtfData">Save RTF Data</button>
 		</div>
 	</div>
 	<div style="width: 100%; float: left;">
 		<p>After Paste Processing:</p>
-		<textarea id="output" readonly="readonly"></textarea>
+		<textarea class="ui-textarea" id="output" readonly="readonly"></textarea>
 	</div>
 
 	<div id="configuration">
@@ -215,7 +221,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 			const optionsContainer = new CKEDITOR.dom.element( 'div' );
 
 			CKEDITOR.tools.array.forEach( options, function( option, i ) {
-				var checkbox = CKEDITOR.dom.element.createFromHtml( '<label><input type="checkbox" class="plugin" value="' + option + '"' + ( selectAll || i === 0 ? ' checked' : '' ) + '> ' + option + '</label>' );
+				var checkbox = CKEDITOR.dom.element.createFromHtml( '<label class="ui-label"><input type="checkbox" class="plugin" value="' + option + '"' + ( selectAll || i === 0 ? ' checked' : '' ) + '> ' + option + '</label>' );
 
 				optionsContainer.append( checkbox );
 			} );
@@ -280,7 +286,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 					document.getElementById( 'emHtml' ).innerHTML = '<br />Data from: <code>dataTransfer.getData( \'text/html\', true )</code>.';
 				} else {
 					document.getElementById( 'emHtml' ).innerHTML = '<br /><code>dataTransfer.getData( \'text/html\', true )</code> was empty.' +
-					'<br /><span class="marker">Data from: <code>evt.data.dataValue</code>.</span>';
+					'<br /><span class="marker-not-ok">Data from: <code>evt.data.dataValue</code>.</span>';
 				}
 				document.getElementById( 'rawHtml' ).value = val;
 
