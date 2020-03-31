@@ -8,7 +8,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<meta charset="UTF-8">
 	<title>Get Clipboard HTML and RTF</title>
 	<style>
-
 		.ui-textarea {
 			border: 1px solid #808080;
 			float: left;
@@ -16,6 +15,10 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 			width: 100%;
 			overflow: auto;
 			margin-bottom: 20px;;
+		}
+		#acf label {
+			display: block;
+			line-height: 2;
 		}
 		.ui-label {
 			display: inline-block;
@@ -67,6 +70,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		<div id="acf">
 			<label><input type="checkbox" id="allowedContent"> Allow all content</label>
 			<label>Extra allowed content: <input type="text" id="extraAllowedContent"></label>
+			<label>Disallowed content: <input type="text" id="disallowedContent"></label>
 		</div>
 		<div id="editable"></div>
 		<div id="paste"></div>
@@ -254,6 +258,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 			var textarea = new CKEDITOR.dom.element( 'textarea' ),
 				allowedContent = CKEDITOR.document.getById( 'allowedContent' ),
 				extraAllowedContent = CKEDITOR.document.getById( 'extraAllowedContent' ),
+				disallowedContent = CKEDITOR.document.getById( 'disallowedContent' ),
 				config = {
 					language: 'en',
 					embed_provider: 'https://ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
@@ -271,6 +276,10 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 			if ( extraAllowedContent.getValue() ) {
 				config.extraAllowedContent = extraAllowedContent.getValue();
+			}
+
+			if ( disallowedContent.getValue() ) {
+				config.disallowedContent = disallowedContent.getValue();
 			}
 
 			editorContainer.setHtml( '' );
