@@ -260,33 +260,22 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		var editorContainer = CKEDITOR.document.getById( 'editor' ),
 			config = prepareConfig();
 
-		destroyPreviousEditors().then( function() {
-			initNewEditor( editorContainer, config );
-		} );
+		// Due to https://github.com/ckeditor/ckeditor4/issues/3967
+		// new editor must be created _before_ destroying previous ones.
+		initNewEditor( editorContainer, config );
+		destroyPreviousEditors();
 	}
 
 	function destroyPreviousEditors() {
 		var instances = CKEDITOR.tools.object.values( CKEDITOR.instances ),
 			promises;
 
-		// Superugly hack for the case when our CKEDITOR.tools.promise is still not polyfilled.
-		if ( !CKEDITOR.tools.promise ) {
-			return {
-				then: function( cb ) {
-					cb();
-				}
-			};
-		}
+		// Leave the last instance (the newest one) untouched.
+		instances.pop();
 
-		promises = CKEDITOR.tools.array.map( instances, function( instance ) {
-			return new CKEDITOR.tools.promise( function( resolve ) {
-				instance.once( 'destroy', resolve );
-
-				instance.destroy();
-			} );
+		CKEDITOR.tools.array.forEach( instances, function( instance ) {
+			instance.destroy();
 		} );
-
-		return CKEDITOR.tools.promise.all( promises );
 	}
 
 	function prepareConfig() {
