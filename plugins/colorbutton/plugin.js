@@ -461,7 +461,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
-					var history = new ColorHistory( type == 'back' ? 'background-color' : 'color' ),
+					var history = ColorHistory.rowLimit ? new ColorHistory( type == 'back' ? 'background-color' : 'color' ) : undefined,
 						colorStyleTemplate = createColorStyleTemplate(),
 						clickFn = createClickFunction();
 
@@ -473,13 +473,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						colorBoxId: colorBoxId,
 						clickFn: clickFn
 					} ) );
-
-					history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
-					history.setClickFn( clickFn );
-
-					if ( editor.config.colorButton_renderContentColors ) {
-						history.renderContentColors();
-					}
 
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
@@ -496,6 +489,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
+
+					if ( !ColorHistory.rowLimit ) {
+						return;
+					}
+
+					history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
+					history.setClickFn( clickFn );
+
+					if ( editor.config.colorButton_renderContentColors ) {
+						history.renderContentColors();
+					}
 
 					function createColorStyleTemplate() {
 						var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
@@ -534,7 +538,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
 
 						editor.execCommand( commandName, { newStyle: colorStyle } );
-						if ( color ) {
+						if ( color && colorHistory ) {
 							colorHistory.addColor( color.substr( 1 ).toUpperCase() );
 						}
 					}
