@@ -40,6 +40,13 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		.marker-not-ok {
 			background-color: #FF9999;
 		}
+		#update {
+			line-height: 2;
+			background: blue;
+			color: white;
+			font-size: 24px;
+			font-weight: bold;
+		}
 	</style>
 	<script src="../../ckeditor.js"></script>
 </head>
@@ -50,12 +57,12 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	</div>
 	<div>
 		<div style="float: left; width: 49%">
-			<p>Raw HTML Data Received: <span class="marker-ok" id="emHtml" data-log="text/html"></span></p>
+			<p>Raw HTML Data Received:<br> <span class="marker-ok" id="emHtml" data-log="text/html"></span></p>
 			<textarea class="ui-textarea" data-name="input.html" data-output="text/html" data-fallback id="rawHtml" readonly="readonly"></textarea>
 			<button id="htmlData" data-save="rawHtml">Save HTML Data</button>
 		</div>
 		<div style="float: right; width: 49%">
-			<p>Raw RTF Data Received: <span class="marker-ok" id="emRtf" data-log="text/rtf"></span></p>
+			<p>Raw RTF Data Received:<br> <span class="marker-ok" id="emRtf" data-log="text/rtf"></span></p>
 			<textarea class="ui-textarea" data-name="input.rtf" data-output="text/rtf" id="rawRtf" readonly="readonly"></textarea>
 			<button id="rtfData" data-save="rawRtf">Save RTF Data</button>
 		</div>
