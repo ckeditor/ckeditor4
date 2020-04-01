@@ -47,9 +47,13 @@
 		 * @property {String}
 		 */
 		styles: '[' + ATTRIBUTE_NAME + ']::before {' +
+				'display: block;' +
 				'opacity: .8;' +
 				'color: #aaa;' +
 				'content: attr( ' + ATTRIBUTE_NAME + ' );' +
+			'}' +
+			'.cke_wysiwyg_div[' + ATTRIBUTE_NAME + ']::before {' +
+				'margin-top: 1em;' +
 			'}'
 	};
 
