@@ -17,7 +17,7 @@
 		},
 
 		init: function( editor ) {
-			if ( !editor.config.placeholdertext ) {
+			if ( !this.isSupportedEnvironment() || !editor.config.placeholdertext ) {
 				return;
 			}
 
