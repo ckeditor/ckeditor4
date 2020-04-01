@@ -452,7 +452,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				onBlock: function( panel, block ) {
 					var history = ColorHistory.rowLimit ? new ColorHistory( type == 'back' ? 'background-color' : 'color' ) : undefined,
-						colorStyleTemplate = createColorStyleTemplate(),
 						clickFn = createClickFunction();
 
 					panelBlock = block;
@@ -491,22 +490,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						history.renderContentColors();
 					}
 
-					function createColorStyleTemplate() {
-						var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
-
-						colorStyleTemplate.childRule = type == 'back' ?
-							function( element ) {
-								// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
-								// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
-								return isUnstylable( element );
-							} : function( element ) {
-								// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
-								return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
-							};
-
-						return colorStyleTemplate;
-					}
-
 					function createClickFunction() {
 						return CKEDITOR.tools.addFunction( function addClickFn( color ) {
 							editor.focus();
@@ -525,12 +508,28 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					function setColor( color, colorHistory ) {
-						var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
+						var colorStyle = color && new CKEDITOR.style( createColorStyleTemplate(), { color: color } );
 
 						editor.execCommand( commandName, { newStyle: colorStyle } );
 						if ( color && colorHistory ) {
 							colorHistory.addColor( color.substr( 1 ).toUpperCase() );
 						}
+					}
+
+					function createColorStyleTemplate() {
+						var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
+
+						colorStyleTemplate.childRule = type == 'back' ?
+							function( element ) {
+								// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
+								// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
+								return isUnstylable( element );
+							} : function( element ) {
+								// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
+								return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
+							};
+
+						return colorStyleTemplate;
 					}
 				},
 
