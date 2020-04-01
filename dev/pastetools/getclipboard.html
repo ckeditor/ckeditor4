@@ -260,7 +260,33 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		var editorContainer = CKEDITOR.document.getById( 'editor' ),
 			config = prepareConfig();
 
-		return initNewEditor( editorContainer, config );
+		destroyPreviousEditors().then( function() {
+			initNewEditor( editorContainer, config );
+		} );
+	}
+
+	function destroyPreviousEditors() {
+		var instances = CKEDITOR.tools.object.values( CKEDITOR.instances ),
+			promises;
+
+		// Superugly hack for the case when our CKEDITOR.tools.promise is still not polyfilled.
+		if ( !CKEDITOR.tools.promise ) {
+			return {
+				then: function( cb ) {
+					cb();
+				}
+			};
+		}
+
+		promises = CKEDITOR.tools.array.map( instances, function( instance ) {
+			return new CKEDITOR.tools.promise( function( resolve ) {
+				instance.once( 'destroy', resolve );
+
+				instance.destroy();
+			} );
+		} );
+
+		return CKEDITOR.tools.promise.all( promises );
 	}
 
 	function prepareConfig() {
