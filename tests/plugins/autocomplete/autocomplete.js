@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autocomplete,wysiwygarea */
+/* bender-ckeditor-plugins: autocomplete,wysiwygarea,sourcearea */
 
 ( function() {
 	'use strict';
@@ -8,6 +8,11 @@
 		standard: {
 			config: {
 				allowedContent: 'strong',
+				removePlugins: 'tab'
+			}
+		},
+		source: {
+			config: {
 				removePlugins: 'tab'
 			}
 		},
@@ -153,6 +158,30 @@
 				} );
 
 			}, 150 );
+
+			wait();
+		},
+
+		// (#3938)
+		'test navigation keybindings are registered after changing mode': function() {
+			var editor = this.editors.source,
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
+
+			editor.setMode( 'source', function() {
+				editor.setMode( 'wysiwyg', function() {
+					resume( function() {
+						var spy = sinon.spy( ac, 'onKeyDown' );
+
+						this.editorBots.standard.setHtmlWithSelection( '' );
+
+						editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {} ) );
+
+						spy.restore();
+
+						assert.isTrue( spy.called );
+					} );
+				} );
+			} );
 
 			wait();
 		},
