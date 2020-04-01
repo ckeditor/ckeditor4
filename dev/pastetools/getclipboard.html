@@ -8,6 +8,10 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<meta charset="UTF-8">
 	<title>Get Clipboard HTML and RTF</title>
 	<style>
+		#configuration {
+			clear: both;
+			margin-top: 1em;
+		}
 		.ui-textarea {
 			border: 1px solid #808080;
 			float: left;
@@ -263,9 +267,13 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		return config;
 
 		function getPlugins() {
-			var plugins = CKEDITOR.document.find( '.plugin:checked' ).toArray()
+			var plugins = CKEDITOR.document.find( '.plugin' ).toArray(),
+				// We have to use filter as IE8 does not recognise :checked selector.
+				enabledPlugins = CKEDITOR.tools.array.filter( plugins, function( plugin ) {
+					return plugin.$.checked;
+				} );
 
-			return CKEDITOR.tools.array.map( plugins, function( plugin ) {
+			return CKEDITOR.tools.array.map( enabledPlugins, function( plugin ) {
 				return plugin.getValue();
 			} );
 		}
