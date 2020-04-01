@@ -104,7 +104,9 @@
 	};
 
 	tests[ 'test integration with easyimage' ] = function() {
-		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+		if ( CKEDITOR.env.ie || CKEDITOR.env.version < 11 ) {
+			assert.ignore();
+		}
 
 		bender.editorBot.create( {
 			config: {
