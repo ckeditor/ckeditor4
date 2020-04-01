@@ -381,6 +381,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				colorData = { type: type },
 				defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
+				clickFn = createClickFunction(),
+				history = ColorHistory.rowLimit ? new ColorHistory( type == 'back' ? 'background-color' : 'color' ) : undefined,
 				panelBlock;
 
 			editor.addCommand( commandName, {
@@ -451,9 +453,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
-					var history = ColorHistory.rowLimit ? new ColorHistory( type == 'back' ? 'background-color' : 'color' ) : undefined,
-						clickFn = createClickFunction();
-
 					panelBlock = block;
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
@@ -479,57 +478,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
 
-					if ( !ColorHistory.rowLimit ) {
-						return;
-					}
-
-					history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
-					history.setClickFn( clickFn );
-
-					if ( editor.config.colorButton_renderContentColors ) {
-						history.renderContentColors();
-					}
-
-					function createClickFunction() {
-						return CKEDITOR.tools.addFunction( function addClickFn( color ) {
-							editor.focus();
-							editor.fire( 'saveSnapshot' );
-
-							if ( color == '?' ) {
-								editor.getColorFromDialog( function( color ) {
-									if ( color ) {
-										setColor( color, history );
-									}
-								}, null, colorData );
-							} else {
-								setColor( color && '#' + color, history );
-							}
-						} );
-					}
-
-					function setColor( color, colorHistory ) {
-						var colorStyle = color && new CKEDITOR.style( createColorStyleTemplate(), { color: color } );
-
-						editor.execCommand( commandName, { newStyle: colorStyle } );
-						if ( color && colorHistory ) {
-							colorHistory.addColor( color.substr( 1 ).toUpperCase() );
-						}
-					}
-
-					function createColorStyleTemplate() {
-						var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
-
-						colorStyleTemplate.childRule = type == 'back' ?
-							function( element ) {
-								// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
-								// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
-								return isUnstylable( element );
-							} : function( element ) {
-								// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
-								return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
-							};
-
-						return colorStyleTemplate;
+					if ( ColorHistory.rowLimit ) {
+						history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
 					}
 				},
 
@@ -602,6 +552,61 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					return automaticColor;
 				}
 			} );
+
+			if ( !ColorHistory.rowLimit ) {
+				return;
+			}
+
+			history.setClickFn( clickFn );
+
+			if ( editor.config.colorButton_renderContentColors ) {
+				// It can't be done right now - we have to wait till editable is set up.
+				editor.once( 'instanceReady', function() {
+					history.renderContentColors();
+				} );
+			}
+
+			function createColorStyleTemplate() {
+				var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
+
+				colorStyleTemplate.childRule = type == 'back' ?
+					function( element ) {
+						// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
+						// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
+						return isUnstylable( element );
+					} : function( element ) {
+						// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
+						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
+					};
+
+				return colorStyleTemplate;
+			}
+
+			function createClickFunction() {
+				return CKEDITOR.tools.addFunction( function addClickFn( color ) {
+					editor.focus();
+					editor.fire( 'saveSnapshot' );
+
+					if ( color == '?' ) {
+						editor.getColorFromDialog( function( color ) {
+							if ( color ) {
+								setColor( color, history );
+							}
+						}, null, colorData );
+					} else {
+						setColor( color && '#' + color, history );
+					}
+				} );
+			}
+
+			function setColor( color, colorHistory ) {
+				var colorStyle = color && new CKEDITOR.style( createColorStyleTemplate(), { color: color } );
+
+				editor.execCommand( commandName, { newStyle: colorStyle } );
+				if ( color && colorHistory ) {
+					colorHistory.addColor( color.substr( 1 ).toUpperCase() );
+				}
+			}
 		}
 
 		function renderColors( options ) {
