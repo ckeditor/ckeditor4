@@ -53,13 +53,12 @@
 
 		'test horizontal rule is visible and history row is not empty when there is a color in content': function() {
 			bender.editorBot.create( {
-				name: 'editor3'
+				name: 'editor3',
+				startupData: '<p>[<span style="color:#ff3333; background-color:#3333ff">Moo</span>]</p>'
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
 					bgColorBtn = editor.ui.get( 'BGColor' );
-
-				bot.setHtmlWithSelection( '<p>[<span style="color:#ff3333; background-color:#3333ff">Moo</span>]</p>' );
 
 				txtColorBtn.click( editor );
 				assert.isTrue( colorHistoryTools.findInPanel( 'hr', txtColorBtn ).isVisible(),
@@ -77,7 +76,8 @@
 
 		'test content color tiles work': function() {
 			bender.editorBot.create( {
-				name: 'editor4'
+				name: 'editor4',
+				startupData: '<p><span style="color:#ff3333; background-color:#3333ff">Moo</span> and not moo</p>'
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
@@ -101,14 +101,13 @@
 
 		'test occurrence order': function() {
 			bender.editorBot.create( {
-				name: 'editor6'
+				name: 'editor6',
+				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> an <span style="color:#3498db">instance</span>' +
+				' of <span style="color:#2ecc71">CKEditor</span>.</p>'
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
 					firstColorBox;
-
-				bot.setHtmlWithSelection( '<p><span style="color:#e74c3c">I&#39;m</span> an <span style="color:#3498db">instance</span>' +
-					' of <span style="color:#2ecc71">CKEditor</span>.</p>' );
 
 				txtColorBtn.click( editor );
 				assert.areEqual( 3, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(),
@@ -126,17 +125,16 @@
 
 		'test occurrence number order': function() {
 			bender.editorBot.create( {
-				name: 'editor7'
+				name: 'editor7',
+				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> <span style="color:#f1c40f">an</span> ' +
+				' <span style="color:#3498db">instance</span> of <span style="color:#2ecc71">CKEditor</span>. ' +
+				' <span style="color:#2ecc71">Enjoy</span> <span style="color:#2ecc71">my</span> ' +
+				' <span style="color:#e74c3c">colors</span>!</p>'
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
 					firstColorBox,
 					yellowColorBox;
-
-				bot.setHtmlWithSelection( '<p><span style="color:#e74c3c">I&#39;m</span> <span style="color:#f1c40f">an</span> ' +
-					' <span style="color:#3498db">instance</span> of <span style="color:#2ecc71">CKEditor</span>. ' +
-					' <span style="color:#2ecc71">Enjoy</span> <span style="color:#2ecc71">my</span> ' +
-					' <span style="color:#e74c3c">colors</span>!</p>' );
 
 				txtColorBtn.click( editor );
 
@@ -157,18 +155,17 @@
 		'test more colors than colorsPerRow in the document': function() {
 			bender.editorBot.create( {
 				name: 'editor8',
+				startupData: '<p><span style="color:#1abc9c">H</span>' +
+				'<span style="color:#2ecc71">e</span><span style="color:#3498db">l</span><span style="color:#9b59b6">l</span>' +
+				'<span style="color:#4e5f70">o</span> <span style="color:#f1c40f">w</span><span style="color:#16a085">o</span>' +
+				'<span style="color:#2980b9">r</span><span style="color:#8e44ad">l</span><span style="color:#2c3e50">d</span>' +
+				'<span style="color:#f39c12">!</span></p>',
 				config: {
 					colorButton_colorsPerRow: 4
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' );
-
-				bot.setHtmlWithSelection( '<p><span style="color:#1abc9c">H</span>' +
-					'<span style="color:#2ecc71">e</span><span style="color:#3498db">l</span><span style="color:#9b59b6">l</span>' +
-					'<span style="color:#4e5f70">o</span> <span style="color:#f1c40f">w</span><span style="color:#16a085">o</span>' +
-					'<span style="color:#2980b9">r</span><span style="color:#8e44ad">l</span><span style="color:#2c3e50">d</span>' +
-					'<span style="color:#f39c12">!</span></p>' );
 
 				txtColorBtn.click( editor );
 
@@ -179,6 +176,11 @@
 		'test new row is created if limit allows it': function() {
 			bender.editorBot.create( {
 				name: 'editor9',
+				startupData: '<p><span style="color:#1abc9c">H</span>' +
+				'<span style="color:#2ecc71">e</span><span style="color:#3498db">l</span><span style="color:#9b59b6">l</span>' +
+				'<span style="color:#4e5f70">o</span> <span style="color:#f1c40f">w</span><span style="color:#16a085">o</span>' +
+				'<span style="color:#2980b9">r</span><span style="color:#8e44ad">l</span><span style="color:#2c3e50">d</span>' +
+				'<span style="color:#f39c12">!</span></p>',
 				config: {
 					colorButton_colorsPerRow: 4,
 					colorbutton_historyRowLimit: 2
@@ -186,12 +188,6 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' );
-
-				bot.setHtmlWithSelection( '<p><span style="color:#1abc9c">H</span>' +
-					'<span style="color:#2ecc71">e</span><span style="color:#3498db">l</span><span style="color:#9b59b6">l</span>' +
-					'<span style="color:#4e5f70">o</span> <span style="color:#f1c40f">w</span><span style="color:#16a085">o</span>' +
-					'<span style="color:#2980b9">r</span><span style="color:#8e44ad">l</span><span style="color:#2c3e50">d</span>' +
-					'<span style="color:#f39c12">!</span></p>' );
 
 				txtColorBtn.click( editor );
 

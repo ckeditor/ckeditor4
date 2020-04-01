@@ -83,13 +83,12 @@
 
 		'test new tiles are added when new color is picked and there are other colors in document': function() {
 			bender.editorBot.create( {
-				name: 'editor1'
+				name: 'editor1',
+				startupData: '<p><span style="color:#ff3333; background-color:#3333ff">Moo</span>and not moo</p>'
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
 					bgColorBtn = editor.ui.get( 'BGColor' );
-
-				bot.setHtmlWithSelection( '<p><span style="color:#ff3333; background-color:#3333ff">Moo</span>[ and not moo]</p>' );
 
 				txtColorBtn.click( editor );
 				colorHistoryTools.findInPanel( '[data-value="1ABC9C"]', txtColorBtn ).$.click();
