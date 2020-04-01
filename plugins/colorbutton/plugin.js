@@ -185,6 +185,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		var ColorHistory = CKEDITOR.tools.createClass( {
 			$: function( cssProperty ) {
 				this.cssProperty = cssProperty;
+				this.rows = [];
+				this._.addNewRow();
 			},
 
 			statics: {
@@ -260,10 +262,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				extractColorBox: function( colorCode ) {
-					if ( !this.rows ) {
-						return null;
-					}
-
 					for ( var i = 0; i < this.rows.length; i++ ) {
 						var box = this.rows[ i ].extractColorBox( colorCode );
 
@@ -280,22 +278,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				createAtBeginning: function( colorCode ) {
-					var colorBox = new ColorBox( colorCode, this.clickFn );
-
-					if ( !this.rows ) {
-						this._.addNewRow();
-					}
-
-					this._.moveToBeginning( colorBox );
+					this._.moveToBeginning( new ColorBox( colorCode, this.clickFn ) );
 				},
 
 				addNewRow: function() {
-					if ( !this.rows ) {
-						this.rows = [];
-					}
-
 					this.rows.push( new ColorHistoryRow() );
-					this.container.append( this.rows[ this.rows.length - 1 ].getElement() );
+
+					if ( this.container ) {
+						this.container.append( this.rows[ this.rows.length - 1 ].getElement() );
+					}
 				},
 
 				alignRows: function() {
@@ -333,12 +324,19 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					return CKEDITOR.tools.array.reduce( this.rows, function( total, row ) {
 						return total += row.boxes.length;
 					}, 0 );
+				},
+
+				attachRows: function() {
+					CKEDITOR.tools.array.forEach( this.rows, function( row ) {
+						this.container.append( row.getElement() );
+					}, this );
 				}
 			},
 
 			proto: {
 				setContainer: function( container ) {
 					this.container = container;
+					this._.attachRows();
 				},
 
 				setClickFn: function( clickFn ) {
@@ -346,10 +344,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				renderContentColors: function() {
-					if ( ColorHistory.getCapacity() == 0 ) {
-						return;
-					}
-
 					var colorOccurrences = this._.countColors();
 
 					if ( CKEDITOR.tools.isEmpty( colorOccurrences ) ) {
@@ -362,10 +356,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				addColor: function( colorCode ) {
-					if ( ColorHistory.getCapacity() == 0 || !colorCode ) {
-						return;
-					}
-
 					var existingBox = this._.extractColorBox( colorCode );
 
 					if ( existingBox ) {

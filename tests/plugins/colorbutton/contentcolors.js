@@ -27,7 +27,7 @@
 			} );
 		},
 
-		'test horizontal rule is visible and history row doesn\'t exist when there are no colors in content': function() {
+		'test horizontal rule is visible and history row exists when there are no colors in content': function() {
 			bender.editorBot.create( {
 				name: 'editor2'
 			}, function( bot ) {
@@ -40,14 +40,14 @@
 				txtColorBtn.click( editor );
 				assert.isNotNull( colorHistoryTools.findInPanel( 'hr', txtColorBtn ),
 					'Horizontal rule for txtColor should be visible.' );
-				assert.isNull( colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ),
-					'Row for txtColor shouldn\'t exist.' );
+				assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ),
+					'Row for txtColor should exist.' );
 
 				bgColorBtn.click( editor );
 				assert.isNotNull( colorHistoryTools.findInPanel( 'hr', bgColorBtn ),
 					'Horizontal rule should be visible.' );
-				assert.isNull( colorHistoryTools.findInPanel( '.cke_colorhistory_row', bgColorBtn ),
-					'Row for bgColor shouldn\'t exist.' );
+				assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorhistory_row', bgColorBtn ),
+					'Row for bgColor should exist.' );
 			} );
 		},
 
