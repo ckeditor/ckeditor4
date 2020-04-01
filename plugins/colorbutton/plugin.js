@@ -474,20 +474,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 						};
 
-					var clickFn = CKEDITOR.tools.addFunction( function addClickFn( color ) {
-						editor.focus();
-						editor.fire( 'saveSnapshot' );
-
-						if ( color == '?' ) {
-							editor.getColorFromDialog( function( color ) {
-								if ( color ) {
-									setColor( color, history );
-								}
-							}, null, colorData );
-						} else {
-							setColor( color && '#' + color, history );
-						}
-					} );
+					var clickFn = createClickFunction();
 
 					panelBlock = block;
 					block.autoSize = true;
@@ -520,6 +507,23 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
+
+					function createClickFunction() {
+						return CKEDITOR.tools.addFunction( function addClickFn( color ) {
+							editor.focus();
+							editor.fire( 'saveSnapshot' );
+
+							if ( color == '?' ) {
+								editor.getColorFromDialog( function( color ) {
+									if ( color ) {
+										setColor( color, history );
+									}
+								}, null, colorData );
+							} else {
+								setColor( color && '#' + color, history );
+							}
+						} );
+					}
 
 					function setColor( color, colorHistory ) {
 						var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
