@@ -193,11 +193,23 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 	function generateUI( options ) {
 		var container = CKEDITOR.document.getById( options.container ),
-			checkboxes = generateOptions( options.plugins, options.selectAll ),
-			title = CKEDITOR.dom.element.createFromHtml( '<p>' + options.title + '</p>' );
+			checkboxContainer = generateOptions( options.plugins, options.selectAll ),
+			checkboxes = checkboxContainer.find( 'input[type=checkbox]' ).toArray(),
+			title = CKEDITOR.dom.element.createFromHtml( '<p>' + options.title + ' <button data-select="all">Select all</button> <button data-select="none">Deselect all</button></p>' ),
+			selectButtons = title.find( '[data-select]' ).toArray();
 
 		container.append( title );
-		container.append( checkboxes );
+		container.append( checkboxContainer );
+
+		CKEDITOR.tools.array.forEach( selectButtons, function( button ) {
+			button.on( 'click', function() {
+				var isSelecting = button.getAttribute( 'data-select' ) === 'all';
+
+				CKEDITOR.tools.array.forEach( checkboxes, function( checkbox ) {
+					checkbox.$.checked = isSelecting;
+				} );
+			} );
+		} );
 
 		function generateOptions( options, selectAll ) {
 			var optionsContainer = new CKEDITOR.dom.element( 'div' );
