@@ -462,19 +462,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				onBlock: function( panel, block ) {
 					var history = new ColorHistory( type == 'back' ? 'background-color' : 'color' ),
-						colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
-
-					colorStyleTemplate.childRule = type == 'back' ?
-						function( element ) {
-							// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
-							// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
-							return isUnstylable( element );
-						} : function( element ) {
-							// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
-							return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
-						};
-
-					var clickFn = createClickFunction();
+						colorStyleTemplate = createColorStyleTemplate(),
+						clickFn = createClickFunction();
 
 					panelBlock = block;
 					block.autoSize = true;
@@ -507,6 +496,22 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
+
+					function createColorStyleTemplate() {
+						var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
+
+						colorStyleTemplate.childRule = type == 'back' ?
+							function( element ) {
+								// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
+								// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
+								return isUnstylable( element );
+							} : function( element ) {
+								// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
+								return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
+							};
+
+						return colorStyleTemplate;
+					}
 
 					function createClickFunction() {
 						return CKEDITOR.tools.addFunction( function addClickFn( color ) {
