@@ -45,7 +45,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		},
 		onOk: function() {
 			var name = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtName' ) ),
-			var id = name.replace(/\W/g, '-'),
+			    id = name.replace(/\W/g, '-'),
 				attributes = {
 					id: id,
 					name: name,
