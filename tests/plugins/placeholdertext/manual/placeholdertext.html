@@ -50,9 +50,7 @@
 
 	<script>
 		( function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				bender.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'placeholdertext' );
 
 			var commonConfig = {
 					placeholdertext: 'Type your comment',

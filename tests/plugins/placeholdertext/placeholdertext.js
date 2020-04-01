@@ -28,9 +28,7 @@
 
 	var tests = {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'placeholdertext' );
 		},
 
 		'test getting data from editor': function( editor ) {
@@ -106,9 +104,7 @@
 	};
 
 	tests[ 'test integration with easyimage' ] = function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-			assert.ignore();
-		}
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 		bender.editorBot.create( {
 			config: {

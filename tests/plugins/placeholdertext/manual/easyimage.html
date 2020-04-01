@@ -9,9 +9,7 @@
 	</div>
 
 	<script>
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-			bender.ignore();
-		}
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 		CKEDITOR.replace( 'editor', {
 			placeholdertext: 'Type your comment…'
