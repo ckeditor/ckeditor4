@@ -19,82 +19,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		var config = editor.config,
 			lang = editor.lang.colorbutton;
 
-		if ( !CKEDITOR.env.hc ) {
-			addButton( {
-				name: 'TextColor',
-				type: 'fore',
-				commandName: 'textColor',
-				title: lang.textColorTitle,
-				order: 10,
-				contentTransformations: [
-					[
-						{
-							element: 'font',
-							check: 'span{color}',
-							left: function( element ) {
-								return !!element.attributes.color;
-							},
-							right: function( element ) {
-								element.name = 'span';
-
-								element.attributes.color && ( element.styles.color = element.attributes.color );
-								delete element.attributes.color;
-							}
-						}
-					]
-				]
-			} );
-
-			var contentTransformations,
-				normalizeBackground = editor.config.colorButton_normalizeBackground;
-
-			if ( normalizeBackground === undefined || normalizeBackground ) {
-				// If background contains only color, then we want to convert it into background-color so that it's
-				// correctly picked by colorbutton plugin.
-				contentTransformations = [
-					[
-						{
-							// Transform span that specify background with color only to background-color.
-							element: 'span',
-							left: function( element ) {
-								var tools = CKEDITOR.tools;
-								if ( element.name != 'span' || !element.styles || !element.styles.background ) {
-									return false;
-								}
-
-								var background = tools.style.parse.background( element.styles.background );
-
-								// We return true only if background specifies **only** color property, and there's only one background directive.
-								return background.color && tools.object.keys( background ).length === 1;
-							},
-							right: function( element ) {
-								var style = new CKEDITOR.style( editor.config.colorButton_backStyle, {
-										color: element.styles.background
-									} ),
-									definition = style.getDefinition();
-
-								// Align the output object with the template used in config.
-								element.name = definition.element;
-								element.styles = definition.styles;
-								element.attributes = definition.attributes || {};
-
-								return element;
-							}
-						}
-					]
-				];
-			}
-
-			addButton( {
-				name: 'BGColor',
-				type: 'back',
-				commandName: 'bgColor',
-				title: lang.bgColorTitle,
-				order: 20,
-				contentTransformations: contentTransformations
-			} );
-		}
-
 		var ColorBox = CKEDITOR.tools.createClass( {
 			$: function( color, clickFn, label ) {
 				this.$ = new CKEDITOR.dom.element( 'td' );
@@ -369,6 +293,82 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 			}
 		} );
+
+		if ( !CKEDITOR.env.hc ) {
+			addButton( {
+				name: 'TextColor',
+				type: 'fore',
+				commandName: 'textColor',
+				title: lang.textColorTitle,
+				order: 10,
+				contentTransformations: [
+					[
+						{
+							element: 'font',
+							check: 'span{color}',
+							left: function( element ) {
+								return !!element.attributes.color;
+							},
+							right: function( element ) {
+								element.name = 'span';
+
+								element.attributes.color && ( element.styles.color = element.attributes.color );
+								delete element.attributes.color;
+							}
+						}
+					]
+				]
+			} );
+
+			var contentTransformations,
+				normalizeBackground = editor.config.colorButton_normalizeBackground;
+
+			if ( normalizeBackground === undefined || normalizeBackground ) {
+				// If background contains only color, then we want to convert it into background-color so that it's
+				// correctly picked by colorbutton plugin.
+				contentTransformations = [
+					[
+						{
+							// Transform span that specify background with color only to background-color.
+							element: 'span',
+							left: function( element ) {
+								var tools = CKEDITOR.tools;
+								if ( element.name != 'span' || !element.styles || !element.styles.background ) {
+									return false;
+								}
+
+								var background = tools.style.parse.background( element.styles.background );
+
+								// We return true only if background specifies **only** color property, and there's only one background directive.
+								return background.color && tools.object.keys( background ).length === 1;
+							},
+							right: function( element ) {
+								var style = new CKEDITOR.style( editor.config.colorButton_backStyle, {
+										color: element.styles.background
+									} ),
+									definition = style.getDefinition();
+
+								// Align the output object with the template used in config.
+								element.name = definition.element;
+								element.styles = definition.styles;
+								element.attributes = definition.attributes || {};
+
+								return element;
+							}
+						}
+					]
+				];
+			}
+
+			addButton( {
+				name: 'BGColor',
+				type: 'back',
+				commandName: 'bgColor',
+				title: lang.bgColorTitle,
+				order: 20,
+				contentTransformations: contentTransformations
+			} );
+		}
 
 		function addButton( options ) {
 			var name = options.name,
