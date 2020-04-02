@@ -53,7 +53,7 @@
 				pillarPosition = null,
 				pillarDimensions = setPillarDimensions( $tr ),
 				isIE = CKEDITOR.env.ie && !CKEDITOR.env.edge,
-				isBorderCollapse = table.getComputedStyle( 'border-collapse' ) === 'collapse'
+				isBorderCollapse = table.getComputedStyle( 'border-collapse' ) === 'collapse';
 
 			pillarHeight = pillarDimensions.height;
 			pillarPosition = pillarDimensions.position;
