@@ -1187,6 +1187,7 @@
 		 *
 		 * @since 4.15.0
 		 * @param {String} property CSS property which will be used in query.
+		 * @param {CKEDITOR.dom.element} source The element to be searched.
 		 * @returns {Array} Returns an array of {@link CKEDITOR.dom.element}s.
 		 */
 		getStyledSpans: function( property, source ) {
