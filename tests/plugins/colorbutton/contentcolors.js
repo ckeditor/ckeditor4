@@ -169,11 +169,12 @@
 
 				txtColorBtn.click( editor );
 
-				assert.areEqual( 4, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(), 'Tiles number is incorrect.' );
+				assert.areEqual( 4, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(),
+					'Tiles number is incorrect.' );
 			} );
 		},
 
-		'test new row is created if limit allows it': function() {
+		'test second row is created if limit allows it': function() {
 			bender.editorBot.create( {
 				name: 'editor8',
 				startupData: '<p><span style="color:#1abc9c">H</span>' +
@@ -183,7 +184,7 @@
 				'<span style="color:#f39c12">!</span></p>',
 				config: {
 					colorButton_colorsPerRow: 4,
-					colorbutton_historyRowLimit: 2
+					colorButton_historyRowLimit: 2
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
@@ -191,7 +192,8 @@
 
 				txtColorBtn.click( editor );
 
-				assert.areEqual( 4, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(), 'Tiles number is incorrect.' );
+				assert.areEqual( 2, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn, true ).count(),
+					'Tiles number is incorrect.' );
 			} );
 		},
 
