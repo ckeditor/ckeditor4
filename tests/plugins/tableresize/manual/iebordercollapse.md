@@ -1,26 +1,25 @@
 @bender-ui: collapsed
-@bender-tags: bug, 2823, 4.14.0
-@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableresize, basicstyles, undo
+@bender-tags: bug, 2823, 4.14.1
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableresize, basicstyles, undo, sourcearea
 
 ## Procedure
 1. Move mouse over the right table border (border after the last column).
 
-	### Expected
+### Expected
 
-	* Move cursor is visible.
+* Move cursor is visible.
+	Note: cursor can become visible slightly _before_ the right border.
 
-		Note: cursor can become visible slightly _after_ the right border.
+### Unexpected
 
-	### Unexpected
-
-	* Default cursor is visible.
+* Default cursor is visible.
 
 2. Try to resize table using that border.
 
-	### Expected
+### Expected
 
-	* Table is resized.
+* Table is resized.
 
-	### Unexpected
+### Unexpected
 
-	* Nothing happens.
+* Nothing happens.
