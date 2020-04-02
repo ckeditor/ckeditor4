@@ -101,7 +101,7 @@
 
 		'test occurrence order': function() {
 			bender.editorBot.create( {
-				name: 'editor6',
+				name: 'editor5',
 				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> an <span style="color:#3498db">instance</span>' +
 				' of <span style="color:#2ecc71">CKEditor</span>.</p>'
 			}, function( bot ) {
@@ -125,7 +125,7 @@
 
 		'test occurrence number order': function() {
 			bender.editorBot.create( {
-				name: 'editor7',
+				name: 'editor6',
 				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> <span style="color:#f1c40f">an</span> ' +
 				' <span style="color:#3498db">instance</span> of <span style="color:#2ecc71">CKEditor</span>. ' +
 				' <span style="color:#2ecc71">Enjoy</span> <span style="color:#2ecc71">my</span> ' +
@@ -154,7 +154,7 @@
 
 		'test more colors than colorsPerRow in the document': function() {
 			bender.editorBot.create( {
-				name: 'editor8',
+				name: 'editor7',
 				startupData: '<p><span style="color:#1abc9c">H</span>' +
 				'<span style="color:#2ecc71">e</span><span style="color:#3498db">l</span><span style="color:#9b59b6">l</span>' +
 				'<span style="color:#4e5f70">o</span> <span style="color:#f1c40f">w</span><span style="color:#16a085">o</span>' +
@@ -175,7 +175,7 @@
 
 		'test new row is created if limit allows it': function() {
 			bender.editorBot.create( {
-				name: 'editor9',
+				name: 'editor8',
 				startupData: '<p><span style="color:#1abc9c">H</span>' +
 				'<span style="color:#2ecc71">e</span><span style="color:#3498db">l</span><span style="color:#9b59b6">l</span>' +
 				'<span style="color:#4e5f70">o</span> <span style="color:#f1c40f">w</span><span style="color:#16a085">o</span>' +
@@ -192,6 +192,24 @@
 				txtColorBtn.click( editor );
 
 				assert.areEqual( 4, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(), 'Tiles number is incorrect.' );
+			} );
+		},
+
+		'test config.colorbutton_renderContentColors': function() {
+			bender.editorBot.create( {
+				name: 'editor9',
+				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> an <span style="color:#3498db">instance</span>' +
+				' of <span style="color:#2ecc71">CKEditor</span>.</p>',
+				config: {
+					colorButton_renderContentColors: false
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					txtColorBtn = editor.ui.get( 'TextColor' );
+
+				txtColorBtn.click( editor );
+
+				assert.areEqual( 0, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(), 'Content colors should not be visible.' );
 			} );
 		}
 	} );
