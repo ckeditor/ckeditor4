@@ -92,14 +92,12 @@
 
 				pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
 
-				// In case of IE and collapsed table border, we must substract all borders
-				// from previous and current cells (#2823).
+				// In case of IE and collapsed table border, we must substract pillarWidth
+				// from the current position and recalculate pillarWidth (#2823).
 				if ( isIE && isBorderCollapse ) {
-					var borderLeft = getBorderWidth( table, 'left' ),
-						borderRight = getBorderWidth( table, 'right' ),
-						index = td.$.cellIndex + 1;
+					pillarLeft -= pillarWidth;
 
-					pillarLeft -= ( borderLeft * index ) + ( borderRight * index ) + pillarWidth;
+					pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
 				}
 
 
