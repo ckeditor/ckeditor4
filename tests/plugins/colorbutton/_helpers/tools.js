@@ -2,8 +2,9 @@
 
 var colorHistoryTools = ( function() {
 
-	function findInPanel( selector, button ) {
-		return button._.panel.getBlock( button._.id ).element.findOne( selector );
+	function findInPanel( selector, button, all ) {
+		var panel = button._.panel.getBlock( button._.id ).element;
+		return all ? panel.find( selector ) : panel.findOne( selector );
 	}
 
 	function chooseColorFromDialog( editor, button, color ) {
