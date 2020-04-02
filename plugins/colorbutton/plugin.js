@@ -47,7 +47,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							' title="' + this.label + '"' +
 							' draggable="false"' +
 							' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-							' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + this.color + '\');' +
+							' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + this.color + '\', this);' +
 							' return false;"' +
 							' href="javascript:void(\'' + this.color + '\')"' +
 							' data-value="' + this.color + '"' +
@@ -457,7 +457,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
 					block.element.setHtml( renderColors( {
-						type: type,
 						colorBoxId: colorBoxId,
 						clickFn: clickFn
 					} ) );
@@ -583,7 +582,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			function createClickFunction() {
-				return CKEDITOR.tools.addFunction( function addClickFn( color ) {
+				return CKEDITOR.tools.addFunction( function addClickFn( color, colorbox ) {
 					editor.focus();
 					editor.fire( 'saveSnapshot' );
 
@@ -596,6 +595,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					} else {
 						setColor( color && '#' + color, history );
 					}
+
+					if ( !colorbox ) {
+						return;
+					}
+					colorbox.setAttribute( 'cke_colorlast', true );
+					editor.once( 'selectionChange', function() {
+						colorbox.removeAttribute( 'cke_colorlast' );
+					} );
 				} );
 			}
 
@@ -610,8 +617,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function renderColors( options ) {
-			var type = options.type,
-				colorBoxId = options.colorBoxId,
+			var colorBoxId = options.colorBoxId,
 				output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				// Tells if we should include "More Colors..." button.
@@ -659,7 +665,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					' title="', lang.auto, '"',
 					' draggable="false"',
 					' ondragstart="return false;"', // Draggable attribute is buggy on Firefox.
-					' onclick="CKEDITOR.tools.callFunction(', options.clickFn, ',null,\'', type, '\');return false;"',
+					' onclick="CKEDITOR.tools.callFunction(', options.clickFn, ',null\);return false;"',
 					' href="javascript:void(\'', lang.auto, '\')"',
 					' role="option" aria-posinset="1" aria-setsize="', total, '">',
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">',
@@ -680,7 +686,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								' title="', lang.more, '"',
 								' draggable="false"',
 								' ondragstart="return false;"', // Draggable attribute is buggy on Firefox.
-								' onclick="CKEDITOR.tools.callFunction(', options.clickFn, ',\'?\',\'', type, '\');return false;"',
+								' onclick="CKEDITOR.tools.callFunction(', options.clickFn, ',\'?\');return false;"',
 								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total,
 								'" aria-setsize="', total, '">', lang.more,
 							'</a>',
@@ -702,10 +708,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		 */
 		function selectColor( block, color ) {
 			var items = block._.getItems(),
-				selected = block.element.findOne( '[aria-selected]' );
+				selected = block.element.findOne( '[aria-selected]' ),
+				lastColor = block.element.findOne( '[cke_colorlast]' );
 
 			if ( selected ) {
 				selected.removeAttribute( 'aria-selected' );
+			}
+
+			if ( lastColor ) {
+				lastColor.setAttribute( 'aria-selected', true );
+				return;
 			}
 
 			for ( var i = 0; i < items.count(); i++ ) {
