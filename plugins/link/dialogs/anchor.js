@@ -48,8 +48,8 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			    id = name.replace(/\W/g, '-'),
 				attributes = {
 					id: id,
-					name: name,
-					'data-cke-saved-name': name
+					name: id,
+					'data-cke-saved-name': id
 				},
 				selectedElement = this.getModel( editor );
 
