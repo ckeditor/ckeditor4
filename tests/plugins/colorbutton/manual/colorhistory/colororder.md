@@ -37,8 +37,8 @@
 
 1. Click on background color button.
 
-  **Expected:** Color history row doesn't appear.
+  **Expected:** Color history row with three colors is visible.
 
-  **Unexpected:** Color history is the same as for text color.
+  **Unexpected:** Color history didn't show up.
 
 1. Repeat all previous steps for each editor type.
