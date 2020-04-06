@@ -84,10 +84,10 @@
 	 * Text that will be used as a placeholder inside the editor.
 	 *
 	 * ```js
-	 * config.placeholdertext = 'Type your comment…'
+	 * config.placeholdertext = 'Type your comment…';
 	 * ```
 	 *
-	 * If it is set to an empty string, it will disable placeholder.
+	 * If it is set to a falsy value like an empty string, it will disable placeholder.
 	 *
 	 * ```js
 	 * // Disable placeholder.
