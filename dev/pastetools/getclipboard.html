@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+-->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Get Clipboard HTML and RTF</title>
+	<style>
+		#configuration {
+			clear: both;
+			margin-top: 1em;
+			max-width: 75em;
+		}
+		.ui-textarea {
+			border: 1px solid #808080;
+			float: left;
+			height: 200px;
+			width: 100%;
+			overflow: auto;
+			margin-bottom: 20px;;
+		}
+		#acf label {
+			display: block;
+			line-height: 2;
+		}
+		.ui-label {
+			display: inline-block;
+			width: 10em;
+			line-height: 2;
+			padding: 0 1em;
+			border-left: 1px #000 solid;
+		}
+		.marker-ok {
+			background-color: #88FFAA;
+		}
+		.marker-not-ok {
+			background-color: #FF9999;
+		}
+		#update {
+			line-height: 2;
+			background: blue;
+			color: white;
+			font-size: 24px;
+			font-weight: bold;
+		}
+	</style>
+	<script src="../../ckeditor.js"></script>
+</head>
+<body>
+	<p>Paste Inside the Editor:</p>
+	<div id="editor">
+		<textarea id="input"></textarea>
+	</div>
+	<div>
+		<div style="float: left; width: 49%">
+			<p>Raw HTML Data Received:<br> <span class="marker-ok" id="emHtml" data-log="text/html"></span></p>
+			<textarea class="ui-textarea" data-name="input.html" data-output="text/html" data-fallback id="rawHtml" readonly="readonly"></textarea>
+			<button id="htmlData" data-save="rawHtml">Save HTML Data</button>
+		</div>
+		<div style="float: right; width: 49%">
+			<p>Raw RTF Data Received:<br> <span class="marker-ok" id="emRtf" data-log="text/rtf"></span></p>
+			<textarea class="ui-textarea" data-name="input.rtf" data-output="text/rtf" id="rawRtf" readonly="readonly"></textarea>
+			<button id="rtfData" data-save="rawRtf">Save RTF Data</button>
+		</div>
+	</div>
+	<div style="width: 100%; float: left;">
+		<p>After Paste Processing:</p>
+		<textarea class="ui-textarea" id="output" readonly="readonly"></textarea>
+	</div>
+
+	<div id="configuration">
+		<p>Editor configuration:</p>
+
+		<div>
+			<button id="update">Update editor</button>
+		</div>
+		<div id="acf">
+			<label><input type="checkbox" id="allowedContent"> Allow all content</label>
+			<label>Extra allowed content: <input type="text" id="extraAllowedContent"></label>
+			<label>Disallowed content: <input type="text" id="disallowedContent"></label>
+		</div>
+		<div id="editable"></div>
+		<div id="paste"></div>
+		<div id="basic"></div>
+		<div id="image"></div>
+		<div id="other"></div>
+	</div>
+
+	<script>
+	var editablePlugins = [
+			'wysiwygarea',
+			'divarea'
+		],
+		pastePlugins = [
+			'pastefromword',
+			'pastefromlibreoffice',
+			'pastefromgdocs',
+			'pastetext'
+		],
+		basicPlugins = [
+			'toolbar',
+			'undo',
+			'removeformat',
+			'resize',
+			'maximize',
+			'showborders',
+			'elementspath',
+			'htmlwriter',
+			'sourcearea',
+			'clipboard',
+			'pastetools'
+		],
+		imagePlugins = [
+			'image',
+			'image2',
+			'easyimage'
+		],
+		otherPlugins = [
+			'adobeair',
+			'autoembed',
+			'autolink',
+			'basicstyles',
+			'bidi',
+			'blockquote',
+			'codesnippet',
+			'colorbutton',
+			'copyformatting',
+			'div',
+			'docprops',
+			'embed',
+			'emoji',
+			'enterkey',
+			'entities',
+			'flash',
+			'font',
+			'format',
+			'forms',
+			'horizontalrule',
+			'iframe',
+			'indent',
+			'indentblock',
+			'indentlist',
+			'justify',
+			'language',
+			'link',
+			'list',
+			'listblock',
+			'liststyle',
+			'magicline',
+			'mathjax',
+			'pagebreak',
+			'placeholder',
+			'smiley',
+			'specialchar',
+			'stylescombo',
+			'tab',
+			'table',
+			'tabletools'
+		];
+
+	generateUI( {
+		container: 'editable',
+		title: 'Editable plugins',
+		plugins: editablePlugins,
+		selectAll: false
+	} );
+	generateUI( {
+		container: 'paste',
+		title: 'Paste plugins',
+		plugins: pastePlugins,
+		selectAll: true
+	} );
+	generateUI( {
+		container: 'basic',
+		title: 'Basic plugins',
+		plugins: basicPlugins,
+		selectAll: true
+	} );
+	generateUI( {
+		container: 'image',
+		title: 'Image plugins',
+		plugins: imagePlugins,
+		selectAll: false
+	} );
+	generateUI( {
+		container: 'other',
+		title: 'Other plugins',
+		plugins: otherPlugins,
+		selectAll: true
+	} );
+
+	initSaveButtons();
+	updateEditor();
+
+	CKEDITOR.document.getById( 'update' ).on( 'click', updateEditor );
+
+	function generateUI( options ) {
+		var container = CKEDITOR.document.getById( options.container ),
+			checkboxContainer = generateOptions( options.plugins, options.selectAll ),
+			checkboxes = checkboxContainer.find( 'input[type=checkbox]' ).toArray(),
+			title = CKEDITOR.dom.element.createFromHtml( '<p>' + options.title + ' <button data-select="all">Select all</button> <button data-select="none">Deselect all</button></p>' ),
+			selectButtons = title.find( '[data-select]' ).toArray();
+
+		container.append( title );
+		container.append( checkboxContainer );
+
+		CKEDITOR.tools.array.forEach( selectButtons, function( button ) {
+			button.on( 'click', function() {
+				var isSelecting = button.getAttribute( 'data-select' ) === 'all';
+
+				CKEDITOR.tools.array.forEach( checkboxes, function( checkbox ) {
+					checkbox.$.checked = isSelecting;
+				} );
+			} );
+		} );
+
+		function generateOptions( options, selectAll ) {
+			var optionsContainer = new CKEDITOR.dom.element( 'div' );
+
+			CKEDITOR.tools.array.forEach( options, function( option, i ) {
+				var checkbox = CKEDITOR.dom.element.createFromHtml( '<label class="ui-label"><input type="checkbox" class="plugin" value="' + option + '"' + ( selectAll || i === 0 ? ' checked' : '' ) + '> ' + option + '</label>' );
+
+				optionsContainer.append( checkbox );
+			} );
+
+			return optionsContainer;
+		}
+	}
+
+	function initSaveButtons() {
+		var saveButtons = CKEDITOR.document.find( '[data-save]' ).toArray();
+		var rtfButton = CKEDITOR.document.getById( 'rtfData' ),
+			htmlButton = CKEDITOR.document.getById( 'htmlData' );
+
+		CKEDITOR.tools.array.forEach( saveButtons, function( button ) {
+			button.on( 'click', save );
+		} );
+
+		function save( evt ) {
+			var input = CKEDITOR.document.getById( evt.sender.getAttribute( 'data-save') ),
+				textBlob = new Blob( [ input.getValue() ], { type: 'text/plain' } ),
+				saveLink = document.createElement( 'a' );
+
+			saveLink.download = input.data( 'name' );
+			saveLink.innerHTML = 'Save file';
+
+			if ( CKEDITOR.env.webkit ) {
+				saveLink.href = window.URL.createObjectURL( textBlob );
+			} else {
+				saveLink.href = window.URL.createObjectURL( textBlob );
+				saveLink.onclick = function( evt ) {
+					document.body.removeChild( evt.target )
+				};
+				saveLink.style.display = 'none';
+				document.body.appendChild( saveLink );
+			}
+
+			saveLink.click();
+		}
+	}
+
+	function updateEditor() {
+		var editorContainer = CKEDITOR.document.getById( 'editor' ),
+			config = prepareConfig();
+
+		// Due to https://github.com/ckeditor/ckeditor4/issues/3967
+		// new editor must be created _before_ destroying previous ones.
+		initNewEditor( editorContainer, config );
+		destroyPreviousEditors();
+	}
+
+	function destroyPreviousEditors() {
+		var instances = CKEDITOR.tools.object.values( CKEDITOR.instances ),
+			promises;
+
+		// Leave the last instance (the newest one) untouched.
+		instances.pop();
+
+		CKEDITOR.tools.array.forEach( instances, function( instance ) {
+			instance.destroy();
+		} );
+	}
+
+	function prepareConfig() {
+		var plugins = getPlugins(),
+			config = addACF( {
+				language: 'en',
+				embed_provider: 'https://ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
+				cloudServices_uploadUrl: 'https://33333.cke-cs.com/easyimage/upload/',
+				// Note: this is a token endpoint to be used for CKEditor 4 samples / developer tests only. Images uploaded using the testing token service may be deleted automatically at any moment.
+				// To create your own token URL please visit https://ckeditor.com/ckeditor-cloud-services/.
+				cloudServices_tokenUrl: 'https://33333.cke-cs.com/token/dev/ijrDsqFix838Gh3wGO3F77FSW94BwcLXprJ4APSp3XQ26xsUHTi0jcb1hoBt',
+				mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
+				plugins: plugins
+			} );
+
+		return config;
+
+		function getPlugins() {
+			var plugins = CKEDITOR.document.find( '.plugin' ).toArray(),
+				// We have to use filter as IE8 does not recognise :checked selector.
+				enabledPlugins = CKEDITOR.tools.array.filter( plugins, function( plugin ) {
+					return plugin.$.checked;
+				} );
+
+			return CKEDITOR.tools.array.map( enabledPlugins, function( plugin ) {
+				return plugin.getValue();
+			} );
+		}
+
+		function addACF( config ) {
+			var allowedContent = CKEDITOR.document.getById( 'allowedContent' ),
+				extraAllowedContent = CKEDITOR.document.getById( 'extraAllowedContent' ),
+				disallowedContent = CKEDITOR.document.getById( 'disallowedContent' ),
+				newConfig = CKEDITOR.tools.object.merge( config, {} );
+
+			if ( allowedContent.$.checked ) {
+				newConfig.allowedContent = true;
+			}
+
+			if ( extraAllowedContent.getValue() ) {
+				newConfig.extraAllowedContent = extraAllowedContent.getValue();
+			}
+
+			if ( disallowedContent.getValue() ) {
+				newConfig.disallowedContent = disallowedContent.getValue();
+			}
+
+			return newConfig;
+		}
+	}
+
+	function initNewEditor( editorContainer, config ) {
+		var textarea = new CKEDITOR.dom.element( 'textarea' ),
+			editor;
+
+		editorContainer.setHtml( '' );
+		editorContainer.append( textarea );
+
+		editor = CKEDITOR.replace( textarea, config );
+
+		editor.on( 'paste', previewClipboard, null, null, -1 );
+
+		editor.on( 'paste', function( evt ) {
+			setTimeout( function() {
+				document.getElementById( 'output' ).value = editor.getData();
+			}, 0 );
+		}, null, null, 999 );
+
+		return editor;
+	}
+
+	function previewClipboard( evt ) {
+		var outputs = CKEDITOR.document.find( '[data-output]' ).toArray();
+
+		CKEDITOR.tools.array.forEach( outputs, function( output ) {
+			previewMimeType( evt, output );
+		} );
+	}
+
+	function previewMimeType( evt, outputContainer ) {
+		var type = outputContainer.getAttribute( 'data-output' ),
+			useFallback = outputContainer.hasAttribute( 'data-fallback' ),
+			val = useFallback ? evt.data.dataValue : '',
+			isDataAvailable = evt.data.dataTransfer && evt.data.dataTransfer.getData( type, true );
+
+		if ( isDataAvailable ) {
+			val = evt.data.dataTransfer.getData( type, true );
+		}
+
+		displayMsg( type, isDataAvailable, useFallback );
+		outputContainer.setValue( val );
+
+		function displayMsg( mimeType, isOk, isFallback ) {
+			var msgContainer = CKEDITOR.document.findOne( '[data-log="' + type + '"]' );
+
+			if ( isOk ) {
+				return msgContainer.setHtml( 'Data from: <code>dataTransfer.getData( \'' + mimeType + '\', true )</code>.' );
+			}
+
+			msgContainer.setHtml( '<code>dataTransfer.getData( \'' + mimeType + '\', true )</code> was empty.' +
+				( isFallback ?
+					'<br /><span class="marker-not-ok">Data from: <code>evt.data.dataValue</code>.</span>' :
+					'' ) );
+		}
+	}
+	</script>
+</body>
+</html>
