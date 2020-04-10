@@ -9,6 +9,7 @@ Fixed Issues:
 * [#3866](https://github.com/ckeditor/ckeditor4/issues/3866): Fixed: [`config.readOnly`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-readOnly) config variable not considered for startup read-only mode of inline editor.
 * [#3931](https://github.com/ckeditor/ckeditor4/issues/3931): [IE] Fixed: Error is thrown when pasting using paste button after accepting browser Clipboard Access Prompt dialog.
 * [#3938](https://github.com/ckeditor/ckeditor4/issues/3938): Fixed: Cannot navigate autocomplete panel via keyboard after switching to source mode.
+* [#2823](https://github.com/ckeditor/ckeditor4/issues/2823): [IE] Fixed: Cannot resize the last table column using [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin.
 
 ## CKEditor 4.14
 
