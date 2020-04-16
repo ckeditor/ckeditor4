@@ -3,6 +3,10 @@
 
 ## CKEditor 4.15
 
+New features:
+* [#3992](https://github.com/ckeditor/ckeditor4/pull/3992):
+   * updated highlightjs to 9.18.1 [Codesnipet](https://ckeditor.com/cke4/addon/codesnippet) plugin.
+
 ## CKEditor 4.14
 
 **Security Updates:**
