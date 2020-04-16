@@ -1,171 +1,142 @@
 # Highlight.js
 
-Highlight.js нужен для подсветки синтаксиса в примерах кода в блогах,
-форумах и вообще на любых веб-страницах. Пользоваться им очень просто,
-потому что работает он автоматически: сам находит блоки кода, сам
-определяет язык, сам подсвечивает.
-
-Автоопределением языка можно управлять, когда оно не справляется само (см.
-дальше "Эвристика").
+Highlight.js — это инструмент для подсветки синтаксиса, написанный на JavaScript. Он работает
+и в браузере, и на сервере. Он работает с практически любой HTML разметкой, не
+зависит от каких-либо фреймворков и умеет автоматически определять язык.
 
 
-## Простое использование
+## Начало работы
 
-Подключите библиотеку и стиль на страницу и повесть вызов подсветки на
-загрузку страницы:
+Минимум, что нужно сделать для использования highlight.js на веб-странице — это
+подключить библиотеку, CSS-стили и вызывать [`initHighlightingOnLoad`][1]:
 
 ```html
-<link rel="stylesheet" href="styles/default.css">
-<script src="highlight.pack.js"></script>
+<link rel="stylesheet" href="/path/to/styles/default.css">
+<script src="/path/to/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 ```
 
-Весь код на странице, обрамлённый в теги `<pre><code> .. </code></pre>`
-будет автоматически подсвечен. Если вы используете другие теги или хотите
-подсвечивать блоки кода динамически, читайте "Инициализацию вручную" ниже.
-
-- Вы можете скачать собственную версию "highlight.pack.js" или сослаться
-  на захостенный файл, как описано на странице загрузки:
-  <http://highlightjs.org/download/>
-
-- Стилевые темы можно найти в загруженном архиве или также использовать
-  захостенные. Чтобы сделать собственный стиль для своего сайта, вам
-  будет полезен [CSS classes reference][cr], который тоже есть в архиве.
-
-[cr]: http://highlightjs.readthedocs.org/en/latest/css-classes-reference.html
-
-
-## node.js
-
-Highlight.js можно использовать в node.js. Библиотеку со всеми возможными языками можно
-установить с NPM:
-
-    npm install highlight.js
-
-Также её можно собрать из исходников с только теми языками, которые нужны:
-
-    python3 tools/build.py -tnode lang1 lang2 ..
-
-Использование библиотеки:
-
-```javascript
-var hljs = require('highlight.js');
-
-// Если вы знаете язык
-hljs.highlight(lang, code).value;
-
-// Автоопределение языка
-hljs.highlightAuto(code).value;
-```
-
-
-## AMD
-
-Highlight.js можно использовать с загрузчиком AMD-модулей.  Для этого его
-нужно собрать из исходников следующей командой:
-
-```bash
-$ python3 tools/build.py -tamd lang1 lang2 ..
-```
-
-Она создаст файл `build/highlight.pack.js`, который является загружаемым
-AMD-модулем и содержит все выбранные при сборке языки. Используется он так:
-
-```javascript
-require(["highlight.js/build/highlight.pack"], function(hljs){
-
-  // Если вы знаете язык
-  hljs.highlight(lang, code).value;
-
-  // Автоопределение языка
-  hljs.highlightAuto(code).value;
-});
-```
-
-
-## Замена TABов
-
-Также вы можете заменить символы TAB ('\x09'), используемые для отступов, на
-фиксированное количество пробелов или на отдельный `<span>`, чтобы задать ему
-какой-нибудь специальный стиль:
-
-```html
-<script type="text/javascript">
-  hljs.configure({tabReplace: '    '}); // 4 spaces
-  // ... or
-  hljs.configure({tabReplace: '<span class="indent">\t</span>'});
-
-  hljs.initHighlightingOnLoad();
-</script>
-```
-
-
-## Инициализация вручную
-
-Если вы используете другие теги для блоков кода, вы можете инициализировать их
-явно с помощью функции `highlightBlock(code)`. Она принимает DOM-элемент с
-текстом расцвечиваемого кода и опционально - строчку для замены символов TAB.
-
-Например с использованием jQuery код инициализации может выглядеть так:
-
-```javascript
-$(document).ready(function() {
-  $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-});
-```
-
-`highlightBlock` можно также использовать, чтобы подсветить блоки кода,
-добавленные на страницу динамически. Только убедитесь, что вы не делаете этого
-повторно для уже раскрашенных блоков.
-
-Если ваш блок кода использует `<br>` вместо переводов строки (т.е. если это не
-`<pre>`), включите опцию `useBR`:
-
-```javascript
-hljs.configure({useBR: true});
-$('div.code').each(function(i, e) {hljs.highlightBlock(e)});
-```
-
-
-## Эвристика
-
-Определение языка, на котором написан фрагмент, делается с помощью
-довольно простой эвристики: программа пытается расцветить фрагмент всеми
-языками подряд, и для каждого языка считает количество подошедших
-синтаксически конструкций и ключевых слов. Для какого языка нашлось больше,
-тот и выбирается.
-
-Это означает, что в коротких фрагментах высока вероятность ошибки, что
-периодически и случается. Чтобы указать язык фрагмента явно, надо написать
-его название в виде класса к элементу `<code>`:
+Библиотека найдёт и раскрасит код внутри тегов `<pre><code>`, попытавшись
+автоматически определить язык. Когда автоопределение не срабатывает, можно явно
+указать язык в атрибуте class:
 
 ```html
 <pre><code class="html">...</code></pre>
 ```
 
-Можно использовать рекомендованные в HTML5 названия классов:
-"language-html", "language-php". Также можно назначать классы на элемент
-`<pre>`.
+Список поддерживаемых классов языков доступен в [справочнике по классам][2].
+Класс также можно предварить префиксами `language-` или `lang-`.
 
-Чтобы запретить расцветку фрагмента вообще, используется класс "no-highlight":
+Чтобы отключить подсветку для какого-то блока, используйте класс `nohighlight`:
 
 ```html
-<pre><code class="no-highlight">...</code></pre>
+<pre><code class="nohighlight">...</code></pre>
+```
+
+## Инициализация вручную
+
+Чтобы иметь чуть больше контроля за инициализацией подсветки, вы можете
+использовать функции [`highlightBlock`][3] и [`configure`][4]. Таким образом
+можно управлять тем, *что* и *когда* подсвечивать.
+
+Вот пример инициализации, эквивалентной вызову [`initHighlightingOnLoad`][1], но
+с использованием `document.addEventListener`:
+
+```js
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightBlock(block);
+  });
+});
+```
+
+Вы можете использовать любые теги разметки вместо `<pre><code>`. Если
+используете контейнер, не сохраняющий переводы строк, вам нужно сказать
+highlight.js использовать для них тег `<br>`:
+
+```js
+hljs.configure({useBR: true});
+
+document.querySelectorAll('div.code').forEach((block) => {
+  hljs.highlightBlock(block);
+});
+```
+
+Другие опции можно найти в документации функции [`configure`][4].
+
+
+## Web Workers
+
+Подсветку можно запустить внутри web worker'а, чтобы окно
+браузера не подтормаживало при работе с большими кусками кода.
+
+В основном скрипте:
+
+```js
+addEventListener('load', () => {
+  const code = document.querySelector('#code');
+  const worker = new Worker('worker.js');
+  worker.onmessage = (event) => { code.innerHTML = event.data; }
+  worker.postMessage(code.textContent);
+});
+```
+
+В worker.js:
+
+```js
+onmessage = (event) => {
+  importScripts('<path>/highlight.pack.js');
+  const result = self.hljs.highlightAuto(event.data);
+  postMessage(result.value);
+};
 ```
 
 
-## Экспорт
+## Установка библиотеки
 
-В файле export.html находится небольшая программка, которая показывает и дает
-скопировать непосредственно HTML-код подсветки для любого заданного фрагмента кода.
-Это может понадобится например на сайте, на котором нельзя подключить сам скрипт
-highlight.js.
+Highlight.js можно использовать в браузере прямо с CDN хостинга или скачать
+индивидуальную сборку, а также установив модуль на сервере. На
+[странице загрузки][5] подробно описаны все варианты.
+
+**Не подключайте GitHub напрямую.** Библиотека не предназначена для
+использования в виде исходного кода, а требует отдельной сборки. Если вам не
+подходит ни один из готовых вариантов, читайте [документацию по сборке][6].
+
+**Файл на CDN содержит не все языки.** Иначе он будет слишком большого размера.
+Если нужного вам языка нет в [категории "Common"][5], можно дообавить его
+вручную:
+
+```html
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js"></script>
+```
+
+**Про Almond.** Нужно задать имя модуля в оптимизаторе, например:
+
+```
+r.js -o name=hljs paths.hljs=/path/to/highlight out=highlight.js
+```
 
 
-## Координаты
+## Лицензия
 
-- Версия: 8.0
-- URL:    http://highlightjs.org/
+Highlight.js распространяется под лицензией BSD. Подробнее читайте файл
+[LICENSE][7].
 
-Лицензионное соглашение читайте в файле LICENSE.
-Список авторов и соавторов читайте в файле AUTHORS.ru.txt
+
+## Ссылки
+
+Официальный сайт билиотеки расположен по адресу <https://highlightjs.org/>.
+
+Более подробная документация по API и другим темам расположена на
+<http://highlightjs.readthedocs.io/>.
+
+Авторы и контрибьюторы перечислены в файле [AUTHORS.ru.txt][8] file.
+
+[1]: http://highlightjs.readthedocs.io/en/latest/api.html#inithighlightingonload
+[2]: http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html
+[3]: http://highlightjs.readthedocs.io/en/latest/api.html#highlightblock-block
+[4]: http://highlightjs.readthedocs.io/en/latest/api.html#configure-options
+[5]: https://highlightjs.org/download/
+[6]: http://highlightjs.readthedocs.io/en/latest/building-testing.html
+[7]: https://github.com/highlightjs/highlight.js/blob/master/LICENSE
+[8]: https://github.com/highlightjs/highlight.js/blob/master/AUTHORS.ru.txt
