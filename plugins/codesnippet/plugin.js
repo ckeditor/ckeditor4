@@ -470,10 +470,10 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  */
 
 /**
- * A theme used to render code snippets. See [available themes](https://highlightjs.org/static/demo).
+ * A theme used to render code snippets. See [available themes](https://highlightjs.org/static/demo/).
  *
  * **Note**: This will only work with the default highlighter
- * ([highlight.js](https://highlightjs.org/static/demo)).
+ * ([highlight.js](https://highlightjs.org/static/demo/)).
  *
  * Read more in the {@glink features/codesnippet#changing-highlighter-theme documentation}
  * and see the {@glink examples/codesnippet example}.
