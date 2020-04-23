@@ -385,7 +385,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return output.join( '' );
 
 			function setColor( color, colorName ) {
-				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color, colorName: colorName } );
+				var colorStyleVars = {};
+
+				if ( color ) {
+					colorStyleVars.color = color;
+				}
+				if ( colorName ) {
+					colorStyleVars.colorName = colorName;
+				}
+
+				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, colorStyleVars );
 
 				editor.execCommand( commandName, { newStyle: colorStyle } );
 			}
