@@ -12,7 +12,9 @@
 ( function() {
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
+		// jscs:disable maximumLineLength
 		lang: 'ar,az,bg,ca,cs,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'codesnippet', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -426,7 +428,7 @@
 
 /**
  * A CSS class of the `<code>` element used internally for styling
- * (by default [highlight.js](http://highlightjs.org) themes, see
+ * (by default [highlight.js](https://highlightjs.org) themes, see
  * {@link CKEDITOR.config#codeSnippet_theme config.codeSnippet_theme}),
  * which means that it is **not present** in the editor output data.
  *
@@ -434,7 +436,7 @@
  *		config.codeSnippet_codeClass = 'myCustomClass';
  *
  * **Note**: The class might need to be changed when you are using a custom
- * highlighter (the default is [highlight.js](http://highlightjs.org)).
+ * highlighter (the default is [highlight.js](https://highlightjs.org)).
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
  * Read more in the {@glink features/codesnippet documentation}
@@ -450,7 +452,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * Restricts languages available in the "Code Snippet" dialog window.
  * An empty value is always added to the list.
  *
- * **Note**: If using a custom highlighter library (the default is [highlight.js](http://highlightjs.org)),
+ * **Note**: If using a custom highlighter library (the default is [highlight.js](https://highlightjs.org)),
  * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
  *
  * Read more in the {@glink features/codesnippet#changing-supported-languages documentation}
@@ -468,10 +470,10 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  */
 
 /**
- * A theme used to render code snippets. See [available themes](http://highlightjs.org/static/test.html).
+ * A theme used to render code snippets. See [available themes](https://highlightjs.org/static/demo/).
  *
  * **Note**: This will only work with the default highlighter
- * ([highlight.js](http://highlightjs.org/static/test.html)).
+ * ([highlight.js](https://highlightjs.org/static/demo/)).
  *
  * Read more in the {@glink features/codesnippet#changing-highlighter-theme documentation}
  * and see the {@glink examples/codesnippet example}.
