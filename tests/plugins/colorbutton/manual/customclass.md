@@ -3,8 +3,8 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, sourcearea
 
 1. Select first word.
-1. Press on text color button.
-1. Hover over red square.
+1. Click Text Color button.
+1. Hover over a red square inside color panel.
 
 	### Expected:
 
@@ -12,11 +12,21 @@
 
 1. Press red square.
 
-1. Press `Show source` button.
+	### Expected:
 
-### Expected:
+	Selected text turn red.
 
-Selected text should have class `text-red` and selected text turns red.
+1. Click on `Show source` button.
+
+	### Expected:
+
+	Previously selected text should have span with `text-red` class.
+
+1. Click on `Show source` button to back to WYSIWYG mode.
+
+	### Expected:
+
+	Previously selected text should be red.
 
 
 ### Unexpected:
