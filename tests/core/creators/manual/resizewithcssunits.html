@@ -1,0 +1,65 @@
+<style>
+	.input-container > div {
+		margin-bottom: 15px;
+	}
+
+	label {
+		display: block;
+	}
+
+	[type="checkbox"] + label {
+		display: inline-block;
+	}
+
+	button {
+		margin-bottom: 15px;
+	}
+</style>
+
+<form class="input-container">
+	<div>
+		<label for="width">Width</label>
+		<input type="text" name="width" id="width">
+	</div>
+
+	<div>
+		<label for="height">Height</label>
+		<input type="text" name="height" id="height">
+	</div>
+
+	<div>
+		<input type="checkbox" name="isContentHeight" id="isContentHeight">
+		<label for="isContentHeight">is content height</label>
+	</div>
+
+	<div>
+		<input type="checkbox" name="resizeInner" id="resizeInner">
+		<label for="resizeInner">resize inner</label>
+	</div>
+
+	<button type="submit" id="resize-button">Resize!</button>
+</form>
+
+<div id="editor">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor' );
+
+	var resizeButton = document.getElementById( 'resize-button' ),
+		editorWidth = document.getElementById( 'width' ),
+		editorHeight = document.getElementById( 'height' ),
+		isContentHeight = document.getElementById( 'isContentHeight' ),
+		resizeInner = document.getElementById( 'resizeInner' );
+
+	resizeButton.addEventListener( 'click', function ( ev ) {
+		ev.preventDefault();
+		CKEDITOR.instances[ 'editor' ].resize(
+				editorWidth.value,
+				editorHeight.value,
+				isContentHeight.checked,
+				resizeInner.checked
+		);
+	} );
+</script>
