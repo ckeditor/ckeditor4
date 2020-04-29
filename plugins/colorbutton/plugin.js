@@ -394,7 +394,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorStyleVars.colorName = colorName;
 				}
 
-				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, colorStyleVars );
+				var colorStyle = !CKEDITOR.tools.isEmpty( colorStyleVars ) && new CKEDITOR.style( colorStyleTemplate, colorStyleVars );
 
 				editor.execCommand( commandName, { newStyle: colorStyle } );
 			}
