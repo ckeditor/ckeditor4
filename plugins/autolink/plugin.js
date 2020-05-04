@@ -38,9 +38,9 @@
 				return;
 			}
 
-			var commitKeystrokes = editor.config.autolink_commitKeystrokes || CKEDITOR.config.autolink_commitKeystrokes;
+			// (#3156)
 			editor.on( 'key', function( evt ) {
-				if ( editor.mode !== 'wysiwyg' || CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.keyCode ) == -1 ) {
+				if ( editor.mode !== 'wysiwyg' || CKEDITOR.tools.indexOf( editor.config.autolink_commitKeystrokes, evt.data.keyCode ) == -1 ) {
 					return;
 				}
 
@@ -100,7 +100,7 @@
 						text: text,
 						link: text.replace( doubleQuoteRegex, '%22' )
 					},
-					template = opts.link.match( CKEDITOR.config.autolink_urlRegex ) ?
+					template = opts.link.match( editor.config.autolink_urlRegex ) ?
 						urlTemplate.output( opts )
 						: emailTemplate.output( opts );
 
@@ -124,8 +124,8 @@
 			}
 
 			function matchLink( query ) {
-				return query.match( CKEDITOR.config.autolink_urlRegex ) ||
-					query.match( CKEDITOR.config.autolink_emailRegex );
+				return query.match( editor.config.autolink_urlRegex ) ||
+					query.match( editor.config.autolink_emailRegex );
 			}
 		}
 	} );
