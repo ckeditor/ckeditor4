@@ -14,6 +14,15 @@
 				removePlugins: 'link'
 			}
 		},
+		optionalParameters: {
+			config: {
+				allowedContent: true,
+				pasteFilter: null,
+				removePlugins: 'link',
+				autolink_urlRegex: /^https:\/\/foobar.com$/,
+				autolink_emailRegex: /^foo@foobar\.com$/
+			}
+		},
 		encodedDefault: {
 			config: {
 				allowedContent: true,
@@ -134,6 +143,25 @@
 			}
 		},
 
+		// (#3156)
+		'test valid URL link with optional regex': function() {
+			var pastedTexts = [
+				'https://foobar.com'
+			];
+
+			var pastedText;
+
+			while ( ( pastedText = pastedTexts.pop() ) ) {
+				this.editors.optionalParameters.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( '<a href="' + pastedText + '">' + pastedText + '</a>', evt.data.dataValue );
+				}, null, null, 900 );
+
+				this.editors.optionalParameters.execCommand( 'paste', pastedText );
+			}
+		},
+
 		'test various valid email links': function() {
 			var pastedTexts = [
 				'mail@example.com',
@@ -152,6 +180,25 @@
 				}, null, null, 900 );
 
 				this.editors.classic.execCommand( 'paste', pastedText );
+			}
+		},
+
+		// (#3156)
+		'test valid email link with optional regex': function() {
+			var pastedTexts = [
+				'foo@foobar.com'
+			];
+
+			var pastedText;
+
+			while ( ( pastedText = pastedTexts.pop() ) ) {
+				this.editors.optionalParameters.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( '<a href="mailto:' + pastedText + '">' + pastedText + '</a>', evt.data.dataValue );
+				}, null, null, 900 );
+
+				this.editors.optionalParameters.execCommand( 'paste', pastedText );
 			}
 		},
 
@@ -177,6 +224,26 @@
 			}
 		},
 
+		// (#3156)
+		'test invalid URL link with optional regex': function() {
+			var pastedTexts = [
+				'https://fobar.com'
+			];
+
+			var pastedText;
+
+			while ( ( pastedText = pastedTexts.pop() ) ) {
+				this.editors.optionalParameters.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( pastedText, evt.data.dataValue );
+				}, null, null, 900 );
+
+				this.editors.optionalParameters.execCommand( 'paste', pastedText );
+			}
+		},
+
+
 		'test various invalid email links': function() {
 			var pastedTexts = [
 				'mail@',
@@ -197,6 +264,25 @@
 				}, null, null, 900 );
 
 				this.editors.classic.execCommand( 'paste', pastedText );
+			}
+		},
+
+		// (#3156)
+		'test invalid email link with optional regex': function() {
+			var pastedTexts = [
+				'foo@fobar.com'
+			];
+
+			var pastedText;
+
+			while ( ( pastedText = pastedTexts.pop() ) ) {
+				this.editors.optionalParameters.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( pastedText, evt.data.dataValue );
+				}, null, null, 900 );
+
+				this.editors.optionalParameters.execCommand( 'paste', pastedText );
 			}
 		},
 
