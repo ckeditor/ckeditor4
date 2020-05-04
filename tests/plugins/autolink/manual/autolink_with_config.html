@@ -1,0 +1,31 @@
+<h3>URLs that should be turned into links</h3>
+
+<style>
+	input[type=text] { width: 450px }
+</style>
+
+<ul>
+	<li><input type="text" readonly="readonly" value="https://foobar.com"></li>
+	<li><input type="text" readonly="readonly" value="foo@foobar.com"></li>
+</ul>
+
+<h3>URLs that shouldn't be turned into links</h3>
+
+<ul>
+	<li><input type="text" readonly="readonly" value="https://fobar.com"></li>
+	<li><input type="text" readonly="readonly" value="foo@fobar.com"></li>
+</ul>
+
+<textarea id="editor" cols="10" rows="10">
+	<p>Foo bar.</p>
+</textarea>
+<script>
+	function configure( config ) {
+		config.autolink_urlRegex = /^https:\/\/foobar.com$/;
+		config.autolink_emailRegex = /^foo@foobar\.com$/;
+	}
+
+	var editorConfig = {};
+	configure( editorConfig );
+	CKEDITOR.replace('editor', editorConfig);
+</script>
