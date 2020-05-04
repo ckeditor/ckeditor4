@@ -497,6 +497,14 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
 /**
  * Stores the style definition that applies the text foreground color.
  *
+ * **Since 4.15.0:** Added colorName property. Added colorName property.
+ * This property may be used instead of color to add for example custom classes:
+ *
+ *		config.colorButton_foreStyle = {
+ *			element: 'span',
+ *			attributes: { 'class': '#(colorName)' }
+ *		};
+ *
  * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
