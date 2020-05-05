@@ -10,6 +10,7 @@ Fixed Issues:
 * [#3931](https://github.com/ckeditor/ckeditor4/issues/3931): [IE] Fixed: Error is thrown when pasting using paste button after accepting browser Clipboard Access Prompt dialog.
 * [#3938](https://github.com/ckeditor/ckeditor4/issues/3938): Fixed: Cannot navigate autocomplete panel via keyboard after switching to source mode.
 * [#2823](https://github.com/ckeditor/ckeditor4/issues/2823): [IE] Fixed: Cannot resize the last table column using [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin.
+* [#3156](https://github.com/ckeditor/ckeditor4/issues/3156): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) and [`config.autolink_emailRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_emailRegex) options are not customizable. Thanks to [Sergiy Dobrovolsky](https://github.com/serggoodwill)!
 
 ## CKEditor 4.14
 
