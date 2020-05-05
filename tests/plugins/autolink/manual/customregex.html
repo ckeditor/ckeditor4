@@ -1,7 +1,7 @@
 <h3>URLs that should be turned into links</h3>
 
 <style>
-	input[type=text] { width: 450px }
+input[type=text] { width: 450px }
 </style>
 
 <ul>
@@ -20,12 +20,8 @@
 	<p>Foo bar.</p>
 </textarea>
 <script>
-	function configure( config ) {
-		config.autolink_urlRegex = /^https:\/\/foobar.com$/;
-		config.autolink_emailRegex = /^foo@foobar\.com$/;
-	}
-
-	var editorConfig = {};
-	configure( editorConfig );
-	CKEDITOR.replace('editor', editorConfig);
+	CKEDITOR.replace('editor', {
+		autolink_urlRegex: /^https:\/\/foobar.com$/,
+		autolink_emailRegex: /^foo@foobar\.com$/
+	} );
 </script>
