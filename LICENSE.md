@@ -44,7 +44,7 @@ The following libraries are included in CKEditor under the MIT license (see Appe
 
 Parts of code taken from the following libraries are included in CKEditor under the MIT license (see Appendix D):
 
-* jQuery (inspired the domReady function, ckeditor_base.js) - Copyright (c) 2011 John Resig, http://jquery.com/
+* jQuery (inspired the domReady function, ckeditor_base.js) - Copyright (c) 2011 John Resig, https://jquery.com/
 
 The following libraries are included in CKEditor under the SIL Open Font License, Version 1.1 (see Appendix E):
 
