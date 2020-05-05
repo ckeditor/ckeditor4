@@ -145,21 +145,10 @@
 
 		// (#3156)
 		'test valid URL link with optional regex': function() {
-			var pastedTexts = [
-				'https://foobar.com'
-			];
+			var pastedText = 'https://foobar.com',
+				expected = '<a href="' + pastedText + '">' + pastedText + '</a>';
 
-			var pastedText;
-
-			while ( ( pastedText = pastedTexts.pop() ) ) {
-				this.editors.optionalParameters.once( 'paste', function( evt ) {
-					evt.cancel();
-
-					assert.areSame( '<a href="' + pastedText + '">' + pastedText + '</a>', evt.data.dataValue );
-				}, null, null, 900 );
-
-				this.editors.optionalParameters.execCommand( 'paste', pastedText );
-			}
+			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
 		},
 
 		'test various valid email links': function() {
@@ -185,21 +174,10 @@
 
 		// (#3156)
 		'test valid email link with optional regex': function() {
-			var pastedTexts = [
-				'foo@foobar.com'
-			];
+			var pastedText = 'foo@foobar.com',
+				expected = '<a href="mailto:' + pastedText + '">' + pastedText + '</a>';
 
-			var pastedText;
-
-			while ( ( pastedText = pastedTexts.pop() ) ) {
-				this.editors.optionalParameters.once( 'paste', function( evt ) {
-					evt.cancel();
-
-					assert.areSame( '<a href="mailto:' + pastedText + '">' + pastedText + '</a>', evt.data.dataValue );
-				}, null, null, 900 );
-
-				this.editors.optionalParameters.execCommand( 'paste', pastedText );
-			}
+			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
 		},
 
 		'test various invalid URL links': function() {
@@ -226,21 +204,9 @@
 
 		// (#3156)
 		'test invalid URL link with optional regex': function() {
-			var pastedTexts = [
-				'https://fobar.com'
-			];
+			var pastedText = 'https://fobar.com';
 
-			var pastedText;
-
-			while ( ( pastedText = pastedTexts.pop() ) ) {
-				this.editors.optionalParameters.once( 'paste', function( evt ) {
-					evt.cancel();
-
-					assert.areSame( pastedText, evt.data.dataValue );
-				}, null, null, 900 );
-
-				this.editors.optionalParameters.execCommand( 'paste', pastedText );
-			}
+			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 
@@ -269,21 +235,9 @@
 
 		// (#3156)
 		'test invalid email link with optional regex': function() {
-			var pastedTexts = [
-				'foo@fobar.com'
-			];
+			var pastedText = 'foo@fobar.com';
 
-			var pastedText;
-
-			while ( ( pastedText = pastedTexts.pop() ) ) {
-				this.editors.optionalParameters.once( 'paste', function( evt ) {
-					evt.cancel();
-
-					assert.areSame( pastedText, evt.data.dataValue );
-				}, null, null, 900 );
-
-				this.editors.optionalParameters.execCommand( 'paste', pastedText );
-			}
+			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test pasting multiple URL links': function() {
