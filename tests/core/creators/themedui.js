@@ -47,6 +47,37 @@
 
 			assert.areSame( 'cke_' + editor.name, editor.container.getId() );
 			assert.areSame( editor.ui.space( 'contents' ), editor.ui.contentsElement );
+		},
+
+		// (#1883)
+		'test css units': function() {
+			var editor = this.editor,
+				lastResizeData = 0,
+				unitsToTest = [
+					// absolute lengths
+					'cm', 'mm', 'q', 'in', 'pc', 'pt', 'px'
+				];
+
+			editor.on( 'resize', function( evt ) {
+				lastResizeData = evt.data;
+			} );
+
+			for ( var i = 0; i < unitsToTest.length; i++ ) {
+				var width = 20 + unitsToTest[i],
+					height = 50 + unitsToTest[i];
+
+				editor.resize( width, height );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), lastResizeData.outerHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorOuterHeight( editor ) );
+
+				editor.resize( width, height, true );
+				assert.areSame( getEditorOuterHeight( editor ), lastResizeData.outerHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorContentHeight( editor ) );
+			}
 		}
 	} );
 } )();
