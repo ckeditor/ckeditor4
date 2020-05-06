@@ -507,7 +507,7 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
  *		};
  *
  * **Since 4.15.0:** Added `colorName` property, which can be used instead of a `color`
- * property to customize fore style. For example to add custom class:
+ * property to customize foreground style. For example to add custom class:
  *
  *		config.colorButton_foreStyle = {
  *			element: 'span',
