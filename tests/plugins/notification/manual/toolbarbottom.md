@@ -1,4 +1,4 @@
-@bender-tags: 4.14.1, bug
+@bender-tags: 4.14.1, bug, 624
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, notification, floatingspace
 @bender-include: _helpers/manualplayground.js
