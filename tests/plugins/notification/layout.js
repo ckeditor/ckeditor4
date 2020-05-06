@@ -10,11 +10,18 @@
 
 'use strict';
 
-bender.editor = true;
+bender.editors = {
+	top: {},
+	bottom: {
+		config: {
+			toolbarLocation: 'bottom'
+		}
+	}
+};
 
 /**
  * mockValues: {
- * 		mockValues.topRectBottom
+ * 		mockValues.topToobarRectBottom
  * 		mockValues.contentsRectWidth
  * 		mockValues.contentsRectHeight
  * 		mockValues.contentsRectLeft
@@ -33,36 +40,48 @@ bender.editor = true;
  * 		left
  * }
  */
-function createLayoutTest( mockValues, expected ) {
+function createLayoutTest( editorName, mockValues, expected ) {
 	return function() {
-		var editor = this.editor,
+		var editor = this.editors[ editorName ],
 			area = editor._.notificationArea,
 			body = CKEDITOR.document.getBody();
 
-		sinon.stub( editor.ui, 'space' ).withArgs( 'top' ).returns( {
-			getClientRect: function() {
-				return {
-					bottom: mockValues.topRectBottom
-				};
-			},
-			isVisible: function() {
-				return true;
-			}
-		} );
+		this.sandbox.stub( editor.ui, 'space' )
+			.withArgs( 'top' ).returns( {
+				getClientRect: function() {
+					return {
+						bottom: mockValues.topToobarRectBottom
+					};
+				},
+				isVisible: function() {
+					return true;
+				}
+			} )
+			.withArgs( 'bottom' ).returns( {
+				getClientRect: function() {
+					return {
+						bottom: mockValues.bottomToolbarRectBottom
+					};
+				},
+				isVisible: function() {
+					return true;
+				}
+			} );
 
-		sinon.stub( editor.ui.contentsElement, 'getClientRect' ).returns( {
+		this.sandbox.stub( editor.ui.contentsElement, 'getClientRect' ).returns( {
 			width: mockValues.contentsRectWidth,
 			height: mockValues.contentsRectHeight,
 			left: mockValues.contentsRectLeft,
 			top: mockValues.contentsRectTop,
 			bottom: mockValues.contentsRectBottom
 		} );
-		sinon.stub( editor.ui.contentsElement, 'getDocumentPosition' ).returns( {
+
+		this.sandbox.stub( editor.ui.contentsElement, 'getDocumentPosition' ).returns( {
 			x: mockValues.contentsPosX,
 			y: mockValues.contentsPosY
 		} );
 
-		sinon.stub( CKEDITOR.document, 'getWindow' ).returns( {
+		this.sandbox.stub( CKEDITOR.document, 'getWindow' ).returns( {
 			getScrollPosition: function() {
 				return {
 					x: mockValues.scrollPosX,
@@ -76,12 +95,14 @@ function createLayoutTest( mockValues, expected ) {
 			},
 			on: function() {}
 		} );
-		sinon.stub( body, 'getDocumentPosition', function() {
-				return { x: 0, y: 0 };
-			} );
-		sinon.stub( CKEDITOR.document, 'getBody' ).returns( body );
 
-		sinon.stub( area.element, 'getClientRect' ).returns( {
+		this.sandbox.stub( body, 'getDocumentPosition', function() {
+			return { x: 0, y: 0 };
+		} );
+
+		this.sandbox.stub( CKEDITOR.document, 'getBody' ).returns( body );
+
+		this.sandbox.stub( area.element, 'getClientRect' ).returns( {
 			height: 47
 		} );
 
@@ -106,79 +127,120 @@ function createLayoutTest( mockValues, expected ) {
 }
 
 bender.test( {
+	'setUp': function() {
+		this.sandbox = sinon.sandbox.create();
+	},
+
 	'tearDown': function() {
-		var editor = this.editor,
-			notifications = editor._.notificationArea.notifications;
+		var editors = CKEDITOR.tools.object.values( this.editors );
 
-		// Unwrap stubs
-		editor.ui.space.restore();
-		editor.ui.contentsElement.getClientRect.restore();
-		editor.ui.contentsElement.getDocumentPosition.restore();
-		CKEDITOR.document.getWindow.restore();
-		CKEDITOR.document.getBody.restore();
-		editor._.notificationArea.element.getClientRect.restore();
+		this.sandbox.restore();
 
-		while ( notifications.length ) {
-			editor._.notificationArea.remove( notifications[ 0 ] );
+		for ( var i = 0; i < editors.length; i++ ) {
+			var editor = editors[ i ],
+				notifications = editor._.notificationArea.notifications;
+
+			while ( notifications.length ) {
+				editor._.notificationArea.remove( notifications[ 0 ] );
+			}
 		}
 	},
 
-	'test horizontal below toolbar': createLayoutTest( {
-			topRectBottom: 109,
-			contentsRectWidth: 960,
-			contentsRectHeight: 720.890625,
-			contentsRectLeft: 485,
-			contentsRectTop: -283.921875,
-			contentsRectBottom: 436.96875,
-			contentsPosX: 2000,
-			contentsPosY: 752.078125,
-			scrollPosX: 1515,
-			scrollPosY: 1036,
-			viewRectWidth: 1903
-		}, {
-			position: 'fixed',
-			top: '109px',
-			left: '804px'
-		} ),
+	'test horizontal below toolbar': createLayoutTest( 'top', {
+		topToobarRectBottom: 109,
+		contentsRectWidth: 960,
+		contentsRectHeight: 720.890625,
+		contentsRectLeft: 485,
+		contentsRectTop: -283.921875,
+		contentsRectBottom: 436.96875,
+		contentsPosX: 2000,
+		contentsPosY: 752.078125,
+		scrollPosX: 1515,
+		scrollPosY: 1036,
+		viewRectWidth: 1903
+	}, {
+		position: 'fixed',
+		top: '109px',
+		left: '804px'
+	} ),
 
-	'test horizontal top fixed': createLayoutTest( {
-			topRectBottom: -66,
-			contentsRectWidth: 958,
-			contentsRectHeight: 200,
-			contentsRectLeft: 359,
-			contentsRectTop: -66,
-			contentsRectBottom: 134,
-			contentsPosX: 2001,
-			contentsPosY: 861,
-			scrollPosX: 1642,
-			scrollPosY: 927,
-			viewRectWidth: 1903
-		}, {
-			position: 'fixed',
-			top: '0px',
-			left: '677px'
-		} ),
+	'test horizontal top fixed': createLayoutTest( 'top', {
+		topToobarRectBottom: -66,
+		contentsRectWidth: 958,
+		contentsRectHeight: 200,
+		contentsRectLeft: 359,
+		contentsRectTop: -66,
+		contentsRectBottom: 134,
+		contentsPosX: 2001,
+		contentsPosY: 861,
+		scrollPosX: 1642,
+		scrollPosY: 927,
+		viewRectWidth: 1903
+	}, {
+		position: 'fixed',
+		top: '0px',
+		left: '677px'
+	} ),
 
-	'test horizontal top': createLayoutTest( {
-			topRectBottom: 0,
-			contentsRectWidth: 960,
-			contentsRectHeight: 720,
-			contentsRectLeft: 485,
-			contentsRectTop: 16,
-			contentsRectBottom: 736,
-			contentsPosX: 2000,
-			contentsPosY: 752,
-			scrollPosX: 1515,
-			scrollPosY: 736,
-			viewRectWidth: 1903
-		}, {
-			position: 'absolute',
-			top: '752px',
-			left: '2319px'
-		} ),
+	'test horizontal top': createLayoutTest( 'top', {
+		topToobarRectBottom: 736,
+		contentsRectWidth: 960,
+		contentsRectHeight: 720,
+		contentsRectLeft: 485,
+		contentsRectTop: 16,
+		contentsRectBottom: 736,
+		contentsPosX: 2000,
+		contentsPosY: 752,
+		scrollPosX: 1515,
+		scrollPosY: 736,
+		viewRectWidth: 1903
+	}, {
+		position: 'absolute',
+		top: '752px',
+		left: '2319px'
+	} ),
 
-	'test horizontal bottom': createLayoutTest( {
-		topRectBottom: -166,
+	// (#624)
+	'test horizontal bottom toolbar with viewport at the top': createLayoutTest( 'bottom', {
+		bottomToolbarRectBottom: 736,
+		contentsRectWidth: 960,
+		contentsRectHeight: 720,
+		contentsRectLeft: 485,
+		contentsRectTop: 16,
+		contentsRectBottom: 736,
+		contentsPosX: 2000,
+		contentsPosY: 752,
+		scrollPosX: 1515,
+		scrollPosY: 736,
+		viewRectWidth: 1903
+	}, {
+		position: 'absolute',
+		top: '752px',
+		left: '2319px'
+	} ),
+
+	// (#624)
+	'test horizontal bottom toolbar with with viewport in the middle': createLayoutTest( 'bottom', {
+		bottomToobarRectBottom: 436.96875,
+		contentsRectWidth: 960,
+		contentsRectHeight: 720.890625,
+		contentsRectLeft: 485,
+		contentsRectTop: -283.921875,
+		contentsRectBottom: 436.96875,
+		contentsPosX: 2000,
+		contentsPosY: 752.078125,
+		scrollPosX: 1515,
+		scrollPosY: 1036,
+		viewRectWidth: 1903
+	}, {
+		position: 'fixed',
+		top: '0px',
+		left: '804px'
+	} ),
+
+	// (#624)
+	'test horizontal bottom toolbar with viewport below': createLayoutTest( 'bottom', {
+		bottomToobarRectBottom: -166,
 		contentsRectWidth: 958,
 		contentsRectHeight: 200,
 		contentsRectLeft: 416,
@@ -195,8 +257,26 @@ bender.test( {
 		left: '2319px'
 	} ),
 
-	'test vertical - narrow content - left 1': createLayoutTest( {
-		topRectBottom: 0,
+	'test horizontal bottom': createLayoutTest( 'top', {
+		topToobarRectBottom: -166,
+		contentsRectWidth: 958,
+		contentsRectHeight: 200,
+		contentsRectLeft: 416,
+		contentsRectTop: -166,
+		contentsRectBottom: 34,
+		contentsPosX: 2001,
+		contentsPosY: 861,
+		scrollPosX: 1585,
+		scrollPosY: 1027,
+		viewRectWidth: 1903
+	}, {
+		position: 'absolute',
+		top: '1014px',
+		left: '2319px'
+	} ),
+
+	'test vertical - narrow content - left 1': createLayoutTest( 'top', {
+		topToobarRectBottom: 0,
 		contentsRectWidth: 200,
 		contentsRectHeight: 36,
 		contentsRectLeft: 578,
@@ -213,8 +293,8 @@ bender.test( {
 		left: '2000px'
 	} ),
 
-	'test vertical - narrow content - left 2': createLayoutTest( {
-		topRectBottom: 0,
+	'test vertical - narrow content - left 2': createLayoutTest( 'top', {
+		topToobarRectBottom: 0,
 		contentsRectWidth: 200,
 		contentsRectHeight: 36,
 		contentsRectLeft: -106,
@@ -231,8 +311,8 @@ bender.test( {
 		left: '2000px'
 	} ),
 
-	'test vertical - narrow content - right': createLayoutTest( {
-		topRectBottom: 0,
+	'test vertical - narrow content - right': createLayoutTest( 'top', {
+		topToobarRectBottom: 0,
 		contentsRectWidth: 200,
 		contentsRectHeight: 36,
 		contentsRectLeft: 1679,
@@ -249,8 +329,8 @@ bender.test( {
 		left: '1878px'
 	} ),
 
-	'test vertical - wide content - left fixed': createLayoutTest( {
-		topRectBottom: 0,
+	'test vertical - wide content - left fixed': createLayoutTest( 'top', {
+		topToobarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: -550,
@@ -267,8 +347,8 @@ bender.test( {
 		left: '0px'
 	} ),
 
-	'test vertical - wide content - right': createLayoutTest( {
-		topRectBottom: 0,
+	'test vertical - wide content - right': createLayoutTest( 'top', {
+		topToobarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: -741,
@@ -286,8 +366,8 @@ bender.test( {
 	} ),
 
 
-	'test vertical - wide content - center': createLayoutTest( {
-		topRectBottom: 0,
+	'test vertical - wide content - center': createLayoutTest( 'top', {
+		topToobarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: -231,
@@ -304,8 +384,8 @@ bender.test( {
 		left: '88px'
 	} ),
 
-	'test vertical - wide content - right fixed': createLayoutTest( {
-		topRectBottom: 0,
+	'test vertical - wide content - right fixed': createLayoutTest( 'top', {
+		topToobarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: 1496,
@@ -322,8 +402,8 @@ bender.test( {
 		left: '1581px'
 	} ),
 
-	'test vertical - wide content - left': createLayoutTest( {
-		topRectBottom: 0,
+	'test vertical - wide content - left': createLayoutTest( 'top', {
+		topToobarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: 1685,
