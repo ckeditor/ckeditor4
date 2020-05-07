@@ -14,7 +14,7 @@
 
 **Unexpected:**
 
-* Notification is not showing up.
+* Notification is unable to finish image embedding.
 * URL has not been embedded.
 * Browser developer console reports errors.
 
