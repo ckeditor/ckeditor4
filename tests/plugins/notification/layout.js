@@ -21,7 +21,7 @@ bender.editors = {
 
 /**
  * mockValues: {
- * 		mockValues.topToobarRectBottom
+ * 		mockValues.topToolbarRectBottom
  * 		mockValues.contentsRectWidth
  * 		mockValues.contentsRectHeight
  * 		mockValues.contentsRectLeft
@@ -50,7 +50,7 @@ function createLayoutTest( editorName, mockValues, expected ) {
 			.withArgs( 'top' ).returns( {
 				getClientRect: function() {
 					return {
-						bottom: mockValues.topToobarRectBottom
+						bottom: mockValues.topToolbarRectBottom
 					};
 				},
 				isVisible: function() {
@@ -147,7 +147,7 @@ bender.test( {
 	},
 
 	'test horizontal below toolbar': createLayoutTest( 'top', {
-		topToobarRectBottom: 109,
+		topToolbarRectBottom: 109,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: 485,
@@ -165,7 +165,7 @@ bender.test( {
 	} ),
 
 	'test horizontal top fixed': createLayoutTest( 'top', {
-		topToobarRectBottom: -66,
+		topToolbarRectBottom: -66,
 		contentsRectWidth: 958,
 		contentsRectHeight: 200,
 		contentsRectLeft: 359,
@@ -183,7 +183,7 @@ bender.test( {
 	} ),
 
 	'test horizontal top': createLayoutTest( 'top', {
-		topToobarRectBottom: 736,
+		topToolbarRectBottom: 736,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720,
 		contentsRectLeft: 485,
@@ -258,7 +258,7 @@ bender.test( {
 	} ),
 
 	'test horizontal bottom': createLayoutTest( 'top', {
-		topToobarRectBottom: -166,
+		topToolbarRectBottom: -166,
 		contentsRectWidth: 958,
 		contentsRectHeight: 200,
 		contentsRectLeft: 416,
@@ -276,7 +276,7 @@ bender.test( {
 	} ),
 
 	'test vertical - narrow content - left 1': createLayoutTest( 'top', {
-		topToobarRectBottom: 0,
+		topToolbarRectBottom: 0,
 		contentsRectWidth: 200,
 		contentsRectHeight: 36,
 		contentsRectLeft: 578,
@@ -294,7 +294,7 @@ bender.test( {
 	} ),
 
 	'test vertical - narrow content - left 2': createLayoutTest( 'top', {
-		topToobarRectBottom: 0,
+		topToolbarRectBottom: 0,
 		contentsRectWidth: 200,
 		contentsRectHeight: 36,
 		contentsRectLeft: -106,
@@ -312,7 +312,7 @@ bender.test( {
 	} ),
 
 	'test vertical - narrow content - right': createLayoutTest( 'top', {
-		topToobarRectBottom: 0,
+		topToolbarRectBottom: 0,
 		contentsRectWidth: 200,
 		contentsRectHeight: 36,
 		contentsRectLeft: 1679,
@@ -330,7 +330,7 @@ bender.test( {
 	} ),
 
 	'test vertical - wide content - left fixed': createLayoutTest( 'top', {
-		topToobarRectBottom: 0,
+		topToolbarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: -550,
@@ -348,7 +348,7 @@ bender.test( {
 	} ),
 
 	'test vertical - wide content - right': createLayoutTest( 'top', {
-		topToobarRectBottom: 0,
+		topToolbarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: -741,
@@ -367,7 +367,7 @@ bender.test( {
 
 
 	'test vertical - wide content - center': createLayoutTest( 'top', {
-		topToobarRectBottom: 0,
+		topToolbarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: -231,
@@ -385,7 +385,7 @@ bender.test( {
 	} ),
 
 	'test vertical - wide content - right fixed': createLayoutTest( 'top', {
-		topToobarRectBottom: 0,
+		topToolbarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: 1496,
@@ -403,7 +403,7 @@ bender.test( {
 	} ),
 
 	'test vertical - wide content - left': createLayoutTest( 'top', {
-		topToobarRectBottom: 0,
+		topToolbarRectBottom: 0,
 		contentsRectWidth: 960,
 		contentsRectHeight: 720.890625,
 		contentsRectLeft: 1685,
