@@ -488,6 +488,10 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
 /**
  * Stores the style definition that applies the text foreground color.
  *
+ * **Note:** Advanced Content Filter (ACF) is not updated automatically by a custom style definition.
+ * You may need to add additional ACF rules, so the customized style element is not removed.
+ * Learn more how to configure ACF with {@glink guide/dev_advanced_content_filter Advanced Content Filter guide}.
+ *
  * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
@@ -510,6 +514,10 @@ CKEDITOR.config.colorButton_foreStyle = {
 
 /**
  * Stores the style definition that applies the text background color.
+ *
+ * **Note:** Advanced Content Filter (ACF) is not updated automatically by a custom style definition.
+ * You may need to add additional ACF rules, so the customized style element is not removed.
+ * Learn more how to configure ACF with {@glink guide/dev_advanced_content_filter Advanced Content Filter guide}.
  *
  * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
