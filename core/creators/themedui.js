@@ -253,12 +253,12 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *
 	 *		editor.resize( 900, 300 );
 	 *
-	 *		editor.resize( '100%', 450, true );
+	 *		editor.resize( '5in', 450, true );
 	 *
 	 * @param {Number/String} width The new width. It can be an integer denoting a value
-	 * in pixels or a CSS size value with unit.
+	 * in pixels or a CSS size value with absolute unit.
 	 * @param {Number/String} height The new height. It can be an integer denoting a value
-	 * in pixels or a CSS size value with unit.
+	 * in pixels or a CSS size value with absolute unit.
 	 * @param {Boolean} [isContentHeight] Indicates that the provided height is to
 	 * be applied to the editor content area, and not to the entire editor
 	 * interface. Defaults to `false`.
