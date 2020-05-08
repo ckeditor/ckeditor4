@@ -5,11 +5,11 @@
 
 1. Open browser developer console.
 1. Paste one of embeddable links.
-1. Wait until notification show up.
+1. Wait until notification shows up.
 
 **Expected:**
 
-* URLs has been correctly embeded.
+* URL has been correctly embedded.
 * No console errors.
 
 **Unexpected:**
@@ -17,4 +17,3 @@
 * Notification is unable to finish image embedding.
 * URL has not been embedded.
 * Browser developer console reports errors.
-
