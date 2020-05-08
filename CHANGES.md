@@ -11,6 +11,8 @@ Fixed Issues:
 * [#3938](https://github.com/ckeditor/ckeditor4/issues/3938): Fixed: Cannot navigate autocomplete panel via keyboard after switching to source mode.
 * [#2823](https://github.com/ckeditor/ckeditor4/issues/2823): [IE] Fixed: Cannot resize the last table column using [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin.
 * [#3156](https://github.com/ckeditor/ckeditor4/issues/3156): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) and [`config.autolink_emailRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_emailRegex) options are not customizable. Thanks to [Sergiy Dobrovolsky](https://github.com/serggoodwill)!
+* [#624](https://github.com/ckeditor/ckeditor4/issues/624): Fixed: [Notification](https://ckeditor.com/cke4/addon/notification) doesn't work with [bottom toolbar location](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarLocation).
+* [#3000](https://github.com/ckeditor/ckeditor4/issues/3000): Fixed: [Auto Embed](https://ckeditor.com/cke4/addon/autoembed) doesn't work with [bottom toolbar location](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarLocation).
 
 ## CKEditor 4.14
 
