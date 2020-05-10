@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -29,8 +29,22 @@
 	 * @member CKEDITOR.plugins.pastetools.filters.common
 	 */
 	plug.rules = function( html, editor, filter ) {
+		var availableFonts = getMatchingFonts( editor );
 		return {
 			elements: {
+				'^': function( element ) {
+					removeSuperfluousStyles( element );
+					// Don't use "attributeNames", because those rules are applied after elements.
+					// Normalization is required at the very begininng.
+					normalizeAttributesName( element );
+				},
+
+				'span': function( element ) {
+					if ( element.hasClass( 'Apple-converted-space' ) ) {
+						return new CKEDITOR.htmlParser.text( ' ' );
+					}
+				},
+
 				'table': function( element ) {
 					element.filterChildren( filter );
 
@@ -58,10 +72,12 @@
 					Style.convertStyleToPx( element );
 
 				},
+
 				'tr': function( element ) {
 					// Attribues are moved to 'td' elements.
 					element.attributes = {};
 				},
+
 				'td': function( element ) {
 					var ascendant = element.getAscendant( 'table' ),
 						ascendantStyle = tools.parseCssText( ascendant.attributes.style, true );
@@ -115,7 +131,6 @@
 						} else {
 							Style.setStyle( element, border, borderStyle.toString() );
 						}
-
 					}
 
 					Style.mapCommonStyles( element );
@@ -124,6 +139,12 @@
 
 					Style.createStyleStack( element, filter, editor,
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
+				},
+
+				'font': function( element ) {
+					if ( element.attributes.face && availableFonts ) {
+						element.attributes.face = replaceWithMatchingFont( element.attributes.face, availableFonts );
+					}
 				}
 			}
 		};
@@ -186,10 +207,10 @@
 					Style.setStyle( element, 'vertical-align', value );
 				},
 				width: function( value ) {
-					Style.setStyle( element, 'width', value + 'px' );
+					Style.setStyle( element, 'width', fixValue( value ) );
 				},
 				height: function( value ) {
-					Style.setStyle( element, 'height', value + 'px' );
+					Style.setStyle( element, 'height', fixValue( value ) );
 				}
 			} );
 		},
@@ -744,6 +765,13 @@
 
 	plug.parseShorthandMargins = parseShorthandMargins;
 
+	function fixValue( value ) {
+		// Add 'px' only for values which are not ended with %
+		var endsWithPercent = /%$/;
+
+		return endsWithPercent.test( value ) ? value : value + 'px';
+	}
+
 	// Same as createStyleStack, but instead of styles - stack attributes.
 	function createAttributeStack( element, filter ) {
 		var i,
@@ -794,6 +822,99 @@
 				style[ 'margin-' + key ] = margin[ key ];
 			}
 			delete style[ marginCase ];
+		}
+	}
+
+	function removeSuperfluousStyles( element ) {
+		var resetStyles = [
+				'background-color:transparent',
+				'background:transparent',
+				'background-color:none',
+				'background:none',
+				'background-position:initial initial',
+				'background-repeat:initial initial',
+				'caret-color',
+				'font-family:-webkit-standard',
+				'font-variant-caps',
+				'letter-spacing:normal',
+				'orphans',
+				'widows',
+				'text-transform:none',
+				'word-spacing:0px',
+				'-webkit-text-size-adjust:auto',
+				'-webkit-text-stroke-width:0px',
+				'text-indent:0px',
+				'margin-bottom:0in'
+			];
+
+		var styles = CKEDITOR.tools.parseCssText( element.attributes.style ),
+			styleName,
+			styleString;
+
+		for ( styleName in styles ) {
+			styleString = styleName + ':' + styles[ styleName ];
+
+			if ( CKEDITOR.tools.array.some( resetStyles, function( val ) {
+				return styleString.substring( 0, val.length ).toLowerCase() === val;
+			} ) ) {
+				delete styles[ styleName ];
+				continue;
+			}
+		}
+
+		styles = CKEDITOR.tools.writeCssText( styles );
+
+		if ( styles !== '' ) {
+			element.attributes.style = styles;
+		} else {
+			delete element.attributes.style;
+		}
+	}
+
+	function getMatchingFonts( editor ) {
+		var fontNames = editor.config.font_names,
+			validNames = [];
+
+		if ( !fontNames || !fontNames.length ) {
+			return false;
+		}
+
+		validNames = CKEDITOR.tools.array.map( fontNames.split( ';' ), function( value ) {
+			// Font can have a short name at the begining. It's necessary to remove it, to apply correct style.
+			if ( value.indexOf( '/' ) === -1 ) {
+				return value;
+			}
+
+			return value.split( '/' )[ 1 ];
+		} );
+
+		return validNames.length ? validNames : false;
+	}
+
+	function replaceWithMatchingFont( fontValue, availableFonts ) {
+		var fontParts = fontValue.split( ',' ),
+			matchingFont = CKEDITOR.tools.array.find( availableFonts, function( font ) {
+				for ( var i = 0; i < fontParts.length; i++ ) {
+					if ( font.indexOf( CKEDITOR.tools.trim( fontParts[ i ] ) ) === -1 ) {
+						return false;
+					}
+				}
+
+				return true;
+			} );
+
+		return matchingFont || fontValue;
+	}
+
+	function normalizeAttributesName( element ) {
+		if ( element.attributes.bgcolor ) {
+			var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
+
+			if ( !styles[ 'background-color' ] ) {
+				styles[ 'background-color' ] = element.attributes.bgcolor;
+
+				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+			}
 		}
 	}
 

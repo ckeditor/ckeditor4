@@ -128,176 +128,243 @@
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
-	tests[ 'test multiple handlers (priority & next)' ] = function() {
-		var order = [];
+	CKEDITOR.tools.extend( tests, {
+		'test multiple handlers (priority & next)': function() {
+			var order = [];
 
-		bender.editorBot.create( {
-			name: 'test_multiple-handlers1',
-			config: {
-				plugins: 'pastetools',
-				on: {
-					pluginsLoaded: function( evt ) {
-						var editor = evt.editor;
+			bender.editorBot.create( {
+				name: 'test_multiple-handlers1',
+				config: {
+					plugins: 'pastetools',
+					on: {
+						pluginsLoaded: function( evt ) {
+							var editor = evt.editor;
 
-						editor.pasteTools.register( {
-							priority: 999,
-							canHandle: function() {
-								return true;
-							},
+							editor.pasteTools.register( {
+								priority: 999,
+								canHandle: function() {
+									return true;
+								},
 
-							handle: function( evt, next ) {
-								evt.data.dataValue = '<p><em>Oh yes!</em></p>';
-								order.push( 1 );
-								next();
-							}
-						} );
+								handle: function( evt, next ) {
+									evt.data.dataValue = '<p><em>Oh yes!</em></p>';
+									order.push( 1 );
+									next();
+								}
+							} );
 
-						editor.pasteTools.register( {
-							canHandle: function() {
-								return true;
-							},
+							editor.pasteTools.register( {
+								canHandle: function() {
+									return true;
+								},
 
-							handle: function( evt, next ) {
-								evt.data.dataValue = '<p><strong>Oh no!</strong></p>';
-								order.push( 2 );
-								next();
-							}
-						} );
+								handle: function( evt, next ) {
+									evt.data.dataValue = '<p><strong>Oh no!</strong></p>';
+									order.push( 2 );
+									next();
+								}
+							} );
+						}
 					}
 				}
-			}
-		}, function( bot ) {
-			var editor = bot.editor;
-			editor.on( 'paste', function( evt ) {
-				resume( function() {
-					var handlers = editor.pasteTools.handlers;
+			}, function( bot ) {
+				var editor = bot.editor;
+				editor.on( 'paste', function( evt ) {
+					resume( function() {
+						var handlers = editor.pasteTools.handlers;
 
-					assert.areSame( 999, handlers[ 0 ].priority, 'Priority of handler 1' );
-					assert.areSame( 10, handlers[ 1 ].priority, 'Priority of handler 2' );
+						assert.areSame( 999, handlers[ 0 ].priority, 'Priority of handler 1' );
+						assert.areSame( 10, handlers[ 1 ].priority, 'Priority of handler 2' );
 
-					arrayAssert.itemsAreSame( [ 2, 1 ], order, 'Order of handlers' );
-					assert.areSame( '<p><em>Oh yes!</em></p>', evt.data.dataValue, 'Correctly transformed content' );
-				} );
-			}, null, null, 999 );
+						arrayAssert.itemsAreSame( [ 2, 1 ], order, 'Order of handlers' );
+						assert.areSame( '<p><em>Oh yes!</em></p>', evt.data.dataValue, 'Correctly transformed content' );
+					} );
+				}, null, null, 999 );
 
-			paste( editor, { dataValue: '<p>Test</p>' } );
-			wait();
-		} );
-	};
+				paste( editor, { dataValue: '<p>Test</p>' } );
+				wait();
+			} );
+		},
 
-	tests[ 'test multiple handlers (no next)' ] = function() {
-		var handler1spy = sinon.spy(),
-			handler2spy = sinon.spy();
+		'test multiple handlers (no next)': function() {
+			var handler1spy = sinon.spy(),
+				handler2spy = sinon.spy();
 
-		bender.editorBot.create( {
-			name: 'test_multiple-handlers2',
-			config: {
-				on: {
-					pluginsLoaded: function( evt ) {
-						var editor = evt.editor;
+			bender.editorBot.create( {
+				name: 'test_multiple-handlers2',
+				config: {
+					on: {
+						pluginsLoaded: function( evt ) {
+							var editor = evt.editor;
 
-						editor.pasteTools.register( {
-							canHandle: function() {
-								return true;
-							},
+							editor.pasteTools.register( {
+								canHandle: function() {
+									return true;
+								},
 
-							handle: handler1spy
-						} );
+								handle: handler1spy
+							} );
 
-						editor.pasteTools.register( {
-							canHandle: function() {
-								return true;
-							},
+							editor.pasteTools.register( {
+								canHandle: function() {
+									return true;
+								},
 
-							handle: handler2spy
-						} );
+								handle: handler2spy
+							} );
+						}
 					}
 				}
-			}
-		}, function( bot ) {
-			var editor = bot.editor;
-			editor.on( 'paste', function() {
-				resume( function() {
-					assert.areSame( 1, handler1spy.callCount, 'Handler 1 call count' );
-					assert.areSame( 0, handler2spy.callCount, 'Handler 2 call count' );
-				} );
-			}, null, null, 999 );
+			}, function( bot ) {
+				var editor = bot.editor;
+				editor.on( 'paste', function() {
+					resume( function() {
+						assert.areSame( 1, handler1spy.callCount, 'Handler 1 call count' );
+						assert.areSame( 0, handler2spy.callCount, 'Handler 2 call count' );
+					} );
+				}, null, null, 999 );
 
-			paste( editor, { dataValue: '<p>Test</p>' } );
-			wait();
-		} );
-	};
+				paste( editor, { dataValue: '<p>Test</p>' } );
+				wait();
+			} );
+		},
 
-	tests[ 'test getting config variables' ] = function() {
-		var cases = [
-			{
-				name: 'pasteTools one',
-				configVariable: 'someConfigVariable',
-				expected: 'whatever',
-				editor: {
-					config: {
-						pasteTools_someConfigVariable: 'whatever'
+		'test getting config variables': function() {
+			var cases = [
+				{
+					name: 'pasteTools one',
+					configVariable: 'someConfigVariable',
+					expected: 'whatever',
+					editor: {
+						config: {
+							pasteTools_someConfigVariable: 'whatever'
+						}
 					}
-				}
-			},
+				},
 
-			{
-				name: 'pasteFromWord one',
-				configVariable: 'someConfigVariable',
-				expected: 'whatever',
-				editor: {
-					config: {
-						pasteFromWord_someConfigVariable: 'whatever'
+				{
+					name: 'pasteFromWord one',
+					configVariable: 'someConfigVariable',
+					expected: 'whatever',
+					editor: {
+						config: {
+							pasteFromWord_someConfigVariable: 'whatever'
+						}
 					}
-				}
-			},
+				},
 
-			{
-				name: 'pasteFromWord one (without underscore)',
-				configVariable: 'someConfigVariable',
-				expected: 'whatever',
-				editor: {
-					config: {
-						pasteFromWordSomeConfigVariable: 'whatever'
+				{
+					name: 'pasteFromWord one (without underscore)',
+					configVariable: 'someConfigVariable',
+					expected: 'whatever',
+					editor: {
+						config: {
+							pasteFromWordSomeConfigVariable: 'whatever'
+						}
 					}
-				}
-			},
+				},
 
-			{
-				name: 'overriding PfW value',
-				configVariable: 'someConfigVariable',
-				expected: 'whatever',
-				editor: {
-					config: {
-						pasteFromWord_someConfigVariable: 'whenever',
-						pasteTools_someConfigVariable: 'whatever',
-						pasteToolsSomeConfigVariable: 'wherever'
+				{
+					name: 'overriding PfW value',
+					configVariable: 'someConfigVariable',
+					expected: 'whatever',
+					editor: {
+						config: {
+							pasteFromWord_someConfigVariable: 'whenever',
+							pasteTools_someConfigVariable: 'whatever',
+							pasteToolsSomeConfigVariable: 'wherever'
+						}
 					}
+				},
+
+				{
+					name: 'no variable',
+					configVariable: 'someConfigVariable',
+					expected: undefined,
+					editor: {
+						config: {}
+					}
+				},
+
+				{
+					name: 'no editor',
+					configVariable: 'someConfigVariable',
+					expected: undefined
 				}
-			},
+			];
 
-			{
-				name: 'no variable',
-				configVariable: 'someConfigVariable',
-				expected: undefined,
-				editor: {
-					config: {}
-				}
-			},
+			CKEDITOR.tools.array.forEach( cases, function( testCase ) {
+				var value = CKEDITOR.plugins.pastetools.getConfigValue( testCase.editor, testCase.configVariable );
 
-			{
-				name: 'no editor',
-				configVariable: 'someConfigVariable',
-				expected: undefined
-			}
-		];
+				assert.areSame( testCase.expected, value, testCase.name );
+			} );
+		},
 
-		CKEDITOR.tools.array.forEach( cases, function( testCase ) {
-			var value = CKEDITOR.plugins.pastetools.getConfigValue( testCase.editor, testCase.configVariable );
+		'test getContentGeneratorName detects \'microsoft\' generators': function() {
+			var testCases = [
+					'<meta name=Generator content="Microsoft Word 15">',
+					'<meta name=Generator content="Microsoft Word 11">',
+					'<meta name=Generator content="Microsoft Excel 15">',
+					'<meta name=Generator content="Microsoft OneNote 15">',
+					'<html><meta name=Generator content="Microsoft Word 14"></html>',
+					'<meta name="Generator" content="Microsoft Word 14">',
+					'<meta name=\'Generator\' content=\'Microsoft Word 14\'>',
+					'<META NAME=GENERATOR content="Microsoft Word 15">'
+				],
+				getContentGeneratorName = CKEDITOR.plugins.pastetools.getContentGeneratorName;
 
-			assert.areSame( testCase.expected, value, testCase.name );
-		} );
-	};
+			CKEDITOR.tools.array.forEach( testCases, function( content, index ) {
+				assert.areSame( 'microsoft', getContentGeneratorName( content ),
+					'The content number: ' + index + ', should return "microsoft" string.' );
+			} );
+		},
+
+		'test getContentGeneratorName detects \'libreoffice\' generators': function() {
+			var testCases = [
+					'<meta name="generator" content="LibreOffice 6.3.2.2 (MacOSX)"/>',
+					'<meta name="generator" content="LibreOffice 6.3.2.2 (Windows)"/>',
+					'<html><meta name="generator" content="LibreOffice 6.3.2.2 (Windows)"/></html>',
+					'<meta name=generator content=LibreOffice 6.3.2.2 (MacOSX) />',
+					'<meta name=\'generator\' content=\'LibreOffice 6.3.2.2 (MacOSX)\'/>',
+					'<META NAME=GENERATOR content="LibreOffice 6.3.2.2 (MacOSX)"/>'
+				],
+				getContentGeneratorName = CKEDITOR.plugins.pastetools.getContentGeneratorName;
+
+			CKEDITOR.tools.array.forEach( testCases, function( content, index ) {
+				assert.areSame( 'libreoffice', getContentGeneratorName( content ),
+					'The content number: ' + index + ', should return "libreoffice" string.' );
+			} );
+		},
+
+		'test getContentGeneratorName detects \'unknown\' generators': function() {
+			var testCases = [
+					'<meta name=Generator content="Foo">',
+					'<meta name=Generator content=Foo>',
+					'<meta name=Generator content="Fake Microsoft">',
+					'<meta name=\'Generator\' content=\'Foo\'>'
+				],
+				getContentGeneratorName = CKEDITOR.plugins.pastetools.getContentGeneratorName;
+
+			CKEDITOR.tools.array.forEach( testCases, function( content, index ) {
+				assert.areSame( 'unknown', getContentGeneratorName( content ),
+					'The content number: ' + index + ', should return "unknown" string.' );
+			} );
+		},
+
+		'test getContentGeneratorName detects undefined generators': function() {
+			var testCases = [
+					'',
+					'foo bar',
+					'<html><meta name=sth content="not generator" /></html'
+				],
+				getContentGeneratorName = CKEDITOR.plugins.pastetools.getContentGeneratorName;
+
+			CKEDITOR.tools.array.forEach( testCases, function( content, index ) {
+				assert.isUndefined( getContentGeneratorName( content ),
+					'The content number: ' + index + ', should return undefiend' );
+			} );
+		}
+	} );
 
 	bender.test( tests );
 } )();

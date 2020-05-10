@@ -417,6 +417,68 @@
 			} );
 		},
 
+		// (#3775)
+		'test parts refresh': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			var widgetDef = {
+				parts: {
+					first: '.first',
+					second: '.second',
+					third: '.third'
+				}
+			};
+
+			editor.widgets.add( 'testparts2', widgetDef );
+
+			bot.setData( '<div data-widget="testparts2" id="w"><p class="first">Hello</p><p class="third">!</p></div>', function() {
+				var missingPart = CKEDITOR.dom.element.createFromHtml( '<p class="second">World</p>' ),
+					widget = getWidgetById( editor, 'w' );
+
+				assert.areEqual( 2, widget.element.getChildCount(), 'Middle part of widget should be missing.' );
+				assert.areEqual( widget.parts.second, null, 'Middle part of widget should be missing.' );
+
+				missingPart.insertAfter( widget.wrapper.findOne( '.first' ) );
+
+				widget.refreshParts();
+
+				assert.areEqual( 3, widget.element.getChildCount(), 'Middle part of widget should be inserted.' );
+				assert.areEqual( widget.parts.second, missingPart, 'Middle part of widget should be inserted.' );
+			} );
+		},
+
+		// (#3775)
+		'test parts refresh flag': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			var widgetDef = {
+				parts: {
+					first: '.first',
+					second: '.second'
+				}
+			};
+
+			editor.widgets.add( 'testparts2', widgetDef );
+
+			bot.setData( '<div data-widget="testparts2" id="w"><p class="first">Hello</p><p class="second">World!</p></div>', function() {
+				var widget = getWidgetById( editor, 'w' ),
+					partToRefresh = CKEDITOR.dom.element.createFromHtml( '<p class="second">World!</p>' );
+
+				widget.wrapper.findOne( '.second' ).remove();
+				partToRefresh.insertAfter( widget.element.findOne( '.first' ) );
+
+				widget.refreshParts( false );
+
+				assert.areEqual( widget.parts.second.getParent(), null, 'Deleted widget part should not be reinitialized.' );
+
+				widget.refreshParts();
+
+				assert.areEqual( widget.parts.second.getParent(), widget.element, 'Deleted widget part should be reinitialized.' );
+			} );
+		},
+
 		'test defined dialog name': function() {
 			var editor = this.editor;
 

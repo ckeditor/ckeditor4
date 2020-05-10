@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -154,6 +154,27 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 				},
 
+				// Selects the color based on the first matching result from the given filter function.
+				//
+				// The filter function should accept a color iterated from the
+				// {@link CKEDITOR.config#colorButton_colors} list as a parameter. If the color could not be found,
+				// this method will fall back to the first color from the panel.
+				//
+				// @since 4.14.0
+				// @private
+				// @member CKEDITOR.ui.colorButton
+				// @param {Function} callback The filter function which should return `true` if a matching color is found.
+				// @param {String} callback.color The color compared by the filter function.
+				select: function( callback ) {
+					var colors = config.colorButton_colors.split( ',' ),
+						color = CKEDITOR.tools.array.find( colors, callback );
+
+					color = normalizeColor( color );
+
+					selectColor( panelBlock, color );
+					panelBlock._.markFirstDisplayed();
+				},
+
 				onBlock: function( panel, block ) {
 					panelBlock = block;
 
@@ -190,7 +211,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						automaticColor;
 
 					if ( !path ) {
-						return;
+						return null;
 					}
 
 					// Find the closest block element.
@@ -277,7 +298,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 				};
 
-			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color ) {
+			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, colorName ) {
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
@@ -288,7 +309,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						}
 					}, null, colorData );
 				} else {
-					setColor( color && '#' + color );
+					setColor( color && '#' + color, colorName );
 				}
 			} );
 
@@ -298,7 +319,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					' title="', lang.auto, '"' +
 					' draggable="false"' +
 					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
+					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null, null,\'', type, '\');return false;"' +
 					' href="javascript:void(\'', lang.auto, '\')"' +
 					' role="option" aria-posinset="1" aria-setsize="', total, '">' +
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
@@ -336,7 +357,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' draggable="false"' +
 						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorCode, '\',\'', type, '\'); return false;"' +
+						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorCode, '\',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorCode, '\')"' +
 						' data-value="' + colorCode + '"' +
 						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
@@ -354,7 +375,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								' title="', lang.more, '"' +
 								' draggable="false"' +
 								' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"' +
+								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\', \'?\',\'', type, '\');return false;"' +
 								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total, '" aria-setsize="', total, '">', lang.more, '</a>' +
 						'</td>' ); // tr is later in the code.
 			}
@@ -363,8 +384,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			return output.join( '' );
 
-			function setColor( color ) {
-				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
+			function setColor( color, colorName ) {
+				var colorStyleVars = {};
+
+				if ( color ) {
+					colorStyleVars.color = color;
+				}
+				if ( colorName ) {
+					colorStyleVars.colorName = colorName;
+				}
+
+				var colorStyle = !CKEDITOR.tools.isEmpty( colorStyleVars ) && new CKEDITOR.style( colorStyleTemplate, colorStyleVars );
 
 				editor.execCommand( commandName, { newStyle: colorStyle } );
 			}
@@ -476,6 +506,14 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
  *			styles: { color: '#(color)' }
  *		};
  *
+ * **Since 4.15.0:** Added `colorName` property, which can be used instead of a `color`
+ * property to customize foreground style. For example to add custom class:
+ *
+ *		config.colorButton_foreStyle = {
+ *			element: 'span',
+ *			attributes: { 'class': '#(colorName)' }
+ *		};
+ *
  * @cfg [colorButton_foreStyle=see source]
  * @member CKEDITOR.config
  */
@@ -497,6 +535,14 @@ CKEDITOR.config.colorButton_foreStyle = {
  *		config.colorButton_backStyle = {
  *			element: 'span',
  *			styles: { 'background-color': '#(color)' }
+ *		};
+ *
+ * **Since 4.15.0:** Added `colorName` property, which can be used instead of a `color`
+ * property to customize background style. For example to add custom class:
+ *
+ *		config.colorButton_backStyle = {
+ *			element: 'span',
+ *			attributes: { 'class': '#(colorName)' }
  *		};
  *
  * @cfg [colorButton_backStyle=see source]

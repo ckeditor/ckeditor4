@@ -4,7 +4,7 @@
 
 ## Does your PR contain necessary tests?
 
-All patches which change the editor code must include tests. You can always read more
+All patches that change the editor code must include tests. You can always read more
 on [PR testing](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_contributing_code.html#tests),
 [how to set the testing environment](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_tests.html) and
 [how to create tests](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_tests.html#creating-your-own-test)
@@ -14,6 +14,12 @@ in the official CKEditor documentation.
 
 - [ ] Unit tests
 - [ ] Manual tests
+
+## Did you follow the CKEditor 4 code style guide?
+
+Your code should follow the guidelines from the [CKEditor 4 code style guide](https://github.com/ckeditor/ckeditor4/blob/major/dev/docs/codestyle.md) which helps keep the entire codebase consistent.
+
+- [ ] PR is consistent with the code style guide
 
 ## What is the proposed changelog entry for this pull request?
 
@@ -25,7 +31,7 @@ in the official CKEditor documentation.
 
 *Give an overview…*
 
-## Which issues your PR resolves?
+## Which issues does your PR resolve?
 
 Closes #<ISSUE_NUMBER>.
 <!-- Closes #<ANOTHER_ISSUE_NUMBER>. -->

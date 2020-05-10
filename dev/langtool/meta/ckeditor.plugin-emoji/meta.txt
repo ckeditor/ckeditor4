@@ -1,4 +1,4 @@
-# Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 searchPlaceholder = The text displayed inside the emoji dropdown search bar which encourages the user to enter the search query.

@@ -1,7 +1,8 @@
 /* bender-ckeditor-plugins: font,toolbar,wysiwygarea */
 /* bender-include: ../richcombo/_helpers/tools.js */
+/* bender-include: ./_helpers/tools.js */
 
-/* global richComboTools */
+/* global richComboTools, fontTools */
 
 ( function() {
 	'use strict';
@@ -70,9 +71,10 @@
 			bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p><font face="Courier New, Courier, monospace">[foo]</font></p>' );
+
 			richComboTools.assertCombo( {
 				comboName: 'Font',
-				comboValue: 'cke-default',
+				comboValue: fontTools.defaultValue,
 				collapsed: false,
 				bot: bot,
 				resultHtml: '<p>foo@</p>'
@@ -137,7 +139,7 @@
 			bender.tools.selection.setWithHtml( editor, '<p><font size="6">[foo]</font></p>' );
 			richComboTools.assertCombo( {
 				comboName: 'FontSize',
-				comboValue: 'cke-default',
+				comboValue: fontTools.defaultValue,
 				collapsed: false,
 				bot: bot,
 				resultHtml: '<p>foo@</p>'

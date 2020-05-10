@@ -1,22 +1,51 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.15
+
+* [#3940](https://github.com/ckeditor/ckeditor4/issues/3940): Introduced `colorName` property for customizing foreground and background styles in [color button](https://ckeditor.com/cke4/addon/colorbutton) plugin via [colorButton_foreStyle](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_foreStyle) and [colorButton_backStyle](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_backStyle) configuration options.
+
 ## CKEditor 4.14
+
+**Security Updates:**
+
+* Fixed XSS vulnerability in the HTML data processor reported by [Michał Bentkowski](https://twitter.com/securitymb) of Securitum.
+
+	Issue summary: It was possible to execute XSS inside CKEditor after persuading the victim to: (i) switch CKEditor to source mode, then (ii) paste a specially crafted HTML code, prepared by the attacker, into the opened CKEditor source area, and (iii) switch back to WYSIWYG mode or (i) copy the specially crafted HTML code, prepared by the attacker and (ii) paste it into CKEditor in WYSIWYG mode.
+
+* Fixed XSS vulnerability in the WebSpellChecker Dialog plugin reported by [Pham Van Khanh](https://twitter.com/rskvp93) from Viettel Cyber Security.
+
+	Issue summary: It was possible to execute XSS using CKEditor after persuading the victim to: (i) switch CKEditor to source mode, then (ii) paste a specially crafted HTML code, prepared by the attacker, into the opened CKEditor source area, then (iii) switch back to WYSIWYG mode, and (iv) preview CKEditor content outside CKEditor editable area.
+
+**An upgrade is highly recommended!**
 
 New features:
 
-* [#2583](https://github.com/ckeditor/ckeditor-dev/issues/2583): Changed [Emoji](https://ckeditor.com/cke4/addon/emoji) suggestion box to show matched emoji name instead of an ID.
-* [#3748](https://github.com/ckeditor/ckeditor-dev/issues/3748): Improved [Color Button](https://ckeditor.com/cke4/addon/colorbutton) state to reflect selected editor content colors.
+* [#2374](https://github.com/ckeditor/ckeditor4/issues/2374): Added support for pasting rich content from LibreOffice Writer with the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin.
+* [#2583](https://github.com/ckeditor/ckeditor4/issues/2583): Changed [emoji](https://ckeditor.com/cke4/addon/emoji) suggestion box to show the matched emoji name instead of an ID.
+* [#3748](https://github.com/ckeditor/ckeditor4/issues/3748): Improved the [color button](https://ckeditor.com/cke4/addon/colorbutton) state to reflect the selected editor content colors.
+* [#3661](https://github.com/ckeditor/ckeditor4/issues/3661): Improved the [Print](https://ckeditor.com/cke4/addon/print) plugin to respect styling rendered by the [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
+* [#3547](https://github.com/ckeditor/ckeditor4/issues/3547): Active [dialog](https://ckeditor.com/cke4/addon/dialog) tab now has the `aria-selected="true"` attribute.
+* [#3441](https://github.com/ckeditor/ckeditor4/issues/3441): Improved [`widget.getClipboardHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#method-getClipboardHtml) support for dragging and dropping multiple [widgets](https://ckeditor.com/cke4/addon/widget).
 
 Fixed Issues:
 
 * [#3587](https://github.com/ckeditor/ckeditor4/issues/3587): [Edge, IE] Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) with form input elements loses focus during typing.
+* [#3705](https://github.com/ckeditor/ckeditor4/issues/3705): [Safari] Fixed: Safari incorrectly removes blocks with the [`editor.extractSelectedHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-extractSelectedHtml) method after selecting all content.
+* [#1306](https://github.com/ckeditor/ckeditor4/issues/1306): Fixed: The [Font](https://ckeditor.com/cke4/addon/font) plugin creates nested HTML `<span>` tags when reapplying the same font multiple times.
+* [#3498](https://github.com/ckeditor/ckeditor4/issues/3498): Fixed: The editor throws an error during the copy operation when a [widget](https://ckeditor.com/cke4/addon/widget) is partially selected.
+* [#2517](https://github.com/ckeditor/ckeditor4/issues/2517): [Chrome, Firefox, Safari] Fixed: Inserting a new image when the selection partially covers an existing [enhanced image](https://ckeditor.com/cke4/addon/image2) widget throws an error.
+* [#3007](https://github.com/ckeditor/ckeditor4/issues/3007): [Chrome, Firefox, Safari] Fixed: Cannot modify the editor content once the selection is released over a [widget](https://ckeditor.com/cke4/addon/widget).
+* [#3698](https://github.com/ckeditor/ckeditor4/issues/3698): Fixed: Cutting the selected text when a [widget](https://ckeditor.com/cke4/addon/widget) is partially selected merges paragraphs.
 
 API Changes:
 
-* [#3387](https://github.com/ckeditor/ckeditor-dev/issues/3387): Added the [CKEDITOR.ui.richCombo#select](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_richCombo.html#method-select) method.
-* [#3306](https://github.com/ckeditor/ckeditor-dev/issues/3306): Added new commands `textColor` and `bgColor` which applies the selected color choosen by the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin.
- 
+* [#3387](https://github.com/ckeditor/ckeditor4/issues/3387): Added the [CKEDITOR.ui.richCombo.select()](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_richCombo.html#method-select) method.
+* [#3727](https://github.com/ckeditor/ckeditor4/issues/3727): Added new `textColor` and `bgColor` commands that apply the selected color chosen by the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin.
+* [#3728](https://github.com/ckeditor/ckeditor4/issues/3728): Added new `font` and `fontSize` commands that apply the selected font style chosen by the [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin.
+* [#3842](https://github.com/ckeditor/ckeditor4/issues/3842): Added the [`editor.getSelectedRanges()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getSelectedRanges) alias.
+* [#3775](https://github.com/ckeditor/ckeditor4/issues/3775): Widget [mask](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#property-mask) and [parts](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#property-parts) can now be refreshed dynamically via API calls.
+
 ## CKEditor 4.13.1
 
 Fixed Issues:

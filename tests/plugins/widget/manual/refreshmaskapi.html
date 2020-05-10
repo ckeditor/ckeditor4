@@ -1,0 +1,87 @@
+<div id="editor">
+	<p>bar</p>
+	<div id="widget" class="partiallyMasked"><div class="notmasked">You can type here...</div></div>
+</div>
+<div>
+	<button id="add-content">Add missing widget HTML</button>
+</div>
+<div>
+	<button id="refresh-parts">Refresh widget parts</button>
+</div>
+<div>
+	<button id="refresh-mask">Refresh widget mask</button>
+</div>
+
+<script>
+	CKEDITOR.addCss( '.left { float: left; width: 200px; } .right { float: right; width: 200px; } .cke_widget_partial_mask { border: 1px solid red };' );
+
+	CKEDITOR.stylesSet.add( 'default', [
+		{ name: 'None', type: 'widget', widget: 'partiallyMasked', attributes: { 'class': '' }, group: 'alignment' },
+		{ name: 'Left', type: 'widget', widget: 'partiallyMasked', attributes: { 'class': 'left' }, group: 'alignment' },
+		{ name: 'Right', type: 'widget', widget: 'partiallyMasked', attributes: { 'class': 'right' }, group: 'alignment' }
+	] );
+
+	CKEDITOR.plugins.add( 'partiallyMasked', {
+		requires: 'widget',
+		init: function( editor ) {
+			editor.widgets.add( 'partiallyMasked', {
+				button: 'Partial mask widget',
+				pathName: 'test-widget',
+
+				template:
+					'<div class="partiallyMasked">' +
+						'<div class="notmasked"></div>' +
+						'<div class="content"></div>' +
+					'</div>',
+
+				editables: {
+					nomask: {
+						selector: '.notmasked',
+						allowedContent: 'br'
+					},
+					content: {
+						selector: '.content',
+						allowedContent: 'br'
+					}
+				},
+
+				parts: {
+					nomask: '.notmasked',
+					content: '.content'
+				},
+
+				allowedContent: 'div(partiallyMasked,content,notmasked,left,right)',
+				requiredContent: 'div(partiallyMasked)',
+
+				mask: 'content',
+
+				upcast: function( element ) {
+					return element.name == 'div' && element.hasClass( 'partiallyMasked' );
+				}
+			} );
+		}
+	} );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		extraPlugins: 'partiallyMasked'
+	} );
+
+	CKEDITOR.document.findOne( '#add-content' ).on( 'click', function() {
+		var div = new CKEDITOR.dom.element( 'div' ),
+			widget = editor.widgets.instances[ 0 ];
+
+		if ( !widget.element.findOne( '.content' ) ) {
+			div.setText( '...but not here' );
+			div.addClass( 'content' );
+
+			widget.element.append( div );
+		}
+	} );
+	CKEDITOR.document.findOne( '#refresh-parts' ).on( 'click', function() {
+		editor.widgets.instances[ 0 ].refreshParts();
+	} );
+	CKEDITOR.document.findOne( '#refresh-mask' ).on( 'click', function() {
+		editor.widgets.instances[ 0 ].refreshMask();
+	} );
+
+</script>
