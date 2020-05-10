@@ -7,6 +7,14 @@ A highly configurable WYSIWYG HTML editor with hundreds of features, from creati
 
 织梦内容管理系统（[DedeCMS](https://github.com/dedetech/DedeCMSv5)）编辑器，基于CKEditor 4构建。
 
+## 编译发布版本
+
+ ```bash
+> ./dev/builder/build.sh
+ ```
+
+编译完成后的内容存放在`dev/builder/release/`
+
 ### License
 
 Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
