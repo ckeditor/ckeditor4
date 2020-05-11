@@ -35,7 +35,7 @@ cd dev/builder
 sudo php oneFile.php
 ```
 
-The release is located under `release/ckeditor-reduced`. The complete folder can be copied into into `lib/ckeditor/` of [`@oat-sa/tao-core-libs`](https://github.com/oat-sa/tao-core-libs-fe)
+The release is located under `release/ckeditor-reduced`. The complete folder can be copied into `lib/ckeditor/` of [`@oat-sa/tao-core-shared-libs`](https://github.com/oat-sa/tao-core-shared-libs-fe)
 
 The built versions checksums aren't identical because the source code contains timestamps generated at build time.
 
@@ -51,7 +51,7 @@ The built versions checksums aren't identical because the source code contains t
 #### TAO Skin
 - If you need to modify TAO skin, you'll find the SASS source files in [`@oat-sa/tao-core-ui-fe`](https://github.com/oat-sa/tao-core-ui-fe/tree/master/scss/ckeditor/skins/tao/scss). They are not in this repo. 
 - To compile, use the grunt task `npm run buildScss`
-- Once compiled, copy the css files from `tao-core-ui-fe/css/ckeditor/skins/tao/*` into the [`skins/tao/`](https://github.com/oat-sa/ckeditor-dev/tree/develop/skins/tao) folder folder of this repository. This will avoid accidental override of the skin when moving a new CK build into TAO.
+- Once compiled, copy the css files from `tao-core-ui-fe/css/ckeditor/skins/tao/*` into the [`skins/tao/`](https://github.com/oat-sa/ckeditor-dev/tree/develop/skins/tao) folder of this repository. This will avoid accidental override of the skin when moving a new CK build into TAO.
   
 ## Development Code
 
