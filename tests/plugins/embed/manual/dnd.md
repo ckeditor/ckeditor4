@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.14.1, 3875
+@bender-tags: bug, 4.14.1, 3926
 @bender-ckeditor-plugins: wysiwygarea,toolbar,elementspath,undo,image2,embed
 @bender-ui: collapsed
 @bender-include: ../../embedbase/_helpers/tools.js

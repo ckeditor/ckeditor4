@@ -762,7 +762,7 @@
 			} );
 		},
 
-		// (#3953)
+		// (#3926)
 		'test drop with initial widget id': function() {
 			var editor = this.editor,
 				widgetId = 0,
