@@ -173,5 +173,15 @@ bender.test(
 		editor.execCommand( 'removeFormat' );
 
 		assert.beautified.html( html, bender.tools.selection.getWithHtml( editor ), { customFilters: [ filter ] } );
+	},
+
+	// (#4008)
+	'test remove format with collapsed selection': function() {
+		this.editorBot.setHtmlWithSelection( '<p><strong>Hello,^</strong></p>' );
+
+		this.editor.execCommand( 'removeFormat' );
+		this.editor.insertText( 'World!' );
+
+		assert.areEqual( '<p><strong>Hello,</strong>World!</p>', this.editor.getData() );
 	}
 } );
