@@ -154,7 +154,7 @@ bender.test(
 		} );
 	},
 
-	// #2451
+	// (#2451)
 	'test remove format keeps selection': function() {
 		var editor = this.editor,
 			html = '<ol><li><h1>[Test]</h1></li></ol>',
