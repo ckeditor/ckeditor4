@@ -10,6 +10,14 @@
 
 1. Press `Resize!` button.
 
+### Expected
+
+Editor changes its size.
+
+### Unexpected
+
+Editor is not resized.
+
 ## Scenario 2
 
 1. In Width input type `20cm`.
@@ -19,6 +27,14 @@
 1. Tick `is content height` checkbox.
 
 1. Press `Resize!` button.
+
+### Expected
+
+Editor changes its editing area.
+
+### Unexpected
+
+Editor is not changing its editing area.
 
 ## Scenario 3
 
@@ -30,10 +46,10 @@
 
 1. Press `Resize!` button.
 
-## Expected
+### Expected
 
-Editor changes its size.
+Editor changes its inner width.
 
-## Unexpected
+### Unexpected
 
-Editor is not resized.
+Editor is not changing its inner width.

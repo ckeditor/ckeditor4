@@ -16,7 +16,7 @@
 	}
 </style>
 
-<form class="input-container">
+<div class="input-container">
 	<div>
 		<label for="width">Width</label>
 		<input type="text" name="width" id="width">
@@ -38,7 +38,7 @@
 	</div>
 
 	<button type="submit" id="resize-button">Resize!</button>
-</form>
+</div>
 
 <div id="editor">
 	<p>Lorem ipsum dolor sit amet.</p>
@@ -47,19 +47,18 @@
 <script>
 	CKEDITOR.replace( 'editor' );
 
-	var resizeButton = document.getElementById( 'resize-button' ),
-		editorWidth = document.getElementById( 'width' ),
-		editorHeight = document.getElementById( 'height' ),
-		isContentHeight = document.getElementById( 'isContentHeight' ),
-		resizeInner = document.getElementById( 'resizeInner' );
+	var resizeButton = CKEDITOR.document.getById( 'resize-button' ),
+		editorWidth = CKEDITOR.document.getById( 'width' ),
+		editorHeight = CKEDITOR.document.getById( 'height' ),
+		isContentHeight = CKEDITOR.document.getById( 'isContentHeight' ),
+		resizeInner = CKEDITOR.document.getById( 'resizeInner' );
 
-	resizeButton.addEventListener( 'click', function ( ev ) {
-		ev.preventDefault();
+	resizeButton.on( 'click', function () {
 		CKEDITOR.instances[ 'editor' ].resize(
-				editorWidth.value,
-				editorHeight.value,
-				isContentHeight.checked,
-				resizeInner.checked
+				editorWidth.getValue(),
+				editorHeight.getValue(),
+				isContentHeight.$.checked,
+				resizeInner.$.checked
 		);
 	} );
 </script>
