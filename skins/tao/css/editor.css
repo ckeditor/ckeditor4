@@ -65,8 +65,6 @@ Usage:
     height: auto;
     vertical-align: baseline;
     box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
     position: static;
     transition: none;
 }
@@ -83,8 +81,6 @@ Usage:
     height: auto;
     vertical-align: baseline;
     box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
     transition: none;
     /* These are rule inherited by all children elements. */
     border-collapse: collapse;
@@ -244,16 +240,9 @@ Special outer level classes used in this file:
     /*
     border-top: 1px solid #bfbfbf;
 
-    -moz-box-shadow: 0 1px 0 #fff inset;
-    -webkit-box-shadow: 0 1px 0 #fff inset;
     box-shadow: 0 1px 0 #fff inset;
 
     background: #cfd1cf;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#cfd1cf));
-    background-image: -moz-linear-gradient(top, #ebebeb, #cfd1cf);
-    background-image: -webkit-linear-gradient(top, #ebebeb, #cfd1cf);
-    background-image: -o-linear-gradient(top, #ebebeb, #cfd1cf);
-    background-image: -ms-linear-gradient(top, #ebebeb, #cfd1cf);
     background-image: linear-gradient(top, #ebebeb, #cfd1cf);
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');*/
 }
@@ -1522,10 +1511,7 @@ Usage:
 .cke_nose {
     position: absolute;
     bottom: -6px;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
     border: 1px #f3f1ef solid;
     border-left: none;
     border-top: none;
@@ -1539,8 +1525,6 @@ Usage:
 .cke_nose.float-space-left {
     opacity: 1;
     transition: opacity .1s ease-in-out;
-    -moz-transition: opacity .1s ease-in-out;
-    -webkit-transition: opacity .1s ease-in-out;
     right: auto;
     left: 5px;
 }
@@ -1548,8 +1532,6 @@ Usage:
 .cke_nose.float-space-right {
     opacity: 1;
     transition: opacity .1s ease-in-out;
-    -moz-transition: opacity .1s ease-in-out;
-    -webkit-transition: opacity .1s ease-in-out;
     right: 5px;
     left: auto;
 }
