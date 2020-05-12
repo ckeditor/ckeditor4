@@ -287,9 +287,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			outer = container;
 		}
 
-		if ( typeof width == 'string' ) {
-			width = CKEDITOR.tools.convertToPx( width );
-		}
+		width = convertCssUnitToPx( width );
 
 		// Set as border box width. (https://dev.ckeditor.com/ticket/5353)
 		outer.setSize( 'width', width, true );
@@ -297,9 +295,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (https://dev.ckeditor.com/ticket/8348)
 		contentsFrame && ( contentsFrame.style.width = '1%' );
 
-		if ( typeof height == 'string' ) {
-			height = CKEDITOR.tools.convertToPx( height );
-		}
+		height = convertCssUnitToPx( height );
 
 		// Get the height delta between the outer table and the content area.
 		var contentsOuterDelta = ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 ),
@@ -333,6 +329,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 	CKEDITOR.editor.prototype.getResizable = function( forContents ) {
 		return forContents ? this.ui.space( 'contents' ) : this.container;
 	};
+
+	function convertCssUnitToPx( unit ) {
+		return CKEDITOR.tools.convertToPx( CKEDITOR.tools.cssLength( unit ) );
+	}
 
 	function createInstance( element, config, data, mode ) {
 		element = CKEDITOR.editor._getEditorElement( element );
