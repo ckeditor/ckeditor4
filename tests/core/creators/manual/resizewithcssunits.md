@@ -14,52 +14,29 @@
 
 ## Scenario 1
 
-1. In Width input type one of value listed above.
-
-1. In Height input type one of value listed above.
-
+1. Fill with and height fileds with values from the beginning of the test.
 1. Press `Resize!` button.
 
 ### Expected
 
-Editor changes its size.
-
-### Unexpected
-
-Editor is not resized.
+The whole editor changes its size reflecting used unit values.
 
 ## Scenario 2
 
-1. In Width input type one of value listed above.
-
-1. In Height input type one of value listed above.
-
+1. Fill with and height fileds with values from the beginning of the test.
 1. Tick `is content height` checkbox.
-
 1. Press `Resize!` button.
 
 ### Expected
 
-Editor changes its editing area.
-
-### Unexpected
-
-Editor is not changing its editing area.
+Editor changes its size of editing area reflecting used unit values. Note that the toolbar shouldn't be included in resize.
 
 ## Scenario 3
 
-1. In Width input type one of value listed above.
-
-1. In Height input type one of value listed above.
-
+1. Fill with and height fileds with values from the beginning of the test.
 1. Tick `resize inner` checkbox.
-
 1. Press `Resize!` button.
 
 ### Expected
 
-Editor changes its inner width.
-
-### Unexpected
-
-Editor is not changing its inner width.
+Editor changes its inner interface reflecting used unit values.
