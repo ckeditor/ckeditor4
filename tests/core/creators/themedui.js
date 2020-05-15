@@ -19,7 +19,7 @@
 
 	var unitsToTest = [
 		// absolute lengths
-		'cm', 'mm', 'q', 'in', 'pc', 'pt', 'px'
+		'cm', 'mm', 'in', 'pc', 'pt', 'px'
 	];
 
 	bender.editor = {
