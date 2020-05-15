@@ -114,7 +114,7 @@
 				var width = 20 + unitsToTest[i],
 					height = 50 + unitsToTest[i];
 
-				editor.resize( width, height, null, true );
+				editor.resize( width, height, false, true );
 				assert.areSame( getEditorInnerHeight( editor ), lastResizeData.outerHeight );
 				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
 				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
