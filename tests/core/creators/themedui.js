@@ -4,6 +4,7 @@
 ( function() {
 	'use strict';
 
+	// Helper functions
 	function getEditorContentHeight( editor ) {
 		return editor.ui.space( 'contents' ).$.offsetHeight;
 	}
@@ -11,6 +12,15 @@
 	function getEditorOuterHeight( editor ) {
 		return editor.container.$.offsetHeight;
 	}
+
+	function getEditorInnerHeight( editor ) {
+		return editor.container.findOne( '.cke_inner' ).$.offsetHeight;
+	}
+
+	var unitsToTest = [
+		// absolute lengths
+		'cm', 'mm', 'in', 'pc', 'pt', 'px'
+	];
 
 	bender.editor = {
 		config: {
@@ -47,6 +57,69 @@
 
 			assert.areSame( 'cke_' + editor.name, editor.container.getId() );
 			assert.areSame( editor.ui.space( 'contents' ), editor.ui.contentsElement );
+		},
+
+		// (#1883)
+		'test resize event with css units': function() {
+			var editor = this.editor,
+				lastResizeData = 0;
+
+			editor.on( 'resize', function( evt ) {
+				lastResizeData = evt.data;
+			} );
+
+			for ( var i = 0; i < unitsToTest.length; i++ ) {
+				var width = 20 + unitsToTest[i],
+					height = 50 + unitsToTest[i];
+
+				editor.resize( width, height );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), lastResizeData.outerHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorOuterHeight( editor ) );
+			}
+		},
+
+		// (#1883)
+		'test resize event with css units and isContentHeight': function() {
+			var editor = this.editor,
+				lastResizeData = 0;
+
+			editor.on( 'resize', function( evt ) {
+				lastResizeData = evt.data;
+			} );
+
+			for ( var i = 0; i < unitsToTest.length; i++ ) {
+				var width = 20 + unitsToTest[i],
+					height = 50 + unitsToTest[i];
+
+				editor.resize( width, height, true );
+				assert.areSame( getEditorOuterHeight( editor ), lastResizeData.outerHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorContentHeight( editor ) );
+			}
+		},
+
+		// (#1883)
+		'test resize event with css units and resizeInner': function() {
+			var editor = this.editor,
+				lastResizeData = 0;
+
+			editor.on( 'resize', function( evt ) {
+				lastResizeData = evt.data;
+			} );
+
+			for ( var i = 0; i < unitsToTest.length; i++ ) {
+				var width = 20 + unitsToTest[i],
+					height = 50 + unitsToTest[i];
+
+				editor.resize( width, height, false, true );
+				assert.areSame( getEditorInnerHeight( editor ), lastResizeData.outerHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorInnerHeight( editor ) );
+			}
 		}
 	} );
 } )();
