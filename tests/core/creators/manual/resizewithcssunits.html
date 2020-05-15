@@ -32,11 +32,6 @@
 		<label for="isContentHeight">is content height</label>
 	</div>
 
-	<div>
-		<input type="checkbox" name="resizeInner" id="resizeInner">
-		<label for="resizeInner">resize inner</label>
-	</div>
-
 	<button type="submit" id="resize-button">Resize!</button>
 </div>
 
@@ -45,20 +40,17 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor' );
-
-	var resizeButton = CKEDITOR.document.getById( 'resize-button' ),
+	var editor = CKEDITOR.replace( 'editor' ),
+		resizeButton = CKEDITOR.document.getById( 'resize-button' ),
 		editorWidth = CKEDITOR.document.getById( 'width' ),
 		editorHeight = CKEDITOR.document.getById( 'height' ),
-		isContentHeight = CKEDITOR.document.getById( 'isContentHeight' ),
-		resizeInner = CKEDITOR.document.getById( 'resizeInner' );
+		isContentHeight = CKEDITOR.document.getById( 'isContentHeight' );
 
 	resizeButton.on( 'click', function () {
-		CKEDITOR.instances[ 'editor' ].resize(
-				editorWidth.getValue(),
-				editorHeight.getValue(),
-				isContentHeight.$.checked,
-				resizeInner.$.checked
+		editor.resize(
+			editorWidth.getValue(),
+			editorHeight.getValue(),
+			isContentHeight.$.checked
 		);
 	} );
 </script>
