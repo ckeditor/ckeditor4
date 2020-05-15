@@ -251,7 +251,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	/**
 	 * Resizes the editor interface.
 	 *
-	 * **Note:** Since 4.14.1 this method accepts only numeric or absolute CSS length units.
+	 * **Note:** Since 4.14.1 this method accepts numeric or absolute CSS length units.
 	 *
 	 * ```javascript
 	 *	editor.resize( 900, 300 );
