@@ -47,7 +47,7 @@
 		 * @property {String}
 		 */
 		styles: '[' + ATTRIBUTE_NAME + ']::before {' +
-				'display: block;' +
+				'position: absolute;' +
 				'opacity: .8;' +
 				'color: #aaa;' +
 				'content: attr( ' + ATTRIBUTE_NAME + ' );' +
