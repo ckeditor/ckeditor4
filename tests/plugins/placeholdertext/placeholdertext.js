@@ -103,6 +103,40 @@
 		} );
 	};
 
+	tests[ 'test placeholder stays on change event if content is not changed' ] = function() {
+		bender.editorBot.create( {
+			name: 'change_event',
+			config: {
+				placeholdertext: 'Some placeholder'
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			editor.fire( 'change' );
+
+			assert.isTrue( editor.editable().hasAttribute( 'data-cke-placeholdertext' ) );
+		} );
+	};
+
+	tests[ 'test placeholder disappears on change event if content is actually changed' ] = function() {
+		bender.editorBot.create( {
+			name: 'change_event2',
+			config: {
+				placeholdertext: 'Some placeholder'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				editable = editor.editable();
+
+			// setHtml is used to prevent unnecessary focusing of the editor
+			// as focus can make the test false positive (it changes placeholder state).
+			editable.setHtml( '<p>Test</p>' );
+			editor.fire( 'change' );
+
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-placeholdertext' ) );
+		} );
+	};
+
 	tests[ 'test integration with easyimage' ] = function() {
 		if ( CKEDITOR.env.ie || CKEDITOR.env.version < 11 ) {
 			assert.ignore();
