@@ -137,6 +137,20 @@
 		} );
 	};
 
+	tests[ 'test placeholder works correctly in full-page editor' ] = function() {
+		bender.editorBot.create( {
+			name: 'fullpage',
+			config: {
+				placeholdertext: 'Comandeer is a really good JS developer',
+				fullPage: true
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.isTrue( editor.editable().hasAttribute( 'data-cke-placeholdertext' ) );
+		} );
+	};
+
 	tests[ 'test integration with easyimage' ] = function() {
 		if ( CKEDITOR.env.ie || CKEDITOR.env.version < 11 ) {
 			assert.ignore();
