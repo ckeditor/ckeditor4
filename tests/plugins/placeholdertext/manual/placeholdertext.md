@@ -10,4 +10,4 @@ Check if:
 * after deleting whole content from the editor and blurring it (both via keyboard and mouse), placeholder text appears;
 * removing/adding placeholder does not create undo step;
 * placeholder text is semi-transparent;
-* placeholder text is not returned by call to `editor.getData()`.
+* placeholder text is not returned by call to `editor.getData()` (you can test it with a button under the editor).
