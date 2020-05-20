@@ -64,7 +64,15 @@
 	}
 
 	function isEditorEmpty( editor ) {
-		return editor.getData().length === 0;
+		var fullPageRegex = /<body>(.*?)<\/body>/i,
+			isFullPage = editor.config.fullPage,
+			data = editor.getData();
+
+		if ( isFullPage ) {
+			data = data.match( fullPageRegex )[ 1 ];
+		}
+
+		return data.length === 0;
 	}
 
 	function togglePlaceholder( evt ) {
