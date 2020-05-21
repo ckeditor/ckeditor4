@@ -50,6 +50,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'pastefromlibreoffice,' +
 		'pastefromword,' +
 		'pastetext,' +
+		'placeholdertext,' +
 		'preview,' +
 		'print,' +
 		'removeformat,' +
