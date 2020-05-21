@@ -3,7 +3,10 @@
 
 ## CKEditor 4.15
 
+New features:
+
 * [#3940](https://github.com/ckeditor/ckeditor4/issues/3940): Introduced `colorName` property for customizing foreground and background styles in [color button](https://ckeditor.com/cke4/addon/colorbutton) plugin via [colorButton_foreStyle](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_foreStyle) and [colorButton_backStyle](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_backStyle) configuration options.
+* [#3793](https://github.com/ckeditor/ckeditor4/issues/3793): Introduced [Placeholder Text](https://ckeditor.com/cke4/addon/placeholdertext) plugin.
 
 ## CKEditor 4.14
 
