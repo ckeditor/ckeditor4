@@ -38,6 +38,7 @@
 	 *
 	 * @singleton
 	 * @class CKEDITOR.plugins.placeholdertext
+	 * @since 4.15.0
 	 * @member CKEDITOR.plugins
 	 */
 	CKEDITOR.plugins.placeholdertext = {
@@ -103,6 +104,7 @@
 	 * ```
 	 *
 	 * @cfg {String} [placeholdertext='']
+	 * @since 4.15.0
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.placeholdertext = '';
