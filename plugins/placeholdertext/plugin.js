@@ -34,7 +34,7 @@
 	var ATTRIBUTE_NAME = 'data-cke-placeholdertext';
 
 	/**
-	 * Namespace providing configuration for placeholdertext plugin..
+	 * Namespace providing configuration for placeholdertext plugin.
 	 *
 	 * @singleton
 	 * @class CKEDITOR.plugins.placeholdertext
@@ -43,7 +43,7 @@
 	 */
 	CKEDITOR.plugins.placeholdertext = {
 		/**
-		 * Styles that would be applied to the placeholder element.
+		 * Styles that would be applied to the editor by placeholder text when visible.
 		 *
 		 * @property {String}
 		 */
