@@ -177,11 +177,13 @@ bender.test(
 
 	// (#4008)
 	'test remove format with collapsed selection': function() {
+		var editor = this.editor;
+
 		this.editorBot.setHtmlWithSelection( '<p><strong>Hello,^</strong></p>' );
 
-		this.editor.execCommand( 'removeFormat' );
-		this.editor.insertText( 'World!' );
+		editor.execCommand( 'removeFormat' );
+		editor.insertText( 'World!' );
 
-		assert.areEqual( '<p><strong>Hello,</strong>World!</p>', this.editor.getData() );
+		assert.areEqual( '<p><strong>Hello,</strong>World!</p>', editor.getData() );
 	}
 } );
