@@ -2,10 +2,12 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, removeformat, basicstyles
 
-1. Place selection at the end of the text - `Hello,^`.
+1. Focus the editor.
+1. Press bold button.
+1. Type `Hello,`.
 1. Press remove format button.
-1. Type `World!`.
+1. Type `World!`
 
-**Expected** Typed text is a plain text.
+**Expected** Once remove button pressed, typed text in a plain text format. 
 
-**Unexpected** Typed text is bolded.
+**Unexpected** The whole typed text is bold, despite pressing remove format button.
