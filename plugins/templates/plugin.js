@@ -12,10 +12,37 @@
 		icons: 'templates,templates-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			CKEDITOR.dialog.add( 'templates', CKEDITOR.getUrl( this.path + 'dialogs/templates.js' ) );
+			//Removing templates dialog as per SA-18637
+			// CKEDITOR.dialog.add( 'templates', CKEDITOR.getUrl( this.path + 'dialogs/templates.js' ) );
 
-			editor.addCommand( 'templates', new CKEDITOR.dialogCommand( 'templates' ) );
+			// editor.addCommand( 'templates', new CKEDITOR.dialogCommand( 'templates' ) );
 
+			//Adding Side by Side template
+			var command = new CKEDITOR.command( editor, {
+				exec: function( editor ) {
+					var html = '<table cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;" border="0">' +
+						'<tr style="display:block;">' +
+						'<td style="width:50%;word-wrap:break-word;word-break:break-all;text-align:left; vertical-align:top;">' +
+						'' +
+						'</td>' +
+						'<td style="width:50%;word-wrap:break-word;word-break:break-all;text-align:left; vertical-align:top;">' +
+						'' +
+						'</td>' +
+						'</tr>' +
+						'</table>' +
+						'<p>' +
+						'' +
+						'</p>';
+					editor.focus();
+					var selection = editor.getSelection();
+					var range = selection.getRanges()[0];
+					range.moveToPosition(range.root.getChild(0),CKEDITOR.POSITION_BEFORE_START);
+					range.select();
+					editor.insertHtml( html );
+				}
+			} );
+
+			editor.addCommand( 'templates',  command);
 			editor.ui.addButton && editor.ui.addButton( 'Templates', {
 				label: editor.lang.templates.button,
 				command: 'templates',
