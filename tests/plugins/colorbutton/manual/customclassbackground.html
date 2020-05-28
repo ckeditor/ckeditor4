@@ -9,7 +9,10 @@
 			element: 'span',
 			attributes: { 'class': '#(colorName)' },
 			overrides: [ {
-				element: 'span'
+				element: 'span',
+				attributes: {
+					'class': /bg-/
+				}
 			} ]
 		},
 		// Config necessary due to #3994 and #3996
