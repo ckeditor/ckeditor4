@@ -2633,7 +2633,7 @@
 
 			// Add support for dropping selection containing more than widget itself
 			// or more than one widget (#3441).
-			if ( !id && editor.widgets.selected.length > 0 ) {
+			if ( id === '' && editor.widgets.selected.length > 0 ) {
 				evt.data.dataTransfer.setData( 'text/html', getClipboardHtml( editor ) );
 				return;
 			}

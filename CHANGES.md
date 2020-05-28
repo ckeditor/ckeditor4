@@ -14,6 +14,7 @@ Fixed Issues:
 * [#624](https://github.com/ckeditor/ckeditor4/issues/624): Fixed: [Notification](https://ckeditor.com/cke4/addon/notification) doesn't work with [bottom toolbar location](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarLocation).
 * [#3000](https://github.com/ckeditor/ckeditor4/issues/3000): Fixed: [Auto Embed](https://ckeditor.com/cke4/addon/autoembed) doesn't work with [bottom toolbar location](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarLocation).
 * [#1883](https://github.com/ckeditor/ckeditor4/issues/1883): Fixed: [`editor.resize`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-resize) method doesn't work with CSS units.
+* [#3926](https://github.com/ckeditor/ckeditor4/issues/3926): Fixed: Dragging and dropping [Widget](https://ckeditor.com/cke4/addon/widget) sometimes produces an error.
 
 ## CKEditor 4.14
 
