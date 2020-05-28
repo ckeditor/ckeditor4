@@ -8,8 +8,8 @@
 
 ### Expected
 
-Table is able to be resized.
+It is possible to resize the table or any of its columns (using CKEditor 4 resizer).
 
 ### Unexpected
 
-Not possible to resize table (no resize cursor appears).
+Not possible to resize the table (resize cursor is not visible).
