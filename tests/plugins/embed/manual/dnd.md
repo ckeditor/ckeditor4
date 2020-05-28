@@ -4,7 +4,7 @@
 @bender-include: ../../embedbase/_helpers/tools.js
 
 1. Open browser developer console.
-1. Drag and drop the embedded image at the beginnig or at the end of the editor.
+1. Drag and drop the embedded image at the beginning or at the end of the editor.
 
 **Expected:** Image is draggable. No console errors.
 
