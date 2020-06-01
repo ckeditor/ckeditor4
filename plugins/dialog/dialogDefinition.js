@@ -1053,8 +1053,8 @@
  *
  * If the direction was set, a marker will be prepended to every non-empty value of this input:
  *
- * * [`\u202A`](http://unicode.org/cldr/utility/character.jsp?a=202A) &ndash; for Right-To-Left,
- * * [`\u202B`](http://unicode.org/cldr/utility/character.jsp?a=202B) &ndash; for Left-To-Right.
+ * * [`\u202A`](https://www.unicode.org/charts/PDF/U2000.pdf) &ndash; for Right-To-Left,
+ * * [`\u202B`](https://www.unicode.org/charts/PDF/U2000.pdf) &ndash; for Left-To-Right.
  *
  * This marker allows for restoring the same text direction upon the next dialog opening.
  *
