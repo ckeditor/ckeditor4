@@ -1,10 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: bug, 909, 1959, 4.14.1
-@bender-ckeditor-plugins: toolbar, wysiwygarea, sourcearea, divarea, tableresize, maximize
-
-*Repeat below steps in all editors.*
-
-1. Maximize editor by pressing maximize button.
+@bender-ckeditor-plugins: toolbar, wysiwygarea, sourcearea, divarea, floatingspace, tableresize, maximize
 
 1. Try to resize table inside editor.
 
