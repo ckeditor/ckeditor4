@@ -1,7 +1,7 @@
-﻿/* global ActiveXObject */
+/* global ActiveXObject */
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -100,7 +100,9 @@
 
 			xhr.onreadystatechange = function() {
 				if ( xhr.readyState == 4 ) {
-					callback( getResponseFn( xhr ) );
+					if ( callback ) {
+						callback( getResponseFn( xhr ) );
+					}
 					xhr = null;
 				}
 			};
@@ -147,11 +149,11 @@
 			 *			console.log( data );
 			 *		} );
 			 *
-			 * @since 4.4
+			 * @since 4.4.0
 			 * @param {String} url The URL of the request.
 			 * @param {String/Object/Array} data Data passed to `XMLHttpRequest#send`.
 			 * @param {String} [contentType='application/x-www-form-urlencoded; charset=UTF-8'] The value of the `Content-type` header.
-			 * @param {Function} callback A callback executed asynchronously with `XMLHttpRequest#responseText` or `null` as an argument,
+			 * @param {Function} [callback] A callback executed asynchronously with `XMLHttpRequest#responseText` or `null` as an argument,
 			 * depending on the `status` of the request.
 			 */
 			post: function( url, data, contentType, callback ) {

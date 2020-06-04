@@ -1,0 +1,22 @@
+<div id="editor">
+	<p>lorem<span> ipsum&nbsp;<strong>dolor sit </strong></span>amet</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'span',
+		extraPlugins: 'spanwidget',
+		allowedContent: true
+	} );
+
+	CKEDITOR.plugins.add( 'spanwidget', {
+		requires: 'widget',
+		init: function ( editor )	{
+			editor.widgets.add( 'spanwidget', {
+				upcast: function ( element ) {
+					return element.name == 'span';
+				}
+			} );
+		}
+	} );
+</script>

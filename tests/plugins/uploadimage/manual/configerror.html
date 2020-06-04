@@ -1,0 +1,11 @@
+<div id="editor">
+	<p>I'm working!</p>
+</div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+
+	editor.once( 'instanceReady', function() {
+		bender.tools.ignoreUnsupportedEnvironment( 'uploadimage' );
+	} );
+</script>

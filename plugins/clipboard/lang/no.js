@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'no', {
 	copy: 'Kopier',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'no', {
 	cut: 'Klipp ut',
 	cutError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk utklipping av tekst. Vennligst bruk snarveien (Ctrl/Cmd+X).',
 	paste: 'Lim inn',
+	pasteNotification: 'Trykk %1 for å lime inn. På grunn av manglende støtte i nettleseren din, kan du ikke lime inn via knapperaden eller kontekstmenyen.',
 	pasteArea: 'Innlimingsområde',
-	pasteMsg: 'Vennligst lim inn i følgende boks med tastaturet (<STRONG>Ctrl/Cmd+V</STRONG>) og trykk <STRONG>OK</STRONG>.',
-	securityMsg: 'Din nettlesers sikkerhetsinstillinger gir ikke redigeringsverktøyet direkte tilgang til utklippstavlen. Du må derfor lime det inn på nytt i dette vinduet.',
-	title: 'Lim inn'
+	pasteMsg: 'Lim inn innholdet i området nedenfor og trykk OK.'
 } );

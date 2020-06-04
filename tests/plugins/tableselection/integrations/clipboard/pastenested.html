@@ -1,0 +1,417 @@
+<textarea id="nested-2x1-2x1">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[Cell 2.1.1]</td>
+							</tr>
+							<tr>
+								<td>[Cell 2.2.1]</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+=>
+<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[pasted 1]</td>
+							</tr>
+							<tr>
+								<td>[pasted 2]</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+</textarea>
+
+<textarea id="nested-2x1-2x2">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[Cell 2.1.1]</td>
+							</tr>
+							<tr>
+								<td>[Cell 2.2.1]</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+=>
+<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[pasted 1]</td>
+								<td>[pasted 2]</td>
+							</tr>
+							<tr>
+								<td>[pasted 3]</td>
+								<td>[pasted 4]</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+</textarea>
+
+<textarea id="nested-2x1-1x1">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[Cell 2.1.1]</td>
+							</tr>
+							<tr>
+								<td>[Cell 2.2.1]</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+=>
+<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[pasted 1]</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+</textarea>
+
+<textarea id="nested-2x1-2x1-partially">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[Cell 2.1.1]</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+=>
+<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[pasted 1]</td>
+							</tr>
+							<tr>
+								<td>[pasted 2]</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+</textarea>
+
+<textarea id="nested-2x1-2x2-partially">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[Cell 2.1.1]</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+=>
+<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[pasted 1]</td>
+								<td>[pasted 2]</td>
+							</tr>
+							<tr>
+								<td>[pasted 3]</td>
+								<td>[pasted 4]</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+</textarea>
+
+<textarea id="nested-2x1-1x1-partially">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[Cell 2.1.1]</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+=>
+<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>[pasted 1]</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+</textarea>
+
+<textarea id="nested-2x1-2x2-caret">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>Cell^ 2.1.1</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>Cell
+									<table>
+										<tbody>
+											<tr>
+												<td>pasted 1</td>
+												<td>pasted 2</td>
+											</tr>
+											<tr>
+												<td>pasted 3</td>
+												<td>pasted 4^</td>
+											</tr>
+										</tbody>
+									</table>
+									2.1.1</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="nested-2x2-2x2-caret-boundary">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>Cell 2.1.1^</td>
+								<td>Cell 2.1.2</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+								<td>Cell 2.2.2</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>
+					Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>Cell 2.1.1
+									<table>
+										<tbody>
+											<tr>
+												<td>pasted 1</td>
+												<td>pasted 2</td>
+											</tr>
+											<tr>
+												<td>pasted 3</td>
+												<td>pasted 4^</td>
+											</tr>
+										</tbody>
+									</table></td>
+								<td>Cell 2.1.2</td>
+							</tr>
+							<tr>
+								<td>Cell 2.2.1</td>
+								<td>Cell 2.2.2</td>
+							</tr>
+						</tbody>
+					</table>
+					1.1.1
+				</td>
+			</tr>
+		 </tbody>
+	</table>
+</textarea>
+
+<table id="paste-1x1">
+	<tr>
+		<td>pasted 1</td>
+	</tr>
+</table>
+
+<table id="paste-2x1">
+	<tr>
+		<td>pasted 1</td>
+	</tr>
+	<tr>
+		<td>pasted 2</td>
+	</tr>
+</table>
+
+<table id="paste-2x2">
+	<tr>
+		<td>pasted 1</td>
+		<td>pasted 2</td>
+	</tr>
+	<tr>
+		<td>pasted 3</td>
+		<td>pasted 4</td>
+	</tr>
+</table>

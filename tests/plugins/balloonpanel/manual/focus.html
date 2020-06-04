@@ -1,0 +1,54 @@
+<textarea id="editor1" cols="10" rows="10">
+		<p>Apollo 11</p>
+		<p><strong>Apollo 11</strong>&nbsp;was the spaceflight that landed <strong>the first</strong> humans, Americans&nbsp;Neil Armstrong&nbsp;and&nbsp;Buzz Aldrin, on the Moon on July 20, <strong>1969</strong>, at 20:18 UTC. Armstrong became the first <strong>to step onto the</strong> lunar surface 6 hours later on July 21 at <strong>02:56</strong> UTC.</p>
+		<p>Armstrong spent about&nbsp;<s>three and a half</s>&nbsp;two and a half hours <strong>outside the spacecraft</strong>, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission,&nbsp;Michael Collins, piloted the&nbsp;command&nbsp;<strong>spacecraft alone in lunar</strong> orbit until Armstrong and Aldrin <strong>returned to it for the trip</strong> back to Earth.</p>
+</textarea>
+
+<div id="editor2" contenteditable="true">
+	<p>Apollo 11</p>
+	<p><strong>Apollo 11</strong>&nbsp;was the spaceflight that landed <strong>the first</strong> humans, Americans&nbsp;Neil Armstrong&nbsp;and&nbsp;Buzz Aldrin, on the Moon on July 20, <strong>1969</strong>, at 20:18 UTC. Armstrong became the first <strong>to step onto the</strong> lunar surface 6 hours later on July 21 at <strong>02:56</strong> UTC.</p>
+	<p>Armstrong spent about&nbsp;<s>three and a half</s>&nbsp;two and a half hours <strong>outside the spacecraft</strong>, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission,&nbsp;Michael Collins, piloted the&nbsp;command&nbsp;<strong>spacecraft alone in lunar</strong> orbit until Armstrong and Aldrin <strong>returned to it for the trip</strong> back to Earth.</p>
+</div>
+<script>
+	CKEDITOR.disableAutoInline = true;
+
+	function instanceReadyListener( evt ) {
+		var strongs = this.editable().find( 'strong' ),
+			panel = new CKEDITOR.ui.balloonPanel( this, {
+				width: 'auto',
+				height: 200,
+				content: 'Editor test'
+			} ),
+			i = 0,
+			strong;
+
+		panel.setTitle( 'Title' );
+
+		while ( ( strong = strongs.getItem( i++ ) ) ) {
+			strong.setStyle( 'background', 'pink' );
+			strong.setStyle( 'outline', '4px solid red' );
+			strong.on( 'click', function() {
+				panel.attach( this );
+				panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + ' ("' + this.getText() + '")</p>' );
+			} );
+		}
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'balloonpanel',
+		height: 300,
+		width: 600,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+
+	CKEDITOR.inline( 'editor2', {
+		extraPlugins: 'balloonpanel',
+		height: 300,
+		width: 600,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+</script>

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: basicstyles,toolbar */
 
 ( function() {
@@ -22,37 +22,29 @@
 		return base;
 	}
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					creator: 'replace',
-					config: {
-						docType: '',
-						contentsLangDirection: 'ltr',
-						fullPage: true,
-						contentsCss: []
-					}
-				},
-				editor_basehref: {
-					name: 'editor2',
-					creator: 'replace',
-					config: {
-						fullPage: true,
-						baseHref: '/foo/bar/404/',
-						allowedContent: true
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			creator: 'replace',
+			config: {
+				docType: '',
+				contentsLangDirection: 'ltr',
+				fullPage: true,
+				contentsCss: []
+			}
 		},
+		editor_basehref: {
+			name: 'editor2',
+			creator: 'replace',
+			config: {
+				fullPage: true,
+				baseHref: '/foo/bar/404/',
+				allowedContent: true
+			}
+		}
+	};
 
+	bender.test( {
 		'test load full-page data': function() {
 			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'fullpage1', function( source, expected ) {
@@ -84,7 +76,7 @@
 			} );
 		},
 
-		// #9137
+		// https://dev.ckeditor.com/ticket/9137
 		'test base tag is correctly added when head has an attribute': function() {
 			var bot = this.editorBots.editor_basehref;
 

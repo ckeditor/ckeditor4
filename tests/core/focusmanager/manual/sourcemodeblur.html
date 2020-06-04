@@ -1,0 +1,16 @@
+<body>
+<div id="editor">
+	<p>Example text</p>
+</div>
+<button>I'm a button!</button>
+
+<script>
+	if ( !CKEDITOR.env.chrome ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		startupMode: 'source'
+	} );
+</script>
+</body>

@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'id', {
 	alt: 'Teks alternatif',
@@ -12,9 +12,10 @@ CKEDITOR.plugins.setLang( 'image2', 'id', {
 	menu: 'Image Properties', // MISSING
 	pathName: 'image', // MISSING
 	pathNameCaption: 'caption', // MISSING
-	resetSize: 'Reset Size', // MISSING
+	resetSize: 'Atur Ulang Ukuran',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Image Properties', // MISSING
 	uploadTab: 'Unggah',
-	urlMissing: 'Image source URL is missing.' // MISSING
+	urlMissing: 'Image source URL is missing.', // MISSING
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

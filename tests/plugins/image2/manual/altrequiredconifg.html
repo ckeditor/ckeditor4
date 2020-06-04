@@ -1,0 +1,17 @@
+<div id="editor1" contenteditable="true"></div>
+
+<div id="editor2" contenteditable="true"></div>
+
+<div id="editor3" contenteditable="true"></div>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+
+	CKEDITOR.replace( 'editor2', {
+		image2_altRequired: false
+	} );
+
+	CKEDITOR.replace( 'editor3', {
+		image2_altRequired: true
+	} );
+</script>

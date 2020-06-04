@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -34,7 +34,7 @@
 				if ( editor.toolbox ) {
 					editor.toolbox.focusCommandExecuted = true;
 
-					// Make the first button focus accessible for IE. (#3417)
+					// Make the first button focus accessible for IE. (https://dev.ckeditor.com/ticket/3417)
 					// Adobe AIR instead need while of delay.
 					if ( CKEDITOR.env.ie || CKEDITOR.env.air ) {
 						setTimeout( function() {
@@ -51,7 +51,7 @@
 	CKEDITOR.plugins.add( 'toolbar', {
 		requires: 'button',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 
 		init: function( editor ) {
@@ -118,10 +118,6 @@
 							return false;
 						case 40: // DOWN-ARROW
 							if ( item.button && item.button.hasArrow ) {
-								// Note: code is duplicated in plugins\richcombo\plugin.js in keyDownFn().
-								editor.once( 'panelShow', function( evt ) {
-									evt.data._.panel._.currentBlock.onKeyDown( 40 );
-								} );
 								item.execute();
 							} else {
 								// Send left arrow key.
@@ -190,20 +186,22 @@
 					output.push( '<span class="cke_toolbox_main"' + ( expanded ? '>' : ' style="display:none">' ) );
 
 				var toolbars = editor.toolbox.toolbars,
-					toolbar = getToolbarConfig( editor );
+					toolbar = getToolbarConfig( editor ),
+					toolbarLength = toolbar.length;
 
-				for ( var r = 0; r < toolbar.length; r++ ) {
+				for ( var r = 0; r < toolbarLength; r++ ) {
 					var toolbarId,
 						toolbarObj = 0,
 						toolbarName,
 						row = toolbar[ r ],
+						lastToolbarInRow = row !== '/' && ( toolbar[ r + 1 ] === '/' || r == toolbarLength - 1 ),
 						items;
 
 					// It's better to check if the row object is really
 					// available because it's a common mistake to leave
 					// an extra comma in the toolbar definition
 					// settings, which leads on the editor not loading
-					// at all in IE. (#3983)
+					// at all in IE. (https://dev.ckeditor.com/ticket/3983)
 					if ( !row )
 						continue;
 
@@ -244,7 +242,8 @@
 								toolbarName = row.name && ( editor.lang.toolbar.toolbarGroups[ row.name ] || row.name );
 
 								// Output the toolbar opener.
-								output.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
+								output.push( '<span id="', toolbarId, '" class="cke_toolbar' + ( lastToolbarInRow ? ' cke_toolbar_last"' : '"' ),
+									( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
 
 								// If a toolbar name is available, send the voice label.
 								toolbarName && output.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );
@@ -284,7 +283,7 @@
 								itemObj.toolbar = toolbarObj;
 								itemObj.onkey = itemKeystroke;
 
-								// Fix for #3052:
+								// Fix for https://dev.ckeditor.com/ticket/3052:
 								// Prevent JAWS from focusing the toolbar after document load.
 								itemObj.onfocus = function() {
 									if ( !editor.toolbox.focusCommandExecuted )
@@ -353,7 +352,11 @@
 							var dy = toolboxContainer.$.offsetHeight - previousHeight;
 							contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
 
-							editor.fire( 'resize' );
+							editor.fire( 'resize', {
+								outerHeight: editor.container.$.offsetHeight,
+								contentsHeight: contents.$.offsetHeight,
+								outerWidth: editor.container.$.offsetWidth
+							} );
 						},
 
 						modes: { wysiwyg: 1, source: 1 }
@@ -658,9 +661,12 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  * The part of the user interface where the toolbar will be rendered. For the default
  * editor implementation, the recommended options are `'top'` and `'bottom'`.
  *
- * Please note that this option is only applicable to [classic](#!/guide/dev_framed)
- * (`iframe`-based) editor. In case of [inline](#!/guide/dev_inline) editor the toolbar
+ * Please note that this option is only applicable to {@glink guide/dev_framed classic}
+ * (`iframe`-based) editor. In case of {@glink guide/dev_inline inline} editor the toolbar
  * position is set dynamically depending on the position of the editable element on the screen.
+ *
+ * Read more in the {@glink features/toolbarlocation documentation}
+ * and see the {@glink examples/toolbarlocation example}.
  *
  *		config.toolbarLocation = 'bottom';
  *
@@ -675,6 +681,9 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  * If set to `null`, the toolbar will be generated automatically using all available buttons
  * and {@link #toolbarGroups} as a toolbar groups layout.
+ *
+ * In CKEditor 4.5.0+ you can generate your toolbar customization code by using the {@glink features/toolbar visual
+ * toolbar configurator}.
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a
  *		// separator, and the "Bold" and "Italic" buttons.
@@ -760,7 +769,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  *		config.toolbarGroupCycling = false;
  *
- * @since 3.6
+ * @since 3.6.0
  * @cfg {Boolean} [toolbarGroupCycling=true]
  * @member CKEDITOR.config
  */
@@ -773,7 +782,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  * This configuration option should not be overused. The recommended way is to use the
  * {@link CKEDITOR.config#removePlugins} setting to remove features from the editor
- * or even better, [create a custom editor build](http://ckeditor.com/builder) with
+ * or even better, [create a custom editor build](https://ckeditor.com/cke4/builder) with
  * just the features that you will use.
  * In some cases though, a single plugin may define a set of toolbar buttons and
  * `removeButtons` may be useful when just a few of them are to be removed.

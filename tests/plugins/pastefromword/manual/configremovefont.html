@@ -1,0 +1,18 @@
+
+<textarea name="editor1" id="editor1" cols="30" rows="10">
+	<p>You should not be able to put font styles in this editor.</p>
+	<p></p>
+</textarea>
+
+<textarea name="editor2" id="editor2" cols="30" rows="10">
+	<p>This editor however will allow you to put text styles.</p>
+	<p></p>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		pasteFromWordRemoveFontStyles: true
+	} );
+
+	CKEDITOR.replace( 'editor2' );
+</script>

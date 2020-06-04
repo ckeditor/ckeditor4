@@ -1,0 +1,53 @@
+<h2>Classic editor</h2>
+<div id="classic">
+	<p>Standard img:</p>
+	<figure class="easyimage">
+		<img src="../../image2/_assets/bar.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="divarea">
+		<p>Standard img:</p>
+		<figure class="easyimage">
+			<img src="../../image2/_assets/bar.png" alt="foo">
+			<figcaption>Test image</figcaption>
+		</figure>
+</div>
+
+<script>
+	( function() {
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+		var commonConfig = {
+			easyimage_styles: {
+				border1: {
+					attributes: {
+						'class': 'border1'
+					},
+					icon: 'test',
+					label: 'Border1',
+					group: 'easyimageborder'
+				},
+				border2: {
+					attributes: {
+						'class': 'border2'
+					},
+					icon: 'test',
+					label: 'Border2',
+					group: 'easyimageborder'
+				}
+			},
+			easyimage_toolbar: [ 'EasyImageFull', 'EasyImageSide', 'EasyImageBorder1', 'EasyImageBorder2' ]
+		};
+
+		CKEDITOR.addCss( '.border1 { border: 2px solid green }' );
+		CKEDITOR.addCss( '.border2 { border: 2px solid pink }' );
+
+		CKEDITOR.replace( 'classic', commonConfig );
+		CKEDITOR.replace( 'divarea', CKEDITOR.tools.object.merge( {
+			extraPlugins: 'divarea'
+		}, commonConfig ) );
+	}() );
+</script>

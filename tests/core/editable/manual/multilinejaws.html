@@ -1,0 +1,25 @@
+<h2>Inline</h2>
+
+<textarea name="editor1">
+	<p>Test</p>
+	<p>Test</p>
+</textarea>
+
+<h2>Divarea</h2>
+
+<textarea name="editor2">
+	<p>Test</p>
+	<p>Test</p>
+</textarea>
+
+<script type="text/javascript">
+	if ( !CKEDITOR.env.gecko ) {
+		// JAWS is supported only with Firefox.
+		bender.ignore();
+	}
+
+	CKEDITOR.inline( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea'
+	} );
+</script>

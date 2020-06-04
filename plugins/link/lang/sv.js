@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'sv', {
 	acccessKey: 'Behörighetsnyckel',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	anchorName: 'Efter ankarnamn',
 	charset: 'Teckenuppställning',
 	cssClasses: 'Stilmall',
+	download: 'Tvinga nerladdning',
+	displayText: 'Visningstext',
 	emailAddress: 'E-postadress',
 	emailBody: 'Innehåll',
 	emailSubject: 'Ämne',
@@ -33,14 +35,16 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	noAnchors: '(Inga ankare kunde hittas)',
 	noEmail: 'Var god ange e-postadress',
 	noUrl: 'Var god ange länkens URL',
+	noTel: 'Var god ange telefonnummer',
 	other: '<annan>',
+	phoneNumber: 'Telefonnummer',
 	popupDependent: 'Beroende (endast Netscape)',
 	popupFeatures: 'Popup-fönstrets egenskaper',
 	popupFullScreen: 'Helskärm (endast IE)',
 	popupLeft: 'Position från vänster',
 	popupLocationBar: 'Adressfält',
 	popupMenuBar: 'Menyfält',
-	popupResizable: 'Resizable',
+	popupResizable: 'Skalbart',
 	popupScrollBars: 'Scrolllista',
 	popupStatusBar: 'Statusfält',
 	popupToolbar: 'Verktygsfält',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	toAnchor: 'Länk till ankare i texten',
 	toEmail: 'E-post',
 	toUrl: 'URL',
+	toPhone: 'Telefon',
 	toolbar: 'Infoga/Redigera länk',
 	type: 'Länktyp',
 	unlink: 'Radera länk',

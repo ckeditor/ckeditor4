@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -51,21 +51,21 @@
 		}
 	}
 
-	function findDialog( editor, startupPage ) {
-		// Style object for highlights: (#5018)
+	function findDialog( editor ) {
+		// Style object for highlights: (https://dev.ckeditor.com/ticket/5018)
 		// 1. Defined as full match style to avoid compromising ordinary text color styles.
 		// 2. Must be apply onto inner-most text to avoid conflicting with ordinary text color styles visually.
 		var highlightConfig = {
-			attributes: {
-				'data-cke-highlight': 1
+				attributes: {
+					'data-cke-highlight': 1
+				},
+				fullMatch: 1,
+				ignoreReadonly: 1,
+				childRule: function() {
+					return 0;
+				}
 			},
-			fullMatch: 1,
-			ignoreReadonly: 1,
-			childRule: function() {
-				return 0;
-			}
-		};
-		var highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend( highlightConfig, editor.config.find_highlight, true ) );
+			highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend( highlightConfig, editor.config.find_highlight, true ) );
 
 		// Iterator which walk through the specified range char by char. By
 		// default the walking will not stop at the character boundaries, until
@@ -305,7 +305,7 @@
 
 				if ( ( lastCursor = cursors[ cursors.length - 1 ] ) && lastCursor.textNode )
 					nextRangeWalker = new characterWalker( getRangeAfterCursor( lastCursor ) );
-				// In case it's an empty range (no cursors), figure out next range from walker (#4951).
+				// In case it's an empty range (no cursors), figure out next range from walker (https://dev.ckeditor.com/ticket/4951).
 				else
 					nextRangeWalker = this._.walker;
 
@@ -370,14 +370,12 @@
 							return KMP_MATCHED;
 						}
 						return KMP_ADVANCED;
-					} else if ( !this._.state )
+					} else if ( !this._.state ) {
 						return KMP_NOMATCH;
-					else {
+					} else {
 						this._.state = this._.overlap[this._.state];
 					}
 				}
-
-				return null;
 			},
 
 			reset: function() {
@@ -428,7 +426,7 @@
 							var rangeBefore = getRangeBeforeCursor( head ),
 								rangeAfter = getRangeAfterCursor( tail );
 
-							// The word boundary checks requires to trim the text nodes. (#9036)
+							// The word boundary checks requires to trim the text nodes. (https://dev.ckeditor.com/ticket/9036)
 							rangeBefore.trim();
 							rangeAfter.trim();
 
@@ -449,11 +447,11 @@
 				this.matchRange.removeHighlight();
 				// Clear current session and restart with the default search
 				// range.
-				// Re-run the finding once for cyclic.(#3517)
+				// Re-run the finding once for cyclic.(https://dev.ckeditor.com/ticket/3517)
 				if ( matchCyclic && !cyclicRerun ) {
 					this.searchRange = getSearchRange( 1 );
 					this.matchRange = null;
-					return arguments.callee.apply( this, Array.prototype.slice.call( arguments ).concat( [ true ] ) );
+					return finder.find.apply( this, Array.prototype.slice.call( arguments ).concat( [ true ] ) );
 				}
 
 				return false;
@@ -466,11 +464,12 @@
 				isReplace = 1;
 
 				// Successiveness of current replace/find.
-				var result = 0;
+				var result = 0,
+					matchOptionsChanged = this.hasMatchOptionsChanged( pattern, matchCase, matchWord );
 
-				// 1. Perform the replace when there's already a match here.
+				// 1. Perform the replace when there's already a match here and match options hasn't change since previous find.
 				// 2. Otherwise perform the find but don't replace it immediately.
-				if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced && !this.matchRange.isReadOnly() ) {
+				if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced && !this.matchRange.isReadOnly() && !matchOptionsChanged ) {
 					// Turn off highlight for a while when saving snapshots.
 					this.matchRange.removeHighlight();
 					var domRange = this.matchRange.toDomRange();
@@ -494,12 +493,28 @@
 					this.replaceCounter++;
 					result = 1;
 				} else {
+					// Reset match range so new search starts from primary cursor position (not an end of selection). (https://dev.ckeditor.com/ticket/11697)
+					if ( matchOptionsChanged && this.matchRange ) {
+						this.matchRange.clearMatched();
+						this.matchRange.removeHighlight();
+						this.matchRange = null;
+					}
 					result = this.find( pattern, matchCase, matchWord, matchCyclic, !isReplaceAll );
 				}
 
 				isReplace = 0;
 
 				return result;
+			},
+
+			// Check if pattern or match options changed since last find. (https://dev.ckeditor.com/ticket/11697)
+			matchOptions: null,
+			hasMatchOptionsChanged: function( pattern, matchCase, matchWord ) {
+				var matchOptions = [ pattern, matchCase, matchWord ].join( '.' ),
+					changed = this.matchOptions && this.matchOptions != matchOptions;
+
+				this.matchOptions = matchOptions;
+				return changed;
 			}
 		};
 
@@ -508,10 +523,13 @@
 		function getSearchRange( isDefault ) {
 			var searchRange,
 				sel = editor.getSelection(),
+				range = sel.getRanges()[ 0 ],
 				editable = editor.editable();
 
-			if ( sel && !isDefault ) {
-				searchRange = sel.getRanges()[ 0 ].clone();
+			// Blink browsers return empty array of ranges when editor is in read-only mode
+			// and it hasn't got focus, so instead of selection, we check for range itself. (https://dev.ckeditor.com/ticket/12848)
+			if ( range && !isDefault ) {
+				searchRange = range.clone();
 				searchRange.collapse( true );
 			} else {
 				searchRange = editor.createRange();
@@ -570,6 +588,7 @@
 				},
 				{
 					type: 'fieldset',
+					className: 'cke_dialog_find_fieldset',
 					label: CKEDITOR.tools.htmlEncode( lang.findOptions ),
 					style: 'margin-top:29px',
 					children: [ {
@@ -757,14 +776,13 @@
 				finder.searchRange = getSearchRange();
 
 				// Fill in the find field with selected text.
-				var selectedText = this.getParentEditor().getSelection().getSelectedText(),
-					patternFieldId = ( startupPage == 'find' ? 'txtFindFind' : 'txtFindReplace' );
+				var startupPage = this._.currentTabId,
+					selectedText = this.getParentEditor().getSelection().getSelectedText(),
+					patternFieldId = ( startupPage == 'find' ? 'txtFindFind' : 'txtFindReplace' ),
+					field = this.getContentElement( startupPage, patternFieldId );
 
-				var field = this.getContentElement( startupPage, patternFieldId );
 				field.setValue( selectedText );
 				field.select();
-
-				this.selectPage( startupPage );
 
 				this[ ( startupPage == 'find' && this._.editor.readOnly ? 'hide' : 'show' ) + 'Page' ]( 'replace' );
 			},
@@ -772,30 +790,29 @@
 				var range;
 				if ( finder.matchRange && finder.matchRange.isMatched() ) {
 					finder.matchRange.removeHighlight();
-					editor.focus();
 
 					range = finder.matchRange.toDomRange();
 					if ( range )
 						editor.getSelection().selectRanges( [ range ] );
+
+					// Focus must be restored to the editor after selecting range.
+					// Otherwise there are issues when selecting word from
+					// newly added paragraphs (https://dev.ckeditor.com/ticket/14869).
+					editor.focus();
 				}
 
 				// Clear current session before dialog close
 				delete finder.matchRange;
 			},
 			onFocus: function() {
-				if ( startupPage == 'replace' )
+				if ( this._.currentTabId == 'replace' ) {
 					return this.getContentElement( 'replace', 'txtFindReplace' );
-				else
+				} else {
 					return this.getContentElement( 'find', 'txtFindFind' );
+				}
 			}
 		};
 	}
 
-	CKEDITOR.dialog.add( 'find', function( editor ) {
-		return findDialog( editor, 'find' );
-	} );
-
-	CKEDITOR.dialog.add( 'replace', function( editor ) {
-		return findDialog( editor, 'replace' );
-	} );
+	CKEDITOR.dialog.add( 'find', findDialog );
 } )();

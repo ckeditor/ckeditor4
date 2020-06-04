@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 
 /*
@@ -199,7 +199,8 @@ a.cke_button
 }
 
 .cke_rtl input.cke_dialog_ui_input_text,
-.cke_rtl input.cke_dialog_ui_input_password
+.cke_rtl input.cke_dialog_ui_input_password,
+.cke_rtl input.cke_dialog_ui_input_tel
 {
 	/* Positioning is required for IE7 on text inputs not to stretch dialog horizontally. (#8971)*/
 	position: relative;

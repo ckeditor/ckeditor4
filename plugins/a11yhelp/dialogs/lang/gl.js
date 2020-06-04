@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
@@ -17,7 +17,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 
 			{
 			name: 'Editor de diálogo',
-			legend: 'Dentro dun cadro de diálogo, prema a tecla TAB para desprazarse ao campo seguinte do cadro de diálogo, prema MAIÚS + TAB para desprazarse ao campo anterior, prema INTRO para presentar o cadro de diálogo, prema a tecla ESC para cancelar o diálogo. Para os diálogos que teñen varias páxinas, prema ALT + F10 para navegar á lapela da lista. Despois pasar á seguinte lapela con TAB ou FRECHA DEREITA. Para ir á lapela anterior con SHIFT + TAB ou FRECHA ESQUERDA. Prema ESPAZO ou INTRO para seleccionar a lapela da páxina.'
+			legend:
+				'Dentro do diálogo, prema TAB para navegar cara os seguintes elementos de diálogo, prema MAIÚS+TAB para moverse cara os anteriores elementos de diálogo, prema INTRO para enviar o diálogo, prema ESC para cancelar o diálogo. Cando o diálogo ten múltiples lapelas, a lista de lapelas pode cinguirse con ALT+F10 ou con TAB como parte da orde de lapelas do diálogo. Coa lapela en foco, pode moverse cara a seguinte ou a anterior lapela coas FRECHAS ESQUERDA e DEREICHA respectivamente.' 
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 
 			{
 			name: 'Lista do editor',
-			legend: 'Dentro dunha lista, móvase ao seguinte elemento da lista con TAB ou FRECHA ABAIXO. Móvase ao elemento anterior da lista con MAIÚS + TAB ou FRECHA ARRIBA. Prema ESPAZO ou INTRO para escoller a opción da lista. Prema ESC para pechar a lista.'
+			legend: 'Dentro dunha lista, móvase ao seguinte elemento da lista con TAB ou FRECHA ABAIXO. Móvase ao elemento anterior da lista con MAIÚS+TAB ou FRECHA ARRIBA. Prema ESPAZO ou INTRO para escoller a opción da lista. Prema ESC para pechar a lista.'
 		},
 
 			{
 			name: 'Barra da ruta ao elemento no editor',
-			legend: 'Prema ${elementsPathFocus} para navegar ata os elementos da barra de ruta. Móvase ao seguinte elemento botón con TAB ou FRECHA DEREITA. Móvase ao botón anterior con MAIÚS + TAB ou FRECHA ESQUERDA. Prema ESPAZO ou INTRO para seleccionar o elemento no editor.'
+			legend: 'Prema ${elementsPathFocus} para navegar ata os elementos da barra de ruta. Móvase ao seguinte elemento botón con TAB ou FRECHA DEREITA. Móvase ao botón anterior con MAIÚS+TAB ou FRECHA ESQUERDA. Prema ESPAZO ou INTRO para seleccionar o elemento no editor.'
 		}
 		]
 	},
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 			{
 			name: 'Axuda da accesibilidade',
 			legend: 'Prema ${a11yHelp}'
+		},
+			{
+			name: 'Pegar como texto simple',
+			legend: 'Prema ${pastetext}',
+			legendEdge: 'Prema ${pastetext}, seguido de ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'Ir atrás',
 	tab: 'Tabulador',
-	enter: 'Intro',
-	shift: 'Maiús',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pausa',
 	capslock: 'Bloq. Maiús',
 	escape: 'Escape',
 	pageUp: 'Páxina arriba',
 	pageDown: 'Páxina abaixo',
-	end: 'Fin',
-	home: 'Inicio',
 	leftArrow: 'Frecha esquerda',
 	upArrow: 'Frecha arriba',
 	rightArrow: 'Frecha dereita',
 	downArrow: 'Frecha abaixo',
 	insert: 'Inserir',
-	'delete': 'Supr',
 	leftWindowKey: 'Tecla Windows esquerda',
 	rightWindowKey: 'Tecla Windows dereita',
 	selectKey: 'Escolla a tecla',

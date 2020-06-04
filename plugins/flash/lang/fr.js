@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'flash', 'fr', {
 	access: 'Accès aux scripts',
@@ -9,32 +9,32 @@ CKEDITOR.plugins.setLang( 'flash', 'fr', {
 	accessSameDomain: 'Même domaine',
 	alignAbsBottom: 'Bas absolu',
 	alignAbsMiddle: 'Milieu absolu',
-	alignBaseline: 'Bas du texte',
+	alignBaseline: 'Ligne de base',
 	alignTextTop: 'Haut du texte',
 	bgcolor: 'Couleur d\'arrière-plan',
 	chkFull: 'Permettre le plein écran',
 	chkLoop: 'Boucle',
 	chkMenu: 'Activer le menu Flash',
-	chkPlay: 'Jouer automatiquement',
-	flashvars: 'Variables du Flash',
+	chkPlay: 'Lire automatiquement',
+	flashvars: 'Variables Flash',
 	hSpace: 'Espacement horizontal',
 	properties: 'Propriétés du Flash',
 	propertiesTab: 'Propriétés',
 	quality: 'Qualité',
-	qualityAutoHigh: 'Haute Auto',
-	qualityAutoLow: 'Basse Auto',
-	qualityBest: 'Meilleure',
+	qualityAutoHigh: 'Haute automatique',
+	qualityAutoLow: 'Basse automatique',
+	qualityBest: 'Maximale',
 	qualityHigh: 'Haute',
 	qualityLow: 'Basse',
 	qualityMedium: 'Moyenne',
-	scale: 'Echelle',
+	scale: 'Échelle',
 	scaleAll: 'Afficher tout',
-	scaleFit: 'Taille d\'origine',
-	scaleNoBorder: 'Pas de bordure',
+	scaleFit: 'Adaptation automatique',
+	scaleNoBorder: 'Aucune bordure',
 	title: 'Propriétés du Flash',
 	vSpace: 'Espacement vertical',
 	validateHSpace: 'L\'espacement horizontal doit être un nombre.',
-	validateSrc: 'L\'adresse ne doit pas être vide.',
+	validateSrc: 'L\'URL doit être indiquée.',
 	validateVSpace: 'L\'espacement vertical doit être un nombre.',
 	windowMode: 'Mode fenêtre',
 	windowModeOpaque: 'Opaque',

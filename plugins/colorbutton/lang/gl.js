@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'gl', {
 	auto: 'Automático',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'gl', {
 		F0FFFF: 'Azul celeste',
 		F0F8FF: 'Azul pálido',
 		E6E6FA: 'Lavanda',
-		FFF: 'Branco'
+		FFF: 'Branco',
+		'1ABC9C': 'Cian forte',
+		'2ECC71': 'Esmeralda',
+		'3498DB': 'Azul brillante',
+		'9B59B6': 'Amatista',
+		'4E5F70': 'Azul agrisado',
+		'F1C40F': 'Amarelo vívido',
+		'16A085': 'Cian escuro',
+		'27AE60': 'Esmeralda escuro',
+		'2980B9': 'Azul forte',
+		'8E44AD': 'Violeta escuro',
+		'2C3E50': 'Azul desaturado',
+		'F39C12': 'Laranxa',
+		'E67E22': 'Cenoria',
+		'E74C3C': 'Vermello pálido',
+		'ECF0F1': 'Plata brillante',
+		'95A5A6': 'Cian agrisado claro',
+		'DDD': 'Gris claro',
+		'D35400': 'Cabaza',
+		'C0392B': 'Vermello forte',
+		'BDC3C7': 'Plata',
+		'7F8C8D': 'Cian agrisado',
+		'999': 'Gris escuro'
 	},
 	more: 'Máis cores...',
 	panelTitle: 'Cores',

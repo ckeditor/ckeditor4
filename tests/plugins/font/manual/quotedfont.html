@@ -1,0 +1,13 @@
+<div id="editor">
+	<p>A paragraph with default font.</p>
+	<p><span style="font-family: 'Univers LT Std', sans-serif;">This is styled part.</span></p>
+</div>
+<script>
+	CKEDITOR.replace( 'editor', {
+		height: 400,
+		font_names: 'Arial/Arial, Helvetica, sans-serif;' +
+		'Univers LT Std/\'Univers LT Std\', sans-serif;' +
+		'Times New Roman/Times New Roman, Times, serif;' +
+		'Verdana'
+	} );
+</script>

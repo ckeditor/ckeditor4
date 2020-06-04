@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'ru', {
 	border: 'Размер границ',
@@ -13,8 +13,8 @@ CKEDITOR.plugins.setLang( 'table', 'ru', {
 		merge: 'Объединить ячейки',
 		mergeRight: 'Объединить с правой',
 		mergeDown: 'Объединить с нижней',
-		splitHorizontal: 'Разделить ячейку по горизонтали',
-		splitVertical: 'Разделить ячейку по вертикали',
+		splitHorizontal: 'Разделить ячейку по вертикали',
+		splitVertical: 'Разделить ячейку по горизонтали',
 		title: 'Свойства ячейки',
 		cellType: 'Тип ячейки',
 		rowSpan: 'Объединяет строк',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ru', {
 	headersColumn: 'Левая колонка',
 	headersNone: 'Без заголовков',
 	headersRow: 'Верхняя строка',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Размер границ должен быть числом.',
 	invalidCellPadding: 'Внутренний отступ ячеек (cellpadding) должен быть числом.',
 	invalidCellSpacing: 'Внешний отступ ячеек (cellspacing) должен быть числом.',

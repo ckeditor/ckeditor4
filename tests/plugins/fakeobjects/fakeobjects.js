@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: fakeobjects */
 
 'use strict';
@@ -17,21 +17,13 @@ function fakeHtml( editor, elHtml, className, type ) {
 	return fake( editor, elHtml, className, type ).getOuterHtml();
 }
 
+bender.editors = {
+	editor: {
+		name: 'editor1'
+	}
+};
+
 bender.test( {
-	'async:init': function() {
-		var that = this;
-
-		bender.tools.setUpEditors( {
-			editor: {
-				name: 'editor1'
-			}
-		}, function( editors, bots ) {
-			that.editorBots = bots;
-			that.editors = editors;
-			that.callback();
-		} );
-	},
-
 	'test downcasting': function() {
 		var editor = this.editors.editor;
 
@@ -39,7 +31,7 @@ bender.test( {
 		assert.areSame( '<p><em>foo</em></p>', editor.getData() );
 	},
 
-	// #11850
+	// https://dev.ckeditor.com/ticket/11850
 	'test downcasting non-editable element': function() {
 		var editor = this.editors.editor,
 			el = fake( editor, '<em>foo</em>' );

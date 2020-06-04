@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* global acfTestTools */
 
 ( function() {
@@ -6,9 +6,43 @@
 
 	var createFilter = acfTestTools.createFilter;
 
+	bender.editors = {
+		editor: {
+			name: 'editor1'
+		},
+		editorCustomAllowedContent: {
+			name: 'editor2',
+			config: {
+				allowedContent: 'p b i'
+			}
+		},
+		editorDisallowedContent: {
+			name: 'editor3',
+			config: {
+				extraPlugins: 'basicstyles,toolbar',
+				disallowedContent: 'strong; *[bar]'
+			}
+		},
+		editorBothContents: {
+			name: 'editor4',
+			config: {
+				allowedContent: 'p strong em[foo]; h1 h2',
+				disallowedContent: 'strong; *[bar]'
+			}
+		},
+		editorTransformations: {
+			name: 'editor5',
+			config: {
+				extraPlugins: 'basicstyles,image,toolbar',
+				extraAllowedContent: 'b; img[width,height]',
+				disallowedContent: 'strong; img{width,height}'
+			}
+		}
+	};
+
 	function ruleSortCompare( ruleA, ruleB ) {
-		var elementsA = CKEDITOR.tools.objectKeys( ruleA.elements ).sort().join( ',' ),
-			elementsB = CKEDITOR.tools.objectKeys( ruleB.elements ).sort().join( ',' );
+		var elementsA = CKEDITOR.tools.object.keys( ruleA.elements ).sort().join( ',' ),
+			elementsB = CKEDITOR.tools.object.keys( ruleB.elements ).sort().join( ',' );
 
 		return elementsA == elementsB ? 0 :
 			elementsA > elementsB ? 1 : -1;
@@ -21,48 +55,6 @@
 	}
 
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1'
-				},
-				editorCustomAllowedContent: {
-					name: 'editor2',
-					config: {
-						allowedContent: 'p b i'
-					}
-				},
-				editorDisallowedContent: {
-					name: 'editor3',
-					config: {
-						extraPlugins: 'basicstyles,toolbar',
-						disallowedContent: 'strong; *[bar]'
-					}
-				},
-				editorBothContents: {
-					name: 'editor4',
-					config: {
-						allowedContent: 'p strong em[foo]; h1 h2',
-						disallowedContent: 'strong; *[bar]'
-					}
-				},
-				editorTransformations: {
-					name: 'editor5',
-					config: {
-						extraPlugins: 'basicstyles,image,toolbar',
-						extraAllowedContent: 'b; img[width,height]',
-						disallowedContent: 'strong; img{width,height}'
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
 		'test default values - editor\'s filter': function() {
 			var filter = this.editors.editor.filter;
 
@@ -240,7 +232,7 @@
 			filter( '<p><i on="1" ona="1" onfoo="1">A</i></p>',			'<p><i>A</i></p>' );
 			filter( '<p><b foo-a="1" foo-b="1" foo-xxx="1">A</b></p>',	'<p><b foo-b="1">A</b></p>' );
 			filter( '<p><b bar-a="1" bar-bar="1">A</b></p>',			'<p><b>A</b></p>' );
-			// #11780
+			// https://dev.ckeditor.com/ticket/11780
 			filter( '<p><i onx="1" data-x="1">A</i></p>',				'<p><i data-x="1">A</i></p>' );
 		},
 
@@ -306,7 +298,7 @@
 			filter( '<p><i class="on ona onfoo">A</i></p>',				'<p><i>A</i></p>' );
 			filter( '<p><b class="foo-a foo-b foo-xxx">A</b></p>',		'<p><b class="foo-b">A</b></p>' );
 			filter( '<p><b class="bar-a bar-bar">A</b></p>',			'<p><b>A</b></p>' );
-			// #11780
+			// https://dev.ckeditor.com/ticket/11780
 			filter( '<p><i class="onx data-x">A</i></p>',				'<p><i class="data-x">A</i></p>' );
 		},
 
@@ -339,7 +331,7 @@
 			filter( '<p><b style="foo-a:1; foo-b:1; foo-xxx:1">A</b></p>',
 				'<p><b style="foo-b:1">A</b></p>' );
 			filter( '<p><b style="bar-a:1; bar-bar:1">A</b></p>',		'<p><b>A</b></p>' );
-			// #11780
+			// https://dev.ckeditor.com/ticket/11780
 			filter( '<p><i style="onx:1; data-x:1">A</i></p>',			'<p><i style="data-x:1">A</i></p>' );
 		},
 

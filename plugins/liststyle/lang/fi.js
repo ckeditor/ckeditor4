@@ -1,17 +1,13 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'fi', {
-	armenian: 'Armeenialainen numerointi',
 	bulletedTitle: 'Numeroimattoman listan ominaisuudet',
 	circle: 'Ympyrä',
 	decimal: 'Desimaalit (1, 2, 3, jne.)',
-	decimalLeadingZero: 'Desimaalit, alussa nolla (01, 02, 03, jne.)',
 	disc: 'Levy',
-	georgian: 'Georgialainen numerointi (an, ban, gan, etc.)',
 	lowerAlpha: 'Pienet aakkoset (a, b, c, d, e, jne.)',
-	lowerGreek: 'Pienet kreikkalaiset (alpha, beta, gamma, jne.)',
 	lowerRoman: 'Pienet roomalaiset (i, ii, iii, iv, v, jne.)',
 	none: 'Ei mikään',
 	notset: '<ei asetettu>',

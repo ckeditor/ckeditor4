@@ -1,0 +1,57 @@
+<style>
+	/* Make sure flickering is visible in 'divarea' editor. */
+	.cke_widget_wrapper_easyimage-side, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-side) > .easyimage-side {
+		min-width: 5em;
+	}
+</style>
+
+<textarea id="classic">
+	<h1>Apollo 11</h1>
+	<figure class="easyimage">
+		<img alt="CKEditor Sample" src="%BASE_PATH%_assets/logo.png" />
+	</figure>
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<figure class="easyimage easyimage-side">
+		<img alt="Saturn V carrying Apollo 11" src="%BASE_PATH%_assets/lena.jpg">
+		<figcaption>Saturn V carrying Apollo 11</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+</textarea>
+
+<div id="divarea">
+	<h1>Apollo 11</h1>
+	<figure class="easyimage">
+		<img alt="CKEditor Sample" src="%BASE_PATH%_assets/logo.png" />
+	</figure>
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<figure class="easyimage easyimage-side">
+		<img alt="Saturn V carrying Apollo 11" src="%BASE_PATH%_assets/lena.jpg">
+		<figcaption>Saturn V carrying Apollo 11</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+</div>
+
+<script>
+	// Ignore on mobiles due to hovering.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	CKEDITOR.replace( 'classic', {
+		width: 600,
+		height: 412,
+		toolbar: [
+			[ 'Source', '-', 'Link' ]
+		]
+	} );
+	CKEDITOR.replace( 'divarea', {
+		width: 600,
+		height: 412,
+		extraPlugins: 'divarea',
+		toolbar: [
+			[ 'Source', '-', 'Link' ]
+		]
+	} );
+</script>

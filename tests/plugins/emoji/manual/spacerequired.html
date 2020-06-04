@@ -1,0 +1,15 @@
+<textarea id="classic">
+	<p>Foo</p>
+	<p></p>
+</textarea>
+<div id="inline" contenteditable="true">
+	<p>Foo</p>
+	<p></p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
+
+	CKEDITOR.replace( 'classic' );
+	CKEDITOR.inline( 'inline' );
+</script>

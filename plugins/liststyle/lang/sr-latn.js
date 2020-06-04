@@ -1,25 +1,21 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'sr-latn', {
-	armenian: 'Armenian numbering',
-	bulletedTitle: 'Bulleted List Properties',
-	circle: 'Circle',
-	decimal: 'Decimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)',
-	disc: 'Disc',
-	georgian: 'Georgian numbering (an, ban, gan, etc.)',
-	lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
-	lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
-	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
-	none: 'None',
+	bulletedTitle: 'Karakteristike liste sa tačkama',
+	circle: 'Krug',
+	decimal: 'Arabski brojevi (1, 2, 3, etc.)',
+	disc: 'Disk',
+	lowerAlpha: 'Mala slova (a, b, c, d, e, etc.)',
+	lowerRoman: 'Rimska mala slova (i, ii, iii, iv, v, etc.)',
+	none: 'Nema',
 	notset: '<not set>',
-	numberedTitle: 'Numbered List Properties',
-	square: 'Square',
-	start: 'Start',
-	type: 'Type',
-	upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
-	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
+	numberedTitle: 'Karakteristike liste sa brojevima',
+	square: 'Kvadrat',
+	start: 'Početni broj',
+	type: 'Tip',
+	upperAlpha: 'Velika slova (A, B, C, D, E, etc.)',
+	upperRoman: 'Rimska velika slova (I, II, III, IV, V, etc.)',
+	validateStartNumber: 'Početni broj liste mora biti celi broj.'
 } );

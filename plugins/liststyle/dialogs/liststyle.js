@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -38,6 +38,7 @@
 				title: lang.bulletedTitle,
 				minWidth: 300,
 				minHeight: 50,
+				getModel: generateModelGetter( editor, 'ul' ),
 				contents: [ {
 					id: 'info',
 					accessKey: 'I',
@@ -91,19 +92,11 @@
 				[ lang.decimal, 'decimal' ]
 			];
 
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 7 ) {
-				listStyleOptions.concat( [
-					[ lang.armenian, 'armenian' ],
-					[ lang.decimalLeadingZero, 'decimal-leading-zero' ],
-					[ lang.georgian, 'georgian' ],
-					[ lang.lowerGreek, 'lower-greek' ]
-				] );
-			}
-
 			return {
 				title: lang.numberedTitle,
 				minWidth: 300,
 				minHeight: 50,
+				getModel: generateModelGetter( editor, 'ol' ),
 				contents: [ {
 					id: 'info',
 					accessKey: 'I',
@@ -186,4 +179,10 @@
 	CKEDITOR.dialog.add( 'bulletedListStyle', function( editor ) {
 		return listStyle( editor, 'bulletedListStyle' );
 	} );
+
+	function generateModelGetter( editor, tagName ) {
+		return function() {
+			return getListElement( editor, tagName ) || null;
+		};
+	}
 } )();

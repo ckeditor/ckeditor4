@@ -1,0 +1,13 @@
+<div id="editor1">
+	<img alt="Lena" src="../../../_assets/lena.jpg" width="200">
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.replace( 'editor1' );
+</script>

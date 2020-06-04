@@ -1,0 +1,59 @@
+<div id="editor1">
+	<p>This is a sample image widget:</p>
+
+	<figure class="image">
+		<img alt="Saturn V" src="%BASE_PATH%_assets/lena.jpg" width="120" />
+		<figcaption>This is an <strong>example</strong> caption description</figcaption>
+	</figure>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p>This is a sample image widget:</p>
+
+	<figure class="image">
+		<img alt="Saturn V" src="%BASE_PATH%_assets/lena.jpg" width="120" />
+		<figcaption>This is an <strong>example</strong> caption description</figcaption>
+	</figure>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.disableAutoInline = true;
+
+	CKEDITOR.addCss( '.sideimage {' +
+		'float: right;' +
+		'width: 25%;' +
+	'}' );
+
+	var config = {
+			height: 320,
+			width: 500,
+			allowedContent: true,
+			on: {
+				instanceReady: function( evt ) {
+					var editor = evt.editor;
+
+					editor.addCommand( 'sideImage', {
+						exec: function( editor, data ) {
+							data.widget.addClass( 'sideimage' );
+						}
+					} );
+
+					editor.balloonToolbars.create( {
+						buttons: 'Link,Unlink',
+						widgets: [ 'image' ]
+					} );
+
+					editor.widgets.instances[ 0 ].on( 'focus', function( evt ) {
+						setTimeout( function() {
+							editor.execCommand( 'sideImage', { widget: evt.sender } );
+						}, 2000 );
+					} );
+				}
+			}
+		};
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.inline( 'editor2', config );
+</script>

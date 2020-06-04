@@ -1,0 +1,10 @@
+<textarea id="editor" cols="30" rows="10"></textarea>
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+	editor.on( 'loaded', function() {
+		// It's required to have access to rtf clipboard.
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.env.safari ) {
+			bender.ignore();
+		}
+	} );
+</script>

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'pl', {
@@ -119,7 +119,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'pl', {
 	bull: 'Punktor',
 	rarr: 'Strzałka w prawo',
 	rArr: 'Podwójna strzałka w prawo',
-	hArr: 'Podwójna strzałka w lewo',
+	hArr: 'Podwójna strzałka obustronna',
 	diams: 'Czarny znak karo',
 	asymp: 'Znak prawie równe'
 } );

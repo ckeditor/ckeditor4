@@ -1,0 +1,68 @@
+<div id="editor1" contenteditable="true">
+	<p dir="ltr">Number list with styling applied to text before making a list</p>
+
+	<ol dir="ltr">
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">apple</span></span></span>
+
+		<ol>
+			<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">boy</span></span></span></li>
+		</ol>
+		</li>
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">cat</span></span></span></li>
+	</ol>
+
+	<p dir="ltr">Number list with list style applied via dialog(diff start value &amp; list style)</p>
+
+	<ol dir="ltr" start="5" style="list-style-type: upper-alpha;">
+		<li>Start Value 5 &amp; Upper Alpha
+		<ol start="3" style="list-style-type: upper-roman;">
+			<li>Start Value 3 &amp; Upper Roman
+			<ol start="7" style="list-style-type: lower-alpha;">
+				<li>Start Value 7 &amp; lower Alpha</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+		<li>Top list again</li>
+	</ol>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p dir="ltr">Number list with styling applied to text before making a list</p>
+
+	<ol dir="ltr">
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">apple</span></span></span>
+
+		<ol>
+			<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">boy</span></span></span></li>
+		</ol>
+		</li>
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">cat</span></span></span></li>
+	</ol>
+
+	<p dir="ltr">Number list with list style applied via dialog(diff start value &amp; list style)</p>
+
+	<ol dir="ltr" start="5" style="list-style-type: upper-alpha;">
+		<li>Start Value 5 &amp; Upper Alpha
+		<ol start="3" style="list-style-type: upper-roman;">
+			<li>Start Value 3 &amp; Upper Roman
+			<ol start="7" style="list-style-type: lower-alpha;">
+				<li>Start Value 7 &amp; lower Alpha</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+		<li>Top list again</li>
+	</ol>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>

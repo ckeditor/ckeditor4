@@ -1,0 +1,19 @@
+<textarea id="editor">
+	<p>Place the focus below:</p>
+	<p></p>
+</textarea>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+		width: 600,
+		mentions: [
+			{
+				feed: [ 'Anna', 'Annabelle', 'Thomas' ],
+				minChars: 1,
+				caseSensitive: true
+			}
+		]
+	} );
+
+	bender.tools.ignoreUnsupportedEnvironment( 'mentions', editor );
+</script>

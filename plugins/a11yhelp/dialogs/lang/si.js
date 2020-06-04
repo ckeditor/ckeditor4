@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'si', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'si', {
 		items: [
 			{
 			name: 'සංස්කරණ මෙවලම් ',
-			legend: 'ඔබන්න ${මෙවලම් තීරු අවධානය} මෙවලම් තීරුවේ එහා මෙහා යෑමට.ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරුකාණ්ඩය හා TAB හා SHIFT-TAB .ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරු බොත්තම සමග RIGHT ARROW හෝ LEFT ARROW.මෙවලම් තීරු බොත්තම සක්‍රිය කර ගැනීමට  SPACE හෝ  ENTER බොත්තම ඔබන්න.'
+			legend: 'ඔබන්න ${මෙවලම් තීරු අවධානය} මෙවලම් තීරුවේ එහා මෙහා යෑමට.ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරුකාණ්ඩය හා TAB හා SHIFT+TAB .ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරු බොත්තම සමග RIGHT ARROW හෝ LEFT ARROW.මෙවලම් තීරු බොත්තම සක්‍රිය කර ගැනීමට SPACE හෝ ENTER බොත්තම ඔබන්න.'
 		},
 
 			{
 			name: 'සංස්කරණ ',
-			legend: 'දෙබසක් තුළ, ඊළඟ දෙබස් පෙදෙසට යෑමට TAB බොත්තම ඔබන්න, කලින් පෙදෙසට යෑමට SHIFT + TAB බොත්තම ද, දෙබස් ඉදිරිපත් කිරීමට ENTER බොත්තම ද, දෙබස් නැවතීමට  ESCබොත්තම ද, දෙබස් සහිත ගොනු, පිටු වැඩි සංක්‍යයාවක් ලබා ගෙනිමට,ගොනු තුළ එහාමෙහා යෑමට ALT + F10 බොත්තම් ද, ඊළඟ ගොනුවට යෑමට TAB හෝ RIGTH ARROW බොත්තම ඔබන්න. පෙර ගොනුවට යෑමට SHIFT + TAB හෝ LEFT ARROW බොත්තම් ද ,ගොනු පිටු තේරීමට  SPACE හෝ ENTER බොත්තම් ද ඔබන්න.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'si', {
 
 			{
 			name: 'සංස්කරණ තේරුම් ',
-			legend: 'තේරුම් කොටුව තුළ , ඊළඟ අයිතමයට යෑමට TAB හෝ DOWN ARROW , පෙර අයිතමයට යෑමට  SHIFT + TAB හෝ UP ARROW . අයිතම විකල්පයන් තේරීමට  SPACE හෝ  ENTER ,තේරුම් කොටුව වැසීමට ESC බොත්තම් ද ඔබන්න.'
+			legend: 'තේරුම් කොටුව තුළ , ඊළඟ අයිතමයට යෑමට TAB හෝ DOWN ARROW , පෙර අයිතමයට යෑමට SHIFT+TAB හෝ UP ARROW . අයිතම විකල්පයන් තේරීමට SPACE හෝ ENTER ,තේරුම් කොටුව වැසීමට ESC බොත්තම් ද ඔබන්න.'
 		},
 
 			{
 			name: 'සංස්කරණ අංග සහිත ',
-			legend: 'ඔබන්න ${මෙවලම් තීරු අවධානය} මෙවලම් තීරුවේ එහා මෙහා යෑමට.ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරුකාණ්ඩය හා TAB හා SHIFT-TAB .ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරු බොත්තම සමග RIGHT ARROW හෝ LEFT ARROW.මෙවලම් තීරු බොත්තම සක්‍රිය කර ගැනීමට  SPACE හෝ  ENTER බොත්තම ඔබන්න.'
+			legend: 'ඔබන්න ${මෙවලම් තීරු අවධානය} මෙවලම් තීරුවේ එහා මෙහා යෑමට.ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරුකාණ්ඩය හා TAB හා SHIFT+TAB .ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරු බොත්තම සමග RIGHT ARROW හෝ LEFT ARROW.මෙවලම් තීරු බොත්තම සක්‍රිය කර ගැනීමට SPACE හෝ ENTER බොත්තම ඔබන්න.'
 		}
 		]
 	},
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'si', {
 			{
 			name: 'ප්‍රවේශ ',
 			legend: 'ඔබන්න  ${a11y }'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}', // MISSING
+			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
 	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
 	pause: 'Pause', // MISSING
 	capslock: 'Caps Lock', // MISSING
 	escape: 'Escape', // MISSING
 	pageUp: 'Page Up', // MISSING
 	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
 	leftArrow: 'Left Arrow', // MISSING
 	upArrow: 'Up Arrow', // MISSING
 	rightArrow: 'Right Arrow', // MISSING
 	downArrow: 'Down Arrow', // MISSING
 	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'Select key', // MISSING

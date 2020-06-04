@@ -1,0 +1,23 @@
+<textarea id="editor">
+	<ol>
+		<li>test
+		<ol>
+			<li>$
+			<ol>
+				<li>a</li>
+				<li>b</li>
+				<li>c</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+	</ol>
+</textarea>
+
+<script>
+	// Ignore until #2737 is resolved.
+	if ( CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor' );
+</script>

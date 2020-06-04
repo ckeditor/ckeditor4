@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'fa', {
 	copy: 'رونوشت',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fa', {
 	cut: 'برش',
 	cutError: 'تنظیمات امنیتی مرورگر شما اجازه نمیدهد که ویرایشگر به طور خودکار عملکردهای برش را انجام دهد. لطفا با دکمههای صفحه کلید این کار را انجام دهید (Ctrl/Cmd+X).',
 	paste: 'چسباندن',
+	pasteNotification: '1% را فشاردهید تا قرار داده شود. مرورگر شما از قراردهی با دکمه نوارابزار یا گزینه منوی زمینه پشتیبانی نمیکند',
 	pasteArea: 'محل چسباندن',
-	pasteMsg: 'لطفا متن را با کلیدهای (<STRONG>Ctrl/Cmd+V</STRONG>) در این جعبهٴ متنی بچسبانید و <STRONG>پذیرش</STRONG> را بزنید.',
-	securityMsg: 'به خاطر تنظیمات امنیتی مرورگر شما، ویرایشگر نمیتواند دسترسی مستقیم به دادههای clipboard داشته باشد. شما باید دوباره آنرا در این پنجره بچسبانید.',
-	title: 'چسباندن'
+	pasteMsg: 'محتوای خود را در ناحیه زیر قرار دهید و OK را فشار دهید'
 } );

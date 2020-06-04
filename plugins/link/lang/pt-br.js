@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'pt-br', {
 	acccessKey: 'Chave de Acesso',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'pt-br', {
 	anchorName: 'Nome da âncora',
 	charset: 'Charset do Link',
 	cssClasses: 'Classe de CSS',
+	download: 'Forçar Download',
+	displayText: 'Exibir Texto',
 	emailAddress: 'Endereço E-Mail',
 	emailBody: 'Corpo da Mensagem',
 	emailSubject: 'Assunto da Mensagem',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'pt-br', {
 	noAnchors: '(Não há âncoras no documento)',
 	noEmail: 'Por favor, digite o endereço de e-mail',
 	noUrl: 'Por favor, digite o endereço do Link',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<outro>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Dependente (Netscape)',
 	popupFeatures: 'Propriedades da Janela Pop-up',
 	popupFullScreen: 'Modo Tela Cheia (IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'pt-br', {
 	toAnchor: 'Âncora nesta página',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Inserir/Editar Link',
 	type: 'Tipo de hiperlink',
 	unlink: 'Remover Link',

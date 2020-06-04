@@ -1,11 +1,13 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'hr', {
 	title: 'UI odabir boja',
-	preview: 'Pregled uživo',
-	config: 'Zalijepite ovaj tekst u Vašu config.js datoteku.',
-	predefined: 'Već postavljeni setovi boja'
+	options: 'Opcije boja',
+	highlight: 'Označi',
+	selected: 'Odabrana boja',
+	predefined: 'Već postavljeni setovi boja',
+	config: 'Zalijepite ovaj tekst u Vašu config.js datoteku.'
 } );

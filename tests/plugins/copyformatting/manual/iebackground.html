@@ -1,0 +1,51 @@
+<div id="editor1" contenteditable="true">
+	<p dir="ltr">Text with out any color.</p>
+
+	<p dir="ltr"><span style="color:#800000;"><span style="font-size: 18px;">Text with only Font Color.</span></span></p>
+
+	<p dir="ltr"><span style="font-size:26px;"><span style="background-color: rgb(0, 255, 0);">Text with only Background Color.</span></span></p>
+
+	<p dir="ltr"><span style="color:#daa520;"><span style="font-size: 18px;"><span style="background-color:#40e0d0;">Text with both Text &amp; Background color.</span></span></span></p>
+
+	<p dir="ltr">Normal Text.</p>
+
+	<p dir="ltr"><span style="color: rgb(0, 128, 0);"><span style="font-size: 14px;">Text with only Font Colour.</span></span></p>
+
+	<p dir="ltr"><span style="font-size: 18px;"><span style="background-color: rgb(255, 140, 0);">Text with only Background Colour.</span></span></p>
+
+	<p dir="ltr"><span style="font-size: 22px;"><span style="color: rgb(139, 69, 19);"><span style="background-color: rgb(0, 255, 255);">Text with both Font &amp; Background Colour.</span></span></span></p>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p dir="ltr">Text with out any color.</p>
+
+	<p dir="ltr"><span style="color:#800000;"><span style="font-size: 18px;">Text with only Font Color.</span></span></p>
+
+	<p dir="ltr"><span style="font-size:26px;"><span style="background-color: rgb(0, 255, 0);">Text with only Background Color.</span></span></p>
+
+	<p dir="ltr"><span style="color:#daa520;"><span style="font-size: 18px;"><span style="background-color:#40e0d0;">Text with both Text &amp; Background color.</span></span></span></p>
+
+	<p dir="ltr">Normal Text.</p>
+
+	<p dir="ltr"><span style="color: rgb(0, 128, 0);"><span style="font-size: 14px;">Text with only Font Colour.</span></span></p>
+
+	<p dir="ltr"><span style="font-size: 18px;"><span style="background-color: rgb(255, 140, 0);">Text with only Background Colour.</span></span></p>
+
+	<p dir="ltr"><span style="font-size: 22px;"><span style="color: rgb(139, 69, 19);"><span style="background-color: rgb(0, 255, 255);">Text with both Font &amp; Background Colour.</span></span></span></p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		height: 550,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>

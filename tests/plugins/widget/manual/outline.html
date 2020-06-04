@@ -1,0 +1,38 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+</head>
+
+<div>
+	<h2>Classic</h2>
+	<hr>
+	<textarea id="classic">
+		<figure class="image" style="float:left"><img alt="Saturn V" src="../../image2/_assets/bar.png" width="200" />
+			<figcaption>Roll out of Saturn V on launch pad</figcaption>
+		</figure>
+		<p>Some text.</p>
+	</textarea>
+</div>
+
+<div>
+	<h2>Inline</h2>
+	<hr>
+	<div id="inline" contenteditable="true">
+		<figure class="image" style="float:left"><img alt="Saturn V" src="../../image2/_assets/bar.png" width="200" />
+			<figcaption>Roll out of Saturn V on launch pad</figcaption>
+		</figure>
+		<p>Some text.</p>
+	</div>
+</div>
+
+
+<script>
+	// Ignore on mobiles due to hovering.
+	// Inline editor with widget crashes on IE8 (#1821).
+	if ( bender.tools.env.mobile || CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'classic' );
+
+	CKEDITOR.inline( 'inline' );
+</script>

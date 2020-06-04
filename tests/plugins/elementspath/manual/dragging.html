@@ -1,0 +1,14 @@
+<textarea id="editor1">
+	<p>Some text</p>
+	<ul>
+		<li>One</li>
+		<li>Two</li>
+	</ul>
+</textarea>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor1' );
+</script>

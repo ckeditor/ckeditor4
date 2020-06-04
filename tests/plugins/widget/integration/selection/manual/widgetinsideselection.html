@@ -1,0 +1,30 @@
+<div id="editor">
+	<p>The first paragraph</p>
+
+	<div class="customwidget">
+		<h2>Awesome widget!!!</h2>
+
+		<h3 class="customwidget__title">Type here some title</h3>
+
+		<p class="customwidget__instruction">Below is place to add some fancy text.</p>
+
+		<p class="customwidget__content">Type here something</p>
+	</div>
+
+	<p>The second paragraph</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie || bender.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.plugins.addExternal( 'customwidget', '%BASE_PATH%plugins/widget/integration/selection/_helpers/customwidget.js' );
+
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'span',
+		extraPlugins: 'customwidget',
+		allowedContent: true,
+		height: 400
+	} );
+</script>

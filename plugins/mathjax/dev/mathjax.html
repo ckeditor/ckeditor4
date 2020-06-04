@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 -->
 <html>
 <head>
@@ -11,19 +11,19 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<script src="../../../dev/console/console.js"></script>
 	<script src="../../../dev/console/focusconsole.js"></script>
 	<script src="../../widget/dev/console.js"></script>
-	<link href="../../../samples/sample.css" rel="stylesheet">
+	<link href="../../../samples/old/sample.css" rel="stylesheet">
 	<meta name="ckeditor-sample-name" content="Mathematics">
 	<meta name="ckeditor-sample-group" content="Plugins">
 	<meta name="ckeditor-sample-description" content="Create mathematical equations in TeX and display them in visual form.">
 	<meta name="ckeditor-sample-isnew" content="1">
 	<script>
 		CKEDITOR.disableAutoInline = true;
-		document.domain = 'ckeditor.dev';
+		document.domain = 'ckeditor.test';
 	</script>
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Widgets: MathJax
+		<a href="../../../samples/old/index.html">CKEditor Samples</a> &raquo; Widgets: MathJax
 	</h1>
 
 	<h2>Classic (iframe-based) Sample</h2>
@@ -78,7 +78,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			extraPlugins: 'mathjax',
 			height: 350,
 			allowedContent: true,
-			// mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+			// mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
 			mathJaxClass: 'mjx'
 		} );
 
@@ -86,7 +86,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			extraPlugins: 'mathjax',
 			height: 350,
 			allowedContent: true,
-			// mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+			// mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
 			mathJaxClass: 'mjx'
 		} );
 
@@ -94,7 +94,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			extraPlugins: 'mathjax,divarea',
 			height: 350,
 			allowedContent: true,
-			// mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+			// mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
 			mathJaxClass: 'mjx'
 		} );
 
@@ -110,10 +110,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<div id="footer">
 		<hr>
 		<p>
-			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="https://ckeditor.com/">https://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2020, <a class="samples" href="https://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

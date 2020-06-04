@@ -1,0 +1,75 @@
+/* common */
+
+.cke_progress_overlap, .cke_progress_circle {
+	position: absolute;
+	top: 0px;
+	background: rgba( 255, 255, 255, 0.8);
+}
+
+/* Overlapping progress indicator */
+
+.cke_progress_overlap {
+	height: 100%;
+	transition: height 0.1s;
+}
+
+.cke_widget_wrapper_easyimage.cke_widget_wrapper_uploading.cke_skip_uploading figure img {
+	opacity: 1;
+}
+
+/* Circle prgoress indicator */
+
+.cke_progress_circle {
+	bottom: 0px;
+	text-align: center;
+}
+
+.cke_progress_circle svg circle {
+	transition: stroke-dashoffset 0.1s linear;
+	stroke: #EEE;
+}
+
+.cke_progress_circle .bar {
+	stroke: #6a9ed1;
+}
+
+.cke_progress_circle .cont {
+	display: block;
+	border-radius: 100%;
+	position: relative;
+}
+
+@keyframes circle-fadeout-animation {
+	from {
+		transform: scale(1);
+		opacity: 1;
+	}
+	to {
+		transform: scale(2);
+		opacity: 0;
+	}
+}
+
+.cke_progress_circle.cke_fade_out {
+	transition: opacity 2s;
+	opacity: 0;
+}
+
+.cke_progress_circle.cke_fade_out circle {
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+	animation-name: circle-fadeout-animation;
+	transform-origin: center center;
+}
+
+.cke_progress_circle.done .bar {
+	stroke: green;
+}
+
+.cke_progress_circle.failed .bar {
+	stroke: darkred;
+}
+
+.cke_progress_circle.aborted .bar {
+	stroke: yellow;
+}

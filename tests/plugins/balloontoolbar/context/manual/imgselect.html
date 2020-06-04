@@ -1,0 +1,33 @@
+<textarea id="editor1" cols="10" rows="10">
+	<p>Sample image:</p>
+
+	<img src="%BASE_PATH%_assets/lena.jpg" alt="Sample image">
+</textarea>
+
+<div id="editor2" contenteditable="true" style="width: 500px">
+	<p>Sample image:</p>
+
+	<img src="%BASE_PATH%_assets/lena.jpg" alt="Sample image">
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.disableAutoInline = true;
+
+	var config = {
+		height: 300,
+		width: 500,
+		on: {
+			instanceReady: function( evt ) {
+				evt.editor.balloonToolbars.create( {
+					buttons: 'Link,Unlink',
+					cssSelector: 'img'
+				} );
+			}
+		}
+	};
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.inline( 'editor2', config );
+</script>

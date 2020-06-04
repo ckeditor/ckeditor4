@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'bg', {
 	bgColor: 'Фон',
-	bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-	bgImage: 'Background Image URL', // MISSING
+	bgFixed: 'Без превъртане (фиксиран) фон',
+	bgImage: 'URL на изображение за фон',
 	charset: 'Кодова таблица',
 	charsetASCII: 'ASCII',
 	charsetCE: 'Централна европейска',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'bg', {
 	charsetOther: 'Друга кодова таблица',
 	charsetTR: 'Turkish', // MISSING
 	charsetUN: 'Unicode (UTF-8)', // MISSING
-	charsetWE: 'Western European', // MISSING
+	charsetWE: 'Western European',
 	chooseColor: 'Изберете',
 	design: 'Дизайн',
 	docTitle: 'Заглавие на страницата',

@@ -4,18 +4,26 @@
 #
 # Be sure to append /** to folders to have everything inside them ignored.
 
-# All "dot directoties".
+# All "dot directories".
 .*/**
 
 node_modules/**
 build/**
+coverage/**
 
 dev/builder/release/**
 dev/builder/ckbuilder/**
 dev/langtool/po/**
 dev/langtool/cklangtool/**
 
-tests/plugins/mathjax/_assets/truncated-mathjax/**
+samples/toolbarconfigurator/.bender/**
+samples/toolbarconfigurator/node_modules/**
+samples/toolbarconfigurator/docs/**
+
+tests/security
+tests/plugins/mathjax/_assets/mathjax/**
+
+*.css.map
 
 bender-*.log
 nbproject/
@@ -27,7 +35,8 @@ nbproject/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -47,3 +56,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+
+!.github/**
+!.npm/*
+.DS_Store
+.vscode

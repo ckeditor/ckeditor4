@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'gl', {
 	border: 'Tamaño do bordo',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'gl', {
 	headersColumn: 'Primeira columna',
 	headersNone: 'Ningún',
 	headersRow: 'Primeira fila',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'O tamaño do bordo debe ser un número.',
 	invalidCellPadding: 'A marxe interior debe ser un número positivo.',
 	invalidCellSpacing: 'A marxe entre celas debe ser un número positivo.',

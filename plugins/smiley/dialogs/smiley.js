@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.dialog.add( 'smiley', function( editor ) {
@@ -164,7 +164,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		},
 		focus: function() {
 			var self = this;
-			// IE need a while to move the focus (#6539).
+			// IE need a while to move the focus (https://dev.ckeditor.com/ticket/6539).
 			setTimeout( function() {
 				var firstSmile = self.getElement().getElementsByTag( 'a' ).getItem( 0 );
 				firstSmile.focus();

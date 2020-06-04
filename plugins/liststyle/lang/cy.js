@@ -1,17 +1,13 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'cy', {
-	armenian: 'Rhifo Armeneg',
 	bulletedTitle: 'Priodweddau Rhestr Fwled',
 	circle: 'Cylch',
 	decimal: 'Degol (1, 2, 3, ayyb.)',
-	decimalLeadingZero: 'Degol â sero arweiniol (01, 02, 03, ayyb.)',
 	disc: 'Disg',
-	georgian: 'Rhifau Sioraidd (an, ban, gan, ayyb.)',
 	lowerAlpha: 'Alffa Is (a, b, c, d, e, ayyb.)',
-	lowerGreek: 'Groeg Is (alpha, beta, gamma, ayyb.)',
 	lowerRoman: 'Rhufeinig Is (i, ii, iii, iv, v, ayyb.)',
 	none: 'Dim',
 	notset: '<heb osod>',

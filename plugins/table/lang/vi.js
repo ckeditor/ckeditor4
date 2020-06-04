@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'vi', {
 	border: 'Kích thước đường viền',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'vi', {
 	headersColumn: 'Cột đầu tiên',
 	headersNone: 'Không có',
 	headersRow: 'Hàng đầu tiên',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Kích cỡ của đường biên phải là một số nguyên.',
 	invalidCellPadding: 'Khoảng đệm giữa ô và nội dung phải là một số nguyên.',
 	invalidCellSpacing: 'Khoảng cách giữa các ô phải là một số nguyên.',

@@ -1,0 +1,49 @@
+<h2>Classic editor</h2>
+<div id="classic">
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<figure class="image easyimage">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="divarea">
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<figure class="image easyimage">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<figure class="image easyimage">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	var commonConfig = {
+		easyimage_styles: {
+			test: {
+				icon: 'tests/_assets/sample_icon.png',
+				iconHiDpi: 'tests/_assets/sample_icon.hidpi.png'
+			}
+		},
+		easyimage_toolbar: [ 'EasyImageTest' ]
+	};
+
+	CKEDITOR.replace( 'classic', commonConfig );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.object.merge( {
+		extraPlugins: 'divarea'
+	}, commonConfig ) );
+	CKEDITOR.inline( 'inline', commonConfig );
+</script>

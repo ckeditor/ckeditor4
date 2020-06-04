@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'nb', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'nb', {
 		checkboxTitle: 'Egenskaper for avmerkingsboks',
 		radioTitle: 'Egenskaper for alternativknapp',
 		value: 'Verdi',
-		selected: 'Valgt'
+		selected: 'Valgt',
+		required: 'Påkrevd'
 	},
 	form: {
 		title: 'Egenskaper for skjema',
@@ -32,11 +33,12 @@ CKEDITOR.plugins.setLang( 'forms', 'nb', {
 	select: {
 		title: 'Egenskaper for rullegardinliste',
 		selectInfo: 'Info',
-		opAvail: 'Tilgjenglige alternativer',
+		opAvail: 'Tilgjengelige alternativer',
 		value: 'Verdi',
 		size: 'Størrelse',
 		lines: 'Linjer',
 		chkMulti: 'Tillat flervalg',
+		required: 'Påkrevd',
 		opText: 'Tekst',
 		opValue: 'Verdi',
 		btnAdd: 'Legg til',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'nb', {
 		value: 'Verdi',
 		charWidth: 'Tegnbredde',
 		maxChars: 'Maks antall tegn',
+		required: 'Påkrevd',
 		type: 'Type',
 		typeText: 'Tekst',
 		typePass: 'Passord',

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 -->
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Using API to Customize Dialog Windows &mdash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
-	<link rel="stylesheet" href="../../../samples/sample.css">
+	<link rel="stylesheet" href="../../../samples/old/sample.css">
 	<meta name="ckeditor-sample-name" content="Using the JavaScript API to customize dialog windows">
 	<meta name="ckeditor-sample-group" content="Advanced Samples">
 	<meta name="ckeditor-sample-description" content="Using the dialog windows API to customize dialog windows without changing the original editor code.">
+	<meta name="description" content="Try the latest sample of CKEditor 4 and learn more about customizing your WYSIWYG editor with endless possibilities.">
 	<style>
 
 		.cke_button__mybutton_icon
@@ -134,12 +135,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Using CKEditor Dialog API
+		<a href="../../../samples/old/index.html">CKEditor Samples</a> &raquo; Using CKEditor Dialog API
 	</h1>
+	<div class="warning deprecated">
+		This sample is not maintained anymore. Check out the <a href="https://ckeditor.com/docs/ckeditor4/latest/examples/index.html">brand new samples in CKEditor Examples</a>.
+	</div>
 	<div class="description">
 		<p>
 			This sample shows how to use the
-			<a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog">CKEditor Dialog API</a>
+			<a class="samples" href="https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html">CKEditor Dialog API</a>
 			to customize CKEditor dialog windows without changing the original editor code.
 			The following customizations are being done in the example below:
 		</p>
@@ -152,7 +156,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<li><strong>Creating a custom dialog window</strong> &ndash; "My Dialog" dialog window opened with the "My Dialog" toolbar button.</li>
 		<li><strong>Creating a custom button</strong> &ndash; Add button to open the dialog with "My Dialog" toolbar button.</li>
 	</ol>
-	<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+	<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="https://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 	<script>
 		// Replace the <textarea id="editor1"> with an CKEditor instance.
 		CKEDITOR.replace( 'editor1', config );
@@ -166,7 +170,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<li><strong>Setting default values for dialog window fields</strong> &ndash; Set default value of "Text Field" text field. </li>
 		<li><strong>Setup initial focus for dialog window</strong> &ndash; Put initial focus on "My Custom Field" text field. </li>
 	</ol>
-	<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+	<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="https://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 	<script>
 
 		// Replace the <textarea id="editor1"> with an CKEditor instance.
@@ -176,10 +180,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<div id="footer">
 		<hr>
 		<p>
-			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="https://ckeditor.com/">https://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2020, <a class="samples" href="https://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

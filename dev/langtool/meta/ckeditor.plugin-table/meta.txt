@@ -1,5 +1,5 @@
-# Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.md or http://ckeditor.com/license
+# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 border = Label for the Border Size field of the Table Properties dialog window.
 caption = Label for the Caption field of the Table Properties dialog window.
@@ -44,6 +44,7 @@ headersBoth = Label for the Both headers option of the Table Properties dialog w
 headersColumn = Label for the First column headers option of the Table Properties dialog window.
 headersNone = Label for the None headers option of the Table Properties dialog window.
 headersRow = Label for the First row headers option of the Table Properties dialog window.
+heightUnit = Label for the height unit selection field of the Cell Properties dialog window.
 invalidBorder = Error message displayed when the border size given is not a number.
 invalidCellPadding = Error message displayed when the cell padding given is not a positive number.
 invalidCellSpacing = Error message displayed when the cell spacing given is not a positive number.

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 		items: [
 			{
 			name: 'نوار ابزار ویرایشگر',
-			legend: '${toolbarFocus} را برای باز کردن نوار ابزار بفشارید. با کلید Tab و Shif-Tab در مجموعه نوار ابزار بعدی و قبلی حرکت کنید. برای حرکت در کلید نوار ابزار قبلی و بعدی با کلید جهت‌نمای راست و چپ جابجا شوید. کلید Space یا Enter را برای فعال کردن کلید نوار ابزار بفشارید.'
+			legend: '${toolbarFocus} را برای باز کردن نوار ابزار بفشارید. با کلید Tab و Shift+Tab در مجموعه نوار ابزار بعدی و قبلی حرکت کنید. برای حرکت در کلید نوار ابزار قبلی و بعدی با کلید جهت‌نمای راست و چپ جابجا شوید. کلید Space یا Enter را برای فعال کردن کلید نوار ابزار بفشارید.'
 		},
 
 			{
 			name: 'پنجره محاورهای ویرایشگر',
-			legend: 'در داخل یک پنجره محاورهای، کلید Tab را بفشارید تا به پنجرهی بعدی بروید، Shift+Tab برای حرکت به فیلد قبلی، فشردن Enter برای ثبت اطلاعات پنجره، فشردن Esc برای لغو پنجره محاورهای و برای پنجرههایی که چندین برگه دارند، فشردن Alt+F10 جهت رفتن به Tab-List. در نهایت حرکت به برگه بعدی با Tab یا کلید جهتنمای راست. حرکت به برگه قبلی با Shift+Tab یا کلید جهتنمای چپ. فشردن Space یا Enter برای انتخاب یک برگه.'
+			legend:
+				'در داخل یک پنجره محاوره‌ای، کلید Tab را بفشارید تا به پنجره‌ی بعدی بروید، Shift+Tab برای حرکت به فیلد قبلی، فشردن Enter برای ثبت اطلاعات پنجره‌، فشردن Esc برای لغو پنجره محاوره‌ای و برای پنجره‌هایی که چندین برگه دارند، فشردن Alt+F10 یا Tab برای حرکت در برگه ها. وقتی بر فهرست برگه ها هستید، به صفحه بعدی و قبلی با کلید های راستی و چپ حرکت کنید.' 
 		},
 
 			{
@@ -32,7 +33,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 
 			{
 			name: 'ویرایشگر عنصر نوار راه',
-			legend: 'برای رفتن به مسیر عناصر ${elementsPathFocus} را بفشارید. حرکت به کلید عنصر بعدی با کلید Tab یا  کلید جهت‌نمای راست. برگشت به کلید قبلی با Shift+Tab یا کلید جهت‌نمای چپ. فشردن Space یا Enter برای انتخاب یک عنصر در ویرایشگر.'
+			legend: 'برای رفتن به مسیر عناصر ${elementsPathFocus} را بفشارید. حرکت به کلید عنصر بعدی با کلید Tab یا کلید جهت‌نمای راست. برگشت به کلید قبلی با Shift+Tab یا کلید جهت‌نمای چپ. فشردن Space یا Enter برای انتخاب یک عنصر در ویرایشگر.'
 		}
 		]
 	},
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 			{
 			name: 'راهنمای دسترسی',
 			legend: 'فشردن ${a11yHelp}'
+		},
+			{
+			name: 'چسباندن به عنوان متن ساده',
+			legend: 'فشردن ${pastetext}',
+			legendEdge: 'فشردن ${pastetext}، همراه با ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'عقبگرد',
 	tab: 'برگه',
-	enter: 'ورود',
-	shift: 'تعویض',
-	ctrl: 'کنترل',
-	alt: 'دگرساز',
 	pause: 'توقف',
 	capslock: 'Caps Lock',
 	escape: 'گریز',
 	pageUp: 'صفحه به بالا',
 	pageDown: 'صفحه به پایین',
-	end: 'پایان',
-	home: 'خانه',
 	leftArrow: 'پیکان چپ',
 	upArrow: 'پیکان بالا',
 	rightArrow: 'پیکان راست',
 	downArrow: 'پیکان پایین',
-	insert: 'Insert',
-	'delete': 'Delete',
+	insert: 'ورود',
 	leftWindowKey: 'کلید چپ ویندوز',
 	rightWindowKey: 'کلید راست ویندوز',
 	selectKey: 'انتخاب کلید',
@@ -115,7 +113,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 	numpad8: 'کلید شماره 8',
 	numpad9: 'کلید شماره 9',
 	multiply: 'ضرب',
-	add: 'Add',
+	add: 'افزودن',
 	subtract: 'تفریق',
 	decimalPoint: 'نقطه‌ی اعشار',
 	divide: 'جدا کردن',

@@ -1,5 +1,5 @@
-/* bender-tags: editor,unit,dom */
-/* global appendDomObjectTests, YUI */
+/* bender-tags: editor,dom */
+/* global appendDomObjectTests */
 
 var getInnerHtml = bender.tools.getInnerHtml,
 	getOuterHtml = function( element ) {
@@ -10,11 +10,28 @@ var getInnerHtml = bender.tools.getInnerHtml,
 		return new CKEDITOR.dom.element( element, ownerDocument );
 	};
 
+function testAttributes( element, expected, exclude ) {
+	var container = CKEDITOR.document.getById( 'getAttributes' ),
+		attributes;
+
+	element = container.findOne( element );
+	attributes = element.getAttributes( exclude );
+
+	assert.isObject( attributes );
+	objectAssert.areEqual( expected, attributes );
+}
+
 bender.test( appendDomObjectTests(
 	function( id ) {
 		return new CKEDITOR.dom.element( document.getElementById( id ) );
 	},
 	{
+		_should: {
+			ignore: {
+				test_isIdentical2: CKEDITOR.env.webkit && !CKEDITOR.env.chrome
+			}
+		},
+
 		test_$: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			assert.areSame( document.getElementById( 'test1' ), element.$ );
@@ -84,6 +101,30 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'figure', element.getName( 'figure' ) );
 		},
 
+		'test getChild - single index': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<ul><li>zero</li><li>one</li></ul>' );
+
+			assert.areSame( 'zero', element.getChild( 0 ).getHtml() );
+			assert.areSame( 'one', element.getChild( 1 ).getHtml() );
+		},
+
+		'test getChild - array selector': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<div><ul><li>zero</li><li>one</li></ul></div>' );
+
+			assert.areSame( 'ul', element.getChild( [ 0 ] ).getName() );
+			assert.areSame( 'one', element.getChild( [ 0, 1 ] ).getHtml() );
+			assert.isNull( element.getChild( [ 0, 2 ] ) );
+			assert.isNull( element.getChild( [ 1, 0 ] ) );
+		},
+
+		'test getChild does not modify array': function() {
+			var selector = [ 1, 0 ],
+				element = CKEDITOR.dom.element.createFromHtml( '<div><ul><li>zero</li><li>one</li></ul></div>' );
+
+			element.getChild( selector );
+			assert.areSame( 2, selector.length );
+		},
+
 		test_append1: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.append( newElement( 'b' ) );
@@ -109,7 +150,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'Test appendText', element.$.text );
 		},
 
-		// #13232
+		// https://dev.ckeditor.com/ticket/13232
 		'test appendText to link': function() {
 			var element = newElement( 'a' );
 			element.appendText( '@' );
@@ -248,20 +289,20 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'C &amp; D', document.getElementById( 'setText' ).innerHTML );
 		},
 
-		test_addClass1: function() {
+		'test addClass - basic case': function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			assert.areSame( 'classA', element.$.className );
 		},
 
-		test_addClass2: function() {
+		'test addClass2 - one class added twice': function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classA' );
 			assert.areSame( 'classA', element.$.className );
 		},
 
-		test_addClass3: function() {
+		'test addClass - multiple classes': function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classB' );
@@ -269,7 +310,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'classA classB classC', element.$.className );
 		},
 
-		test_addClass4: function() {
+		'test addClass - multiple classes, multiple duplicates': function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classB' );
@@ -280,7 +321,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'classA classB classC', element.$.className );
 		},
 
-		test_removeClass1: function() {
+		'test removeClass - basic case': function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA"></div>' );
@@ -291,7 +332,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeClass2: function() {
+		'test removeClass - multiple classes': function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA classB classC classD"></div>' );
@@ -308,7 +349,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeClass3: function() {
+		'test removeClass - case insensitive, non existing classes': function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA classB"></div>' );
@@ -321,6 +362,34 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div class="classa"></div>', getInnerHtml( 'removeClass' ) );
 			element.removeClass( 'classYYY' );
 			assert.areSame( '<div class="classa"></div>', getInnerHtml( 'removeClass' ) );
+		},
+
+		'test hasClass - parsed element': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<div class=" classA\t classB \nclassC\t"></div>' );
+
+			assert.isTrue( element.hasClass( 'classA' ), 'classA' );
+			assert.isTrue( element.hasClass( 'classB' ), 'classB' );
+			assert.isTrue( element.hasClass( 'classC' ), 'classC' );
+			assert.isFalse( element.hasClass( 'class' ), 'class' );
+		},
+
+		'test hasClass - after addClass/removeClass': function() {
+			var element = newElement( 'div' );
+
+			assert.isFalse( element.hasClass( 'classA' ), 'before' );
+
+			element.addClass( 'classA' );
+			assert.isTrue( element.hasClass( 'classA' ), 'after added' );
+
+			element.removeClass( 'classA' );
+			assert.isFalse( element.hasClass( 'classA' ), 'after removed' );
+		},
+
+		'test hasClass - case sensitive': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA"></div>' );
+
+			assert.isFalse( element.hasClass( 'classa' ), 'classa' );
+			assert.isFalse( element.hasClass( 'Classa' ), 'classa' );
 		},
 
 		test_removeAttribute1: function() {
@@ -385,9 +454,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( null, bender.tools.getAttribute( element, 'tabindex' ) );
 		},
 
-		/**
-		 * Test set and retrieve 'checked' attribute value. (#4527)
-		 */
+		// Test set and retrieve 'checked' attribute value. (https://dev.ckeditor.com/ticket/4527)
 		test_getAttribute_checked: function() {
 			var unchecked1 = new CKEDITOR.dom.element.createFromHtml( '<input type="checkbox" />' ),
 				checked1 = new CKEDITOR.dom.element.createFromHtml( '<input type="checkbox" checked="checked" />' ),
@@ -410,9 +477,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( null, element.getAttribute( 'contenteditable' ) );
 		},
 
-		/**
-		 *  Test getAttribute and getAttribute will ingore  '_cke_expando' attribute.
-		 */
+		//  Test getAttribute and getAttribute will ingore  '_cke_expando' attribute.
 		/*test_getAttribute_ignoreExpandoAttributes: function()
 		{
 			var element = newElement( document.getElementById( 'testExpandoAttributes' ) );
@@ -429,6 +494,48 @@ bender.test( appendDomObjectTests(
 			element.removeAttribute( 'id' );
 			assert.isFalse( element.hasAttributes(), 'hasAttributes should be false' );
 		},*/
+
+		test_getAttributes_no_attributes: function() {
+			testAttributes( 'b', {} );
+		},
+
+		test_getAttributes_1_attribute: function() {
+			testAttributes( 'i', {
+				id: 'getAttributes_1'
+			} );
+		},
+
+		test_getAttributes_2_attributes: function() {
+			testAttributes( 'p', {
+				id: 'getAttributes_2',
+				'data-attr': 'bogus'
+			} );
+		},
+
+		test_getAttributes_duplicated_attribute: function() {
+			testAttributes( 'span', {
+				'bogus-attr': 1
+			} );
+		},
+
+		test_getAttributes_unicode: function() {
+			testAttributes( 'em', {
+				'data-unicode': '☃'
+			} );
+		},
+
+		test_getAttributes_exclude: function() {
+			testAttributes( 'p', {
+				'data-attr': 'bogus'
+			}, [ 'id' ] );
+		},
+
+		test_getAttributes_exclude_wrong_format: function() {
+			testAttributes( 'p', {
+				id: 'getAttributes_2',
+				'data-attr': 'bogus'
+			}, 'id' );
+		},
 
 		test_getTabIndex1: function() {
 			var element = newElement( document.getElementById( 'tabIndex10' ) );
@@ -529,21 +636,15 @@ bender.test( appendDomObjectTests(
 
 
 		test_getDocumentPosition: function() {
-			// Assign the page location of the element.
-			YUI().use( 'dom-screen', 'node', function( Y ) {
-				resume( function() {
-					Y.one( '#DocPositionTarget' ).setXY( [ 350, 450 ] );
-					var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
-						x = Math.round( pos.x ),
-						y = Math.round( pos.y ),
-						accOffset = 1;
+			var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
+				x = Math.round( pos.x ),
+				y = Math.round( pos.y ),
+				delta = 1,
+				expectedX = 280,
+				expectedY = 95;
 
-					assert.isNumberInRange( x, 350 - accOffset, 350 + accOffset, 'Position coordinates:x(350) relative to document doesn\'t match ' + x + ' with offset ' + accOffset + '.' );
-					assert.isNumberInRange( y, 450 - accOffset, 450 + accOffset, 'Position coordinates:y(450) relative to document doesn\'t match ' + y + 'with offset ' + accOffset + '.' );
-				} );
-			} );
-
-			wait();
+			assert.isNumberInRange( x, expectedX - delta, expectedX + delta, 'Position relative to document doesn\'t match ' + x + ' with offset ' + delta + '.' );
+			assert.isNumberInRange( y, expectedY - delta, expectedY + delta, 'Position relative to document doesn\'t match ' + y + 'with offset ' + delta + '.' );
 		},
 
 		'test getDocumentPosition with document scrolled': function() {
@@ -581,7 +682,7 @@ bender.test( appendDomObjectTests(
 			assert.isFalse( doc.getById( 'invisible2' ).isVisible() );
 		},
 
-		// #7070
+		// https://dev.ckeditor.com/ticket/7070
 		test_getBogus: function() {
 			// Test padding block bogus BR for non-IEs.
 			if ( CKEDITOR.env.ie )
@@ -609,7 +710,7 @@ bender.test( appendDomObjectTests(
 
 			element.breakParent( parent );
 
-			assert.areEqual( '<i>text1</i><b>text2</b><i>text3</i>', getInnerHtml( 'breakParent' ) );
+			assert.areEqual( '<i id="a">text1</i><b id="b">text2</b><i>text3</i>', getInnerHtml( 'breakParent' ) );
 		},
 
 		test_contains: function() {
@@ -751,6 +852,16 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'test2', element.getAttribute( 'title' ) );
 		},
 
+		test_removeAttributes_without_parameters: function() {
+			var element = doc.getById( 'removeAttributes_2' );
+
+			element.removeAttributes();
+
+			assert.isFalse( element.hasAttribute( 'id' ) );
+			assert.isFalse( element.hasAttribute( 'class' ) );
+			assert.isFalse( element.hasAttribute( 'title' ) );
+		},
+
 		test_removeStyle: function() {
 			var element = doc.getById( 'removeStyle' );
 
@@ -801,7 +912,7 @@ bender.test( appendDomObjectTests(
 		},
 
 		/**
-		 * Test copy the 'checked' attribute. (#4527)
+		 * Test copy the 'checked' attribute. (https://dev.ckeditor.com/ticket/4527)
 		 */
 		test_copyAttributes_checked: function() {
 			var original1 = new CKEDITOR.dom.element.createFromHtml( '<input type="checkbox" checked="checked" />' ),
@@ -822,7 +933,7 @@ bender.test( appendDomObjectTests(
 
 			element.renameNode( 'p' );
 
-			// Check precisely (#8663).
+			// Check precisely (https://dev.ckeditor.com/ticket/8663).
 			assert.areEqual( 'p', element.getName(), 'getName()' );
 			assert.areSame( 'p', element.$.tagName.toLowerCase(), '$.tagName' );
 
@@ -835,6 +946,17 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'div', element.getName(), 'Before rename' );
 			element.renameNode( 'p' );
 			assert.areEqual( 'p', element.getName(), 'After rename' );
+		},
+
+		test_renameNode_in_documentFragment: function() {
+			var frag = new CKEDITOR.dom.documentFragment(),
+				inner = new CKEDITOR.dom.element( 'div' );
+
+			frag.append( inner );
+
+			assert.areEqual( 'div', frag.getChild( 0 ).getName(), 'Before rename' );
+			inner.renameNode( 'p' );
+			assert.areEqual( 'p', frag.getChild( 0 ).getName(), 'After rename' );
 		},
 
 		test_getDirection: function() {
@@ -856,7 +978,7 @@ bender.test( appendDomObjectTests(
 			assert.isTrue( element1.isIdentical( element2 ) );
 		},
 
-		// #8527
+		// https://dev.ckeditor.com/ticket/8527
 		'test empty anchor editable': function() {
 			assert.isFalse( doc.getById( 'empty_anchor_1' ).isEditable() );
 			assert.isFalse( doc.getById( 'empty_anchor_2' ).isEditable() );
@@ -975,6 +1097,153 @@ bender.test( appendDomObjectTests(
 
 			el.forEach( recorder.fn, CKEDITOR.NODE_ELEMENT, true );
 			assert.areSame( 'p,i,div,h1,h2,b', recorder.tokens.join( ',' ) );
+		},
+
+		'test disableContextMenu - element with cke_enable_context_menu class': function() {
+			var target = doc.getById( 'disableContextMenu_1' ),
+				preventDefaultCalled = 0;
+
+			target.disableContextMenu();
+
+			target.fire( 'contextmenu', new CKEDITOR.dom.event( {
+				target: target.$,
+				preventDefault: function() {
+					++preventDefaultCalled;
+				}
+			} ) );
+
+			assert.areSame( 0, preventDefaultCalled, 'preventDefault was not called' );
+		},
+
+		'test disableContextMenu - ancestor with cke_enable_context_menu class': function() {
+			var target = doc.getById( 'disableContextMenu_2' ),
+				preventDefaultCalled = 0;
+
+			target.disableContextMenu();
+
+			target.fire( 'contextmenu', new CKEDITOR.dom.event( {
+				target: target.$,
+				preventDefault: function() {
+					++preventDefaultCalled;
+				}
+			} ) );
+
+			assert.areSame( 0, preventDefaultCalled, 'preventDefault was not called' );
+		},
+
+		'test disableContextMenu': function() {
+			var target = doc.getById( 'disableContextMenu_3' ),
+				preventDefaultCalled = 0;
+
+			target.disableContextMenu();
+
+			target.fire( 'contextmenu', new CKEDITOR.dom.event( {
+				target: target.$,
+				preventDefault: function() {
+					++preventDefaultCalled;
+				}
+			} ) );
+
+			assert.areSame( 1, preventDefaultCalled, 'preventDefault was called' );
+		},
+
+		'test setSize': function() {
+			// (https://dev.ckeditor.com/ticket/16753).
+			// For high dpi displays, things like border will often have a fraction of a pixel.
+			var elem = CKEDITOR.dom.element.createFromHtml( '<div style="height: 50px; border: 0.9px solid black"></div>' ),
+				realBorderWidth,
+				expectedWidth;
+
+			function round( num ) {
+				return Math.round( num * 100 ) / 100;
+			}
+
+			doc.getBody().append( elem );
+
+			// Actually due to different devicePixelRatio it will not necessairly be 1 pixel, it might be less.
+			realBorderWidth = parseFloat( elem.getComputedStyle( 'border-left-width' ) );
+			realBorderWidth = Math.round( realBorderWidth * 1000 ) / 1000;
+
+			expectedWidth = 200 - ( 2 * realBorderWidth );
+			// Browsers still will do some reasonable rounding on width, with an exception to IE8 which will round to full pixels.
+			expectedWidth = CKEDITOR.env.ie && CKEDITOR.env.version == 8 ? Math.round( expectedWidth ) : round( expectedWidth );
+
+			elem.setSize( 'width', 200, true );
+
+			assert.areSame( expectedWidth, round( parseFloat( elem.$.style.width ) ), 'Computed width' );
+		},
+
+		// (#2975)
+		'test fireEventHandler with mouseup': function() {
+			var link = CKEDITOR.dom.element.createFromHtml(
+				'<a href="#" onmouseup="this.setAttribute(\'data-button\',event.button);return false;">Link</a>' ),
+				rightMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_RIGHT );
+
+			link.fireEventHandler( 'mouseup', {
+				button: rightMouseButton
+			} );
+
+			assert.areSame( String( rightMouseButton ), link.getAttribute( 'data-button' ),
+				'Proper event data was passed' );
+		},
+
+		// (#2975)
+		'test fireEventHandler with mouseup in iframe': function() {
+			var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="about:blank"></iframe>' );
+
+			iframe.once( 'load', function() {
+				resume( function() {
+					var document = new CKEDITOR.dom.document( iframe.$.contentWindow.document ),
+						link = new CKEDITOR.dom.element( 'a', document ),
+						rightMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_RIGHT );
+
+					link.setAttribute( 'onmouseup',
+						'this.setAttribute(\'data-button\',event.button);return false;' );
+					document.getBody().append( link );
+
+					link.fireEventHandler( 'mouseup', {
+						button: rightMouseButton
+					} );
+
+					assert.areSame( String( rightMouseButton ), link.getAttribute( 'data-button' ),
+						'Proper event data was passed' );
+				} );
+			} );
+
+			CKEDITOR.document.getBody().append( iframe );
+			wait();
+		},
+
+		// (#2975)
+		'test fireEventHandler with click on element without onclick': function() {
+			var link = CKEDITOR.dom.element.createFromHtml(
+				'<a href="#">Link</a>' ),
+				leftMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_LEFT, true );
+
+			link.once( 'click', function( evt ) {
+				this.setAttribute( 'data-button', evt.data.$.button );
+				evt.data.preventDefault();
+			} );
+			link.fireEventHandler( 'click', {
+				button: leftMouseButton
+			} );
+
+			assert.areSame( String( leftMouseButton ), link.getAttribute( 'data-button' ),
+				'Proper event data was passed' );
+		},
+
+		'test getClientSize': function() {
+			var element = new CKEDITOR.dom.element( 'div' );
+
+			element.$ = {
+				clientWidth: 100,
+				clientHeight: 100
+			};
+
+			var size = element.getClientSize();
+
+			assert.areSame( 100, size.width );
+			assert.areSame( 100, size.height );
 		}
 	}
 ) );

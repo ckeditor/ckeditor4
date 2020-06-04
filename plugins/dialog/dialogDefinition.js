@@ -1,7 +1,7 @@
-﻿// jscs:disable disallowMixedSpacesAndTabs
+// jscs:disable disallowMixedSpacesAndTabs
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -105,13 +105,38 @@
  */
 
 /**
- * The function to execute when OK is pressed.
+ * Returns the subject of the dialog.
+ *
+ * For most plugins, like the `table` or `link` plugin, it should return a
+ * {@link CKEDITOR.dom.element DOM element instance} if there is an element related to the dialog.
+ * For widget plugins (`image2`, `placeholder`) it should return a {@link CKEDITOR.plugins.widget} instance that
+ * is the subject of this dialog.
+ *
+ * @since 4.13.0
+ * @method getModel
+ * @param {CKEDITOR.editor} editor
+ * @returns {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} Returns `null` if the dialog does not use the model.
+ */
+
+/**
+ * Returns the current dialog mode based on the state of the feature used with this dialog.
+ *
+ * See {@link CKEDITOR.dialog#EDITING_MODE} and {@link CKEDITOR.dialog#CREATION_MODE}.
+ *
+ * @since 4.13.0
+ * @method getMode
+ * @param {CKEDITOR.editor} editor
+ * @returns {Number} Dialog mode.
+ */
+
+/**
+ * The function to execute when the "OK" button is pressed.
  *
  * @property {Function} onOk
  */
 
 /**
- * The function to execute when Cancel is pressed.
+ * The function to execute when the "Cancel" button is pressed.
  *
  * @property {Function} onCancel
  */
@@ -129,6 +154,12 @@
  */
 
 /**
+ * The function executed every time the dialog is closed.
+ *
+ * @property {Function} onHide
+ */
+
+/**
  * This class is not really part of the API. It just illustrates the properties
  * that developers can use to define and create dialog content pages.
  *
@@ -136,7 +167,7 @@
  */
 
 /**
- * The id of the content page.
+ * The ID of the content page.
  *
  * @property {String} id
  */
@@ -154,9 +185,9 @@
  */
 
 /**
- * The CTRL hotkey for switching to the tab.
+ * The <kbd>Ctrl</kbd> hotkey for switching to the tab.
  *
- *		contentDefinition.accessKey = 'Q'; // Switch to this page when CTRL-Q is pressed.
+ *		contentDefinition.accessKey = 'Q'; // Switch to this page when Ctrl+Q is pressed.
  *
  * @property {String} accessKey
  */
@@ -169,7 +200,7 @@
  */
 
 /**
- * The definition of user interface element (textarea, radio etc).
+ * The definition of a user interface element (textarea, radio etc).
  *
  * This class is not really part of the API. It just illustrates the properties
  * that developers can use to define and create dialog UI elements.
@@ -179,7 +210,7 @@
  */
 
 /**
- * The id of the UI element.
+ * The ID of the UI element.
  *
  * @property {String} id
  */
@@ -218,7 +249,7 @@
  */
 
 /**
- * Horizontal alignment (in container) of the UI element.
+ * Horizontal alignment (in the container) of the UI element.
  *
  * @property {String} align
  */
@@ -948,6 +979,11 @@
  * @property {Function} validate
  */
 
+/**
+ * @property bidi
+ * @inheritdoc CKEDITOR.dialog.definition.textarea#bidi
+ */
+
 // ----- textarea -------------------------------------------------------------
 
 /**
@@ -1004,4 +1040,24 @@
  * The default value.
  *
  * @property {String} default
+ */
+
+/**
+ * Whether the text direction of this input should be togglable using the following keystrokes:
+ *
+ * * *Shift+Alt+End* &ndash; switch to Right-To-Left,
+ * * *Shift+Alt+Home* &ndash; switch to Left-To-Right.
+ *
+ * By default the input will be loaded without any text direction set, which means that
+ * the direction will be inherited from the editor's text direction.
+ *
+ * If the direction was set, a marker will be prepended to every non-empty value of this input:
+ *
+ * * [`\u202A`](http://unicode.org/cldr/utility/character.jsp?a=202A) &ndash; for Right-To-Left,
+ * * [`\u202B`](http://unicode.org/cldr/utility/character.jsp?a=202B) &ndash; for Left-To-Right.
+ *
+ * This marker allows for restoring the same text direction upon the next dialog opening.
+ *
+ * @since 4.5.0
+ * @property {Boolean} bidi
  */

@@ -1,28 +1,48 @@
 {
-	"name": "ckeditor-dev",
-	"version": "4.4.8",
+	"name": "ckeditor4-dev",
+	"version": "4.14.1",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
-		"benderjs": "~0.2.3",
-		"benderjs-jquery": "~0.3.0",
-		"benderjs-sinon": "~0.2.1",
-		"benderjs-yui": "~0.2.3",
-		"grunt": "~0.4.5",
-		"grunt-contrib-imagemin": "~0.8.1",
-		"grunt-jscs": "~1.5.0",
-		"grunt-contrib-jshint": "~0.11.0",
-		"grunt-githooks": "~0.3.1",
-		"shelljs": "~0.3.0"
+		"benderjs": "0.4.3",
+		"benderjs-coverage": "^0.2.2",
+		"benderjs-jquery": "^0.3.0",
+		"benderjs-sinon": "^0.3.1",
+		"benderjs-yui": "^0.3.2",
+		"benderjs-yui-beautified": "0.1.2",
+		"cksource-samples-framework": "^1.0.1",
+		"grunt": "^1.0.1",
+		"grunt-contrib-concat": "^1.0.0",
+		"grunt-contrib-imagemin": "^2.0.1",
+		"grunt-contrib-jshint": "^1.0.0",
+		"grunt-contrib-less": "^2.0.0",
+		"grunt-contrib-watch": "^1.0.0",
+		"grunt-githooks": "^0.6.0",
+		"grunt-jscs": "^3.0.1",
+		"grunt-jsduck": "^1.0.1",
+		"less": "^3.8.0",
+		"lesshat": "^4.1.0",
+		"shelljs": "^0.8.2"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"author": "CKSource (http://cksource.com/)",
-	"license": "For licensing, see LICENSE.md or http://ckeditor.com/license.",
-	"bugs": "http://dev.ckeditor.com",
-	"homepage": "http://ckeditor.com",
+	"keywords": [
+		"ckeditor4",
+		"ckeditor",
+		"fckeditor",
+		"editor",
+		"wysiwyg",
+		"html",
+		"richtext",
+		"text",
+		"javascript"
+	],
+	"author": "CKSource (https://cksource.com/)",
+	"license": "(GPL-2.0-or-later OR LGPL-2.1 OR MPL-1.1)",
+	"bugs": "https://github.com/ckeditor/ckeditor4/issues",
+	"homepage": "https://ckeditor.com",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ckeditor/ckeditor-dev.git"
+		"url": "https://github.com/ckeditor/ckeditor4.git"
 	}
 }

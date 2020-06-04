@@ -1,0 +1,66 @@
+<textarea id="editor">
+	<p>Amet architecto tempore provident harum optio animi Et dolorem vero.</p>
+	<p>Dolor ipsum impedit asperiores iusto molestias nemo itaque nobis, ratione!</p>
+	<p>Lorem sunt doloremque explicabo eveniet quae, natus cumque? Commodi aliquid?</p>
+</textarea>
+
+<script>
+	var data = [
+			{ id: 1, name: 'john', fullName: 'John Doe' },
+			{ id: 2, name: 'thomas', fullName: 'Thomas Doe' },
+			{ id: 3, name: 'anna', fullName: 'Anna Doe' },
+			{ id: 4, name: 'annabelle', fullName: 'Annabelle Doe' },
+			{ id: 5, name: 'cris', fullName: 'Cris Doe' },
+			{ id: 6, name: 'julia', fullName: 'Julia Doe' }
+		];
+
+	var editor = CKEDITOR.replace( 'editor', {
+		width: 600,
+		mentions: [
+			{
+				feed: CKEDITOR.tools.array.map( data, function( item ) {
+								return item.name;
+							} ),
+				minChars: 0
+			},
+			{
+				feed: '{encodedQuery}',
+				marker: '$',
+				minChars: 0,
+				template: '<li data-id="{id}">{fullName}</li>'
+			},
+			{
+				feed: dataCallback,
+				marker: '#',
+				minChars: 0,
+				template: '<li data-id="{id}">{name} ({fullName})</li>'
+			}
+		],
+		on: {
+			instanceReady: function() {
+				// We have to stub ajax.load function.
+				CKEDITOR.ajax.load = function( query, callback ) {
+					var results = data.filter( function( item ) {
+							return item.name.indexOf( query ) === 0;
+						} );
+
+					setTimeout( function() {
+						callback( JSON.stringify( results ) );
+					}, Math.random() * 500 );
+				}
+			}
+		}
+	} );
+
+	bender.tools.ignoreUnsupportedEnvironment( 'mentions', editor );
+
+	function dataCallback( opts, callback ) {
+		setTimeout( function() {
+			callback(
+				data.filter( function( item ) {
+					return item.name.indexOf( opts.query ) === 0;
+				} )
+			);
+		}, Math.random() * 500 );
+	}
+</script>

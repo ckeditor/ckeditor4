@@ -1,11 +1,13 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'ja', {
 	title: 'UIカラーピッカー',
-	preview: 'ライブプレビュー',
-	config: 'この文字列を config.js ファイルへ貼り付け',
-	predefined: '既定カラーセット'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: '既定カラーセット',
+	config: 'この文字列を config.js ファイルへ貼り付け'
 } );

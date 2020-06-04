@@ -1,0 +1,18 @@
+<div id="editor1" ></div>
+<script>
+
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	CKEDITOR.replace( 'editor1', {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
+					throttle: 3000
+				} );
+			}
+		}
+	} );
+</script>

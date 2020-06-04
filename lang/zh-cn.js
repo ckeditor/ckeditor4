@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -78,23 +78,70 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		width: '宽度',
 		height: '高度',
 		align: '对齐方式',
+		left: '左对齐',
+		right: '右对齐',
+		center: '居中',
+		justify: '两端对齐',
 		alignLeft: '左对齐',
 		alignRight: '右对齐',
 		alignCenter: '居中',
-		alignJustify: '两端对齐',
 		alignTop: '顶端',
 		alignMiddle: '居中',
 		alignBottom: '底部',
 		alignNone: '无',
-		invalidValue	: '无效的值。',
+		invalidValue: '无效的值。',
 		invalidHeight: '高度必须为数字格式',
 		invalidWidth: '宽度必须为数字格式',
+		invalidLength: '为 "%1" 字段设置的值必须是一个正数或者没有一个有效的度量单位 (%2)。',
 		invalidCssLength: '此“%1”字段的值必须为正数，可以包含或不包含一个有效的 CSS 长度单位(px, %, in, cm, mm, em, ex, pt 或 pc)',
 		invalidHtmlLength: '此“%1”字段的值必须为正数，可以包含或不包含一个有效的 HTML 长度单位(px 或 %)',
 		invalidInlineStyle: '内联样式必须为格式是以分号分隔的一个或多个“属性名 : 属性值”。',
 		cssLengthTooltip: '输入一个表示像素值的数字，或加上一个有效的 CSS 长度单位(px, %, in, cm, mm, em, ex, pt 或 pc)。',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">，不可用</span>'
+		unavailable: '%1<span class="cke_accessibility">，不可用</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: '退格键',
+			13: '回车键',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: '空格键',
+			35: '行尾键',
+			36: '行首键',
+			46: '删除键',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: '快捷键',
+
+		optionDefault: '默认'
 	}
 };

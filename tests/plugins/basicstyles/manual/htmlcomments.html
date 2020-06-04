@@ -1,0 +1,12 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+&lt;p&gt;foo&lt;/p&gt;&#10;&lt;!--/end logo --&gt;&#10;&#10;&lt;p&gt;&NonBreakingSpace;&lt;/p&gt;&#10;&lt;!-- Begin: Body --&gt;&#10;&#10;&lt;p&gt;a&lt;br /&gt;a&lt;/p&gt;
+</textarea>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+
+</script>

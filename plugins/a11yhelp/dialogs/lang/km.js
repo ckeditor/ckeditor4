@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 		items: [
 			{
 			name: 'របារ​ឧបករណ៍​កម្មវិធី​និពន្ធ',
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT+TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
 		},
 
 			{
 			name: 'ផ្ទាំង​កម្មវិធីនិពន្ធ',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 
 			{
 			name: 'ប្រអប់បញ្ជីអ្នកកែសម្រួល',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
 		},
 
 			{
 			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
 		}
 		]
 	},
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 			{
 			name: 'ជំនួយ​ពី​ភាព​ងាយស្រួល',
 			legend: 'ជួយ ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}', // MISSING
+			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}
 	],
-	backspace: 'លុបថយក្រោយ',
 	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
 	pause: 'ផ្អាក',
 	capslock: 'Caps Lock', // MISSING
 	escape: 'ចាកចេញ',
 	pageUp: 'ទំព័រ​លើ',
 	pageDown: 'ទំព័រ​ក្រោម',
-	end: 'ចុង',
-	home: 'ផ្ទះ',
 	leftArrow: 'ព្រួញ​ឆ្វេង',
 	upArrow: 'ព្រួញ​លើ',
 	rightArrow: 'ព្រួញ​ស្ដាំ',
 	downArrow: 'ព្រួញ​ក្រោម',
 	insert: 'បញ្ចូល',
-	'delete': 'លុប',
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'ជ្រើស​គ្រាប់​ចុច',

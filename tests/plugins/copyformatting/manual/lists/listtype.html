@@ -1,0 +1,92 @@
+<div id="editor1" contenteditable="true">
+	<p dir="ltr">Numbered list with list items having inline styles</p>
+
+	<ol dir="ltr">
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">apple</span></span></span>
+
+		<ol>
+			<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">boy</span></span></span>
+
+			<ol>
+				<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">cat</span></span></span>
+
+				<ol>
+					<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">dog</span></span></span></li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">elephant</span></span></span></li>
+	</ol>
+
+	<p dir="ltr">Bulleted list with list items having inline styles</p>
+
+	<ul dir="ltr">
+		<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="color:#006400;">green</span></span></span>
+
+		<ul>
+			<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="color:#000080;">blue</span></span></span>
+
+			<ul>
+				<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="color:#800000;">brown</span></span></span></li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="color:#800080;">violet</span></span></span></li>
+	</ul>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p dir="ltr">Numbered list with list items having inline styles</p>
+
+	<ol dir="ltr">
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">apple</span></span></span>
+
+		<ol>
+			<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">boy</span></span></span>
+
+			<ol>
+				<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">cat</span></span></span>
+
+				<ol>
+					<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">dog</span></span></span></li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">elephant</span></span></span></li>
+	</ol>
+
+	<p dir="ltr">Bulleted list with list items having inline styles</p>
+
+	<ul dir="ltr">
+		<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="color:#006400;">green</span></span></span>
+
+		<ul>
+			<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="color:#000080;">blue</span></span></span>
+
+			<ul>
+				<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="color:#800000;">brown</span></span></span></li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="color:#800080;">violet</span></span></span></li>
+	</ul>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: mathjax,dialog,toolbar,preview,clipboard,basicstyles,sourcearea */
 /* global widgetTestsTools */
 
@@ -7,31 +7,37 @@
 
 	CKEDITOR.disableAutoInline = true;
 
-	var tools = widgetTestsTools,
-		editors, bots,
-		editorsDefinitions = {
-			classic: {
-				name: 'classic'
-			},
-			integration_with_preview_plugin: {
-				name: 'integration_with_preview_plugin',
-				config: {
-					mathJaxLib: 'http://mathJaxLib-mock'
-				}
-			},
-			with_iframe: {
-				name: 'with_iframe',
-				config: {
-					extraPlugins: 'iframe'
-				}
-			},
-			only_one_widget: {
-				name: 'only_one_widget',
-				config: {
-					extraPlugins: 'iframe'
-				}
+	var mathJaxLib = CKEDITOR.config.mathJaxLib = bender.config.mathJaxLibPath;
+
+	if ( !mathJaxLib ) {
+		throw new Error( 'bender.config.mathJaxLibPath should be defined with the path to MathJax lib (MathJax.js?config=TeX-AMS_HTML).' );
+	}
+
+	bender.editors = {
+		classic: {
+			name: 'classic'
+		},
+		integration_with_preview_plugin: {
+			name: 'integration_with_preview_plugin',
+			config: {
+				mathJaxLib: 'http://mathJaxLib-mock'
 			}
 		},
+		with_iframe: {
+			name: 'with_iframe',
+			config: {
+				extraPlugins: 'iframe'
+			}
+		},
+		only_one_widget: {
+			name: 'only_one_widget',
+			config: {
+				extraPlugins: 'iframe'
+			}
+		}
+	};
+
+	var tools = widgetTestsTools,
 		tcs = {
 			init: function() {
 				// frameWrapper mock
@@ -43,7 +49,7 @@
 			},
 
 			'test dialog trim MathJax tags': function() {
-				var editor = editors.classic;
+				var editor = this.editors.classic;
 
 				editor.openDialog( 'mathjax', function( dialog ) {
 					var widgetMock = { data: { math: '	\\( X \\(1 + 1 = 2\\) Y \\) ' } };
@@ -62,7 +68,7 @@
 			},
 
 			'test integration with preview plugin': function() {
-				var editor = editors.integration_with_preview_plugin;
+				var editor = this.editors.integration_with_preview_plugin;
 
 				editor.once( 'contentPreview', function( evt ) {
 					evt.cancel();
@@ -79,28 +85,34 @@
 			},
 
 			'test conflict with iframe plugin': function() {
-				var editor = editors.with_iframe;
+				var editor = this.editors.with_iframe;
+
+				editor.on( 'afterPaste', function() {
+					resume( function() {
+						assert.areSame( 2, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be two iFrames.' );
+					} );
+				} );
 
 				editor.focus();
 				bender.tools.emulatePaste( editor, editor.document.getElementsByTag( 'p' ).getItem( 0 ).$.innerHTML );
 
-				assert.areSame( 2, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be two iFrames.' );
+				wait();
 			},
 
 			'test not a widget': function() {
-				var editor = editors.only_one_widget;
+				var editor = this.editors.only_one_widget;
 
 				assert.areSame( 1, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be only one widget.' );
 			},
 
-			// #11777
+			// https://dev.ckeditor.com/ticket/11777
 			'test &amp; encoding': function() {
-				var editor = editors.classic,
-					bot = bots.classic;
+				var editor = this.editors.classic,
+					bot = this.editorBots.classic;
 
 				// Create an empty mathjax widget and set the content later, in WYSIWYG mode.
 				bot.setData( '<p><span class="math-tex">\\(\\)</span></p>', function() {
-					var widget = tools.obj2Array( editor.widgets.instances )[ 0 ],
+					var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
 						data;
 
 					widget.setData( 'math', '\\(&\\)' );
@@ -113,20 +125,20 @@
 					bot.setData( data, function() {
 						assert.areSame( '<p><span class="math-tex">\\(&amp;\\)</span></p>', editor.getData(), '& should not change after loading data.' );
 
-						widget = tools.obj2Array( editor.widgets.instances )[ 0 ];
+						widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ];
 						assert.areSame( '\\(&\\)', widget.data.math, 'data.math was loaded correctly' );
 					} );
 				} );
 			},
 
-			// #11777
+			// https://dev.ckeditor.com/ticket/11777
 			'test &amp;amp; encoding': function() {
-				var editor = editors.classic,
-					bot = bots.classic;
+				var editor = this.editors.classic,
+					bot = this.editorBots.classic;
 
 				// Create an empty mathjax widget and set the content later, in WYSIWYG mode.
 				bot.setData( '<p><span class="math-tex">\\(\\)</span></p>', function() {
-					var widget = tools.obj2Array( editor.widgets.instances )[ 0 ],
+					var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
 						data;
 
 					widget.setData( 'math', '\\(&amp;\\)' );
@@ -138,7 +150,7 @@
 					bot.setData( data, function() {
 						assert.areSame( '<p><span class="math-tex">\\(&amp;amp;\\)</span></p>', editor.getData(), '&amp; should not change after loading data.' );
 
-						widget = tools.obj2Array( editor.widgets.instances )[ 0 ];
+						widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ];
 						assert.areSame( '\\(&amp;\\)', widget.data.math, 'data.math was loaded correctly' );
 					} );
 				} );
@@ -157,7 +169,7 @@
 			[ 'info', 'equation', '2 + 2 = 4' ]
 		],
 		newWidgetPattern: /<span class="math-tex">\\\(2 \+ 2 = 4\\\)<\/span>/,
-		ignoreStyle: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? true : false
+		ignoreStyle: shouldIgnoreStyle
 	} );
 
 	tools.addTests( tcs, {
@@ -176,7 +188,7 @@
 			[ 'info', 'equation', '2 + 2 = 4' ]
 		],
 		newWidgetPattern: /<span class="mjx">\\\(2 \+ 2 = 4\\\)<\/span>/,
-		ignoreStyle: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? true : false
+		ignoreStyle: shouldIgnoreStyle
 	} );
 
 	tools.addTests( tcs, {
@@ -192,12 +204,12 @@
 			[ 'info', 'equation', '2 + 2 = 4' ]
 		],
 		newWidgetPattern: /<span class="math-tex">\\\(2 \+ 2 = 4\\\)<\/span>/,
-		ignoreStyle: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? true : false
+		ignoreStyle: shouldIgnoreStyle
 	} );
 
-	bender.tools.setUpEditors( editorsDefinitions, function( e, b ) {
-		editors = e;
-		bots = b;
-		bender.test( tcs );
-	} );
+	bender.test( tcs );
+
+	function shouldIgnoreStyle( editor ) {
+		return !editor.plugins.mathjax.isSupportedEnvironment();
+	}
 } )();

@@ -1,0 +1,20 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<div id="editor1">
+</div>
+
+<script src="_helpers/tools.js"></script>
+<script>
+	// Ignore on mobiles due to lack of support for files drag and drop.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+
+	CKEDITOR.replace( 'editor1', {
+		cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+		cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL
+	} );
+</script>

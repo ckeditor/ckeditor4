@@ -1,0 +1,46 @@
+<div id="editor">
+	<p>I'm just a little content lost in the moment. I'm so scared, but I dont' show it…</p>
+</div>
+
+<script>
+	// Keyboard is hidden when context menu opens on touch devices.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function( evt ) {
+				var editor = evt.editor;
+
+				editor.addMenuGroup( 'test' );
+				editor.addMenuItems( {
+					item1: {
+						label: 'Test 1',
+						group: 'test',
+						onClick: function() {
+							alert( 'Test 1' );
+						},
+						order: 1
+					},
+
+					item2: {
+						label: 'Test 2',
+						group: 'test',
+						onClick: function() {
+							alert( 'Test 2' );
+						},
+						order: 2
+					}
+				} );
+
+				editor.contextMenu.addListener( function() {
+					return {
+						item1: CKEDITOR.TRISTATE_OFF,
+						item2: CKEDITOR.TRISTATE_OFF
+					};
+				} );
+			}
+		}
+	} );
+</script>

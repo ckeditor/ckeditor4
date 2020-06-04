@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'eo', {
 	acccessKey: 'Fulmoklavo',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	anchorName: 'Per Ankronomo',
 	charset: 'Signaro de la Ligita Rimedo',
 	cssClasses: 'Klasoj de Stilfolioj',
+	download: 'Altrudi Elŝuton',
+	displayText: 'Vidigi Tekston',
 	emailAddress: 'Retpoŝto',
 	emailBody: 'Mesaĝa korpo',
 	emailSubject: 'Mesaĝa Temo',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	noAnchors: '<Ne disponeblas ankroj en la dokumento>',
 	noEmail: 'Bonvolu entajpi la retpoŝtadreson',
 	noUrl: 'Bonvolu entajpi la URL-on',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<alia>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Dependa (Netscape)',
 	popupFeatures: 'Atributoj de la Ŝprucfenestro',
 	popupFullScreen: 'Tutekrane (IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	toAnchor: 'Ankri en tiu ĉi paĝo',
 	toEmail: 'Retpoŝto',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Enmeti/Ŝanĝi Ligilon',
 	type: 'Tipo de Ligilo',
 	unlink: 'Forigi Ligilon',

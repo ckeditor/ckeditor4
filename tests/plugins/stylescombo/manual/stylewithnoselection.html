@@ -1,0 +1,28 @@
+<textare id="editor">
+	Hello World
+</textare>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			'pluginsLoaded': function( evt ) {
+				var editor = evt.editor;
+
+				editor.addCommand( 'removeSelection', {
+					exec: function( editor ) {
+						editor.getSelection().removeAllRanges();
+					}
+				} );
+
+				editor.ui.addButton( 'removeSelection', {
+					label: 'Remove Selection',
+					command: 'removeSelection'
+				} );
+			}
+		}
+	} );
+</script>

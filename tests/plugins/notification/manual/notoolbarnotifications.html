@@ -1,0 +1,49 @@
+<div style="padding: 3000px 3000px 3000px 3000px;">
+	<textarea cols="80" id="editor1" name="editor1" rows="10">
+		&lt;p&gt;Lorem ipsum dolor sit amet, qui adolescens theophrastus ne, vis dico dolore mediocrem eu. In pro nonumy ocurreret pertinacia, eam imperdiet scripserit ne. Id usu tota congue, habeo cetero no per. Vim tempor facilisis definitionem no, ad eam utroque platonem repudiare. Ei vis consetetur percipitur.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Impetus laboramus ei vis. Eruditi nusquam deleniti has an, diam detracto phaedrum ea usu. Imperdiet constituto eu cum, te has suas habemus menandri, insolens vulputate pro ei. Sea ei nonumy quaestio. Ne sit utinam sapientem.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Pro cu audiam volumus petentium, falli suscipit id sea, has ea esse cetero dissentias. Quas tractatos incorrupte cu qui. Sea ei pertinax rationibus, zril congue similique eam te. Quot quidam mediocritatem ad ius, ex eam tractatos patrioque. Qui iudico putent ex, ignota praesent te per. Nec at esse ullum, vel ei illud vivendo deseruisse. Te mei possit lucilius, quis illum antiopam eum te.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Dicta persius voluptatum id sed. At latine persius delicata quo. An his erat impedit meliore, et cum quidam maluisset posidonium. Sea legendos vituperata ne.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Ex pro mazim facete dictas, idque verterem patrioque sed ut. Id viris homero eam, pro nostrum abhorreant persequeris et. Ne has vocibus feugait definitionem. Mea vide scriptorem ei, posse intellegebat cu nec, phaedrum dignissim quo et. No impedit vivendo docendi est, et mel nihil meliore definitionem, qui splendide pertinacia complectitur te.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Quem aeque vel ne, pro at soleat vidisse aperiri. Ne cum eius vocent noluisse. Tollit inermis indoctum an pri. Dictas impetus nam eu, et pri omnes veritus lucilius. Eam ea legere gubergren, sit cu sint falli docendi.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Mei at nobis scaevola fabellas, iriure molestiae id sea. Id sea hinc brute everti, mei velit legendos corrumpit et. Ut facer melius bonorum est. Ea dicunt iisque senserit mea, no eum delicata indoctum. Animal vulputate eloquentiam ut nec, dictas facilisi ius cu, mei cu suavitate dissentiet. No vim errem democritum.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Ius in enim definitiones. Cu sed nusquam inimicus argumentum, pro cu fastidii laboramus. Prompta appellantur qui in, ad usu mutat aliquip commune, eos ex dicam expetenda. Et pri vidit nostro voluptua, in tibique lobortis qui. Ferri meliore efficiendi ea his.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Cum solet quidam no. Vidisse appellantur complectitur id his. Te noster elaboraret duo, ei vix doming essent. Mel quis mutat invenire no, mei choro fabellas vivendum eu. Mei aeque postea instructior te, iuvaret debitis dissentiet quo ne.
+		&lt;/p&gt;
+		&lt;p&gt;
+		Sint erant quaeque qui at, oportere indoctum deseruisse ei duo. Nam percipit apeirian at, est te fugit integre mediocritatem. Utroque phaedrum explicari has et, affert referrentur sed no. Everti necessitatibus ea vis, qui tale clita mollis et. Te quo veri veniam adversarium. An sed utroque habemus epicurei, an mei fugit iuvaret.
+		&lt;/p&gt;
+	</textarea>
+	<p style="width: 700px;">
+		<input onclick="manualPlayground.showWarning();" type="button" value="Show warning notification">
+		<input onclick="manualPlayground.showSuccess();" type="button" value="Show success notification">
+		<input onclick="manualPlayground.showInfo();" type="button" value="Show info notification">
+		<input onclick="manualPlayground.emulateProgress();" type="button" value="Show progress notification">
+	</p>
+	<script>
+		var editor = CKEDITOR.replace( 'editor1', {
+			extraPlugins: 'notification',
+			removePlugins: 'toolbar,clipboard,pastefromword,pastetext,tableselection',
+			width: 650,
+		} );
+
+		manualPlayground.init();
+		window.scrollTo( 2950, 2950 );
+	</script>
+</div>

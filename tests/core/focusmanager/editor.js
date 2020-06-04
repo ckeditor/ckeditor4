@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: floatingspace,toolbar,about,format */
 
 CKEDITOR.focusManager._.blurDelay = 0;
@@ -58,7 +58,7 @@ bender.test( {
 		}, 100 );
 	},
 
-	// #11647
+	// https://dev.ckeditor.com/ticket/11647
 	'test inheriting the initial focus': function() {
 		var el = CKEDITOR.document.createElement( 'div' );
 		CKEDITOR.document.getBody().append( el );

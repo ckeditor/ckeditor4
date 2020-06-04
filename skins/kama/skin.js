@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /*
@@ -35,7 +35,7 @@ CKEDITOR.skin.name = 'kama';
 
 // 2. Register browser specific skin files
 // -----------------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Browser_Hacks)
+// (https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_browser_hacks.html)
 //
 // To help implementing browser specific "hacks" to the skin files and have it
 // easy to maintain, it is possible to have dedicated files for such browsers,
@@ -47,7 +47,7 @@ CKEDITOR.skin.name = 'kama';
 // The accepted browser names must match the CKEDITOR.env properties. The most
 // common names are: ie, opera, webkit and gecko. Check the documentation for
 // the complete list:
-// http://docs.ckeditor.com/#!/api/CKEDITOR.env
+// https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_env.html
 //
 // Internet explorer is an expection and the browser version is also accepted
 // (ie7, ie8, ie9, ie10), as well as a special name for IE in Quirks mode (iequirks).
@@ -60,7 +60,7 @@ CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8';
 
 // 3. Define the "Chameleon" feature
 // -----------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Chameleon)
+// (https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_chameleon.html)
 //
 // "Chameleon" is a unique feature available in CKEditor. It makes it possible
 // to end users to specify which color to use as the basis for the editor UI.
@@ -82,16 +82,6 @@ CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8';
 // The "$color" placeholder can be used in the returned string. It'll be
 // replaced with the desired color.
 CKEDITOR.skin.chameleon = function( editor, part ) {
-	// Use this function just to avoid having to repeat all these rules on
-	// several places of our template.
-	function getLinearBackground( definition ) {
-		return 'background:-moz-linear-gradient(' + definition + ');' + // FF3.6+
-			'background:-webkit-linear-gradient(' + definition + ');' + // Chrome10+, Safari5.1+
-			'background:-o-linear-gradient(' + definition + ');' + // Opera 11.10+
-			'background:-ms-linear-gradient(' + definition + ');' + // IE10+
-			'background:linear-gradient(' + definition + ');'; // W3C
-	}
-
 	var css;
 
 	// The Chameleon feature is available for each CKEditor instance,
@@ -113,20 +103,17 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 			cssId + ' .cke_dialog_tab' +
 			'{' +
 			'background-color:$color;' +
-				'background:-webkit-gradient(linear,0 -15,0 40,from(#fff),to($color));' +
-				getLinearBackground( 'top,#fff -15px,$color 40px' ) +
+				'linear-gradient( to bottom,#fff -15px,$color 40px );' +
 			'}' +
 
 			cssId + ' .cke_toolgroup' +
 			'{' +
-				'background:-webkit-gradient(linear,0 0,0 100,from(#fff),to($color));' +
-				getLinearBackground( 'top,#fff,$color 100px' ) +
+				'linear-gradient( to bottom,#fff,$color 100px );' +
 			'}' +
 
 			cssId + ' .cke_combo_button' +
 			'{' +
-				'background:-webkit-gradient(linear, left bottom, left -100, from(#fff), to($color));' +
-				getLinearBackground( 'bottom,#fff,$color 100px' ) +
+				'linear-gradient( to top,#fff,$color 100px );' +
 			'}' +
 
 			cssId + ' .cke_dialog_contents,' +
@@ -218,7 +205,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 
 // 4. Register the skin icons for development purposes only
 // ----------------------------------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Icons)
+// (https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_icons.html)
 //
 // This code is here just to make the skin work fully when using its "source"
 // version. Without this, the skin will still work, but its icons will not be

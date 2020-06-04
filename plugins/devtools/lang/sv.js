@@ -1,12 +1,12 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'devtools', 'sv', {
 	title: 'Elementinformation',
 	dialogName: 'Dialogrutans namn',
 	tabName: 'Fliknamn',
-	elementId: 'Elementet-ID',
-	elementType: 'Elementet-typ'
+	elementId: 'Element-ID',
+	elementType: 'Element-typ'
 } );

@@ -1,0 +1,15 @@
+# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
+
+searchPlaceholder = The text displayed inside the emoji dropdown search bar which encourages the user to enter the search query.
+searchLabel = The description of the search input used for accessibility purposes.
+navigationLabel = The description of the navigation used for accessibility purposes.
+title = The name of the emoji dropdown panel.
+groups.people = The name of the section with 'People' emoji.
+groups.nature = The name of the section with 'Nature and animals' emoji.
+groups.food = The name of the section with 'Food and drinks' emoji.
+groups.travel = The name of the section with 'Travel and places' emoji.
+groups.activities = The name of the section with 'Activities' emoji.
+groups.objects = The name of the section with 'Objects' emoji.
+groups.symbols = The name of the section with 'Symbols' emoji.
+groups.flags = The name of the section with 'Flags' emoji.

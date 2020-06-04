@@ -1,0 +1,37 @@
+<h1>Classic editor</h1>
+
+<div id="classic">
+	<p>Widget:</p>
+	<figure>
+		<img src="../../../image2/_assets/foo.png" alt="foo">
+	</figure>
+</div>
+
+<h1>Divarea</h1>
+
+<div id="divarea">
+	<p>Widget:</p>
+	<figure>
+		<img src="../../../image2/_assets/foo.png" alt="foo">
+	</figure>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	var cfg = {
+		disallowedContent: 'figcaption',
+		on: {
+			pluginsLoaded: function( evt ) {
+				var editor = evt.editor,
+					imageBase = CKEDITOR.plugins.imagebase;
+
+				imageBase.addImageWidget( editor, 'testWidget', imageBase.addFeature( editor, 'caption', {} ) );
+			}
+		},
+		height: 270
+	};
+
+	CKEDITOR.replace( 'classic', cfg );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.object.merge( cfg, { extraPlugins: 'divarea' } ) );
+</script>

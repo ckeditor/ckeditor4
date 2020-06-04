@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image', 'hi', {
-	alertUrl: 'तस्वीर का URL टाइप करें ',
 	alt: 'वैकल्पिक टेक्स्ट',
 	border: 'बॉर्डर',
 	btnUpload: 'इसे सर्वर को भेजें',

@@ -1,0 +1,26 @@
+<div id="editor">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+        height: 400,
+        on: {
+            pluginsLoaded: function( evt ) {
+                var editor = evt.editor;
+
+                editor.addCommand( 'removeSelection', {
+                  exec: function( editor ) {
+                    editor.getSelection().removeAllRanges()
+				    }
+                })
+
+                editor.ui.addButton( 'removeSelection', {
+                    label: 'Remove selection',
+                    command: 'removeSelection'
+                } )
+            }
+        }
+    } );
+</script>

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'bg', {
@@ -20,8 +20,8 @@ CKEDITOR.plugins.setLang( 'specialchar', 'bg', {
 	sect: 'Знак за секция',
 	uml: 'Diaeresis', // MISSING
 	copy: 'Знак за Copyright',
-	ordf: 'Feminine ordinal indicator', // MISSING
-	laquo: 'Left-pointing double angle quotation mark', // MISSING
+	ordf: 'Женски ординарен индикатор',
+	laquo: 'Знак с двоен ъгъл за означаване на лява посока',
 	not: 'Not sign', // MISSING
 	reg: 'Registered sign', // MISSING
 	macr: 'Macron', // MISSING
@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'bg', {
 	Atilde: 'Latin capital letter A with tilde', // MISSING
 	Auml: 'Latin capital letter A with diaeresis', // MISSING
 	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin Capital letter Æ', // MISSING
+	AElig: 'Latin capital letter Æ', // MISSING
 	Ccedil: 'Latin capital letter C with cedilla', // MISSING
 	Egrave: 'Latin capital letter E with grave accent', // MISSING
 	Eacute: 'Latin capital letter E with acute accent', // MISSING

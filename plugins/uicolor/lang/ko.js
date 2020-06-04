@@ -1,11 +1,13 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'ko', {
 	title: 'UI 색상 선택기',
-	preview: '미리보기',
-	config: '이 문자열을 config.js 에 붙여넣으세요',
-	predefined: '미리 정의된 색깔들'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: '미리 정의된 색상',
+	config: '이 문자열을 config.js 에 붙여넣으세요'
 } );

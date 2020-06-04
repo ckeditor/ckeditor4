@@ -1,0 +1,11 @@
+<textarea id="editor">Classic editor.</textarea>
+<div id="inline" contenteditable="true">Inline editor.</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+	CKEDITOR.inline( 'inline' );
+</script>

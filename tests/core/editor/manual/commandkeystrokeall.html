@@ -1,0 +1,16 @@
+<span>Keystrokes: </span>
+<span id="result"></span>
+<div id="editor"></div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+
+	editor.addCommand( 'testcommand', {
+		exec: function() {}
+	} );
+
+	editor.setKeystroke( 1, 'testcommand' );
+	editor.setKeystroke( 2, 'testcommand' );
+
+	document.getElementById( 'result' ).innerText = editor.getCommandKeystroke( 'testcommand', true ).toString();
+</script>

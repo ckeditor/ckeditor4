@@ -1,9 +1,9 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
- 'use strict';
+'use strict';
 
 ( function() {
 	/**
@@ -40,7 +40,7 @@
 		/**
 		 * Filter this text node with given filter.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @returns {Boolean} Method returns `false` when this text node has
 		 * been removed. This is an information for {@link CKEDITOR.htmlParser.element#filterChildren}

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 'use strict';
@@ -35,7 +35,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	 */
 	this.children = [];
 
-	// Reveal the real semantic of our internal custom tag name (#6639),
+	// Reveal the real semantic of our internal custom tag name (https://dev.ckeditor.com/ticket/6639),
 	// when resolving whether it's block like.
 	var realName = name || '',
 		prefixed = realName.match( /^cke:(.*)/ );
@@ -56,7 +56,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 };
 
 /**
- * Object presentation of CSS style declaration text.
+ * Object presentation of the CSS style declaration text.
  *
  * @class
  * @constructor Creates a `cssStyle` class instance.
@@ -150,7 +150,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Filters this element and its children with the given filter.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @returns {Boolean} The method returns `false` when this element has
 		 * been removed or replaced with another. This information means that
@@ -162,10 +162,6 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				originalName, name;
 
 			context = element.getFilterContext( context );
-
-			// Do not process elements with data-cke-processor attribute set to off.
-			if ( context.off )
-				return true;
 
 			// Filtering if it's the root node.
 			if ( !element.parent )
@@ -319,7 +315,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Replaces this element with its children.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 */
 		replaceWithChildren: function() {
 			var children = this.children;
@@ -346,7 +342,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 *		// 5. "bar" text node,
 		 *		// 6. "bom" text node.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Function} callback Function to be executed on every node.
 		 * **Since 4.3**: If `callback` returned `false`, the descendants of the current node will be ignored.
 		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as an argument.
@@ -359,7 +355,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * Gets this element's first child. If `condition` is given, this method returns
 		 * the first child which satisfies that condition.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String/Object/Function} condition Name of a child, a hash of names, or a validator function.
 		 * @returns {CKEDITOR.htmlParser.node}
 		 */
@@ -380,7 +376,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Gets this element's inner HTML.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @returns {String}
 		 */
 		getHtml: function() {
@@ -392,7 +388,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Sets this element's inner HTML.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String} html
 		 */
 		setHtml: function( html ) {
@@ -405,7 +401,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Gets this element's outer HTML.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @returns {String}
 		 */
 		getOuterHtml: function() {
@@ -417,9 +413,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Splits this element at the given index.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {Number} index Index at which the element will be split &mdash; `0` means the beginning,
-		 * `1` after first child node, etc.
+		 * `1` after the first child node, etc.
 		 * @returns {CKEDITOR.htmlParser.element} The new element following this one.
 		 */
 		split: function( index ) {
@@ -443,9 +439,74 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
+		 * Searches through the current node children to find nodes matching the `criteria`.
+		 *
+		 * @param {String/Function} criteria Tag name or evaluator function.
+		 * @param {Boolean} [recursive=false]
+		 * @returns {CKEDITOR.htmlParser.node[]}
+		 */
+		find: function( criteria, recursive ) {
+			if ( recursive === undefined ) {
+				recursive = false;
+			}
+
+			var ret = [],
+				i;
+
+			for	( i = 0; i < this.children.length; i++ ) {
+				var curChild = this.children[ i ];
+
+				if ( typeof criteria == 'function' && criteria( curChild ) ) {
+					ret.push( curChild );
+				} else if ( typeof criteria == 'string' && curChild.name === criteria ) {
+					ret.push( curChild );
+				}
+
+				if ( recursive && curChild.find ) {
+					ret = ret.concat( curChild.find( criteria, recursive ) );
+				}
+			}
+
+			return ret;
+		},
+
+		/**
+		 * Searches through the children of the current element to find the first child matching the `criteria`.
+		 *
+		 * ```js
+		 * element.findOne( function( child ) {
+		 *     return child.name === 'span' || child.name === 'strong';
+		 * } ); // Will return the first child which is a <span> or a <strong> element.
+		 * ```
+		 *
+		 * @param {String/Function} criteria Tag name or evaluator function.
+		 * @param {Boolean} [recursive=false] If set to `true`, it will iterate over all descendants. Otherwise the method will
+		 * only iterate over direct children.
+		 * @returns {CKEDITOR.htmlParser.node/null} The first matched child, `null` otherwise.
+		 */
+		findOne: function( criteria, recursive ) {
+			var nestedMatch = null,
+				match = CKEDITOR.tools.array.find( this.children, function( child ) {
+					var isMatching = typeof criteria === 'function' ? criteria( child ) : child.name === criteria;
+
+					if ( isMatching || !recursive ) {
+						return isMatching;
+					}
+
+					if ( child.children && child.findOne ) {
+						nestedMatch = child.findOne( criteria, true );
+					}
+
+					return !!nestedMatch;
+				} );
+
+			return nestedMatch || match || null;
+		},
+
+		/**
 		 * Adds a class name to the list of classes.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {String} className The class name to be added.
 		 */
 		addClass: function( className ) {
@@ -460,7 +521,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Removes a class name from the list of classes.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String} className The class name to be removed.
 		 */
 		removeClass: function( className ) {
@@ -482,7 +543,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Checkes whether this element has a class name.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String} className The class name to be checked.
 		 * @returns {Boolean} Whether this element has a `className`.
 		 */
@@ -500,19 +561,15 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 			if ( !ctx ) {
 				ctx = {
-					off: false,
 					nonEditable: false,
 					nestedEditable: false
 				};
 			}
 
-			if ( !ctx.off && this.attributes[ 'data-cke-processor' ] == 'off' )
-				changes.push( 'off', true );
-
 			if ( !ctx.nonEditable && this.attributes.contenteditable == 'false' )
 				changes.push( 'nonEditable', true );
-			// A context to be given nestedEditable must be nonEditable first (by inheritance) (#11372, #11698).
-			// Special case: #11504 - filter starts on <body contenteditable=true>,
+			// A context to be given nestedEditable must be nonEditable first (by inheritance) (https://dev.ckeditor.com/ticket/11372, https://dev.ckeditor.com/ticket/11698).
+			// Special case: https://dev.ckeditor.com/ticket/11504 - filter starts on <body contenteditable=true>,
 			// so ctx.nonEditable has not been yet set to true.
 			else if ( ctx.nonEditable && !ctx.nestedEditable && this.attributes.contenteditable == 'true' )
 				changes.push( 'nestedEditable', true );

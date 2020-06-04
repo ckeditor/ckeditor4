@@ -1,0 +1,14 @@
+<div id="editor1">
+	<p>Hi, I'm an editor!</p>
+</div>
+
+<script>
+	// Ignore on mobiles as test should be only performed on desktops.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		language: 'en'
+	} );
+</script>

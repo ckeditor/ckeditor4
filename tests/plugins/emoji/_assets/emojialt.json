@@ -1,0 +1,11 @@
+[ {
+	"id": ":cake:",
+	"symbol": "🍰",
+	"group": "nature",
+	"keywords": [ "cake", "slice" ]
+}, {
+	"id": ":pizza:",
+	"symbol": "🍕",
+	"group": "people",
+	"keywords": [ "lorem" ]
+} ]

@@ -1,0 +1,31 @@
+<label>Lena's path: <input style="border:2px solid black" type="text" value="%BASE_PATH%_assets/lena.jpg" readonly></label>
+<textarea id="editor">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>Text</td>
+				<td>Test</td>
+			</tr>
+			<tr>
+				<td><img alt="Lena" src="%BASE_PATH%_assets/lena.jpg" style="height:150px; width:150px" /></td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>&nbsp;</p>
+
+</textarea>
+<script>
+	if ( bender.tools.env.mobile ) {
+	    bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+	
+	CKEDITOR.replace( 'editor', { extraPlugins: 'image2' } );
+</script>

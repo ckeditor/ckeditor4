@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'sq', {
-	label: 'Stil',
-	panelTitle: 'Stilet e Formatimit',
+	label: 'Stilet',
+	panelTitle: 'Formatimi i Stileve',
 	panelTitle1: 'Stilet e Bllokut',
-	panelTitle2: 'Stili i Brendshëm',
+	panelTitle2: 'Stilet e Brendshme',
 	panelTitle3: 'Stilet e Objektit'
 } );

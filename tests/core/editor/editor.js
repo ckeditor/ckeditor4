@@ -1,9 +1,15 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 CKEDITOR.replaceClass = 'ckeditor';
 bender.editor = true;
 
 bender.test( {
+	tearDown: function() {
+		if ( typeof window.alert.restore === 'function' ) {
+			window.alert.restore();
+		}
+	},
+
 	test_name: function() {
 		assert.areSame( 'editor1', CKEDITOR.instances.editor1.name );
 	},
@@ -334,6 +340,56 @@ bender.test( {
 			assert.areSame( CKEDITOR.ENTER_BR, editor.activeEnterMode, '2nd activeEnterMode' );
 			assert.areSame( CKEDITOR.ENTER_BR, editor.activeShiftEnterMode, '2nd activeShiftEnterMode' );
 		} );
-	}
+	},
 
+	'test showNotification': function() {
+		bender.editorBot.create( {
+			name: 'no_notification',
+			creator: 'inline',
+			config: {
+				plugins: 'wysiwygarea'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				alert = sinon.stub( window, 'alert' );
+
+			editor.showNotification( 'foo' );
+
+			assert.areSame( 1, alert.callCount );
+			assert.isTrue( alert.calledWith( 'foo' ) );
+		} );
+	},
+
+	'test insertHtml': function() {
+		var editor = this.editor,
+			insertHtml = sinon.stub( editor.editable(), 'insertHtml' ),
+			insertHtmlEventListener = sinon.spy(),
+			range = sinon.spy();
+
+		editor.on( 'insertHtml', insertHtmlEventListener );
+
+		editor.insertHtml( 'foo', 'html', range );
+
+		assert.areSame( 'foo', insertHtmlEventListener.firstCall.args[ 0 ].data.dataValue, 'event dataValue' );
+		assert.areSame( 'html', insertHtmlEventListener.firstCall.args[ 0 ].data.mode, 'event mode' );
+		assert.areSame( range, insertHtmlEventListener.firstCall.args[ 0 ].data.range, 'event range' );
+
+		assert.areSame( 'foo', insertHtml.firstCall.args[ 0 ], 'insertHtml dataValue' );
+		assert.areSame( 'html', insertHtml.firstCall.args[ 1 ], 'insertHtml mode' );
+		assert.areSame( range, insertHtml.firstCall.args[ 2 ], 'insertHtml range' );
+	},
+
+	'test isDestroyed method should return proper value': function() {
+		bender.editorBot.create( {
+			name: 'test_isdestroyed'
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.isFalse( editor.isDestroyed() );
+
+			editor.destroy();
+
+			assert.isTrue( editor.isDestroyed() );
+		} );
+	}
 } );

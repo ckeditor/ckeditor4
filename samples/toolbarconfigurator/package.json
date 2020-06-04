@@ -1,0 +1,12 @@
+{
+  "name": "ckeditor-toolbarconfigurator",
+  "version": "0.0.0",
+  "description": "",
+  "author": "CKSource (https://cksource.com/)",
+  "license": "For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license.",
+  "devDependencies": {
+    "benderjs": "~0.2.1",
+    "benderjs-chai": "~0.2.0",
+    "benderjs-mocha": "~0.1.2"
+  }
+}

@@ -1,20 +1,21 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'de', {
 	alt: 'Alternativer Text',
 	btnUpload: 'Zum Server senden',
 	captioned: 'Bild mit Überschrift',
 	captionPlaceholder: 'Überschrift',
-	infoTab: 'Bild-Info',
+	infoTab: 'Bildinfo',
 	lockRatio: 'Größenverhältnis beibehalten',
-	menu: 'Bild-Eigenschaften',
+	menu: 'Bildeigenschaften',
 	pathName: 'Bild',
 	pathNameCaption: 'Überschrift',
 	resetSize: 'Größe zurücksetzen',
-	resizer: 'Zum vergrößern anwählen und ziehen',
+	resizer: 'Zum Vergrößern auswählen und ziehen',
 	title: 'Bild-Eigenschaften',
 	uploadTab: 'Hochladen',
-	urlMissing: 'Imagequelle URL fehlt.'
+	urlMissing: 'Bildquellen-URL fehlt.',
+	altMissing: 'Alternativer Text fehlt.'
 } );

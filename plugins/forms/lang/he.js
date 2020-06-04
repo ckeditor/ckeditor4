@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'he', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'he', {
 		checkboxTitle: 'מאפייני תיבת סימון',
 		radioTitle: 'מאפייני לחצן אפשרויות',
 		value: 'ערך',
-		selected: 'מסומן'
+		selected: 'מסומן',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'מאפיני טופס',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'he', {
 		size: 'גודל',
 		lines: 'שורות',
 		chkMulti: 'איפשור בחירות מרובות',
+		required: 'Required', // MISSING
 		opText: 'טקסט',
 		opValue: 'ערך',
 		btnAdd: 'הוספה',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'he', {
 		value: 'ערך',
 		charWidth: 'רוחב לפי תווים',
 		maxChars: 'מקסימום תווים',
+		required: 'Required', // MISSING
 		type: 'סוג',
 		typeText: 'טקסט',
 		typePass: 'סיסמה',

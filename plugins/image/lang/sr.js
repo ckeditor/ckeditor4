@@ -1,26 +1,25 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image', 'sr', {
-	alertUrl: 'Унесите УРЛ слике',
 	alt: 'Алтернативни текст',
 	border: 'Оквир',
 	btnUpload: 'Пошаљи на сервер',
-	button2Img: 'Да ли желите да промените одабрану слику дугмета као једноставну слику?',
-	hSpace: 'HSpace',
-	img2Button: 'Да ли желите да промените одабрану слику у слику дугмета?',
-	infoTab: 'Инфо слике',
+	button2Img: 'Желите направити од одабране слике тастера обичну слику?',
+	hSpace: 'Водоравна раздаљина',
+	img2Button: 'Желите од изабране слике направити слику тастера?',
+	infoTab: 'Основне карактеристике',
 	linkTab: 'Линк',
-	lockRatio: 'Закључај однос',
+	lockRatio: 'Задржи однос',
 	menu: 'Особине слика',
-	resetSize: 'Ресетуј величину',
+	resetSize: 'Оригинал величина',
 	title: 'Особине слика',
 	titleButton: 'Особине дугмета са сликом',
-	upload: 'Пошаљи',
+	upload: 'Постави',
 	urlMissing: 'Недостаје УРЛ слике.',
-	vSpace: 'VSpace',
-	validateBorder: 'Ивица треба да буде цифра.',
-	validateHSpace: 'HSpace треба да буде цифра.',
-	validateVSpace: 'VSpace треба да буде цифра.'
+	vSpace: 'Усправна раздаљина',
+	validateBorder: 'Величина оквира мора бити цели број!',
+	validateHSpace: 'Водоравна раздаљина мора бити цели број!',
+	validateVSpace: 'Усправна раздаљина мора бити цели број!'
 } );

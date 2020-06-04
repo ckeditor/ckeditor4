@@ -1,0 +1,37 @@
+<textarea id="editor">
+	<ul>
+		<li>
+			<span class="bordered">Foo</span>
+			<ol><li><span class="bordered">Bar</span></li></ol>
+		</li>
+	</ul>
+	<div>This is div</div>
+</textarea>
+
+<button id="insert">Insert</button>
+<button id="reset">Reset</button>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.addCss( 'span.bordered{padding:10px;border:solid 1px red;}' +
+		'li,div{margin:20px 0;}' );
+
+	var editor = CKEDITOR.replace( 'editor', {
+			extraAllowedContent: 'span(bordered)'
+		} ),
+		initialData = editor.getData();
+
+	CKEDITOR.document.findOne( '#insert' ).on( 'click', function() {
+		var div = new CKEDITOR.dom.element( 'div' );
+		div.setHtml( 'This is div' );
+
+		editor.insertElement( div );
+	} );
+
+	CKEDITOR.document.findOne( '#reset' ).on( 'click', function() {
+		editor.setData( initialData );
+	} );
+</script>

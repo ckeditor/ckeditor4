@@ -1,0 +1,33 @@
+<div id="editor">
+	<p>Foo</p>
+	<p>Bar</p>
+</div>
+
+<script>
+CKEDITOR.replace( 'editor', {
+	plugins: 'wysiwygarea,toolbar,contextmenu,clipboard,menubutton',
+	toolbar: [ [ 'Menubutton' ] ],
+	on: {
+		pluginsLoaded: function( evt ) {
+			var editor = evt.editor;
+
+			editor.addMenuItem( 'paste', {
+				label: 'Custom "Item" Foo<suggestion>Bar<suggestion>',
+				command: 'paste',
+				group: 'clipboard',
+				order: 0
+			} );
+
+			editor.ui.add( 'Menubutton', CKEDITOR.UI_MENUBUTTON, {
+				label: 'Menu button',
+				icon: 'paste',
+				onMenu: function() {
+					return {
+						paste: CKEDITOR.TRISTATE_OFF
+					};
+				}
+			} );
+		}
+	}
+} );
+</script>

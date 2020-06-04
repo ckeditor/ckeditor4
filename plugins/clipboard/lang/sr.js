@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'sr', {
 	copy: 'Копирај',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sr', {
 	cut: 'Исеци',
 	cutError: 'Сигурносна подешавања Вашег претраживача не дозвољавају операције аутоматског исецања текста. Молимо Вас да користите пречицу са тастатуре (Ctrl/Cmd+X).',
 	paste: 'Залепи',
+	pasteNotification: 'Притисните тастер %1 за лепљење. Ваш ретраживач не дозвољаба лепљење из алатне траке или мениа.',
 	pasteArea: 'Залепи зону',
-	pasteMsg: 'Молимо Вас да залепите унутар доње површине користећи тастатурну пречицу (<STRONG>Ctrl/Cmd+V</STRONG>) и да притиснете <STRONG>OK</STRONG>.',
-	securityMsg: 'Због сигурносних подешавања претраживача, едитор не може да приступи оставу. Требате да га поново залепите у овом прозору.',
-	title: 'Залепи'
+	pasteMsg: 'Налепите садржај у следећи простор и притисните тастер OK.'
 } );

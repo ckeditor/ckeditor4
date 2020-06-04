@@ -1,13 +1,12 @@
-/* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: entities,clipboard,pastetext */
-/* global assertPasteEvent */
+/* bender-tags: editor */
+/* bender-ckeditor-plugins: toolbar,wysiwygarea,entities,clipboard,pastetext */
+/* bender-include: _helpers/pasting.js */
+/* global assertPasteEvent, simulatePasteCommand */
 
 /*
- *
  * TOP TIP for all tests - DO NOT use editor.setData() or editor.editable().setHtml()
- *		without setting selection. This causes on some IEs exceptions in CKEDITOR.dom.range
- *		(stack trace starts from clipboard/plugin.js: sel.selectBookmarks( bms ))
- *
+ * without setting selection. This causes on some IEs exceptions in CKEDITOR.dom.range
+ * (stack trace starts from clipboard/plugin.js: sel.selectBookmarks( bms ))
  */
 
 ( function() {
@@ -16,14 +15,22 @@
 	bender.editor = {
 		config: {
 			clipboard_defaultContentType: 'text',
-			allowedContent: true
+			allowedContent: true,
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
 		}
 	};
 
 	function testEditor( tc, config, callback ) {
-		var editor = new CKEDITOR.editor( config );
+		// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+		config.pasteFilter = null;
 
-		editor.on( 'loaded', function() {
+		var ta = document.createElement( 'textarea' );
+		document.body.appendChild( ta );
+
+		var editor = CKEDITOR.replace( ta, config );
+
+		editor.on( 'instanceReady', function() {
 			tc.resume( function() {
 				callback( editor );
 			} );
@@ -32,27 +39,19 @@
 		tc.wait();
 	}
 
-	function assertAfterPasteContent( tc, html ) {
+	function assertAfterPasteContent( tc, html, callback ) {
 		tc.editor.on( 'afterPaste', function( evt ) {
 			evt.removeListener();
 			tc.resume( function() {
 				assert.areSame( html, tc.editor.getData() );
+				callback && callback();
 			} );
 		} );
 	}
 
-	bender.test( {
-		_should: {
-			ignore: CKEDITOR.env.ie ?
-				{
-					// We cannot test them in IE because this tcs will open security alert which will stop tests.
-					'editor.getClipboardData - successful': true,
-					'editor.getClipboardData - unsuccessful': true,
-					'editor.getClipboardData - canceled beforePaste': true
-				}
-				: null
-		},
+	var trustyEdge = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
 
+	bender.test( {
 		setUp: function() {
 			// Force result data un-formatted.
 			this.editor.dataProcessor.writer._.rules = {};
@@ -63,9 +62,11 @@
 		 * Remove all editor's paste listeners that were set by corresponding
 		 * method tc.on()
 		 */
-		cleanUp: function() {
+		tearDown: function() {
 			var editor = this.editor,
 				name;
+
+			CKEDITOR.plugins.clipboard.copyCutData = undefined;
 
 			for ( name in { paste: 1, beforePaste: 1, afterPaste: 1 } )
 				this[ name + 'Callback' ] && editor.removeListener( name, this[ name + 'Callback' ] );
@@ -75,7 +76,7 @@
 
 		/**
 		 * Add listener to the editor instance, so it'll be possible to remove it later
-		 * by tc.cleanUp method.
+		 * by tearDown method.
 		 */
 		on: function( name, callback, priority ) {
 			this.editor.on( name, callback, null, null, priority );
@@ -165,7 +166,6 @@
 
 			// Let paste and afterPaste be fired (if there's a bug somewhere).
 			tc.wait( function() {
-				tc.cleanUp();
 				assert.isTrue( flag, 'canceling beforePaste stops execution' );
 				assert.areEqual( '', editor.getData() );
 			}, 50 );
@@ -190,7 +190,6 @@
 
 			// Let afterPaste be fired (if there's a bug somewhere).
 			tc.wait( function() {
-				tc.cleanUp();
 				assert.areEqual( '', editor.getData() );
 				assert.isTrue( flag, 'canceling paste stops execution' );
 			}, 50 );
@@ -213,76 +212,80 @@
 		},
 
 		'editor#paste command': function() {
-			var tc = this,
-				editor = this.editor,
+			var editor = this.editor,
 				order = [];
+
+			function onPaste( evt ) {
+				order.push( 'b-' + evt.data.type + '-' + evt.data.dataValue );
+				wait();
+			}
 
 			editor.on( 'beforePaste', function( evt ) {
 				evt.removeListener();
 				order.push( 'a-' + evt.data.type );
 			} );
 
-			editor.on( 'paste', function( evt ) {
-				evt.removeListener();
-				order.push( 'b-' + evt.data.type + '-' + evt.data.dataValue );
-			} );
-
 			editor.on( 'afterPaste', function( evt ) {
-				evt.removeListener();
-				tc.resume( function() {
+				resume( function() {
+					evt.removeListener();
 					assert.areEqual( 'a-auto', order[ 0 ], 'proper order and data for beforePaste' );
 					assert.areEqual( 'b-html-<b>foo</b>bar', order[ 1 ], 'proper order and data for paste' );
 				} );
 			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
-			setTimeout( function() {
-				editor.execCommand( 'paste', '<b>foo</b>bar' );
-			} );
-			tc.wait();
+			simulatePasteCommand( editor, { name: 'paste' }, { dataValue: '<b>foo</b>bar' }, onPaste );
 		},
 
 		'pasting empty string with editor#paste command': function() {
 			var tc = this,
 				editor = this.editor,
-				flag = false,
-				callback = function( evt ) {
-					evt.removeListener();
-					flag = true;
-				};
+				wasPaste = false,
+				wasAfterPaste = false;
 
-			tc.on( 'paste', callback );
-			tc.on( 'afterPaste', callback );
+			function callback() {
+				assert.isFalse( wasPaste, 'paste callback shouldn\'t be called' );
+				assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
+				assert.areEqual( editor.getData(), '<p>abc</p>' );
+			}
+
+			editor.once( 'paste', function() {
+				wasPaste = true;
+			} );
+			editor.once( 'afterPaste', function() {
+				wasAfterPaste = true;
+			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
-			editor.execCommand( 'paste', '' );
-			tc.wait( function() {
-				tc.cleanUp();
-				assert.isFalse( flag, 'paste and afterPaste callback shouldn\'t be called' );
-				assert.areEqual( editor.getData(), '<p>abc</p>' );
-			}, 50 );
+
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				// Calling editor.execCommand( 'paste' ) directly in IE triggers the security dialog.
+				// The simulatePasteCommand wrapper should be used.
+				simulatePasteCommand( editor, { name: 'paste' }, { dataValue: '' }, callback, 50 );
+			} else {
+				editor.execCommand( 'paste', '' );
+				tc.wait( callback, 50 );
+			}
 		},
 
 		'pasting empty string (native version)': function() {
 			var tc = this,
 				editor = this.editor,
-				flag = false,
-				callback = function( evt ) {
-					evt.removeListener();
-					flag = true;
-				};
+				wasPaste = false,
+				wasAfterPaste = false;
 
-			tc.on( 'paste', callback );
-			tc.on( 'afterPaste', callback );
+			editor.once( 'paste', function() {
+				wasPaste = true;
+			} );
+			editor.once( 'afterPaste', function() {
+				wasAfterPaste = true;
+			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
-			// Firefox does not allow to paste empty string (''), so we're basing
-			// on pasteDataFromClipboard which removes bookmarks.
-			// Bookmark has to have body because Fx produces <br> if it's empty.
-			bender.tools.emulatePaste( editor, '<span data-cke-bookmark="1">a</span>' );
+			bender.tools.emulatePaste( editor, '' );
 			tc.wait( function() {
-				tc.cleanUp();
-				assert.isFalse( flag, 'paste and afterPaste callback shouldn\'t be called' );
+				assert.isFalse( wasPaste, 'paste callback shouldn\'t be called' );
+				assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
 				assert.areEqual( editor.getData(), '<p>abc</p>' );
 			}, 50 );
 		},
@@ -290,26 +293,23 @@
 		'paste events - forcePasteAsPlainText': function() {
 			var beforeType;
 
-			testEditor( this, { forcePasteAsPlainText: true },
-				function( editor ) {
-					editor.on( 'beforePaste', function( evt ) {
-						evt.removeListener();
-						beforeType = evt.data.type;
-					} );
+			testEditor( this, { forcePasteAsPlainText: true }, function( editor ) {
+				editor.on( 'beforePaste', function( evt ) {
+					evt.removeListener();
+					beforeType = evt.data.type;
+				} );
 
-					editor.on( 'paste', function( evt ) {
-						evt.removeListener();
-						assert.areEqual( 'text', beforeType, 'beforePaste.data.type' );
-						assert.areEqual( 'text', evt.data.type, 'paste.data.type' );
-						assert.areEqual( '<p>foo bar</p>', evt.data.dataValue, 'paste.data.data' );
-					} );
-
-					// We need to enable this command manually, because this listener is executed before event#mode
-					// which refreshes commands automatically.
-					editor.getCommand( 'paste' ).enable();
-					editor.execCommand( 'paste', '<p><b>foo</b> bar</p>' );
+				function onPaste( evt ) {
+					assert.areEqual( 'text', beforeType, 'beforePaste.data.type' );
+					assert.areEqual( 'text', evt.data.type, 'paste.data.type' );
+					assert.areEqual( '<p>foo bar</p>', evt.data.dataValue, 'paste.data.data' );
 				}
-			);
+
+				// We need to enable this command manually, because this listener is executed before event#mode
+				// which refreshes commands automatically.
+				editor.getCommand( 'paste' ).enable();
+				simulatePasteCommand( editor, { name: 'paste' }, { dataValue: '<p><b>foo</b> bar</p>' }, onPaste );
+			} );
 		},
 
 		'content type sniffing - text': function() {
@@ -807,125 +807,155 @@
 			} );
 		},
 
-		'html textification': function() {
+		// (#1321)
+		'htmlified text unification 7 - IDEOGRAPHIC space': function() {
 			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p class="test" style="color:red">a<br style="display:none">b</p>' },
-				{ type: 'text', dataValue: '<p>a<br>b</p>' },
-				'strip styles' );
+				{ dataValue: 'a\u3000a\u3000\u3000' },
+				{ type: 'text', dataValue: 'a\u3000a\u3000\u3000' },
+				'htmlified text - IDEOGRAPHIC space' );
+		},
 
+		'html textification <p class="test" style="color:red">a<br style="display:none">b</p>': function() {
+			assertPasteEvent( this.editor, {
+					type: 'text',
+					dataValue: '<p class="test" style="color:red">a<br style="display:none">b</p>'
+				}, { type: 'text', dataValue: '<p>a<br />b</p>' }, 'strip styles' );
+		},
+
+		'html textification a<i>b</i><p>c<b>d</b>e<br>f</p>g': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'a<i>b</i><p>c<b>d</b>e<br>f</p>g' },
-				{ type: 'text', dataValue: 'ab<p>cde<br>f</p>g' },
+				{ type: 'text', dataValue: 'ab<p>cde<br />f</p>g' },
 				'strip inline elements' );
+		},
 
+		'html textification <ul> <li>A1</li> <li>A2 <ol> <li>B1</li> <li>B2</li> </ol></li> </ul> <ol> <li>C1</li> </ol>': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<ul> <li>A1</li> <li>A2 <ol> <li>B1</li> <li>B2</li> </ol></li> </ul> <ol> <li>C1</li> </ol>' },
-				{ type: 'text', dataValue: '<p>A1<br>A2</p><p>B1<br>B2</p><p>C1</p>' },
+				{ type: 'text', dataValue: '<p>A1</p><p>A2</p><p>B1</p><p>B2</p><p>C1</p>' },
 				'lists' );
+		},
+
+		'html textification <dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>': function() {
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
-				{ type: 'text', dataValue: '<p>AT<br>AD</p><p>BT<br>BD1<br>BD2</p>' },
+				{ type: 'text', dataValue: '<p>AT</p><p>AD</p><p>BT</p><p>BD1</p><p>BD2</p>' },
 				'def lists' );
+		},
+
+		'html textification a <div>b</div> <div title="1">c</div> d <div>e</div>': function() {
 
 			// Without attrib this will be handled as normal htmlified text.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'a <div>b</div> <div title="1">c</div> d <div>e</div>' },
-				{ type: 'text', dataValue: 'a<br>b<br>c<br>d<br>e<br>' },
+				{ type: 'text', dataValue: 'a<p>b</p><p>c</p> d<p>e</p>' },
 				'divs' );
+		},
+
+		'html textification <div> <p>a</p> b</div> <div>c <ul> <li>d</li> <li>e</li> </ul></div>': function() {
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<div> <p>a</p> b</div> <div>c <ul> <li>d</li> <li>e</li> </ul></div>' },
-				{ type: 'text', dataValue: '<p>a</p>b<br>c<p>d<br>e</p>' },
+				{ type: 'text', dataValue: '<p>a</p><p>b</p><p>c</p><p>d</p><p>e</p>' },
 				'divs 2' );
+		},
+
+		'html textification X<table> <caption>C</caption> <tr><th>A1</th><td>A2</td></tr> <tr><td>B1</td><th>B2</th></tr> </table>X': function() {
 
 			// TODO we should correct tbody,thead,tfoot,caption order if not done by parser.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'X<table> <caption>C</caption> <tr><th>A1</th><td>A2</td></tr> <tr><td>B1</td><th>B2</th></tr> </table>X' },
-				{ type: 'text', dataValue: 'X<p>C<br>A1 A2<br>B1 B2</p>X' },
+				{ type: 'text', dataValue: 'X<p>C</p><p>A1A2</p><p>B1B2</p>X' },
 				'tables' );
+		},
+
+		'html textification <table> <tr><td>A1</td> <td><table><tr><td>B1</td><td>B2</td></table></td></tr> <tr><td>C1</td></tr> </table>': function() {
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<table> <tr><td>A1</td> <td><table><tr><td>B1</td><td>B2</td></table></td></tr> <tr><td>C1</td></tr> </table>' },
-				{ type: 'text', dataValue: '<p>A1</p><p>B1 B2</p><p>C1</p>' },
+				{ type: 'text', dataValue: '<p>A1</p><p>B1B2</p><p>C1</p>' },
 				'tables 2' );
 		},
 
-		'html textification 2': function() {
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p title="1">a<br><br><br></p><p>b</p>' },
-				{ type: 'text', dataValue: '<p>a<br><br><br></p><p>b</p>' },
-				'preserve original new lines' );
-
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<div title="1"><br><br></div><p>a</p>' },
-				{ type: 'text', dataValue: '<br><br><p>a</p>' },
-				'preserve original new lines 2' );
-
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: 'A<br>B<br><div title="1">C</div>D<br>E' },
-				{ type: 'text', dataValue: 'A<br>B<br>C<br>D<br>E' },
-				'correct order and new line after div' );
-
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: 'A<br>B<div title="1">C</div><br>D<br>E' },
-				{ type: 'text', dataValue: 'A<br>B<br>C<br>D<br>E' },
-				'correct order and new line before div' );
-
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: 'A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F' },
-				{ type: 'text', dataValue: 'A<p>B</p>C<p>D</p><p>E</p>F' },
-				'transparent divs' );
+		'html textification 2 <p title="1">a<br><br><br></p><p>b</p>': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<p title="1">a<br><br><br></p><p>b</p>'
+			}, { type: 'text', dataValue: '<p>a<br /><br /><br /></p><p>b</p>' }, 'preserve original new lines' );
 		},
 
-		'html textification 3 - ticket #8834': function() {
+		'html textification 2 <div title="1"><br><br></div><p>a</p>': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<div title="1"><br><br></div><p>a</p>'
+			}, { type: 'text', dataValue: '<p><br /><br /></p><p>a</p>' }, 'preserve original new lines 2' );
+		},
+
+		'html textification 2 A<br>B<br><div title="1">C</div>D<br>E': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: 'A<br>B<br><div title="1">C</div>D<br>E'
+			}, { type: 'text', dataValue: 'A<br />B<br /><p>C</p>D<br />E' }, 'correct order and new line after div' );
+		},
+
+		'html textification 2 A<br>B<div title="1">C</div><br>D<br>E': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: 'A<br>B<div title="1">C</div><br>D<br>E'
+			}, { type: 'text', dataValue: 'A<br />B<p>C</p><br />D<br />E' }, 'correct order and new line before div' );
+		},
+
+		'html textification 2 A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F': function() {
+			assertPasteEvent( this.editor, {
+					type: 'text',
+					dataValue: 'A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F'
+				}, { type: 'text', dataValue: 'A<p>B</p><p>C</p><p>D</p><p>E</p>F' }, 'transparent divs' );
+		},
+
+		'html textification 3 - ticket https://dev.ckeditor.com/ticket/8834': function() {
 			// Mso classes will be stripped by pastefromword filters, and we need some styling element,
 			// because otherwise this will be handled as htmlified text.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<p><strong>Line</strong> 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
-				{ type: 'text', dataValue: '<p>Line 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
-				'tt #8834' );
+				{ type: 'text', dataValue: '<p>Line 1<br />Line 2</p><p>Line 3</p><p>Line 4</p>' },
+				'tt https://dev.ckeditor.com/ticket/8834' );
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<p><strong>Line</strong> 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
-				{ type: 'text', dataValue: '<p>Line 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
-				'tt #8834' );
+				{ type: 'text', dataValue: '<p>Line 1<br />Line 2</p><p>Line 3</p><p>Line 4</p>' },
+				'tt https://dev.ckeditor.com/ticket/8834' );
 		},
 
 		'html textification 4': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'x<object>y</object>z <p>a<iframe src=".">b</iframe>c</p>' },
-				{ type: 'text', dataValue: 'xz<p>ac</p>' },
+				{ type: 'text', dataValue: 'xyz<p>abc</p>' },
 				'remove elements' );
 
 			// input -> value? select -> current value?
 			// possible problems: applet, area, fieldset, hgroup (-> h1<br>h2), select, audio, video,
 		},
 
-		'html textification 5 - complex cases': function() {
-			assertPasteEvent(
-				this.editor,
-				{
-					type: 'text', dataValue: '<section><h1>HH</h1><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></section>' +
-					'<table><tbody><tr><td><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></td></tr></tbody></table>'
-				},
-				{
-					type: 'text', dataValue: '<p>HH</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p>'
-				},
-				'complex case 1'
-			);
+		'html textification 5 - complex cases #1': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text',
+				dataValue: '<section><h1>HH</h1><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></section>' + '<table><tbody><tr><td><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></td></tr></tbody></table>'
+			}, {
+				type: 'text',
+				dataValue: '<p>HH</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p>'
+			}, 'complex case 1' );
+		},
 
-			assertPasteEvent(
-				this.editor,
-				{
-					type: 'text', dataValue: '<section><div><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><aside><table><tr><td><p>4AAAA</p>' +
-					'<ul><li>BBB</li><li>BBB</li></ul><p>5AAAA</p></td><td><p>6AAAA</p><p>7AAAA</p></td></tr></table></aside></div></section>'
-				},
-				{
-					type: 'text', dataValue: '<p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>4AAAA</p><p>BBB<br>BBB</p><p>5AAAA</p><p>6AAAA</p><p>7AAAA</p>'
-				},
-				'complex case 2'
-			);
+		'html textification 5 - complex cases #2': function() {
+
+			assertPasteEvent( this.editor, {
+					type: 'text',
+					dataValue: '<section><div><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><aside><table><tr><td><p>4AAAA</p>' +
+						'<ul><li>BBB</li><li>BBB</li></ul><p>5AAAA</p></td><td><p>6AAAA</p><p>7AAAA</p></td></tr></table></aside></div></section>'
+				}, {
+					type: 'text',
+					dataValue: '<p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>4AAAA</p><p>BBB</p><p>BBB</p><p>5AAAA</p><p>6AAAA</p><p>7AAAA</p>'
+				}, 'complex case 2' );
+		},
+
+		'html textification 5 - complex cases #3': function() {
 
 			assertPasteEvent(
 				this.editor,
@@ -935,32 +965,37 @@
 			);
 		},
 
-		'html textification 6 - tricks': function() {
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="This is a title">B</p>' },
-				{ type: 'text', dataValue: '<p>A [This is a title] B</p>' },
-				'img alt to text' );
+		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="This is a title">B</p>': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="This is a title">B</p>'
+			}, { type: 'text', dataValue: '<p>AB</p>' }, 'img alt to text' );
+		},
 
+		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="sth.jpg?1=2">B</p>': function() {
 			// Quite popular case in the Internet.
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="sth.jpg?1=2">B</p>' },
-				{ type: 'text', dataValue: '<p>A B</p>' },
-				'dumb alt' );
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="sth.jpg?1=2">B</p>'
+			}, { type: 'text', dataValue: '<p>AB</p>' }, 'dumb alt' );
+		},
 
+		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="">B</p>': function() {
 			// Popular too.
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="">B</p>' },
-				{ type: 'text', dataValue: '<p>A B</p>' },
-				'dumb alt' );
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="">B</p>'
+			}, { type: 'text', dataValue: '<p>AB</p>' }, 'dumb alt' );
+		},
 
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>' },
-				{ type: 'text', dataValue: '<p>A</p><p>B</p><p>C</p><p>D</p>' },
-				'remove empty blocks' );
+		'html textification 6 - tricks <p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>': function() {
+			assertPasteEvent( this.editor, {
+					type: 'text',
+					dataValue: '<p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>'
+				}, { type: 'text', dataValue: '<p>A</p><p>B</p><p>C</p><p>D</p>' }, 'remove empty blocks' );
+		},
 
+		'html textification 6 - tricks <p>A</p> <h1>T1</h1> <h2>T2</h2> <h3>T3</h3> <p>C</p> <h4>T4</h4> D <h5>T5</h5>': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<p>A</p> <h1>T1</h1> <h2>T2</h2> <h3>T3</h3> <p>C</p> <h4>T4</h4> D <h5>T5</h5>' },
-				{ type: 'text', dataValue: '<p>A</p><p>T1<br>T2<br>T3</p><p>C</p><p>T4</p>D<p>T5</p>' },
+				{ type: 'text', dataValue: '<p>A</p><p>T1</p><p>T2</p><p>T3</p><p>C</p><p>T4</p>D<p>T5</p>' },
 				'squash adjacent headers' );
 		},
 
@@ -969,7 +1004,7 @@
 				function( editor ) {
 					assertPasteEvent( editor,
 						{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
-						{ type: 'text', dataValue: 'AT<br>AD<br><br>BT<br>BD1<br>BD2' },
+						{ type: 'text', dataValue: 'AT<br />AD<br />BT<br />BD1<br />BD2' },
 						'def lists' );
 				} );
 		},
@@ -979,7 +1014,7 @@
 				function( editor ) {
 					assertPasteEvent( editor,
 						{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
-						{ type: 'text', dataValue: '<div>AT<br>AD</div><div>BT<br>BD1<br>BD2</div>' },
+						{ type: 'text', dataValue: '<div><div>AT</div><div>AD<div><div>BT</div><div>BD1</div><div>BD2</div></div></div></div>' },
 						'def lists' );
 				} );
 		},
@@ -1045,126 +1080,431 @@
 				evt.data.type = 'html';
 			} );
 
-			tc.on( 'paste', function( evt ) {
+			function onPaste( evt ) {
 				assert.areEqual( 'html', evt.data.type );
-			}, null, null, 900 );
-
-			editor.execCommand( 'paste', 'abc' );
-			tc.cleanUp();
-		},
-
-		'editor.getClipboardData - successful': function() {
-			var tc = this,
-				editor = this.editor,
-				beforePasteFired = false;
-
-			editor.once( 'beforePaste', function( evt ) {
-				assert.areEqual( 'auto', evt.data.type );
-				beforePasteFired = true;
-				evt.data.type = 'test';
-			} );
-
-			editor.once( 'dialogShow', function() {
-				var dialog = editor._.storedDialogs.paste;
-				assert.isTrue( !!dialog );
-
-				// Fx is sooo buggy - don't try to get frameDoc in scope above,
-				// because it will return different object than here.
-				var frameDoc = dialog.getContentElement( 'general', 'editing_area' )
-					.getInputElement().getFrameDocument();
-
-				frameDoc.getBody().setHtml( 'abc<b>def</b>' );
-				dialog.fire( 'ok' );
-				dialog.hide();
-			} );
-
-			editor.getClipboardData( function( data ) {
-				tc.resume( function() {
-					assert.isTrue( beforePasteFired );
-					assert.areEqual( 'test', data.type );
-					assert.areEqual( 'abc<b>def</b>', data.dataValue );
-				} );
-			} );
-
-			tc.wait();
-		},
-
-		'editor.getClipboardData - unsuccessful': function() {
-			var tc = this,
-				editor = this.editor,
-				dialogOpened = false;
-
-			editor.on( 'dialogShow', function( evt ) {
-				evt.removeListener();
-
-				tc.resume( function() {
-					var dialog = editor._.storedDialogs.paste;
-					assert.isTrue( !!dialog );
-
-					dialogOpened = true;
-
-					// Make sure it's async.
-					setTimeout( function() {
-						dialog.fire( 'cancel' );
-						dialog.hide();
-					} );
-
-					tc.wait();
-				} );
-			} );
-
-			// It's easier to have this asynchronous, becasuse then we don't have to think
-			// if tc.wait() & tc.resume() will execute properly.
-			setTimeout( function() {
-				editor.getClipboardData( function( data ) {
-					tc.resume( function() {
-						assert.isNull( data );
-						assert.isTrue( dialogOpened );
-					} );
-				} );
-			} );
-
-			tc.wait();
-		},
-
-		'editor.getClipboardData - canceled beforePaste': function() {
-			var tc = this,
-				editor = this.editor,
-				dialogOpened = false,
-				pasteFired = false;
-
-			function onDialogShow() {
-				dialogOpened = true;
 			}
 
-			function onPaste() {
-				pasteFired = true;
+			simulatePasteCommand( editor, { name: 'paste' }, { dataValue: 'abc' }, onPaste );
+		},
+
+		'dataTranfer and method in paste - emulatePaste': function() {
+			var editor = this.editor,
+				pasteCount = 0,
+				pasteMethod,
+				dataTransferInPaste;
+
+			this.on( 'paste', function( evt ) {
+				pasteCount++;
+				pasteMethod = evt.data.method;
+				dataTransferInPaste = evt.data.dataTransfer instanceof CKEDITOR.plugins.clipboard.dataTransfer;
+			} );
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
+			bender.tools.emulatePaste( editor, '<p>bam</p>' );
+
+			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
+				assert.areSame( 1, pasteCount, 'There should only one paste.' );
+				assert.areSame( 'paste', pasteMethod, 'Method should be paste' );
+				assert.isTrue( dataTransferInPaste, 'Paste event should contain dataTranfer' );
+			} );
+
+			this.wait();
+		},
+
+		'dataTranfer and method in paste - execCommand': function() {
+			var editor = this.editor;
+
+			function onPaste( evt ) {
+				assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, evt.data.dataTransfer );
+				assert.areSame( 'paste', evt.data.method, 'Method should be paste' );
 			}
 
-			editor.on( 'beforePaste', function( evt ) {
-				evt.removeListener();
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
+			simulatePasteCommand( editor, 'xxx', {}, onPaste );
+		},
+
+		'paste with HTML in clipboardData': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+				assert.ignore();
+			}
+
+			var editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = bender.tools.mockPasteEvent(),
+				dataValueOnPaste, htmlDataOnPaste;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
+
+			this.on( 'paste', function( evt ) {
+				dataValueOnPaste = evt.data.dataValue;
+				htmlDataOnPaste = evt.data.dataTransfer.getData( 'text/html' );
+			}, 0 );
+
+			pasteEventMock.$.clipboardData.setData( 'text/html', '<p>bam</p>' );
+			editable.fire( 'paste', pasteEventMock );
+
+			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
+				assert.areSame( '', dataValueOnPaste, 'Data value on paste (priority 0) should be empty.' );
+				assert.areSame( '<p>bam</p>', htmlDataOnPaste, 'dataTransfer html data should be set.' );
+			} );
+			this.wait();
+		},
+
+		'paste with HTML in clipboardData - cancel on before paste': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+				assert.ignore();
+			}
+
+			var editor = this.editor,
+				editable = editor.editable(),
+				tc = this,
+				pasteEventMock = bender.tools.mockPasteEvent(),
+				pasteCount = 0,
+				beforePasteCount = 0;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
+
+			this.on( 'beforePaste', function( evt ) {
+				beforePasteCount++;
 				evt.cancel();
 			} );
 
-			editor.on( 'dialogShow', onDialogShow );
-			editor.on( 'paste', onPaste );
+			this.on( 'paste', function() {
+				pasteCount++;
+			}, 0 );
 
-			// It's easier to have this asynchronous, becasuse then we don't have to think
-			// if tc.wait() & tc.resume() will execute properly.
-			setTimeout( function() {
-				editor.getClipboardData( function( data ) {
-					tc.resume( function() {
-						assert.isNull( data );
-						assert.isFalse( dialogOpened );
-						assert.isFalse( pasteFired );
+			pasteEventMock.$.clipboardData.setData( 'text/html', '<p>bam</p>' );
+			editable.fire( 'paste', pasteEventMock );
 
-						editor.removeListener( 'dialogShow', onDialogShow );
-						editor.removeListener( 'paste', onPaste );
-					} );
+			tc.wait( function() {
+				assert.areSame( 1, beforePasteCount, 'There should be 1 before paste event.' );
+				assert.areSame( 0, pasteCount, 'There should be no paste event.' );
+			}, 50 );
+		},
+
+		'test cut': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+				assert.ignore();
+
+			var editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = bender.tools.mockPasteEvent();
+
+			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
+
+			editable.fire( 'cut', pasteEventMock );
+
+			// As Edge stores custom data in text/html it needs to be asserted differently - we need to extract content part (#962).
+			if ( CKEDITOR.env.edge ) {
+				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
+				assert.areSame( 'b<b>a</b>r', dataTransfer._.fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
+			} else {
+				assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			}
+
+			assert.areSame( 'bar', pasteEventMock.$.clipboardData.getData( 'Text' ), 'Plain text' );
+			assert.isInnerHtmlMatching( '<p>x^x@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true }, 'Editor content' );
+			assert.areSame( pasteEventMock.$.clipboardData, CKEDITOR.plugins.clipboard.copyCutData.$, 'copyCutData should be initialized' );
+		},
+
+		'test copy': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+				assert.ignore();
+
+			var editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = bender.tools.mockPasteEvent();
+
+			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
+
+			editable.fire( 'copy', pasteEventMock );
+
+			// As Edge stores custom data in text/html it needs to be asserted differently - we need to extract content part (#962).
+			if ( CKEDITOR.env.edge ) {
+				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
+				assert.areSame( 'b<b>a</b>r', dataTransfer._.fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
+			} else {
+				assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			}
+
+			assert.areSame( 'bar', pasteEventMock.$.clipboardData.getData( 'Text' ), 'Plain text data' );
+			assert.isInnerHtmlMatching( '<p>x[b<b>a</b>r]x@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true }, 'Editor content' );
+			assert.areSame( pasteEventMock.$.clipboardData, CKEDITOR.plugins.clipboard.copyCutData.$, 'copyCutData should be initialized' );
+		},
+
+		'test cut and paste': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+				assert.ignore();
+
+			var editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = bender.tools.mockPasteEvent(),
+				pasteCount = 0,
+				pasteMethod, htmlData, textData, dataTransferType;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
+
+			editable.fire( 'cut', pasteEventMock );
+
+			this.on( 'paste', function( evt ) {
+				pasteCount++;
+				pasteMethod = evt.data.method;
+				htmlData = evt.data.dataTransfer.getData( 'text/html' );
+				textData = evt.data.dataTransfer.getData( 'text/plain' );
+				dataTransferType = evt.data.dataTransfer.getTransferType( evt.editor );
+			} );
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^</p>' );
+			editable.fire( 'paste', pasteEventMock );
+
+			assertAfterPasteContent( this, '<p>foob<b>a</b>r</p>', function() {
+				assert.areSame( 1, pasteCount, 'Paste count' );
+				assert.areSame( 'paste', pasteMethod, 'Paste method.' );
+				assert.areSame( 'b<b>a</b>r', htmlData, 'HTML data' );
+				assert.areSame( 'bar', textData, 'Plain text data' );
+				assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransferType, 'Trasfer type' );
+
+			} );
+
+			this.wait();
+		},
+
+		'test copy and paste': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+				assert.ignore();
+
+			var editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = bender.tools.mockPasteEvent(),
+				pasteCount = 0,
+				pasteMethod, htmlData, textData, dataTransferType;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
+
+			editable.fire( 'copy', pasteEventMock );
+
+			this.on( 'paste', function( evt ) {
+				pasteCount++;
+				pasteMethod = evt.data.method;
+				htmlData = evt.data.dataTransfer.getData( 'text/html' );
+				textData = evt.data.dataTransfer.getData( 'text/plain' );
+				dataTransferType = evt.data.dataTransfer.getTransferType( evt.editor );
+			} );
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^</p>' );
+			editable.fire( 'paste', pasteEventMock );
+
+			assertAfterPasteContent( this, '<p>foob<b>a</b>r</p>', function() {
+				assert.areSame( 1, pasteCount, 'Paste count' );
+				assert.areSame( 'paste', pasteMethod, 'Paste method.' );
+				assert.areSame( 'b<b>a</b>r', htmlData, 'HTML data' );
+				assert.areSame( 'bar', textData, 'Plain text data' );
+				assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransferType, 'Trasfer type' );
+
+			} );
+
+			this.wait();
+		},
+
+		'test paste if dataTransfer is not empty': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
+				assert.ignore();
+
+			var editor = this.editor,
+				// As dataTransfer mock is used in `bender.tools.emulatePaste` we need to pass a type which is acceptable in Edge
+				// as it does not support custom types (#962).
+				customType = CKEDITOR.env.edge ? 'application/xml' : 'cke/custom',
+				initialData = {};
+
+			initialData[ customType ] = 'foo';
+
+			this.on( 'paste', function( evt ) {
+				resume( function() {
+					assert.areSame( 'paste', evt.data.method, 'Paste method.' );
+					assert.areSame( 'foo', evt.data.dataTransfer.getData( customType ), 'cke/custom data' );
+					assert.areSame( '', evt.data.dataValue, 'dataValue' );
 				} );
 			} );
 
-			tc.wait();
+			bender.tools.emulatePaste( editor, '', initialData );
+
+			this.wait();
+		},
+
+		'test no paste if dataTransfer and dataValue is empty': function() {
+			var editor = this.editor,
+				pasteCount = 0;
+
+			this.on( 'paste', function() {
+				pasteCount++;
+			} );
+
+			bender.tools.emulatePaste( editor, '' );
+
+			this.wait( function() {
+				assert.areSame( 0, pasteCount, 'Paste should not be fired.' );
+			}, 0 );
+		},
+
+		// (#3415)
+		'test paste list with whitespace on boundaries': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+				assert.ignore();
+			}
+
+			var editor = this.editor;
+
+			this.on( 'afterPaste', function() {
+				resume( function() {
+					// If we got here, it means that the list was pasted successfully.
+					assert.pass();
+				} );
+			} );
+
+			bender.tools.emulatePaste( editor, '<html>' +
+				'<body>\n' +
+				'<!--StartFragment--><li>foo</li><!--EndFragment-->\n' +
+				'</body>' +
+				'</html>' );
+
+			this.wait();
+		},
+
+		'test canClipboardApiBeTrusted internal': function() {
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted;
+
+			var editor = this.editor,
+				nativeData = bender.tools.mockNativeDataTransfer(),
+				evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt, editor );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer, editor ), 'Clipboard API should be used for internal operations.' );
+		},
+
+		'test canClipboardApiBeTrusted in Chrome': function() {
+			if ( !CKEDITOR.env.chrome ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted;
+
+			var nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be used in Chrome.' );
+		},
+
+		'test canClipboardApiBeTrusted in Safari': function() {
+			if ( !CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted,
+				nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be marked as trusted.' );
+		},
+
+		// #468
+		'test canClipboardApiBeTrusted in Edge 16+': function() {
+			if ( !trustyEdge ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted,
+				nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be marked as trusted.' );
+		},
+
+		'test canClipboardApiBeTrusted in Android Chrome (no dataTransfer support)': function() {
+			if ( !CKEDITOR.env.chrome ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted;
+
+			var dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer(); // no native data transfer
+
+			assert.isFalse( canClipboardApiBeTrusted( dataTransfer ),
+				'Clipboard API should NOT be used for in Android Chrome.' );
+		},
+
+		'test canClipboardApiBeTrusted in Firefox with HTML': function() {
+			if ( !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted;
+
+			var nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be used in Firefox with HTML.' );
+		},
+
+		'test canClipboardApiBeTrusted in Firefox with files': function() {
+			if ( !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted;
+
+			var nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.files.push( 'foo' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be used in Firefox with files.' );
+		},
+
+		'test canClipboardApiBeTrusted in Firefox without files and HTML': function() {
+			if ( !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted;
+
+			var nativeData = bender.tools.mockNativeDataTransfer(),
+				evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isFalse( canClipboardApiBeTrusted( dataTransfer ),
+				'Clipboard API should not be used in Firefox without html and files.' );
+		},
+
+		'test canClipboardApiBeTrusted on other browser': function() {
+			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || CKEDITOR.env.safari || trustyEdge ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted;
+
+			var nativeData = bender.tools.mockNativeDataTransfer(),
+				evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isFalse( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should not be used in other browsers.' );
 		},
 
 		'#131 - trailing spaces': function() {
@@ -1187,16 +1527,16 @@
 				} );
 		},
 
-		// #9675 and #9534.
+		// https://dev.ckeditor.com/ticket/9675 and https://dev.ckeditor.com/ticket/9534.
 		'strip editable when about to paste the entire inline editor': function() {
-			// #9534: FF and Webkits in inline editor based on header element.
+			// https://dev.ckeditor.com/ticket/9534: FF and Webkits in inline editor based on header element.
 			assertPasteEvent( this.editor, { dataValue: '<h1 class="cke_editable">Foo<br>Bar</h1>' },
 				{ dataValue: 'Foo<br>Bar' }, 'stripped .cke_editable' );
 
 			assertPasteEvent( this.editor, { dataValue: '<div class="cke_contents">Bar<br></div>' },
 				{ dataValue: 'Bar' }, 'stripped .cke_contents & bogus br removed' );
 
-			// #9675: FF36 copies divarea.
+			// https://dev.ckeditor.com/ticket/9675: FF36 copies divarea.
 			assertPasteEvent( this.editor,
 				{ dataValue: '<div id="cke_1_contents" class="cke_contents"><div class="cke_editable" contenteditable="true"><p>aaa</p></div></div>' },
 				{ dataValue: '<p>aaa</p>' }, 'stripped .cke_editable > .cke_contents' );

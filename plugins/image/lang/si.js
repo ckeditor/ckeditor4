@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image', 'si', {
-	alertUrl: 'කරුණාකර රුපයේ URL ලියන්න',
 	alt: 'විකල්ප ',
 	border: 'සීමාවවල ',
 	btnUpload: 'සේවාදායකය වෙත යොමුකිරිම',

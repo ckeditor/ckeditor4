@@ -1,0 +1,21 @@
+<h2>Divarea</h2>
+
+<div id="editor1">
+	<ul>
+		<li>foo</li>
+	</ul>
+	<p>bar</p>
+	<ul>
+		<li>baz</li>
+	</ul>
+</div>
+
+<input type="text" value="init">
+
+<script>
+	if ( !CKEDITOR.env.webkit || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>

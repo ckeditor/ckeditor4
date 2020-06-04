@@ -1,0 +1,24 @@
+<div id="editor1" contenteditable="true">
+	<p>Foo</p>
+	<p><strong>Foo</strong></p>
+	<p><em>Foo</em></p>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p>Foo</p>
+	<p><strong>Foo</strong></p>
+	<p><em>Foo</em></p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'sourcearea',
+		copyFormatting_keystrokeCopy: CKEDITOR.CTRL + CKEDITOR.SHIFT + 66,
+		copyFormatting_keystrokePaste: CKEDITOR.CTRL + CKEDITOR.SHIFT + 77
+	} );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'dialog,sourcedialog',
+		copyFormatting_keystrokeCopy: false,
+		copyFormatting_keystrokePaste: false
+	} );
+</script>

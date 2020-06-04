@@ -1,0 +1,40 @@
+<div id="editor">
+	<img src="../../../_assets/logo.png">
+	<p>Some text</p>
+</div>
+
+<label><input id="readonly" type="checkbox">Editor readonly</label>
+
+<script>
+	// Drag & drop of widgets isn't supported on mobiles.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function() {
+				var readonlyCheckBox = CKEDITOR.document.findOne( '#readonly' ),
+					editor = this;
+
+				setReadOnly();
+
+				if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					setInterval( function() {
+						setReadOnly();
+					}, 150 );
+				} else {
+					readonlyCheckBox.on( 'change', function() {
+						setReadOnly( readonlyCheckBox.$.checked );
+					} );
+				}
+
+				function setReadOnly() {
+					if ( editor.readOnly !== readonlyCheckBox.$.checked ) {
+						editor.setReadOnly( readonlyCheckBox.$.checked );
+					}
+				}
+			}
+		}
+	} );
+</script>

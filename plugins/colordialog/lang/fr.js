@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'fr', {
 	clear: 'Effacer',
-	highlight: 'Détails',
-	options: 'Option des couleurs',
+	highlight: 'Pointée',
+	options: 'Options de couleur',
 	selected: 'Couleur choisie',
-	title: 'Choisir une couleur'
+	title: 'Sélectionner une couleur'
 } );

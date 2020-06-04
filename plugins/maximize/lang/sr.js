@@ -1,8 +1,8 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'maximize', 'sr', {
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize' // MISSING
+	maximize: 'Максимална величина',
+	minimize: 'Минимлна величина'
 } );

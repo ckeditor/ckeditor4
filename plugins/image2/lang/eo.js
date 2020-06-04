@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'eo', {
 	alt: 'Anstataŭiga Teksto',
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'eo', {
 	resizer: 'Kliki kaj treni por ŝanĝi la grandon',
 	title: 'Atributoj de Bildo',
 	uploadTab: 'Alŝuti',
-	urlMissing: 'La fontretadreso de la bildo mankas.'
+	urlMissing: 'La fontretadreso de la bildo mankas.',
+	altMissing: 'Alternativa teksto mankas.'
 } );

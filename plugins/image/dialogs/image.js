@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -107,7 +107,7 @@
 
 					var oImageOriginal = dialog.originalElement;
 
-					// Dialog may already closed. (#5505)
+					// Dialog may already closed. (https://dev.ckeditor.com/ticket/5505)
 					if ( !oImageOriginal )
 						return null;
 
@@ -116,20 +116,25 @@
 						if ( !dialog.userlockRatio && oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
 							var width = dialog.getValueOf( 'info', 'txtWidth' ),
 								height = dialog.getValueOf( 'info', 'txtHeight' ),
-								originalRatio = oImageOriginal.$.width * 1000 / oImageOriginal.$.height,
-								thisRatio = width * 1000 / height;
+								originalRatio = oImageOriginal.$.width / oImageOriginal.$.height,
+								thisRatio = width / height;
+
 							dialog.lockRatio = false; // Default: unlock ratio
 
-							if ( !width && !height )
+							if ( !width && !height ) {
 								dialog.lockRatio = true;
-							else if ( !isNaN( originalRatio ) && !isNaN( thisRatio ) ) {
-								if ( Math.round( originalRatio ) == Math.round( thisRatio ) )
+							} else {
+								// Round ratio to two decimal places so ratio locking will be less precise (#2254).
+								var ratioComparison = Math.round( ( originalRatio / thisRatio ) * 100 ) / 100;
+
+								if ( ratioComparison == 1 ) {
 									dialog.lockRatio = true;
+								}
 							}
 						}
-					} else if ( value !== undefined )
+					} else if ( value !== undefined ) {
 						dialog.lockRatio = value;
-					else {
+					} else {
 						dialog.userlockRatio = 1;
 						dialog.lockRatio = !dialog.lockRatio;
 					}
@@ -151,13 +156,25 @@
 					return dialog.lockRatio;
 				};
 
-			var resetSize = function( dialog ) {
-					var oImageOriginal = dialog.originalElement;
-					if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
+			var resetSize = function( dialog, emptyValues ) {
+					var oImageOriginal = dialog.originalElement,
+						ready = oImageOriginal.getCustomData( 'isReady' ) == 'true';
+
+					if ( ready ) {
 						var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-							heightField = dialog.getContentElement( 'info', 'txtHeight' );
-						widthField && widthField.setValue( oImageOriginal.$.width );
-						heightField && heightField.setValue( oImageOriginal.$.height );
+							heightField = dialog.getContentElement( 'info', 'txtHeight' ),
+							widthValue, heightValue;
+
+						if ( emptyValues ) {
+							widthValue = 0;
+							heightValue = 0;
+						} else {
+							widthValue = oImageOriginal.$.width;
+							heightValue = oImageOriginal.$.height;
+						}
+
+						widthField && widthField.setValue( widthValue );
+						heightField && heightField.setValue( heightValue );
 					}
 					updatePreview( dialog );
 				};
@@ -207,9 +224,10 @@
 					if ( loader )
 						loader.setStyle( 'display', 'none' );
 
-					// New image -> new domensions
-					if ( !this.dontResetSize )
-						resetSize( this );
+					// New image -> new dimensions
+					if ( !this.dontResetSize ) {
+						resetSize( this, editor.config.image_prefillDimensions === false );
+					}
 
 					if ( this.firstLoad ) {
 						CKEDITOR.tools.setTimeout( function() {
@@ -220,7 +238,7 @@
 					this.firstLoad = false;
 					this.dontResetSize = false;
 
-					// Possible fix for #12818.
+					// Possible fix for https://dev.ckeditor.com/ticket/12818.
 					updatePreview( this );
 				};
 
@@ -257,8 +275,20 @@
 
 			return {
 				title: editor.lang.image[ dialogType == 'image' ? 'title' : 'titleButton' ],
-				minWidth: 420,
+				minWidth: ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 500 : 420,
 				minHeight: 360,
+				getModel: function( editor ) {
+					var element = editor.getSelection().getSelectedElement(),
+						isImage = element && element.getName() === 'img',
+						isImageInput = element && element.getName() === 'input' &&
+							element.getAttribute( 'type' ) === 'image';
+
+					if ( isImage ||isImageInput ) {
+						return element;
+					}
+
+					return null;
+				},
 				onShow: function() {
 					this.imageElement = false;
 					this.linkElement = false;
@@ -297,7 +327,7 @@
 						this.linkEditMode = true;
 
 						// If there is an existing link, by default keep it (true).
-						// It will be removed if certain conditions are met and Link tab is enabled. (#13351)
+						// It will be removed if certain conditions are met and Link tab is enabled. (https://dev.ckeditor.com/ticket/13351)
 						this.addLink = true;
 
 						// Look for Image element.
@@ -477,6 +507,7 @@
 							type: 'hbox',
 							widths: [ '280px', '110px' ],
 							align: 'right',
+							className: 'cke_dialog_image_url',
 							children: [ {
 								id: 'txtUrl',
 								type: 'text',
@@ -528,7 +559,7 @@
 										this.getDialog().dontResetSize = true;
 
 										field.setValue( url ); // And call this.onChange()
-										// Manually set the initial value.(#4191)
+										// Manually set the initial value.(https://dev.ckeditor.com/ticket/4191)
 										field.setInitValue();
 									}
 								},
@@ -606,11 +637,11 @@
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
 												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
-												alert( editor.lang.common.invalidWidth ); // jshint ignore:line
+												alert( editor.lang.common.invalidLength.replace( '%1', editor.lang.common.width ).replace( '%2', 'px, %' ) ); // jshint ignore:line
 											return isValid;
 										},
 										setup: setupDimension,
-										commit: function( type, element, internalCommit ) {
+										commit: function( type, element ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
 												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
@@ -618,7 +649,7 @@
 												else
 													element.removeStyle( 'width' );
 
-												!internalCommit && element.removeAttribute( 'width' );
+												element.removeAttribute( 'width' );
 											} else if ( type == PREVIEW ) {
 												var aMatch = value.match( regexGetSize );
 												if ( !aMatch ) {
@@ -647,11 +678,11 @@
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
 												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
-												alert( editor.lang.common.invalidHeight ); // jshint ignore:line
+												alert( editor.lang.common.invalidLength.replace( '%1', editor.lang.common.height ).replace( '%2', 'px, %' ) ); // jshint ignore:line
 											return isValid;
 										},
 										setup: setupDimension,
-										commit: function( type, element, internalCommit ) {
+										commit: function( type, element ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
 												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
@@ -659,7 +690,7 @@
 												else
 													element.removeStyle( 'height' );
 
-												!internalCommit && element.removeAttribute( 'height' );
+												element.removeAttribute( 'height' );
 											} else if ( type == PREVIEW ) {
 												var aMatch = value.match( regexGetSize );
 												if ( !aMatch ) {
@@ -679,6 +710,7 @@
 								{
 									id: 'ratioLock',
 									type: 'html',
+									className: 'cke_dialog_image_ratiolock',
 									style: 'margin-top:30px;width:40px;height:40px;',
 									onLoad: function() {
 										// Activate Reset button
@@ -756,7 +788,7 @@
 											this.setValue( value );
 										}
 									},
-									commit: function( type, element, internalCommit ) {
+									commit: function( type, element ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( !isNaN( value ) ) {
@@ -766,7 +798,7 @@
 												element.removeStyle( 'border' );
 											}
 
-											if ( !internalCommit && type == IMAGE )
+											if ( type == IMAGE )
 												element.removeAttribute( 'border' );
 										} else if ( type == CLEANUP ) {
 											element.removeAttribute( 'border' );
@@ -807,7 +839,7 @@
 											this.setValue( value );
 										}
 									},
-									commit: function( type, element, internalCommit ) {
+									commit: function( type, element ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( !isNaN( value ) ) {
@@ -818,7 +850,7 @@
 												element.removeStyle( 'margin-right' );
 											}
 
-											if ( !internalCommit && type == IMAGE )
+											if ( type == IMAGE )
 												element.removeAttribute( 'hspace' );
 										} else if ( type == CLEANUP ) {
 											element.removeAttribute( 'hspace' );
@@ -857,7 +889,7 @@
 											this.setValue( value );
 										}
 									},
-									commit: function( type, element, internalCommit ) {
+									commit: function( type, element ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( !isNaN( value ) ) {
@@ -868,7 +900,7 @@
 												element.removeStyle( 'margin-bottom' );
 											}
 
-											if ( !internalCommit && type == IMAGE )
+											if ( type == IMAGE )
 												element.removeAttribute( 'vspace' );
 										} else if ( type == CLEANUP ) {
 											element.removeAttribute( 'vspace' );
@@ -887,8 +919,8 @@
 									'default': '',
 									items: [
 										[ editor.lang.common.notSet, '' ],
-										[ editor.lang.common.alignLeft, 'left' ],
-										[ editor.lang.common.alignRight, 'right' ]
+										[ editor.lang.common.left, 'left' ],
+										[ editor.lang.common.right, 'right' ]
 										// Backward compatible with v2 on setup when specified as attribute value,
 										// while these values are no more available as select options.
 										//	[ editor.lang.image.alignAbsBottom , 'absBottom'],
@@ -917,7 +949,7 @@
 											this.setValue( value );
 										}
 									},
-									commit: function( type, element, internalCommit ) {
+									commit: function( type, element ) {
 										var value = this.getValue();
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( value )
@@ -925,7 +957,7 @@
 											else
 												element.removeStyle( 'float' );
 
-											if ( !internalCommit && type == IMAGE ) {
+											if ( type == IMAGE ) {
 												value = ( element.getAttribute( 'align' ) || '' ).toLowerCase();
 												switch ( value ) {
 													// we should remove it only if it matches "left" or "right",
@@ -1001,6 +1033,7 @@
 					{
 						type: 'button',
 						id: 'browse',
+						className: 'cke_dialog_image_browse',
 						filebrowser: {
 							action: 'Browse',
 							target: 'Link:txtUrl',

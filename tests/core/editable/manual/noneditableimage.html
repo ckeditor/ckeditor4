@@ -1,0 +1,12 @@
+<div id="editor">
+	<p>Foo</p>
+	<div contenteditable="false">
+		<img src="../../../_assets/lena.jpg" alt="">
+	</div>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'div [contenteditable]'
+	} );
+</script>

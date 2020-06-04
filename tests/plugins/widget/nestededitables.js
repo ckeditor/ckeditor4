@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widgetcore */
+/* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,undo,basicstyles,clipboard,dialog */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
@@ -9,6 +9,10 @@
 	bender.editor = {
 		config: {
 			allowedContent: true,
+
+			// (https://dev.ckeditor.com/ticket/13186)
+			pasteFilter: null,
+
 			on: {
 				instanceReady: function( evt ) {
 					evt.editor.dataProcessor.writer.sortAttributes = 1;
@@ -37,6 +41,10 @@
 
 	var fixHtml = widgetTestsTools.fixHtml,
 		getWidgetById = widgetTestsTools.getWidgetById;
+
+	function keysLength( obj ) {
+		return CKEDITOR.tools.object.keys( obj ).length;
+	}
 
 	function testDelKey( editor, keyName, range, shouldBeBlocked, msg ) {
 		range.select();
@@ -165,6 +173,98 @@
 			} );
 		},
 
+		'test #destroyEditable destroys nested widgets': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testmethods3', {
+				editables: {
+					foo: '#foo'
+				}
+			} );
+
+			this.editorBot.setData( '<div data-widget="testmethods3" id="w1"><p id="foo"><span data-widget="testmethods3" id="w2">x</span></p></div>', function() {
+				var w1 = getWidgetById( editor, 'w1' ),
+					w2 = getWidgetById( editor, 'w2' );
+
+				assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets were initialized' );
+
+				w1.destroyEditable( 'foo' );
+
+				assert.areEqual( 1, keysLength( editor.widgets.instances ), '1 widget reimained' );
+				assert.isNull( getWidgetById( editor, 'w2', true ), 'nested widget was destroyed' );
+				assert.isFalse( w2.element.getParent().hasAttribute( 'data-cke-widget-wrapper' ), 'widget was unwrapped' );
+			} );
+		},
+
+		// More precise tests can be found in widgetsrepoapi because this
+		// methods uses repo#destroyAll with specified container.
+		'test #destroyEditable in offline mode does not destroy nested widgets': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testmethods4', {
+				editables: {
+					foo: '#foo'
+				}
+			} );
+
+			this.editorBot.setData( '<div data-widget="testmethods4" id="w1"><p id="foo"><span data-widget="testmethods4" id="w2">x</span></p></div>', function() {
+				var w1 = getWidgetById( editor, 'w1' );
+
+				assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets were initialized' );
+
+				w1.destroyEditable( 'foo', true );
+
+				assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets reimained' );
+				assert.isNotNull( getWidgetById( editor, 'w2', true ), 'nested widget was not destroyed' );
+			} );
+		},
+
+		// (#1722)
+		'test #destroyEditable destroys unused editable filters': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testmethod5', {
+				editables: {
+					foo: '#foo'
+				}
+			} );
+
+			var widget1Html = '<div data-widget="testmethod5" id="w1"><p>A</p><p class="foo">B</p></div>',
+				widget2Html = '<div data-widget="testmethod5" id="w2"><p>A</p><p class="foo">B</p></div>';
+
+			this.editorBot.setData( widget1Html + widget2Html, function() {
+				var widget1 = getWidgetById( editor, 'w1' ),
+					widget2 = getWidgetById( editor, 'w2' );
+
+				widget1.initEditable( 'foo', { selector: '.foo', allowedContent: 'p br' } );
+				widget2.initEditable( 'foo', { selector: '.foo', allowedContent: 'p br' } );
+
+				var removedListeners = [],
+					filters = editor.widgets._.filters.testmethod5,
+					filterSpy = sinon.spy( filters.foo, 'destroy' );
+
+				widget1.editables.foo.removeListener = function( evtName ) {
+					removedListeners.push( evtName );
+				};
+
+				widget2.editables.foo.removeListener = function( evtName ) {
+					removedListeners.push( evtName );
+				};
+
+				widget1.destroyEditable( 'foo' );
+
+				assert.isNotUndefined( filters.foo );
+
+				widget2.destroyEditable( 'foo' );
+
+				assert.isUndefined( filters.foo );
+
+				assert.isTrue( filterSpy.calledOnce );
+
+				filterSpy.restore();
+			} );
+		},
+
 		'test nestedEditable enter modes are limited by ACF': function() {
 			var editor = this.editor;
 
@@ -237,6 +337,121 @@
 			} );
 		},
 
+		'test nestedEditable auto paragraphing (limited by widgetDef.allowedContent)': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'autoparagraphtest', {
+				allowedContent: 'div',
+				editables: {
+					foo: {
+						selector: '#foo',
+						allowedContent: 'br'
+					}
+				}
+			} );
+
+			this.editorBot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					editable = widget.editables.foo,
+					range;
+
+				// Move focus to the editable and place selection at the end of its contents.
+				// This should fire 'selectionChange' event and execute editable.fixDom() method.
+				editable.focus();
+				range = editor.createRange();
+				range.moveToPosition( editable, CKEDITOR.POSITION_BEFORE_END );
+				range.select();
+
+				// Since allowedContent is 'br' auto paragraphing should not be performed.
+				assert.areEqual( CKEDITOR.ENTER_BR, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_BR.' );
+				assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+			} );
+		},
+
+		'test nestedEditable auto paragraphing (limited by config.enterMode)': function() {
+			bender.editorBot.create( {
+				name: 'testautoparagraphingconfigentermode',
+				creator: 'inline',
+				config: {
+					enterMode: CKEDITOR.ENTER_BR,
+					on: {
+						pluginsLoaded: function( evt ) {
+							evt.editor.widgets.add( 'autoparagraphtest', {
+								editables: {
+									foo: {
+										selector: '#foo'
+									}
+								}
+							} );
+
+							evt.editor.filter.allow( 'div[data-widget,id]' );
+						}
+					}
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				bot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						editable = widget.editables.foo,
+						range;
+
+					// Move focus to the editable and place selection at the end of its contents.
+					// This should fire 'selectionChange' event and execute editable.fixDom() method.
+					editable.focus();
+					range = editor.createRange();
+					range.moveToPosition( editable.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+					range.select();
+
+					// Since allowedContent is 'br' auto paragraphing should not be performed.
+					assert.areEqual( CKEDITOR.ENTER_BR, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_BR.' );
+					assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+				} );
+			} );
+		},
+
+		'test nestedEditable auto paragraphing (limited by config.autoParagraph)': function() {
+			bender.editorBot.create( {
+				name: 'testautoparagraphingconfigautoparagraph',
+				creator: 'inline',
+				config: {
+					autoParagraph: false,
+					on: {
+						pluginsLoaded: function( evt ) {
+							evt.editor.widgets.add( 'autoparagraphtest', {
+								editables: {
+									foo: {
+										selector: '#foo'
+									}
+								}
+							} );
+
+							evt.editor.filter.allow( 'div[data-widget,id]' );
+						}
+					}
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				bot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						editable = widget.editables.foo,
+						range;
+
+					// Move focus to the editable and place selection at the end of its contents.
+					// This should fire 'selectionChange' event and execute editable.fixDom() method.
+					editable.focus();
+					range = editor.createRange();
+					range.moveToPosition( editable.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+					range.select();
+
+					// Since allowedContent is 'br' auto paragraphing should not be performed.
+					assert.areEqual( CKEDITOR.ENTER_P, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_P.' );
+					assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+				} );
+			} );
+		},
+
 		'test nestedEditable.setData - data processor integration': function() {
 			var editor = this.editor,
 				data = '<p>Foo</p><div data-widget="testsetdata1" id="w1"><p>A</p><p id="foo">B</p></div>';
@@ -292,6 +507,44 @@
 				editable.setData( '<i class="red blue">B</i><b class="testsetdata2">B</b>' );
 				assert.areSame( '<i class="red">B</i>B', fixHtml( editable.getHtml() ) );
 			} );
+		},
+
+		// For performance reasons.
+		'test nestedEditable.setData - destroyAll(false,editable) is not called on first nestedEditable.setData': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testsetdata3', {} );
+
+			this.editorBot.setData(
+				'<div data-widget="testsetdata3" id="w1">' +
+					'<p id="foo"></p>' +
+				'</div>',
+				function() {
+					var w1 = getWidgetById( editor, 'w1' ),
+						ed = editor.document.getById( 'foo' );
+
+					ed.setHtml( '<span data-widget="testsetdata3" id="w2">x</span><span data-widget="testsetdata3" id="w3">x</span>' );
+
+					assert.areEqual( 1, keysLength( editor.widgets.instances ), '1 widget was initialized' );
+
+					var original = editor.widgets.destroyAll,
+						destroyAllCalls = 0,
+						revert = bender.tools.replaceMethod( editor.widgets, 'destroyAll', function( offline, container ) {
+							destroyAllCalls += 1;
+							original.call( this, offline, container );
+						} );
+
+					w1.initEditable( 'foo', { selector: '#foo' } );
+					assert.areSame( 0, destroyAllCalls, 'destroyAll is not called on initial nestedEditable.setData' );
+					assert.areEqual( 3, keysLength( editor.widgets.instances ), '3 widgets were initialized' );
+
+					w1.editables.foo.setData( '<span data-widget="testsetdata3" id="w2">x</span>' );
+
+					assert.areSame( 1, destroyAllCalls, 'destroyAll is called on 2nd+ nestedEditable.setData' );
+					assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets reimained' );
+					revert();
+				}
+			);
 		},
 
 		'test nestedEditable.getData - data processor integration': function() {
@@ -397,8 +650,7 @@
 			} );
 
 			this.editorBot.setData( data, function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					editable = widget.editables.foo;
+				var editable = getWidgetById( editor, 'w1' ).editables.foo;
 
 				editable.filter.addContentForms( [ 'u', 'i' ] );
 
@@ -421,6 +673,66 @@
 				assert.areSame(
 					'<p>Foo</p><div data-widget="testprocessing2" id="w1"><p id="foo"><i testprocessing2="2">A</i></p></div>',
 					editor.getData(), 'nested editable\'s data was processed as an editable content on output' );
+			} );
+		},
+
+		// #568
+		'test nested editable editableDef.disallowedContent filter works with editableDef.allowedContent': function() {
+			var editor = this.editor,
+				data = '<p>Foo</p><div data-widget="testprocessing3" id="w1"><p id="foo">B</p></div>';
+
+			editor.widgets.add( 'testprocessing3', {
+				editables: {
+					disallowedWithAllowedContent: {
+						selector: '#foo',
+						allowedContent: 'u i p',
+						disallowedContent: 'i'
+					}
+				}
+			} );
+
+			this.editorBot.setData( data, function() {
+				var editable = getWidgetById( editor, 'w1' ).editables.disallowedWithAllowedContent;
+
+				assert.isTrue( editable.filter.check( 'u' ), 'filter.check( \'u\' )' );
+				assert.isTrue( editable.filter.check( 'p' ), 'filter.check( \'p\' )' );
+				assert.isFalse( editable.filter.check( 'i' ), 'filter.check( \'i\' )' );
+			} );
+		},
+
+		// #568
+		'test nested editable editableDef.disallowedContent filter works based on editor.filter': function() {
+			var editor = this.editor,
+				data = '<p>Foo</p><div data-widget="testprocessing4" id="w1"><p id="foo">B</p></div>',
+				originalFilter = this.editor.filter;
+
+			// Since this test suite's editor have filter disabled, we need to temporary filter replace.
+			editor.filter = new CKEDITOR.filter( 'em strong sub; div[*](*); p[id]' );
+
+			editor.widgets.add( 'testprocessing4', {
+				editables: {
+					disallowedInheritingFromEditor: {
+						selector: '#foo',
+						// Since there's no allowedContent in the definition, disallowedContent will work based on
+						// current CKEDITOR.editor.filter clone. Since this test suite has ACF disabled it will allow everything.
+						// Here disallowedContent rules will be added on top of
+						disallowedContent: 'em strong'
+					}
+				}
+			} );
+
+			this.editorBot.setData( data, function() {
+				var editable = getWidgetById( editor, 'w1' ).editables.disallowedInheritingFromEditor;
+
+				// Restore the original filter.
+				editor.filter = originalFilter;
+
+				assert.isTrue( editable.filter.check( 'sub' ), 'filter.check( \'sub\' )' );
+				assert.isFalse( editable.filter.check( 'strong' ), 'filter.check( \'strong\' )' );
+				assert.isFalse( editable.filter.check( 'em' ), 'filter.check( \'em\' )' );
+				// And ensure that any other rule not allowed by the editor will fail.
+				assert.isFalse( editable.filter.check( 'audio' ), 'filter.check( \'audio\' )' );
+				assert.isFalse( editable.filter.check( 'sup' ), 'filter.check( \'sup\' )' );
 			} );
 		},
 
@@ -941,8 +1253,8 @@
 
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_AFTER_START );
 					testDelKey( editor,	'del',	range,	false,	'e2 - ^bar' );
-					// This case is handled on Webkits because of #9998.
-					if ( !CKEDITOR.env.webkit )
+					// This case is handled on Webkits and Gecko because of https://dev.ckeditor.com/ticket/11861, https://dev.ckeditor.com/ticket/13798.
+					if ( CKEDITOR.env.ie )
 						testDelKey( editor,	'bspc',	range,	false,	'e2 - ^bar' );
 
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_BEFORE_END );
@@ -1023,6 +1335,11 @@
 		},
 
 		'test pasting widget which was copied (d&d) when its nested editable was focused': function() {
+			// https://dev.ckeditor.com/ticket/11055
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor,
 				bot = this.editorBot;
 
@@ -1063,7 +1380,96 @@
 			} );
 		},
 
-		'test widgets\' commands are disabled in nested editable': function() {
+		// (https://dev.ckeditor.com/ticket/13186)
+		'test pasting into widget nested editable when range in paste data (drop)': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			editor.widgets.add( 'widget1', {
+				editables: {
+					nested: {
+						selector: '#widget1-nested',
+						allowedContent: 'i(a,c){color}'
+					}
+				}
+			} );
+
+			bot.setData( '<p>foo</p><div id="w1" data-widget="widget1"><p id="widget1-nested">xx</p></div>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					nested = widget.editables.nested,
+					range = editor.createRange();
+
+				range.setStart( nested.getFirst(), 1 );
+				range.collapse( 1 );
+
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						assert.isInnerHtmlMatching( 'xy<i class="a c" style="color:green">z</i>yx@', nested.getHtml(), {
+							fixStyles: true
+						}, 'Nested editable filter in use.' );
+					} );
+				} );
+
+				editor.fire( 'paste', {
+					type: 'auto',
+					dataValue: 'y<i class="a b c d" style="margin-left:20px; color:green">z</i>y',
+					method: 'drop',
+					range: range
+				} );
+
+				wait();
+			} );
+		},
+
+		// #1469
+		'test pasting widget into widget nested editable with selectionChange callback': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			editor.widgets.add( 'widget-pastenested', {
+				parts: {
+					label: 'p'
+				},
+
+				editables: {
+					nested: {
+						selector: '.widget-nested'
+					}
+				}
+			} );
+
+			bot.setData( '<div id="w1" data-widget="widget-pastenested"><p>Widget</p><div class="widget-nested">xx</div></div>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					nested = widget.editables.nested,
+					range = editor.createRange();
+
+				range.setStart( nested.getFirst(), 1 );
+				range.collapse( 1 );
+				range.select();
+				nested.focus();
+
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						try {
+							nested.getData();
+						} catch ( e ) {
+							assert.fail( 'Error was thrown: ' + e );
+						}
+
+						assert.pass( 'Everything worked' );
+					} );
+				} );
+
+				// Simulate pasting copied, upcasted widget.
+				bender.tools.emulatePaste( editor, '<div data-cke-widget-wrapper="1"><div data-cke-widget-upcasted="1" data-widget="pastenested"><div data-cke-widget-editable="nested">Test</div></div></div>' );
+
+				wait();
+			} );
+		},
+
+		// Behaviour has been changed in 4.5.0 (https://dev.ckeditor.com/ticket/12112), so we're leaving this
+		// test as a validation of this change.
+		'test widgets\' commands are enabled in nested editable': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
 
@@ -1088,7 +1494,7 @@
 				range.collapse( true );
 				range.select();
 
-				assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.commands.testcommand1.state, 'command is disabled in nested editable' );
+				assert.areSame( CKEDITOR.TRISTATE_OFF, editor.commands.testcommand1.state, 'command is enabled in nested editable' );
 			} );
 		},
 
@@ -1151,6 +1557,11 @@
 		},
 
 		'test selection in nested editable is preserved after opening and closing dialog - inline editor': function() {
+			// https://dev.ckeditor.com/ticket/11399
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			bender.editorBot.create( {
 				name: 'testselection2',
 				creator: 'inline',
@@ -1245,6 +1656,27 @@
 				editor.applyStyle( style );
 
 				assert.areSame( '<p><i>foo</i></p><div data-widget="testacfstyles1"><p class="foo">X</p><p class="bar"><i>X</i></p></div><p><i>foo</i></p>', editor.getData() );
+			} );
+		},
+
+		// Nested editable with preexisting numeric id. (https://dev.ckeditor.com/ticket/14451)
+		'test nested editable with preexisting numeric id': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			editor.widgets.add( 'testpreexistingnumericid', {
+				editables: {
+					foo: {
+						selector: 'p',
+						allowedContent: true
+					}
+				}
+			} );
+
+			bot.setData( '<p>foo</p><div data-widget="testpreexistingnumericid"><p id="123">X</p></div><p>foo</p>',
+				function() {
+				// If that code is being executed, it means that everything is OK.
+				assert.pass( 'Editables with numeric ids are handled correctly.' );
 			} );
 		}
 	} );

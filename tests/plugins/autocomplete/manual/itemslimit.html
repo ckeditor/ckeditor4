@@ -1,0 +1,22 @@
+<div id="editor"></div>
+
+<script>
+
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
+					itemsLimit: 3
+				} );
+			}
+		}
+	} );
+</script>

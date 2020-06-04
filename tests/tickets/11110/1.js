@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -20,7 +20,7 @@
 
 				editor.on( 'afterPaste', function() {
 					resume( function() {
-						assert.areSame( 0, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length );
+						assert.areSame( 0, CKEDITOR.tools.object.keys( editor.widgets.instances ).length );
 						assert.areSame( '<p>x<iframe frameborder="0" scrolling="no" src="error404"></iframe>x</p>',
 							bender.tools.compatHtml( editor.getData(), true, true ) );
 					} );
@@ -38,7 +38,8 @@
 				creator: 'inline',
 				startupData: '<p><iframe frameborder="0" scrolling="no" src="error404"></iframe></p>',
 				config: {
-					plugins: 'toolbar,floatingspace,clipboard,iframe'
+					plugins: 'toolbar,floatingspace,clipboard,iframe',
+					pasteFilter: false
 				}
 			}, function( bot ) {
 				var editor = bot.editor,

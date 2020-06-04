@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -14,7 +14,9 @@ CKEDITOR.plugins.add( 'divarea', {
 		// Do that in the afterInit function, so it'll eventually overwrite
 		// the mode defined by the wysiwygarea plugin.
 		editor.addMode( 'wysiwyg', function( callback ) {
-			var editingBlock = CKEDITOR.dom.element.createFromHtml( '<div class="cke_wysiwyg_div cke_reset" hidefocus="true"></div>' );
+			var editingBlock = CKEDITOR.dom.element.createFromHtml(
+					'<div class="cke_wysiwyg_div cke_reset cke_enable_context_menu" hidefocus="true"></div>'
+				);
 
 			var contentSpace = editor.ui.space( 'contents' );
 			contentSpace.append( editingBlock );

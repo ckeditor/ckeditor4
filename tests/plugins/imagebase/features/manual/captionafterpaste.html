@@ -1,0 +1,21 @@
+<div id="editor1">
+	<figure>
+		<img src="../../../image2/_assets/foo.png" alt="foo">
+	</figure>
+</div>
+
+	<script>
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+		CKEDITOR.replace( 'editor1', {
+			on: {
+				pluginsLoaded: function( evt ) {
+					var editor = evt.editor,
+						plugin = CKEDITOR.plugins.imagebase;
+
+					plugin.addImageWidget( editor, 'testWidget', plugin.addFeature( editor, 'caption', {} ) );
+				}
+			}
+		} );
+	</script>
+</body>

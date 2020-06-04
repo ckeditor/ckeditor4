@@ -1,10 +1,10 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: basicstyles,toolbar,undo,sourcearea */
 
 ( function() {
 	'use strict';
 
-	var editorsDefinitions = {
+	bender.editors = {
 		framed: {
 			name: 'framed',
 			config: {
@@ -37,10 +37,6 @@
 	};
 
 	CKEDITOR.disableAutoInline = true;
-
-	bender.tools.setUpEditors( editorsDefinitions, function( editors ) {
-		bender.test( bender.tools.createTestsForEditors( editors, tests ) );
-	} );
 
 	function onInstanceReady() {
 		this.dataProcessor.dataFilter.addRules( {
@@ -230,7 +226,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/5217#comment:20
+		// https://dev.ckeditor.com/ticket/5217#comment:20
 		'test switch mode with unrecoreded, inner HTML specific content (boguses)': function( editor ) {
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 				assert.ignore();
@@ -261,7 +257,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/5217#comment:20
+		// https://dev.ckeditor.com/ticket/5217#comment:20
 		'test switch mode with unrecoreded, inner HTML specific content (boguses) plus changes in source mode': function( editor ) {
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 				assert.ignore();
@@ -331,4 +327,6 @@
 			} );
 		}
 	}
+
+	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests ) );
 } )();

@@ -1,0 +1,36 @@
+<h1>Classic editor</h1>
+
+<textarea id="editor1" cols="10" rows="10">
+	<h1>This is header H1</h1>
+	<h2>This is header H2</h2>
+	<h3>This is header H3</h3>
+	<h4>This is header H4</h4>
+	<h5>This is header H5</h5>
+	<h6>This is header H6</h6>
+	<p>This is regular paragraph.</p>
+	<pre>This is formatted text.</pre>
+	<p><code>This is text wrapped with code.</code></p>
+</textarea>
+
+<h1>Divarea editor</h1>
+
+<div id="editor2" cols="10" rows="10">
+	<h1>This is header H1</h1>
+	<h2>This is header H2</h2>
+	<h3>This is header H3</h3>
+	<h4>This is header H4</h4>
+	<h5>This is header H5</h5>
+	<h6>This is header H6</h6>
+	<p>This is regular paragraph.</p>
+	<pre>This is formatted text.</pre>
+	<p><code>This is text wrapped with code.</code></p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
+
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea'
+	} );
+</script>

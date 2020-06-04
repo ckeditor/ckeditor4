@@ -1,10 +1,12 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.dialog.add( 'paste', function( editor ) {
-	var lang = editor.lang.clipboard;
+	var lang = editor.lang.clipboard,
+		clipboard = CKEDITOR.plugins.clipboard,
+		lastDataTransfer;
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
@@ -14,6 +16,22 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		script && script.remove();
 
 		body.setAttribute( 'contenteditable', true );
+
+		// Forward dataTransfer (#13883).
+		body.on( clipboard.mainPasteEvent, function( evt ) {
+			var dataTransfer = clipboard.initPasteDataTransfer( evt );
+
+			if ( !lastDataTransfer ) {
+				lastDataTransfer = dataTransfer;
+			} else
+			// For two paste with the same dataTransfer we can use that dataTransfer (two internal pastes are
+			// considered as an internal paste).
+			if ( dataTransfer != lastDataTransfer ) {
+				// If there were two paste with different DataTransfer objects create a new, empty, data transfer
+				// and use it (one internal and one external paste are considered as external paste).
+				lastDataTransfer = clipboard.initPasteDataTransfer();
+			}
+		} );
 
 		// IE before version 8 will leave cursor blinking inside the document after
 		// editor blurred unless we clean up the selection. (#4716)
@@ -54,12 +72,18 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 	// then fire paste event.
 	// Do not use editor#paste, because it would start from beforePaste event.
 	editor.on( 'pasteDialogCommit', function( evt ) {
-		if ( evt.data )
-			editor.fire( 'paste', { type: 'auto', dataValue: evt.data } );
+		if ( evt.data ) {
+			editor.fire( 'paste', {
+				type: 'auto',
+				dataValue: evt.data.dataValue,
+				method: 'paste',
+				dataTransfer: evt.data.dataTransfer || clipboard.initPasteDataTransfer()
+			} );
+		}
 	}, null, null, 1000 );
 
 	return {
-		title: lang.title,
+		title: lang.paste,
 
 		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 370 : 350,
 		minHeight: CKEDITOR.env.quirks ? 250 : 245,
@@ -70,10 +94,8 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 			this.setupContent();
 
-			// Set dialog title to the custom value (set e.g. in editor.openDialog callback) and reset this value.
-			// If custom title not set, use default one.
-			this.parts.title.setHtml( this.customTitle || lang.title );
-			this.customTitle = null;
+			// Reset committed indicator.
+			this._.committed = false;
 		},
 
 		onLoad: function() {
@@ -89,11 +111,6 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			id: 'general',
 			label: editor.lang.common.generalTab,
 			elements: [
-				{
-					type: 'html',
-					id: 'securityMsg',
-					html: '<div style="white-space:normal;width:340px">' + lang.securityMsg + '</div>'
-				},
 				{
 					type: 'html',
 					id: 'pasteMsg',
@@ -119,7 +136,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var dialog = this.getDialog();
 						var htmlToLoad = '<html dir="' + editor.config.contentsLangDirection + '"' +
 							' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
-							'<head><style>body{margin:3px;height:95%}</style></head><body>' +
+							'<head><style>body{margin:3px;height:95%;word-break:break-all;}</style></head><body>' +
 							'<script id="cke_actscrpt" type="text/javascript">' +
 							'window.parent.CKEDITOR.tools.callFunction(' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ',this);' +
 							'</script></body>' +
@@ -128,7 +145,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var src =
 							CKEDITOR.env.air ?
 								'javascript:void(0)' : // jshint ignore:line
-							CKEDITOR.env.ie ?
+							( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ?
 								'javascript:void((function(){' + encodeURIComponent( // jshint ignore:line
 									'document.open();' +
 									'(' + CKEDITOR.tools.fixDomain + ')();' +
@@ -144,6 +161,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 							' aria-label="' + lang.pasteArea + '"' +
 							' aria-describedby="' + dialog.getContentElement( 'general', 'pasteMsg' ).domId + '"' +
 							'></iframe>' );
+
+						// Reset last data transfer.
+						lastDataTransfer = null;
 
 						iframe.on( 'load', function( e ) {
 							e.removeListener();
@@ -165,7 +185,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						// IE need a redirect on focus to make
 						// the cursor blinking inside iframe. (#5461)
-						if ( CKEDITOR.env.ie ) {
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 							var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
 							focusGrabber.on( 'focus', function() {
 								// Since fixDomain is called in src attribute,
@@ -203,10 +223,13 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						// Saving the contents so changes until paste is complete will not take place (#7500)
 						html = body.getHtml();
 
-						// Opera needs some time to think about what has happened and what it should do now.
-						setTimeout( function() {
-							editor.fire( 'pasteDialogCommit', html );
-						}, 0 );
+						this.getDialog()._.committed = true;
+
+						editor.fire( 'pasteDialogCommit', {
+							dataValue: html,
+							// Avoid error if there was no paste so lastDataTransfer is null.
+							dataTransfer: lastDataTransfer || clipboard.initPasteDataTransfer()
+						} );
 					}
 				}
 			]
@@ -215,7 +238,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 } );
 
 /**
- * Internal event to pass paste dialog's data to the listeners.
+ * Internal event to pass the paste dialog data to the listeners.
+ *
+ * This event was not available in versions 4.7.0-4.8.0.
  *
  * @private
  * @event pasteDialogCommit

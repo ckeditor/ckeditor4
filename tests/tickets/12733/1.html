@@ -1,0 +1,33 @@
+<div id="editor1">
+	<img alt="CKEditor logo" src="%BASE_PATH%_assets/logo.png" />
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+
+	CKEDITOR.on( 'dialogDefinition', function( ev ) {
+		var dialogName = ev.data.name,
+			dialogDefinition = ev.data.definition;
+
+		if ( dialogName == 'image' ) {
+			// Get a reference to the "Image Info" tab.
+			var infoTab = dialogDefinition.getContents( 'info' );
+			infoTab.add( {
+				type: 'radio',
+				id: 'customId',
+				label: 'Test Label',
+				title: 'Test Title',
+				className: 'radioClass',
+				required: false,
+				items: [
+					[ 'Test0', 'Test0', 'Test0' ],
+					[ 'Test1', 'Test1', 'Test1' ],
+					[ 'Test2', 'Test2', 'Test2' ]
+				],
+				onChange: function() {
+					console.log( 'changed' );
+				}
+			} );
+		}
+	} );
+</script>

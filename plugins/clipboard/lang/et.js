@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'et', {
 	copy: 'Kopeeri',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'et', {
 	cut: 'Lõika',
 	cutError: 'Sinu veebisirvija turvaseaded ei luba redaktoril automaatselt lõigata. Palun kasutage selleks klaviatuuri klahvikombinatsiooni (Ctrl/Cmd+X).',
 	paste: 'Aseta',
+	pasteNotification: 'Asetamiseks vajuta %1. Sinu brauser ei toeta asetamist tööriistariba nupu või kontekstimenüü valikuga.',
 	pasteArea: 'Asetamise ala',
-	pasteMsg: 'Palun aseta tekst järgnevasse kasti kasutades klaviatuuri klahvikombinatsiooni (<STRONG>Ctrl/Cmd+V</STRONG>) ja vajuta seejärel <STRONG>OK</STRONG>.',
-	securityMsg: 'Sinu veebisirvija turvaseadete tõttu ei oma redaktor otsest ligipääsu lõikelaua andmetele. Sa pead asetama need uuesti siia aknasse.',
-	title: 'Asetamine'
+	pasteMsg: 'Aseta sisu alumisse kasti ja vajuta OK nupule.'
 } );

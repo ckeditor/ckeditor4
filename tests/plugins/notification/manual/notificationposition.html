@@ -1,0 +1,10 @@
+<textarea cols="10" id="editor1" name="editor1" rows="10"></textarea>
+<script>
+	var editor = CKEDITOR.replace( 'editor1', {
+		width: '330px'
+	} );
+
+	editor.on( 'instanceReady', function() {
+		editor.showNotification( 'foo bar baz bag bug beg big', 'warning' );
+	} );
+</script>

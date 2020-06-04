@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -28,7 +28,7 @@ CKEDITOR.dom.event.prototype = {
 	/**
 	 * Gets the key code associated to the event.
 	 *
-	 *		alert( event.getKey() ); // '65' is 'a' has been pressed
+	 *		alert( event.getKey() ); // '65' if 'a' has been pressed
 	 *
 	 * @returns {Number} The key code.
 	 */

@@ -1,0 +1,46 @@
+<div id="editor1">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>Cell 1.1.1</td>
+				<td>Cell 1.1.2</td>
+				<td>
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>aaa</td>
+								<td>bbb</td>
+							</tr>
+							<tr>
+								<td>ccc</td>
+								<td>ddd</td>
+							</tr>
+						</tbody>
+					</table> 1.1.4</td>
+				</td>
+				<td>Cell
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>aaa2</td>
+								<td>bbb2</td>
+							</tr>
+							<tr>
+								<td>ccc2</td>
+								<td>ddd2</td>
+							</tr>
+						</tbody>
+					</table> 1.1.4</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.replace( 'editor1' );
+</script>

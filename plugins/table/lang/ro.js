@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'ro', {
 	border: 'Mărimea marginii',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ro', {
 	headersColumn: 'Prima coloană',
 	headersNone: 'Nimic',
 	headersRow: 'Primul rând',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Dimensiunea bordurii trebuie să aibe un număr.',
 	invalidCellPadding: 'Spațierea celulei trebuie sa fie un număr pozitiv',
 	invalidCellSpacing: 'Spațierea celului trebuie să fie un număr pozitiv.',

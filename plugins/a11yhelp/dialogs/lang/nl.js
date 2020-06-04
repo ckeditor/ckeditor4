@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
@@ -17,7 +17,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 
 			{
 			name: 'Dialoog tekstverwerker',
-			legend: 'In een dialoogvenster, druk op TAB om te navigeren naar het volgende veld. Druk op SHIFT+TAB om naar het vorige veld te navigeren. Druk op ENTER om het dialoogvenster te verzenden. Druk op ESC om het dialoogvenster te sluiten. Voor dialoogvensters met meerdere tabbladen, druk op ALT+F10 om naar de tabset te navigeren. Schakel naar het volgende tabblad met TAB of PIJL RECHTS. Schakel naar het vorige tabblad met SHIFT+TAB of PIJL LINKS. Druk op SPATIE of ENTER om het tabblad te selecteren.'
+			legend:
+				'In een dialoogvenster, druk op TAB om te navigeren naar het volgende veld. Druk op SHIFT+TAB om naar het vorige veld te navigeren. Druk op ENTER om het dialoogvenster te verzenden. Druk op ESC om het dialoogvenster te sluiten. Bij dialoogvensters met meerdere tabbladen kan de tabset bereikt worden met ALT+F10 of met TAB als onderdeel van de tabvolgorde in het dialoogvenster. Als de tabset focus heeft, kun je schakalen naar het volgende en vorige tabblad met respectievelijk PIJL RECHTS en PIJL LINKS.' 
 		},
 
 			{
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 			{
 			name: 'Toegankelijkheidshulp',
 			legend: 'Druk op ${a11yHelp}'
+		},
+			{
+			name: 'Plakken als platte tekst',
+			legend: 'Druk op ${pastetext}',
+			legendEdge: 'Druk op ${pastetext}, gevolgd door ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: 'Pijl naar links',
 	upArrow: 'Pijl omhoog',
 	rightArrow: 'Pijl naar rechts',
 	downArrow: 'Pijl naar beneden',
 	insert: 'Invoegen',
-	'delete': 'Verwijderen',
 	leftWindowKey: 'Linker Windows-toets',
 	rightWindowKey: 'Rechter Windows-toets',
 	selectKey: 'Selecteer toets',

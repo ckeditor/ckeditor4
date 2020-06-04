@@ -1,0 +1,36 @@
+<div id="editor">
+	<table border="1" cellpadding="5" cellspacing="5" style="width:500px">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>
+				<table border="1" cellpadding="5" cellspacing="5" style="width:300px">
+					<tbody>
+						<tr>
+							<td><img alt="" src="%BASE_PATH%_assets/lena.jpg" style="height:100px; width:100px"/></td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>&nbsp;</p>
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script>
+	// Table Selection plugin doesn't work on IE < 11 so ignore test for that browsers.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor', { height: 300 } );
+</script>

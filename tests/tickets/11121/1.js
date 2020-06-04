@@ -1,10 +1,14 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
 
 	bender.test( {
 		'test HC detection in hidden iframe': function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+				assert.ignore();
+			}
+
 			var iframe = CKEDITOR.document.getById( 'iframe' ),
 				doc = iframe.getFrameDocument();
 

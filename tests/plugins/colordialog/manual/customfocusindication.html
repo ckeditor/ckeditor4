@@ -1,0 +1,37 @@
+<style type="text/css">
+	.cke_editor_editor2_dialog .cke_colordialog_table {
+		width: 504px;
+	}
+
+	.cke_editor_editor2_dialog .cke_colordialog_colorcell {
+		height: 18px;
+		padding: 5px;
+		border-radius: 14px;
+	}
+
+	.cke_editor_editor2_dialog .cke_colordialog_colorcell.cke_colordialog_focused_light,
+	.cke_editor_editor2_dialog .cke_colordialog_colorcell.cke_colordialog_focused_dark {
+		border: 4px solid red;
+		padding: 0;
+	}
+
+	.cke_editor_editor2_dialog .cke_colordialog_colorcell.cke_colordialog_selected {
+		border: 4px solid blue;
+		padding: 0;
+	}
+</style>
+
+Editor 1:
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	&lt;p&gt;&lt;strong&gt;Apollo 11&lt;/strong&gt; was the spaceflight that landed the first humans, Americans Neil Armstrong and Buzz Aldrin, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.&lt;/p&gt;&lt;p&gt;Armstrong spent about three and a half two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected&lt;/p&gt;
+</textarea>
+<hr />
+Editor 2:
+<textarea cols="80" id="editor2" name="editor2" rows="10">
+	&lt;p&gt;&lt;strong&gt;Apollo 11&lt;/strong&gt; was the spaceflight that landed the first humans, Americans Neil Armstrong and Buzz Aldrin, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.&lt;/p&gt;&lt;p&gt;Armstrong spent about three and a half two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected&lt;/p&gt;
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2' );
+</script>

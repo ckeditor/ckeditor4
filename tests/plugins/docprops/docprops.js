@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor, dialog */
 /* bender-ckeditor-plugins: wysiwygarea,sourcearea,dialog,toolbar,docprops */
 
 bender.editor = { config: { fullPage: 1 } };
@@ -8,6 +8,14 @@ var title1 = 'Document title',
 	template = new CKEDITOR.template( '<html><head><title>{title}</title></head><body></body></html>' );
 
 bender.test( {
+	tearDown: function() {
+		var dialog = CKEDITOR.dialog.getCurrent();
+
+		if ( dialog ) {
+			dialog.hide();
+		}
+	},
+
 	'test set page title with dialog': function() {
 		var bot = this.editorBot,
 			tc = this,
@@ -23,6 +31,24 @@ bender.test( {
 				assert.areEqual( template.output( { title: title1 } ), editor.getData(), 'Page title is set in editor data.' );
 			}, 0 );
 		} );
+	},
+
+	// (#2423)
+	'test dialog model': function() {
+		var bot = this.editorBot,
+			tc = this,
+			editor = this.editor;
+
+		editor.setData( template.output( { title: title1 } ), function() {
+			tc.resume( function() {
+				bot.dialog( 'docProps', function( dialog ) {
+					assert.areEqual( dialog.getModel( editor ), editor.document, 'Dialog model should point at document' );
+					assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog model is in editing mode by default' );
+				} );
+			} );
+		} );
+
+		tc.wait();
 	},
 
 	'test read page title into dialog': function() {
@@ -41,7 +67,7 @@ bender.test( {
 		tc.wait();
 	},
 
-	// #12546
+	// https://dev.ckeditor.com/ticket/12546
 	'test preview tab is available': function() {
 		var bot = this.editorBot;
 

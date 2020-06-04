@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ms', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ms', {
 		checkboxTitle: 'Ciri-ciri Checkbox',
 		radioTitle: 'Ciri-ciri Butang Radio',
 		value: 'Nilai',
-		selected: 'Dipilih'
+		selected: 'Dipilih',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Ciri-ciri Borang',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ms', {
 		size: 'Saiz',
 		lines: 'garisan',
 		chkMulti: 'Benarkan pilihan pelbagai',
+		required: 'Required', // MISSING
 		opText: 'Teks',
 		opValue: 'Nilai',
 		btnAdd: 'Tambah Pilihan',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ms', {
 		value: 'Nilai',
 		charWidth: 'Lebar isian',
 		maxChars: 'Isian Maksimum',
+		required: 'Required', // MISSING
 		type: 'Jenis',
 		typeText: 'Teks',
 		typePass: 'Kata Laluan',

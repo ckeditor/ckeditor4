@@ -1,13 +1,23 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: codesnippet,toolbar */
-/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	var setHighlighter;
 
-	var obj2Array = widgetTestsTools.obj2Array,
+	bender.editor = {
+		config: {
+			on: {
+				pluginsLoaded: function() {
+					// Normally setHighlighter can be used only during plugin init hooks, after that it is removed, so keep it for testing purposes.
+					setHighlighter = CKEDITOR.plugins.registered.codesnippet.setHighlighter;
+				}
+			}
+		}
+	};
+
+	var objToArray = bender.tools.objToArray,
 		html = '<pre>' +
 			'<code class="language-php">foo</code>' +
 		'</pre>';
@@ -21,6 +31,11 @@
 	}
 
 	bender.test( {
+		// (#589)
+		'test setHighlighter method is absent': function() {
+			assert.isNull( CKEDITOR.plugins.registered.codesnippet.setHighlighter );
+		},
+
 		'test highlighter: change highlighter': function() {
 			var editor = this.editor,
 				langs = {};
@@ -30,7 +45,7 @@
 				highlighter: function() {}
 			} );
 
-			editor.plugins.codesnippet.setHighlighter( highlighter );
+			setHighlighter( highlighter );
 
 			assert.areEqual( highlighter, getHighlighter( editor ), 'Highlighter has not been changed' );
 			assert.areEqual( langs, getLangs( this.editor ), 'Highlighter languages has not been changed' );
@@ -57,10 +72,10 @@
 				}
 			} );
 
-			editor.plugins.codesnippet.setHighlighter( highlighter );
+			setHighlighter( highlighter );
 
 			this.editorBot.setData( html, function() {
-				var widget = obj2Array( editor.widgets.instances )[ 0 ];
+				var widget = objToArray( editor.widgets.instances )[ 0 ];
 
 				// Method highlight should call our highlighterMockup function,
 				// which changes widget.parts#pre.
@@ -98,10 +113,10 @@
 				}
 			} );
 
-			editor.plugins.codesnippet.setHighlighter( highlighter );
+			setHighlighter( highlighter );
 
 			this.editorBot.setData( html, function() {
-				var widget = obj2Array( editor.widgets.instances )[ 0 ];
+				var widget = objToArray( editor.widgets.instances )[ 0 ];
 
 				// Method highlight should call our highlighterMockup function,
 				// which changes widget.parts#pre.

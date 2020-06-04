@@ -1,0 +1,20 @@
+<h1>Left to right editor:</h1>
+
+<textarea id="editor_ltr" cols="10" rows="10">
+	<p>Test</p>
+</textarea>
+
+<h1>Right to left editor:</h1>
+
+<textarea id="editor_rtl" cols="10" rows="10">
+	<p>Test</p>
+</textarea>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
+
+	CKEDITOR.replace( 'editor_ltr' );
+	CKEDITOR.replace( 'editor_rtl', {
+		language: 'ar'
+	} );
+</script>

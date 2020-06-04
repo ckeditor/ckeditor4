@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 
 /*
@@ -75,13 +75,15 @@ span.cke_dialog_ui_buttonm
 
 /* The absolute position is required for IE7 on text inputs not to stretch dialog horizontally. (#8971)*/
 input.cke_dialog_ui_input_text,
-input.cke_dialog_ui_input_password
+input.cke_dialog_ui_input_password,
+input.cke_dialog_ui_input_tel
 {
 	position: absolute;
 }
 
 div.cke_dialog_ui_input_text,
-div.cke_dialog_ui_input_password
+div.cke_dialog_ui_input_password,
+div.cke_dialog_ui_input_tel
 {
 	height:14px;
 	position: relative;

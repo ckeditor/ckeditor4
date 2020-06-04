@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 -->
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>HTML Compliant Output &mdash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
-	<script src="../../../samples/sample.js"></script>
-	<link href="../../../samples/sample.css" rel="stylesheet">
+	<script src="../../../samples/old/sample.js"></script>
+	<link href="../../../samples/old/sample.css" rel="stylesheet">
 	<meta name="ckeditor-sample-required-plugins" content="sourcearea">
 	<meta name="ckeditor-sample-name" content="Output HTML">
 	<meta name="ckeditor-sample-group" content="Advanced Samples">
 	<meta name="ckeditor-sample-description" content="Configuring CKEditor to produce legacy HTML 4 code.">
+	<meta name="description" content="Try the latest sample of CKEditor 4 and learn more about customizing your WYSIWYG editor with endless possibilities.">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Producing HTML Compliant Output
+		<a href="../../../samples/old/index.html">CKEditor Samples</a> &raquo; Producing HTML Compliant Output
 	</h1>
+	<div class="warning deprecated">
+		This sample is not maintained anymore. Check out the <a href="https://ckeditor.com/docs/ckeditor4/latest/examples/index.html">brand new samples in CKEditor Examples</a>.
+	</div>
 	<div class="description">
 		<p>
 			This sample shows how to configure CKEditor to output valid
@@ -53,7 +57,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 			<label for="editor1">
 				Editor 1:
 			</label>
-			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;b&gt;sample text&lt;/b&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;b&gt;sample text&lt;/b&gt;. You are using &lt;a href="https://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 			<script>
 
 				CKEDITOR.replace( 'editor1', {
@@ -77,7 +81,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					 * will also take care of transforming styles to attributes
 					 * (currently only for img - see transformation rules defined below).
 					 *
-					 * Read more: http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter
+					 * Read more: https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html
 					 */
 					allowedContent:
 						'h1 h2 h3 p pre[align]; ' +
@@ -210,10 +214,10 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 	<div id="footer">
 		<hr>
 		<p>
-			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="https://ckeditor.com/">https://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2020, <a class="samples" href="https://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

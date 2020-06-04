@@ -1,0 +1,41 @@
+<textarea id="root-image">
+	<html>
+		<head></head>
+		<body>
+			<img alt="Saturn V carrying Apollo 11" data-cke-saved-src="assets/sample.jpg" src="assets/sample.jpg" class="right">
+		</body>
+	</html>
+=>
+	<img alt="Saturn V carrying Apollo 11" data-cke-saved-src="assets/sample.jpg" src="assets/sample.jpg" class="right" />
+</textarea>
+
+<textarea id="root-image-simple">
+	<img alt="Saturn V carrying Apollo 11" data-cke-saved-src="assets/sample.jpg" src="assets/sample.jpg" class="right">
+=>
+	<img alt="Saturn V carrying Apollo 11" data-cke-saved-src="assets/sample.jpg" src="assets/sample.jpg" class="right" />
+</textarea>
+
+<textarea id="nested-image">
+	<html>
+		<head></head>
+		<body>
+			<h1>
+				<img alt="Saturn V carrying Apollo 11" data-cke-saved-src="assets/sample.jpg" src="assets/sample.jpg" class="right"> Apollo 11
+			</h1>
+		</body>
+	</html>
+=>
+	<h1>
+		<img alt="Saturn V carrying Apollo 11" data-cke-saved-src="assets/sample.jpg" src="assets/sample.jpg" class="right" /> Apollo 11
+	</h1>
+</textarea>
+
+<textarea id="nested-image-simple">
+	<h1>
+		<img alt="Saturn V carrying Apollo 11" data-cke-saved-src="assets/sample.jpg" src="assets/sample.jpg" class="right"> Apollo 11
+	</h1>
+=>
+	<h1>
+		<img alt="Saturn V carrying Apollo 11" data-cke-saved-src="assets/sample.jpg" src="assets/sample.jpg" class="right" /> Apollo 11
+	</h1>
+</textarea>

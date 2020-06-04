@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'lv' ] = {
 	// ARIA description.
 	editor: 'Bagātinātā teksta redaktors',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Bagātinātā teksta redaktora panelis',
 
 	// Common messages and labels.
 	common: {
@@ -78,23 +78,70 @@ CKEDITOR.lang[ 'lv' ] = {
 		width: 'Platums',
 		height: 'Augstums',
 		align: 'Nolīdzināt',
-		alignLeft: 'Pa kreisi',
-		alignRight: 'Pa labi',
-		alignCenter: 'Centrēti',
-		alignJustify: 'Izlīdzināt malas',
+		left: 'Pa kreisi',
+		right: 'Pa labi',
+		center: 'Centrēti',
+		justify: 'Izlīdzināt malas',
+		alignLeft: 'Izlīdzināt pa kreisi',
+		alignRight: 'Izlīdzināt pa labi',
+		alignCenter: 'Centrēt',
 		alignTop: 'Augšā',
 		alignMiddle: 'Vertikāli centrēts',
 		alignBottom: 'Apakšā',
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Nekorekta vērtība',
+		alignNone: 'Nekas',
+		invalidValue: 'Nekorekta vērtība',
 		invalidHeight: 'Augstumam jābūt skaitlim.',
 		invalidWidth: 'Platumam jābūt skaitlim',
+		invalidLength: 'Laukam "%1" norādītajai vērtībai jābūt pozitīvam skaitlim ar vai bez korektām mērvienībām (%2).',
 		invalidCssLength: 'Laukam "%1" norādītajai vērtībai jābūt pozitīvam skaitlim ar vai bez korektām CSS mērvienībām (px, %, in, cm, mm, em, ex, pt, vai pc).',
 		invalidHtmlLength: 'Laukam "%1" norādītajai vērtībai jābūt pozitīvam skaitlim ar vai bez korektām HTML mērvienībām (px vai %).',
-		invalidInlineStyle: 'Iekļautajā stilā norādītajai vērtībai jāsastāv no viena vai vairākiem pāriem pēc forma\'ta "nosaukums: vērtība", atdalītiem ar semikolu.',
+		invalidInlineStyle: 'Iekļautajā stilā norādītajai vērtībai jāsastāv no viena vai vairākiem pāriem pēc formāta "nosaukums: vērtība", atdalītiem ar semikolu.',
 		cssLengthTooltip: 'Ievadiet vērtību pikseļos vai skaitli ar derīgu CSS mērvienību (px, %, in, cm, mm, em, ex, pt, vai pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, nav pieejams</span>'
+		unavailable: '%1<span class="cke_accessibility">, nav pieejams</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: ' atkāpšanās taustiņš',
+			13: 'Ievadīt',
+			16: 'pārslēgšanas taustiņš',
+			17: 'vadīšanas taustiņš',
+			18: 'alternēšanas taustiņš',
+			32: 'Atstarpe',
+			35: 'Beigas',
+			36: 'Mājup',
+			46: 'Dzēst',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Komanda'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Klaviatūras saīsne',
+
+		optionDefault: 'Noklusēts'
 	}
 };

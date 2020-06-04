@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'nb', {
 	acccessKey: 'Aksessknapp',
@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'link', 'nb', {
 	advisoryContentType: 'Type',
 	advisoryTitle: 'Tittel',
 	anchor: {
-		toolbar: 'Sett inn/Rediger anker',
-		menu: 'Egenskaper for anker',
+		toolbar: 'Anker',
+		menu: 'Rediger anker',
 		title: 'Egenskaper for anker',
 		name: 'Ankernavn',
 		errorName: 'Vennligst skriv inn ankernavnet',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'nb', {
 	anchorName: 'Anker etter navn',
 	charset: 'Lenket tegnsett',
 	cssClasses: 'Stilarkklasser',
+	download: 'Tving nedlasting',
+	displayText: 'Tekst som skal vises',
 	emailAddress: 'E-postadresse',
 	emailBody: 'Melding',
 	emailSubject: 'Meldingsemne',
@@ -26,14 +28,16 @@ CKEDITOR.plugins.setLang( 'link', 'nb', {
 	info: 'Lenkeinfo',
 	langCode: 'Språkkode',
 	langDir: 'Språkretning',
-	langDirLTR: 'Venstre til høyre (VTH)',
-	langDirRTL: 'Høyre til venstre (HTV)',
+	langDirLTR: 'Venstre til høyre (LTR)',
+	langDirRTL: 'Høyre til venstre (RTL)',
 	menu: 'Rediger lenke',
 	name: 'Navn',
 	noAnchors: '(Ingen anker i dokumentet)',
 	noEmail: 'Vennligst skriv inn e-postadressen',
 	noUrl: 'Vennligst skriv inn lenkens URL',
+	noTel: 'Vennligst skriv inn telefonnummeret',
 	other: '<annen>',
+	phoneNumber: 'Telefonnummer',
 	popupDependent: 'Avhenging (Netscape)',
 	popupFeatures: 'Egenskaper for popup-vindu',
 	popupFullScreen: 'Fullskjerm (IE)',
@@ -58,7 +62,8 @@ CKEDITOR.plugins.setLang( 'link', 'nb', {
 	toAnchor: 'Lenke til anker i teksten',
 	toEmail: 'E-post',
 	toUrl: 'URL',
-	toolbar: 'Sett inn/Rediger lenke',
+	toPhone: 'Telefon',
+	toolbar: 'Lenke',
 	type: 'Lenketype',
 	unlink: 'Fjern lenke',
 	upload: 'Last opp'

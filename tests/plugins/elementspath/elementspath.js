@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: elementspath */
 /* global elementspathTestsTools */
 
@@ -28,6 +28,19 @@
 		'test widget mockup element path': function() {
 			this.editorBot.setHtmlWithSelection( bender.tools.getValueAsHtml( 'testWidgetSample' ) );
 			this.assertPath( 'div,figcaption' );
+		},
+
+		// (#1191)
+		'test elements path items not draggable': function() {
+			this.editorBot.setHtmlWithSelection( '<ul><li>^</li></ul>' );
+
+			var path = this.editor.ui.space( 'path' ),
+				elements = path.getElementsByTag( 'a' ).toArray();
+
+			CKEDITOR.tools.array.forEach( elements, function( element ) {
+				assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Element draggable attribute value.' );
+				assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'Element ondragstart attribute value.' );
+			} );
 		}
 	} );
 } )();

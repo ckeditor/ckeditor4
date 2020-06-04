@@ -1,0 +1,116 @@
+<div id="classic">
+	<div class="progress-wrapper">
+		<p>line</p>
+		<p>line</p>
+		<p>line</p>
+		<p>line</p>
+	</div>
+	<p>Above div will gain your progress indicator.</p>
+</div>
+
+<style>
+	#controls.hidden {
+		display: none;
+	}
+
+	#progress-range {
+		width: 100%;
+	}
+
+	.progress-range-legend {
+		position: relative;
+		height: 1em;
+	}
+
+	.progress-range-legend span {
+		position: absolute;
+		top: 0px;
+	}
+
+	.progress-range-legend .done {
+		right: 0px;
+	}
+
+</style>
+
+<div id="controls" class="hidden">
+	<p>
+		<label for="progress-range">Change progress:</label>
+	</p>
+	<p>
+		<input id="progress-range" type="range" step="0.01" min="0" max="1" onchange="gLoader.updated( this.value );">
+	</p>
+	<div class="progress-range-legend">
+		<span>Start</span>
+		<span class="done">Done</span>
+	</div>
+	<p>
+		Action Buttons:
+	</p>
+	<p>
+		<input type="button" value="done" onclick="gLoader.done();">
+		<input type="button" value="abort" onclick="gLoader.aborted();">
+		<input type="button" value="error" onclick="gLoader.failed();">
+	</p>
+	<p>
+		<input type="button" value="recreate progress indicator" onclick="window.recreateProgress();">
+	</p>
+	<p>
+		<label for="progress-type">Change indicator type:</label>
+	</p>
+	<p>
+		<select name="progress-type" id="progress-type" onchange="window.recreateProgress();">
+			<option value="default">Progress Bar</option>
+			<option value="progress-overlap">Lighten overlap</option>
+			<option value="progress-circle">Circle</option>
+		</select>
+	</p>
+</div>
+
+<script src="../features/_helpers/tools.js"></script>
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	function runSampleCode( editor, easyImagePlugin ) {
+		window.recreateProgress = function() {
+			var loader = window.gLoader,
+				types = {
+					'progress-overlap': imageBaseFeaturesTools.progress.getProgressOverlapType( editor, easyImagePlugin.progressReporter ),
+					'progress-circle': imageBaseFeaturesTools.progress.getProgressCircleType( editor, easyImagePlugin.progressReporter ),
+					'default': easyImagePlugin.progressBar
+				},
+				Constructor = types[ CKEDITOR.document.getById( 'progress-type' ).getValue() || 'default' ];
+
+			if ( loader ) {
+				loader.remove();
+			}
+
+			loader = new Constructor();
+			editor.editable().findOne( 'div' ).append( loader.wrapper, true );
+			loader.updated( CKEDITOR.document.getById( 'progress-range' ).getValue() );
+
+			window.gLoader = loader;
+		}
+	}
+
+	CKEDITOR.addCss( '.progress-wrapper { outline: 2px solid green; position: relative; background: #000; color: #fff; }' );
+
+	CKEDITOR.replace( 'classic', {
+		extraAllowedContent: 'div(progress-wrapper)',
+		contentsCss: [
+			'/apps/ckeditor/plugins/easyimage/styles/easyimage.css',
+			// Styles for non-standard progress indicators.
+			'%TEST_DIR%/../../../easyimage/manual/_assets/progress.css'
+		],
+		on: {
+			instanceReady: function( evt ) {
+				CKEDITOR.document.getById( 'controls' ).removeClass( 'hidden' );
+
+				runSampleCode( this, CKEDITOR.plugins.imagebase );
+
+				window.recreateProgress();
+			}
+		}
+	} );
+
+</script>

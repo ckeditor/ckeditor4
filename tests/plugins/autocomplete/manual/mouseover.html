@@ -1,0 +1,39 @@
+<div id="editor1" ></div>
+
+<script>
+
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	if ( CKEDITOR.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+
+				// Default autocomplete instance.
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
+
+				var DATA = [
+					{ id: 1, name: '#john' },
+					{ id: 2, name: '#thomas' },
+					{ id: 3, name: '#anna' },
+					{ id: 4, name: '#cris' },
+					{ id: 5, name: '#julia' }
+				];
+
+				// Autocomplete instance with custom template.
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback( { regex: '#\\w*$' } ),
+					dataCallback: autocompleteUtils.getDataCallback( { data: DATA } ),
+					itemTemplate: '<li data-id="{id}"><b>{name}</b></li>'
+				} );
+			}
+		}
+	} );
+</script>

@@ -1,0 +1,187 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+	<style>
+		html body {
+			padding-top: 150px;
+			margin-left: 0px;
+			padding-left: 330px;
+			position: static;
+		}
+
+		.rect-marker {
+			position: absolute;
+			outline: 1px solid red;
+			pointer-events: none;
+		}
+
+		.output {
+			width: 250px;
+		}
+	</style>
+</head>
+
+<div class="data" style="display:none">
+	<p>Line [[with]][[inline]] widgets.</p>
+	<figure class="image"><img alt="" width="279" height="157" src="../../../../plugins/image2/_assets/bar.png"/>
+		<figcaption>Caption</figcaption>
+	</figure>
+	<table border="1" cellspacing="1" cellpadding="1" style="width:250px">
+		<tbody>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Nested widget:
+				<pre>
+		<code class="language-javascript">console.log( 'Hello World!' );</code>
+	</pre>
+			</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		</tbody>
+	</table>
+	<pre>
+		<code class="language-javascript">console.log( 'Hello World!' );</code>
+	</pre>
+</div>
+
+<h2>Classic editor with 'tableselection' plugin.</h2>
+<textarea class="output" id="output-editor" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
+<div id="editor" contenteditable="true"></div>
+
+<h2>Classic editor without 'tableselection' plugin.</h2>
+<textarea class="output" id="output-editor2" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
+<div id="editor2" contenteditable="true"></div>
+
+<h2>Inline editor with 'tableselection' plugin.</h2>
+<textarea class="output" id="output-editor-inline" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
+<div id="editor-inline" contenteditable="true"></div>
+
+<h2>Inline editor without 'tableselection' plugin.</h2>
+<textarea class="output" id="output-editor-inline2" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
+<div id="editor-inline2" contenteditable="true"></div>
+
+<script>
+	( function() {
+		// IE 8 polyfill doesn't work when selecting block elements like widget. Also it's unsupported by table selection.
+		// Also bugs #1925 and #1930 are not occuring when using IE polyfill, so there is no need to run this test on IE8.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+			bender.ignore()
+		}
+
+		CKEDITOR.replace( 'editor', {
+			height: 500,
+			on: {
+				instanceReady: onInstanceReady
+			}
+		} );
+		CKEDITOR.replace( 'editor2', {
+			height: 500,
+			removePlugins: 'tableselection',
+			on: {
+				instanceReady: onInstanceReady
+			}
+		} );
+		CKEDITOR.inline( 'editor-inline', {
+			on: {
+				instanceReady: onInstanceReady
+			},
+			allowedContent: true
+		} );
+		CKEDITOR.inline( 'editor-inline2', {
+			removePlugins: 'tableselection',
+			on: {
+				instanceReady: onInstanceReady
+			},
+			allowedContent: true
+		} );
+	} )();
+
+	function onInstanceReady() {
+		this.setData( CKEDITOR.document.findOne( '.data' ).getHtml(), {
+			callback: function() {
+
+				var rectMarkers = [];
+
+				var doc = CKEDITOR.document,
+					editable = this.editable(),
+					par = editable.findOne( 'p' ),
+					rng = new CKEDITOR.dom.range( editable ),
+					output = doc.getById( 'output-' + this.name ),
+					editor = this;
+
+				rng.setStart( par, CKEDITOR.POSITION_AFTER_START );
+
+				this.getSelection().selectRanges( [ rng ] );
+
+				window.setInterval( function() {
+					removeRectangles();
+
+					if ( !editor.getSelection() || editor.getSelection().isLocked ) {
+						// Don't do anything else if there is no selection, e.g. editor is in sourcemode.
+						// When selection is locked IE9 and IE10 are throwing indexSizeError.
+						return;
+					}
+					var ranges = editor.getSelection().getRanges(),
+						rects = ranges && CKEDITOR.tools.array.reduce( ranges, function( total, current ) {
+							return total.concat( current.getClientRects( true ) );
+						}, [] );
+
+					if ( editable.hasFocus ) {
+						writeOutput( rects );
+					}
+
+					for ( var i = 0; i < rects.length; i++ ) {
+						drawRectangle( rects[ i ] );
+					}
+				}, 100 );
+
+				function drawRectangle( rect ) {
+					var rectMarker;
+					if ( !rectMarker ) {
+						rectMarker = doc.createElement( 'div' );
+						rectMarker.addClass( 'rect-marker' );
+						doc.getBody().append( rectMarker );
+					}
+
+					rectMarker.setStyles( {
+						top: rect.top + 'px',
+						left: rect.left + 'px',
+						height: rect.height + 'px',
+						width: rect.width + 'px'
+					} );
+
+					rectMarkers.push( rectMarker );
+				}
+
+				function removeRectangles() {
+					if ( rectMarkers.length ) {
+						rectMarkers = CKEDITOR.tools.array.filter( rectMarkers, function( marker ) {
+							marker.remove();
+							return false;
+						} );
+					}
+				}
+
+				function writeOutput( rects ) {
+					output.setValue( 'Selection rect\n---\nrectangle count: ' + ( rects ? rects.length : rects ) );
+
+					if ( !rng || !rects || !rects.length ) {
+						return;
+					}
+
+					output.setValue( output.getValue() + '\nwidth:' + rects[ 0 ].width + '\nheight: ' + rects[ 0 ].height );
+					output.setValue( output.getValue() + '\ntop:' + rects[ 0 ].top + '\nleft: ' + rects[ 0 ].left );
+				}
+			}
+		} );
+	}
+</script>

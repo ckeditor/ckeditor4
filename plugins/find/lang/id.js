@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'find', 'id', {
 	find: 'Temukan',
@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'find', 'id', {
 	matchCase: 'Match case', // MISSING
 	matchCyclic: 'Match cyclic', // MISSING
 	matchWord: 'Match whole word', // MISSING
-	notFoundMsg: 'The specified text was not found.', // MISSING
+	notFoundMsg: 'Teks yang dipilih tidak ditemukan',
 	replace: 'Ganti',
 	replaceAll: 'Ganti Semua',
 	replaceSuccessMsg: '%1 occurrence(s) replaced.', // MISSING

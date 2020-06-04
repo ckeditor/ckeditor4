@@ -1,0 +1,56 @@
+/*
+There's only sense testing rules with specificity 11
+because CKEditor's reset is not able to override higher ones.
+It also only makes sense to test some reasonable selectors.
+It is of course possible to do:
+.styled * { float: left }
+but it's unrealistic and it would be a developer's fault.
+Realistic, imprecise styles are based on specific tag names like `a` or `table`.
+*/
+
+* {
+	box-sizing: border-box;
+	font-family: Courier;
+	font-size: 20px;
+}
+
+input, textarea, a, label {
+	border: solid 5px blue;
+	padding: 5px;
+	text-decoration: underline;
+}
+
+table {
+	table-layout: fixed;
+	width: 800px;
+	float: right;
+	border: solid 2px blue;
+}
+
+p, h1 {
+	color: red;
+}
+
+iframe {
+	width: 500px;
+	border: solid 2px green;
+}
+
+/* Links are pretty often styled with similar styles
+and are used by us in many places in the UI. */
+.styled a {
+	text-decoration: underline;
+	border: solid 2px green;
+	color: red;
+	font-size: 15px;
+	background: blue;
+	padding: 5px;
+}
+
+.styled textarea {
+	margin: 20px;
+	padding: 10px;
+	border: solid 5px red;
+	width: 200px;
+	background: red;
+}

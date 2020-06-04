@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'zh', {
 	copy: '複製',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'zh', {
 	cut: '剪下',
 	cutError: '瀏覽器的安全性設定不允許編輯器自動執行剪下動作。請使用鏐盤快捷鍵 (Ctrl/Cmd+X) 剪下。',
 	paste: '貼上',
+	pasteNotification: '請按下「%1」貼上。您的瀏覽器不支援工具列按鈕或是內容功能表選項。',
 	pasteArea: '貼上區',
-	pasteMsg: '請使用鍵盤快捷鍵 (<strong>Ctrl/Cmd+V</strong>) 貼到下方區域中並按下「確定」。',
-	securityMsg: '因為瀏覽器的安全性設定，本編輯器無法直接存取您的剪貼簿資料，請您自行在本視窗進行貼上動作。',
-	title: '貼上'
+	pasteMsg: '請將您的內容貼於下方區域中並按下「OK」。'
 } );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'hr', {
 	auto: 'Automatski',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'hr', {
 		F0FFFF: 'Azurna',
 		F0F8FF: 'Alice plava',
 		E6E6FA: 'Lavanda',
-		FFF: 'Bijela'
+		FFF: 'Bijela',
+		'1ABC9C': 'Jaka cijan',
+		'2ECC71': 'Emerald',
+		'3498DB': 'Svijetlo plava',
+		'9B59B6': 'Ametist',
+		'4E5F70': 'Sivkasto plava',
+		'F1C40F': 'Žarka žuta',
+		'16A085': 'Tamna cijan',
+		'27AE60': 'Tamna emerald',
+		'2980B9': 'Jaka plava',
+		'8E44AD': 'Tamno ljubičasta',
+		'2C3E50': 'Desatuirarana plava',
+		'F39C12': 'Narančasta',
+		'E67E22': 'Mrkva',
+		'E74C3C': 'Blijedo crvena',
+		'ECF0F1': 'Sjana srebrna',
+		'95A5A6': 'Svijetlo sivkasta cijan',
+		'DDD': 'Svijetlo siva',
+		'D35400': 'Tikva',
+		'C0392B': 'Jaka crvena',
+		'BDC3C7': 'Srebrna',
+		'7F8C8D': 'Sivkasto cijan',
+		'999': 'Tamno siva'
 	},
 	more: 'Više boja...',
 	panelTitle: 'Boje',

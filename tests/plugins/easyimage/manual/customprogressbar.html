@@ -1,0 +1,73 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<h2>Default progress bar</h2>
+
+<div id="editor1">
+	<p>Drop an image below:</p>
+	<p></p>
+</div>
+
+<h2>Cricular progress reporter</h2>
+
+<div id="editor2">
+	<p>Drop an image below:</p>
+	<p></p>
+</div>
+
+<h2>Overlapping progress reporter</h2>
+
+<div id="editor3">
+	<p>Drop an image below:</p>
+	<p></p>
+</div>
+
+<script src="../../imagebase/features/_helpers/tools.js"></script>
+<script>
+	// Ignore on mobiles due to lack of support for files drag and drop.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+
+	var commonConfig = {
+		cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+		cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL,
+		contentsCss: [ '%TEST_DIR%/_assets/progress.css' ],
+		on: {
+			widgetDefinition: function( evt ) {
+				var widgetDef = evt.data,
+					progressHelper = imageBaseFeaturesTools.progress,
+					imageBasePlugin = CKEDITOR.plugins.imagebase,
+					// Each editor uses a different progress reporter.
+					mapping = {
+						editor1: imageBasePlugin.progressBar,
+						editor2: progressHelper.getProgressCircleType( this, imageBasePlugin.progressReporter ),
+						editor3: progressHelper.getProgressOverlapType( this, imageBasePlugin.progressReporter )
+					};
+
+				if ( widgetDef.name === 'easyimage' ) {
+					widgetDef.progressReporterType = mapping[ this.name ];
+				}
+			},
+
+			instanceReady: function() {
+				if ( this.name !== 'editor3' ) {
+					return;
+				}
+
+				// After #1533 this is this is needed for editor with overlapping loader to look nicer.
+				this.widgets.on( 'instanceCreated', function( evt ) {
+					evt.data.on( 'ready', function() {
+						this.wrapper.addClass( 'cke_skip_uploading' );
+					} );
+				} );
+			}
+		}
+	};
+
+	CKEDITOR.replace( 'editor1', commonConfig );
+	CKEDITOR.replace( 'editor2', commonConfig );
+	CKEDITOR.replace( 'editor3', commonConfig );
+</script>

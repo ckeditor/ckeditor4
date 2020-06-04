@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 
 /*
@@ -51,6 +51,7 @@ This file contains styles to used by Internet Explorer 7 only.
 	have sexy inputs which go well with the layout. */
 .cke_dialog_ui_input_text,
 .cke_dialog_ui_input_password,
+.cke_dialog_ui_input_tel,
 .cke_dialog_ui_input_textarea,
 .cke_dialog_ui_input_select
 {

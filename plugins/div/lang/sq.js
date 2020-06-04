@@ -1,19 +1,19 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'div', 'sq', {
 	IdInputLabel: 'Id',
-	advisoryTitleInputLabel: 'Titull',
-	cssClassInputLabel: 'Klasa stili CSS',
+	advisoryTitleInputLabel: 'Titulli Këshillimorit',
+	cssClassInputLabel: 'CSS Klasat',
 	edit: 'Redakto Div',
-	inlineStyleInputLabel: 'Stili i brendshëm',
+	inlineStyleInputLabel: 'Stili Brendshëm',
 	langDirLTRLabel: 'Nga e majta në të djathë (LTR)',
-	langDirLabel: 'Drejtim teksti',
+	langDirLabel: 'Drejtimi Gjuhës',
 	langDirRTLLabel: 'Nga e djathta në të majtë (RTL)',
 	languageCodeInputLabel: 'Kodi i Gjuhës',
 	remove: 'Largo Div',
-	styleSelectLabel: 'Stil',
-	title: 'Krijo Div Përmbajtës',
-	toolbar: 'Krijo Div Përmbajtës'
+	styleSelectLabel: 'Stili',
+	title: 'Krijo Përmbajtës Div',
+	toolbar: 'Krijo Përmbajtës Div'
 } );

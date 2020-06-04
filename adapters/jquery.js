@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -12,19 +12,29 @@
  * @singleton
  *
  * The jQuery Adapter allows for easy use of basic CKEditor functions and access to the internal API.
- * To find more information about the jQuery Adapter, go to the [jQuery Adapter section](#!/guide/dev_jquery)
+ * To find more information about the jQuery Adapter, go to the {@glink guide/dev_jquery jQuery Adapter section}
  * of the Developer's Guide or see the "Create Editors with jQuery" sample.
  *
  * @aside guide dev_jquery
  */
 
 ( function( $ ) {
+	if ( typeof $ == 'undefined' ) {
+		throw new Error( 'jQuery should be loaded before CKEditor jQuery adapter.' );
+	}
+
+	if ( typeof CKEDITOR == 'undefined' ) {
+		throw new Error( 'CKEditor should be loaded before CKEditor jQuery adapter.' );
+	}
+
 	/**
 	 * Allows CKEditor to override `jQuery.fn.val()`. When set to `true`, the `val()` function
 	 * used on textarea elements replaced with CKEditor uses the CKEditor API.
 	 *
 	 * This configuration option is global and is executed during the loading of the jQuery Adapter.
 	 * It cannot be customized across editor instances.
+	 *
+	 * Read more in the {@glink guide/dev_jquery documentation}.
 	 *
 	 *		<script>
 	 *			CKEDITOR.config.jqueryOverrideVal = true;
@@ -44,9 +54,6 @@
 	 */
 	CKEDITOR.config.jqueryOverrideVal =
 		typeof CKEDITOR.config.jqueryOverrideVal == 'undefined' ? true : CKEDITOR.config.jqueryOverrideVal;
-
-	if ( typeof $ == 'undefined' )
-		return;
 
 	// jQuery object methods.
 	$.extend( $.fn, {
@@ -150,10 +157,10 @@
 					editor.on( 'instanceReady', function( evt ) {
 						var editor = evt.editor;
 
-						setTimeout( function() {
+						setTimeout( function waitForEditor() {
 							// Delay bit more if editor is still not ready.
 							if ( !editor.element ) {
-								setTimeout( arguments.callee, 100 );
+								setTimeout( waitForEditor, 100 );
 								return;
 							}
 
@@ -258,10 +265,10 @@
 				} else {
 					// Editor is already during creation process, bind our code to the event.
 					editor.once( 'instanceReady', function() {
-						setTimeout( function() {
+						setTimeout( function waitForEditor() {
 							// Delay bit more if editor is still not ready.
 							if ( !editor.element ) {
-								setTimeout( arguments.callee, 100 );
+								setTimeout( waitForEditor, 100 );
 								return;
 							}
 
@@ -276,7 +283,7 @@
 			} );
 
 			/**
-			 * The [jQuery Promise object]((http://api.jquery.com/promise/)) that handles the asynchronous constructor.
+			 * The [jQuery Promise object](http://api.jquery.com/promise/) that handles the asynchronous constructor.
 			 * This promise will be resolved after **all** of the constructors.
 			 *
 			 * @property {Function} promise

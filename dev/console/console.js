@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /* exported CKCONSOLE */
@@ -228,6 +228,90 @@ var CKCONSOLE = ( function() {
 		logItemTpl = new CKEDITOR.template(
 			'<li class="ckconsole_log_item ckconsole_fresh_log_item"><time datetime="{time}" class="ckconsole_time">{time}</time> <code>{msg}</code></li>'
 		);
-
 	return that;
 } )();
+
+/**
+ * Usage:
+ *
+ * CKCONSOLE.addEventPanel( 'drop' );
+ * CKCONSOLE.create( 'drop', { editor: 'inline' } );
+ *
+ * or (with observed types):
+ *
+ * CKCONSOLE.addEventPanel( 'drop', [ '$', 'target' ] );
+ * CKCONSOLE.create( 'drop', { editor: 'inline' } );
+ *
+ * or (with observed types mapping):
+ *
+ * CKCONSOLE.addEventPanel( 'drop',
+ * 		[ '$', 'target' ],
+ * 		function( evt ) {
+ * 			return {
+ * 				'$': evt.data.$,
+ * 				'target': evt.data.target
+ * 			};
+ * 		}
+ * );
+ * CKCONSOLE.create( 'drop', { editor: 'inline' } );
+ *
+ */
+CKCONSOLE.addEventPanel = function( evtName, types, mapping ) {
+	var values,
+		content = '<ul class="ckconsole_list">';
+
+	if ( !types ) {
+		types = [];
+	}
+	if ( !mapping ) {
+		mapping = function( evt ) {
+			var ret = {};
+
+			for ( var i = 0; i < types.length; i++ ) {
+				ret[ types[ i ] ] = evt.data[ types[ i ] ];
+			}
+			return ret;
+		};
+	}
+
+	for ( var i = 0; i < types.length; i++ ) {
+		content += '<li>' + types[ i ] + ': <span class="ckconsole_value" data-value="' + types[ i ] + '"></span></li>';
+	}
+	content += '</ul>';
+
+	CKCONSOLE.add( evtName, {
+		panels: [
+			{
+				type: 'box',
+				content: content,
+
+				refresh: function() {
+					values.header = evtName;
+					return values;
+				},
+
+				refreshOn: function( editor, refresh ) {
+					editor.on( evtName, function( evt ) {
+						values = mapping( evt );
+						refresh();
+					} );
+				}
+			},
+			{
+				type: 'log',
+				on: function( editor, log, logFn ) {
+					editor.on( evtName, function( evt ) {
+						var logStr = evtName + '; ';
+						values = mapping( evt );
+
+						for ( var i = 0; i < types.length; i++ ) {
+							logStr += types[ i ] + ': ' + values[ types[ i ] ] + '; ';
+						}
+
+						logFn( logStr )();
+					} );
+				}
+			}
+		]
+	} );
+};

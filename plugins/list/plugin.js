@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -60,7 +60,7 @@
 			for ( var i = 0, count = listNode.getChildCount(); i < count; i++ ) {
 				var listItem = listNode.getChild( i );
 
-				// Fixing malformed nested lists by moving it into a previous list item. (#6236)
+				// Fixing malformed nested lists by moving it into a previous list item. (https://dev.ckeditor.com/ticket/6236)
 				if ( listItem.type == CKEDITOR.NODE_ELEMENT && listItem.getName() in CKEDITOR.dtd.$list )
 					CKEDITOR.plugins.list.listToArray( listItem, database, baseArray, baseIndentLevel + 1 );
 
@@ -137,13 +137,13 @@
 						currentListItem.append( item.contents[ i ].clone( 1, 1 ) );
 					currentIndex++;
 				} else if ( item.indent == Math.max( indentLevel, 0 ) + 1 ) {
-					// Maintain original direction (#6861).
+					// Maintain original direction (https://dev.ckeditor.com/ticket/6861).
 					var currDir = listArray[ currentIndex - 1 ].element.getDirection( 1 ),
 						listData = CKEDITOR.plugins.list.arrayToList( listArray, null, currentIndex, paragraphMode, currDir != orgDir ? orgDir : null );
 
 					// If the next block is an <li> with another list tree as the first
 					// child, we'll need to append a filler (<br>/NBSP) or the list item
-					// wouldn't be editable. (#6724)
+					// wouldn't be editable. (https://dev.ckeditor.com/ticket/6724)
 					if ( !currentListItem.getChildCount() && CKEDITOR.env.needsNbspFiller && doc.$.documentMode <= 7 )
 						currentListItem.append( doc.createText( '\xa0' ) );
 					currentListItem.append( listData.listNode );
@@ -416,7 +416,7 @@
 				contentBlock.appendTo( listItem );
 			else {
 				contentBlock.copyAttributes( listItem );
-				// Remove direction attribute after it was merged into list root. (#7657)
+				// Remove direction attribute after it was merged into list root. (https://dev.ckeditor.com/ticket/7657)
 				if ( listDir && contentBlock.getDirection() ) {
 					listItem.removeStyle( 'direction' );
 					listItem.removeAttribute( 'dir' );
@@ -477,7 +477,7 @@
 
 		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode, groupObj.root.getAttribute( 'dir' ) );
 
-		// Compensate <br> before/after the list node if the surrounds are non-blocks.(#3836)
+		// Compensate <br> before/after the list node if the surrounds are non-blocks.(https://dev.ckeditor.com/ticket/3836)
 		var docFragment = newList.listNode,
 			boundaryNode, siblingNode;
 
@@ -504,9 +504,9 @@
 	// Checks wheather this block should be element preserved (not transformed to <li>) when creating list.
 	function shouldPreserveBlock( block ) {
 		return (
-			// #5335
+			// https://dev.ckeditor.com/ticket/5335
 			block.is( 'pre' ) ||
-			// #5271 - this is a header.
+			// https://dev.ckeditor.com/ticket/5271 - this is a header.
 			headerTagRegex.test( block.getName() ) ||
 			// 11083 - this is a non-editable element.
 			block.getAttribute( 'contenteditable' ) == 'false'
@@ -523,7 +523,7 @@
 
 	var elementType = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT );
 
-	// Merge child nodes with direction preserved. (#7448)
+	// Merge child nodes with direction preserved. (https://dev.ckeditor.com/ticket/7448)
 	function mergeChildren( from, into, refNode, forward ) {
 		var child, itemDir;
 		while ( ( child = from[ forward ? 'getLast' : 'getFirst' ]( elementType ) ) ) {
@@ -533,6 +533,7 @@
 			child.remove();
 
 			refNode ? child[ forward ? 'insertBefore' : 'insertAfter' ]( refNode ) : into.append( child, forward );
+			refNode = child;
 		}
 	}
 
@@ -556,7 +557,7 @@
 					selection.selectRanges( ranges );
 				}
 				// Maybe a single range there enclosing the whole list,
-				// turn on the list state manually(#4129).
+				// turn on the list state manually(https://dev.ckeditor.com/ticket/4129).
 				else {
 					var range = ranges.length == 1 && ranges[ 0 ],
 						enclosedNode = range && range.getEnclosedNode();
@@ -592,7 +593,8 @@
 
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					// Avoid duplicate blocks get processed across ranges.
-					if ( block.getCustomData( 'list_block' ) )
+					// Avoid processing comments, we don't want to touch it.
+					if ( block.getCustomData( 'list_block' ) || hasCommentsChildOnly( block ) )
 						continue;
 					else
 						CKEDITOR.dom.element.setMarker( database, block, 'list_block', 1 );
@@ -606,13 +608,13 @@
 
 					// First, try to group by a list ancestor.
 					for ( var i = pathElementsCount - 1; i >= 0 && ( element = pathElements[ i ] ); i-- ) {
-						// Don't leak outside block limit (#3940).
+						// Don't leak outside block limit (https://dev.ckeditor.com/ticket/3940).
 						if ( listNodeNames[ element.getName() ] && blockLimit.contains( element ) ) {
 							// If we've encountered a list inside a block limit
 							// The last group object of the block limit element should
 							// no longer be valid. Since paragraphs after the list
 							// should belong to a different group of paragraphs before
-							// the list. (Bug #1309)
+							// the list. (Bug https://dev.ckeditor.com/ticket/1309)
 							blockLimit.removeCustomData( 'list_group_object_' + index );
 
 							var groupObj = element.getCustomData( 'list_group_object' );
@@ -650,11 +652,14 @@
 			while ( listGroups.length > 0 ) {
 				groupObj = listGroups.shift();
 				if ( this.state == CKEDITOR.TRISTATE_OFF ) {
-					if ( listNodeNames[ groupObj.root.getName() ] )
+					if ( isEmptyList( groupObj ) ) {
+						continue;
+					} else if ( listNodeNames[ groupObj.root.getName() ] ) {
 						changeListType.call( this, editor, groupObj, database, listsCreated );
-					else
+					} else {
 						createList.call( this, editor, groupObj, listsCreated );
-				} else if ( this.state == CKEDITOR.TRISTATE_ON && listNodeNames[ groupObj.root.getName() ] ) {
+					}
+				} else if ( this.state == CKEDITOR.TRISTATE_ON && listNodeNames[ groupObj.root.getName() ] && !isEmptyList( groupObj ) ) {
 					removeList.call( this, editor, groupObj, database );
 				}
 			}
@@ -667,6 +672,31 @@
 			CKEDITOR.dom.element.clearAllMarkers( database );
 			selection.selectBookmarks( bookmarks );
 			editor.focus();
+
+			function isEmptyList( groupObj ) {
+				// If list is without any li item, then ignore such element from transformation, because it throws errors in console (#2411, #2438).
+				return listNodeNames[ groupObj.root.getName() ] && !getChildCount( groupObj.root, [ CKEDITOR.NODE_COMMENT ] );
+			}
+
+			function getChildCount( element, excludeTypes ) {
+				return CKEDITOR.tools.array.filter( element.getChildren().toArray(), function( node ) {
+					return CKEDITOR.tools.array.indexOf( excludeTypes, node.type ) === -1;
+				} ).length;
+			}
+
+			function hasCommentsChildOnly( element ) {
+				var ret = true;
+				if ( element.getChildCount() === 0 ) {
+					return false;
+				}
+				element.forEach( function( node ) {
+					if ( node.type !== CKEDITOR.NODE_COMMENT ) {
+						ret = false;
+						return false;
+					}
+				}, null, true );
+				return ret;
+			}
 		},
 
 		refresh: function( editor, path ) {
@@ -688,7 +718,7 @@
 		function mergeSibling( rtl ) {
 			var sibling = listNode[ rtl ? 'getPrevious' : 'getNext' ]( nonEmpty );
 			if ( sibling && sibling.type == CKEDITOR.NODE_ELEMENT && sibling.is( listNode.getName() ) ) {
-				// Move children order by merge direction.(#3820)
+				// Move children order by merge direction.(https://dev.ckeditor.com/ticket/3820)
 				mergeChildren( listNode, sibling, null, !rtl );
 
 				listNode.remove();
@@ -770,7 +800,7 @@
 			nextPath = nextCursor.startPath();
 			nextBlock = nextPath.block;
 
-			// Abort when nothing to be removed (#10890).
+			// Abort when nothing to be removed (https://dev.ckeditor.com/ticket/10890).
 			if ( !nextBlock )
 				break;
 
@@ -785,7 +815,7 @@
 			nextBlock.remove();
 		}
 
-		// Check if need to further merge with the list resides after the merged block. (#9080)
+		// Check if need to further merge with the list resides after the merged block. (https://dev.ckeditor.com/ticket/9080)
 		var walkerRng = nextCursor.clone(), editable = editor.editable();
 		walkerRng.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
 		var walker = new CKEDITOR.dom.walker( walkerRng );
@@ -811,7 +841,7 @@
 
 	CKEDITOR.plugins.add( 'list', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'bulletedlist,bulletedlist-rtl,numberedlist,numberedlist-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -840,10 +870,10 @@
 				} );
 			}
 
-			// Handled backspace/del key to join list items. (#8248,#9080)
+			// Handled backspace/del key to join list items. (https://dev.ckeditor.com/ticket/8248,https://dev.ckeditor.com/ticket/9080)
 			editor.on( 'key', function( evt ) {
 				// Use getKey directly in order to ignore modifiers.
-				// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
+				// Justification: https://dev.ckeditor.com/ticket/11861#comment:13
 				var key = evt.data.domEvent.getKey(), li;
 
 				// DEl/BACKSPACE
@@ -908,7 +938,7 @@
 								// Place cursor at the end of previous block.
 								cursor.moveToElementEditEnd( joinWith );
 
-								// And then just before end of closest block element (#12729).
+								// And then just before end of closest block element (https://dev.ckeditor.com/ticket/12729).
 								cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
 							}
 						}
@@ -919,7 +949,7 @@
 						}
 						else {
 							var list = path.contains( listNodeNames );
-							// Backspace pressed at the start of list outdents the first list item. (#9129)
+							// Backspace pressed at the start of list outdents the first list item. (https://dev.ckeditor.com/ticket/9129)
 							if ( list && range.checkBoundaryOfElement( list, CKEDITOR.START ) ) {
 								li = list.getFirst( nonEmpty );
 
@@ -945,7 +975,6 @@
 						}
 
 					} else {
-
 						var next, nextLine;
 
 						li = path.contains( 'li' );
@@ -977,13 +1006,80 @@
 								isAtEnd = 2;
 							}
 
-
 							if ( isAtEnd && next ) {
 								// Put cursor range there.
 								nextLine = range.clone();
 								nextLine.moveToElementEditStart( next );
 
-								// Moving `cursor` and `next line` only when at the end literally (#12729).
+								// https://dev.ckeditor.com/ticket/13409
+								// For the following case and similar
+								//
+								// <ul>
+								// 	<li>
+								// 		<p><a href="#one"><em>x^</em></a></p>
+								// 		<ul>
+								// 			<li><span>y</span></li>
+								// 		</ul>
+								// 	</li>
+								// </ul>
+								if ( isAtEnd == 1 ) {
+									// Move the cursor to <em> if attached to "x" text node.
+									cursor.optimize();
+
+									// Abort if the range is attached directly in <li>, like
+									//
+									// <ul>
+									// 	<li>
+									// 		x^
+									// 		<ul>
+									// 			<li><span>y</span></li>
+									// 		</ul>
+									// 	</li>
+									// </ul>
+									if ( !cursor.startContainer.equals( li ) ) {
+										var node = cursor.startContainer,
+											farthestInlineAscendant;
+
+										// Find <a>, which is farthest from <em> but still inline element.
+										while ( node.is( CKEDITOR.dtd.$inline ) ) {
+											farthestInlineAscendant = node;
+											node = node.getParent();
+										}
+
+										// Move the range so it does not contain inline elements.
+										// It prevents <span> from being included in <em>.
+										//
+										// <ul>
+										// 	<li>
+										// 		<p><a href="#one"><em>x</em></a>^</p>
+										// 		<ul>
+										// 			<li><span>y</span></li>
+										// 		</ul>
+										// 	</li>
+										// </ul>
+										//
+										// so instead of
+										//
+										// <ul>
+										// 	<li>
+										// 		<p><a href="#one"><em>x^<span>y</span></em></a></p>
+										// 	</li>
+										// </ul>
+										//
+										// pressing DELETE produces
+										//
+										// <ul>
+										// 	<li>
+										// 		<p><a href="#one"><em>x</em></a>^<span>y</span></p>
+										// 	</li>
+										// </ul>
+										if ( farthestInlineAscendant ) {
+											cursor.moveToPosition( farthestInlineAscendant, CKEDITOR.POSITION_AFTER_END );
+										}
+									}
+								}
+
+								// Moving `cursor` and `next line` only when at the end literally (https://dev.ckeditor.com/ticket/12729).
 								if ( isAtEnd == 2 ) {
 									cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
 

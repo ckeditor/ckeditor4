@@ -1,12 +1,12 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'sl', {
-	title: 'Lastnosti Ograde',
-	toolbar: 'Ustvari Ogrado',
-	name: 'Placeholder Ime',
-	invalidName: 'Placeholder ne more biti prazen in ne sme vsebovati katerega od naslednjih znakov: [, ], <, >',
-	pathName: 'placeholder'
+	title: 'Lastnosti ograde',
+	toolbar: 'Ograda',
+	name: 'Ime ograde',
+	invalidName: 'Ograda ne more biti prazna in ne sme vsebovati katerega od naslednjih znakov: [, ], <, >',
+	pathName: 'ograda'
 } );

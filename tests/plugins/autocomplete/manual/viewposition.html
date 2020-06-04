@@ -1,0 +1,52 @@
+<h2>Classic editor</h2>
+<div id="editor1" >
+	<p>First line</p>
+	<p class="filler">Filler</p>
+	<p>Middle line</p>
+	<p class="filler">Filler</p>
+	<p>Last line</p>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="editor2" >
+	<p>First line</p>
+	<p class="filler">Filler</p>
+	<p>Middle line</p>
+	<p class="filler">Filler</p>
+	<p>Last line</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="editor3" contenteditable=true >
+	<p>First line</p>
+	<p class="filler">Filler</p>
+	<p>Middle line</p>
+	<p class="filler">Filler</p>
+	<p>Last line</p>
+</div>
+
+<script>
+
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	var config = {
+		width: 600,
+		extraAllowedContent: 'p(filler)',
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
+			}
+		}
+	};
+
+	// Add CSS here so it will be available inside iframe (classic) editor.
+	CKEDITOR.addCss( 'p.filler { height: 900px; border: 1px solid red; }' );
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.replace( 'editor2', CKEDITOR.tools.extend( config, { extraPlugins: 'divarea' } ) );
+	CKEDITOR.inline( 'editor3', config );
+
+</script>

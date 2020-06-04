@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'gl', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'gl', {
 		checkboxTitle: 'Propiedades da caixa de selección',
 		radioTitle: 'Propiedades do botón de opción',
 		value: 'Valor',
-		selected: 'Seleccionado'
+		selected: 'Seleccionado',
+		required: 'Requirido'
 	},
 	form: {
 		title: 'Propiedades do formulario',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'gl', {
 		size: 'Tamaño',
 		lines: 'liñas',
 		chkMulti: 'Permitir múltiplas seleccións',
+		required: 'Requirido',
 		opText: 'Texto',
 		opValue: 'Valor',
 		btnAdd: 'Engadir',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'gl', {
 		value: 'Valor',
 		charWidth: 'Largo do carácter',
 		maxChars: 'Núm. máximo de caracteres',
+		required: 'Requirido',
 		type: 'Tipo',
 		typeText: 'Texto',
 		typePass: 'Contrasinal',

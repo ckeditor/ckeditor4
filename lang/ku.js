@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -77,23 +77,70 @@ CKEDITOR.lang[ 'ku' ] = {
 		width: 'پانی',
 		height: 'درێژی',
 		align: 'ڕێککەرەوە',
-		alignLeft: 'چەپ',
-		alignRight: 'ڕاست',
-		alignCenter: 'ناوەڕاست',
-		alignJustify: 'هاوستوونی',
+		left: 'چەپ',
+		right: 'ڕاست',
+		center: 'ناوەڕاست',
+		justify: 'هاوستوونی',
+		alignLeft: 'بەهێڵ کردنی چەپ',
+		alignRight: 'بەهێڵ کردنی ڕاست',
+		alignCenter: 'بەهێڵ کردنی ناوەڕاست',
 		alignTop: 'سەرەوە',
 		alignMiddle: 'ناوەند',
 		alignBottom: 'ژێرەوە',
 		alignNone: 'هیچ',
-		invalidValue	: 'نرخێکی نادرووست.',
+		invalidValue: 'نرخێکی نادرووست.',
 		invalidHeight: 'درێژی دەبێت ژمارە بێت.',
 		invalidWidth: 'پانی دەبێت ژمارە بێت.',
+		invalidLength: 'ئەم نرخەی دراوە بۆ خانەی "%1" دەبێت ژمارەکی درووست لەگەڵ بێت یان بە بێ پێوانەی یەکەی ( %2)',
 		invalidCssLength: 'ئەم نرخەی دراوە بۆ خانەی "%1" دەبێت ژمارەکی درووست بێت یان بێ ناونیشانی ئامرازی (px, %, in, cm, mm, em, ex, pt, یان pc).',
 		invalidHtmlLength: 'ئەم نرخەی دراوە بۆ خانەی "%1" دەبێت ژمارەکی درووست بێت یان بێ ناونیشانی ئامرازی HTML (px یان %).',
 		invalidInlineStyle: 'دانەی نرخی شێوازی ناوهێڵ دەبێت پێکهاتبێت لەیەك یان زیاتری داڕشتە "ناو : نرخ", جیاکردنەوەی بە فاریزە و خاڵ',
 		cssLengthTooltip: 'ژمارەیەك بنووسه‌ بۆ نرخی piksel یان ئامرازێکی درووستی CSS (px, %, in, cm, mm, em, ex, pt, یان pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, ئامادە نیە</span>'
+		unavailable: '%1<span class="cke_accessibility">, ئامادە نیە</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'فەرمان'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'کورتبڕی تەختەکلیل',
+
+		optionDefault: 'هەمیشەیی'
 	}
 };

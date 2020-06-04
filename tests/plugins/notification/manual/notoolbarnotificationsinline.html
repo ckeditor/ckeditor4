@@ -1,0 +1,20 @@
+<div style="padding: 3000px 3000px 3000px 3000px;">
+	<div id="editor1" contenteditable="true" style="width:250px;">
+		<p>Lorem ipsum dolor sit amet, qui adolescens theophrastus ne, vis dico dolore mediocrem eu. In pro nonumy ocurreret pertinacia, eam imperdiet scripserit ne. Id usu tota congue, habeo cetero no per. Vim tempor facilisis definitionem no, ad eam utroque platonem repudiare. Ei vis consetetur percipitur.
+		</p>
+	</div>
+	<p style="width: 700px;">
+		<input onclick="manualPlayground.showWarning();" type="button" value="Show warning notification">
+		<input onclick="manualPlayground.showSuccess();" type="button" value="Show success notification">
+		<input onclick="manualPlayground.showInfo();" type="button" value="Show info notification">
+		<input onclick="manualPlayground.emulateProgress();" type="button" value="Show progress notification">
+	</p>
+	<script>
+		var editor = CKEDITOR.inline( 'editor1', {
+			removePlugins: 'toolbar,clipboard,pastefromword,pastetext,tableselection'
+		} );
+
+		manualPlayground.init();
+		window.scrollTo( 2950, 2950 );
+	</script>
+</div>

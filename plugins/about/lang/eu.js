@@ -1,12 +1,9 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'about', 'eu', {
 	copy: 'Copyright &copy; $1. Eskubide guztiak erreserbaturik.',
-	dlgTitle: 'CKEditor(r)i buruz',
-	help: '$1 aztertu laguntza jasotzeko.',
-	moreInfo: 'Lizentziari buruzko informazioa gure webgunean:',
-	title: 'CKEditor(r)i buruz',
-	userGuide: 'CKEditor User\'s Guide'
+	dlgTitle: 'CKEditor 4ri buruz',
+	moreInfo: 'Lizentziari buruzko informazioa gure webgunean:'
 } );

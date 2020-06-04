@@ -1,0 +1,36 @@
+<h2>Helpers</h2>
+<p><b>Some</b> <i>rich</i> <s>text</s> <sup>with</sup> <a href="http://cksource.com">link</a></p>
+
+<h2>Editor</h2>
+<div contenteditable="true" id="registered">
+	<p>Paste inside me!</p>
+</div>
+
+<script>
+	// No console support on mobiles (without connecting to another device).
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	( function() {
+		CKEDITOR.replace( 'registered', {
+			on: {
+				pluginsLoaded: function( evt ) {
+					var editor = evt.editor;
+
+					editor.pasteTools.register( {
+						filters: [ '_assets/filter1.js', '_assets/filter2.js' ],
+
+						canHandle: function( evt ) {
+							return evt.data.type !== 'text';
+						},
+
+						handle: function( evt ) {
+							evt.data.dataValue = '<p><strong>SURPRISE!</strong></p>';
+						}
+					} );
+				}
+			}
+		} );
+	}() );
+</script>

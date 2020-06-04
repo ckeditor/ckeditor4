@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'flash', 'uk', {
 	access: 'Доступ до скрипта',
@@ -34,7 +34,7 @@ CKEDITOR.plugins.setLang( 'flash', 'uk', {
 	title: 'Властивості Flash',
 	vSpace: 'Верт. відступ',
 	validateHSpace: 'Гориз. відступ повинен бути цілим числом.',
-	validateSrc: 'Будь ласка, вкажіть URL посилання',
+	validateSrc: 'URL посилання не може бути порожнім.',
 	validateVSpace: 'Верт. відступ повинен бути цілим числом.',
 	windowMode: 'Віконний режим',
 	windowModeOpaque: 'Непрозорість',

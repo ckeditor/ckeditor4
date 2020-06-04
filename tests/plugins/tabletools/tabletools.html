@@ -413,6 +413,59 @@
 	</tbody>
 </textarea>
 
+<textarea id="add-col-before-vertical-split">
+	<table>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td colspan="2">2</td>
+				<td>3</td>
+				<td>4^</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td colspan="2"></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td colspan="2">2</td>
+				<td>3</td>
+				<td>&nbsp;</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td colspan="2">&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
 <textarea id='add-col-after'>
 <table summary="X">
 	<tbody>
@@ -1451,3 +1504,85 @@
 		</tbody>
 	</table>
 </textarea>
+
+<textarea id="background-conversion">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td style="background: #0033bb">[aaa]</td>
+				<td>bbb</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td style="background: #0033bb; background-color: #0033bb" bgcolor>aaa</td>
+				<td>bbb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="background-extraction">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td style="background:no-repeat center #00cc99">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td style="background:no-repeat center #00cc99; background-color: #00cc99">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="align-conversion">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td valign="bottom">[aaa]</td>
+				<td>bbb</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td style="vertical-align: bottom">aaa</td>
+				<td>bbb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="row-height-conversion">
+	<table>
+		<tbody>
+			<tr style="height: 65px">
+				<td>[aaa]</td>
+				<td>bbb</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="height: 65px">aaa</td>
+				<td style="height: 65px">bbb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<div id="playground"></div>

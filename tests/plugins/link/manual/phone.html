@@ -1,0 +1,12 @@
+<h2>No validation</h2>
+<textarea id="editor1"></textarea>
+
+<h2>Validation</h2>
+<textarea id="editor2"></textarea>
+<script>
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		linkPhoneRegExp: /^[0-9]{9}$/,
+		linkPhoneMsg: 'Invalid number'
+	} );
+</script>

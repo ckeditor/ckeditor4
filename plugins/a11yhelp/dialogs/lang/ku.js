@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 		items: [
 			{
 			name: 'تووڵامرازی دەستكاریكەر',
-			legend: 'کلیك ${toolbarFocus} بۆ ڕابەری تووڵامراز. بۆ گواستنەوەی پێشوو داهاتووی گرووپی تووڵامرازی داگرتنی کلیلی TAB لەگەڵ‌ SHIFT-TAB. بۆ گواستنەوەی پێشوو داهاتووی دووگمەی تووڵامرازی لەڕێی کلیلی تیری دەستی ڕاست یان کلیلی تیری دەستی چەپ. کلیکی کلیلی SPACE یان ENTER بۆ چالاککردنی دووگمەی تووڵامراز.'
+			legend: 'کلیك ${toolbarFocus} بۆ ڕابەری تووڵامراز. بۆ گواستنەوەی پێشوو داهاتووی گرووپی تووڵامرازی داگرتنی کلیلی TAB لەگەڵ‌ SHIFT+TAB. بۆ گواستنەوەی پێشوو داهاتووی دووگمەی تووڵامرازی لەڕێی کلیلی تیری دەستی ڕاست یان کلیلی تیری دەستی چەپ. کلیکی کلیلی SPACE یان ENTER بۆ چالاککردنی دووگمەی تووڵامراز.'
 		},
 
 			{
 			name: 'دیالۆگی دەستكاریكەر',
-			legend: 'لەهەمانکاتدا کە تۆ لەدیالۆگی, کلیکی کلیلی TAB بۆ ڕابەری خانەی دیالۆگێکی تر, داگرتنی کلیلی SHIFT + TAB بۆ گواستنەوەی بۆ خانەی پێشووتر, کلیكی کلیلی ENTER بۆ ڕازیکردنی دیالۆگەکە, کلیكی کلیلی ESC بۆ هەڵوەشاندنەوەی دیالۆگەکە. بۆ دیالۆگی لەبازدەری (تابی) زیاتر, کلیكی کلیلی ALT + F10 بۆ ڕابەری لیستی بازدەرەکان. بۆ چوونە بازدەری تابی داهاتوو کلیكی کلیلی TAB یان کلیلی تیری دەستی ڕاست. بۆچوونە بازدەری تابی پێشوو داگرتنی کلیلی SHIFT + TAB یان کلیلی تیری دەستی چەپ. کلیی کلیلی SPACE یان ENTER بۆ هه‌ڵبژاردنی بازدەر (تاب).'
+			legend:
+				'لەناوەوەی دیالۆگ, کلیکی کلیلی TAB بۆ ڕابەری دیالۆگێکی تر, داگرتنی کلیلی SHIFT + TAB بۆ گواستنەوەی بۆ دیالۆگی پێشووتر, کلیكی کلیلی ENTER بۆ ڕازیکردنی دیالۆگەکە, کلیكی کلیلی ESC بۆ هەڵوەشاندنەوەی دیالۆگەکە. بۆ دیالۆگی بازدەری (تابی) زیاتر, کلیكی کلیلی ALT + F10 بۆ ڕابه‌ری لیستی بازده‌ره‌کان، یان کلیكی کلیلی TAB. بۆچوونه‌ بازده‌ری تابی پێشوو  یان دوواتر کلیلی تیری دەستی ڕاست یان چەپ بکە.' 
 		},
 
 			{
@@ -27,7 +28,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 
 			{
 			name: 'لیستی سنووقی سەرنووسەر',
-			legend: 'لەناو سنوقی لیست, چۆن بۆ هەڵنبژاردەی لیستێکی تر کلیکی کلیلی TAB یان کلیلی تیری ڕوو لەخوار. چوون بۆ هەڵبژاردەی لیستی پێشوو کلیکی کلیلی SHIFT + TAB یان کلیلی تیری ڕوو لەسەرەوه‌. کلیکی کلیلی SPACE یان ENTER بۆ دیاریکردنی ‌هەڵبژاردەی لیست. کلیکی کلیلی ESC بۆ داخستنی سنوقی لیست.'
+			legend: 'لەناو سنوقی لیست, چۆن بۆ هەڵنبژاردەی لیستێکی تر کلیکی کلیلی TAB یان کلیلی تیری ڕوو لەخوار. چوون بۆ هەڵبژاردەی لیستی پێشوو کلیکی کلیلی SHIFT+TAB یان کلیلی تیری ڕوو لەسەرەوه‌. کلیکی کلیلی SPACE یان ENTER بۆ دیاریکردنی ‌هەڵبژاردەی لیست. کلیکی کلیلی ESC بۆ داخستنی سنوقی لیست.'
 		},
 
 			{
@@ -78,32 +79,29 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 			{
 			name: 'دەستپێگەیشتنی یارمەتی',
 			legend: 'کلیك ${a11yHelp}'
+		},
+			{
+			name: 'لکاندنی وەك دەقی ڕوون',
+			legend: 'کلیکی ${pastetext}',
+			legendEdge: 'کلیکی ${pastetext}، شوێنکەوتکراوە بە ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'Backspace',
-	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
-	pause: 'Pause',
-	capslock: 'Caps Lock',
-	escape: 'Escape',
-	pageUp: 'Page Up',
-	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
-	leftArrow: 'Left Arrow',
-	upArrow: 'Up Arrow',
-	rightArrow: 'Right Arrow',
-	downArrow: 'Down Arrow',
-	insert: 'Insert',
-	'delete': 'Delete',
+	tab: 'تاب',
+	pause: 'پشوو',
+	capslock: 'قفڵدانی پیتی گەورە',
+	escape: 'چوونە دەرەوە',
+	pageUp: 'پەڕە بەرەوسەر',
+	pageDown: 'پەڕە بەرەوخوار',
+	leftArrow: 'تیری دەستی چەپ',
+	upArrow: 'تیری بەرەوسەر',
+	rightArrow: 'تیری دەستی ڕاست',
+	downArrow: 'تیری بەرەوخوار',
+	insert: 'خستنە ناو',
 	leftWindowKey: 'پەنجەرەی چەپ',
 	rightWindowKey: 'پەنجەرەی ڕاست',
-	selectKey: 'Select',
+	selectKey: 'هەڵبژێرە',
 	numpad0: 'Numpad 0', // MISSING
 	numpad1: '1',
 	numpad2: '2',
@@ -131,8 +129,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 	f10: 'F10',
 	f11: 'F11',
 	f12: 'F12',
-	numLock: 'Num Lock',
-	scrollLock: 'Scroll Lock',
+	numLock: 'قفڵدانی ژمارە',
+	scrollLock: 'قفڵدانی هێڵی هاتووچۆپێکردن',
 	semiColon: ';',
 	equalSign: '=',
 	comma: ',',

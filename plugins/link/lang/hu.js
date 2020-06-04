@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'hu', {
 	acccessKey: 'Billentyűkombináció',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	anchorName: 'Horgony név szerint',
 	charset: 'Hivatkozott tartalom kódlapja',
 	cssClasses: 'Stíluskészlet',
+	download: 'Kötelező letöltés',
+	displayText: 'Megjelenített szöveg',
 	emailAddress: 'E-Mail cím',
 	emailBody: 'Üzenet',
 	emailSubject: 'Üzenet tárgya',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	noAnchors: '(Nincs horgony a dokumentumban)',
 	noEmail: 'Adja meg az E-Mail címet',
 	noUrl: 'Adja meg a hivatkozás webcímét',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<más>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Szülőhöz kapcsolt (csak Netscape)',
 	popupFeatures: 'Felugró ablak jellemzői',
 	popupFullScreen: 'Teljes képernyő (csak IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	toAnchor: 'Horgony az oldalon',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Hivatkozás beillesztése/módosítása',
 	type: 'Hivatkozás típusa',
 	unlink: 'Hivatkozás törlése',

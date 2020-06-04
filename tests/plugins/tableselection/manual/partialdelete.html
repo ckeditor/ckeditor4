@@ -1,0 +1,26 @@
+<div id="editor1">
+	<table style="width: 300px; border: 1px solid black">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+	</table>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.replace( 'editor1' );
+</script>

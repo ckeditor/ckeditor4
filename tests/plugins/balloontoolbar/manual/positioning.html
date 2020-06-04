@@ -1,0 +1,41 @@
+<style>
+	.spacer {
+		margin-top: 300px;
+	}
+</style>
+
+<p class="spacer"></p>
+<textarea id="editor">
+	<p style="margin:500px 0">
+		<span>foo</span>
+	</p>
+</textarea>
+<p class="spacer"></p>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'span;p{margin}',
+		plugins: 'toolbar,wysiwygarea,basicstyles,balloontoolbar',
+		height: 100,
+		on: {
+			instanceReady: function() {
+				var toolbar = new CKEDITOR.ui.balloonToolbar( this, {
+						width: 'auto',
+						height: 40
+					} ),
+					target = this.editable().findOne( 'span' );
+
+				toolbar.addItems( {
+					bold: new CKEDITOR.ui.button( {
+						label: 'test',
+						command: 'bold'
+					} )
+				} );
+
+				toolbar.attach( target );
+			}
+		}
+	} )
+</script>

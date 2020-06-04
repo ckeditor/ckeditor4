@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,magicline */
+/* bender-tags: editor,magicline */
 /* bender-ckeditor-plugins: magicline */
 
 ( function() {
@@ -44,7 +44,7 @@
 					);
 
 					tc.resume( function() {
-						callback( editor, editable, editor.plugins.magicline.backdoor );
+						callback( editor, editable, editor._.magiclineBackdoor );
 					} );
 				}
 			}
@@ -65,10 +65,11 @@
 		assert.isTrue( typeof object == 'object' && typeof reference == 'object' );
 
 		for ( var p in object ) {
-			if ( typeof object[ p ] == 'object' )
+			if ( typeof object[ p ] == 'object' ) {
 				compareObjects( object[ p ], reference[ p ] );
-			else
-				assert.areEqual( reference[ p ], object[ p ] );
+			} else {
+				assert.areEqual( reference[ p ], Math.round( object[ p ] ) );
+			}
 		}
 	}
 
@@ -474,6 +475,25 @@
 					assert.isTrue( backdoor.getNonEmptyNeighbour( backdoor.that, endI ).is( 'u' ) );	// Last I next
 				} );
 		},
+
+		'line has data-cke-magic-line attribute': function() {
+				testEditor( this, {},
+					'',
+					function( editor, editable, backdoor ) {
+						var dummy1 = CKEDITOR.dom.element.createFromHtml( '<div>CK</div>', editor.document ),
+							dummy2 = CKEDITOR.dom.element.createFromHtml( '<div>Editor</div>', editor.document );
+
+						editable.setHtml( '' );
+						dummy1.appendTo( editable );
+						dummy2.appendTo( editable );
+
+						backdoor.that.trigger = new backdoor.boxTrigger( [ dummy1, dummy2, EDGE_MIDDLE, TYPE_EXPAND, LOOK_NORMAL ] );
+						backdoor.that.line.attach().place();
+
+						var line = editable.getChild( [ 0, 0 ] );
+						assert.areEqual( '1', line.getAttribute( 'data-cke-magic-line' ) );
+					} );
+			},
 
 		// Checks line (+ line children) recognition function
 		'is line': function() {

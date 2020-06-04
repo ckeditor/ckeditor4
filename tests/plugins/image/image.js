@@ -1,5 +1,6 @@
-/* bender-tags: editor,unit,image */
+/* bender-tags: editor,image,dialog */
 /* bender-ckeditor-plugins: image,button,toolbar,link */
+
 ( function() {
 	'use strict';
 
@@ -10,7 +11,12 @@
 		}
 	};
 
-	var SRC = '%BASE_PATH%_assets/logo.png';
+	var SRC = '%BASE_PATH%_assets/logo.png',
+		imgs = [
+			{ url: '%BASE_PATH%_assets/logo.png', width: '163', height: '61' },
+			{ url: '%BASE_PATH%_assets/large.jpg', width: '1008', height: '550' }
+		],
+		downloadImage = bender.tools.downloadImage;
 
 	var imageProps = {
 		txtWidth: 414,
@@ -20,19 +26,6 @@
 		txtVSpace: 10,
 		cmbAlign: 'right'
 	};
-
-	function downloadImage( src, cb ) {
-		var img = new CKEDITOR.dom.element( 'img' );
-
-		img.once( 'load', onDone );
-		img.once( 'error', onDone );
-
-		function onDone() {
-			setTimeout( cb, 0 );
-		}
-
-		img.setAttribute( 'src', src );
-	}
 
 	function testReadImage( bot, htmlWithSelection, inpValMap, onDialogShowCb ) {
 		var key,
@@ -104,21 +97,53 @@
 
 			dialog.getButton( 'ok' ).click();
 
-			assert.areEqual( expectedOutput.toLowerCase(), bot.getData( true ) );
+			if ( typeof expectedOutput == 'function' ) {
+				expectedOutput();
+			} else {
+				assert.areEqual( expectedOutput.toLowerCase(), bot.getData( true ) );
+			}
 		} );
 	}
 
-	function chooseExpectedOutput( o ) {
-		return ( CKEDITOR.env.ie && CKEDITOR.env.version >= 11 ) ? o.outputNewIE2
-			: ( CKEDITOR.env.ie && document.documentMode > 8 ) ? o.outputNewIE
-			: CKEDITOR.env.ie ? o.outputIE
-			: CKEDITOR.env.gecko ? o.standard
-			: CKEDITOR.env.safari && CKEDITOR.env.version < 536 ? o.outputSafari5
-			: CKEDITOR.env.webkit ? o.standard
-			: o.outputOpera;
-	}
-
 	bender.test( {
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+
+		// (#2423)
+		'test image dialog model during image creation': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setData( '', function() {
+				bot.dialog( 'image', function( dialog ) {
+					assert.isNull( dialog.getModel( editor ) );
+					assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
+				} );
+			} );
+		},
+
+		// (#2423)
+		'test dialog model with existing image': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setData( '<image src="' + SRC + '"/>', function() {
+				bot.dialog( 'image', function( dialog ) {
+					var img = editor.editable().findOne( 'img' );
+
+					editor.getSelection().selectElement( img );
+
+					assert.areEqual( img, dialog.getModel( editor ) );
+					assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
+				} );
+			} );
+		},
+
 		'test read image (inline styles)': function() {
 			var htmlWithSelection = '[<img src="' + SRC + '" style="border:solid 2px;height:86px;margin:10px 5px;float:right;width:414px;">]';
 
@@ -188,37 +213,35 @@
 		},
 
 		'test update image (inline styles)': function() {
+			var bot = this.editorBot;
 			var htmlWithSelection = '[<img src="' + SRC + '" style="height:300px;width:200px;border: 1px solid;float:left"/>]';
 
-			// jscs:disable maximumLineLength
-			var expectedOutput = chooseExpectedOutput( {
-				standard: '<img src="' + SRC + '" style="border:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputIE: '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputNewIE: '<img src="' + SRC + '" style="border:2px solid currentcolor;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputNewIE2: '<img src="' + SRC + '" style="border:2px solid currentcolor;border-image:none;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputOpera: '<img src="' + SRC + '" style="border-bottom-color:currentcolor;border-bottom-style:solid;border-bottom-width:2px;border-left-color:currentcolor;border-left-style:solid;border-left-width:2px;border-right-color:currentcolor;border-right-style:solid;border-right-width:2px;border-top-color:currentcolor;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				outputSafari5: '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-color:initial;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />'
-			} );
-			// jscs:enable maximumLineLength
-
-			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, imageProps );
+			testUpdateImage( this.editorBot, htmlWithSelection, function() {
+				var img = bot.editor.editable().findOne( 'img' );
+				assert.areEqual( '2px', img.getStyle( 'border-width' ) );
+				assert.areEqual( 'solid', img.getStyle( 'border-style' ) );
+				assert.areEqual( '10px 5px', img.getStyle( 'margin' ) );
+				assert.areEqual( 'right', img.getStyle( 'float' ) );
+				assert.areEqual( '86px', img.getStyle( 'height' ) );
+				assert.areEqual( '414px', img.getStyle( 'width' ) );
+				assert.areEqual( SRC, img.getAttribute( 'src' ) );
+			}, imageProps );
 		},
 
 		'test update image (attributes)': function() {
+			var bot = this.editorBot;
 			var htmlWithSelection = '[<img src="' + SRC + '" height="300" width="200" border="1" align="right" vspace="10" hspace="5"/>]';
 
-			// jscs:disable maximumLineLength
-			var expectedOutput = chooseExpectedOutput( {
-				standard: '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputIE: '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputNewIE: '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputNewIE2: '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputOpera: '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				outputSafari5: '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />'
-			} );
-			// jscs:enable maximumLineLength
-
-			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, imageProps );
+			testUpdateImage( this.editorBot, htmlWithSelection, function() {
+				var img = bot.editor.editable().findOne( 'img' );
+				assert.areEqual( '2px', img.getStyle( 'border-width' ) );
+				assert.areEqual( 'solid', img.getStyle( 'border-style' ) );
+				assert.areEqual( '10px 5px', img.getStyle( 'margin' ) );
+				assert.areEqual( 'right', img.getStyle( 'float' ) );
+				assert.areEqual( '86px', img.getStyle( 'height' ) );
+				assert.areEqual( '414px', img.getStyle( 'width' ) );
+				assert.areEqual( SRC, img.getAttribute( 'src' ) );
+			}, imageProps );
 		},
 
 		'test update image (remove)': function() {
@@ -260,7 +283,7 @@
 			} );
 		},
 
-		// #10867
+		// https://dev.ckeditor.com/ticket/10867
 		'test set encoded URI as image\'s link': function() {
 			var uri = 'http://ckeditor.dev/?q=%C5rsrapport';
 			var htmlWithSelection = '<p>[<img src="' + SRC + '" />]</p>';
@@ -271,7 +294,7 @@
 			} );
 		},
 
-		// #12132
+		// https://dev.ckeditor.com/ticket/12132
 		'test width and height not set when not allowed': function() {
 			bender.editorBot.create( {
 				name: 'editor_disallowed_dimension',
@@ -297,6 +320,137 @@
 							assert.isNull( img.getAttribute( 'style' ), 'Styles should not be set.' );
 						} );
 					} );
+
+					wait();
+				} );
+			} );
+		},
+
+		/**
+		 * https://dev.ckeditor.com/ticket/12126
+		 *
+		 * 1. Open image dialog.
+		 * 2. Set some proper image url and focus out.
+		 * 3. Dimensions inputs should be empty.
+		 * 4. Set another proper image url and focus out.
+		 * 5. Again dimensions inputs should be empty.
+		 */
+		'test dimensions not set automatically when disbled in option': function() {
+			bender.editorBot.create( {
+				name: 'editor_disabled_autodimensions',
+				creator: 'inline',
+				config: {
+					image_prefillDimensions: false
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var i = 0,
+						heightInput = dialog.getContentElement( 'info', 'txtHeight' ),
+						widthInput = dialog.getContentElement( 'info', 'txtWidth' );
+
+					dialog.setValueOf( 'info', 'txtUrl', imgs[ i ].url );
+					downloadImage( imgs[ i ].url, onDownload );
+
+					function onDownload() {
+						resume( onResume );
+					}
+
+					function onResume() {
+						dialog.getContentElement( 'info', 'txtHeight' ).getValue();
+						assert.areSame( '', widthInput.getValue() );
+						assert.areSame( '', heightInput.getValue() );
+
+						if ( i === 0 ) {
+							dialog.setValueOf( 'info', 'txtUrl', imgs[ ++i ].url );
+							downloadImage( imgs[ i ].url, onDownload );
+							wait();
+						}
+					}
+
+					wait();
+				} );
+			} );
+		},
+
+		// (#2254)
+		'test lock ratio status after image resize': function() {
+			var image = imgs[ 1 ];
+			bender.editorBot.create( {
+				name: 'editor_lockratio'
+			},
+				function( bot ) {
+					bot.dialog( 'image', function( dialog ) {
+						var stub = sinon.stub( dialog, 'getValueOf', function( field, prop ) {
+							return prop === 'txtWidth' ? getFixedImageSize( 'width' ) : getFixedImageSize( 'height' );
+						} );
+
+						dialog.originalElement.once( 'load', function() {
+							setTimeout( function() {
+								resume( function() {
+									stub.restore();
+									assert.isTrue( dialog.lockRatio );
+								} );
+							} );
+
+						}, null, null, 999 );
+
+						// Changing image url triggers load event.
+						dialog.getContentElement( 'info', 'txtUrl' ).setValue( image.url );
+
+						wait();
+
+						function getFixedImageSize( prop ) {
+							return Math.round( Number( image[ prop ] ) / 3.6 );
+						}
+					} );
+				} );
+		},
+
+		/**
+		 * https://dev.ckeditor.com/ticket/12126
+		 *
+		 * 1. Open image dialog.
+		 * 2. Set some proper image url and focus out.
+		 * 3. Click button "Reset Size".
+		 * 4. Set some proper image url and focus out.
+		 * 5. Dimensions inputs should be empty.
+		 */
+		'test dimension should be empty after resetting size and loading image': function() {
+			bender.editorBot.create( {
+				name: 'editor_disabled_autodimensions2',
+				creator: 'inline',
+				config: {
+					image_prefillDimensions: false
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var i = 0,
+						resetBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'ratioLock' ).domId ).find( '.cke_btn_reset' ).getItem( 0 );
+
+					dialog.setValueOf( 'info', 'txtUrl', imgs[ i ].url );
+					downloadImage( imgs[ i ].url, onDownload );
+
+					function onDownload() {
+						resume( onResume );
+					}
+
+					function onResume() {
+						resetBtn.fire( 'click' );
+						assert.areSame( imgs[ i ].width, dialog.getContentElement( 'info', 'txtWidth' ).getValue() );
+						assert.areSame( imgs[ i ].height, dialog.getContentElement( 'info', 'txtHeight' ).getValue() );
+
+						dialog.setValueOf( 'info', 'txtUrl', imgs[ ++i ].url );
+						downloadImage( imgs[ i ].url, function() {
+							resume( function() {
+								assert.areSame( '', dialog.getContentElement( 'info', 'txtWidth' ).getValue() );
+								assert.areSame( '', dialog.getContentElement( 'info', 'txtHeight' ).getValue() );
+							} );
+						} );
+
+						wait();
+					}
 
 					wait();
 				} );
@@ -330,20 +484,19 @@
 		},
 
 		'test insert new image': function() {
-			var htmlWithSelection = '^';
+			var bot = this.editorBot;
+			var htmlWithSelection = '<p>^foo</p>';
 
-			// jscs:disable maximumLineLength
-			var expectedOutput = chooseExpectedOutput( {
-				standard: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputIE: '<img alt="" src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputNewIE: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputNewIE2: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputOpera: '<img alt="" src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				outputSafari5: '<img alt="" src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />'
-			} );
-			// jscs:enable maximumLineLength
-
-			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+			testUpdateImage( this.editorBot, htmlWithSelection, function() {
+				var img = bot.editor.editable().findOne( 'img' );
+				assert.areEqual( '2px', img.getStyle( 'border-width' ) );
+				assert.areEqual( 'solid', img.getStyle( 'border-style' ) );
+				assert.areEqual( '10px 5px', img.getStyle( 'margin' ) );
+				assert.areEqual( 'right', img.getStyle( 'float' ) );
+				assert.areEqual( '86px', img.getStyle( 'height' ) );
+				assert.areEqual( '414px', img.getStyle( 'width' ) );
+				assert.areEqual( SRC, img.getAttribute( 'src' ) );
+			}, {
 				txtUrl: SRC, // set txtUrl first because it will overwrite txtHeight and txtWidth after image loads
 				txtWidth: 414,
 				txtHeight: 86,
@@ -381,13 +534,7 @@
 
 		'test replace link with text': function() {
 			var htmlWithSelection = '<p>x[<a href="#">foo bar</a>]x</p>';
-			var expectedOutput;
-
-			// IE8 has some problems with selecting whole <a> element.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
-				expectedOutput = '<p>x<img alt="" src="' + SRC + '" style="height:10px;width:10px;" />x</p>';
-			else
-				expectedOutput = '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>';
+			var expectedOutput = '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>';
 
 			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
 				txtUrl: SRC,
@@ -397,4 +544,3 @@
 		}
 	} );
 } )();
-//]]>

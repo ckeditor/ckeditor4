@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /*
@@ -35,7 +35,7 @@ CKEDITOR.skin.name = 'moono';
 
 // 2. Register browser specific skin files
 // -----------------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Browser_Hacks)
+// (https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_browser_hacks.html)
 //
 // To help implementing browser specific "hacks" to the skin files and have it
 // easy to maintain, it is possible to have dedicated files for such browsers,
@@ -47,7 +47,7 @@ CKEDITOR.skin.name = 'moono';
 // The accepted browser names must match the CKEDITOR.env properties. The most
 // common names are: ie, webkit and gecko. Check the documentation for the complete
 // list:
-// http://docs.ckeditor.com/#!/api/CKEDITOR.env
+// https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_env.html
 //
 // Internet explorer is an expection and the browser version is also accepted
 // (ie7, ie8, ie9, ie10), as well as a special name for IE in Quirks mode (iequirks).
@@ -59,7 +59,7 @@ CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8';
 
 // 3. Define the "Chameleon" feature
 // -----------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Chameleon)
+// (https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_chameleon.html)
 //
 // "Chameleon" is a unique feature available in CKEditor. It makes it possible
 // to end users to specify which color to use as the basis for the editor UI.
@@ -110,12 +110,7 @@ CKEDITOR.skin.chameleon = ( function() {
 	// several places of our template.
 	verticalGradient = ( function() {
 		var template = new CKEDITOR.template( 'background:#{to};' +
-			'background-image:-webkit-gradient(linear,lefttop,leftbottom,from({from}),to({to}));' +
-			'background-image:-moz-linear-gradient(top,{from},{to});' +
-			'background-image:-webkit-linear-gradient(top,{from},{to});' +
-			'background-image:-o-linear-gradient(top,{from},{to});' +
-			'background-image:-ms-linear-gradient(top,{from},{to});' +
-			'background-image:linear-gradient(top,{from},{to});' +
+			'background-image:linear-gradient(to bottom,{from},{to});' +
 			'filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=\'{from}\',endColorstr=\'{to}\');' );
 
 		return function( from, to ) {
@@ -279,10 +274,7 @@ CKEDITOR.skin.chameleon = ( function() {
 
 // 4. Register the skin icons for development purposes only
 // ----------------------------------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Icons)
-//
-// Note: As "moono" is the default CKEditor skin, it provides no custom icons,
-// thus this code is commented out.
+// (https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_icons.html)
 //
 // This code is here just to make the skin work fully when using its "source"
 // version. Without this, the skin will still work, but its icons will not be
@@ -296,29 +288,29 @@ CKEDITOR.skin.chameleon = ( function() {
 // If a required icon is not available here, the plugin defined icon will be
 // used instead. This means that a skin is not required to provide all icons.
 // Actually, it is not required to provide icons at all.
-//
-// (function() {
-//		// The available icons. This list must match the file names (without
-//		// extension) available inside the "icons" folder.
-//		var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
-//			'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
-//			'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
-//			'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
-//			'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
-//			'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
-//			'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
-//			'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
-//			'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
-//			'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
-//			'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
-//			'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
-//			'textcolor,textfield-rtl,textfield,uicolor,underline,undo-rtl,undo,unlink' ).split( ',' );
-//
-//		var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) );
-//
-//		for ( var i = 0; i < icons.length; i++ ) {
-//			CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );
-//		}
-// })();
+
+( function() {
+	// The available icons. This list must match the file names (without
+	// extension) available inside the "icons" folder.
+	var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
+		'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,copyformatting,' +
+		'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
+		'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
+		'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
+		'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
+		'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
+		'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
+		'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
+		'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
+		'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
+		'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
+		'textcolor,textfield-rtl,textfield,uicolor,underline,undo-rtl,undo,unlink' ).split( ',' );
+
+	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) );
+
+	for ( var i = 0; i < icons.length; i++ ) {
+		CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );
+	}
+} )();
 
 // %REMOVE_END%

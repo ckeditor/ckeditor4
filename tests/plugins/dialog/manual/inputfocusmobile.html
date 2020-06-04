@@ -1,0 +1,26 @@
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<style>
+	.spacer {
+		height: 2000px;
+	}
+</style>
+<div class="spacer"></div>
+<h1>Left to right editor:</h1>
+<textarea id="editor"></textarea>
+<h1>Right to left editor:</h1>
+<textarea id="editor_rtl"></textarea>
+<div class="spacer"></div>
+
+<script>
+	if ( !bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor' );
+	CKEDITOR.replace( 'editor_rtl', {
+		language: 'he'
+	} );
+</script>
+</body>

@@ -1,20 +1,21 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'bg', {
 	alt: 'Алтернативен текст',
-	btnUpload: 'Изпрати я на сървъра',
-	captioned: 'Captioned image', // MISSING
-	captionPlaceholder: 'Caption', // MISSING
-	infoTab: 'Инфо за снимка',
+	btnUpload: 'Изпрати на сървъра',
+	captioned: 'Надписано изображение',
+	captionPlaceholder: 'Надпис',
+	infoTab: 'Изображение',
 	lockRatio: 'Заключване на съотношението',
-	menu: 'Настройки за снимка',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	menu: 'Настройки на изображението',
+	pathName: 'изображение',
+	pathNameCaption: 'надпис',
 	resetSize: 'Нулиране на размер',
-	resizer: 'Click and drag to resize', // MISSING
-	title: 'Настройки за снимка',
+	resizer: 'Кликни и влачи, за да преоразмериш',
+	title: 'Настройки на изображението',
 	uploadTab: 'Качване',
-	urlMissing: 'Image source URL is missing.' // MISSING
+	urlMissing: 'URL адреса на изображението липсва.',
+	altMissing: 'Липсва алтернативен текст.'
 } );

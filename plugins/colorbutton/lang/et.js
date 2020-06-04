@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'et', {
 	auto: 'Automaatne',
@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'et', {
 		'0FF': 'Tsüaniidsinine',
 		'00F': 'Sinine',
 		EE82EE: 'Violetne',
-		A9A9A9: 'Tuhm hall',
+		A9A9A9: 'Tumehall',
 		FFA07A: 'Hele lõhe',
 		FFA500: 'Oranž',
 		FFFF00: 'Kollane',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'et', {
 		F0FFFF: 'Taevasinine',
 		F0F8FF: 'Beebisinine',
 		E6E6FA: 'Lavendel',
-		FFF: 'Valge'
+		FFF: 'Valge',
+		'1ABC9C': 'Tugev taevasinine',
+		'2ECC71': 'Smaragdroheline',
+		'3498DB': 'Kirgas sinine',
+		'9B59B6': 'Ametüst',
+		'4E5F70': 'Hallikassinine',
+		'F1C40F': 'Erkkollane',
+		'16A085': 'Tume taevasinine',
+		'27AE60': 'Tumeroheline',
+		'2980B9': 'Tugev sinine',
+		'8E44AD': 'Tumevioletne',
+		'2C3E50': 'Hallikassinine',
+		'F39C12': 'Oraanž',
+		'E67E22': 'Porgand',
+		'E74C3C': 'Kahvatu punane',
+		'ECF0F1': 'Kirgas hõbedane',
+		'95A5A6': 'Hele hallikas taevasinine',
+		'DDD': 'Helehall',
+		'D35400': 'Kõrvitsavärv',
+		'C0392B': 'Tugev punane',
+		'BDC3C7': 'Hõbedane',
+		'7F8C8D': 'Hallikas taevasinine',
+		'999': 'Tume hall'
 	},
 	more: 'Rohkem värve...',
 	panelTitle: 'Värvid',

@@ -1,10 +1,10 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'hr', {
 	button: {
-		title: 'Button svojstva',
+		title: 'Svojstva gumba',
 		text: 'Tekst (vrijednost)',
 		type: 'Vrsta',
 		typeBtn: 'Gumb',
@@ -15,28 +15,30 @@ CKEDITOR.plugins.setLang( 'forms', 'hr', {
 		checkboxTitle: 'Checkbox svojstva',
 		radioTitle: 'Radio Button svojstva',
 		value: 'Vrijednost',
-		selected: 'Odabrano'
+		selected: 'Odabrano',
+		required: 'Potrebno'
 	},
 	form: {
-		title: 'Form svojstva',
-		menu: 'Form svojstva',
+		title: 'Svojstva forme',
+		menu: 'Svojstva forme',
 		action: 'Akcija',
 		method: 'Metoda',
 		encoding: 'Encoding'
 	},
 	hidden: {
-		title: 'Hidden Field svojstva',
+		title: 'Svojstva sakrivenog polja',
 		name: 'Ime',
 		value: 'Vrijednost'
 	},
 	select: {
-		title: 'Selection svojstva',
+		title: 'Svojstva selection polja',
 		selectInfo: 'Info',
 		opAvail: 'Dostupne opcije',
 		value: 'Vrijednost',
 		size: 'Veličina',
 		lines: 'linija',
 		chkMulti: 'Dozvoli višestruki odabir',
+		required: 'Potrebno',
 		opText: 'Tekst',
 		opValue: 'Vrijednost',
 		btnAdd: 'Dodaj',
@@ -52,11 +54,12 @@ CKEDITOR.plugins.setLang( 'forms', 'hr', {
 		rows: 'Redova'
 	},
 	textfield: {
-		title: 'Text Field svojstva',
+		title: 'Svojstva tekst polja',
 		name: 'Ime',
 		value: 'Vrijednost',
 		charWidth: 'Širina',
 		maxChars: 'Najviše karaktera',
+		required: 'Potrebno',
 		type: 'Vrsta',
 		typeText: 'Tekst',
 		typePass: 'Šifra',

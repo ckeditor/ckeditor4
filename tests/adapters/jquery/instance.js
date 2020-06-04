@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,jquery */
+/* bender-tags: editor,jquery */
 /* bender-ckeditor-adapters: jquery */
 /* bender-ckeditor-plugins: wysiwygarea */
 /* global $ */
@@ -20,7 +20,7 @@ bender.test( {
 	},
 
 	assertEditorInstances: function( expected ) {
-		arrayAssert.itemsAreEqual( expected, CKEDITOR.tools.objectKeys( CKEDITOR.instances ), 'Editors instances list should match with expected.' );
+		arrayAssert.itemsAreEqual( expected, CKEDITOR.tools.object.keys( CKEDITOR.instances ), 'Editors instances list should match with expected.' );
 	},
 
 	destroyAll: function() {

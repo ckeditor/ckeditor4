@@ -1,0 +1,29 @@
+<h2>Classic editor</h2>
+
+<textarea id="classic"></textarea>
+
+<h2>Inline editor</h2>
+
+<div id="inline" contenteditable="true">
+	<p>Click me</p>
+</div>
+
+<script>
+	var ignored = false,
+		config = {
+			filebrowserBrowseUrl: '//ckeditor.test/ckfinder/ckfinder.html',
+			filebrowserUploadUrl: '//ckeditor.test/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+			on: {
+				instanceReady: function() {
+					if ( !CKEDITOR.fileTools.isFileUploadSupported && !ignored ) {
+						bender.ignore();
+						ignored = true;
+					}
+				}
+			}
+		};
+
+	CKEDITOR.replace( 'classic', config );
+	CKEDITOR.inline( 'inline', config );
+
+</script>

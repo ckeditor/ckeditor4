@@ -1,0 +1,26 @@
+<div id="editor" contenteditable="true">
+	Foo Bar
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		toolbar: [ [ 'bold', 'link', 'unlink' ], [ 'btn1', 'btn2', 'btn3' ] ],
+		on: {
+			pluginsLoaded: function( evt ) {
+				evt.editor.ui.addButton( 'btn1', {
+					icon: 'Link'
+				} );
+				// Absolute path.
+				evt.editor.ui.addButton( 'btn2', {
+					icon: '/apps/ckeditor/tests/_assets/sample_icon.png',
+					iconHiDpi: '/apps/ckeditor/tests/_assets/sample_icon.hidpi.png'
+				} );
+				// Relative path.
+				evt.editor.ui.addButton( 'btn3', {
+					icon: 'tests/_assets/sample_icon.png',
+					iconHiDpi: 'tests/_assets/sample_icon.hidpi.png'
+				} );
+			}
+		}
+	} );
+</script>

@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'ku', {
 	border: 'گەورەیی پەراوێز',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ku', {
 	headersColumn: 'یەکەم ئەستوون',
 	headersNone: 'هیچ',
 	headersRow: 'یەکەم ڕیز',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'ژمارەی پەراوێز دەبێت تەنها ژماره بێت.',
 	invalidCellPadding: 'ناوپۆشی خانه دەبێت ژمارەکی درووست بێت.',
 	invalidCellSpacing: 'بۆشایی خانه دەبێت ژمارەکی درووست بێت.',

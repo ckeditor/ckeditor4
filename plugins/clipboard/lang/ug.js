@@ -1,15 +1,14 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'ug', {
-	copy: 'نەشر ھوقۇقىغا ئىگە بەلگىسى',
+	copy: 'كۆچۈر',
 	copyError: 'تور كۆرگۈڭىزنىڭ بىخەتەرلىك تەڭشىكى تەھرىرلىگۈچنىڭ كۆچۈر مەشغۇلاتىنى ئۆزلۈكىدىن ئىجرا قىلىشىغا يول قويمايدۇ، ھەرپتاختا تېز كۇنۇپكا (Ctrl/Cmd+C) ئارقىلىق تاماملاڭ',
 	cut: 'كەس',
 	cutError: 'تور كۆرگۈڭىزنىڭ بىخەتەرلىك تەڭشىكى تەھرىرلىگۈچنىڭ كەس مەشغۇلاتىنى ئۆزلۈكىدىن ئىجرا قىلىشىغا يول قويمايدۇ، ھەرپتاختا تېز كۇنۇپكا (Ctrl/Cmd+X) ئارقىلىق تاماملاڭ',
 	paste: 'چاپلا',
+	pasteNotification: 'چاپلانغىنى 1% . سىزنىڭ تور كۆرگۈچىڭىز قۇرال تەكچىسى ۋە سىيرىلما تاللاپ چاپلاش ئىقتىدارىنى قوللىمايدىكەن .',
 	pasteArea: 'چاپلاش دائىرىسى',
-	pasteMsg: 'ھەرپتاختا تېز كۇنۇپكا (<STRONG>Ctrl/Cmd+V</STRONG>) نى ئىشلىتىپ مەزمۇننى تۆۋەندىكى رامكىغا كۆچۈرۈڭ، ئاندىن <STRONG>جەزملە</STRONG>نى بېسىڭ',
-	securityMsg: 'توركۆرگۈڭىزنىڭ بىخەتەرلىك تەڭشىكى سەۋەبىدىن بۇ تەھرىرلىگۈچ چاپلاش تاختىسىدىكى مەزمۇننى بىۋاستە زىيارەت قىلالمايدۇ، بۇ كۆزنەكتە قايتا بىر قېتىم چاپلىشىڭىز كېرەك.',
-	title: 'چاپلا'
+	pasteMsg: 'مەزمۇنىڭىزنى تۆۋەندىكى رايونغا چاپلاپ ئاندىن OK نى بېسىڭ .'
 } );

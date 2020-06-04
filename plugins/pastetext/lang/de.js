@@ -1,8 +1,9 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'de', {
-	button: 'Als Text einfügen',
-	title: 'Als Text einfügen'
+	button: 'Als Klartext einfügen',
+	pasteNotification: 'Drücken Sie %1 zum Einfügen. Ihr Browser unterstützt nicht das Einfügen über dem Knopf in der Toolbar oder dem Kontextmenü.',
+	title: 'Als Klartext einfügen'
 } );

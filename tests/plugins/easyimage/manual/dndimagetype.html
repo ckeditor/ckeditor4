@@ -1,0 +1,19 @@
+<div id="classic">
+	<p>Easyimage is super widget!</p>
+	<figure class="easyimage easyimage-side">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+</div>
+
+<script>
+	// Ignore on mobiles due to lack of support for widgets drag and drop.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+
+	CKEDITOR.replace( 'classic' );
+</script>

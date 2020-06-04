@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,utils */
+/* bender-tags: editor,utils */
 
 ( function() {
 	'use strict';
@@ -54,6 +54,45 @@
 
 			assert.areSame( '<p>bc</p>', bender.tools.compatHtml( sourceHtml, false, false, false, false, false, true ) );
 			assert.areSame( sourceHtml, bender.tools.compatHtml( sourceHtml ) );
+		},
+
+		'test compatHtml\'s customFilters': function() {
+			var input = '<p data-some-attr><span>Foo</span></p>',
+				output = '<p><em>Foo</em></p>',
+				filters = [
+					new CKEDITOR.htmlParser.filter( {
+						elements: {
+							'p': function( element ) {
+								delete element.attributes[ 'data-some-attr' ];
+							}
+						}
+					} ),
+
+					new CKEDITOR.htmlParser.filter( {
+						elements: {
+							'span': function( element ) {
+								element.name = 'em';
+							}
+						}
+					} )
+				];
+
+			assert.areSame( output, bender.tools.compatHtml( input, false, false, false, false, false, false, filters ) );
+		},
+
+		'test escapeRegExp': function() {
+			var characters = '-[]/{}()*+?.\\^$|',
+				expected = '\\' + characters.split( '' ).join( '\\' ),
+				escaped = bender.tools.escapeRegExp( characters );
+
+			assert.areSame( expected, escaped, 'all characters were escaped' );
+		},
+
+		'test escapeRegExp - escape only special characters': function() {
+			var characters = 'a%#@b c',
+				escaped = bender.tools.escapeRegExp( characters );
+
+			assert.areSame( characters, escaped, 'all characters were left untouched' );
 		}
 	} );
 } )();

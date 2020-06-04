@@ -1,0 +1,23 @@
+<h1>Classic editor</h1>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Hello world.</p>
+</textarea>
+
+<h1>Divarea editor</h1>
+
+<div id="editor2" cols="10" rows="10">
+	<p>Hello world.</p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
+
+	CKEDITOR.replace( 'editor1', {
+		emoji_emojiListUrl: '%BASE_PATH%/plugins/emoji/_assets/emoji.json'
+	} );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea',
+		emoji_emojiListUrl: '%BASE_PATH%/plugins/emoji/_assets/emoji.json'
+	} );
+</script>

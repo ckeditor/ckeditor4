@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,template */
+/* bender-tags: editor,template */
 
 ( function() {
 	'use strict';
@@ -91,9 +91,19 @@
 			this.assertTemplateOutput( 'alert("foo!")', '{code}', { code: 'alert("foo!")' } );
 		},
 
+		'supports source as a function': function() {
+			// Returns a template for following tests
+			// @param {Object} data
+			function getTemplate( data ) {
+				return data.image ? '<img src="{image}" alt="{label}"/>' : '{label}';
+			}
+			this.assertTemplateOutput( 'bar', getTemplate, { image: null, label: 'bar' } );
+			this.assertTemplateOutput( '<img src="/foo.jpg" alt="bar"/>', getTemplate, { image: '/foo.jpg', label: 'bar' } );
+		},
+
 		// Creates a template for given string and checks its output
 		// @param {String} expected Expected template output.
-		// @param {String} templateString Template input string.
+		// @param {String/Function} templateString Template input string or callback Function that returns a string.
 		// @param {Object} replacementObject Optional object containing variables.
 		assertTemplateOutput: function( expected, templateString, replacementObject ) {
 			var tpl = new CKEDITOR.template( templateString );

@@ -1,0 +1,148 @@
+<div id="list_type">
+	<div class="input">
+		<ol dir="ltr">
+			<li>
+				<ol>
+					<li><b>dog</b><br></li>
+				</ol>
+				<ul>
+					<li>br[]own<br></li>
+				</ul>
+			</li>
+		</ol>
+	</div>
+
+	<div class="expected">
+		<ol dir="ltr">
+			<li>
+				<ul>
+					<li>d[]og<br></li>
+				</ul>
+				<ul>
+					<li>brown<br></li>
+				</ul>
+			</li>
+		</ol>
+	</div>
+</div>
+
+<!-- DO NOT change formatting -->
+<div id="nested_lists_styles">
+	<div class="input">
+		<ol>
+			<li><span style="text-decoration: underline;">Test </span><ol><li><b>dog</b></li>
+				</ol>
+				<ol start="5" style="list-style-type: upper-alpha;">
+					<li>br[]own<br></li>
+				</ol>
+			</li>
+		</ol>
+	</div>
+
+	<div class="expected">
+		<ol start="5" style="list-style-type: upper-alpha;">
+			<li>T[]est <ol><li><b>dog</b></li>
+				</ol>
+				<ol start="5" style="list-style-type: upper-alpha;">
+					<li>brown<br></li>
+				</ol>
+			</li>
+		</ol>
+	</div>
+</div>
+
+<div id="list_type_styles">
+	<div class="input">
+		<ol>
+			<li><span style="color:#FF8C00;">ap[]ple<br></span>
+		</ol>
+
+		<ul style="list-style-type: square; font-size: 26px;">
+			<li>Square Bullet<br></li>
+		</ul>
+	</div>
+
+	<div class="expected">
+		<ol>
+			<li><span style="color:#FF8C00;">apple<br></span>
+		</ol>
+
+		<ol>
+			<li><span style="color:#FF8C00;">S[]quare</span> Bullet<br></li>
+		</ol>
+	</div>
+</div>
+
+<div id="list_remove_source">
+	<div class="input">
+		<p dir="ltr">Numbered list with styling applied to text before making a list<br></p>
+
+		<ol>
+			<li style="font-size: 26px;"><span style="font-weight: bold;">apple</span><br></li>
+		</ol>
+
+		<ol start="5" style="list-style-type: upper-alpha; font-size: 22px;">
+			<li style="text-decoration: underline;">or[]ange<br></li>
+		</ol>
+	</div>
+
+	<div class="expected">
+		<p dir="ltr">Numbered list with styling applied to text before making a [list<br></p>
+
+		<ol start="5" style="list-style-type: upper-alpha; font-size: 22px;">
+			<li style="text-decoration: underline;">ap]<span style="font-weight:bold;">ple</span><br></li>
+		</ol>
+
+		<ol start="5" style="list-style-type: upper-alpha; font-size: 22px;">
+			<li style="text-decoration: underline;">orange<br></li>
+		</ol>
+	</div>
+</div>
+
+<div id="list_type_nested">
+	<div class="input">
+		<ol dir="ltr" start="5" style="list-style-type: upper-alpha;">
+			<li>Start Value 5 &amp; Upper Alpha
+			<ol start="3" style="list-style-type: upper-roman;">
+				<li>Start Value 3 &amp; Upper Roman
+				<ol start="7" style="list-style-type: lower-alpha;">
+					<li>Start Value 7 &amp; low[]er Alpha<br></li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+			<li>Top list again</li>
+		</ol>
+	</div>
+
+	<div class="expected">
+		<ol start="7" style="list-style-type: lower-alpha;">
+			<li>S{tart Value 5 &amp; Upper Alpha
+			<ol start="3" style="list-style-type: upper-roman;">
+				<li>Start Value 3 &amp; Upper Roman
+				<ol start="7" style="list-style-type: lower-alpha;">
+					<li>S}tart Value 7 &amp; lower Alpha<br></li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+			<li>Top list again</li>
+		</ol>
+	</div>
+</div>
+
+<div id="t-16675">
+	<div class="input">
+		<table>
+			<tbody>
+				<tr>
+					<td style="background-color:#eeeeee;"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><strong>S[]OME TITLE</strong></span></span></td>
+					<td><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">Q4 <span style="display:none">&nbsp;</span><strong>2015</strong></span></span></td>
+				</tr>
+				<tr>
+					<td>Some thing</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

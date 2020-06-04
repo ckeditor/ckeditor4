@@ -1,0 +1,134 @@
+<h2>Classic editor</h2>
+<textarea id="editor">
+	<p>Start</p>
+
+	<blockquote>
+	<p><strong>Before</strong></p>
+
+	<table border="1">
+		<tbody>
+			<tr>
+				<td><strong>First</strong></td>
+				<td>Second</td>
+			</tr>
+			<tr>
+				<td> </td>
+				<td>Start [nesting
+				<table border="1" cellpadding="1" cellspacing="1" style="width:100%">
+					<tbody>
+						<tr>
+							<td><strong>Left</strong></td>
+							<td><strong>Middle</strong></td>
+							<td>Right</td>
+						</tr>
+						<tr>
+							<td>BotLeft</td>
+							<td> </td>
+							<td> </td>
+						</tr>
+					</tbody>
+				</table>
+
+				<p>End] nesting</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>After</p>
+	</blockquote>
+
+</textarea>
+
+<h2>Divarea editor</h2>
+<div id="divarea" contenteditable="true">
+	<p>Start</p>
+
+	<blockquote>
+	<p><strong>Before</strong></p>
+
+	<table border="1">
+		<tbody>
+			<tr>
+				<td><strong>First</strong></td>
+				<td>Second</td>
+			</tr>
+			<tr>
+				<td> </td>
+				<td>Start [nesting
+				<table border="1" cellpadding="1" cellspacing="1" style="width:100%">
+					<tbody>
+						<tr>
+							<td><strong>Left</strong></td>
+							<td><strong>Middle</strong></td>
+							<td>Right</td>
+						</tr>
+						<tr>
+							<td>BotLeft</td>
+							<td> </td>
+							<td> </td>
+						</tr>
+					</tbody>
+				</table>
+
+				<p>End] nesting</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>After</p>
+	</blockquote>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<p>Start</p>
+
+	<blockquote>
+	<p><strong>Before</strong></p>
+
+	<table border="1">
+		<tbody>
+			<tr>
+				<td><strong>First</strong></td>
+				<td>Second</td>
+			</tr>
+			<tr>
+				<td> </td>
+				<td>Start [nesting
+				<table border="1" cellpadding="1" cellspacing="1" style="width:100%">
+					<tbody>
+						<tr>
+							<td><strong>Left</strong></td>
+							<td><strong>Middle</strong></td>
+							<td>Right</td>
+						</tr>
+						<tr>
+							<td>BotLeft</td>
+							<td> </td>
+							<td> </td>
+						</tr>
+					</tbody>
+				</table>
+
+				<p>End] nesting</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>After</p>
+	</blockquote>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.replace( 'editor', { height: 400 } );
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'divarea',
+		height: 400
+	} );
+	CKEDITOR.inline( 'inline' );
+</script>

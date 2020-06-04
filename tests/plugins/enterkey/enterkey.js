@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: entities,enterkey */
 
 ( function() {
@@ -36,6 +36,23 @@
 		};
 	}
 
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			config: {
+				enterMode: CKEDITOR.ENTER_P,
+				allowedContent: true
+			}
+		},
+
+		editorNoAutoParagraph: {
+			name: 'editor2',
+			config: {
+				autoParagraph: false
+			}
+		}
+	};
+
 	bender.test( {
 		_should: {
 			ignore: {
@@ -44,32 +61,7 @@
 			}
 		},
 
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					config: {
-						enterMode: CKEDITOR.ENTER_P,
-						allowedContent: true
-					}
-				},
-
-				editorNoAutoParagraph: {
-					name: 'editor2',
-					config: {
-						autoParagraph: false
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
-		// #7912
+		// https://dev.ckeditor.com/ticket/7912
 		'test enter key after invisible element': function() {
 			// IE restrain making selection in invisible element.
 			if ( CKEDITOR.env.ie )
@@ -93,7 +85,7 @@
 			assert.areSame( expected, bender.tools.fixHtml( output ) );
 		},
 
-		// #8321
+		// https://dev.ckeditor.com/ticket/8321
 		'test enter key at the end of block with inline styles': function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
@@ -104,8 +96,15 @@
 			assert.areSame( '<p><b><i>foo</i></b></p><p><b><i>bar</i></b></p>', bot.getData( false, true ) );
 		},
 
-		// #7946 TODO: Add editor doc quirks mode tests.
+		// https://dev.ckeditor.com/ticket/7946 TODO: Add editor doc quirks mode tests.
 		'test enter key key scrolls document': function() {
+			// On iPads, behavior of scrollTop, scrollHeight and clientHeight is a bit unexpected.
+			// <html> and <iframe> are resized even though they shouldn't, sudden changes of scrollHeight
+			// from higher value to ~clientHeight, even though more elements are being added, etc. (https://dev.ckeditor.com/ticket/13439)
+			if ( CKEDITOR.env.iOS ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
@@ -123,7 +122,7 @@
 			assert.isTrue( rect.top < viewport.height && rect.top > 0 );
 		},
 
-		// Start of #8812
+		// Start of https://dev.ckeditor.com/ticket/8812
 		'test ener key at the end of contents with comment': function() {
 			var bot = this.editorBots.editor;
 
@@ -138,7 +137,7 @@
 			bot.setHtmlWithSelection( '<!-- baz -->foo^bar<!-- baz -->' );
 			bot.execCommand( 'enter' );
 
-			// IE9+Compat looses the first comment, so we remove it from the assertion (not related to #8812).
+			// IE9+Compat looses the first comment, so we remove it from the assertion (not related to https://dev.ckeditor.com/ticket/8812).
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData( false, true ).replace( /<![^>]+>/g, '' ) );
 		},
 
@@ -150,7 +149,7 @@
 
 			assert.areSame( '<p><b>foo</b>bar</p><p>baz<!-- --><b>qux</b></p>', bot.getData( false, true ) );
 		},
-		// End of #8812
+		// End of https://dev.ckeditor.com/ticket/8812
 
 		'test enter key uses editor.activeEnterMode': function() {
 			var bot = this.editorBots.editorNoAutoParagraph;
@@ -200,14 +199,14 @@
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData(), 'main mode was used' );
 		},
 
-		// (#12162)
+		// (https://dev.ckeditor.com/ticket/12162)
 		'test enter key directly in nested editable': function() {
 			var editor = this.editors.editorNoAutoParagraph,
 				expected = '<p>foo</p>' +
 				'<div contenteditable="false">' +
 					'<div contenteditable="true">' +
 						'<p>hell@</p>' +
-						'<p>@</p>' +
+						'<p>@@</p>' +
 					'</div>' +
 				'</div>';
 
@@ -246,9 +245,23 @@
 		},
 		*/
 
-		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@</p><p>^foo@</p>' ),
-		'test enter key - middle of block':				e( 'editor', '<p>foo{}bar</p>', '<p>foo@</p><p>^bar@</p>' ),
-		'test enter key - end of block':				e( 'editor', '<p>foo{}</p>', '<p>foo@</p><p>^@</p>' ),
+		// #478
+		'test enter key with no selection': function() {
+			var editor = this.editors.editor,
+				editable = editor.editable();
+
+			editor.getSelection().removeAllRanges();
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
+
+			assert.pass( 'Error is not thrown' );
+		},
+
+		'test enter key - start of block':				e( 'editor', '<p id="x">{}foo</p>', '<p>@@</p><p id="x">^foo@</p>' ),
+		'test enter key - middle of block':				e( 'editor', '<p id="x">foo{}bar</p>', '<p id="x">foo@</p><p>^bar@</p>' ),
+		'test enter key - end of block':				e( 'editor', '<p id="x">foo{}</p>', '<p id="x">foo@</p><p>^@</p>' ),
+
+		'test enter key - inline with id':				e( 'editor', '<p>fo<b id="x">o{}b</b>ar</p>', '<p>fo<b id="x">o</b>@</p><p><b>^b</b>ar@</p>' ),
+		'test enter key - block with id':				e( 'editor', '<div><p id="x">fo<b id="y">o{}b</b>ar</p></div>', '<div><p id="x">fo<b id="y">o</b>@</p><p><b>^b</b>ar@</p></div>' ),
 
 		'test shift+enter key - middle of block':		se( 'editor', '<p>foo{}bar</p>', '<p>foo<br />^bar@</p>' ),
 		'test shift+enter key - list item':				se( 'editor', '<ul><li>foo{}bar</li></ul>', '<ul><li>foo<br />^bar@</li></ul>' ),
@@ -257,7 +270,7 @@
 		'test shift+enter key - before br':				se( 'editor', '<p>foo{}<br />bar</p>', '<p>foo<br />^<br />bar@</p>' ),
 		'test shift+enter key - after br':				se( 'editor', '<p>foo<br />{}bar</p>', '<p>foo<br /><br />^bar@</p>' ),
 
-		// #11947
+		// https://dev.ckeditor.com/ticket/11947
 		'test shift+enter key - end of block, inside inline element followed by bogus br':
 			se( 'editor', '<p><em>foo{}</em><br /></p>', '<p><em>foo<br />^</em><br /></p>' ),
 		'test shift+enter key - end of list item, inside inline element followed by bogus br':

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dom */
+/* bender-tags: editor,dom */
 
 ( function() {
 	'use strict';
@@ -186,23 +186,92 @@
 			} ) );
 		},
 
-		// element::isReadOnly tests.
-		test_isReadOnly: function() {
-			var target = $( 'editable' ), body = target.getParent();
+		'test isReadOnly - body is isReadOnly': function() {
+			var target = $( 'editable' ),
+			body = target.getParent();
+
 			assert.isTrue( body.isReadOnly(), 'Body is not editable' );
+		},
+
+		'test isReadOnly - editable is not isReadOnly': function() {
+			var target = $( 'editable' );
+
 			assert.isFalse( target.isReadOnly(), 'Element specify itself as editable.' );
+		},
 
+		'test isReadOnly - contenteditable="false" is isReadOnly': function() {
+			var target = $( 'editable' );
 			target.setHtml( '<div contenteditable="false">foo</div>' );
+
 			assert.isTrue( target.getFirst().isReadOnly(), 'Element specify itself as non-editable.' );
+		},
 
+		'test isReadOnly - contenteditable="false" child is isReadOnly': function() {
+			var target = $( 'editable' );
 			target.setHtml( '<div contenteditable="false"><p>foo</p></div>' );
+
 			assert.isTrue( target.getChild( [ 0, 0 ] ).isReadOnly(), 'Element inheirit non-editable property from parent.' );
+		},
 
+		'test isReadOnly - nested editable is not isReadOnly': function() {
+			var target = $( 'editable' );
 			target.setHtml( '<div contenteditable="false"><p contenteditable="true"><span>foo</span></p></div>' );
-			assert.isFalse( target.getChild( [ 0, 0, 0 ] ).isReadOnly(), 'Element inheirit editable property from parent.' );
 
+			assert.isFalse( target.getChild( [ 0, 0, 0 ] ).isReadOnly(), 'Element inheirit editable property from parent.' );
+		},
+
+		'test isReadOnly - contenteditable="false" data-cke-editable="1" is not isReadOnly': function() {
+			var target = $( 'editable' );
 			target.setHtml( '<input type="text" contenteditable="false" data-cke-editable="1" />' );
+
 			assert.isFalse( target.getFirst().isReadOnly(), 'Element marked as "cke-editable" is not ready-only.' );
+		},
+
+		'test isReadOnly - div is isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+
+			assert.isTrue( el.isReadOnly( 1 ) );
+		},
+
+		'test isReadOnly - div with data-cke-editable is not isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+			el.data( 'cke-editable', 1 );
+
+			assert.isFalse( el.isReadOnly( 1 ) );
+		},
+
+		'test isReadOnly - div contenteditable="false" child is isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+
+			el.setHtml( '<div contenteditable="false"><p>foo</p></div>' );
+			assert.isTrue( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
+		},
+
+		'test isReadOnly - div contenteditable="true" child is not isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+
+			el.setHtml( '<div contenteditable="true"><p>foo</p></div>' );
+			assert.isFalse( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
+		},
+
+		// https://dev.ckeditor.com/ticket/13609, https://dev.ckeditor.com/ticket/13919
+		'test isReadOnly - isContentEditable property access': function() {
+			// Edge tends to break when accessing isContentEditable property in certain elements.
+			// If this test causes refreshes/crashes the web page, then some new element is causing this issue.
+			var blacklistedElems = {
+					applet: 1 // applet displays a popup about Java at IE11.
+				},
+				elemName;
+
+			// Test every element in DTD.
+			for ( elemName in CKEDITOR.dtd ) {
+				if ( elemName[ 0 ] !== '$' && !( elemName in blacklistedElems ) ) {
+					new CKEDITOR.dom.element( elemName ).isReadOnly();
+				}
+			}
+
+			// If it didn't crash, it's OK.
+			assert.isTrue( true );
 		},
 
 		test_appendTo: function() {
@@ -255,6 +324,30 @@
 			assert.isTrue( t.clone() instanceof CKEDITOR.dom.text );
 			assert.isTrue( c.clone() instanceof CKEDITOR.dom.comment );
 			assert.isTrue( e.clone() instanceof CKEDITOR.dom.element );
+		},
+
+		'test_clone td': function() {
+			var td = newElement( 'td' );
+
+			td.appendText( 'foo' );
+
+			assert.areSame( '<td>foo</td>', getOuterHtml( td.clone( true ) ) );
+		},
+
+
+		'test_clone HTML5 figure': function() {
+			var figure = newElement( 'figure' );
+
+			assert.areSame( '<figure></figure>', getOuterHtml( figure.clone() ) );
+		},
+
+		'test_clone HTML5 div with figure': function() {
+			var div = newElement( 'div' ),
+				figure = newElement( 'figure' );
+
+			div.append( figure );
+
+			assert.areSame( '<div><figure></figure></div>', getOuterHtml( div.clone( true ) ) );
 		},
 
 		test_hasNext: function() {
@@ -346,7 +439,7 @@
 			assert.isTrue( CKEDITOR.tools.arrayCompare( address1, [ 4, 3, 2 ] ) );
 			assert.isTrue( CKEDITOR.tools.arrayCompare( address2, [ 0, 0, 0, 0, 0 ] ) );
 
-			// check detached trees (#8670 - test currently fails in IE7&8)
+			// check detached trees (https://dev.ckeditor.com/ticket/8670 - test currently fails in IE7&8)
 			/*
 			var root = newElement( 'span' ),
 				child1 = newElement( 'span' ),

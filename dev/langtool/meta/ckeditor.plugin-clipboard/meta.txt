@@ -1,12 +1,11 @@
-# Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.md or http://ckeditor.com/license
+# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 copy = Toolbar button tooltip for the Copy feature.
-copyError = Error message displayed when the browser security settings are blocking the copying operation.
+copyError = A notification message shown when the browser is blocking copying, and the user should use the keyboard instead. The %1 sequence is replaced with a keystroke that - when pressed - will perform the action.
 cut = Toolbar button tooltip for the Cut feature.
-cutError = Error message displayed when the browser security settings are blocking the cutting operation.
-paste = Toolbar button tooltip for the Paste feature.
+cutError = A notification message shown when the browser is blocking cutting, and the user should use the keyboard instead. The %1 sequence is replaced with a keystroke that - when pressed - will perform the action.
+paste = Toolbar button tooltip for the Paste feature and a label for the Paste dialog window.
+pasteNotification = A notification message shown when the browser is blocking pasting, and the user should use the keyboard instead. The %1 sequence is replaced with a keystroke that - when pressed - will perform the action.
 pasteArea = WAI-ARIA label for the paste area.
 pasteMsg = A help message urging the user to paste the text into the dialog window by using the keyboard.
-securityMsg = Error message displayed when the browser security settings are blocking the pasting operation.
-title = Label for the Paste dialog window.

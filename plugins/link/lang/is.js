@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'is', {
 	acccessKey: 'Skammvalshnappur',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	anchorName: 'Eftir akkerisnafni',
 	charset: 'Táknróf',
 	cssClasses: 'Stílsniðsflokkur',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Netfang',
 	emailBody: 'Meginmál',
 	emailSubject: 'Efni',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	noAnchors: '<Engin bókamerki á skrá>',
 	noEmail: 'Sláðu inn netfang!',
 	noUrl: 'Sláðu inn veffang stiklunnar!',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<annar>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Háð venslum (Netscape)',
 	popupFeatures: 'Eigindi sprettiglugga',
 	popupFullScreen: 'Heilskjár (IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	toAnchor: 'Bókamerki á þessari síðu',
 	toEmail: 'Netfang',
 	toUrl: 'Vefslóð',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Stofna/breyta stiklu',
 	type: 'Stikluflokkur',
 	unlink: 'Fjarlægja stiklu',

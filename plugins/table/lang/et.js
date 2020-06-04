@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'et', {
 	border: 'Joone suurus',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'et', {
 	headersColumn: 'Esimene tulp',
 	headersNone: 'Puudub',
 	headersRow: 'Esimene rida',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Äärise suurus peab olema number.',
 	invalidCellPadding: 'Lahtrite polsterdus (padding) peab olema positiivne arv.',
 	invalidCellSpacing: 'Lahtrite vahe peab olema positiivne arv.',

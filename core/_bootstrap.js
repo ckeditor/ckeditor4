@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -8,7 +8,7 @@
  */
 
 ( function() {
-	// Disable HC detection in WebKit. (#5429)
+	// Disable HC detection in WebKit. (https://dev.ckeditor.com/ticket/5429)
 	if ( CKEDITOR.env.webkit )
 		CKEDITOR.env.hc = false;
 	else {
@@ -19,13 +19,13 @@
 		hcDetect.appendTo( CKEDITOR.document.getHead() );
 
 		// Update CKEDITOR.env.
-		// Catch exception needed sometimes for FF. (#4230)
+		// Catch exception needed sometimes for FF. (https://dev.ckeditor.com/ticket/4230)
 		try {
 			var top = hcDetect.getComputedStyle( 'border-top-color' ),
 				right = hcDetect.getComputedStyle( 'border-right-color' );
 
 			// We need to check if getComputedStyle returned any value, because on FF
-			// it returnes empty string if CKEditor is loaded in hidden iframe. (#11121)
+			// it returnes empty string if CKEditor is loaded in hidden iframe. (https://dev.ckeditor.com/ticket/11121)
 			CKEDITOR.env.hc = !!( top && top == right );
 		} catch ( e ) {
 			CKEDITOR.env.hc = false;

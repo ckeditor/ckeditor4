@@ -1,0 +1,78 @@
+<style>
+	body {
+		padding-top: 50px;
+	}
+
+	.unconverted, .converted {
+		margin: 10px 0;
+	}
+
+	.background {
+		width: 100px;
+		height: 50px;
+		background: #bdffa8;
+	}
+
+	.text {
+		margin: 0 10px;
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+		position: absolute;
+	}
+
+	.border {
+		box-sizing: border-box;
+		height: 100%;
+		border: solid 1px black;
+	}
+</style>
+
+<div class="background unconverted">
+	<div class="text"></div>
+	<div class="border"></div>
+</div>
+
+<div class="background converted">
+	<div class="text"></div>
+	<div class="border"></div>
+</div>
+
+<textarea>24px</textarea>
+
+<script>
+	var unconverted = CKEDITOR.document.findOne( '.unconverted' ),
+		converted = CKEDITOR.document.findOne( '.converted' ),
+		textArea = CKEDITOR.document.findOne( 'textarea' );
+
+	textArea.on( 'change', onChange );
+	textArea.on( 'keydown', function( e ) {
+		if ( e.data.$.keyCode === 13 ) {
+			e.data.preventDefault();
+			onChange.call( this );
+		}
+	} ) ;
+
+	onChange.call( textArea );
+
+	function onChange() {
+		var margin = this.getValue(),
+			convertedMargin = CKEDITOR.tools.convertToPx( margin );
+
+		if ( convertedMargin === 0 ) {
+			margin = 0;
+		} else if ( typeof convertedMargin === 'number' ) {
+			convertedMargin += 'px';
+		}
+
+		setWidthAndText( unconverted, margin );
+		setWidthAndText( converted, convertedMargin );
+	}
+
+	function setWidthAndText( element, margin ) {
+		var text = 'Right margin of this element is: ';
+
+		element.findOne( '.text' ).setText( text + margin );
+		element.findOne( '.border' ).setAttribute( 'style', 'margin-right:' + margin );
+	}
+</script>

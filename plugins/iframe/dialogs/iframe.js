@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -42,6 +42,15 @@
 			title: iframeLang.title,
 			minWidth: 350,
 			minHeight: 260,
+			getModel: function( editor ) {
+				var element = editor.getSelection().getSelectedElement();
+
+				if ( element && element.data( 'cke-real-element-type' ) === 'iframe' ) {
+					return element;
+				}
+
+				return null;
+			},
 			onShow: function() {
 				// Clear previously saved elements.
 				this.fakeImage = this.iframeNode = null;
@@ -65,7 +74,7 @@
 
 				// A subset of the specified attributes/styles
 				// should also be applied on the fake element to
-				// have better visual effect. (#5240)
+				// have better visual effect. (https://dev.ckeditor.com/ticket/5240)
 				var extraStyles = {},
 					extraAttributes = {};
 				this.commitContent( iframeNode, extraStyles, extraAttributes );
@@ -129,8 +138,8 @@
 						'default': '',
 						items: [
 							[ commonLang.notSet, '' ],
-							[ commonLang.alignLeft, 'left' ],
-							[ commonLang.alignRight, 'right' ],
+							[ commonLang.left, 'left' ],
+							[ commonLang.right, 'right' ],
 							[ commonLang.alignTop, 'top' ],
 							[ commonLang.alignMiddle, 'middle' ],
 							[ commonLang.alignBottom, 'bottom' ]

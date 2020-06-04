@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ca', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		checkboxTitle: 'Propietats de la casella de verificació',
 		radioTitle: 'Propietats del botó d\'opció',
 		value: 'Valor',
-		selected: 'Seleccionat'
+		selected: 'Seleccionat',
+		required: 'Necessari'
 	},
 	form: {
 		title: 'Propietats del formulari',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		size: 'Mida',
 		lines: 'Línies',
 		chkMulti: 'Permet múltiples seleccions',
+		required: 'Necessari',
 		opText: 'Text',
 		opValue: 'Valor',
 		btnAdd: 'Afegeix',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		value: 'Valor',
 		charWidth: 'Amplada',
 		maxChars: 'Nombre màxim de caràcters',
+		required: 'Necessari',
 		type: 'Tipus',
 		typeText: 'Text',
 		typePass: 'Contrasenya',

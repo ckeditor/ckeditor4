@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -78,23 +78,70 @@ CKEDITOR.lang[ 'hr' ] = {
 		width: 'Širina',
 		height: 'Visina',
 		align: 'Poravnanje',
-		alignLeft: 'Lijevo',
-		alignRight: 'Desno',
-		alignCenter: 'Središnje',
-		alignJustify: 'Blok poravnanje',
+		left: 'Lijevo',
+		right: 'Desno',
+		center: 'Središnje',
+		justify: 'Blok poravnanje',
+		alignLeft: 'Lijevo poravnanje',
+		alignRight: 'Desno poravnanje',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Vrh',
 		alignMiddle: 'Sredina',
 		alignBottom: 'Dolje',
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Neispravna vrijednost.',
+		alignNone: 'Bez poravnanja',
+		invalidValue: 'Neispravna vrijednost.',
 		invalidHeight: 'Visina mora biti broj.',
 		invalidWidth: 'Širina mora biti broj.',
+		invalidLength: 'Naznačena vrijednost polja "%1" mora biti pozitivni broj sa ili bez važeće mjerne jedinice (%2).',
 		invalidCssLength: 'Vrijednost određena za "%1" polje mora biti pozitivni broj sa ili bez važećih CSS mjernih jedinica (px, %, in, cm, mm, em, ex, pt ili pc).',
 		invalidHtmlLength: 'Vrijednost određena za "%1" polje mora biti pozitivni broj sa ili bez važećih HTML mjernih jedinica (px ili %).',
 		invalidInlineStyle: 'Vrijednost za linijski stil mora sadržavati jednu ili više definicija s formatom "naziv:vrijednost", odvojenih točka-zarezom.',
 		cssLengthTooltip: 'Unesite broj za vrijednost u pikselima ili broj s važećim CSS mjernim jedinicama (px, %, in, cm, mm, em, ex, pt ili pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, nedostupno</span>'
+		unavailable: '%1<span class="cke_accessibility">, nedostupno</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Prečica na tipkovnici',
+
+		optionDefault: 'Zadano'
 	}
 };

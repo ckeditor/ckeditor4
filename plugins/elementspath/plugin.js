@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -17,7 +17,7 @@
 				var idBase = editor._.elementsPath.idBase;
 				var element = CKEDITOR.document.getById( idBase + '0' );
 
-				// Make the first button focus accessible for IE. (#3417)
+				// Make the first button focus accessible for IE. (https://dev.ckeditor.com/ticket/3417)
 				// Adobe AIR instead need while of delay.
 				element && element.focus( CKEDITOR.env.ie || CKEDITOR.env.air );
 			}
@@ -47,6 +47,8 @@
 		' title="{label}"' +
 		extra +
 		' hidefocus="true" ' +
+		' draggable="false" ' +
+		' ondragstart="return false;"' + // Required by Firefox (#1191).
 		' onkeydown="return CKEDITOR.tools.callFunction({keyDownFn},{index}, event );"' +
 		' onclick="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 		' role="button" aria-label="{label}">' +
@@ -55,7 +57,7 @@
 
 	CKEDITOR.plugins.add( 'elementspath', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		init: function( editor ) {
 			editor._.elementsPath = {
@@ -91,17 +93,26 @@
 		} );
 
 		function onClick( elementIndex ) {
-			var element = elementsPath.list[ elementIndex ];
+			var element = elementsPath.list[ elementIndex ],
+				selection;
+
 			if ( element.equals( editor.editable() ) || element.getAttribute( 'contenteditable' ) == 'true' ) {
 				var range = editor.createRange();
 				range.selectNodeContents( element );
-				range.select();
+
+				selection = range.select();
 			} else {
-				editor.getSelection().selectElement( element );
+				selection = editor.getSelection();
+				selection.selectElement( element );
+			}
+
+			// Explicitly fire selectionChange when clicking on an element path button. (https://dev.ckeditor.com/ticket/13548)
+			if ( CKEDITOR.env.ie ) {
+				editor.fire( 'selectionChange', { selection: selection, path: new CKEDITOR.dom.elementPath( element ) } );
 			}
 
 			// It is important to focus() *after* the above selection
-			// manipulation, otherwise Firefox will have troubles. #10119
+			// manipulation, otherwise Firefox will have troubles. https://dev.ckeditor.com/ticket/10119
 			editor.focus();
 		}
 
@@ -144,15 +155,16 @@
 				return true;
 			} );
 
-		editor.on( 'selectionChange', function() {
+		editor.on( 'selectionChange', function( evt ) {
 			var html = [],
 				elementsList = elementsPath.list = [],
 				namesList = [],
 				filters = elementsPath.filters,
 				isContentEditable = true,
 
-				// Use elementPath to consider children of editable only (#11124).
-				elementsChain = editor.elementPath().elements,
+				// Use elementPath to consider children of editable only (https://dev.ckeditor.com/ticket/11124).
+				// Use elementPath from event (instead of editor.elementPath()), which is accurate in all cases (#801).
+				elementsChain = evt.data.path.elements,
 				name;
 
 			// Starts iteration from body element, skipping html.

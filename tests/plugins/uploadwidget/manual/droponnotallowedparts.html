@@ -1,0 +1,41 @@
+<h2>Classic instance</h2>
+<textarea id="editor1">x</textarea>
+
+<h2>Inline instance</h2>
+<div id="editor2" contenteditable="true" >y</div>
+
+<h2>Div Editing Area</h2>
+<textarea id="editor3">z</textarea>
+
+<hr/>
+<input onclick="showNotifications();" type="button" value="Show notification" />
+
+<script>
+	var editors = [
+		CKEDITOR.replace( 'editor1', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/',
+			extraPlugins: 'elementspath'
+		} ),
+
+		CKEDITOR.inline( 'editor2', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/'
+		} ),
+
+		CKEDITOR.replace( 'editor3', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/',
+			extraPlugins: 'divarea'
+		} )
+	];
+
+	for ( var i = 0; i < editors.length; i++ ) {
+		editors[ i ].once( 'instanceReady', function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
+		} );
+	}
+
+	function showNotifications() {
+		for ( var i = editors.length; i--; ) {
+			editors[ i ].showNotification( 'Drag an image here.', 'warning' );
+		}
+	}
+</script>

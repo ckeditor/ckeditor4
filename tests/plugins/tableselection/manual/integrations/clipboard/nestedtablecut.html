@@ -1,0 +1,36 @@
+<div id="editor1">
+	<table border="1">
+	 <tbody>
+		 <tr>
+			 <td>Cell 1.1.1</td>
+			 <td>Cell
+				 <table border="1">
+					 <tbody>
+						 <tr>
+							 <td>Cell 2.1.1</td>
+							 <td>Cell 2.1.2</td>
+							 <td>Cell 2.1.3</td>
+						 </tr>
+						 <tr>
+							 <td>Cell 2.2.1</td>
+							 <td>Cell 2.2.2</td>
+							 <td>Cell 2.2.3</td>
+						 </tr>
+					 </tbody>
+				 </table> 1.1.2</td>
+		 </tr>
+	 </tbody>
+	</table>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.replace( 'editor1', {
+		height: 350
+	} );
+</script>

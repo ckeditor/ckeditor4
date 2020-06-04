@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'tt', {
 	alt: 'Альтернатив текст',
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'tt', {
 	resizer: 'Күчереп куер өчен басып шудырыгыз',
 	title: 'Рәсем үзлекләре',
 	uploadTab: 'Йөкләү',
-	urlMissing: 'Image source URL is missing.' // MISSING
+	urlMissing: 'Image source URL is missing.', // MISSING
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

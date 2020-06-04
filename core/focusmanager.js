@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -85,7 +85,7 @@
 		 * {@link CKEDITOR.editor#method-focus} instead.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
-		 *		editor.focusManage.focus( editor.editable() );
+		 *		editor.focusManager.focus( editor.editable() );
 		 *
 		 * @param {CKEDITOR.dom.element} [currentActive] The new value of the {@link #currentActive} property.
 		 * @member CKEDITOR.focusManager
@@ -147,8 +147,9 @@
 		 * @member CKEDITOR.focusManager
 		 */
 		blur: function( noDelay ) {
-			if ( this._.locked )
+			if ( this._.locked ) {
 				return;
+			}
 
 			function doBlur() {
 				if ( this.hasFocus ) {
@@ -160,13 +161,14 @@
 				}
 			}
 
-			if ( this._.timer )
+			if ( this._.timer ) {
 				clearTimeout( this._.timer );
+			}
 
 			var delay = CKEDITOR.focusManager._.blurDelay;
-			if ( noDelay || !delay )
+			if ( noDelay || !delay ) {
 				doBlur.call( this );
-			else {
+			} else {
 				this._.timer = CKEDITOR.tools.setTimeout( function() {
 					delete this._.timer;
 					doBlur.call( this );

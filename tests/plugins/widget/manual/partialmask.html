@@ -1,0 +1,76 @@
+<div id="editor">
+	<p>foo</p>
+	<figure class="image"><img alt="" height="250" src="%BASE_PATH%/_assets/lena.jpg" width="250" />
+		<figcaption>Caption</figcaption>
+	</figure>
+	<p>bar</p>
+	<div class="partialMasked"><div class="notmasked">You can type here...</div><div class="content">...but not here</div></div>
+</div>
+
+<script>
+	// Ignore on mobiles.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.addCss( '.left { float: left; width: 200px; } .right { float: right; width: 200px; } .cke_widget_partial_mask { border: 1px solid red };' );
+
+	CKEDITOR.stylesSet.add( 'default', [
+		{ name: 'None', type: 'widget', widget: 'partialMasked', attributes: { 'class': '' }, group: 'alignment' },
+		{ name: 'Left', type: 'widget', widget: 'partialMasked', attributes: { 'class': 'left' }, group: 'alignment' },
+		{ name: 'Right', type: 'widget', widget: 'partialMasked', attributes: { 'class': 'right' }, group: 'alignment' }
+	] );
+
+	CKEDITOR.plugins.add( 'partialMasked', {
+		requires: 'widget',
+		init: function( editor ) {
+			editor.widgets.add( 'partialMasked', {
+				button: 'Partial mask widget',
+				pathName: 'test-widget',
+
+				template:
+					'<div class="partialMasked">' +
+						'<div class="notmasked"></div>' +
+						'<div class="content"></div>' +
+					'</div>',
+
+				editables: {
+					nomask: {
+						selector: '.notmasked',
+						allowedContent: 'br'
+					},
+					content: {
+						selector: '.content',
+						allowedContent: 'br'
+					}
+				},
+
+				parts: {
+					nomask: '.notmasked',
+					content: '.content'
+				},
+
+				allowedContent: 'div(partialMasked,content,notmasked,left,right)',
+				requiredContent: 'div(partialMasked)',
+
+				mask: 'content',
+
+				upcast: function( element ) {
+					return element.name == 'div' && element.hasClass( 'partialMasked' );
+				}
+			} );
+		}
+	} );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		extraPlugins: 'partialMasked',
+		height: 500
+	} );
+
+	// 'image2' plugin gets a partial mask on 'caption'.
+	editor.on( 'widgetDefinition', function( evt ) {
+		if ( evt.data.name == 'image' ) {
+			evt.data.mask = 'caption';
+		}
+	} );
+</script>

@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'sl', {
-	border: 'Pokaži mejo okvira',
+	border: 'Pokaži obrobo okvirja',
 	noUrl: 'Prosimo, vnesite iframe URL',
-	scrolling: 'Omogoči scrollbars',
-	title: 'IFrame Lastnosti',
+	scrolling: 'Omogoči drsnike',
+	title: 'Lastnosti IFrame',
 	toolbar: 'IFrame'
 } );

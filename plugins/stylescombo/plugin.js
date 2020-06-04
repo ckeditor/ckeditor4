@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -9,7 +9,7 @@
 	CKEDITOR.plugins.add( 'stylescombo', {
 		requires: 'richcombo',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 
 		init: function( editor ) {
@@ -32,8 +32,11 @@
 				for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
 					var styleDefinition = stylesDefinitions[ i ];
 
-					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
+					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) ||
+						( typeof styleDefinition.type == 'string' && !CKEDITOR.style.customHandlers[ styleDefinition.type ] ) ) {
+
 						continue;
+					}
 
 					styleName = styleDefinition.name;
 					style = new CKEDITOR.style( styleDefinition );
@@ -44,7 +47,7 @@
 						// Get the type (which will be used to assign style to one of 3 groups) from assignedTo if it's defined.
 						style._.type = styleType = style.assignedTo || style.type;
 
-						// Weight is used to sort styles (#9029).
+						// Weight is used to sort styles (https://dev.ckeditor.com/ticket/9029).
 						style._.weight = i + ( styleType == CKEDITOR.STYLE_OBJECT ? 1 : styleType == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
 
 						styles[ styleName ] = style;
@@ -53,7 +56,7 @@
 					}
 				}
 
-				// Sorts the Array, so the styles get grouped by type in proper order (#9029).
+				// Sorts the Array, so the styles get grouped by type in proper order (https://dev.ckeditor.com/ticket/9029).
 				stylesList.sort( function( styleA, styleB ) {
 					return styleA._.weight - styleB._.weight;
 				} );
@@ -99,7 +102,14 @@
 					var style = styles[ value ],
 						elementPath = editor.elementPath();
 
-					editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
+					// When more then one style from the same group is active ( which is not ok ),
+					// remove all other styles from this group and apply selected style.
+					if ( style.group && style.removeStylesFromSameGroup( editor ) ) {
+						editor.applyStyle( style );
+					} else {
+						editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
+					}
+
 					editor.fire( 'saveSnapshot' );
 				},
 
@@ -131,7 +141,9 @@
 
 				onOpen: function() {
 					var selection = editor.getSelection(),
-						element = selection.getSelectedElement(),
+						// When editor is focused but is returned `null` as selected element, then return editable (#646).
+						// In case when selection dosen't cover whole element, we try to return element where selection starts (#862).
+						element = selection.getSelectedElement() || selection.getStartElement() || editor.editable(),
 						elementPath = editor.elementPath( element ),
 						counter = [ 0, 0, 0, 0 ];
 

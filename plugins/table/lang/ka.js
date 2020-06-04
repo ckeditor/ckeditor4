@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'ka', {
 	border: 'ჩარჩოს ზომა',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ka', {
 	headersColumn: 'პირველი სვეტი',
 	headersNone: 'არაფერი',
 	headersRow: 'პირველი სტრიქონი',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'ჩარჩოს ზომა რიცხვით უდნა იყოს წარმოდგენილი.',
 	invalidCellPadding: 'უჯრის კიდე (padding) რიცხვით უნდა იყოს წარმოდგენილი.',
 	invalidCellSpacing: 'უჯრის სივრცე (spacing) რიცხვით უნდა იყოს წარმოდგენილი.',

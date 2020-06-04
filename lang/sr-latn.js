@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -20,81 +20,128 @@
 CKEDITOR.lang[ 'sr-latn' ] = {
 	// ARIA description.
 	editor: 'Bogati uređivač teksta',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Bogati uređivač panel',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Za pomoć pritisnite ALT 0',
 
-		browseServer: 'Pretraži server',
+		browseServer: 'Pretraži na serveru',
 		url: 'URL',
 		protocol: 'Protokol',
 		upload: 'Pošalji',
 		uploadSubmit: 'Pošalji na server',
 		image: 'Slika',
 		flash: 'Fleš',
-		form: 'Forma',
+		form: 'Formular',
 		checkbox: 'Polje za potvrdu',
 		radio: 'Radio-dugme',
 		textField: 'Tekstualno polje',
 		textarea: 'Zona teksta',
 		hiddenField: 'Skriveno polje',
 		button: 'Dugme',
-		select: 'Izborno polje',
+		select: 'Padajuća lista',
 		imageButton: 'Dugme sa slikom',
-		notSet: '<nije postavljeno>',
+		notSet: '<nije postavljeno> ',
 		id: 'Id',
 		name: 'Naziv',
-		langDir: 'Smer jezika',
+		langDir: 'Smer pisanja',
 		langDirLtr: 'S leva na desno (LTR)',
 		langDirRtl: 'S desna na levo (RTL)',
 		langCode: 'Kôd jezika',
-		longDescr: 'Pun opis URL',
-		cssClass: 'Stylesheet klase',
+		longDescr: 'Detaljan opis URL',
+		cssClass: 'CSS klase',
 		advisoryTitle: 'Advisory naslov',
 		cssStyle: 'Stil',
 		ok: 'OK',
 		cancel: 'Otkaži',
 		close: 'Zatvori',
 		preview: 'Izgled stranice',
-		resize: 'Resize', // MISSING
-		generalTab: 'Opšte',
-		advancedTab: 'Napredni tagovi',
+		resize: 'Promena veličine',
+		generalTab: 'Opšti',
+		advancedTab: 'Dalje opcije',
 		validateNumberFailed: 'Ova vrednost nije broj.',
 		confirmNewPage: 'Nesačuvane promene ovog sadržaja će biti izgubljene. Jeste li sigurni da želita da učitate novu stranu?',
-		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING
-		options: 'Opcije',
-		target: 'Meta',
+		confirmCancel: 'Neka podešavanja su promenjena.Sigurno želite zatvoriti prozor?',
+		options: 'Podešavanja',
+		target: 'Cilj',
 		targetNew: 'Novi prozor (_blank)',
-		targetTop: 'Topmost Window (_top)', // MISSING
+		targetTop: 'Prozor na vrhu stranice(_top)',
 		targetSelf: 'Isti prozor (_self)',
-		targetParent: 'Parent Window (_parent)', // MISSING
+		targetParent: 'Matični prozor (_parent)',
 		langDirLTR: 'S leva na desno (LTR)',
 		langDirRTL: 'S desna na levo (RTL)',
 		styles: 'Stil',
-		cssClasses: 'Stylesheet klase',
+		cssClasses: 'CSS klase',
 		width: 'Širina',
 		height: 'Visina',
 		align: 'Ravnanje',
-		alignLeft: 'Levo',
-		alignRight: 'Desno',
-		alignCenter: 'Sredina',
-		alignJustify: 'Obostrano ravnanje',
+		left: 'Levo',
+		right: 'Desno',
+		center: 'Sredina',
+		justify: 'Obostrano ravnanje',
+		alignLeft: 'Levo ravnanje',
+		alignRight: 'Desno ravnanje',
+		alignCenter: 'Centralno ravnanje',
 		alignTop: 'Vrh',
 		alignMiddle: 'Sredina',
 		alignBottom: 'Dole',
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Invalid value.', // MISSING
-		invalidHeight: 'Visina mora biti broj.',
-		invalidWidth: 'Širina mora biti broj.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		alignNone: 'Ništa',
+		invalidValue: 'Nevažeća vrednost.',
+		invalidHeight: 'U polje visina mogu se upisati samo brojevi.',
+		invalidWidth: 'U polje širina mogu se upisati samo brojevi.',
+		invalidLength: 'U "%1" polju data vrednos treba da bude pozitivan broj, sa validnom mernom jedinicom ili bez (%2).',
+		invalidCssLength: 'Za "%1" data vrednost mora biti pozitivan broj, moguće označiti sa validnim CSS vrednosću (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidHtmlLength: 'Za "%1" data vrednost mora biti potitivan broj, moguće označiti sa validnim HTML vrednošću (px or %).',
+		invalidInlineStyle: 'Vrednost u inline styleu mora da sadrži barem jedan rekord u formatu "name : value", razdeljeni sa tačkazapetom.',
+		cssLengthTooltip: 'Odredite broj u pixeima ili u validnim CSS vrednostima (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Taster za prečicu',
+
+		optionDefault: 'Оsnovni'
 	}
 };

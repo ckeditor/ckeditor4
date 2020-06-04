@@ -1,0 +1,20 @@
+<div id="editor">
+	<figure class="image">
+		<img alt="" width="200" height="200" src="/tests/_assets/lena.jpg" />
+		<figcaption>Caption</figcaption>
+	</figure>
+	<p>Start selection here ^</p>
+</div>
+
+<script>
+	// Safari ignored due to (#3850).
+	if ( CKEDITOR.env.safari ||
+		CKEDITOR.env.ie ||
+		bender.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		height: 400
+	} );
+</script>

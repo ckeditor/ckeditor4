@@ -1,0 +1,36 @@
+<body>
+<div id="editor">
+	<p>Example text</p>
+</div>
+
+<script>
+	( function() {
+		'use strict';
+
+		var globalPath = window.location.protocol + '//' + window.location.host + '%TEST_DIR%' + '_assets/';
+
+		CKEDITOR.replace( 'editor', {
+			toolbar: [ [ 'custom_save', 'custom_paste', 'custom_undo' ] ],
+			on: {
+				pluginsLoaded: function( evt ) {
+					var ed = evt.editor;
+
+					CKEDITOR.skin.addIcon( 'custom_save', globalPath + '(.png' );
+					CKEDITOR.skin.addIcon( 'custom_paste', globalPath + '\'.png' );
+					CKEDITOR.skin.addIcon( 'custom_undo', globalPath + ').png');
+
+					ed.ui.addButton( 'custom_save', {
+						label: 'simple button with save icon'
+					} );
+					ed.ui.addButton( 'custom_paste', {
+						label: 'simple button with paste icon'
+					} );
+					ed.ui.addButton( 'custom_undo', {
+						label: 'simple button with undo icon'
+					} );
+				}
+			}
+		} );
+	} )();
+</script>
+</body>

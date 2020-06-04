@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -78,23 +78,70 @@ CKEDITOR.lang[ 'gl' ] = {
 		width: 'Largo',
 		height: 'Alto',
 		align: 'Aliñamento',
-		alignLeft: 'Esquerda',
-		alignRight: 'Dereita',
-		alignCenter: 'Centro',
-		alignJustify: 'Xustificado',
+		left: 'Esquerda',
+		right: 'Dereita',
+		center: 'Centro',
+		justify: 'Xustificado',
+		alignLeft: 'Aliñar á esquerda',
+		alignRight: 'Aliñar á dereita',
+		alignCenter: 'Aliñar ao centro',
 		alignTop: 'Arriba',
 		alignMiddle: 'Centro',
 		alignBottom: 'Abaixo',
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Valor incorrecto.',
+		alignNone: 'Ningún',
+		invalidValue: 'Valor incorrecto.',
 		invalidHeight: 'O alto debe ser un número.',
 		invalidWidth: 'O largo debe ser un número.',
+		invalidLength: 'O valor especificado para o campo «%1» debe ser un número positivo con ou sen unha unidade de medida correcta (%2).',
 		invalidCssLength: 'O valor especificado para o campo «%1» debe ser un número positivo con ou sen unha unidade de medida CSS correcta (px, %, in, cm, mm, em, ex, pt, ou pc).',
 		invalidHtmlLength: 'O valor especificado para o campo «%1» debe ser un número positivo con ou sen unha unidade de medida HTML correcta (px ou %).',
 		invalidInlineStyle: 'O valor especificado no estilo en liña debe consistir nunha ou máis tuplas co formato «nome : valor», separadas por punto e coma.',
 		cssLengthTooltip: 'Escriba un número para o valor en píxeles ou un número cunha unidade CSS correcta (px, %, in, cm, mm, em, ex, pt, ou pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, non dispoñíbel</span>'
+		unavailable: '%1<span class="cke_accessibility">, non dispoñíbel</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Ir atrás',
+			13: 'Intro',
+			16: 'Maiús',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Espazo',
+			35: 'Fin',
+			36: 'Inicio',
+			46: 'Supr',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Orde'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Atallo de teclado',
+
+		optionDefault: 'Predeterminado'
 	}
 };

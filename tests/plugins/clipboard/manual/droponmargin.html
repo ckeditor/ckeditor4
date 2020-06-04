@@ -1,0 +1,15 @@
+<div id="classic">
+	<ol>
+		<li><a href="http://test.com">one</a></li>
+		<li>two</li>
+		<li>three</li>
+		<li>four</li>
+	</ol>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'classic' );
+</script>

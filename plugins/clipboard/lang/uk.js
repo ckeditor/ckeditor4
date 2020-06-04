@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'uk', {
 	copy: 'Копіювати',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'uk', {
 	cut: 'Вирізати',
 	cutError: 'Налаштування безпеки Вашого браузера не дозволяють редактору автоматично виконувати операції вирізування. Будь ласка, використовуйте клавіатуру для цього (Ctrl/Cmd+X)',
 	paste: 'Вставити',
+	pasteNotification: 'Натисніть %1, щоб вставити. Ваш браузер не підтримує вставку за допомогою кнопки панелі інструментів або пункту контекстного меню.',
 	pasteArea: 'Область вставки',
-	pasteMsg: 'Будь ласка, вставте інформацію з буфера обміну в цю область, користуючись комбінацією клавіш (<STRONG>Ctrl/Cmd+V</STRONG>), та натисніть <STRONG>OK</STRONG>.',
-	securityMsg: 'Редактор не може отримати прямий доступ до буферу обміну у зв\'язку з налаштуваннями Вашого браузера. Вам потрібно вставити інформацію в це вікно.',
-	title: 'Вставити'
+	pasteMsg: 'Вставте вміст у область нижче та натисніть OK.'
 } );

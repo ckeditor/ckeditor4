@@ -1,0 +1,428 @@
+<textarea id="merge-row-after">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>cell2^</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>[foo]</td>
+		<td>[foo]</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-row-before">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>cell2^</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>[foo]</td>
+		<td>[foo]</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-rows-after">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>cell2^</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>[11]</td>
+		<td>[12]</td>
+	</tr>
+	<tr>
+		<td>[21]</td>
+		<td>[22]</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-rows-before">
+<table>
+	<tbody>
+		<tr>
+			<td>^cell1</td>
+			<td>cell2</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>[11]</td>
+		<td>[12]</td>
+	</tr>
+	<tr>
+		<td>[21]</td>
+		<td>[22]</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-rows-after-empty">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>^</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>[11]</td>
+		<td>[12]</td>
+	</tr>
+	<tr>
+		<td>[21]</td>
+		<td>[22]</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-rows-before-empty">
+<table>
+	<tbody>
+		<tr>
+			<td>^</td>
+			<td>cell2</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>[11]</td>
+		<td>[12]</td>
+	</tr>
+	<tr>
+		<td>[21]</td>
+		<td>[22]</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-larger-table">
+<table>
+	<tbody>
+		<tr>
+			<td>[cell1]</td>
+			<td>cell2</td>
+		</tr>
+		<tr>
+			<td>cell3</td>
+			<td>cell4</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>[row1]</td>
+			<td>[row1]</td>
+			<td>[row1]</td>
+			<td>cell2</td>
+		</tr>
+		<tr>
+			<td>[row2]</td>
+			<td>[row2]</td>
+			<td>[row2]</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>[row3]</td>
+			<td>[row3]</td>
+			<td>[row3]</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>cell3</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>cell4</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="dont-merge-partial-selection">
+<table>
+	<tbody>
+		<tr>
+			<td>ce[l]l1</td>
+			<td>cell2</td>
+		</tr>
+		<tr>
+			<td>cell3</td>
+			<td>cell4</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>ce
+			<table>
+				<tbody>
+					<tr>
+						<td>foo</td>
+						<td>foo^</td>
+					</tr>
+				</tbody>
+			</table>l1</td>
+			<td>cell2</td>
+		</tr>
+		<tr>
+			<td>cell3</td>
+			<td>cell4</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-bigger-table">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>cell2</td>
+		</tr>
+		<tr>
+			<td>[cell3]</td>
+			<td>cell4</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>cell2</td>
+		</tr>
+		<tr>
+			<td>[row1]</td>
+			<td>[row1]</td>
+			<td>[row1]</td>
+			<td>cell4</td>
+		</tr>
+		<tr>
+			<td>[row2]</td>
+			<td>[row2]</td>
+			<td>[row2]</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>[row3]</td>
+			<td>[row3]</td>
+			<td>[row3]</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-smaller-table-edge">
+<table>
+	<tbody>
+		<tr>
+			<td>row1</td>
+			<td>row1</td>
+		</tr>
+		<tr>
+			<td>row2</td>
+			<td rowspan="2">[row2]</td>
+		</tr>
+		<tr>
+			<td>row3</td>
+		</tr>
+		<tr>
+			<td>row4</td>
+			<td rowspan="2">[row4]</td>
+		</tr>
+		<tr>
+			<td>row5</td>
+		</tr>
+		<tr>
+			<td>row6</td>
+			<td>row6</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>row1</td>
+			<td>row1</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>row2</td>
+			<td>[row1]</td>
+			<td>[row1]</td>
+			<td>[row1]</td>
+		</tr>
+		<tr>
+			<td>row3</td>
+			<td>[row2]</td>
+			<td>[row2]</td>
+			<td>[row2]</td>
+		</tr>
+		<tr>
+			<td>row4</td>
+			<td>[row3]</td>
+			<td>[row3]</td>
+			<td>[row3]</td>
+		</tr>
+		<tr>
+			<td>row5</td>
+		</tr>
+		<tr>
+			<td>row6</td>
+			<td>row6</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<table id="2cells1row">
+	<tr>
+		<td>foo</td>
+		<td>foo</td>
+	</tr>
+</table>
+
+<table id="2cells2rows">
+	<tr>
+		<td>11</td>
+		<td>12</td>
+	</tr>
+	<tr>
+		<td>21</td>
+		<td>22</td>
+	</tr>
+</table>
+
+<table id="3cells3rows">
+	<tbody>
+		<tr>
+			<td>row1</td>
+			<td>row1</td>
+			<td>row1</td>
+		</tr>
+		<tr>
+			<td>row2</td>
+			<td>row2</td>
+			<td>row2</td>
+		</tr>
+		<tr>
+			<td>row3</td>
+			<td>row3</td>
+			<td>row3</td>
+		</tr>
+	</tbody>
+</table>
+
+<textarea id="ignored">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>[cell2]</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>
+			<table>
+				<tbody>
+					<tr>
+						<td>foo</td>
+						<td>foo^</td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>

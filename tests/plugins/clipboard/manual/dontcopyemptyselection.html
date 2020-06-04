@@ -1,0 +1,10 @@
+<textarea name="editor" id="editor" cols="30" rows="10">
+	<p>Hello world</p>
+</textarea>
+<script>
+	// Ignore on mobiles due to keyboard shortcuts and copying empty selection which is not supported.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor' );
+</script>

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard,contextmenu */
 
 ( function() {
@@ -11,6 +11,7 @@
 			var ed1 = this.editor,
 				bot1 = this.editorBot;
 
+			ed1.focus();
 			bot1.contextmenu( function( menu1 ) {
 				// Check DOM focus and virtual editor focus.
 				assert.areSame( menu1._.panel._.iframe, CKEDITOR.document.getActive(), 'check DOM focus inside of panel' );
@@ -28,6 +29,33 @@
 						assert.isTrue( ed2.focusManager.hasFocus, 'editor2 focused on menu open' );
 					} );
 				} );
+			} );
+		},
+
+		'test opening context menu default config': function() {
+			bender.editorBot.create( {
+				name: 'editor_nocontextmenu1'
+			}, function( bot ) {
+				bot.editor.contextMenu.show = sinon.spy();
+				bot.editor.focus();
+				bot.editor.contextMenu.open( bot.editor.editable() );
+
+				assert.isTrue( bot.editor.contextMenu.show.called );
+			} );
+		},
+
+		'test opening disabled context menu': function() {
+			bender.editorBot.create( {
+					name: 'editor_nocontextmenu2',
+					config: {
+						enableContextMenu: false
+					}
+				}, function( bot ) {
+				bot.editor.contextMenu.show = sinon.spy();
+				bot.editor.focus();
+				bot.editor.contextMenu.open( bot.editor.editable() );
+
+				assert.isFalse( bot.editor.contextMenu.show.called );
 			} );
 		},
 
@@ -68,6 +96,9 @@
 						nestedEditable = doc.getById( 'b' ),
 						preventDefaultCalled = 0;
 
+					// https://dev.ckeditor.com/ticket/13910
+					editor.focus();
+
 					editable.fire( 'contextmenu', new CKEDITOR.dom.event( {
 						target: nonEditable.$,
 						preventDefault: function() {
@@ -90,6 +121,36 @@
 					assert.areSame( 2, preventDefaultCalled, 'PreventDefault called once again' );
 					assert.isFalse( !!editor.getSelection().isFake, 'Fake selection is not set for nested editables' );
 				} );
+			} );
+		},
+
+		// (#1181)
+		'test open context menu when no selection in the editor': function() {
+			bender.editorBot.create( {
+				name: 'editor_noselection'
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.contextMenu.show = sinon.spy();
+
+				editor.getSelection().removeAllRanges();
+				editor.contextMenu.open( editor.editable() );
+
+				assert.isFalse( editor.contextMenu.show.called );
+			} );
+		},
+
+		// (#2202)
+		'test context menu custom panel css styles': function() {
+			var customStyle = '/css/custom.css';
+
+			bender.editorBot.create( {
+				name: 'editor_styles',
+				config: {
+					contextmenu_contentsCss: customStyle
+				}
+			}, function( bot ) {
+				assert.areEqual( customStyle, bot.editor.contextMenu._.panelDefinition.css );
 			} );
 		}
 	} );

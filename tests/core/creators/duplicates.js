@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -7,31 +7,26 @@
 	CKEDITOR.disableAutoInline = true;
 
 	bender.test( {
-		'inline duplicates': function() {
-			var fail = false;
-
-			CKEDITOR.inlineAll();
-
-			try {
-				CKEDITOR.inline( 'editable' );
-				fail = true;
-			} catch ( e ) {}
-
-			assert.isFalse( fail, 'Expected error not thrown.' );
-		},
-
-		'themedui duplicates': function() {
-			var fail = false;
-
-			CKEDITOR.replace( 'editor' );
-
-			try {
-				CKEDITOR.replace( 'editor' );
-				fail = true;
-			} catch ( e ) {}
-
-			assert.isFalse( fail, 'Expected error not thrown.' );
-		}
+		'inline duplicates': createTestCase( 'inline', 'editable' ),
+		'themedui duplicates': createTestCase( 'replace', 'editor' )
 	} );
+
+	function createTestCase( creator, element ) {
+		return function() {
+			var spy = sinon.spy( CKEDITOR, 'error' );
+
+			CKEDITOR[ creator ]( element );
+
+			wait( function() {
+				CKEDITOR[ creator ]( element );
+
+				spy.restore();
+				assert.areSame( 1, spy.callCount, 'Error was thrown' );
+				assert.isTrue( spy.calledWithExactly( 'editor-element-conflict', sinon.match( {
+					editorName: element
+				} ) ), 'Appropriate error code and additional data were used' );
+			}, 100 );
+		};
+	}
 
 } )();

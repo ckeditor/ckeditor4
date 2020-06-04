@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'lt', {
 	copy: 'Kopijuoti',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'lt', {
 	cut: 'Iškirpti',
 	cutError: 'Jūsų naršyklės saugumo nustatymai neleidžia redaktoriui automatiškai įvykdyti iškirpimo operacijų. Tam prašome naudoti klaviatūrą (Ctrl/Cmd+X).',
 	paste: 'Įdėti',
+	pasteNotification: 'Spauskite %1 kad įkliuotumėte. Jūsų naršyklė nepalaiko įklijavimo paspaudus mygtuką arba kontekstinio menių galimybės.',
 	pasteArea: 'Įkelti dalį',
-	pasteMsg: 'Žemiau esančiame įvedimo lauke įdėkite tekstą, naudodami klaviatūrą (<STRONG>Ctrl/Cmd+V</STRONG>) ir paspauskite mygtuką <STRONG>OK</STRONG>.',
-	securityMsg: 'Dėl jūsų naršyklės saugumo nustatymų, redaktorius negali tiesiogiai pasiekti laikinosios atminties. Jums reikia nukopijuoti dar kartą į šį langą.',
-	title: 'Įdėti'
+	pasteMsg: 'Įklijuokite savo turinį į žemiau esantį lauką ir paspauskite OK.'
 } );

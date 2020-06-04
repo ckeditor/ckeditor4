@@ -1,0 +1,35 @@
+<h2>Table</h2>
+<table width="600"  border="1" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td>1.1</td>
+			<td>1.2</td>
+		</tr>
+		<tr>
+			<td>2.1</td>
+			<td>2.2</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Editor</h2>
+
+<table width="600"  border="1" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td>
+				<div style="border: 3px solid red;" id="editor"  contenteditable="true">paste here</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.inline( 'editor' );
+</script>

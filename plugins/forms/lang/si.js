@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'si', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'si', {
 		checkboxTitle: 'ලකුණු කිරීමේ කොටුවේ ලක්ෂණ',
 		radioTitle: 'Radio Button Properties', // MISSING
 		value: 'Value', // MISSING
-		selected: 'Selected' // MISSING
+		selected: 'Selected', // MISSING
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'පෝරමයේ ',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'si', {
 		size: 'විශාලත්වය',
 		lines: 'lines', // MISSING
 		chkMulti: 'Allow multiple selections', // MISSING
+		required: 'Required', // MISSING
 		opText: 'Text', // MISSING
 		opValue: 'Value', // MISSING
 		btnAdd: 'Add', // MISSING
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'si', {
 		value: 'Value', // MISSING
 		charWidth: 'Character Width', // MISSING
 		maxChars: 'Maximum Characters', // MISSING
+		required: 'Required', // MISSING
 		type: 'වර්ගය',
 		typeText: 'Text', // MISSING
 		typePass: 'Password', // MISSING

@@ -1,0 +1,33 @@
+<h2>Classic editor</h2>
+
+<div id="editor1">
+	<p>foo bar baz</p>
+</div>
+
+<h2>Divarea editor</h2>
+
+<div id="editor2">
+	<p>foo bar baz</p>
+</div>
+
+<h2>Inline editor</h2>
+
+<div id="editor3" contenteditable="true">
+	<p>foo bar baz</p>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea'
+	} );
+	CKEDITOR.inline( 'editor3', {
+		extraPlugins: 'floatingspace'
+	} );
+</script>

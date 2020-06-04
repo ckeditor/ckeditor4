@@ -1,0 +1,31 @@
+<button id="url">Test undefinded URL</button>
+<button id="token">Test undefinded TOKEN</button>
+
+<div id="classic">
+	Sample text
+</div>
+
+<script>
+	// Ignore on mobiles due to browser dev console requirement.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	var mockBase64 = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
+	CKEDITOR.replace( 'classic', {
+		cloudServices_tokenUrl: false,
+		height: 500
+	} );
+	document.getElementById( 'url' ).addEventListener( 'click', function( event ) {
+		var instance = new CKEDITOR.plugins.cloudservices.cloudServicesLoader( CKEDITOR.instances.classic, mockBase64 );
+		CKEDITOR.instances.classic.config.cloudServices_uploadUrl = undefined;
+		instance.upload();
+	} );
+	document.getElementById( 'token' ).addEventListener( 'click', function( event ) {
+		var instance = new CKEDITOR.plugins.cloudservices.cloudServicesLoader( CKEDITOR.instances.classic, mockBase64 );
+		CKEDITOR.instances.classic.config.cloudServices_uploadUrl = 'cs_url';
+		instance.upload();
+	} );
+</script>

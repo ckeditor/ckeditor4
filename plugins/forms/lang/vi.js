@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'vi', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		checkboxTitle: 'Thuộc tính nút kiểm',
 		radioTitle: 'Thuộc tính nút chọn',
 		value: 'Giá trị',
-		selected: 'Được chọn'
+		selected: 'Được chọn',
+		required: 'Bắt buộc'
 	},
 	form: {
 		title: 'Thuộc tính biểu mẫu',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		size: 'Kích cỡ',
 		lines: 'dòng',
 		chkMulti: 'Cho phép chọn nhiều',
+		required: 'Bắt buộc',
 		opText: 'Văn bản',
 		opValue: 'Giá trị',
 		btnAdd: 'Thêm',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		value: 'Giá trị',
 		charWidth: 'Độ rộng của ký tự',
 		maxChars: 'Số ký tự tối đa',
+		required: 'Bắt buộc',
 		type: 'Kiểu',
 		typeText: 'Ký tự',
 		typePass: 'Mật khẩu',

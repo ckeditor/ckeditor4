@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'is', {
 	copy: 'Afrita',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'is', {
 	cut: 'Klippa',
 	cutError: 'Öryggisstillingar vafrans þíns leyfa ekki klippingu texta með músaraðgerð. Notaðu lyklaborðið í klippa (Ctrl/Cmd+X).',
 	paste: 'Líma',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Paste Area', // MISSING
-	pasteMsg: 'Límdu í svæðið hér að neðan og (<STRONG>Ctrl/Cmd+V</STRONG>) og smelltu á <STRONG>OK</STRONG>.',
-	securityMsg: 'Vegna öryggisstillinga í vafranum þínum fær ritillinn ekki beinan aðgang að klippuborðinu. Þú verður að líma innihaldið aftur inn í þennan glugga.',
-	title: 'Líma'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );
