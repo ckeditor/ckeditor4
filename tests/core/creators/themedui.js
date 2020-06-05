@@ -73,10 +73,11 @@
 					height = 50 + unitsToTest[i];
 
 				editor.resize( width, height );
-				assert.areSame( CKEDITOR.tools.convertToPx( height ), lastResizeData.outerHeight );
-				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
-				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
-				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorOuterHeight( editor ) );
+
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), lastResizeData.outerHeight, 'Outer event height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorOuterHeight( editor ), 'Outer calculated height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight, 'Content event height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth, 'Width in ' + unitsToTest[ i ] + ' is incorrect.' );
 			}
 		},
 
@@ -115,10 +116,11 @@
 					height = 50 + unitsToTest[i];
 
 				editor.resize( width, height, false, true );
-				assert.areSame( getEditorInnerHeight( editor ), lastResizeData.outerHeight );
-				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
-				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
-				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorInnerHeight( editor ) );
+
+				assert.areSame( getEditorInnerHeight( editor ), lastResizeData.outerHeight, 'Outer event height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight, 'Content event height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorInnerHeight( editor ), 'Inner calculated height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth, 'Width in ' + unitsToTest[ i ] + ' is incorrect.' );
 			}
 		}
 	} );
