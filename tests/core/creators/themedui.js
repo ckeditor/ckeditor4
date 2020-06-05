@@ -40,15 +40,15 @@
 			} );
 
 			editor.resize( 100, 400 );
-			assert.areSame( 400, lastResizeData.outerHeight, 'Outer height should be same as passed one in 2nd argument.' );
-			assert.areSame( 100, lastResizeData.outerWidth, 'Outer width should be same as passed one in 1st argument.' );
+			assert.areSame( 400, lastResizeData.outerHeight, 'Resize event outer height should be same as passed one in 2nd argument.' );
+			assert.areSame( 100, lastResizeData.outerWidth, 'Resize event outer width should be same as passed one in 1st argument.' );
 			assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight, 'Content height should be same as calculated one.' );
 			assert.areSame( 400, getEditorOuterHeight( editor ), 'Outer height should be properly set.' );
 
 			editor.resize( 100, 400, true );
-			assert.areSame( getEditorOuterHeight( editor ), lastResizeData.outerHeight, 'Outer height should be same as calculated one.' );
-			assert.areSame( 100, lastResizeData.outerWidth, 'Outer width should be same as passed one in 1st argument.' );
-			assert.areSame( 400, lastResizeData.contentsHeight, 'Content height should be same as passed one in 2nd argument.' );
+			assert.areSame( getEditorOuterHeight( editor ), lastResizeData.outerHeight, 'Resize event outer height should be same as calculated one.' );
+			assert.areSame( 100, lastResizeData.outerWidth, 'Resize event outer width should be same as passed one in 1st argument.' );
+			assert.areSame( 400, lastResizeData.contentsHeight, 'Resize event content height should be same as passed one in 2nd argument.' );
 			assert.areSame( 400, getEditorContentHeight( editor ), 'Content height should be properly set.' );
 		},
 
@@ -74,10 +74,10 @@
 
 				editor.resize( width, height );
 
-				assert.areSame( CKEDITOR.tools.convertToPx( height ), lastResizeData.outerHeight, 'Outer event height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), lastResizeData.outerHeight, 'Resize event outer height in ' + unitsToTest[ i ] + ' is incorrect.' );
 				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorOuterHeight( editor ), 'Outer calculated height in ' + unitsToTest[ i ] + ' is incorrect.' );
-				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight, 'Content event height in ' + unitsToTest[ i ] + ' is incorrect.' );
-				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth, 'Width in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight, 'Resize event content height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth, 'Resize event outer width in ' + unitsToTest[ i ] + ' is incorrect.' );
 			}
 		},
 
@@ -95,10 +95,10 @@
 					height = 100 + unitsToTest[i];
 
 				editor.resize( width, height, true );
-				assert.areSame( getEditorOuterHeight( editor ), lastResizeData.outerHeight );
-				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth );
-				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight );
-				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorContentHeight( editor ) );
+				assert.areSame( getEditorOuterHeight( editor ), lastResizeData.outerHeight, 'Resize event outer height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth, 'Resize event outer width in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight, 'Resize event content height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorContentHeight( editor ), 'Content height in ' + unitsToTest[ i ] + ' is incorrect.' );
 			}
 		},
 
@@ -117,10 +117,10 @@
 
 				editor.resize( width, height, false, true );
 
-				assert.areSame( getEditorInnerHeight( editor ), lastResizeData.outerHeight, 'Outer event height in ' + unitsToTest[ i ] + ' is incorrect.' );
-				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight, 'Content event height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( getEditorInnerHeight( editor ), lastResizeData.outerHeight, 'Resize event outer height in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( getEditorContentHeight( editor ), lastResizeData.contentsHeight, 'Resize event content height in ' + unitsToTest[ i ] + ' is incorrect.' );
 				assert.areSame( CKEDITOR.tools.convertToPx( height ), getEditorInnerHeight( editor ), 'Inner calculated height in ' + unitsToTest[ i ] + ' is incorrect.' );
-				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth, 'Width in ' + unitsToTest[ i ] + ' is incorrect.' );
+				assert.areSame( CKEDITOR.tools.convertToPx( width ), lastResizeData.outerWidth, 'Resize event width in ' + unitsToTest[ i ] + ' is incorrect.' );
 			}
 		}
 	} );
