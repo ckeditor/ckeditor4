@@ -16,6 +16,8 @@ Fixed Issues:
 * [#1883](https://github.com/ckeditor/ckeditor4/issues/1883): Fixed: [`editor.resize`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-resize) method doesn't work with CSS units.
 * [#3926](https://github.com/ckeditor/ckeditor4/issues/3926): Fixed: Dragging and dropping [Widget](https://ckeditor.com/cke4/addon/widget) sometimes produces an error.
 * [#4008](https://github.com/ckeditor/ckeditor4/issues/4008): Fixed: [Remove Format](https://ckeditor.com/cke4/addon/removeformat) doesn't work with collapsed selection.
+* [#909](https://github.com/ckeditor/ckeditor4/issues/909): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work when editor is placed in absolutely positioned container. Thanks to [Roland Petto](https://github.com/arpi68)!
+* [#1959](https://github.com/ckeditor/ckeditor4/issues/1959): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work in [maximized](https://ckeditor.com/cke4/addon/maximize) editor when [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature enabled. Thanks to [Roland Petto](https://github.com/arpi68)!
 
 ## CKEditor 4.14
 

@@ -286,7 +286,7 @@
 
 		resizer = CKEDITOR.dom.element.createFromHtml( '<div data-cke-temp=1 contenteditable=false unselectable=on ' +
 			'style="position:absolute;cursor:col-resize;filter:alpha(opacity=0);opacity:0;' +
-				'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
+				'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10000"></div>', document );
 
 		// Clean DOM when editor is destroyed.
 		editor.on( 'destroy', function() {
