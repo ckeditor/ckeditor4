@@ -70,7 +70,7 @@
 
 			for ( var i = 0; i < unitsToTest.length; i++ ) {
 				var width = 20 + unitsToTest[i],
-					height = 50 + unitsToTest[i];
+					height = 100 + unitsToTest[i];
 
 				editor.resize( width, height );
 
@@ -92,7 +92,7 @@
 
 			for ( var i = 0; i < unitsToTest.length; i++ ) {
 				var width = 20 + unitsToTest[i],
-					height = 50 + unitsToTest[i];
+					height = 100 + unitsToTest[i];
 
 				editor.resize( width, height, true );
 				assert.areSame( getEditorOuterHeight( editor ), lastResizeData.outerHeight );
@@ -113,7 +113,7 @@
 
 			for ( var i = 0; i < unitsToTest.length; i++ ) {
 				var width = 20 + unitsToTest[i],
-					height = 50 + unitsToTest[i];
+					height = 100 + unitsToTest[i];
 
 				editor.resize( width, height, false, true );
 
