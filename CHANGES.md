@@ -18,6 +18,7 @@ Fixed Issues:
 * [#4008](https://github.com/ckeditor/ckeditor4/issues/4008): Fixed: [Remove Format](https://ckeditor.com/cke4/addon/removeformat) doesn't work with collapsed selection.
 * [#909](https://github.com/ckeditor/ckeditor4/issues/909): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work when editor is placed in absolutely positioned container. Thanks to [Roland Petto](https://github.com/arpi68)!
 * [#1959](https://github.com/ckeditor/ckeditor4/issues/1959): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work in [maximized](https://ckeditor.com/cke4/addon/maximize) editor when [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature enabled. Thanks to [Roland Petto](https://github.com/arpi68)!
+* [#3998](https://github.com/ckeditor/ckeditor4/issues/3998): Fixed: Error thrown when switching to [Source Mode](https://ckeditor.com/cke4/addon/sourcearea) via custom `Ctrl` + `Enter` [keystroke](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setKeystroke) with [Widget](https://ckeditor.com/cke4/addon/widget) plugin present.
 
 ## CKEditor 4.14
 
