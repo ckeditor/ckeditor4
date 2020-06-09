@@ -2,11 +2,11 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, wysiwygarea, sourcearea, widget
 
-1. Open console in dev tools.
+1. Open browser dev console.
 
 1. Place cursor inside editor.
 
-1. Press <kbd>CTRL</kbd> and <kbd>Enter</kbd> key.
+1. Press <kbd>CTRL</kbd> + <kbd>Enter</kbd> key.
 
 	### Expected
 
@@ -14,11 +14,11 @@
 
 	### Unexpected
 
-	Error appears in dev console or source mode editor is not opened.
+	Error appears in dev console or source mode is not opened.
 
 1. Place cursor inside editor.
 
-1. Press <kbd>CTRL</kbd> and <kbd>Enter</kbd> key.
+1. Press <kbd>CTRL</kbd> + <kbd>Enter</kbd> key.
 
 	### Expected
 
@@ -26,4 +26,4 @@
 
 	### Unexpected
 
-	Error appears in dev console or WYSIWYG area is not opened.
+	Error appears in dev console or WYSIWYG mode is not opened.
