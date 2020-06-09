@@ -1,5 +1,6 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: wysiwygarea, htmlwriter */
+
 bender.test( {
 	'test extra line break': function() {
 		var data = '<div>Text <strong>inline</strong> Text <p>paragraph</p></div>';
@@ -62,31 +63,32 @@ bender.test( {
 				assert.areSame( data, bot.getData( false, false ) );
 			} );
 		} );
+	},
+
+	// (#3795)
+	'test dataIndentationChars': function() {
+		// We are testing against indentation, not new line character. Preserve new lines for smoother comparison.
+		var data = '<ol>\n<li>One</li>\n<li>Two</li>\n<li>Three</li>\n</ol>\n';
+
+		bender.editorBot.create( {
+			name: 'dataIndentationChars',
+			formattedOutput: true,
+			config: {
+				allowedContent: true,
+				dataIndentationChars: ''
+			}
+		}, function( bot ) {
+			bot.editor.dataProcessor.writer.setRules( 'ol', {
+				indent: true
+			} );
+
+			bot.editor.dataProcessor.writer.setRules( 'li', {
+				indent: true
+			} );
+
+			bot.setData( data, function() {
+				assert.areSame( data, bot.getData( false, false ) );
+			} );
+		} );
 	}
 } );
-
-bender.test({
-	'test dataIndentationChars': function() {
-	  var data = '<ol><li>One</li><li>Two</li><li>Three</li></ol>';
-
-	  bender.editorBot.create( {
-		  name: 'dataIndentationChars',
-		  formattedOutput: true,
-		  config: {
-			dataIndentationChars: ''
-		  }
-	  }, function( bot ) {
-		bot.editor.dataProcessor.writer.setRules( 'ol', {
-			indent: true
-		} );
-
-		bot.editor.dataProcessor.writer.setRules( 'li', {
-			indent: true
-		} );
-
-		bot.setData( data, function() {
-			  assert.areSame( data, bot.getData( false, false ) );
-		} );
-	  } );
-	}
-})
