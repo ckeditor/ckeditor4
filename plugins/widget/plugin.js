@@ -288,6 +288,10 @@
 		 * This method is triggered by the {@link #event-checkSelection} event.
 		 */
 		checkSelection: function() {
+			if ( !this.editor.getSelection() ) {
+				return;
+			}
+
 			var sel = this.editor.getSelection(),
 				selectedElement = sel.getSelectedElement(),
 				updater = stateUpdater( this ),
@@ -2916,10 +2920,12 @@
 		// It's not possible to manually create selection which starts inside one widget and ends in another,
 		// so we are skipping this case to simplify implementation (#3498).
 		function fixCrossContentSelection() {
-			var selection = editor.getSelection(),
-				ranges = selection && selection.getRanges(),
-				range = ranges[ 0 ];
+			var selection = editor.getSelection();
+			if ( !selection ) {
+				return;
+			}
 
+			var range = selection.getRanges()[ 0 ];
 			if ( !range || range.collapsed ) {
 				return;
 			}
