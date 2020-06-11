@@ -206,3 +206,7 @@ a > img {
 	max-height: 1080px;
 	margin:0 auto;
 }
+
+.txt-underline {
+    text-decoration: underline;
+}
