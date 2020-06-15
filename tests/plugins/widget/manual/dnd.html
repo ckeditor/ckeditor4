@@ -14,6 +14,10 @@
 	</p>
 </div>
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.plugins.add( 'simplebox', {
 		requires: 'widget',
 		icons: 'simplebox',

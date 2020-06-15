@@ -12,6 +12,10 @@
 </textarea>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	embedTools.delayJsonp();
 
 	CKEDITOR.replace( 'editor', {
