@@ -66,7 +66,7 @@ bender.test( {
 	},
 
 	// (#3795)
-	'test dataIndentationChars': function() {
+	'test dataIndentationChars with empty character': function() {
 		// We are testing against indentation, not new line character. Preserve new lines for smoother comparison.
 		var data = '<ol>\n<li>One</li>\n<li>Two</li>\n<li>Three</li>\n</ol>\n';
 
