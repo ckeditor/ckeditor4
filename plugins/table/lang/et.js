@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'et', {
 	headersColumn: 'Esimene tulp',
 	headersNone: 'Puudub',
 	headersRow: 'Esimene rida',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'kõrgusühik',
 	invalidBorder: 'Äärise suurus peab olema number.',
 	invalidCellPadding: 'Lahtrite polsterdus (padding) peab olema positiivne arv.',
 	invalidCellSpacing: 'Lahtrite vahe peab olema positiivne arv.',

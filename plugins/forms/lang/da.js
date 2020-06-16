@@ -65,7 +65,7 @@ CKEDITOR.plugins.setLang( 'forms', 'da', {
 		typePass: 'Adgangskode',
 		typeEmail: 'E-mail',
 		typeSearch: 'Søg',
-		typeTel: 'Telefon nummer',
+		typeTel: 'Telefonnummer',
 		typeUrl: 'URL'
 	}
 } );

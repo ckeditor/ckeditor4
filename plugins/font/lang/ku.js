@@ -4,9 +4,9 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'font', 'ku', {
 	fontSize: {
-		label: 'گەورەیی',
-		voiceLabel: 'گەورەیی فۆنت',
-		panelTitle: 'گەورەیی فۆنت'
+		label: 'قەبارە',
+		voiceLabel: 'قەبارەی فۆنت',
+		panelTitle: 'قەبارەی فۆنت'
 	},
 	label: 'فۆنت',
 	panelTitle: 'ناوی فۆنت',

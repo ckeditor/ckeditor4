@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'zh-cn', {
 	headersColumn: '第一列',
 	headersNone: '无',
 	headersRow: '第一行',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: '高度单位',
 	invalidBorder: '边框粗细必须为数字格式',
 	invalidCellPadding: '单元格填充必须为数字格式',
 	invalidCellSpacing: '单元格间距必须为数字格式',
