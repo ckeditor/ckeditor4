@@ -14,6 +14,7 @@ var CKBUILDER_CONFIG = {
 		'bender-err.log',
 		'bender-out.log',
 		'.travis.yml',
+		'.npm',
 		'dev',
 		'docs',
 		'.DS_Store',
@@ -32,8 +33,8 @@ var CKBUILDER_CONFIG = {
 		'node_modules',
 		'nbproject',
 		'package.json',
-		'README.md',
-		'tests'
+		'samples',
+		'tests',
 	],
 	plugins: {
 		a11yhelp: 0,

@@ -11,19 +11,19 @@ Keep the CK versioning and append the TAO build version.
 For example :
 
 ```sh
-VERSION="4.4.7 DEV"
+VERSION="4.14.1 DEV"
 ```
 
 Becomes
 
 ```sh
-VERSION="4.4.7 TAO-1"
+VERSION="4.14.1 TAO-1"
 ```
 
 Then
 
 ```sh
-VERSION="4.4.7 TAO-2"
+VERSION="4.14.1 TAO-2"
 ```
 
 
