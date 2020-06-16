@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -78,23 +78,70 @@ CKEDITOR.lang[ 'lt' ] = {
 		width: 'Plotis',
 		height: 'Aukštis',
 		align: 'Lygiuoti',
-		alignLeft: 'Kairę',
-		alignRight: 'Dešinę',
-		alignCenter: 'Centrą',
-		alignJustify: 'Lygiuoti abi puses',
+		left: 'Kairę',
+		right: 'Dešinę',
+		center: 'Centrą',
+		justify: 'Lygiuoti abi puses',
+		alignLeft: 'Lygiuoti kairę',
+		alignRight: 'Lygiuoti dešinę',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Viršūnę',
 		alignMiddle: 'Vidurį',
 		alignBottom: 'Apačią',
 		alignNone: 'Niekas',
-		invalidValue	: 'Neteisinga reikšmė.',
+		invalidValue: 'Neteisinga reikšmė.',
 		invalidHeight: 'Aukštis turi būti nurodytas skaičiais.',
 		invalidWidth: 'Plotis turi būti nurodytas skaičiais.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Reikšmė nurodyta "%1" laukui, turi būti teigiamas skaičius su arba be tinkamo CSS matavimo vieneto (px, %, in, cm, mm, em, ex, pt arba pc).',
 		invalidHtmlLength: 'Reikšmė nurodyta "%1" laukui, turi būti teigiamas skaičius su arba be tinkamo HTML matavimo vieneto (px arba %).',
 		invalidInlineStyle: 'Reikšmė nurodyta vidiniame stiliuje turi būti sudaryta iš vieno šių reikšmių "vardas : reikšmė", atskirta kabliataškiais.',
 		cssLengthTooltip: 'Įveskite reikšmę pikseliais arba skaičiais su tinkamu CSS vienetu (px, %, in, cm, mm, em, ex, pt arba pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, netinkamas</span>'
+		unavailable: '%1<span class="cke_accessibility">, netinkamas</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Tarpas',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Spartusis klavišas',
+
+		optionDefault: 'Numatytasis'
 	}
 };

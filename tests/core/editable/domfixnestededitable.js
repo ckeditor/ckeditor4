@@ -1,24 +1,16 @@
-/* bender-tags: editor,unit,autoparagraphing */
+/* bender-tags: editor,autoparagraphing */
 
 ( function() {
 	'use strict';
 
+	bender.editors = {
+		editor1: {
+			name: 'editor1'
+		}
+	};
+
 	bender.test( {
-		// Initialize the editor instance.
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor1: {
-					name: 'editor1'
-				}
-			}, function( editors ) {
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
-		// (#12162)
+		// (https://dev.ckeditor.com/ticket/12162)
 		'test autoparagraphing in nested editable': function() {
 			var editor = this.editors.editor1,
 				editable = editor.editable(),
@@ -47,8 +39,8 @@
 				range = editor.createRange();
 
 			nestedEditable.focus();
-			range.setStart( nestedEditable, 0 );
-			range.setEnd( nestedEditable, 0 );
+			range.setStart( nestedEditable.getFirst(), 0 );
+			range.setEnd( nestedEditable.getFirst(), 0 );
 			sel.selectRanges( [ range ] );
 
 			assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( editor ),

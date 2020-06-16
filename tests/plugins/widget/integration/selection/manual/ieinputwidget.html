@@ -1,0 +1,43 @@
+<div id="editor">
+		<p>Add widget below.</p>
+	</div>
+
+	<script>
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			bender.ignore();
+		};
+
+		CKEDITOR.plugins.add( 'testplugin', {
+			requires: 'widget',
+			init: function( editor ) {
+				editor.widgets.add( 'testwidget', {
+					requiredContent: 'div(testwidget)',
+					allowedContent: 'div(testwidget)',
+					template: '<div class="testwidget">' +
+						'<input type="text">' +
+						'</div>',
+					button: 'Add widget',
+					upcast: function( element ) {
+						return element.name === 'div' && element.hasClass( 'testwidget' )
+					},
+					init: function() {
+						this.on( 'focus', function() {
+							var input = this.element.findOne( 'input' ),
+								range = this.editor.createRange();
+
+							input.focus( 1 );
+
+							range.selectNodeContents( input );
+							range.collapse();
+							range.select();
+						} );
+					}
+				} );
+			}
+		} );
+
+		CKEDITOR.replace( 'editor', {
+			extraPlugins: 'testplugin',
+			allowedContent: true
+		} );
+	</script>

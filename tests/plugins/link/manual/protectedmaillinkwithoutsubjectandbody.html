@@ -1,0 +1,19 @@
+<body>
+<div id="editor">
+	<p>Example text</p>
+</div>
+
+<script>
+	( function() {
+		'use strict';
+
+		var globalPath = window.location.protocol + '//' + window.location.host + '%TEST_DIR%' + '_assets/';
+
+		CKEDITOR.replace( 'editor', {
+			toolbar: [ [ 'Link' ] ],
+
+			emailProtection: 'encode'
+		} );
+	} )();
+</script>
+</body>

@@ -1,0 +1,33 @@
+<h2>Divarea editor:</h2>
+<div contenteditable="true" id="editor1">
+	<p><a href="https://foo.bar?foo=1&bar=2">Test link</a></p>
+</div>
+
+<h2>classic editor:</h2>
+<textarea id="editor2">
+	<p><a href="https://foo.bar?foo=1&bar=2">Test link</a></p>
+</textarea>
+
+<h2>Inline editor:</h2>
+<div contenteditable="true" id="editor3" style="width:500px">
+	<p><a href="https://foo.bar?foo=1&bar=2">Test link</a></p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		forceSimpleAmpersand: true,
+		extraPlugins: 'divarea',
+		width: 500
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		forceSimpleAmpersand: true,
+		width: 500
+	} );
+
+	CKEDITOR.inline( 'editor3', {
+		forceSimpleAmpersand: true,
+		extraPlugins: 'floatingspace,sourcedialog',
+		width: 500
+	} );
+</script>

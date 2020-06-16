@@ -1,0 +1,24 @@
+<h1>Editor one</h1>
+
+<div id="editor1" cols="10" rows="10">
+	<p></p>
+</div>
+
+<h1>Editor two</h1>
+
+<div id="editor2" cols="10" rows="10">
+	<p></p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'divarea',
+		emoji_emojiListUrl: '%BASE_PATH%/plugins/emoji/_assets/emojialt.json'
+	} );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea',
+		emoji_emojiListUrl: '%BASE_PATH%/plugins/emoji/_assets/emoji.json'
+	} );
+</script>

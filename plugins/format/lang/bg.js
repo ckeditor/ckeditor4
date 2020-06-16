@@ -1,12 +1,12 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'format', 'bg', {
 	label: 'Формат',
-	panelTitle: 'Формат',
+	panelTitle: 'Формат на параграф',
 	tag_address: 'Адрес',
-	tag_div: 'Параграф (DIV)',
+	tag_div: 'Нормален (DIV)',
 	tag_h1: 'Заглавие 1',
 	tag_h2: 'Заглавие 2',
 	tag_h3: 'Заглавие 3',

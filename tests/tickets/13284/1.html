@@ -1,0 +1,11 @@
+<textarea id="editor1" cols="10" rows="10" style="width:100%; height:500px;">
+		<p>Lorem ipsum dolor.</p>
+		<p>[[ABCDEFG]]</p>
+		<p>Lorem ipsum dolor.</p>
+	</textarea>
+<script>
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'placeholder',
+		height: 320
+	} );
+</script>

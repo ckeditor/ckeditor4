@@ -1,0 +1,54 @@
+<style>
+#history {
+	background: #eaebed;
+	height: 200px;
+	width: 300px;
+	overflow-y: auto;
+	padding: 20px;
+	list-style-type: none;
+}
+</style>
+
+<ul id="history"></ul>
+<div id="editor"></div>
+
+<script>
+
+	var data = [
+			{ id: 1, name: 'john' },
+			{ id: 2, name: 'thomas' },
+			{ id: 3, name: 'anna' },
+			{ id: 4, name: 'annabelle' },
+			{ id: 5, name: 'chris' },
+			{ id: 6, name: 'julia' }
+		],
+		historyEl = document.getElementById( 'history' );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		width: 600,
+		mentions: [
+			{
+				feed: '{encodedQuery}',
+				minChars: 0,
+				cache: true
+			}
+		],
+		on: {
+			instanceReady: function() {
+				CKEDITOR.ajax.load = function( query, callback ) {
+					var results = data.filter( function( item ) {
+							return item.name.indexOf( query ) == 0;
+						} ),
+						historyItem = document.createElement( 'li' );
+
+					callback( JSON.stringify( results ) );
+
+					historyItem.innerText = 'Request: "' + query + '"';
+					historyEl.appendChild( historyItem );
+				}
+			}
+		}
+	} );
+
+	bender.tools.ignoreUnsupportedEnvironment( 'mentions', editor );
+</script>

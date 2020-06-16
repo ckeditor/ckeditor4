@@ -1,0 +1,23 @@
+<textarea name="ed" id="editor" cols="30" rows="10">
+	<p>111<strong>222<span class="marker">333<em>444</em></span>555<sup>666</sup>777<sub>888</sub></strong></p>
+</textarea>
+<button onclick="run()">Press me</button>
+<pre id="outputa" style="background-color:lightgoldenrodyellow;"></pre>
+<pre id="outputb" style="background-color:lightgreen;"></pre>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+
+	function run() {
+		var a = document.getElementById( 'outputa' );
+		var b = document.getElementById( 'outputb' );
+
+		var range = editor.getSelection().getRanges()[0];
+		if ( range ) {
+			a.innerText = range.cloneContents().getHtml();
+			b.innerText = range.extractContents().getHtml();
+		} else {
+			editor.showNotification( 'Please select text', 'warning' );
+		}
+	}
+</script>

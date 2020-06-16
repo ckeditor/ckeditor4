@@ -1,0 +1,52 @@
+<h2>Classic editor</h2>
+
+<textarea id="classic">
+	<table border="1" cellspacing="1" cellpadding="1" style="width:800px"><tbody><tr>
+		<td>Test</td>
+		<td>
+			<figure class="easyimage easyimage-side"><img alt="foo" src="../../image2/_assets/bar.png"/></figure>
+		</td>
+	</tr>
+	<tr>
+		<td>Test</td>
+		<td>
+			<figure class="easyimage easyimage-side"><img alt="foo" src="../../image2/_assets/bar.png"/>
+				<figcaption>bar</figcaption>
+			</figure>
+		</td>
+	    </tr></tbody>
+	</table>
+</textarea>
+
+<h2>Inline editor</h2>
+
+<div id="inline" contenteditable="true">
+	<table border="1" cellspacing="1" cellpadding="1" style="width:800px"><tbody><tr>
+		<td>Test</td>
+		<td>
+			<figure class="easyimage easyimage-side"><img alt="foo" src="../../image2/_assets/bar.png"/></figure>
+		</td>
+	</tr>
+	<tr>
+		<td>Test</td>
+		<td>
+			<figure class="easyimage easyimage-side"><img alt="foo" src="../../image2/_assets/bar.png"/>
+				<figcaption>bar</figcaption>
+			</figure>
+		</td>
+	</tr></tbody>
+	</table>
+</div>
+
+<script>
+	// Ignore on mobiles due to lack of support for our custom table selection.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	CKEDITOR.replace( 'classic' );
+	CKEDITOR.inline( 'inline' );
+
+</script>

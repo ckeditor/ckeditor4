@@ -1,15 +1,14 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'tr', {
 	copy: 'Kopyala',
-	copyError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kopyalama işlemine izin vermiyor. İşlem için (Ctrl/Cmd+C) tuşlarını kullanın.',
+	copyError: 'Tarayıcı yazılımınızın güvenlik ayarları düzenleyicinin otomatik kopyalama işlemine izin vermiyor. İşlem için (Ctrl/Cmd+C) tuşlarını kullanın.',
 	cut: 'Kes',
-	cutError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kesme işlemine izin vermiyor. İşlem için (Ctrl/Cmd+X) tuşlarını kullanın.',
+	cutError: 'Tarayıcı yazılımınızın güvenlik ayarları düzenleyicinin otomatik kesme işlemine izin vermiyor. İşlem için (Ctrl/Cmd+X) tuşlarını kullanın.',
 	paste: 'Yapıştır',
+	pasteNotification: '%1 tuşuna yapıştırmak için tıklayın. Tarayıcınız, Araç Çubuğu yada İçerik Menüsünü kullanarak yapıştırmayı desteklemiyor.',
 	pasteArea: 'Yapıştırma Alanı',
-	pasteMsg: 'Lütfen aşağıdaki kutunun içine yapıştırın. (<STRONG>Ctrl/Cmd+V</STRONG>) ve <STRONG>Tamam</STRONG> butonunu tıklayın.',
-	securityMsg: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin direkt olarak panoya erişimine izin vermiyor. Bu pencere içine tekrar yapıştırmalısınız..',
-	title: 'Yapıştır'
+	pasteMsg: 'İçeriğinizi alttaki bulunan alana yapıştırın ve TAMAM butonuna tıklayın'
 } );

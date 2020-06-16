@@ -1,0 +1,9 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+Hello World
+</textarea>
+<script>
+	var editor = CKEDITOR.replace( 'editor1', {
+		enterMode: CKEDITOR.ENTER_BR,
+		extraAllowedContent: 'p'
+	} );
+</script>

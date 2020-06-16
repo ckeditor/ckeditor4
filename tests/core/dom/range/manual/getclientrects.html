@@ -1,0 +1,111 @@
+<style>
+	body {
+		padding-top: 150px;
+		margin-left: 0px;
+		padding-left: 330px;
+	}
+
+	#editable {
+		position: absolute;
+		width: 300px;
+		left: 600px;
+	}
+
+	#editable img {
+		width: 100px;
+		height: 30px;
+		vertical-align: text-bottom;
+	}
+
+	.marker {
+		position: absolute;
+		outline: 1px solid red;
+		pointer-events: none;
+	}
+
+	#output {
+		width: 250px;
+	}
+
+</style>
+
+<div id="editable" contenteditable="true">
+	<p>
+		<img src="../../../../_assets/logo.png" alt="img"> - image
+	</p>
+	<p>Second line, this time a little longer</p>
+	<p>Third line.</p>
+</div>
+
+<textarea name="output" id="output" cols="30" rows="10" readonly="readonly"></textarea>
+
+<script>
+	( function() {
+		var rectMarkers = [];
+
+		function drawRectangle( rect, pos ) {
+			var rectMarker;
+
+			if ( !rectMarker ) {
+				rectMarker = doc.createElement( 'div' );
+				rectMarker.addClass( 'marker' );
+				doc.getBody().append( rectMarker );
+			}
+
+			rectMarker.setStyles( {
+				top: rect.top + pos.y + 'px',
+				left: rect.left + pos.x + 'px',
+				height: rect.height + 'px',
+				width: rect.width + 'px'
+			} );
+
+			rectMarkers.push( rectMarker );
+		}
+
+		function removeRectangles() {
+			if ( rectMarkers.length ) {
+				rectMarkers = CKEDITOR.tools.array.filter( rectMarkers, function( marker ) {
+					marker.remove();
+					return false;
+				} );
+			}
+		}
+
+		var doc = CKEDITOR.document,
+			editable = doc.getById( 'editable' ),
+			img = editable.findOne( 'img' ),
+			rng = new CKEDITOR.dom.range( editable ),
+			output = doc.getById( 'output' ),
+			win = new CKEDITOR.dom.window( window );
+
+		rng.setStart( img.getParent(), img.getIndex() );
+		rng.setEnd( img.getParent(), img.getIndex() + 1 );
+
+		doc.getSelection().selectRanges( [ rng ] );
+
+		window.setInterval( function() {
+			var rects,
+				pos;
+
+			rng = doc.getSelection().getRanges()[ 0 ];
+			rects = rng && rng.getClientRects();
+			pos = win.getScrollPosition();
+
+			output.setValue( 'Selection rect\n---\nrectangle count: ' + ( rects ? rects.length : rects ) );
+
+			removeRectangles();
+
+			if ( !rng || !rects || !rects.length ) {
+				return;
+			}
+
+			output.setValue( output.getValue() + '\nwidth:' + rects[ 0 ].width + '\nheight: ' + rects[ 0 ].height );
+			output.setValue( output.getValue() + '\ntop:' + rects[ 0 ].top + '\nleft: ' + rects[ 0 ].left );
+
+			for ( var i = 0; i < rects.length; i++ ) {
+				drawRectangle( rects[ i ], pos );
+			}
+		}, 100 );
+	} )();
+
+</script>

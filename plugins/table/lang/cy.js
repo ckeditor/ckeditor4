@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'cy', {
 	border: 'Maint yr Ymyl',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'cy', {
 	headersColumn: 'Colofn gyntaf',
 	headersNone: 'Dim',
 	headersRow: 'Rhes gyntaf',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Mae\'n rhaid i faint yr ymyl fod yn rhif.',
 	invalidCellPadding: 'Mae\'n rhaid i badiad y gell fod yn rhif positif.',
 	invalidCellSpacing: 'Mae\'n rhaid i fylchiad y gell fod yn rhif positif.',

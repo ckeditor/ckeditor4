@@ -1,0 +1,12 @@
+# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+
+pathName = Label displayed in the Elements Path when a media object is selected.
+title = Label for the Media Embed dialog window.
+button = Toolbar button tooltip for the Media Embed feature.
+unsupportedUrlGiven = Error message displayed when the URL specified by the user is not supported by the Media Embed feature.
+unsupportedUrl = Error message displayed when the particular URL is not supported by the Media Embed feature.
+fetchingFailedGiven = Error message displayed when no content could be fetched for a URL specified by the user.
+fetchingFailed = Error message displayed when no content could be fetched for a particular URL.
+fetchingOne = Message displayed to the user when fetching the oEmbed response.
+fetchingMany = Message displayed to the user when fetching the oEmbed responses, informing the user about the progress of the fetch operation.

@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'hu', {
 	copy: 'Másolás',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hu', {
 	cut: 'Kivágás',
 	cutError: 'A böngésző biztonsági beállításai nem engedélyezik a szerkesztőnek, hogy végrehajtsa a kivágás műveletet. Használja az alábbi billentyűkombinációt (Ctrl/Cmd+X).',
 	paste: 'Beillesztés',
-	pasteArea: 'Beszúrás mező',
-	pasteMsg: 'Másolja be az alábbi mezőbe a <STRONG>Ctrl/Cmd+V</STRONG> billentyűk lenyomásával, majd nyomjon <STRONG>Rendben</STRONG>-t.',
-	securityMsg: 'A böngésző biztonsági beállításai miatt a szerkesztő nem képes hozzáférni a vágólap adataihoz. Illeszd be újra ebben az ablakban.',
-	title: 'Beillesztés'
+	pasteNotification: 'Nyomja meg a %1 gombot a beillesztéshez. A böngésző nem támogatja a beillesztést az eszköztárról vagy a menüből.',
+	pasteArea: 'Beillesztési terület',
+	pasteMsg: 'Illessze be a tartalmat az alábbi mezőbe, és nyomja meg az OK-t.'
 } );

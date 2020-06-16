@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'km', {
 	copy: 'ចម្លង',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'km', {
 	cut: 'កាត់យក',
 	cutError: 'ការកំណត់សុវត្ថភាពរបស់កម្មវិធីរុករករបស់លោកអ្នក នេះ​មិនអាចធ្វើកម្មវិធីតាក់តែងអត្ថបទ កាត់អត្ថបទយកដោយស្វ័យប្រវត្តបានឡើយ ។ សូមប្រើប្រាស់បន្សំ ឃីដូចនេះ  (Ctrl/Cmd+X) ។',
 	paste: 'បិទ​ភ្ជាប់',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'តំបន់​បិទ​ភ្ជាប់',
-	pasteMsg: 'សូមចំលងអត្ថបទទៅដាក់ក្នុងប្រអប់ដូចខាងក្រោមដោយប្រើប្រាស់ ឃី ​(<STRONG>Ctrl/Cmd+V</STRONG>) ហើយចុច <STRONG>OK</STRONG> ។',
-	securityMsg: 'ព្រោះតែ​ការកំណត់​សុវត្ថិភាព ប្រអប់សរសេរ​មិន​អាចចាប់​យកទិន្នន័យពីក្តារតម្បៀតខ្ទាស់​អ្នក​​ដោយផ្ទាល់​បានទេ។ អ្នក​ត្រូវចំលង​ដាក់វាម្តង​ទៀត ក្នុងផ្ទាំងនេះ។',
-	title: 'បិទ​ភ្ជាប់'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );

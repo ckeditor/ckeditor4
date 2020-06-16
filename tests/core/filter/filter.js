@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* global acfTestTools */
 
 ( function() {
@@ -8,97 +8,70 @@
 		st = acfTestTools.st,
 		createFilterTester = acfTestTools.createFilterTester;
 
-	var editors = {};
-	function setUpEditors() {
-		var toDo = {
-				themed: {
-					name: 'test_editor_themed',
-					config: {
-						allowedContent: 'h1 b blockquote',
-						protectedSource: [ ( /<\?[\s\S]*?\?>/g ) ]
-					}
-				},
-				inline_h1: {
-					creator: 'inline',
-					name: 'test_editor_inline_h1',
-					config: {
-						plugins: 'table,basicstyles,toolbar'
-					}
-				},
-				themed_ul: {
-					name: 'test_editor_themed_ul',
-					config: {
-						plugins: 'basicstyles,list,toolbar',
-						removeButtons: 'NumberedList'
-					}
-				},
-				themed_table: {
-					name: 'test_editor_themed_table',
-					config: {
-						allowedContent: 'table tr td',
-						removePlugins: 'tabletools,table,showborders'
-					}
-				},
-				themed_brmode: {
-					name: 'test_editor_themed_brmode',
-					config: {
-						enterMode: CKEDITOR.ENTER_BR,
-						plugins: 'basicstyles,toolbar',
-						extraAllowedContent: 'blockquote'
-					}
-				},
-				themed_divmode: {
-					name: 'test_editor_themed_divmode',
-					config: {
-						enterMode: CKEDITOR.ENTER_DIV,
-						plugins: 'basicstyles,toolbar',
-						extraAllowedContent: 'blockquote'
-					}
-				},
-				themed_cleanup: {
-					name: 'test_editor_themed_cleanup',
-					config: {
-						allowedContent: 'p img b; a[name]',
-						removePlugins: 'link,image'
-					}
-				},
-				themed_protected: {
-					name: 'test_editor_themed_protected',
-					config: {
-						plugins: 'basicstyles,toolbar',
-						extraAllowedContent: 'script noscript',
-						protectedSource: [ ( /<\?[\s\S]*?\?>/g ) ]
-					}
-				}
-			},
-			names = [];
 
-		for ( var name in toDo )
-			names.push( name );
-
-		next();
-
-		function next() {
-			var name = names.shift();
-
-			if ( !name ) {
-				bender.test( tests );
-				return;
+	bender.editors = {
+		themed: {
+			name: 'test_editor_themed',
+			config: {
+				allowedContent: 'h1 b blockquote',
+				protectedSource: [ ( /<\?[\s\S]*?\?>/g ) ]
 			}
-
-			bender.editorBot.create( toDo[ name ], function( bot ) {
-				editors[ name ] = bot.editor;
-
-				bot.editor.dataProcessor.writer.sortAttributes = true;
-
-				next();
-			} );
+		},
+		inline_h1: {
+			creator: 'inline',
+			name: 'test_editor_inline_h1',
+			config: {
+				plugins: 'table,basicstyles,toolbar'
+			}
+		},
+		themed_ul: {
+			name: 'test_editor_themed_ul',
+			config: {
+				plugins: 'basicstyles,list,toolbar',
+				removeButtons: 'NumberedList'
+			}
+		},
+		themed_table: {
+			name: 'test_editor_themed_table',
+			config: {
+				allowedContent: 'table tr td',
+				removePlugins: 'tabletools,table,showborders'
+			}
+		},
+		themed_brmode: {
+			name: 'test_editor_themed_brmode',
+			config: {
+				enterMode: CKEDITOR.ENTER_BR,
+				plugins: 'basicstyles,toolbar',
+				extraAllowedContent: 'blockquote'
+			}
+		},
+		themed_divmode: {
+			name: 'test_editor_themed_divmode',
+			config: {
+				enterMode: CKEDITOR.ENTER_DIV,
+				plugins: 'basicstyles,toolbar',
+				extraAllowedContent: 'blockquote'
+			}
+		},
+		themed_cleanup: {
+			name: 'test_editor_themed_cleanup',
+			config: {
+				allowedContent: 'p img b; a[name]',
+				removePlugins: 'link,image'
+			}
+		},
+		themed_protected: {
+			name: 'test_editor_themed_protected',
+			config: {
+				plugins: 'basicstyles,toolbar',
+				extraAllowedContent: 'script noscript',
+				protectedSource: [ ( /<\?[\s\S]*?\?>/g ) ]
+			}
 		}
-	}
+	};
 
-	setUpEditors();
-
-	var tests = {
+	bender.test( {
 		'test standalone filter': function() {
 			var filter = new CKEDITOR.filter( 'p; div[title]' );
 
@@ -519,9 +492,9 @@
 		},
 
 		'test strip divs': function() {
-			assert.areSame( CKEDITOR.ENTER_P, editors.themed.enterMode );
+			assert.areSame( CKEDITOR.ENTER_P, this.editors.themed.enterMode );
 
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 			t( '<div>A</div>',										'<p>A</p>',							'strip div' );
 			t( '<div><div><b>A</b></div></div>',					'<p><b>A</b></p>',					'strip div>div' );
 			t( '<div><div>A</div><div>B</div></div>',				'<p>A</p><p>B</p>',					'strip div>div+div' );
@@ -533,32 +506,32 @@
 		},
 
 		'test strip hr': function() {
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 			t( '<p>A</p><hr><p>B</p>',								'<p>A</p><p>B</p>',					'strip hr' );
 		},
 
 		'test strip list': function() {
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 			t( '<p>X</p><ul><li>A</li><li>B</li></ul><p>X</p>',		'<p>X</p><p>A</p><p>B</p><p>X</p>',	'strip ul>li+li' );
 			t( '<ul><li><b>A</b><ol><li>B</li><li>C</li></ol></li><li>D</li></ul>',
 				'<p><b>A</b></p><p>B</p><p>C</p><p>D</p>',												'strip ul>li>ol>li' );
 		},
 
 		'test strip list 2': function() {
-			var t = createFilterTester( editors.themed_ul );
+			var t = createFilterTester( this.editors.themed_ul );
 			t( '<ul><li>A</li><li>B</li></ul>',						'<ul><li>A</li><li>B</li></ul>',	'leave ul>li+li' );
 			// li is allowed, because ul>li is allowed. This may cause problems.
 			t( '<ol><li>A</li><li>B</li></ol>',						'<p>A</p><p>B</p>',					'strip ol>li+li' );
 		},
 
 		'test strip table': function() {
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 			t( '<table><tr><td>A</td><td><b>B</b></td></tr><tr><th>C</th><th>D</th></tr></table>',
 				'<p>A<b>B</b></p><p>CD</p>',															'strip table' );
 		},
 
 		'test strip table 2': function() {
-			var t = createFilterTester( editors.themed_table );
+			var t = createFilterTester( this.editors.themed_table );
 			t( '<table><tr><td>A</td><td>B</td></tr></table>',
 				'<table><tr><td>A</td><td>B</td></tr></table>',											'leave table' );
 			t( '<table><thead><tr><td>A</td><td>B</td></tr></thead><tbody><tr><td>C</td><td>D</td></tr></tbody></table>',
@@ -566,7 +539,7 @@
 		},
 
 		'test strip elements and clean up props': function() {
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 			t( '<h2 foo="1">A <i style="color:red">B</i></h2>',		'<p>A B</p>',						'strip h2 and attribute' );
 			t( '<table><tbody><tr style="color:red"><td>C</td><td foo="1">D</td></tr></tbody></table>',
 				'<p>CD</p>',																			'strip table and attributes' );
@@ -577,9 +550,9 @@
 		},
 
 		'test strip in br mode': function() {
-			assert.areSame( CKEDITOR.ENTER_BR, editors.themed_brmode.enterMode );
+			assert.areSame( CKEDITOR.ENTER_BR, this.editors.themed_brmode.enterMode );
 
-			var t = createFilterTester( editors.themed_brmode );
+			var t = createFilterTester( this.editors.themed_brmode );
 			t( '<strong>A</strong><br />B<em>C</em>D',
 				'<strong>A</strong><br />B<em>C</em>D',													'leave' );
 
@@ -595,9 +568,9 @@
 		},
 
 		'test strip in div mode': function() {
-			assert.areSame( CKEDITOR.ENTER_DIV, editors.themed_divmode.enterMode );
+			assert.areSame( CKEDITOR.ENTER_DIV, this.editors.themed_divmode.enterMode );
 
-			var t = createFilterTester( editors.themed_divmode );
+			var t = createFilterTester( this.editors.themed_divmode );
 			t( '<p>X</p><div><div>A</div><div>B</div></div><p>X<p>',
 				'<div>X</div><div><div>A</div><div>B</div></div><div>X</div>',							'leave div>div+div, replace p' );
 
@@ -612,9 +585,9 @@
 		},
 
 		'test strip in blockless editor': function() {
-			assert.areSame( CKEDITOR.ENTER_BR, editors.inline_h1.enterMode );
+			assert.areSame( CKEDITOR.ENTER_BR, this.editors.inline_h1.enterMode );
 
-			var t = createFilterTester( editors.inline_h1 );
+			var t = createFilterTester( this.editors.inline_h1 );
 			t( '<strong>A</strong><br />B<em>C</em>D',
 				'<strong>A</strong><br />B<em>C</em>D',													'leave' );
 
@@ -638,7 +611,7 @@
 			filter( '<p>X<a href="x"><img src="x" /></a>X</p>',		'<p>XX</p>' );
 			filter( '<p>X<a href="x"><img /></a>X</p>',				'<p>XX</p>' );
 			filter( '<p>X<a href="x"><b>A</b></a>X</p>',			'<p>XAX</p>' );
-			// #10224 - <a> element doesn't have to have any attribute if it isn't empty.
+			// https://dev.ckeditor.com/ticket/10224 - <a> element doesn't have to have any attribute if it isn't empty.
 			// Empty name attribute make this element valid (name is required).
 			filter( '<p>X<a name="">A</a>X</p>',					'<p>X<a name="">A</a>X</p>' );
 			// Keep empty anchor (it has non-empty name attr).
@@ -646,10 +619,17 @@
 			filter( '<p>X<a name="x">A</a>X</p>',					'<p>X<a name="x">A</a>X</p>' );
 			filter( '<p>X<a name="x"><img src="x" /></a>X</p>',		'<p>X<a name="x"></a>X</p>' );
 			filter( '<p>X<a href="x" name="x">A</a>X</p>',			'<p>X<a name="x">A</a>X</p>' );
-			// Empty <a> element isn't correct unless it is an anchor (has non-empty name attrbiute).
+			// Empty <a> element isn't correct unless it is an anchor (has non-empty name or id attrbiute).
 			// This behaviour conforms to the htmlDP's htmlFilter.
 			filter( '<p>X<a href="x" name=""></a>X</p>',			'<p>XX</p>' );
 			filter( '<p>X<a name="x" href="x"><img /></a>X</p>',	'<p>X<a name="x"></a>X</p>' );
+
+			filter = createFilter( 'p; a[!id]' );
+			filter( '<p>X<a name="x"></a>X</p>',					'<p>XX</p>' );
+			filter( '<p>X<a id=""></a>X</p>',						'<p>XX</p>' );
+			filter( '<p>X<a id="x"></a>X</p>',						'<p>X<a id="x"></a>X</p>' );
+			filter( '<p>X<a id="x" name="x"></a>X</p>',				'<p>X<a id="x"></a>X</p>' );
+			filter( '<p>X<a id="x" name="x">foo</a>X</p>',			'<p>X<a id="x">foo</a>X</p>' );
 
 			filter = createFilter( 'p; a[!href]' );
 
@@ -674,7 +654,7 @@
 			filter( '<p>X<a><img src="x" /></a>X</p>',				'<p>XX</p>' );
 
 			// AC: 'a[name]'.
-			var t = createFilterTester( editors.themed_cleanup );
+			var t = createFilterTester( this.editors.themed_cleanup );
 			t( '<p>X<a href="x">A</a>X</p>',						'<p>X<a>A</a>X</p>',				'remove href, but not link' );
 			t( '<p>X<a name="x">A</a>X</p>',
 				'<p>X<a data-cke-saved-name="x" name="x">A</a>X</p>',									'do not remove a[name]' );
@@ -688,7 +668,7 @@
 			filter( '<p><img src="" /></p>',						'<p></p>' );
 			filter( '<p><img /></p>',								'<p></p>' );
 
-			var t = createFilterTester( editors.themed_cleanup );
+			var t = createFilterTester( this.editors.themed_cleanup );
 			t( '<p><img src="x" /></p>',							'<p>@</p>',							'remove img and add bogus' );
 			t( '<p><a href="a"><img src="x" /></a></p>',			'<p>@</p>',							'remove a>img and add bogus' );
 		},
@@ -707,7 +687,7 @@
 			filter( '<p><b><img src="x" /></b></p>',				'<p></p>' );
 			filter( '<p><b><img src="x" />A</b></p>',				'<p><b>A</b></p>' );
 
-			var t = createFilterTester( editors.themed_cleanup );
+			var t = createFilterTester( this.editors.themed_cleanup );
 			t( '<p><b></b></p>',									'<p>@</p>',							'remove empty b and add bogus' );
 			t( '<p><b><img src="x" /></b></p>',						'<p>@</p>',							'remove empty b>img and add bogus' );
 			t( '<p><b><i><img src="x" /></i></b></p>',				'<p>@</p>',							'remove empty b>i>img and add bogus' );
@@ -733,7 +713,7 @@
 		},
 
 		'test strip protected elements': function() {
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 
 			t( '<p>X<script>alert(1);</scr' + 'ipt>Y</p>',			'<p>XY</p>',						'strip entire script' );
 			t( '<p>X<script>alert(1);</scr' + 'ipt><script>alert(1);</scr' + 'ipt>Y</p>',
@@ -750,7 +730,7 @@
 		},
 
 		'test leave protected elements': function() {
-			var t = createFilterTester( editors.themed_protected );
+			var t = createFilterTester( this.editors.themed_protected );
 
 			t( '<p>X<script>alert(1);</scr' + 'ipt>Y</p>',
 				'<p>X<!--{cke_protected}%3Cscript%3Ealert(1)%3B%3C%2Fscript%3E-->Y</p>',				'leave entire script' );
@@ -762,7 +742,7 @@
 				'<p>X<!--{cke_protected}%3C%3F%20echo%201%3B%20%3F%3E-->Y</p>',							'leave entire PHP code' );
 		},
 
-		// #13393
+		// https://dev.ckeditor.com/ticket/13393
 		// The script's body may not be encoded if htmlDP was not used or if the encoding didn't work.
 		'test script removed completely when its body is not encoded': function() {
 			var filter = createFilter( 'p', false );
@@ -771,27 +751,27 @@
 		},
 
 		'test strip entire elements which may contain cdata': function() {
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 
 			t( '<p>X</p><style>#d{color:red}</style><p>Y</p>',		'<p>X</p><p>Y</p>',					'strip entire style' );
 		},
 
 		'test no filtering on output': function() {
-			var t = createFilterTester( editors.themed, true );
+			var t = createFilterTester( this.editors.themed, true );
 
 			t( '<h2>X</h2><p><i>A</i> <img alt="y" src="x" /></p><div foo="1">C</div>',
 				'<h2>X</h2><p><i>A</i> <img alt="y" src="x" /></p><div foo="1">C</div>',				'leave all' );
 		},
 
 		'test no filtering with dontFilter argument': function() {
-			var t = createFilterTester( editors.themed, false, true );
+			var t = createFilterTester( this.editors.themed, false, true );
 
 			t( '<h2>X</h2><p><i>A</i></p><div foo="1">C</div>',
 				'<h2>X</h2><p><i>A</i></p><div foo="1">C</div>',										'leave all' );
 		},
 
 		'test leave data-cke-* spans like markers and bookmarks - toHtml': function() {
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 
 			t( 'X<span data-cke-marker="1">&nbsp;</span>X',
 				'X<span data-cke-marker="1">&nbsp;</span>X',											'leave markers' );
@@ -842,7 +822,7 @@
 
 			// Disabling filter by data-cke-filter should not conflict with omitting normal
 			// spans with data-cke-* attributes (like bookmarks).
-			var t = createFilterTester( editors.themed );
+			var t = createFilterTester( this.editors.themed );
 
 			t( '<p><span data-cke-filter="off"><i foo="1">x</i></span></p>',
 				'<p><span data-cke-filter="off"><i foo="1">x</i></span></p>',							'protect span with data-cke-* and its contents' );
@@ -857,11 +837,11 @@
 		},
 
 		'test enter mode defaults to editor.enterMode': function() {
-			var filter = createFilter( editors.themed.filter );
+			var filter = createFilter( this.editors.themed.filter );
 
 			filter( '<div>A</div><div>B</div>',							'<p>A</p><p>B</p>',				'divs were replaced with p when active mode equals defailt' );
 
-			editors.themed.setActiveEnterMode( CKEDITOR.ENTER_BR );
+			this.editors.themed.setActiveEnterMode( CKEDITOR.ENTER_BR );
 
 			try {
 				filter( '<div>A</div><div>B</div>',						'<p>A</p><p>B</p>',				'divs were replaced with p when active mode is br' );
@@ -869,7 +849,7 @@
 				throw e;
 			} finally {
 				// Make sure we reset the enter mode even if test fails.
-				editors.themed.setActiveEnterMode( null );
+				this.editors.themed.setActiveEnterMode( null );
 			}
 		},
 
@@ -878,8 +858,26 @@
 
 			filter( '<p><bar>bar</bar></p>',						'<p><bar>bar</bar></p>' );
 			filter( '<bar><foo>bar</foo></bar>',					'<bar>bar</bar>' );
-			// #12683
+			// https://dev.ckeditor.com/ticket/12683
 			filter( '<bar><h1>bar</h1></bar>',						'<p>bar</p>' );
+		},
+
+		// https://dev.ckeditor.com/ticket/13886
+		'test filter styles validation with none or empty styles': function() {
+			var filter = new CKEDITOR.filter( 'a {color}' );
+
+			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a' } ) ) );
+			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a', styles: {} } ) ) );
+			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a', styles: { color: 'red' } } ) ) );
+		},
+
+		'test filter.check handles array': function() {
+			var filter = new CKEDITOR.filter( 'a {color}' ),
+				aStyle = new CKEDITOR.style( { element: 'a' } ),
+				bStyle = new CKEDITOR.style( { element: 'b' } );
+
+			assert.isTrue( filter.check( [ bStyle, aStyle ] ) );
+			assert.isFalse( filter.check( [ bStyle ] ) );
 		}
-	};
+	} );
 } )();

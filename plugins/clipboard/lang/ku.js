@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	copy: 'لەبەرگرتنەوە',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	cut: 'بڕین',
 	cutError: 'پارێزی وێبگەڕەکەت ڕێگەنادات بە سەرنووسەکە لەبڕینی خۆکارانە. تکایە لەبری ئەمە ئەم فەرمانە بەکاربهێنە بەداگرتنی کلیلی (Ctrl/Cmd+X).',
 	paste: 'لکاندن',
+	pasteNotification: 'کلیک بکە لەسەر %1 بۆ لکاندنی. وێبگەڕەکەت پشتیوانی لکاندن ناکات بە دوگمەی تولامراز یان ئامرازی ناوەڕۆکی لیستە -  کلیکی دەستی ڕاست. ',
 	pasteArea: 'ناوچەی لکاندن',
-	pasteMsg: 'تکایە بیلکێنە لەناوەوەی ئەم سنوقە لەڕێی تەختەکلیلەکەت بە بەکارهێنانی کلیلی (<STRONG>Ctrl/Cmd+V</STRONG>) دووای کلیکی باشە بکە.',
-	securityMsg: 'بەهۆی شێوەپێدانی پارێزی وێبگەڕەکەت، سەرنووسەکه ناتوانێت دەستبگەیەنێت بەهەڵگیراوەکە ڕاستەوخۆ. بۆیه پێویسته دووباره بیلکێنیت لەم پەنجەرەیه.',
-	title: 'لکاندن'
+	pasteMsg: 'ناوەڕۆکەکەت لەم پانتایی خوارەوە بلکێنە'
 } );

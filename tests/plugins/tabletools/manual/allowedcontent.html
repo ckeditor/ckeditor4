@@ -1,0 +1,141 @@
+<style>
+	.options {
+		line-height: 24px;
+	}
+
+	.options label {
+		display: block;
+	}
+
+	.options input {
+		margin-right: 8px;
+	}
+</style>
+
+<div class="options"><p>
+	Allowed content:
+</p></div>
+
+<textarea id="editor1">
+	<table>
+		<tbody>
+			<tr>
+				<td>This is cell</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<script>
+	var cellPropMap = {
+			'Width': 'width',
+			'Height': 'height',
+			'Word Wrap': 'white-space',
+			'Horizontal Align': 'text-align',
+			'Vertical Align': 'vertical-align',
+			'Cell Type': 'th',
+			'Rows Span': 'rowspan',
+			'Cols Span': 'colspan',
+			'Background Color': 'background-color',
+			'Border Color': 'border-color',
+			'Color Dialog': 'colordialog'
+		},
+		options = CKEDITOR.document.findOne( '.options' ),
+		allowedContent = {
+			p: true,
+			div: true,
+			table: true,
+			thead: true,
+			tbody: true,
+			tr: true,
+			td: {
+				styles: [],
+				attributes: []
+			}
+		},
+		// 'change' event doesn't work in IE8.
+		eventName = CKEDITOR.env.ie && CKEDITOR.env.version === 8 ? 'click' : 'change',
+		editor;
+
+	for ( var key in cellPropMap ) {
+		var name = cellPropMap[ key ],
+			additionalInfo = name === 'colordialog' ? '<br> Adds button for picking color next to border and background color options.' : '';
+
+		if ( key === 'Color Dialog' ) {
+			options.appendHtml(
+				'<p>Extra plugins:</p>'
+			);
+		}
+
+		options.appendHtml(
+			'<label><input type="checkbox" name="' + name + '">' + key + additionalInfo + '</label>'
+		);
+	}
+
+	editor = createEditor();
+
+	options.on( eventName, inputListener );
+
+	function createEditor() {
+		var config = {
+			allowedContent: allowedContent,
+			plugins: 'wysiwygarea,toolbar,table,tabletools,sourcearea',
+			extraPlugins: []
+		};
+
+		if ( CKEDITOR.document.findOne( 'input[name="colordialog"]' ).$.checked ) {
+			config.extraPlugins.push( 'colordialog' );
+		}
+
+		return CKEDITOR.replace( 'editor1', config );
+	}
+
+	function inputListener( e ) {
+		var target = e.data.getTarget(),
+			state = target.$.checked,
+			rule = target.getAttribute( 'name' ),
+			attributes = allowedContent.td.attributes,
+			styles = allowedContent.td.styles;
+
+		if ( !rule ) {
+			return;
+		}
+
+		switch ( rule ) {
+			case 'th':
+				if ( state ) {
+					allowedContent.th = true;
+				} else {
+					delete allowedContent.th;
+				}
+			case 'rowspan':
+			case 'colspan':
+				addRemoveRule( rule, state, attributes );
+				break;
+			default:
+				addRemoveRule( rule, state, styles );
+		}
+
+		editor.once( 'destroy', function() {
+			setTimeout( function() {
+				editor = createEditor();
+
+				// Calling destroy on editor removes listener.
+				options.on( eventName, inputListener );
+			} );
+		} );
+
+		// We need to recreate editor, because filter is caching checks.
+		editor.destroy();
+	}
+
+	function addRemoveRule( rule, state, arr ) {
+		var index = CKEDITOR.tools.array.indexOf( arr, rule );
+
+		if ( state && index === -1 ) {
+			arr.push( rule );
+		} else if ( !state && index >= 0 ) {
+			arr.splice( index, 1 );
+		}
+	}
+</script>

@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'ka', {
 	copy: 'ასლი',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ka', {
 	cut: 'ამოჭრა',
 	cutError: 'თქვენი ბროუზერის უსაფრთხოების პარამეტრები არ იძლევა ამოჭრის ოპერაციის ავტომატურად განხორციელების საშუალებას. გამოიყენეთ კლავიატურა ამისთვის (Ctrl/Cmd+X).',
 	paste: 'ჩასმა',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'ჩასმის არე',
-	pasteMsg: 'ჩასვით ამ არის შიგნით კლავიატურის გამოყენებით (<strong>Ctrl/Cmd+V</strong>) და დააჭირეთ OK-ს',
-	securityMsg: 'თქვენი ბროუზერის უსაფრთხოების პარამეტრები არ იძლევა clipboard-ის მონაცემების წვდომის უფლებას. კიდევ უნდა ჩასვათ ტექსტი ამ ფანჯარაში.',
-	title: 'ჩასმა'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );

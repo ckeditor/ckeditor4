@@ -1,0 +1,15 @@
+<div id='editor'>
+	<span style="font-family:Arial,Helvetica,sans-serif;">Foo bar baz</span>
+	<ul><li>one</li><li>two</li><li>three</li></ul>
+</div>
+<div id='editor2'>
+	<span style="font-family:Arial,Helvetica,sans-serif;">Foo bar baz</span>
+	<ul><li>one</li><li>two</li><li>three</li></ul>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		enterMode: CKEDITOR.ENTER_BR
+	} );
+	CKEDITOR.replace( 'editor2' );
+</script>

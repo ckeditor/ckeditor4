@@ -1,0 +1,60 @@
+<style>
+	#read-only {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+</style>
+<button id="read-only">Toggle read-only</button>
+<div id="editor">
+	<p>lorem</p>
+	<div class="testwidget">
+		<div class="row1"><p> </p></div>
+		<div class="row2"><p> </p></div>
+		<div class="row3"><p> </p></div>
+	</div>
+	<p>ipsum</p>
+</div>
+
+<script>
+	CKEDITOR.addCss( '.testwidget {	border: 1px dashed #AAAAFF;	} .row1, .row2, .row3 { border: 1px dashed #AA9090; margin: 5px; }' );
+	CKEDITOR.plugins.add( 'testWidget', {
+		requires: 'widget',
+		button: 'testWidget',
+		init: function( editor ) {
+			editor.widgets.add( 'testWidget', {
+				button: 'testWidget',
+				template: '<div class="testwidget">' +
+						'<div class="row1"></div>' +
+						'<div class="row2"></div>' +
+						'<div class="row3"></div>' +
+					'</div>',
+				editables: {
+					row1: {
+						selector: '.row1',
+						allowedContent: 'p'
+					},
+					row2: {
+						selector: '.row2',
+						allowedContent: 'p;span{font-size}'
+					},
+					row3: {
+						selector: '.row3'
+					}
+				},
+				upcast: function( element ) {
+					return element.hasClass( 'testwidget' );
+				}
+			} );
+		}
+	} );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		height: 400,
+		allowedContent: true,
+		extraPlugins: 'testWidget'
+	} );
+
+	CKEDITOR.document.getById( 'read-only' ).on( 'click', function() {
+		editor.setReadOnly( !editor.readOnly );
+	} );
+</script>

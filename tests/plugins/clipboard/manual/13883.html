@@ -1,0 +1,29 @@
+<textarea cols="80" id="classic" name="classic" rows="10">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	    <tbody>
+	        <tr>
+	            <td style="background-color: rgb(102, 102, 204);">s</td>
+	            <td>s</td>
+	        </tr>
+	        <tr>
+	            <td>s</td>
+	            <td style="background-color: rgb(255, 255, 0);">s</td>
+	        </tr>
+	        <tr>
+	            <td style="background-color: rgb(255, 204, 0);">s</td>
+	            <td style="background-color: rgb(255, 204, 0);">s</td>
+	        </tr>
+	    </tbody>
+	</table>
+	<p>Paste here</p>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'classic', {
+		allowedContent: true
+	} );
+
+	if ( !CKEDITOR.env.chrome ) {
+		bender.ignore();
+	}
+</script>

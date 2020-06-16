@@ -1,0 +1,78 @@
+<style>
+	body {
+		margin: 0px;
+		position: static;
+	}
+</style>
+<div style="padding: 1500px">
+	<textarea id="editor1" cols="10" rows="10">
+
+	<ul>
+		<li>Test A</li>
+		<li>Test B</li>
+		<li>Test C</li>
+		<li>Test D</li>
+		<li>Test E</li>
+		<li>Test F</li>
+		<li>Test G</li>
+		<li>Test H</li>
+		<li>Test I</li>
+		<li>Test J</li>
+		<li>Test K</li>
+		<li><p>Test L</p></li>
+		<li>Test M</li>
+		<li>Test N</li>
+		<li>Test O</li>
+		<li>Test P</li>
+		<li>Test Q</li>
+		<li>Test R</li>
+		<li>Test S</li>
+		<li>Test T</li>
+		<li>Test U</li>
+		<li>Test V</li>
+		<li>Test W</li>
+		<li>Test X</li>
+		<li>Test Y</li>
+		<li>Test Z</li>
+	</ul>
+	</textarea>
+	<p>
+		<input onclick="attachPanel();" type="button" value="Attach panel">
+		<input onclick="setTitle();" type="button" value="Set title">
+	</p>
+</div>
+
+<script>
+	var panel;
+
+	CKEDITOR.addCss( 'li p { outline: 2px solid green }' );
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'balloonpanel',
+		height: 300,
+		width: 600
+	} );
+
+	window.scrollTo( 1500, 1500 );
+
+	function attachPanel() {
+		if ( !panel ) {
+			panel = new CKEDITOR.ui.balloonPanel( CKEDITOR.instances.editor1 , {
+				title: 'Test panel #1',
+				width: 200,
+				height: 100,
+				content: 'There is some custom content here.'
+			} );
+		}
+
+		var element = CKEDITOR.instances.editor1.document.findOne( 'p' );
+
+		panel.attach( element );
+	}
+
+	function setTitle() {
+		if ( panel ) {
+			panel.setTitle( 'The title has been set' );
+		}
+	}
+</script>

@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'pt', {
 	border: 'Tamanho do contorno',
@@ -9,37 +9,37 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 		menu: 'Célula',
 		insertBefore: 'Inserir célula antes',
 		insertAfter: 'Inserir célula depois',
-		deleteCell: 'Apagar Células',
-		merge: 'Unir Células',
-		mergeRight: 'Unir à Direita',
+		deleteCell: 'Apagar células',
+		merge: 'Unir células',
+		mergeRight: 'Unir à direita',
 		mergeDown: 'Fundir abaixo',
 		splitHorizontal: 'Dividir célula horizontalmente',
 		splitVertical: 'Dividir célula verticalmente',
 		title: 'Propriedades da célula',
 		cellType: 'Tipo de célula',
-		rowSpan: 'Filas na Célula',
-		colSpan: 'Colunas na Célula',
+		rowSpan: 'Linhas na célula',
+		colSpan: 'Colunas na célula',
 		wordWrap: 'Moldar texto',
-		hAlign: 'Alinhamento Horizontal',
-		vAlign: 'Alinhamento Vertical',
-		alignBaseline: 'Base',
-		bgColor: 'Cor de Fundo',
-		borderColor: 'Cor da Margem',
+		hAlign: 'Alinhamento horizontal',
+		vAlign: 'Alinhamento vertical',
+		alignBaseline: 'Linha base',
+		bgColor: 'Cor de fundo',
+		borderColor: 'Cor da margem',
 		data: 'Dados',
 		header: 'Cabeçalho',
 		yes: 'Sim',
 		no: 'Não',
 		invalidWidth: 'A largura da célula deve ser um número.',
 		invalidHeight: 'A altura da célula deve ser um número.',
-		invalidRowSpan: 'As filas da célula deve ter um número inteiro.',
-		invalidColSpan: 'As colunas da célula deve ter um número inteiro.',
+		invalidRowSpan: 'As linhas da célula devem ser um número inteiro.',
+		invalidColSpan: 'As colunas da célula devem ter um número inteiro.',
 		chooseColor: 'Escolher'
 	},
 	cellPad: 'Espaço interior',
 	cellSpace: 'Espaçamento de célula',
 	column: {
 		menu: 'Coluna',
-		insertBefore: 'Inserir Coluna Antes',
+		insertBefore: 'Inserir coluna antes',
 		insertAfter: 'Inserir coluna depois',
 		deleteColumn: 'Apagar colunas'
 	},
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 	headersColumn: 'Primeira coluna',
 	headersNone: 'Nenhum',
 	headersRow: 'Primeira linha',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'O tamanho da margem tem de ser um número.',
 	invalidCellPadding: 'A criação do espaço na célula deve ser um número positivo.',
 	invalidCellSpacing: 'O espaçamento da célula deve ser um número positivo.',
@@ -57,7 +58,7 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 	invalidHeight: 'A altura da tabela tem de ser um número.',
 	invalidRows: 'O número de linhas tem de ser maior que 0.',
 	invalidWidth: 'A largura da tabela tem de ser um número.',
-	menu: 'Propriedades da Tabela',
+	menu: 'Propriedades da tabela',
 	row: {
 		menu: 'Linha',
 		insertBefore: 'Inserir linha antes',
@@ -65,10 +66,10 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 		deleteRow: 'Apagar linhas'
 	},
 	rows: 'Linhas',
-	summary: 'Sumário',
-	title: 'Propriedades da Tabela',
+	summary: 'Resumo',
+	title: 'Propriedades da tabela',
 	toolbar: 'Tabela',
 	widthPc: 'percentagem',
-	widthPx: 'pontos',
+	widthPx: 'píxeis',
 	widthUnit: 'unidade da largura'
 } );

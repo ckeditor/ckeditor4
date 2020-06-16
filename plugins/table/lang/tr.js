@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'tr', {
 	border: 'Kenar Kalınlığı',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'tr', {
 	headersColumn: 'İlk Sütun',
 	headersNone: 'Yok',
 	headersRow: 'İlk Satır',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Çerceve büyüklüklüğü sayı olmalıdır.',
 	invalidCellPadding: 'Hücre aralığı (padding) sayı olmalıdır.',
 	invalidCellSpacing: 'Hücre boşluğu (spacing) sayı olmalıdır.',

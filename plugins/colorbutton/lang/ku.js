@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'ku', {
 	auto: 'خۆکار',
@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ku', {
 		'0FF': 'شینی ئاسمانی',
 		'00F': 'شین',
 		EE82EE: 'پەمەیی',
-		A9A9A9: 'ڕەساسی ناتۆخ',
+		A9A9A9: 'ڕەساسی تاریک',
 		FFA07A: 'نارەنجی ناتۆخ',
 		FFA500: 'نارەنجی',
 		FFFF00: 'زەرد',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ku', {
 		F0FFFF: 'شینێکی زۆر ناتۆخ',
 		F0F8FF: 'شینێکی ئاسمانی زۆر ناتۆخ',
 		E6E6FA: 'شیری',
-		FFF: 'سپی'
+		FFF: 'سپی',
+		'1ABC9C': 'شینی ئاسمانی بەهیز',
+		'2ECC71': 'زەمروتی سەوز',
+		'3498DB': 'شینی ناتۆخ',
+		'9B59B6': 'ئەرخەوانی، وەنەوشەیی',
+		'4E5F70': 'شینی ڕه‌ساسی',
+		'F1C40F': 'زەردی زیندوو',
+		'16A085': 'شینی ئاسمانی تاریک',
+		'27AE60': 'زەمروتی سەوزی تاریک',
+		'2980B9': 'شینی تۆخ',
+		'8E44AD': 'پەمەیی تاریک',
+		'2C3E50': 'شینی ڕەشوسپی',
+		'F39C12': 'نارنجی',
+		'E67E22': 'گێزەر',
+		'E74C3C': 'سوری زەرد هەڵگەڕاو',
+		'ECF0F1': 'زیوی ڕووناک',
+		'95A5A6': 'شینی ئاسمانی ڕه‌ساسی بریسکه‌دار',
+		'DDD': 'ڕەساسی بریسکەدار',
+		'D35400': 'کولەکەی شیرین',
+		'C0392B': 'سوری بەهێز',
+		'BDC3C7': 'زیوی',
+		'7F8C8D': 'شینی ئاسمانی ڕه‌ساسی',
+		'999': 'ڕەساسی تۆخ'
 	},
 	more: 'ڕەنگی زیاتر...',
 	panelTitle: 'ڕەنگەکان',

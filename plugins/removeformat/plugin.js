@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.add( 'removeformat', {
 	// jscs:disable maximumLineLength
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	// jscs:enable maximumLineLength
 	icons: 'removeformat', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
@@ -32,9 +32,15 @@ CKEDITOR.plugins.removeformat = {
 					isElement = function( element ) {
 						return element.type == CKEDITOR.NODE_ELEMENT;
 					},
+					newRanges = [],
 					range;
 
 				while ( ( range = iterator.getNextRange() ) ) {
+					var bookmarkForRangeRecreation = range.createBookmark();
+					range = editor.createRange();
+					range.setStartBefore( bookmarkForRangeRecreation.startNode );
+					bookmarkForRangeRecreation.endNode && range.setEndAfter( bookmarkForRangeRecreation.endNode );
+
 					if ( !range.collapsed )
 						range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
@@ -99,7 +105,9 @@ CKEDITOR.plugins.removeformat = {
 							// Cache the next node to be processed. Do it now, because
 							// currentNode may be removed.
 							var nextNode = currentNode.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT ),
-								isFakeElement = currentNode.getName() == 'img' && currentNode.data( 'cke-realelement' );
+								isFakeElement =
+									( currentNode.getName() == 'img' && currentNode.data( 'cke-realelement' ) ) ||
+									currentNode.hasAttribute( 'data-cke-bookmark' );
 
 							// This node must not be a fake element, and must not be read-only.
 							if ( !isFakeElement && filter( editor, currentNode ) ) {
@@ -116,13 +124,16 @@ CKEDITOR.plugins.removeformat = {
 						}
 					}
 
-					range.moveToBookmark( bookmark );
+					bookmark.startNode.remove();
+					bookmark.endNode && bookmark.endNode.remove();
+					range.moveToBookmark( bookmarkForRangeRecreation );
+					newRanges.push( range );
 				}
 
 				// The selection path may not changed, but we should force a selection
-				// change event to refresh command states, due to the above attribution change. (#9238)
+				// change event to refresh command states, due to the above attribution change. (https://dev.ckeditor.com/ticket/9238)
 				editor.forceNextSelectionCheck();
-				editor.getSelection().selectRanges( ranges );
+				editor.getSelection().selectRanges( newRanges );
 			}
 		}
 	},
@@ -153,9 +164,9 @@ CKEDITOR.plugins.removeformat = {
  *			return !( element.is( 'span' ) && CKEDITOR.tools.isEmpty( element.getAttributes() ) );
  *		} );
  *
- * @since 3.3
+ * @since 3.3.0
  * @member CKEDITOR.editor
- * @param {Function} func The function to be called, which will be passed a {CKEDITOR.dom.element} element to test.
+ * @param {Function} func The function to be called, which will be passed an {@link CKEDITOR.dom.element element} to test.
  */
 CKEDITOR.editor.prototype.addRemoveFormatFilter = function( func ) {
 	if ( !this._.removeFormatFilters )

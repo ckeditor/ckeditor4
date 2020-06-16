@@ -1,147 +1,145 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
-	title: 'Accessibility Instructions', // MISSING
+	title: 'Hõlbustuste kasutamise juhised',
 	contents: 'Abi sisu. Selle dialoogi sulgemiseks vajuta ESC klahvi.',
 	legend: [
 		{
 		name: 'Üldine',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'Redaktori tööriistariba',
+			legend: 'Tööriistaribale navigeerimiseks vajuta ${toolbarFocus}. Järgmisele või eelmisele tööriistagrupile liikumiseks vajuta TAB või SHIFT+TAB. Järgmisele või eelmisele tööriistaribale liikumiseks vajuta PAREMALE NOOLT või VASAKULE NOOLT. Vajuta TÜHIKUT või ENTERIT, et tööriistariba nupp aktiveerida.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: 'Redaktori dialoog',
+			legend:
+				'Dialoogi sees vajuta TAB, et liikuda järgmisele dialoogi elemendile, SHIFT+TAB, et liikuda tagasi, vajuta ENTER dialoogi kinnitamiseks, ESC dialoogi sulgemiseks. Kui dialoogil on mitu kaarti/sakki, pääseb kaartide nimekirjale ligi ALT+F10 klahvidega või TABi kasutades. Kui kaartide nimekiri on fookuses, saab järgmisele ja eelmisele kaardile vastavalt PAREMALE ja VASAKULE NOOLTEGA.' 
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			name: 'Redaktori kontekstimenüü',
+			legend: 'Vajuta ${contextMenu} või RAKENDUSE KLAHVI, et avada kontekstimenüü. Siis saad liikuda järgmisele reale TAB klahvi või ALLA NOOLEGA. Eelmisele valikule saab liikuda SHIFT+TAB klahvidega või ÜLES NOOLEGA. Kirje valimiseks vajuta TÜHIK või ENTER. Alamenüü saab valida kui alammenüü kirje on aktiivne ja valida kas TÜHIK, ENTER või PAREMALE NOOL. Ülemisse menüüsse tagasi saab ESC klahvi või VASAKULE NOOLEGA. Menüü saab sulgeda ESC klahviga.'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'Redaktori loetelu kast',
+			legend: 'Loetelu kasti sees saab järgmisele reale liikuda TAB klahvi või ALLANOOLEGA. Eelmisele reale saab liikuda SHIFT+TAB klahvide või ÜLESNOOLEGA. Kirje valimiseks vajuta TÜHIKUT või ENTERIT. Loetelu kasti sulgemiseks vajuta ESC klahvi.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Redaktori elementide järjestuse riba',
+			legend: 'Vajuta ${elementsPathFocus} et liikuda asukoha ribal asuvatele elementidele. Järgmise elemendi nupule saab liikuda TAB klahviga või PAREMALE NOOLEGA. Eelmisele nupule saab liikuda SHIFT+TAB klahvi või VASAKULE NOOLEGA. Vajuta TÜHIK või ENTER, et valida redaktoris vastav element.'
 		}
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Käsud',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: 'Tühistamise käsk',
+			legend: 'Vajuta ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Uuesti tegemise käsk',
+			legend: 'Vajuta ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Rasvase käsk',
+			legend: 'Vajuta ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Kursiivi käsk',
+			legend: 'Vajuta ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Allajoonimise käsk',
+			legend: 'Vajuta ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'Lingi käsk',
+			legend: 'Vajuta ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: 'Tööriistariba peitmise käsk',
+			legend: 'Vajuta ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Ligipääs eelmisele fookuskohale',
+			legend: 'Vajuta ${accessPreviousSpace}, et pääseda ligi lähimale liigipääsematule fookuskohale enne kursorit, näiteks: kahe järjestikuse HR elemendi vahele. Vajuta kombinatsiooni uuesti, et pääseda ligi kaugematele kohtadele.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Ligipääs järgmisele fookuskohale',
+			legend: 'Vajuta ${accessNextSpace}, et pääseda ligi lähimale liigipääsematule fookuskohale pärast kursorit, näiteks: kahe järjestikuse HR elemendi vahele. Vajuta kombinatsiooni uuesti, et pääseda ligi kaugematele kohtadele.'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'Hõlbustuste abi',
+			legend: 'Vajuta ${a11yHelp}'
+		},
+			{
+			name: 'Asetamine tavalise tekstina',
+			legend: 'Vajuta ${pastetext}',
+			legendEdge: 'Vajuta ${pastetext}, siis ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	tab: 'Tabulaator',
+	pause: 'Paus',
+	capslock: 'Tõstulukk',
+	escape: 'Paoklahv',
+	pageUp: 'Leht üles',
+	pageDown: 'Leht alla',
+	leftArrow: 'Nool vasakule',
+	upArrow: 'Nool üles',
+	rightArrow: 'Nool paremale',
+	downArrow: 'Nool alla',
+	insert: 'Sisetamine',
+	leftWindowKey: 'Vasak Windowsi klahv',
+	rightWindowKey: 'Parem Windowsi klahv',
+	selectKey: 'Vali klahv',
+	numpad0: 'Numbriala 0',
+	numpad1: 'Numbriala 1',
+	numpad2: 'Numbriala 2',
+	numpad3: 'Numbriala 3',
+	numpad4: 'Numbriala 4',
+	numpad5: 'Numbriala 5',
+	numpad6: 'Numbriala 6',
+	numpad7: 'Numbriala 7',
+	numpad8: 'Numbriala 8',
+	numpad9: 'Numbriala 9',
+	multiply: 'Korrutus',
+	add: 'Pluss',
+	subtract: 'Miinus',
+	decimalPoint: 'Koma',
+	divide: 'Jagamine',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Numbrilukk',
+	scrollLock: 'Kerimislukk',
+	semiColon: 'Semikoolon',
+	equalSign: 'Võrdusmärk',
+	comma: 'Koma',
+	dash: 'Sidekriips',
+	period: 'Punkt',
+	forwardSlash: 'Kaldkriips',
+	graveAccent: 'Rõhumärk',
+	openBracket: 'Algussulg',
+	backSlash: 'Kurakaldkriips',
+	closeBracket: 'Lõpusulg',
+	singleQuote: 'Ülakoma'
 } );

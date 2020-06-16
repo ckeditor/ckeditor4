@@ -1,0 +1,43 @@
+<style>
+	/* Add some spacing to the bottom, so that ballon fits below the image in the last editor. */
+	body {
+		padding-bottom: 70px;
+	}
+</style>
+
+<h2>Classic editor</h2>
+<div id="classic">
+	<p>Sample image:</p>
+	<figure class="easyimage">
+		<img src="../../../image2/_assets/bar.png" alt="foo">
+		<figcaption></figcaption>
+	</figure>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="divarea">
+	<p>Sample image:</p>
+	<figure class="easyimage">
+		<img src="../../../image2/_assets/bar.png" alt="foo">
+		<figcaption></figcaption>
+	</figure>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<p>Sample image:</p>
+	<figure class="easyimage">
+		<img src="../../../image2/_assets/bar.png" alt="foo">
+		<figcaption></figcaption>
+	</figure>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+	CKEDITOR.replace( 'classic' );
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'divarea'
+	} );
+	CKEDITOR.inline( 'inline' );
+
+</script>

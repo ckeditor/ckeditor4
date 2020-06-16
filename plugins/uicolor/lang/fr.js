@@ -1,11 +1,13 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'fr', {
-	title: 'UI Sélecteur de couleur',
-	preview: 'Aperçu',
-	config: 'Collez cette chaîne de caractères dans votre fichier config.js',
-	predefined: 'Palettes de couleurs prédéfinies'
+	title: 'Sélecteur de couleur',
+	options: 'Option de couleur',
+	highlight: 'Surligner',
+	selected: 'Couleur sélectionnée',
+	predefined: 'Palettes de couleurs prédéfinies',
+	config: 'Collez ce texte dans votre fichier config.js'
 } );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'hu', {
 	auto: 'Automatikus',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'hu', {
 		F0FFFF: 'Azúr kék',
 		F0F8FF: 'Halvány kék',
 		E6E6FA: 'Lavender',
-		FFF: 'Fehér'
+		FFF: 'Fehér',
+		'1ABC9C': 'Erős cián',
+		'2ECC71': 'Smaragd',
+		'3498DB': 'Fényes kék',
+		'9B59B6': 'Ametiszt',
+		'4E5F70': 'Szürkéskék',
+		'F1C40F': 'Világossárga',
+		'16A085': 'Sötét cián',
+		'27AE60': 'Sötét smaragd',
+		'2980B9': 'Erős kék',
+		'8E44AD': 'Sötétlila',
+		'2C3E50': 'Világoskék',
+		'F39C12': 'Narancs',
+		'E67E22': 'Répa',
+		'E74C3C': 'Sápadt vörös',
+		'ECF0F1': 'Fényes ezüst',
+		'95A5A6': 'Világos szürkés cián',
+		'DDD': 'Világosszürke',
+		'D35400': 'Tök',
+		'C0392B': 'Erős vörös',
+		'BDC3C7': 'Ezüst',
+		'7F8C8D': 'Szürkés cián',
+		'999': 'Sötétszürke'
 	},
 	more: 'További színek...',
 	panelTitle: 'Színek',

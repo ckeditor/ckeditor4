@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: entities */
 
 bender.editor = {
@@ -8,7 +8,8 @@ bender.editor = {
 		autoParagraph: false,
 		basicEntities: false,
 		entities_processNumerical: true,
-		entities_additional: 'lt,gt,amp,apos,quot',
+		// Add euro symbol to verify if symbols are correctly escaped (#2448).
+		entities_additional: 'euro,lt,gt,amp,apos,quot',
 		entities_latin: false,
 		entities_greek: false
 	}
@@ -33,7 +34,7 @@ bender.test( {
 
 	'test Other Special Characters': function() {
 		var specials = ' ¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿×÷ƒ•…′″‾⁄℘ℑℜ™ℵ←↑→↓↔↵⇐⇑⇒⇓⇔∀∂∃∅∇∈∉∋∏∑−∗√∝∞∠∧∨' + // jshint ignore:line
-			'∩∪∫∴∼≅≈≠≡≤≥⊂⊃⊄⊆⊇⊕⊗⊥⋅⌈⌉⌊⌋⟨⟩◊♠♣♥♦ˆ˜   ‌‍‎‏–—‘’‚“”„†‡‰‹›€'; // jshint ignore:line
+			'∩∪∫∴∼≅≈≠≡≤≥⊂⊃⊄⊆⊇⊕⊗⊥⋅⌈⌉⌊⌋⟨⟩◊♠♣♥♦ˆ˜   ‌‍‎‏–—‘’‚“”„†‡‰‹›'; // jshint ignore:line
 		// Other characters are encoded as numeric entities.
 		assert.isFalse( /&\w+?;/.test( this.editor.dataProcessor.toDataFormat( specials ) ) );
 	},
@@ -63,6 +64,18 @@ bender.test( {
 	'test HTML encoded in element with contenteditable=true': function() {
 		var inputHtml = '<p contenteditable="true">"\'</p>',
 			expectedHtml = '<p contenteditable="true">&quot;&apos;</p>',
+			editor = this.editor,
+			bot = this.editorBot;
+
+		bot.setData( inputHtml, function() {
+			assert.areEqual( expectedHtml, editor.getData() );
+		} );
+	},
+
+	// (#2448)
+	"test entities_additional doesn't break escaping": function() {
+		var inputHtml = "<p>apos'</p>",
+			expectedHtml = '<p>apos&apos;</p>',
 			editor = this.editor,
 			bot = this.editorBot;
 

@@ -1,0 +1,36 @@
+<div>
+	<pre>forcePasteAsPlainText=false</pre>
+	<div>
+		<textarea cols="80" id="classic1"rows="10"></textarea>
+	</div>
+</div>
+<div>
+	<pre>forcePasteAsPlainText=true</pre>
+	<div>
+		<textarea cols="80" id="classic2"rows="10"></textarea>
+	</div>
+</div>
+<div>
+	<pre>forcePasteAsPlainText=allow-word</pre>
+	<div>
+		<textarea cols="80" id="classic3"rows="10"></textarea>
+	</div>
+</div>
+<script>
+	// Ignore on mobiles due to lack of support for Paste from Word.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'classic1', {
+		forcePasteAsPlainText: false
+	} );
+
+	CKEDITOR.replace( 'classic2', {
+		forcePasteAsPlainText: true
+	} );
+
+	CKEDITOR.replace( 'classic3', {
+		forcePasteAsPlainText: 'allow-word'
+	} );
+</script>

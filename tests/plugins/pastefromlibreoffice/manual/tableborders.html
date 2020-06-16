@@ -1,0 +1,17 @@
+<div id="editor">
+	<p>Paste content here.</p>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var editor = CKEDITOR.replace( 'editor' );
+
+	editor.on( 'loaded', function( evt ) {
+		if ( !evt.editor.plugins.pastefromlibreoffice.isSupportedEnvironment() ) {
+			bender.ignore();
+		}
+	} );
+</script>

@@ -1,0 +1,120 @@
+<textarea id="editor_classic" cols="10" rows="10">
+	<p>Apollo 11</p>
+	<p>Apollo 11 <strong>was</strong> the spaceflight that landed the first humans, Americans Neil Armstrong and Buzz Aldrin, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<p>Armstrong spent about three [[and]] a half two and a half [[hours]] outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5 kg) of lunar material for return to Earth. A third member of the [[mission]], Michael Collins, piloted the command spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="editor_inline" cols="10" rows="10">
+	<p>Apollo 11</p>
+	<p>Apollo 11 <strong>was</strong> the spaceflight that landed the first humans, Americans Neil Armstrong and Buzz Aldrin, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<p>Armstrong spent about three [[and]] a half two and a half [[hours]] outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5 kg) of lunar material for return to Earth. A third member of the [[mission]], Michael Collins, piloted the command spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+		<table border="1">
+		<thead>
+			<tr>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<script>
+	CKEDITOR.disableAutoInline = true;
+
+	function fillPanel ( panel, text ) {
+		function dots ( str, int ) {
+			return str.length > int ? '...' : ''
+		}
+
+		panel.setTitle( "I'm panel!" );
+		panel.parts.content.setHtml( '<p style="padding: 2px"> Selected text:</p>' +
+			'<p style="padding: 2px">' + text.substring( 0, 15 ) + '</p>' +
+			'<p style="padding: 2px">' + text.substring( 15, 29 ) + dots( text, 29 ) + '</p>'
+		);
+	}
+
+	function instanceReadyListener () {
+		var panel;
+		panel = new CKEDITOR.ui.balloonPanel( this, {
+			width: 100,
+			height: 100,
+			content: 'Editor test'
+		} );
+		this.on( 'selectionCheck', function( evt )  {
+			var editor = this;
+			setTimeout( function() {
+				var selection = editor.getSelection(),
+					text = selection.getSelectedText();
+
+				if ( text === null ) {
+					text = selection.getSelectedElement().getText();
+				}
+
+				fillPanel( panel, text );
+				panel.attach( selection, { focusElement: false } );
+			}, 0 );
+		} );
+	}
+
+	CKEDITOR.replace( 'editor_classic', {
+		extraPlugins: 'balloonpanel',
+		height: 300,
+		width: 600,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+
+	CKEDITOR.inline( 'editor_inline', {
+		extraPlugins: 'balloonpanel,floatingspace',
+		height: 300,
+		width: 600,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+</script>

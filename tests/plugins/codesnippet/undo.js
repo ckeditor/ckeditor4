@@ -1,45 +1,36 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: codesnippet,undo,toolbar */
-/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
 
-	var obj2Array = widgetTestsTools.obj2Array,
+	var objToArray = bender.tools.objToArray,
 		highlighter;
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				asyncHighlighter: {
-					name: 'asyncHighlighter',
-					config: {
-						on: {
-							pluginsLoaded: function() {
-								highlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
-									init: function( ready ) {
-										ready();
-									},
-									languages: {
-										php: 'PHP',
-										javascript: 'JS'
-									}
-								} );
-
-								this.plugins.codesnippet.setHighlighter( highlighter );
+	bender.editors = {
+		asyncHighlighter: {
+			name: 'asyncHighlighter',
+			config: {
+				on: {
+					pluginsLoaded: function() {
+						highlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
+							init: function( ready ) {
+								ready();
+							},
+							languages: {
+								php: 'PHP',
+								javascript: 'JS'
 							}
-						}
+						} );
+
+						this.plugins.codesnippet.setHighlighter( highlighter );
 					}
 				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
+			}
+		}
+	};
 
+	bender.test( {
 		'test undo snapshot while highlighting (async)': function() {
 			var bot = this.editorBots.asyncHighlighter,
 				editor = bot.editor;
@@ -60,7 +51,7 @@
 			};
 
 			editor.insertHtml( '<pre><code class="language-php">php</code></pre>' );
-			assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'A single widget instance created' );
+			assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'A single widget instance created' );
 
 			wait();
 		},
@@ -76,7 +67,7 @@
 			bot.setData( '<pre><code class="language-php">php</code></pre>', function() {
 				editor.resetUndo();
 
-				var widget = obj2Array( editor.widgets.instances )[ 0 ];
+				var widget = objToArray( editor.widgets.instances )[ 0 ];
 
 				widget.focus();
 
@@ -114,7 +105,7 @@
 			bot.setData( '<pre><code class="language-php">php</code></pre>', function() {
 				editor.resetUndo();
 
-				var widget = obj2Array( editor.widgets.instances )[ 0 ];
+				var widget = objToArray( editor.widgets.instances )[ 0 ];
 
 				widget.focus();
 

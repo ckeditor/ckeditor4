@@ -1,0 +1,16 @@
+<h2>First editor</h2>
+<div id="editor1" contenteditable="true">
+	<p><strong><u><span style="color: #f00;" class="important">Apollo 11</span></u></strong> <s>was the</s> <span style="color: #f00;" class="important">spaceflight</span> that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. <span style="background-color: #f00;" bogus-attr="2">Armstrong</span> became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+</div>
+
+<h2>Second editor</h2>
+<div id="editor2" contenteditable="true">
+	<p><strong><u><span style="color: #f00;" class="important">Apollo 11</span></u></strong> <s>was the</s> <span style="color: #f00;" class="important">spaceflight</span> that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. <span style="background-color: #f00;" bogus-attr="2">Armstrong</span> became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea'
+	} );
+</script>

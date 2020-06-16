@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'sq', {
 	copy: 'Kopjo',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sq', {
 	cut: 'Preje',
 	cutError: 'Të dhënat e sigurisë së shfletuesit tuaj nuk lejojnë që redaktuesi automatikisht të kryej veprimin e prerjes. Ju lutemi shfrytëzoni tastierën për këtë veprim (Ctrl/Cmd+X).',
 	paste: 'Hidhe',
-	pasteArea: 'Hapësira Hedhëse',
-	pasteMsg: 'Ju lutemi hidhni brenda kutizës në vijim duke shfrytëzuar tastierën (<strong>Ctrl/Cmd+V</strong>) dhe shtypni Mirë.',
-	securityMsg: 'Për shkak të dhënave të sigurisë së shfletuesit tuaj, redaktuesi nuk është në gjendje të i qaset drejtpërdrejtë të dhanve të tabelës suaj të punës. Ju duhet të hidhni atë përsëri në këtë dritare.',
-	title: 'Hidhe'
+	pasteNotification: 'Shtyp %1 për të hedhur tekstin. Shfletuesi juaj nuk mbështetë hedhjen me pullë shiriti ose alternativën e menysë kontekstuale.',
+	pasteArea: 'Hapësira e Hedhjes',
+	pasteMsg: 'Hidh përmbajtjen brenda hapësirës më poshtë dhe shtyp MIRË.'
 } );

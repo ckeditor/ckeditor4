@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'ja', {
 	border: '枠線の幅',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ja', {
 	headersColumn: '最初の列のみ',
 	headersNone: 'なし',
 	headersRow: '最初の行のみ',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: '枠線の幅は数値で入力してください。',
 	invalidCellPadding: 'セル内余白は数値で入力してください。',
 	invalidCellSpacing: 'セル間余白は数値で入力してください。',

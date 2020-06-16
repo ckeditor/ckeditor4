@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* global testVar, testVar1, testVar2, testVar3 */
 
 var tests = {
@@ -21,6 +21,39 @@ var tests = {
 		}
 
 		CKEDITOR.scriptLoader.load( '../_assets/sample.js', callback );
+
+		this.wait();
+	},
+
+	'test load event handling': function() {
+		var tc = this;
+
+		function callback( success ) {
+			tc.resume( function( ) {
+				assert.isTrue( success );
+			} );
+		}
+
+		CKEDITOR.scriptLoader.load( '../_assets/sample.js', callback );
+
+		this.wait();
+	},
+
+	'test error event handling': function() {
+		// Ignore for both IE8 and IE9.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
+			assert.ignore();
+		}
+
+		var tc = this;
+
+		function callback( success ) {
+			tc.resume( function( ) {
+				assert.isFalse( success );
+			} );
+		}
+
+		CKEDITOR.scriptLoader.load( '../_assets/non-existing-sample.js', callback );
 
 		this.wait();
 	},
@@ -71,6 +104,21 @@ var tests = {
 		] );
 
 		this.wait();
+	},
+
+	// Script listeners should be removed because it might cause memory leaks (#589).
+	'test script listeners removed when loaded': function() {
+		CKEDITOR.scriptLoader.load( '../_assets/sample.js', function() {
+			resume( function() {
+				var script = CKEDITOR.document.findOne( 'script[src="../_assets/sample.js"]' );
+
+				assert.isFalse( !!script.$.onreadystatechange );
+				assert.isFalse( !!script.$.onload );
+				assert.isFalse( !!script.$.onerror );
+			} );
+		} );
+
+		wait();
 	}
 };
 

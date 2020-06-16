@@ -1,0 +1,99 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+</head>
+<body>
+	<h2>Classic editor</h2>
+
+	<div id="classic">
+		<p>Widget without caption:</p>
+		<figure>
+			<img src="../../../image2/_assets/foo.png" alt="foo">
+		</figure>
+		<p>Widget with empty caption:</p>
+		<figure>
+			<a href="https://cksource.com">
+				<img src="../../../image2/_assets/foo.png" alt="foo">
+			</a>
+			<figcaption></figcaption>
+		</figure>
+		<p>Widget with caption:</p>
+		<figure>
+			<a href="https://cksource.com">
+				<img src="../../../image2/_assets/foo.png" alt="foo">
+			</a>
+			<figcaption>Test caption</figcaption>
+		</figure>
+	</div>
+
+	<h2>Divarea editor</h2>
+
+	<div id="divarea">
+		<p>Widget without caption:</p>
+		<figure>
+			<img src="../../../image2/_assets/foo.png" alt="foo">
+		</figure>
+		<p>Widget with empty caption:</p>
+		<figure>
+			<a href="https://cksource.com">
+				<img src="../../../image2/_assets/foo.png" alt="foo">
+			</a>
+			<figcaption></figcaption>
+		</figure>
+		<p>Widget with caption:</p>
+		<figure>
+			<a href="https://cksource.com">
+				<img src="../../../image2/_assets/foo.png" alt="foo">
+			</a>
+			<figcaption>Test caption</figcaption>
+		</figure>
+	</div>
+
+	<h2>Inline editor</h2>
+
+	<div id="inline" contenteditable="true">
+		<p>Widget without caption:</p>
+		<figure>
+			<img src="../../../image2/_assets/foo.png" alt="foo">
+		</figure>
+		<p>Widget with empty caption:</p>
+		<figure>
+			<a href="https://cksource.com">
+				<img src="../../../image2/_assets/foo.png" alt="foo">
+			</a>
+			<figcaption></figcaption>
+		</figure>
+		<p>Widget with caption:</p>
+		<figure>
+			<a href="https://cksource.com">
+				<img src="../../../image2/_assets/foo.png" alt="foo">
+			</a>
+			<figcaption>Test caption</figcaption>
+		</figure>
+	</div>
+
+	<script>
+		( function() {
+			'use strict';
+
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+			var commonConfig = {
+				on: {
+					pluginsLoaded: function( evt ) {
+						var editor = evt.editor,
+							plugin = CKEDITOR.plugins.imagebase;
+
+						plugin.addImageWidget( editor, 'testWidget', plugin.addFeature( editor, 'caption', {} ) );
+					}
+				},
+				height: 500
+			};
+
+			CKEDITOR.replace( 'classic', commonConfig );
+			CKEDITOR.replace( 'divarea', CKEDITOR.tools.object.merge( commonConfig, {
+				extraPlugins: 'divarea'
+			} ) );
+			CKEDITOR.inline( 'inline', commonConfig );
+		}() );
+	</script>
+</body>

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'uk', {
 	acccessKey: 'Гаряча клавіша',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 	anchorName: 'За ім\'ям елементу',
 	charset: 'Кодування',
 	cssClasses: 'Клас CSS',
+	download: 'Завантажити як файл',
+	displayText: 'Відображуваний текст',
 	emailAddress: 'Адреса ел. пошти',
 	emailBody: 'Тіло повідомлення',
 	emailSubject: 'Тема листа',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 	noAnchors: '(В цьому документі немає якорів)',
 	noEmail: 'Будь ласка, вкажіть адрес ел. пошти',
 	noUrl: 'Будь ласка, вкажіть URL посилання',
+	noTel: 'Будь ласка, введіть номер телефону',
 	other: '<інший>',
+	phoneNumber: 'Номер телефону',
 	popupDependent: 'Залежний (Netscape)',
 	popupFeatures: 'Властивості випливаючого вікна',
 	popupFullScreen: 'Повний екран (IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 	toAnchor: 'Якір на цю сторінку',
 	toEmail: 'Ел. пошта',
 	toUrl: 'URL',
+	toPhone: 'Телефон',
 	toolbar: 'Вставити/Редагувати посилання',
 	type: 'Тип посилання',
 	unlink: 'Видалити посилання',

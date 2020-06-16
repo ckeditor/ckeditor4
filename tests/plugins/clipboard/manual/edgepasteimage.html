@@ -1,0 +1,8 @@
+<textarea id="editor"></textarea>
+
+<script>
+	if ( !CKEDITOR.env.edge || !CKEDITOR.env.version >= 17 ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor' );
+</script>

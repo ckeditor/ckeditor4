@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'lv', {
 	auto: 'Automātiska',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'lv', {
 		F0FFFF: 'Debesszils',
 		F0F8FF: 'Alises zils',
 		E6E6FA: 'Lavanda',
-		FFF: 'Balts'
+		FFF: 'Balts',
+		'1ABC9C': 'Spēcīgs ciāna',
+		'2ECC71': 'Smaragds',
+		'3498DB': 'Koši zils',
+		'9B59B6': 'Ametists',
+		'4E5F70': 'Pelēkzils',
+		'F1C40F': 'Spilgti dzeltens',
+		'16A085': 'Tumšs ciāna',
+		'27AE60': 'Tumšs smaragds',
+		'2980B9': 'Spēcīgi zils',
+		'8E44AD': 'Tumši violets',
+		'2C3E50': 'Bāli zils',
+		'F39C12': 'Apelsīnu',
+		'E67E22': 'Burkānu',
+		'E74C3C': 'Blāvi sarkans',
+		'ECF0F1': 'Spilgti sudraba',
+		'95A5A6': 'Gaišs pelēki ciāna',
+		'DDD': 'Gaiši pelēks',
+		'D35400': 'Ķirbja',
+		'C0392B': 'Spēcīgi sarkans',
+		'BDC3C7': 'Sudraba',
+		'7F8C8D': 'Pelēcīgs ciāna',
+		'999': 'Tumši pelēks'
 	},
 	more: 'Plašāka palete...',
 	panelTitle: 'Krāsa',

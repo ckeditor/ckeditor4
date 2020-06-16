@@ -1,0 +1,41 @@
+<h2>Classic editor</h2>
+<div id="classic">
+	<p>Sample text.</p>
+	<p>Sample text.</p>
+	<p>Sample text.</p>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="divarea">
+	<p>Sample text.</p>
+	<p>Sample text.</p>
+	<p>Sample text.</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<p>Sample text.</p>
+	<p>Sample text.</p>
+	<p>Sample text.</p>
+</div>
+
+<script>
+
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	var config = {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
+			}
+		}
+	};
+
+	CKEDITOR.replace( 'classic', config );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( config, { extraPlugins: 'divarea' } ) );
+	CKEDITOR.inline( 'inline', config );
+</script>

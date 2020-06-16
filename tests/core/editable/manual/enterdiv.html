@@ -1,0 +1,54 @@
+<textarea id="editor1">
+	<div>This is some sample text.</div>
+	<div>New line.</div>
+</textarea>
+<textarea id="editor2">
+	<div>
+		<div>This is some sample text.</div>
+		<div>New line.</div>
+	</div>
+</textarea>
+<textarea id="editor3">
+	<div>This is some sample text.</div>
+	<div>New line.</div>
+</textarea>
+<textarea id="editor4">
+	<div>
+		<div>This is some sample text.</div>
+		<div>New line.</div>
+	</div>
+</textarea>
+
+<script>
+	for ( var i = 1; i < 5; i++ ) {
+		// Hide editors for which test would fail on Chrome, Safari or IE<9 because of a browser upstream issue
+		// https://github.com/ckeditor/ckeditor4/pull/2776#issuecomment-463144905
+		var isIgnoredBrowser = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.webkit;
+
+		if ( isIgnoredBrowser && !(i%2) ) {
+			CKEDITOR.document.findOne( '#editor' + i ).remove();
+			continue;
+		}
+
+		CKEDITOR.replace( 'editor' + i, {
+			extraPlugins: i > 2 ? 'divarea' : '',
+			enterMode: CKEDITOR.ENTER_DIV,
+			on: {
+				instanceReady: function() {
+					var textarea = new CKEDITOR.dom.element( 'textarea' );
+					textarea.setValue( this.getData() );
+					textarea.setAttributes( {
+						readonly: true,
+						rows: 2,
+						cols: 80
+					} );
+					textarea.insertBefore( this.element );
+
+					var p = new CKEDITOR.dom.element( 'p' );
+					p.setText( 'Expected editor content:' );
+					p.insertBefore( textarea );
+				}
+			}
+		} );
+	}
+</script>

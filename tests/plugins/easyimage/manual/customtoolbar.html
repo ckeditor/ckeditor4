@@ -1,0 +1,34 @@
+<h2>Classic editor</h2>
+<div id="classic">
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans on the Moon on July 20, 1969, at 20:18 UTC.</p>
+	<figure class="image easyimage easyimage-side">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth.</p>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="divarea">
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans on the Moon on July 20, 1969, at 20:18 UTC.</p>
+	<figure class="image easyimage easyimage-side">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth.</p>
+</div>
+
+<script>
+	( function() {
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+		var commonConfig = {
+			easyimage_toolbar: [ 'Copy', 'Paste' ]
+		};
+
+		CKEDITOR.replace( 'classic', commonConfig );
+		CKEDITOR.replace( 'divarea', CKEDITOR.tools.object.merge( {
+			extraPlugins: 'divarea'
+		}, commonConfig ) );
+	}() );
+</script>

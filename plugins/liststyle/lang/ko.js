@@ -1,25 +1,21 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'ko', {
-	armenian: 'Armenian numbering',
-	bulletedTitle: 'Bulleted List Properties',
-	circle: 'Circle',
-	decimal: 'Decimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)',
-	disc: 'Disc',
-	georgian: 'Georgian numbering (an, ban, gan, etc.)',
-	lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
-	lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
-	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
-	none: 'None',
-	notset: '<not set>',
-	numberedTitle: 'Numbered List Properties',
-	square: 'Square',
-	start: 'Start',
-	type: 'Type',
-	upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
-	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
+	bulletedTitle: '순서 없는 목록 속성',
+	circle: '원',
+	decimal: '수 (1, 2, 3, 등)',
+	disc: '내림차순',
+	lowerAlpha: '영소문자 (a, b, c, d, e, 등)',
+	lowerRoman: '로마 소문자 (i, ii, iii, iv, v, 등)',
+	none: '없음',
+	notset: '<설정 없음>',
+	numberedTitle: '순서 있는 목록 속성',
+	square: '사각',
+	start: '시작',
+	type: '유형',
+	upperAlpha: '영대문자 (A, B, C, D, E, 등)',
+	upperRoman: '로마 대문자 (I, II, III, IV, V, 등)',
+	validateStartNumber: '목록 시작 숫자는 정수여야 합니다.'
 } );

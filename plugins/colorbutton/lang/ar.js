@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'ar', {
 	auto: 'تلقائي',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ar', {
 		F0FFFF: 'سماوي',
 		F0F8FF: 'لبني',
 		E6E6FA: 'أرجواني',
-		FFF: 'أبيض'
+		FFF: 'أبيض',
+		'1ABC9C': 'Strong Cyan', // MISSING
+		'2ECC71': 'Emerald', // MISSING
+		'3498DB': 'Bright Blue', // MISSING
+		'9B59B6': 'Amethyst', // MISSING
+		'4E5F70': 'Grayish Blue', // MISSING
+		'F1C40F': 'Vivid Yellow', // MISSING
+		'16A085': 'Dark Cyan', // MISSING
+		'27AE60': 'Dark Emerald', // MISSING
+		'2980B9': 'Strong Blue', // MISSING
+		'8E44AD': 'بنفسجي غامق',
+		'2C3E50': 'Desaturated Blue', // MISSING
+		'F39C12': 'برتقالي',
+		'E67E22': 'Carrot', // MISSING
+		'E74C3C': 'Pale Red', // MISSING
+		'ECF0F1': 'Bright Silver', // MISSING
+		'95A5A6': 'Light Grayish Cyan', // MISSING
+		'DDD': 'رمادي فاتح',
+		'D35400': 'Pumpkin', // MISSING
+		'C0392B': 'Strong Red', // MISSING
+		'BDC3C7': 'فضي',
+		'7F8C8D': 'Grayish Cyan', // MISSING
+		'999': 'رمادي غامق'
 	},
 	more: 'ألوان إضافية...',
 	panelTitle: 'Colors',

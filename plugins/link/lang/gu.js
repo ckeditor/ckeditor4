@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'gu', {
 	acccessKey: 'ઍક્સેસ કી',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	anchorName: 'ઍંકર નામથી પસંદ કરો',
 	charset: 'લિંક રિસૉર્સ કૅરિક્ટર સેટ',
 	cssClasses: 'સ્ટાઇલ-શીટ ક્લાસ',
+	download: 'ડાઉનલોડ કરો',
+	displayText: 'લખાણ દેખાડો',
 	emailAddress: 'ઈ-મેલ સરનામું',
 	emailBody: 'સંદેશ',
 	emailSubject: 'ઈ-મેલ વિષય',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	noAnchors: '(ડૉક્યુમન્ટમાં ઍંકરની સંખ્યા)',
 	noEmail: 'ઈ-મેલ સરનામું ટાઇપ કરો',
 	noUrl: 'લિંક  URL ટાઇપ કરો',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<other> <અન્ય>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'ડિપેન્ડન્ટ (Netscape)',
 	popupFeatures: 'પૉપ-અપ વિન્ડો ફીચરસૅ',
 	popupFullScreen: 'ફુલ સ્ક્રીન (IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	toAnchor: 'આ પેજનો ઍંકર',
 	toEmail: 'ઈ-મેલ',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'લિંક ઇન્સર્ટ/દાખલ કરવી',
 	type: 'લિંક પ્રકાર',
 	unlink: 'લિંક કાઢવી',

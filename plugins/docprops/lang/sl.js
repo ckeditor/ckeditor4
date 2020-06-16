@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'sl', {
 	bgColor: 'Barva ozadja',
@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'sl', {
 	charsetASCII: 'ASCII',
 	charsetCE: 'Srednjeevropsko',
 	charsetCR: 'Cirilica',
-	charsetCT: 'Tradicionalno Kitajsko (Big5)',
+	charsetCT: 'Tradicionalno kitajsko (Big5)',
 	charsetGR: 'Grško',
 	charsetJP: 'Japonsko',
 	charsetKR: 'Korejsko',
@@ -21,20 +21,20 @@ CKEDITOR.plugins.setLang( 'docprops', 'sl', {
 	chooseColor: 'Izberi',
 	design: 'Oblika',
 	docTitle: 'Naslov strani',
-	docType: 'Glava tipa dokumenta',
-	docTypeOther: 'Druga glava tipa dokumenta',
+	docType: 'Glava vrste dokumenta',
+	docTypeOther: 'Druga glava vrste dokumenta',
 	label: 'Lastnosti dokumenta',
-	margin: 'Zamiki strani',
+	margin: 'Robovi strani',
 	marginBottom: 'Spodaj',
 	marginLeft: 'Levo',
 	marginRight: 'Desno',
-	marginTop: 'Na vrhu',
-	meta: 'Meta podatki',
+	marginTop: 'Zgoraj',
+	meta: 'Metaoznake',
 	metaAuthor: 'Avtor',
 	metaCopyright: 'Avtorske pravice',
-	metaDescription: 'Opis strani',
-	metaKeywords: 'Ključne besede (ločene z vejicami)',
-	other: '<drug>',
+	metaDescription: 'Opis dokumenta',
+	metaKeywords: 'Ključne besede dokumenta (ločene z vejicami)',
+	other: 'Drugo ...',
 	previewHtml: '<p>Tole je<strong>primer besedila</strong>. Uporabljate <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Lastnosti dokumenta',
 	txtColor: 'Barva besedila',

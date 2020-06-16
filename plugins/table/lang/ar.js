@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'ar', {
 	border: 'الحدود',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ar', {
 	headersColumn: 'العمود الأول',
 	headersNone: 'بدون',
 	headersRow: 'الصف الأول',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'حجم الحد يجب أن يكون عدداً.',
 	invalidCellPadding: 'المسافة البادئة يجب أن تكون عدداً',
 	invalidCellSpacing: 'المسافة بين الخلايا يجب أن تكون عدداً.',

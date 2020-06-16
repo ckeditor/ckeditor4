@@ -1,0 +1,63 @@
+<style>
+	.controls label {
+		display: block;
+	}
+	.controls span {
+		display: inline-block;
+		min-width: 60px;
+	}
+	.cke_top {
+		display: none;
+	}
+</style>
+
+<textarea id="editor">
+	<div class="square" style="left:0;top:0;width:30px;height:30px"></div>
+</textarea>
+
+<form class="controls">
+	<label><span>Left</span><input class="control" type="range" data-style-name="left" value="0" min="0" step="1" max="300"></label>
+	<label><span>Top</span><input class="control" type="range" data-style-name="top" value="0" min="0" step="1" max="300"></label>
+	<label><span>Width</span><input class="control" type="range" data-style-name="width" value="30" min="10" step="1" max="100"></label>
+	<label><span>Height</span><input class="control" type="range" data-style-name="height" value="30" min="10" step="1" max="100"></label>
+</form>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.addCss( '.square{background:indianred;position:absolute}' );
+
+	editor = CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'div(square){top,left,width,height}',
+		readOnly: true,
+		toolbar: [],
+		width: 400,
+		height: 400,
+		on: {
+			instanceReady: function() {
+				var panel = new CKEDITOR.ui.balloonToolbar( this, {
+						width: 'auto',
+						height: 40
+					} ),
+					square = this.editable().findOne( '.square' );
+
+				panel.addItems( {
+					bold: new CKEDITOR.ui.button( {
+						label: 'test',
+						command: 'bold'
+					} )
+				} );
+
+				panel.attach( square );
+
+				CKEDITOR.tools.array.forEach( CKEDITOR.document.find( '.control' ).toArray(), function( input ) {
+					var evtName = CKEDITOR.env.ie && !CKEDITOR.env.edge ? 'change' : 'input';
+					input.on( evtName, function() {
+						square.setStyle( input.getAttribute( 'data-style-name' ), input.getValue() + 'px' );
+						panel.reposition();
+					} );
+				} );
+			}
+		}
+	} );
+</script>

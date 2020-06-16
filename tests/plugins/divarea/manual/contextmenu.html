@@ -1,0 +1,16 @@
+<body>
+	<h1>Native context menu</h1>
+	<div id="editor1"><p>Foo</p><p>Foo</p><p>Foo</p><p>Foo</p><p>Foo</p></div>
+	<h1>Custom context menu</h1>
+	<div id="editor2"><p>Foo</p><p>Foo</p><p>Foo</p><p>Foo</p><p>Foo</p></div>
+
+	<script>
+		CKEDITOR.replace( 'editor1', {
+			// Without this the ctx menu plugin will be loaded when testing a build.
+			removePlugins: 'contextmenu,tabletools,liststyle'
+		} );
+		CKEDITOR.replace( 'editor2', {
+			extraPlugins: 'contextmenu'
+		} );
+	</script>
+</body>

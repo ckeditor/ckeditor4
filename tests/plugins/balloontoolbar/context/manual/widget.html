@@ -1,0 +1,50 @@
+<textarea id="editor1" cols="10" rows="10">
+	<p>This is a sample [[image]] widdget:</p>
+
+	<figure class="image">
+		<img alt="Saturn V" src="%BASE_PATH%_assets/lena.jpg" width="120" />
+		<figcaption>This is an <strong>example</strong> [[caption]] description</figcaption>
+	</figure>
+
+	<pre><code>var foo = 'bar';</code></pre>
+</textarea>
+
+<div id="editor2" contenteditable="true">
+	<p>This is a sample [[image]] widdget:</p>
+
+	<figure class="image">
+		<img alt="Saturn V" src="%BASE_PATH%_assets/lena.jpg" width="120" />
+		<figcaption>This is an <strong>example</strong> [[caption]] description</figcaption>
+	</figure>
+
+	<pre><code>var foo = 'bar';</code></pre>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.disableAutoInline = true;
+
+	var config = {
+			height: 320,
+			width: 500,
+			allowedContent: true,
+			on: {
+				instanceReady: function( evt ) {
+					// Register the toolbar for inline elements.
+					evt.editor.balloonToolbars.create( {
+						buttons: 'Link,Unlink',
+						widgets: [ 'image', 'placeholder' ]
+					} );
+
+					evt.editor.balloonToolbars.create( {
+						buttons: 'Bold,Underline',
+						cssSelector: 'strong, u'
+					} );
+				}
+			}
+		};
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.inline( 'editor2', config );
+</script>

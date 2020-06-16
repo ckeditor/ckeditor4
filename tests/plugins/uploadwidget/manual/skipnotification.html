@@ -1,0 +1,21 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	<p>Drop an image here.</p>
+</textarea>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor1', {
+		uploadUrl: '%BASE_PATH%'
+	} );
+
+	editor.once( 'instanceReady', function() {
+		bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
+	} );
+
+	editor.on( 'widgetDefinition', function( evt ) {
+		var definition = evt.data;
+
+		if ( definition.name === 'uploadimage' ) {
+			definition.skipNotifications = true;
+		}
+	} );
+</script>

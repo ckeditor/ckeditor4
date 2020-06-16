@@ -1,0 +1,14 @@
+<div id="editor"></div>
+
+<script>
+	// No way to create soft enter on mobile devices.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	if ( !CKEDITOR.env.webkit ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>

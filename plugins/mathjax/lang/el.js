@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'mathjax', 'el', {
 	title: 'Μαθηματικά με τη γλώσσα TeX',
@@ -8,6 +8,6 @@ CKEDITOR.plugins.setLang( 'mathjax', 'el', {
 	dialogInput: 'Γράψτε κώδικα TeX εδώ',
 	docUrl: 'http://en.wikibooks.org/wiki/LaTeX/Mathematics',
 	docLabel: 'Τεκμηρίωση TeX',
-	loading: 'γίνεται φόρτωση...',
+	loading: 'γίνεται φόρτωση…',
 	pathName: 'μαθηματικά'
 } );

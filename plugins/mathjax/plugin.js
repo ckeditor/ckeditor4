@@ -1,26 +1,33 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
- * @fileOverview [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin.
+ * @fileOverview The [Mathematical Formulas](https://ckeditor.com/cke4/addon/mathjax) plugin that allows you to create and modify mathematical equations written in TeX directly in CKEditor..
  */
 
 'use strict';
 
 ( function() {
-
-	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML';
-
 	CKEDITOR.plugins.add( 'mathjax', {
-		lang: 'af,ar,ca,cs,cy,da,de,el,en,en-gb,eo,es,fa,fi,fr,gl,he,hr,hu,it,ja,km,ku,lt,nb,nl,no,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:disable maximumLineLength
+		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sr,sr-latn,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		requires: 'widget,dialog',
 		icons: 'mathjax',
 		hidpi: true, // %REMOVE_LINE_CORE%
 
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
+		},
+
 		init: function( editor ) {
 			var cls = editor.config.mathJaxClass || 'math-tex';
+
+			if ( !editor.config.mathJaxLib ) {
+				CKEDITOR.error( 'mathjax-no-config' );
+			}
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
@@ -127,13 +134,15 @@
 
 			// Add MathJax script to page preview.
 			editor.on( 'contentPreview', function( evt ) {
-				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,
-					'<script src="' + ( editor.config.mathJaxLib ? CKEDITOR.getUrl( editor.config.mathJaxLib ) : cdn ) + '"><\/script><\/head>' );
+				evt.data.dataValue = evt.data.dataValue.replace(
+					/<\/head>/,
+					'<script src="' + CKEDITOR.getUrl( editor.config.mathJaxLib ) + '"><\/script><\/head>'
+				);
 			} );
 
 			editor.on( 'paste', function( evt ) {
 				// Firefox does remove iFrame elements from pasted content so this event do the same on other browsers.
-				// Also iFrame in paste content is reason of "Unspecified error" in IE9 (#10857).
+				// Also iFrame in paste content is reason of "Unspecified error" in IE9 (https://dev.ckeditor.com/ticket/10857).
 				var regex = new RegExp( '<span[^>]*?' + cls + '.*?<\/span>', 'ig' );
 				evt.data.dataValue = evt.data.dataValue.replace( regex, function( match ) {
 					return match.replace( /(<iframe.*?\/iframe>)/i, '' );
@@ -292,7 +301,7 @@
 					return;
 
 				// Because of IE9 bug in a src attribute can not be javascript
-				// when you undo (#10930). If you have iFrame with javascript in src
+				// when you undo (https://dev.ckeditor.com/ticket/10930). If you have iFrame with javascript in src
 				// and call insertBefore on such element then IE9 will see crash.
 				if ( CKEDITOR.env.ie )
 					iFrame.removeAttribute( 'src' );
@@ -337,7 +346,7 @@
 								'</script>' +
 
 								// Load MathJax lib.
-								'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
+								'<script src="' + ( editor.config.mathJaxLib ) + '"></script>' +
 							'</head>' +
 							'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
 								'<span id="preview"></span>' +
@@ -431,20 +440,26 @@
 } )();
 
 /**
- * Sets the path to the MathJax library. It can be both a local
- * resource and a location different than the default CDN.
+ * Sets the path to the MathJax library. It can be both a local resource and a location different than the default CDN.
  *
  * Please note that this must be a full or absolute path.
  *
- *		config.mathJaxLib = 'http:\/\/example.com\/libs\/MathJax.js';
+ * Read more in the {@glink features/mathjax documentation}
+ * and see the {@glink examples/mathjax example}.
  *
- * @cfg {String} [mathJaxLib='http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML']
+ *		config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML';
+ *
+ * **Note:** Since CKEditor 4.5.0 this option does not have a default value, so it must
+ * be set in order to enable the MathJax plugin.
+ *
+ * @since 4.3.0
+ * @cfg {String} mathJaxLib
  * @member CKEDITOR.config
  */
 
 /**
  * Sets the default class for `span` elements that will be
- * converted into [Mathematical Formulas](http://ckeditor.com/addon/mathjax)
+ * converted into [Mathematical Formulas](https://ckeditor.com/cke4/addon/mathjax)
  * widgets.
  *
  * If you set it to the following:
@@ -454,6 +469,9 @@
  * The code below will be recognized as a Mathematical Formulas widget.
  *
  *		<span class="my-math">\( \sqrt{4} = 2 \)</span>
+ *
+ * Read more in the {@glink features/mathjax documentation}
+ * and see the {@glink examples/mathjax example}.
  *
  * @cfg {String} [mathJaxClass='math-tex']
  * @member CKEDITOR.config

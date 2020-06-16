@@ -1,0 +1,77 @@
+<style>
+	body {
+		padding-top: 40px;
+	}
+</style>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Sample paragraph with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+	<ol>
+		<li>List item with a plain text only.</li>
+		<li>
+			<p>List item with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+		</li>
+		<li>List item with a plain text only.</li>
+	</ol>
+	<p>Paragraph after the list.</p>
+</textarea>
+
+<div id="editor2" contenteditable="true" style="width: 500px">
+	<p>Sample paragraph with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+	<ol>
+		<li>List item with a plain text only.</li>
+		<li>
+			<p>List item with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+		</li>
+		<li>List item with a plain text only.</li>
+	</ol>
+	<p>Paragraph after the list.</p>
+</div>
+
+<style>
+.cke_top { display: none; }
+</style>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.disableAutoInline = true;
+
+	var config = {
+			height: 300,
+			width: 500,
+			on: {
+				instanceReady: function( evt ) {
+					// Register the toolbar for inline elements.
+					evt.editor.balloonToolbars.create( {
+						buttons: 'Strike,Underline',
+						cssSelector: 'u, s'
+					} );
+
+
+					evt.editor.balloonToolbars.create( {
+						buttons: 'BulletedList,NumberedList',
+						cssSelector: 'li'
+					} );
+
+					var balloonToolbarContext = evt.editor.balloonToolbars.create( {
+						buttons: 'Source,Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Bold,Italic,Underline,Strike,Subscript,Superscript,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,BidiRtl,Language,Link,Unlink,Anchor,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Format,Font,FontSize,TextColor,BGColor,Maximize,ShowBlocks,About',
+						refresh: function( editor ) { return editor.editable(); },
+						priority: CKEDITOR.plugins.balloontoolbar.PRIORITY.LOW
+					} );
+
+					// Only for that single toolbar, customize the alignment, so that it's always top hcenter.
+					balloonToolbarContext.toolbar._view._getAlignments = function( elementRect, panelWidth, panelHeight ) {
+						var ret = CKEDITOR.ui.balloonToolbarView.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
+
+						return {
+							'top hcenter': ret[ 'top hcenter' ]
+						}
+					};
+				}
+			}
+		};
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.inline( 'editor2', config );
+</script>

@@ -1,0 +1,39 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<h2>Classic editor</h2>
+
+<div id="classic">
+	<h1>Sample editor</h1>
+	<p>Go on, put some content here.</p>
+</div>
+
+<h2>Divarea editor</h2>
+
+<div id="divarea">
+	<h1>Sample editor</h1>
+	<p>Go on, put some content here.</p>
+</div>
+
+<h2>Inline editor</h2>
+
+<div id="inline" contenteditable="true">
+	<h1>Sample editor</h1>
+	<p>Go on, put some content here.</p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	var commonConfig = {
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL
+		};
+
+	CKEDITOR.replace( 'classic', commonConfig );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
+		extraPlugins: 'divarea'
+	}, commonConfig ) );
+	CKEDITOR.inline( 'inline', CKEDITOR.tools.extend( {
+		extraPlugins: 'sourcedialog'
+	}, commonConfig ) );
+</script>

@@ -1,15 +1,14 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'mk', {
-	copy: 'Copy', // MISSING
-	copyError: 'Your browser security settings don\'t permit the editor to automatically execute copying operations. Please use the keyboard for that (Ctrl/Cmd+C).', // MISSING
-	cut: 'Cut', // MISSING
-	cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl/Cmd+X).', // MISSING
-	paste: 'Paste', // MISSING
-	pasteArea: 'Paste Area', // MISSING
-	pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK', // MISSING
-	securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
-	title: 'Paste' // MISSING
+	copy: 'Копирај (Copy)',
+	copyError: 'Опциите за безбедност на вашиот прелистувач не дозволуваат уредувачот автоматски да изврши копирање. Ве молиме употребете ја тастатурата. (Ctrl/Cmd+C)',
+	cut: 'Исечи (Cut)',
+	cutError: 'Опциите за безбедност на вашиот прелистувач не дозволуваат уредувачот автоматски да изврши сечење. Ве молиме употребете ја тастатурата. (Ctrl/Cmd+C)',
+	paste: 'Залепи (Paste)',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteArea: 'Простор за залепување',
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );

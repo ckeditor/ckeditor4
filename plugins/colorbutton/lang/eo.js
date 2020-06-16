@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'eo', {
 	auto: 'Aŭtomata',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'eo', {
 		F0FFFF: 'Lazura',
 		F0F8FF: 'Aliceblua',
 		E6E6FA: 'Lavendkolora',
-		FFF: 'Blanka'
+		FFF: 'Blanka',
+		'1ABC9C': 'Fortverdblua',
+		'2ECC71': 'Smeraldkolora',
+		'3498DB': 'Brilblua',
+		'9B59B6': 'Ametistkolora',
+		'4E5F70': 'Grizblua',
+		'F1C40F': 'Brilflava',
+		'16A085': 'Malhelverdblua',
+		'27AE60': 'Malhelsmeraldkolora',
+		'2980B9': 'Fortblua',
+		'8E44AD': 'Malhelviola',
+		'2C3E50': 'Malsaturita Bluo',
+		'F39C12': 'Oranĝkolora',
+		'E67E22': 'Karotkolora',
+		'E74C3C': 'Pale Ruĝa',
+		'ECF0F1': 'Brile Arĝenta',
+		'95A5A6': 'Helgrizverdblua',
+		'DDD': 'Helgriza',
+		'D35400': 'Kukurbokolora',
+		'C0392B': 'Forte ruĝa',
+		'BDC3C7': 'Arĝenta',
+		'7F8C8D': 'Grizverdblua',
+		'999': 'Malhelgriza'
 	},
 	more: 'Pli da Koloroj...',
 	panelTitle: 'Koloroj',

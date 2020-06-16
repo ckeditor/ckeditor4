@@ -1,9 +1,9 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'specialchar', 'de', {
-	options: 'Sonderzeichen Optionen',
+	options: 'Sonderzeichenoptionen',
 	title: 'Sonderzeichen auswählen',
-	toolbar: 'Sonderzeichen einfügen/editieren'
+	toolbar: 'Sonderzeichen einfügen'
 } );

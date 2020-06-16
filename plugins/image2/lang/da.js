@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'da', {
 	alt: 'Alternativ tekst',
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'da', {
 	resizer: 'Klik og træk for at ændre størrelsen',
 	title: 'Egenskaber for billede',
 	uploadTab: 'Upload',
-	urlMissing: 'Kilde på billed-URL mangler'
+	urlMissing: 'Kilde på billed-URL mangler',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

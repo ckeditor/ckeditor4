@@ -1,0 +1,52 @@
+<textarea id="editor1" cols="10" rows="10">
+	<ul>
+		<li>List item 1</li>
+		<li>List item 2</li>
+		<li>List item 3</li>
+		<li>List item 4</li>
+		<li>List item 5</li>
+	</ul>
+</textarea>
+<script>
+	// Ignore mobiles, as test requires using console.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.replace( 'editor1', {
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+
+	function instanceReadyListener( evt ) {
+		var listItems = this.editable().find( 'li' ).toArray(),
+			panel;
+
+		CKEDITOR.tools.array.forEach( listItems, function( item ) {
+			item.on( 'click', function() {
+				if ( !CKEDITOR.tools.isEmpty( panel ) ) {
+					panel.destroy()
+				}
+
+				panel = new CKEDITOR.ui.balloonToolbar( evt.editor, {
+					width: 'auto',
+					height: 40
+				} );
+
+				panel.addItems( {
+					bold: new CKEDITOR.ui.button( {
+						label: 'test',
+						command: 'bold'
+					} ),
+					language: evt.editor.ui.create('Language'),
+					Styles: evt.editor.ui.create( 'Styles' )
+				} );
+
+				panel.attach( this );
+			} );
+		} );
+	}
+</script>

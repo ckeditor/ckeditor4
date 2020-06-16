@@ -1,22 +1,22 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 	toolbarCollapse: 'Dölj verktygsfält',
 	toolbarExpand: 'Visa verktygsfält',
 	toolbarGroups: {
 		document: 'Dokument',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		clipboard: 'Urklipp/ångra',
+		editing: 'Redigering',
+		forms: 'Formulär',
+		basicstyles: 'Basstilar',
+		paragraph: 'Paragraf',
+		links: 'Länkar',
+		insert: 'Infoga',
+		styles: 'Stilar',
+		colors: 'Färger',
+		tools: 'Verktyg'
 	},
-	toolbars: 'Redigera verktygsfält'
+	toolbars: 'Editorns verktygsfält'
 } );

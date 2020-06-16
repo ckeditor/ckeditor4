@@ -11,10 +11,12 @@ module.exports = function( grunt ) {
 		// Automatically loaded from .gitignore. Add more if necessary.
 
 		'lang/**',
+		'vendor/**',
 		'plugins/*/lib/**',
 		'plugins/**/lang/**',
 		'plugins/uicolor/yui/**',
 		'plugins/htmlwriter/samples/assets/outputforflash/**',
+		'samples/toolbarconfigurator/lib/**',
 		'tests/adapters/jquery/_assets/**',
 		'tests/core/dom/_assets/**',
 		'tests/core/selection/_helpers/rangy.js'

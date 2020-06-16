@@ -1,0 +1,90 @@
+<h2>Classic editor</h2>
+
+<div id="classic">
+	<h1>Classic editor</h1>
+
+	<p>Copy content and paste content here.</p>
+</div>
+
+<style>
+#output{ width: 500px;border: 1px solid black; table-layout: fixed; }
+#output th:first-child { width: 70px; }
+#output tbody td{ border-top: 1px solid black; white-space: pre-wrap; }
+#output tbody tr:nth-child(odd) { background: #F3F3F3; }
+#output tbody tr.raw { background: rgb(242, 243, 194); }
+</style>
+
+<table id="output">
+	<thead>
+		<tr>
+			<th>Type</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+	<caption>Pasted data transfer dump</caption>
+</table>
+
+<script>
+	CKEDITOR.replace( 'classic', {
+		on: {
+			instanceReady: function( evt ) {
+				if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+					bender.ignore();
+					return;
+				}
+
+				evt.editor.editable().on( 'copy', function( ckEvt ) {
+					var evt = ckEvt.data.$,
+						nativeDataTransfer = evt.clipboardData,
+						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer );
+
+					ckDataTransfer.setData( 'text/plain', 'Text value' );
+					ckDataTransfer.setData( 'text/html', 'text/html value' );
+					ckDataTransfer.setData( 'foo-bar', 'foo-bar value' );
+					ckDataTransfer.setData( 'baz', 'baz value' );
+
+					// Prevent DOM event, so that clipboard gets overriden.
+					evt.preventDefault();
+				}, null, null, 100000 );
+
+				evt.editor.editable().on( 'paste', function( evt ) {
+					// This is native approach.
+					var tbody = CKEDITOR.document.findOne( 'tbody' ),
+						nativeDataTransfer = evt.data.$.clipboardData,
+						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer ),
+						output = '',
+						types;
+
+					// Force data cache so that we can access data types from cache.
+					ckDataTransfer.cacheData();
+
+					// Eventually these types should be dynamically fetched.
+					types = [ 'Text', 'text/html', 'foo-bar', 'baz' ];
+
+					function getRow( row1, row2, rowClass ) {
+						rowClass = rowClass || '';
+						return '<tr class="' + rowClass + '"><td>' + row1 + '</td><td>' + CKEDITOR.tools.htmlEncode( row2 ) + '</td></tr>';
+					}
+
+					for ( var j = 0; j < types.length; j++ ) {
+						output += getRow( types[ j ], ckDataTransfer.getData( types[ j ] ) );
+					}
+
+					// Extract raw HTML, see
+					if ( CKEDITOR.tools.array.indexOf( types, 'text/html' ) != -1 ) {
+						// Native 'getData' needs to be used here since 'ckDataTransfer.getData'
+						// strips special comment which we would like to show here too.
+						output += getRow( 'Native HTML data', ckDataTransfer.getData( 'text/html', true ), 'raw' );
+					}
+
+					if ( types.length === 0 ) {
+						output += '<tr><td colspan="2">No items in datatransfer</td></tr>';
+					}
+
+					tbody.setHtml( output );
+				} );
+			}
+		}
+	} );
+</script>

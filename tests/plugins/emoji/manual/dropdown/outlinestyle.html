@@ -1,0 +1,15 @@
+<h1>Classic editor</h1>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Insert here some emoji from toolbar.</p>
+</textarea>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
+
+	CKEDITOR.replace( 'editor1' );
+</script>

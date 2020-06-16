@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 		items: [
 			{
 			name: 'Pasek narzędzi edytora',
-			legend: 'Wciśnij ${toolbarFocus} aby przejść do paska narzędzi. Przejdź do następnej i poprzedniej grupy narzędzi używając TAB oraz SHIFT-TAB. Przejdź do następnego i poprzedniego narzędzia używając STRZAŁKI W PRAWO lub STRZAŁKI W LEWO. Wciśnij SPACJĘ lub ENTER, aby aktywować zaznaczone narzędzie.'
+			legend: 'Naciśnij ${toolbarFocus}, by przejść do paska narzędzi. Przejdź do następnej i poprzedniej grupy narzędzi używając TAB oraz SHIFT+TAB. Przejdź do następnego i poprzedniego przycisku paska narzędzi za pomocą STRZAŁKI W PRAWO lub STRZAŁKI W LEWO. Naciśnij SPACJĘ lub ENTER by aktywować przycisk paska narzędzi.'
 		},
 
 			{
 			name: 'Okno dialogowe edytora',
-			legend: 'Będąc w oknie dialogowym wciśnij TAB aby przejść do następnego pola dialogowego, wciśnij SHIFT + TAB aby przejść do poprzedniego pola, wciśnij ENTER aby wysłać dialog, wciśnij ESC aby anulować dialog. Dla okien dialogowych z wieloma zakładkami, wciśnij ALT + F10 aby przejść do listy zakładek. Gdy to zrobisz przejdź do następnej zakładki wciskając TAB lub STRZAŁKĘ W PRAWO. Przejdź do poprzedniej zakładki wciskając SHIFT + TAB lub STRZAŁKĘ W LEWO. Wciśnij SPACJĘ lub ENTER aby wybrać zakładkę.'
+			legend:
+				'Wewnątrz okna dialogowego naciśnij TAB, by przejść do kolejnego elementu tego okna lub SHIFT+TAB, by przejść do poprzedniego elementu okna. Naciśnij ENTER w celu zatwierdzenia opcji okna dialogowego lub ESC w celu anulowania zmian. Jeśli okno dialogowe ma kilka zakładek, do listy zakładek można przejść za pomocą ALT+F10 lub TAB. Gdy lista zakładek jest aktywna, możesz przejść do kolejnej i poprzedniej zakładki za pomocą STRZAŁKI W PRAWO i STRZAŁKI W LEWO.' 
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 
 			{
 			name: 'Lista w edytorze',
-			legend: 'W polu listy możesz przechodzić do następnego elementu za pomocą klawisza TAB lub STRZAŁKI W DÓŁ. Poprzedni element osiągniesz za pomocą SHIFT+TAB lub STRZAŁKI W GÓRĘ. Za pomocą SPACJI lub ENTERA wybierzesz daną opcję z listy, a za pomocą klawisza ESC opuścisz listę.'
+			legend: 'Wewnątrz listy przejdź do kolejnego elementu listy za pomocą przycisku TAB lub STRZAŁKI W DÓŁ. Przejdź do poprzedniego elementu listy za pomocą SHIFT+TAB lub STRZAŁKI W GÓRĘ. Naciśnij SPACJĘ lub ENTER w celu wybrania opcji z listy. Naciśnij ESC, by zamknąć listę.'
 		},
 
 			{
 			name: 'Pasek ścieżki elementów edytora',
-			legend: 'Naciśnij ${elementsPathFocus} w celu przejścia do paska ścieżki elementów edytora. W celu przejścia do kolejnego elementu naciśnij klawisz Tab lub Strzałki w prawo. W celu przejścia do poprzedniego elementu naciśnij klawisze Shift+Tab lub Strzałki w lewo. By wybrać element w edytorze, użyj klawisza Spacji lub Enter.'
+			legend: 'Naciśnij ${elementsPathFocus} w celu przejścia do paska ścieżki elementów edytora. W celu przejścia do kolejnego elementu naciśnij klawisz TAB lub STRZAŁKI W PRAWO. W celu przejścia do poprzedniego elementu naciśnij klawisze SHIFT+TAB lub STRZAŁKI W LEWO. By wybrać element w edytorze, użyj klawisza SPACJI lub ENTER.'
 		}
 		]
 	},
@@ -68,39 +69,36 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 			legend: 'Naciśnij ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Przejdź do poprzedniego miejsca, w którym można ustawić focus',
+			legend: 'Naciśnij ${accessPreviousSpace}, aby przejść do najbliższego niedostępnego miejsca przed kursorem, w którym można ustawić focus. Przykład: dwa przylegające elementy HR. Powtórz ten skrót klawiaturowy, by dotrzeć do kolejnych takich miejsc.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Przejdź do następnego miejsca, w którym można ustawić focus',
+			legend: 'Naciśnij ${accessNextSpace}, aby przejść do najbliższego niedostępnego miejsca po kursorze, w którym można ustawić focus. Przykład: dwa przylegające elementy HR. Powtórz ten skrót klawiaturowy, by dotrzeć do kolejnych takich miejsc.'
 		},
 			{
 			name: 'Pomoc dotycząca dostępności',
 			legend: 'Naciśnij ${a11yHelp}'
+		},
+			{
+			name: 'Wklej jako tekst',
+			legend: 'Naciśnij ${pastetext}',
+			legendEdge: 'Naciśnij ${pastetext}, a następnie ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: 'Strzałka w lewo',
 	upArrow: 'Strzałka w górę',
 	rightArrow: 'Strzałka w prawo',
 	downArrow: 'Strzałka w dół',
 	insert: 'Insert',
-	'delete': 'Delete',
 	leftWindowKey: 'Lewy klawisz Windows',
 	rightWindowKey: 'Prawy klawisz Windows',
 	selectKey: 'Klawisz wyboru',

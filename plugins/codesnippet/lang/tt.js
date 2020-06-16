@@ -1,13 +1,13 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'tt', {
 	button: 'Код өзеген өстәү',
 	codeContents: 'Код эчтәлеге',
-	emptySnippetError: 'Код өзеге буш булмаска тиеш',
+	emptySnippetError: 'Код өзеге буш булмаска тиеш.',
 	language: 'Тел',
 	title: 'Код өзеге',
-	pathName: 'code snippet' // MISSING
+	pathName: 'код өзеге'
 } );

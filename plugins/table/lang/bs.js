@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'bs', {
 	border: 'Okvir',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'bs', {
 	headersColumn: 'First column', // MISSING
 	headersNone: 'None',
 	headersRow: 'First Row', // MISSING
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Border size must be a number.', // MISSING
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
 	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING

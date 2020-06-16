@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'tr', {
 	auto: 'Otomatik',
@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'tr', {
 		'0FF': 'Ciyan',
 		'00F': 'Mavi',
 		EE82EE: 'Menekşe',
-		A9A9A9: 'Koyu Gri',
+		A9A9A9: 'Loş Gri',
 		FFA07A: 'Açık Sarımsı',
 		FFA500: 'Portakal',
 		FFFF00: 'Sarı',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'tr', {
 		F0FFFF: 'Gök Mavisi',
 		F0F8FF: 'Reha Mavi',
 		E6E6FA: 'Eflatun',
-		FFF: 'Beyaz'
+		FFF: 'Beyaz',
+		'1ABC9C': 'Koyu Camgöbeği',
+		'2ECC71': 'Zümrüt Yeşili',
+		'3498DB': 'Parlak Mavi',
+		'9B59B6': 'Ametist Moru',
+		'4E5F70': 'Kirli Gri Mavi',
+		'F1C40F': 'Canlı Sarı',
+		'16A085': 'Koyu Camgöbeği',
+		'27AE60': 'Koyu Zümrüt Yeşili',
+		'2980B9': 'Koyu Mavi',
+		'8E44AD': 'Koyu Menekşe',
+		'2C3E50': 'Koyu Lacivert',
+		'F39C12': 'Turuncu',
+		'E67E22': 'Havuç Turuncusu',
+		'E74C3C': 'Soluk Kırmızı',
+		'ECF0F1': 'Parlak Gümüş',
+		'95A5A6': 'Açık Kirli Gri Camgöbeği',
+		'DDD': 'Açık Gri',
+		'D35400': 'Balkabağı Turuncusu',
+		'C0392B': 'Kan Kırmızı',
+		'BDC3C7': 'Gümüş',
+		'7F8C8D': 'Kirli Gri Camgöbeği',
+		'999': 'Koyu Gri'
 	},
 	more: 'Diğer renkler...',
 	panelTitle: 'Renkler',

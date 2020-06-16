@@ -1,0 +1,44 @@
+<textarea id="editor1" cols="10" rows="10">
+	<p>Sample paragraph with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+	<ol>
+		<li>List item with a plain text only.</li>
+		<li>
+			<p>List item with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+		</li>
+		<li>List item with a plain text only.</li>
+	</ol>
+</textarea>
+
+<div id="editor2" contenteditable="true">
+	<p>Sample paragraph with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+	<ol>
+		<li>List item with a plain text only.</li>
+		<li>
+			<p>List item with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+		</li>
+		<li>List item with a plain text only.</li>
+	</ol>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.disableAutoInline = true;
+
+	var config = {
+			height: 300,
+			width: 500,
+			on: {
+				instanceReady: function( evt ) {
+					// Register the toolbar for inline elements.
+					evt.editor.balloonToolbars.create( {
+						buttons: 'Bold,Underline',
+						cssSelector: 'strong, em'
+					} );
+				}
+			}
+		};
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.inline( 'editor2', config );
+</script>

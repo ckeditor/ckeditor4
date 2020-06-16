@@ -1,5 +1,6 @@
-/* bender-tags: editor,unit,widgetcore */
+/* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,undo,dialog,basicstyles,clipboard */
+/* bender-ckeditor-remove-plugins: tableselection */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
 
@@ -24,20 +25,6 @@
 			}
 		},
 		widgetData2 = '<p id="p1">X</p><div data-widget="test2" id="w1">Y</div>';
-
-	function dropEvent( data, range ) {
-		var evt = new CKEDITOR.dom.event( {
-			dataTransfer: {
-				getData: function() {
-					return data;
-				}
-			}
-		} );
-
-		evt.testRange = range;
-
-		return evt;
-	}
 
 	bender.editor = {
 		config: {
@@ -77,7 +64,7 @@
 		}
 	};
 
-	var obj2Array = widgetTestsTools.obj2Array,
+	var objToArray = bender.tools.objToArray,
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	function assertCommands( editor, expectActiveUndo, expectActiveRedo, msg ) {
@@ -150,19 +137,19 @@
 				editor.focus();
 				editor.getSelection().selectElement( editor.document.getById( 'p1' ) );
 
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, '1 widget on data ready' );
+				assert.areSame( 1, objToArray( editor.widgets.instances ).length, '1 widget on data ready' );
 
 				editor.execCommand( 'bold' );
 				assertCommands( editor, true, false, 'after bold' );
 
 				editor.execCommand( 'undo' );
 				assertCommands( editor, false, true, 'after undo' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, '1 widget after undo' );
+				assert.areSame( 1, objToArray( editor.widgets.instances ).length, '1 widget after undo' );
 				assert.isTrue( !!getWidgetById( editor, 'w1' ), 'widget lives after undo' );
 
 				editor.execCommand( 'redo' );
 				assertCommands( editor, true, false, 'after redo' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, '1 widget after redo' );
+				assert.areSame( 1, objToArray( editor.widgets.instances ).length, '1 widget after redo' );
 				assert.isTrue( !!getWidgetById( editor, 'w1' ), 'widget lives after redo' );
 			} );
 		},
@@ -176,15 +163,15 @@
 				editor.resetUndo();
 
 				editor.execCommand( 'test1' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, '1 widget after insert' );
+				assert.areSame( 1, objToArray( editor.widgets.instances ).length, '1 widget after insert' );
 				assertCommands( editor, true, false, 'after insert' );
 
 				editor.execCommand( 'undo' );
-				assert.areSame( 0, obj2Array( editor.widgets.instances ).length, '0 widgets after undo' );
+				assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after undo' );
 				assertCommands( editor, false, true, 'after undo' );
 
 				editor.execCommand( 'redo' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, '1 widget after redo' );
+				assert.areSame( 1, objToArray( editor.widgets.instances ).length, '1 widget after redo' );
 				assertCommands( editor, true, false, 'after redo' );
 			} );
 		},
@@ -207,16 +194,16 @@
 
 				editor.once( 'dialogHide', function() {
 					resume( function() {
-						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, '1 widget after insert' );
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, '1 widget after insert' );
 						assert.areSame( 'newfoo', getWidgetById( editor, 'w1' ).data.value1, 'set value' );
 						assertCommands( editor, true, false, 'after insert' );
 
 						editor.execCommand( 'undo' );
-						assert.areSame( 0, obj2Array( editor.widgets.instances ).length, '0 widgets after undo' );
+						assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after undo' );
 						assertCommands( editor, false, true, 'after undo' );
 
 						editor.execCommand( 'redo' );
-						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, '1 widget after redo' );
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, '1 widget after redo' );
 						assert.areSame( 'newfoo', getWidgetById( editor, 'w1' ).data.value1, 'redone to set value' );
 						assertCommands( editor, true, false, 'after redo' );
 					} );
@@ -278,15 +265,15 @@
 
 				editor.once( 'afterPaste', function() {
 					resume( function() {
-						assert.areSame( 2, obj2Array( editor.widgets.instances ).length, 'widget was pasted and initialized' );
+						assert.areSame( 2, objToArray( editor.widgets.instances ).length, 'widget was pasted and initialized' );
 						assertCommands( editor, true, false, 'after pasting' );
 
 						editor.execCommand( 'undo' );
-						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widget after undo' );
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'one widget after undo' );
 						assertCommands( editor, false, true, 'after undo' );
 
 						editor.execCommand( 'redo' );
-						assert.areSame( 2, obj2Array( editor.widgets.instances ).length, 'two widgets after redo' );
+						assert.areSame( 2, objToArray( editor.widgets.instances ).length, 'two widgets after redo' );
 						assertCommands( editor, true, false, 'after redo' );
 					} );
 				}, null, null, 9999 );
@@ -310,15 +297,15 @@
 				widget.fire( 'key', { keyCode: CKEDITOR.CTRL + 88 } );
 
 				wait( function() {
-					assert.areSame( 0, obj2Array( editor.widgets.instances ).length, 'widget was cut' );
+					assert.areSame( 0, objToArray( editor.widgets.instances ).length, 'widget was cut' );
 					assertCommands( editor, true, false, 'after cutting' );
 
 					editor.execCommand( 'undo' );
-					assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widget after undo' );
+					assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'one widget after undo' );
 					assertCommands( editor, false, true, 'after undo' );
 
 					editor.execCommand( 'redo' );
-					assert.areSame( 0, obj2Array( editor.widgets.instances ).length, '0 widgets after redo' );
+					assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after redo' );
 					assertCommands( editor, true, false, 'after redo' );
 				}, 110 );
 			} );
@@ -336,19 +323,19 @@
 				range.collapse( true );
 				range.select();
 
-				editor.on( 'afterPaste', function() {
+				editor.once( 'afterPaste', function() {
 					resume( function() {
-						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'widget was moved' );
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'widget was moved' );
 						assert.areSame( '<p id="p1"><span data-widget="test1" id="w1">Y</span>xx</p>', editor.getData() );
 						assertCommands( editor, true, false, 'after d&d' );
 
 						editor.execCommand( 'undo' );
-						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widget after undo' );
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'one widget after undo' );
 						assert.areSame( '<p id="p1">x<span data-widget="test1" id="w1">Y</span>x</p>', editor.getData() );
 						assertCommands( editor, false, true, 'after undo' );
 
 						editor.execCommand( 'redo' );
-						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widgets after redo' );
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'one widgets after redo' );
 						assert.areSame( '<p id="p1"><span data-widget="test1" id="w1">Y</span>xx</p>', editor.getData() );
 						assertCommands( editor, true, false, 'after redo' );
 					} );
@@ -356,17 +343,27 @@
 
 				// Ensure async.
 				wait( function() {
-					var dropContainer = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
-					dropContainer.fire( 'drop', dropEvent(
-						JSON.stringify( { type: 'cke-widget', editor: editor.name, id: getWidgetById( editor, 'w1' ).id } ),
-						range
-					) );
+					var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+						evt = bender.tools.mockDropEvent();
+
+					evt.setTarget( editor.document.findOne( 'img.cke_widget_drag_handler' ) );
+					dropTarget.fire( 'dragstart', evt );
+
+					// Use a realistic drop target for drop.
+					evt.setTarget( range.startContainer );
+					evt.testRange = range;
+					dropTarget.fire( 'drop', evt );
+
+					evt.setTarget( editor.document.findOne( 'img.cke_widget_drag_handler' ) );
+					evt.testRange = undefined;
+					dropTarget.fire( 'dragend', evt );
 				} );
 			} );
 		},
 
 		'test d&d block widget': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 			// Override Finder's getRange to force a place for the
 			// widget to be dropped.
@@ -385,35 +382,46 @@
 				editor.resetUndo();
 				editor.focus();
 
-				try {
-					// Simulate widget drag.
-					img.fire( 'mousedown' );
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'widget was moved' );
+						assert.areSame( '<div data-widget="test1" id="w1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
+						assertCommands( editor, true, false, 'after d&d' );
 
-					// Create dummy line and pretend it's visible to cheat drop listener
-					// making if feel that there's a place for the widget to be dropped.
-					editor.widgets.liner.showLine( editor.widgets.liner.addLine() );
+						editor.execCommand( 'undo' );
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'one widget after undo' );
+						assert.areSame( '<p id="a">x</p><div data-widget="test1" id="w1">Y<p class="e">Z</p></div>', editor.getData() );
+						assertCommands( editor, false, true, 'after undo' );
 
-					// Simulate widget drop.
-					editor.document.fire( 'mouseup' );
-				} catch ( e ) {
-					throw e;
-				} finally {
-					revert();
-				}
+						editor.execCommand( 'redo' );
+						assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'one widgets after redo' );
+						assert.areSame( '<div data-widget="test1" id="w1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
+						assertCommands( editor, true, false, 'after redo' );
+					} );
+				} );
 
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'widget was moved' );
-				assert.areSame( '<div data-widget="test1" id="w1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
-				assertCommands( editor, true, false, 'after d&d' );
+				// Ensure async.
+				wait( function() {
+					try {
+						// Simulate widget drag.
+						img.fire( 'mousedown', {
+							$: {
+								button: isIe8 ? 1 : 0
+							}
+						} );
 
-				editor.execCommand( 'undo' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widget after undo' );
-				assert.areSame( '<p id="a">x</p><div data-widget="test1" id="w1">Y<p class="e">Z</p></div>', editor.getData() );
-				assertCommands( editor, false, true, 'after undo' );
+						// Create dummy line and pretend it's visible to cheat drop listener
+						// making if feel that there's a place for the widget to be dropped.
+						editor.widgets.liner.showLine( editor.widgets.liner.addLine() );
 
-				editor.execCommand( 'redo' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widgets after redo' );
-				assert.areSame( '<div data-widget="test1" id="w1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
-				assertCommands( editor, true, false, 'after redo' );
+						// Simulate widget drop.
+						editor.document.fire( 'mouseup' );
+					} catch ( e ) {
+						throw e;
+					} finally {
+						revert();
+					}
+				} );
 			} );
 		},
 
@@ -429,16 +437,40 @@
 				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
 				editor.widgets.checkWidgets();
 
-				assert.areSame( 0, obj2Array( editor.widgets.instances ).length, 'widget was deleted' );
+				assert.areSame( 0, objToArray( editor.widgets.instances ).length, 'widget was deleted' );
 				assertCommands( editor, true, false, 'after deleting' );
 
 				editor.execCommand( 'undo' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widget after undo' );
+				assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'one widget after undo' );
 				assertCommands( editor, false, true, 'after undo' );
 
 				editor.execCommand( 'redo' );
-				assert.areSame( 0, obj2Array( editor.widgets.instances ).length, '0 widgets after redo' );
+				assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after redo' );
 				assertCommands( editor, true, false, 'after redo' );
+			} );
+		},
+
+		// (#3245)
+		'test undo when widget is focused and blurred': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( widgetData1, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				editor.resetUndo();
+
+				widget.focus();
+
+				editor.fire( 'blur' );
+				editor.fire( 'saveSnapshot' );
+
+				setTimeout( function() {
+					resume( function() {
+						assert.isFalse( editor.undoManager.hasUndo, 'UndoManager.hasUndo' );
+					} );
+				} );
+
+				wait();
 			} );
 		}
 	} );

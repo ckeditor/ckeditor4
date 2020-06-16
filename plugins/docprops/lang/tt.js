@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'tt', {
 	bgColor: 'Фон төсе',
@@ -29,9 +29,9 @@ CKEDITOR.plugins.setLang( 'docprops', 'tt', {
 	marginLeft: 'Сул',
 	marginRight: 'Уң як',
 	marginTop: 'Өскә',
-	meta: 'Meta Tags', // MISSING
+	meta: 'Метатег',
 	metaAuthor: 'Автор',
-	metaCopyright: 'Copyright', // MISSING
+	metaCopyright: 'Хокук иясе',
 	metaDescription: 'Документ тасвирламасы',
 	metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
 	other: 'Башка...',

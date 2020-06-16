@@ -1,5 +1,5 @@
-/* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: language,toolbar */
+/* bender-tags: editor */
+/* bender-ckeditor-plugins: language,toolbar,removeformat */
 
 ( function() {
 	'use strict';
@@ -135,7 +135,15 @@
 			ed.execCommand( 'language', 'fr' );
 
 			assert.areEqual( expectedHtml, bender.tools.compatHtml( bot.getData(), 0, 1 ) );
-		}
+		},
 
+		// #779
+		'test remove format for language element': function() {
+			this.editorBot.setHtmlWithSelection(
+				'<p>[<span style="color:#ecf0f1"><span dir="ltr" lang="fr"><span style="background-color:#e74c3c">Lorem ipsum dolor somit</span></span></span>]</p>'
+			);
+			this.editor.execCommand( 'removeFormat' );
+			assert.beautified.html( '<p><span dir="ltr" lang="fr">Lorem ipsum dolor somit</span></p>', this.editor.getData(), 'Span element with atrributes should not be removed.' );
+		}
 	} );
 } )();

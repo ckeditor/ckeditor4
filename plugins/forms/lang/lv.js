@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'lv', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		checkboxTitle: 'Atzīmēšanas kastītes īpašības',
 		radioTitle: 'Izvēles poga īpašības',
 		value: 'Vērtība',
-		selected: 'Iezīmēts'
+		selected: 'Iezīmēts',
+		required: 'Obligāts'
 	},
 	form: {
 		title: 'Formas īpašības',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		size: 'Izmērs',
 		lines: 'rindas',
 		chkMulti: 'Atļaut vairākus iezīmējumus',
+		required: 'Obligāts',
 		opText: 'Teksts',
 		opValue: 'Vērtība',
 		btnAdd: 'Pievienot',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		value: 'Vērtība',
 		charWidth: 'Simbolu platums',
 		maxChars: 'Simbolu maksimālais daudzums',
+		required: 'Obligāts',
 		type: 'Tips',
 		typeText: 'Teksts',
 		typePass: 'Parole',

@@ -1,0 +1,49 @@
+<textarea id="editor" cols="30" rows="10">
+		<table border="1"><tbody><tr><td>foo</td><td>bar</td></tr><tr><td>baz</td><td>baz</td></tr></tbody></table>
+</textarea>
+<button onclick="getSelectedTable()">Get range result</button>
+<p style="border:1px solid red;height:20px;padding:2px;" id="rangeResult"></p>
+<div style='background-color:#EEE' id="rawData"></div>
+<script>
+	// Unable to create required selection on touch devices.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	// Firefox doesn't allow on such selection.
+	if ( CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	var resultElement = document.getElementById( 'rangeResult' ),
+		rawDataElement = document.getElementById( 'rawData' ),
+		editor = CKEDITOR.replace( 'editor', {
+			on: {
+				instanceReady: function() {
+					var buffer = new CKEDITOR.tools.buffers.throttle( 200, function() {
+						var insertedData = bender.tools.range.getWithHtml( editor.editable(), editor.getSelection().getRanges()[ 0 ] );
+
+						rawData.innerHTML = insertedData.replace( />/g, '>' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;<br>' )
+							.replace( /[\[\]\{\}]/g, function( match ) {
+							return '<span style="color:red">' + match + '</span>';
+						} );
+					} );
+
+					CKEDITOR.document.on( 'mousemove', buffer.input );
+					editor.document.on( 'mousemove', buffer.input );
+					editor.document.on( 'touchmove', buffer.input );
+					editor.on( 'selectionChange', buffer.input );
+				}
+			}
+		} );
+
+	function getSelectedTable() {
+		var range = editor.getSelection().getRanges()[ 0 ],
+			tableElement
+
+		tableElement = range._getTableElement();
+		tableElementName = tableElement instanceof CKEDITOR.dom.element ? tableElement.getName() : String( tableElement );
+
+		resultElement.innerText = 'Range contains "' + tableElementName + '" element';
+	}
+</script>

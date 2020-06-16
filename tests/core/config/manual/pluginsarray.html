@@ -1,0 +1,32 @@
+<h2>plugins</h2>
+<div id="plugins"></div>
+
+<h2>extraPlugins</h2>
+<div id="extraPlugins"></div>
+
+<h2>removePlugins</h2>
+<div id="removePlugins"></div>
+
+<script>
+	var commonConfig = {
+		plugins: 'wysiwygarea,toolbar',
+		on: {
+			instanceReady: function() {
+				this.setData( '<p>I have following plugins loaded: ' + CKEDITOR.tools.object.keys( this.plugins ) + '</p>' );
+			}
+		}
+	}
+
+	CKEDITOR.replace( 'plugins', CKEDITOR.tools.extend( {
+		plugins: [ 'wysiwygarea', 'toolbar', 'button' ]
+	}, commonConfig, false ) );
+
+	CKEDITOR.replace( 'extraPlugins', CKEDITOR.tools.extend( {
+		extraPlugins: [ 'button', 'blockquote' ]
+	}, commonConfig ) );
+
+	CKEDITOR.replace( 'removePlugins', CKEDITOR.tools.extend( {
+		removePlugins: [ 'image', 'toolbar' ]
+	}, commonConfig ) );
+
+</script>

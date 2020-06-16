@@ -1,17 +1,13 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'ka', {
-	armenian: 'სომხური გადანომრვა',
 	bulletedTitle: 'ღილებიანი სიის პარამეტრები',
 	circle: 'წრეწირი',
 	decimal: 'რიცხვებით (1, 2, 3, ..)',
-	decimalLeadingZero: 'ნულით დაწყებული რიცხვებით (01, 02, 03, ..)',
 	disc: 'წრე',
-	georgian: 'ქართული გადანომრვა (ან, ბან, გან, ..)',
 	lowerAlpha: 'პატარა ლათინური ასოებით (a, b, c, d, e, ..)',
-	lowerGreek: 'პატარა ბერძნული ასოებით (ალფა, ბეტა, გამა, ..)',
 	lowerRoman: 'რომაული გადანომრვცა პატარა ციფრებით (i, ii, iii, iv, v, ..)',
 	none: 'არაფერი',
 	notset: '<არაფერი>',

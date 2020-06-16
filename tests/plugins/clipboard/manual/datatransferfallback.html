@@ -1,0 +1,107 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+</head>
+
+<div>
+	<h2>Classic editor</h2>
+	<div id="classic-editor">
+		<div id="classic">
+			<p>Foo Bar Baz</p>
+			<ol>
+				<li><strong>Apollo 11</strong> was the spaceflight that landed the first humans,</li>
+				<li>Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a></li>
+			</ol>
+
+			<figure class="image"><img alt="CKEditor logo" src="/tests/_assets/logo.png" />
+				<figcaption>CKEditor</figcaption>
+			</figure>
+
+			<ul>
+				<li><img alt="CKEditor logo" height="20" src="/tests/_assets/logo.png" /> Armstrong became the first to step onto the lunar surface 6 hours</li>
+				<li>later on July 21 at 02:56 UTC. Broadcasting and <em>quotes</em> <a id="quotes" name="quotes"></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div>
+	<h2>Inline editor</h2>
+	<div id="inline" contenteditable="true">
+		<p>Broadcasting and <em>quotes</em> <a id="quotes" name="quotes"></a></p>
+
+		<p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p>
+
+		<blockquote>
+			<p>One small step for [a] man, one giant leap for mankind.</p>
+		</blockquote>
+
+		<table border="1" cellpadding="5" cellspacing="0">
+			<thead>
+			<tr>
+				<th scope="col">Position</th>
+				<th scope="col">Astronaut</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>Commander</td>
+				<td>Neil A. Armstrong</td>
+			</tr>
+			<tr>
+				<td>Command Module Pilot</td>
+				<td>Michael Collins</td>
+			</tr>
+			<tr>
+				<td>Lunar Module Pilot</td>
+				<td>Edwin "Buzz" E. Aldrin, Jr.</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+	var classic,
+		inline;
+
+	classic = CKEDITOR.replace( 'classic' );
+	inline = CKEDITOR.inline( 'inline' );
+
+	classic.on( 'pluginsLoaded', function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+			bender.ignore();
+		} else {
+			classic.on( 'copy', logData );
+			classic.on( 'paste', logData );
+			classic.on( 'dragstart', logData );
+			classic.on( 'drop', logData );
+
+			inline.on( 'copy', logData );
+			inline.on( 'paste', logData );
+			inline.on( 'dragstart', logData );
+			inline.on( 'drop', logData );
+
+			function logData( evt ) {
+				var idInfo = '';
+
+				if ( evt.data.dataTransfer.$ ) {
+					var ckeId = evt.data.dataTransfer.getData( 'cke/id' ),
+						htmlId = null;
+
+					try {
+						htmlId = evt.data.dataTransfer._.fallbackDataTransfer._extractDataComment(
+							evt.data.dataTransfer.$.getData( 'text/html' ) ).data[ 'cke/id' ];
+					} catch ( ex ) {}
+
+					if ( ckeId && !htmlId ) {
+						idInfo += '; Id storage: cke/id';
+					} else if ( htmlId ) {
+						idInfo += '; Id storage: text/html';
+					}
+				}
+
+				console.log( 'DataTransfer id: ' + evt.data.dataTransfer.id + '; Event: ' + evt.name + idInfo);
+			}
+		}
+	} );
+</script>

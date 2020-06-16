@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'sr-latn', {
-	anchor: 'Unesi/izmeni sidro',
-	flash: 'Flash Animation', // MISSING
+	anchor: 'Sidro',
+	flash: 'Fleš animacija',
 	hiddenfield: 'Skriveno polje',
-	iframe: 'IFrame', // MISSING
-	unknown: 'Unknown Object' // MISSING
+	iframe: 'IFrame',
+	unknown: 'Nepoznat objekat'
 } );

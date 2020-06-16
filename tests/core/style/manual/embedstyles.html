@@ -1,0 +1,29 @@
+<h2>Embed</h2>
+<div id="editor1">
+	<h2>Rosetta the film</h2>
+	<div>
+		<div data-oembed-url="https://www.youtube.com/watch?v=H08tGjXNHO4"><div><div style="left: 0px; width: 100%; height: 0px; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/H08tGjXNHO4?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="" style="top: 0px; left: 0px; width: 100%; height: 100%; position: absolute;"></iframe></div></div></div><p> </p>
+	</div>
+</div>
+
+<h2>Embed Semantic</h2>
+<div id="editor2">
+	<h2>Ambition the film</h2>
+	<oembed>https://www.youtube.com/watch?v=H08tGjXNHO4</oembed>
+</div>
+
+<script>
+
+
+	CKEDITOR.replace( 'editor2', {
+		width: 800,
+		height: 600,
+		extraPlugins: 'embedsemantic'
+	} );
+
+	CKEDITOR.replace( 'editor1', {
+		width: 800,
+		height: 600,
+		extraPlugins: 'embed'
+	} );
+</script>

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 		items: [
 			{
 			name: 'Panel nástrojů editoru',
-			legend: 'Stiskněte${toolbarFocus} k procházení panelu nástrojů. Přejděte na další a předchozí skupiny pomocí TAB a SHIFT-TAB. Přechod na další a předchozí tlačítko panelu nástrojů je pomocí ŠIPKA VPRAVO nebo ŠIPKA VLEVO. Stisknutím mezerníku nebo klávesy ENTER tlačítko aktivujete.'
+			legend: 'Stiskněte${toolbarFocus} k procházení panelu nástrojů. Přejděte na další a předchozí skupiny pomocí TAB a SHIFT+TAB. Přechod na další a předchozí tlačítko panelu nástrojů je pomocí ŠIPKA VPRAVO nebo ŠIPKA VLEVO. Stisknutím mezerníku nebo klávesy ENTER tlačítko aktivujete.'
 		},
 
 			{
 			name: 'Dialogové okno editoru',
-			legend: 'Uvnitř dialogového okna stiskněte TAB pro přesunutí na další pole, stiskněte SHIFT + TAB pro přesun na předchozí pole, stiskněte ENTER pro odeslání dialogu, stiskněte ESC pro jeho zrušení. Pro dialogová okna, která mají mnoho karet stiskněte ALT + F10 pr oprocházení seznamu karet. Pak se přesuňte na další kartu pomocí TAB nebo ŠIPKA VPRAVO. Pro přesun na předchozí stiskněte SHIFT + TAB nebo ŠIPKA VLEVO. Stiskněte MEZERNÍK nebo ENTER pro vybrání stránky karet.'
+			legend:
+				'Uvnitř dialogového okna stiskněte TAB pro přesunutí na další prvek okna, stiskněte SHIFT+TAB pro přesun na předchozí prvek okna, stiskněte ENTER pro odeslání dialogu, stiskněte ESC pro jeho zrušení. Pro dialogová okna, která mají mnoho karet stiskněte ALT+F10 pro zaměření seznamu karet, nebo TAB, pro posun podle pořadí karet.Při zaměření seznamu karet se můžete jimi posouvat pomocí ŠIPKY VPRAVO a VLEVO.' 
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 
 			{
 			name: 'Rámeček seznamu editoru',
-			legend: 'Uvnitř rámečku seznamu se přesunete na další položku menu pomocí TAB nebo ŠIPKA DOLŮ. Na předchozí položku se přesunete SHIFT + TAB nebo ŠIPKA NAHORU. Stiskněte MEZERNÍK nebo ENTER pro zvolení možnosti seznamu. Stiskněte ESC pro uzavření seznamu.'
+			legend: 'Uvnitř rámečku seznamu se přesunete na další položku menu pomocí TAB nebo ŠIPKA DOLŮ. Na předchozí položku se přesunete SHIFT+TAB nebo ŠIPKA NAHORU. Stiskněte MEZERNÍK nebo ENTER pro zvolení možnosti seznamu. Stiskněte ESC pro uzavření seznamu.'
 		},
 
 			{
 			name: 'Lišta cesty prvku v editoru',
-			legend: 'Stiskněte ${elementsPathFocus} pro procházení lišty cesty prvku. Na další tlačítko prvku se přesunete pomocí TAB nebo ŠIPKA VPRAVO. Na předchozí položku se přesunete pomocí SHIFT + TAB nebo ŠIPKA VLEVO. Stiskněte MEZERNÍK nebo ENTER pro vybrání prvku v editoru.'
+			legend: 'Stiskněte ${elementsPathFocus} pro procházení lišty cesty prvku. Na další tlačítko prvku se přesunete pomocí TAB nebo ŠIPKA VPRAVO. Na předchozí tlačítko se přesunete pomocí SHIFT+TAB nebo ŠIPKA VLEVO. Stiskněte MEZERNÍK nebo ENTER pro vybrání prvku v editoru.'
 		}
 		]
 	},
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			{
 			name: ' Nápověda přístupnosti',
 			legend: 'Stiskněte ${a11yHelp}'
+		},
+			{
+			name: 'Vložit jako čistý text',
+			legend: 'Stiskněte ${pastetext}',
+			legendEdge: 'Stiskněte ${pastetext} a pak ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tabulátor',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pauza',
 	capslock: 'Caps lock',
 	escape: 'Escape',
 	pageUp: 'Stránka nahoru',
 	pageDown: 'Stránka dolů',
-	end: 'Konec',
-	home: 'Domů',
 	leftArrow: 'Šipka vlevo',
 	upArrow: 'Šipka nahoru',
 	rightArrow: 'Šipka vpravo',
 	downArrow: 'Šipka dolů',
 	insert: 'Vložit',
-	'delete': 'Smazat',
 	leftWindowKey: 'Levá klávesa Windows',
 	rightWindowKey: 'Pravá klávesa Windows',
 	selectKey: 'Vyberte klávesu',

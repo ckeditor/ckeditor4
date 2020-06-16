@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widgetcore */
+/* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,dialog */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
@@ -443,6 +443,24 @@
 			} );
 		},
 
+		// (#3261)
+		'test widget document': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p>x</p>', function() {
+				editor.widgets.add( 'insertingdocument', {
+					dialog: 'foo',
+					template: '<b>foo</b>',
+					init: function() {
+						assert.isTrue( this.wrapper.getDocument().equals( editor.document ) );
+					}
+				} );
+
+				editor.focus();
+				editor.execCommand( 'insertingdocument' );
+			} );
+		},
+
 		'test creating widget using command - no data-cke-widget attribute in template': function() {
 			var editor = this.editor,
 				editFired = 0;
@@ -641,7 +659,7 @@
 
 				widget.focus();
 
-				widget.on( 'edit', function( evt ) {
+				widget.once( 'edit', function( evt ) {
 					editFired += 1;
 					evt.cancel();
 				} );
@@ -649,6 +667,46 @@
 				editor.execCommand( 'test1' );
 
 				assert.areSame( 1, editFired, 'Widget.edit was called' );
+			} );
+		},
+
+		'test cancelling cancel widget dialog does not destroy widget (https://dev.ckeditor.com/ticket/13158).': function() {
+			var editor = this.editor,
+				originalConfirm = window.confirm;
+
+			// Setup.
+			window.confirm = function() {
+				return false;
+			};
+
+			this.editorBot.setData( '<p>foo</p>', function() {
+				editor.once( 'dialogShow', function( evt ) {
+					var spy = sinon.stub( editor.widgets, 'destroy' ),
+						dialog = evt.data;
+
+					dialog.once( 'cancel', function() {
+						resume( function() {
+							assert.isFalse( spy.called );
+
+							// Teardown.
+							window.confirm = function() {
+								return true;
+							};
+							dialog.getButton( 'cancel' ).click();
+							window.confirm = originalConfirm;
+						} );
+					} );
+
+					// We have to wait here because of this:
+					// https://github.com/cksource/ckeditor-dev/blob/4fbe94b5fb4be9b1d440462cbc8f0c75e00350a5/plugins/dialog/plugin.js#L910
+					setTimeout( function() {
+						dialog.getContentElement( 'info', 'value1' ).setValue( 'bar' );
+						dialog.getButton( 'cancel' ).click();
+					}, 200 );
+				} );
+
+				editor.execCommand( 'test1' );
+				wait();
 			} );
 		}
 	} );

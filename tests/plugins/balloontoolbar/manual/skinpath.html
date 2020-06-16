@@ -1,0 +1,25 @@
+<textarea id="editor1" cols="10" rows="10">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+</textarea>
+
+<script>
+	// Currently balloon toolbar is not integrated with old IE browsers.
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.disableAutoInline = true;
+
+	function instanceReadyListener( evt ) {
+		var panel = new CKEDITOR.ui.balloonToolbar( this );
+	}
+	var config = {
+		height: 300,
+		width: 600,
+		skin: 'kama,/apps/ckeditor/skins/kama/',
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	};
+	CKEDITOR.replace( 'editor1', config );
+
+</script>

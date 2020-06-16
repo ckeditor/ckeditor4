@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'flash', 'bn', {
 	access: 'Script Access', // MISSING
@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'flash', 'bn', {
 	alignAbsMiddle: 'Abs উপর',
 	alignBaseline: 'মূল রেখা',
 	alignTextTop: 'টেক্সট উপর',
-	bgcolor: 'বেকগ্রাউন্ড রং',
+	bgcolor: 'পৃষ্ঠতলের রং',
 	chkFull: 'Allow Fullscreen', // MISSING
 	chkLoop: 'লূপ',
 	chkMenu: 'ফ্ল্যাশ মেনু এনাবল কর',

@@ -1,19 +1,42 @@
-/* bender-tags: editor,unit,widgetcore,widgetcore */
+/* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
 
 ( function() {
 	'use strict';
+	var Widget,
+		parserEm = new CKEDITOR.htmlParser.element( 'em' ),
+		parserEmDataWidgetTest = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': 'test' } ),
+		parserEmDataWidgetFalse = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': false } ),
+		parserElDataWidgetWrapperFalse = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'false' } ),
+		parserElDataWidgetWrapperTrue = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'true' } ),
+
+		domEm = CKEDITOR.dom.element.createFromHtml( '<em></em>' ),
+		domEmDataWidgetTest = CKEDITOR.dom.element.createFromHtml( '<em data-widget="test" >foo</em>' ),
+		domEmDataWidgetFalse = CKEDITOR.dom.element.createFromHtml( '<em data-widget="false" ></em>' ),
+		domEmDataWidgetWrapperFalse = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="false" ></em>' ),
+		domEmDataWidgetWrapperTrue = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="true" ></em>' ),
+		domEmWidgetEditable = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-editable ></em>' ),
+		domEmWidgetDragHandler = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-drag-handler></em>' ),
+		domEmWidgetDragHandlerContainer = CKEDITOR.dom.element.createFromHtml( '<em class="cke_widget_drag_handler_container"></em>' );
 
 	bender.editor = {
 		config: {
 			allowedContent: true,
+			language: 'en',
 			on: {
 				loaded: function( evt ) {
+					Widget = CKEDITOR.plugins.widget;
 					evt.editor.widgets.add( 'test', {} );
 					evt.editor.widgets.add( 'testblock', { inline: false } );
 					evt.editor.widgets.add( 'testinline', { inline: true } );
+					evt.editor.widgets.add( 'testnested', {
+						editables: {
+							foo: '.foo',
+							bar: '.bar'
+						}
+					} );
 				}
 			}
 		}
@@ -28,7 +51,7 @@
 	}
 
 	function keysLength( obj ) {
-		return CKEDITOR.tools.objectKeys( obj ).length;
+		return CKEDITOR.tools.object.keys( obj ).length;
 	}
 
 	var fixHtml = widgetTestsTools.fixHtml,
@@ -45,7 +68,7 @@
 
 			assert.isInstanceOf( CKEDITOR.plugins.widget.repository, widgets, 'widgets' );
 			assert.areEqual( 0, keysLength( widgets.instances ), 'widgets.instances is empty' );
-			assert.areEqual( 3, keysLength( widgets.registered ), 'widgets.registered contains 2 widgets' );
+			assert.areEqual( 4, keysLength( widgets.registered ), 'widgets.registered contains 4 widgets' );
 			assert.isNull( widgets.focused, 'widgets.focused' );
 			assert.areEqual( 0, widgets.selected.length, 'widgets.selected' );
 		},
@@ -152,6 +175,49 @@
 			assert.isTrue( true );
 		},
 
+		'test widgets.add - upcast priorities': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				upcastCalled = '';
+
+			editor.widgets.add( 'prioritiesTest1', {
+				upcast: function() {
+					upcastCalled += '1';
+				}
+			} );
+
+			editor.widgets.add( 'prioritiesTest2', {
+				upcastPriority: 5,
+				upcast: function() {
+					upcastCalled += '2';
+				}
+			} );
+
+			editor.widgets.add( 'prioritiesTest3', {
+				upcastPriority: 5,
+				upcast: function() {
+					upcastCalled += '3';
+				}
+			} );
+
+			editor.widgets.add( 'prioritiesTest4', {
+				upcastPriority: 15,
+				upcast: function() {
+					upcastCalled += '4';
+				}
+			} );
+
+			editor.widgets.add( 'prioritiesTest5', {
+				upcast: function() {
+					upcastCalled += '5';
+				}
+			} );
+
+			bot.setData( '<p>foo</p>', function() {
+				assert.areSame( '23154', upcastCalled );
+			} );
+		},
+
 		'test widgets.wrapElement - inline': function() {
 			var editor = this.editor;
 
@@ -164,6 +230,7 @@
 
 			assert.areSame( 'span', wrapper.getName(), 'inline wrapper name' );
 			assert.areSame( el, wrapper.getFirst(), 'inline wrapper first child' );
+			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.isMatching(
 				new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><em data-cke-widget-keep-attr="1" data-widget="test">foo</em></span>bar(<br />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() )
@@ -183,6 +250,7 @@
 
 			assert.areSame( 'div', wrapper.getName(), 'block wrapper name' );
 			assert.areSame( el, wrapper.getFirst(), 'block wrapper first child' );
+			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.isMatching(
 				new RegExp( '^<p>foo(<br />)?</p><div ' + widgetWrapperAttributes + '><div data-cke-widget-keep-attr="1" data-widget="test">foo</div></div><p>bar(<br />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() ), 'HTML after 1st wrapElement()'
@@ -210,6 +278,7 @@
 
 			assert.areSame( 'span', wrapper.getName(), 'inline wrapper name' );
 			assert.areSame( el, wrapper.getFirst(), 'inline wrapper first child' );
+			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.isMatching(
 				new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><span data-cke-widget-keep-attr="0" data-widget="test">foo</span></span>bar(<br />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() )
@@ -267,6 +336,7 @@
 			var wrapper = this.editor.widgets.wrapElement( el, 'test' );
 
 			assert.areSame( 'span', wrapper.name, 'inline wrapper name' );
+			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.areSame( el, wrapper.children[ 0 ], 'inline wrapper first child' );
 			assert.isMatching( new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><span data-cke-widget-keep-attr="0" data-widget="test">foo</span></span>bar</p>$' ), writeFrag( frag ) );
 		},
@@ -465,19 +535,13 @@
 		'test widgets.initOnAll visits nested widgets (by nestedEditable.setData)': function() {
 			var editor = this.editor;
 
-			editor.widgets.add( 'testinitonall1', {
-				editables: {
-					foo: '.foo'
-				}
-			} );
-
 			editor.widgets.destroyAll( true );
 
 			// Pass data through data processor so widgets are wrapped, but do not use editor#setData
 			// to bypass automatic widgets initialization.
 			editor.editable().setHtml(
 				editor.dataProcessor.toHtml(
-					'<div data-widget="testinitonall1"><p class="foo">foo<em data-widget="testinline" id="w1">bar1</em></p></div>' ) );
+					'<div data-widget="testnested"><p class="foo">foo<em data-widget="testinline" id="w1">bar1</em></p></div>' ) );
 
 			assert.areEqual( 1, editor.widgets.initOnAll().length, '1 new instance returned from 1st initOnAll (only outer widget)' );
 			assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 instances after 1st initOnAll' );
@@ -557,6 +621,82 @@
 			);
 		},
 
+		'test widgets.destroy - nested widgets are destroyed together with main widget': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData(
+				'<div data-widget="testnested" id="wp1">' +
+					'<p class="foo">foo<em data-widget="testinline" id="wn1">bar1</em><em data-widget="testinline" id="wn2">bar1</em></p>' +
+					'<p class="bar">foo<em data-widget="testinline" id="wn3">bar1</em></p>' +
+				'</div>' +
+				'<div data-widget="testnested" id="wp2">' +
+					'<p class="foo">foo<em data-widget="testinline" id="wn4">bar1</em></p>' +
+				'</div>',
+				function() {
+					var w1 = getWidgetById( editor, 'wp1' ),
+						wn1 = getWidgetById( editor, 'wn1' );
+
+					var destroyedIds = [],
+						listener = editor.widgets.on( 'instanceDestroyed', function( evt ) {
+							destroyedIds.push( evt.data.element.$.id );
+						} );
+
+					editor.widgets.destroy( w1 );
+
+					assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets reimained' );
+					assert.areSame( 'wn1,wn2,wn3,wp1', destroyedIds.sort().join( ',' ), 'destroyedNames' );
+					assert.isFalse( wn1.element.getParent().hasAttribute( 'data-cke-widget-wrapper' ), 'nested widgets were unwrapped too' );
+
+					listener.removeListener();
+				}
+			);
+		},
+
+		'test widgets.destroy - nested widget is destroyed before main widget': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData(
+				'<div data-widget="testnested" id="w1">' +
+					'<p class="foo">foo<em data-widget="testinline" id="w2">bar1</em></p>' +
+				'</div>',
+				function() {
+					var w1 = getWidgetById( editor, 'w1' ),
+						w2 = getWidgetById( editor, 'w2' ),
+						w1Wrapper;
+
+					w2.on( 'destroy', function() {
+						w1Wrapper = !!w1.wrapper;
+					} );
+
+					editor.widgets.destroy( w1 );
+
+					assert.areEqual( 0, keysLength( editor.widgets.instances ), '0 widgets reimained' );
+					assert.isTrue( w1Wrapper, 'nested widget is destroyed before main one' );
+				}
+			);
+		},
+
+		'test widgets.destroy in offline mode - nested widget is not destroyed': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData(
+				'<div data-widget="testnested" id="w1">' +
+					'<p class="foo">foo<em data-widget="testinline" id="w2">bar1</em></p>' +
+				'</div>',
+				function() {
+					var w1 = getWidgetById( editor, 'w1' ),
+						w2 = getWidgetById( editor, 'w2' );
+
+					editor.widgets.destroy( w1, true );
+
+					assert.areEqual( 1, keysLength( editor.widgets.instances ), '1 widget reimained' );
+					assert.isNull( w1.wrapper, 'main widget\'s wrapper was reset' );
+					assert.isNotNull( w2.wrapper, 'nested widgets wrapper was not reset' );
+					assert.areSame( w2, getWidgetById( editor, 'w2' ), 'nested widget still exists' );
+				}
+			);
+		},
+
 		'test widgets.destroyAll': function() {
 			var editor = this.editor;
 
@@ -614,14 +754,8 @@
 		'test widgets.destroyAll - nested widget': function() {
 			var editor = this.editor;
 
-			editor.widgets.add( 'testdestroyall1', {
-				editables: {
-					foo: '.foo'
-				}
-			} );
-
 			this.editorBot.setData(
-				'<div data-widget="testdestroyall1"><p class="foo">foo<em data-widget="testinline">bar1</em></p></div>',
+				'<div data-widget="testnested"><p class="foo">foo<em data-widget="testinline">bar1</em></p></div>',
 				function() {
 					assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets have been initialized' );
 
@@ -633,8 +767,86 @@
 					editor.widgets.destroyAll();
 
 					assert.areEqual( 0, keysLength( editor.widgets.instances ), '0 widgets reimained' );
-					assert.areSame( 'testdestroyall1,testinline', destroyedNames.sort().join( ',' ), 'destroyedNames' );
+					assert.areSame( 'testinline,testnested', destroyedNames.sort().join( ',' ), 'destroyedNames' );
 					listener.removeListener();
+				}
+			);
+		},
+
+		'test widgets.destroyAll within specified container': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData(
+				'<p data-widget="testblock" id="w1">bar1</p>' +
+				'<div id="c1">' +
+					'<p data-widget="testblock" id="w2">bar1</p>' +
+					'<p><span data-widget="testinline" id="w3">bar1</em></p>' +
+				'</div>',
+				function() {
+					assert.areEqual( 3, keysLength( editor.widgets.instances ), '3 widgets have been initialized' );
+
+					editor.widgets.destroyAll( false, editor.document.getById( 'c1' ) );
+
+					assert.areEqual( 1, keysLength( editor.widgets.instances ), '1 widget reimained' );
+					assert.isNotNull( getWidgetById( editor, 'w1' ), 'widget outside specified container has not been destroyed' );
+					assert.isNull( getWidgetById( editor, 'w2', true ), 'w2 inside specified container has been destroyed' );
+					assert.isNull( getWidgetById( editor, 'w3', true ), 'w3 inside specified container has been destroyed' );
+				}
+			);
+		},
+
+		'test widgets.destroyAll within specified container destroys outer widget first': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData(
+				'<p>foo</p>' +
+				'<p data-widget="testblock" id="w1">bar1</p>' +
+				'<div id="c1">' +
+					'<div data-widget="testnested" id="w2">' +
+						'<p class="foo">foo<em data-widget="testinline" id="w3">bar1</em></p>' +
+					'</div>' +
+				'</div>',
+				function() {
+					assert.areEqual( 3, keysLength( editor.widgets.instances ), '3 widgets have been initialized' );
+
+					var w2 = getWidgetById( editor, 'w2' ),
+						w2Wrapper = null;
+
+					getWidgetById( editor, 'w3', true ).on( 'destroy', function() {
+						w2Wrapper = !!w2.wrapper;
+					} );
+
+					editor.widgets.destroyAll( false, editor.document.getById( 'c1' ) );
+
+					assert.areEqual( 1, keysLength( editor.widgets.instances ), '1 widget reimained' );
+					assert.isNotNull( getWidgetById( editor, 'w1' ), 'widget outside specified container has not been destroyed' );
+					assert.isNull( getWidgetById( editor, 'w2', true ), 'w2 inside specified container has been destroyed' );
+					assert.isNull( getWidgetById( editor, 'w3', true ), 'w3 inside specified container has been destroyed' );
+					assert.isTrue( w2Wrapper, 'nested widget has been destroyed before its parent' );
+				}
+			);
+		},
+
+		'test widgets.destroyAll in offline mode ignores specified container': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData(
+				'<p data-widget="testblock" id="w1">bar1</p>' +
+				'<div id="c1">' +
+					'<p data-widget="testblock" id="w2">bar1</p>' +
+					'<p><span data-widget="testinline" id="w3">bar1</em></p>' +
+				'</div>',
+				function() {
+					assert.areEqual( 3, keysLength( editor.widgets.instances ), '3 widgets have been initialized' );
+
+					var w1 = getWidgetById( editor, 'w1' ),
+						w2 = getWidgetById( editor, 'w2' );
+
+					editor.widgets.destroyAll( true, editor.document.getById( 'c1' ) );
+
+					assert.areEqual( 0, keysLength( editor.widgets.instances ), '0 widget reimained' );
+					assert.isTrue( w1.element.getParent().hasAttribute( 'data-cke-widget-wrapper' ), 'w1 has been destroyed in offline mode' );
+					assert.isTrue( w2.element.getParent().hasAttribute( 'data-cke-widget-wrapper' ), 'w2 has been destroyed in offline mode' );
 				}
 			);
 		},
@@ -687,14 +899,8 @@
 		'test widgets.getByElement - nested editable': function() {
 			var editor = this.editor;
 
-			editor.widgets.add( 'testgetbyelement1', {
-				editables: {
-					foo: '.foo'
-				}
-			} );
-
 			this.editorBot.setData(
-				'<div data-widget="testgetbyelement1" id="x">' +
+				'<div data-widget="testnested" id="x">' +
 					'<p class="foo" id="y">f<b id="z">o</b></p>' +
 				'</div>' +
 				'<p><em data-widget="testinline">bar</em></p>',
@@ -712,14 +918,8 @@
 		'test widgets.getByElement - nested widget': function() {
 			var editor = this.editor;
 
-			editor.widgets.add( 'testgetbyelement2', {
-				editables: {
-					foo: '.foo'
-				}
-			} );
-
 			this.editorBot.setData(
-				'<div data-widget="testgetbyelement2" id="x">' +
+				'<div data-widget="testnested" id="x">' +
 					'<div class="foo">' +
 						'<p data-widget="testblock" id="y">foo</p>' +
 						'<p><em data-widget="testinline" id="z"><b id="zi">bar</b></em></p>' +
@@ -779,7 +979,7 @@
 			);
 
 			var editable = el.findOne( '#el3' ),
-				f = this.editor.widgets._tests_getNestedEditable;
+				f = CKEDITOR.plugins.widget.getNestedEditable;
 
 			assert.isNull( f( el, el.findOne( '#el1' ) ), 'el1' );
 			assert.isNull( f( el, el.findOne( '#el2' ) ), 'el2' );
@@ -892,7 +1092,7 @@
 
 				editor.widgets.checkWidgets();
 
-				assert.areSame( 0, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 0, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be no widgets in repo.' );
 
 				editable.setHtml( html );
@@ -902,7 +1102,7 @@
 				var wrappers = editable.find( '.cke_widget_wrapper' );
 
 				assert.areSame( 2, wrappers.count(), 'There should be 2 wrappers.' );
-				assert.areSame( 2, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 2, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be 2 widgets in repo.' );
 
 				for ( var i = 0, count = wrappers.count(); i < count; i++ ) {
@@ -911,6 +1111,48 @@
 
 					assert.isInstanceOf( CKEDITOR.plugins.widget, widget );
 				}
+			} );
+		},
+
+		'test widgets.checkWidgets - do not remove widgets before finalize creation': function() {
+			var editor = this.editor,
+				editorBot = this.editorBot;
+
+			editor.widgets.add( 'testCheckWidgets1', {
+				template: '<b>X</b>',
+				init: function() {
+					this.on( 'edit', function( evt ) {
+						var id = this.id;
+
+						// Prevent automatic insertion, so code won't explode later.
+						evt.cancel();
+						assert.areSame( '<p>foo</p>', editor.getData() );
+
+						editor.widgets.checkWidgets();
+
+						// Widget should not be removed before finalizeCreation call.
+						assert.areSame( this, editor.widgets.instances[ id ], 'widget was not removed from repository' );
+
+						// Call finalizeCreation and check if widget will be removed from repository when
+						// no representation in DOM will be found.
+						editor.widgets.finalizeCreation( this.wrapper.getParent( true ) );
+						this.wrapper.remove();
+
+						// We must do something with the selection, because code outside this test
+						// do not expect the wrapper to vanish, what invalidates ranges, what causes errors on IEs (if e.g. the undo plugin is loaded).
+						var range = editor.createRange();
+						range.moveToPosition( editor.editable().findOne( 'p' ), CKEDITOR.POSITION_AFTER_START );
+						editor.getSelection().selectRanges( [ range ] );
+
+						editor.widgets.checkWidgets();
+						objectAssert.ownsNoKeys( editor.widgets.instances, 'widget was removed from repository' );
+					} );
+				}
+			} );
+
+			editorBot.setData( '', function() {
+				editorBot.setHtmlWithSelection( '<p>foo^</p>' );
+				editor.execCommand( 'testCheckWidgets1' );
 			} );
 		},
 
@@ -926,7 +1168,7 @@
 				editor.editable().setHtml( '' );
 				editor.widgets.checkWidgets();
 
-				assert.areSame( 0, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 0, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be no widgets in repo at the beginning.' );
 
 				// Set HTML with two widgets - w1, w2, w3.
@@ -938,12 +1180,113 @@
 
 				editor.widgets.checkWidgets();
 
-				assert.areSame( 1, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 1, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be one widget.' );
 
 				assert.isNull( getWidgetById( editor, 'w2' ), 'There should be no widget on #w2' );
 				assert.isNull( getWidgetById( editor, 'w3' ), 'There should be no widget on #w3' );
 				assert.isNotNull( getWidgetById( editor, 'w1' ), 'There should be a widget on #w1' );
+			} );
+		},
+
+		'test widgets.checkWidgets - nested widgets - destroying a whole tree': function() {
+			var editor = this.editor,
+				editorBot = this.editorBot,
+				data =
+					'<div data-widget="testnested" id="w1"><p class="foo">x</p></div><p>x</p>' +
+					'<div data-widget="testblock" id="w2">foo</div>';
+
+			editorBot.setData( data, function() {
+				var w1 = getWidgetById( editor, 'w1' );
+
+				// Initialize nested widgets to make sure that they'll have higher ids than parent.
+				// That's in order to check if checkWidgets() iterating over instances object will not
+				// fail on non existing ids (in online mode destory() destroys its child widgets).
+				w1.editables.foo.setData( '<em data-widget="test">foo</em>foo<em data-widget="test">foo</em>' );
+
+				assert.areSame( 4, keysLength( editor.widgets.instances ), 'There should be 4 widgets in repo after init.' );
+
+				w1.wrapper.remove();
+				editor.widgets.checkWidgets();
+
+				assert.areSame( 1, keysLength( editor.widgets.instances ), 'There should be 1 widget in repo after checkWidgets.' );
+				assert.areSame( 'testblock', getWidgetById( editor, 'w2' ).name );
+			} );
+		},
+
+		'test widgets.checkWidgets - nested widgets - destroying nested widget': function() {
+			var editor = this.editor,
+				editorBot = this.editorBot,
+				data =
+					'<div data-widget="testnested" id="w1"><p class="foo">' +
+						'<em data-widget="test" id="wn1">foo</em>foo<em data-widget="test">foo</em>' +
+					'</p></div>' +
+					'<p>x</p>' +
+					'<div data-widget="testblock" id="w2">foo</div>';
+
+			editorBot.setData( data, function() {
+				assert.areSame( 4, keysLength( editor.widgets.instances ), 'There should be 4 widgets in repo after init.' );
+
+				getWidgetById( editor, 'wn1', true ).wrapper.remove();
+				editor.widgets.checkWidgets();
+
+				assert.areSame( 3, keysLength( editor.widgets.instances ), 'There should be 3 widget in repo after checkWidgets.' );
+				assert.isNull( getWidgetById( editor, 'wn1', true ), 'Widget wn1 was destroyed.' );
+			} );
+		},
+
+		'test widgets.checkWidgets - nested widgets - initializing widget with nested widgets': function() {
+			var editor = this.editor,
+				editorBot = this.editorBot,
+				data =
+					'<div data-widget="testnested" id="w1"><p class="foo">' +
+						'<em data-widget="test" id="wn1">foo</em>' +
+					'</p></div>';
+
+			editorBot.setData( data, function() {
+				assert.areSame( 2, keysLength( editor.widgets.instances ), 'There should be 2 widgets in repo after init.' );
+
+				var html = editor.editable().getHtml();
+				editor.editable().setHtml( '' );
+				editor.widgets.checkWidgets();
+				assert.areSame( 0, keysLength( editor.widgets.instances ), 'There should be 0 widgets in repo after DOM is overriden.' );
+
+				editor.editable().setHtml( html.replace( / data-cke-expando="?\d+"?/gi, '' ) );
+
+				editor.widgets.checkWidgets();
+
+				assert.areSame( 2, keysLength( editor.widgets.instances ), 'There should be 2 widgets in repo after checkWidgets.' );
+
+				assert.areSame( 'testnested', getWidgetById( editor, 'w1' ).name, 'Widget w1 was reinitialized.' );
+				assert.areSame( 'test', getWidgetById( editor, 'wn1', true ).name, 'Widget wn1 was reinitialized.' );
+			} );
+		},
+
+		'test widgets.checkWidgets - nested widgets - initializing nested widgets': function() {
+			var editor = this.editor,
+				editorBot = this.editorBot,
+				data =
+					'<div data-widget="testnested" id="w1"><p class="foo">' +
+						'<em data-widget="test" id="wn1">foo</em>' +
+					'</p></div>';
+
+			editorBot.setData( data, function() {
+				var w1 = getWidgetById( editor, 'w1' );
+
+				assert.areSame( 2, keysLength( editor.widgets.instances ), 'There should be 2 widgets in repo after init.' );
+
+				var html = w1.editables.foo.getHtml();
+				w1.editables.foo.setHtml( '' );
+				editor.widgets.checkWidgets();
+
+				assert.areSame( 1, keysLength( editor.widgets.instances ),
+					'There should be 1 widget in repo after nested editable\'s DOM is overriden.' );
+
+				w1.editables.foo.setHtml( html );
+				editor.widgets.checkWidgets();
+
+				assert.areSame( 2, keysLength( editor.widgets.instances ), 'There should be 2 widgets in repo after checkWidgets.' );
+				assert.areSame( 'test', getWidgetById( editor, 'wn1', true ).name, 'Widget wn1 was reinitialized.' );
 			} );
 		},
 
@@ -966,7 +1309,7 @@
 
 				editor.widgets.checkWidgets( { initOnlyNew: true } );
 
-				assert.areSame( 1, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 1, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be one widget.' );
 
 				assert.isNull( getWidgetById( editor, 'w2' ), 'There should be no widget on #w2' );
@@ -983,7 +1326,7 @@
 
 				editor.widgets.checkWidgets( { focusInited: true } );
 
-				assert.areSame( 1, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 1, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be one widget.' );
 
 				var sel = editor.getSelection();
@@ -1001,7 +1344,7 @@
 
 				editor.widgets.checkWidgets( { focusInited: true } );
 
-				assert.areSame( 2, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 2, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be two widgets.' );
 
 				var sel = editor.getSelection();
@@ -1023,7 +1366,7 @@
 
 				editor.widgets.checkWidgets( { focusInited: true, initOnlyNew: true } );
 
-				assert.areSame( 1, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 1, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be one widget.' );
 
 				var sel = editor.getSelection();
@@ -1071,7 +1414,7 @@
 
 				listener.removeListener();
 
-				assert.areSame( 1, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 1, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There still should be one widget.' );
 			} );
 		},
@@ -1091,7 +1434,7 @@
 
 				listener.removeListener();
 
-				assert.areSame( 1, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+				assert.areSame( 1, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 					'There should be one widget.' );
 
 				assert.isFalse( !!editor.getSelection().isFake, 'Widget should not be focused' );
@@ -1103,17 +1446,7 @@
 				data = '<p><span data-widget="test">B</span></p>';
 
 			this.editorBot.setData( data, function() {
-				var editable = editor.editable(),
-					dragSetDataCalls = 0,
-					// Mockup of dragstart, since we call dataTransfer.setData in dragstart
-					// listener, we will use this method to increase dragSetDataCalls counter.
-					dragStartEventMockup = new CKEDITOR.dom.event( {
-						dataTransfer: {
-							setData: function() {
-								dragSetDataCalls++;
-							}
-						}
-					} );
+				var editable = editor.editable();
 
 				// We need to remove data-cke-expando to remove event listeners on IE8.
 				editable.setHtml( editable.getHtml().replace( / data-cke-expando="?\d+"?/gi, '' ) );
@@ -1122,14 +1455,9 @@
 				var dragHandlers = editor.editable().find( '.cke_widget_drag_handler_container' );
 
 				assert.areEqual( 1, dragHandlers.count(), 'There should be still only one drag handler' );
-
-				// Check if dragstart event called dataTransfer.setData().
-				dragHandlers.getItem( 0 ).findOne( 'img' ).fire( 'dragstart', dragStartEventMockup );
-				assert.areEqual( 1, dragSetDataCalls, 'Dragstart listener should be executed' );
 			} );
 		},
 
-		/* #12054 - temporarily disabled.
 		'test widgets.checkWidgets draghandler re usage - nested widget': function() {
 			var editor = this.editor,
 				data =
@@ -1161,7 +1489,6 @@
 				assert.areSame( widget.wrapper, widget.dragHandlerContainer.getParent(), 'Nested widget\'s drag handler is directly in the wrapper' );
 			} );
 		},
-		*/
 
 		'test widgets.checkWidgets mask re usage': function() {
 			var editor = this.editor,
@@ -1265,6 +1592,121 @@
 					assert.areSame( 'p,i', callback2.join( ',' ), 'Second callback was not executed on b element' );
 				} );
 			} );
+		},
+
+		'test Widget.isDomNestedEditable - hello': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( 'hello' );
+			assert.isFalse( Widget.isDomNestedEditable( node ) );
+		},
+
+		'test Widget.isDomNestedEditable - <p>hello</p>': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( '<p>hello</p>' );
+			assert.isFalse( Widget.isDomNestedEditable( node ) );
+		},
+
+		'test Widget.isDomNestedEditable - <p data-cke-widget-editable>hello</p>': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( '<p data-cke-widget-editable>hello</p>' );
+			assert.isTrue( Widget.isDomNestedEditable( node ) );
+		},
+
+		'test Widget.isDomNestedEditable - <em></em>': function() {
+			assert.isFalse( Widget.isDomNestedEditable( domEm ) );
+		},
+
+		'test Widget.isDomNestedEditable - <em data-cke-widget-wrapper="false" ></em>': function() {
+			assert.isFalse( Widget.isDomNestedEditable( domEmDataWidgetWrapperFalse ) );
+		},
+
+		'test Widget.isDomNestedEditable - <em data-cke-widget-editable ></em>': function() {
+			assert.isTrue( Widget.isDomNestedEditable( domEmWidgetEditable ) );
+		},
+
+		'test Widget.getNestedEditable': function() {
+			var node1 = CKEDITOR.dom.element.createFromHtml( [
+					'<div data-cke-widget-editable data-id="1">',
+						'<div>',
+							'<div data-cke-widget-editable data-id="2">',
+								'<div data-id="guard">',
+									'<p data-id="3"></p>',
+								'</div>',
+							'</div>',
+						'</div>',
+					'</div>'
+				].join( '' ) ),
+				guard = node1.findOne( '[data-id="guard"]' ),
+				node2 = node1.findOne( '[data-id="2"]' ),
+				node3 = node1.findOne( '[data-id="3"]' );
+
+			assert.isNull( Widget.getNestedEditable( null, null ) );
+			assert.isNull( Widget.getNestedEditable( guard, null ) );
+			assert.isTrue( Widget.getNestedEditable( null, node3 ).equals( node2 ) );
+			assert.isTrue( Widget.getNestedEditable( node1, node2 ).equals( node2 ) );
+		},
+
+		'test Widget.isParserWidgetElement - <em></em>': function() {
+			assert.isFalse( Widget.isParserWidgetElement( parserEm ) );
+		},
+
+		'test Widget.isParserWidgetElement - <em data-widget="test"></em>': function() {
+			assert.isTrue( Widget.isParserWidgetElement( parserEmDataWidgetTest ) );
+		},
+
+		'test Widget.isParserWidgetElement - <em data-widget="false"></em>': function() {
+			assert.isFalse( Widget.isParserWidgetElement( parserEmDataWidgetFalse ) );
+		},
+
+		'test Widget.isDomWidgetElement - <em></em>': function() {
+			assert.isFalse( Widget.isDomWidgetElement( domEm ) );
+		},
+
+		'test Widget.isDomWidgetElement - <em data-widget="test"></em>': function() {
+			assert.isTrue( Widget.isDomWidgetElement( domEmDataWidgetTest ) );
+		},
+
+		'test Widget.isDomWidgetElement - <em data-widget="false"></em>': function() {
+			assert.isTrue( Widget.isDomWidgetElement( domEmDataWidgetFalse ) );
+		},
+
+		'test Widget.isParserWidgetWrapper - <em></em>': function() {
+			assert.isFalse( Widget.isParserWidgetWrapper( parserEm ) );
+		},
+
+		'test Widget.isParserWidgetWrapper - <em data-cke-widget-wrapper="false"></em>': function() {
+			assert.isTrue( Widget.isParserWidgetWrapper( parserElDataWidgetWrapperFalse ) );
+		},
+
+		'test Widget.isParserWidgetWrapper - <em data-cke-widget-wrapper="true"></em>': function() {
+			assert.isTrue( Widget.isParserWidgetWrapper( parserElDataWidgetWrapperTrue ) );
+		},
+
+		'test Widget.isDomWidgetWrapper - <em></em>': function() {
+			assert.isFalse( Widget.isDomWidgetWrapper( domEm ) );
+		},
+
+		'test Widget.isDomWidgetWrapper - <em data-cke-widget-wrapper="true" ></em>': function() {
+			assert.isTrue( Widget.isDomWidgetWrapper( domEmDataWidgetWrapperTrue ) );
+		},
+
+		'test Widget.isDomDragHandler - <em class="cke_widget_drag_handler_container"></em>': function() {
+			assert.isFalse( Widget.isDomDragHandler( domEmWidgetDragHandlerContainer ) );
+		},
+
+		'test Widget.isDomDragHandler - <em data-cke-widget-drag-handler></em>': function() {
+			assert.isTrue( Widget.isDomDragHandler( domEmWidgetDragHandler ) );
+		},
+
+		'test Widget.isDomDragHandlerContainer - <em data-cke-widget-drag-handler></em>': function() {
+			assert.isFalse( Widget.isDomDragHandlerContainer( domEmWidgetDragHandler ) );
+		},
+
+		'test Widget.isDomDragHandlerContainer - <em class="cke_widget_drag_handler_container"></em>': function() {
+			assert.isTrue( Widget.isDomDragHandlerContainer( domEmWidgetDragHandlerContainer ) );
+		},
+
+		'test Widget.isDomWidget - all': function() {
+			assert.isFalse( Widget.isDomWidget( domEm ), 'domEm' );
+			assert.isTrue( Widget.isDomWidget( domEmDataWidgetTest ), 'domEmDataWidgetTest' );
+			assert.isTrue( Widget.isDomWidget( domEmDataWidgetWrapperTrue ), 'domEmDataWidgetWrapperTrue' );
 		}
 	} );
 } )();

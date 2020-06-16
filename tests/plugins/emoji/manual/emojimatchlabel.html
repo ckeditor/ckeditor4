@@ -1,0 +1,11 @@
+<textarea id="editor" cols="10" rows="10">
+	<p></p>
+</textarea>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
+
+	CKEDITOR.replace( 'editor', {
+		removeButtons: 'EmojiPanel'
+	} );
+</script>

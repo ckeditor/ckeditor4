@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 -->
 <html>
 <head>
 	<meta charset="utf-8">
 	<title>Clipboard playground &ndash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
-	<link href="../../../samples/sample.css" rel="stylesheet">
+	<link href="../../../samples/old/sample.css" rel="stylesheet">
 	<style>
 body {
 	margin: 0;
@@ -35,10 +35,6 @@ body {
 	margin: 0;
 	padding: 0 5px;
 	background: rgba(0, 0, 0, 0.25);
-	-webkit-transition: background-color 1s;
-	-moz-transition: background-color 1s;
-	-o-transition: background-color 1s;
-	-ms-transition: background-color 1s;
 	transition: background-color 1s;
 }
 #console > p.old {
@@ -80,7 +76,7 @@ body {
 		<p>
 			<label for="editor1">
 				Editor 1:</label>
-			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="https://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		</p>
 		<p>
 			<label for="editor2">

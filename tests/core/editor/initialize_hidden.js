@@ -1,30 +1,43 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: wysiwygarea */
 
 CKEDITOR.replaceClass = 'ckeditor';
 
 bender.test( {
 	'test auto initilization': function() {
-		CKEDITOR.on( 'instanceReady', function( evt ) {
-			if ( evt.editor.name == 'editor1' ) {
-				resume( function() {
-					assert.areEqual( '<p>ed1</p>', bender.tools.compatHtml( evt.editor.getData() ) );
-				} );
-			}
-		} );
+		var editor = CKEDITOR.instances.editor1,
+			expected = '<p>ed1</p>';
 
-		wait();
+		// For Firefox 60.0.1+ this code is executed after 'instanceReady' event so listener won't be called.
+		// For that case just assert it right away (#2019).
+		if ( editor.status === 'ready' ) {
+			this._assertEditor( expected, editor );
+		} else {
+			editor.once( 'instanceReady', function( evt ) {
+				if ( evt.editor.name == editor.name ) {
+					resume( function() {
+						this._assertEditor( expected, editor );
+					} );
+				}
+			} );
+
+			wait();
+		}
 	},
 
 	'test replace': function() {
 		CKEDITOR.replace( 'editor2', { on: {
 			instanceReady: function( evt ) {
 				resume( function() {
-					assert.areEqual( '<p>ed2</p>', bender.tools.compatHtml( evt.editor.getData() ) );
+					this._assertEditor( '<p>ed2</p>', evt.editor );
 				} );
 			}
 		} } );
 
 		wait();
+	},
+
+	_assertEditor: function( expectedData, editor ) {
+		assert.areEqual( expectedData, bender.tools.compatHtml( editor.getData() ) );
 	}
 } );

@@ -1,0 +1,16 @@
+<textarea name="editor1">Editor 1</textarea>
+<hr />
+<textarea name="editor2">
+	Editor 2
+	<p><img alt="" src="%BASE_PATH%_assets/logo.png" /></p>
+</textarea>
+<script type="text/javascript">
+	CKEDITOR.replace( 'editor1' , {
+		extraPlugins: 'divarea',
+		allowedContent: true
+	});
+	CKEDITOR.replace( 'editor2' , {
+		extraPlugins: 'divarea,image2',
+		allowedContent: true
+	});
+</script>

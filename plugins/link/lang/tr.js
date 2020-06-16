@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'tr', {
 	acccessKey: 'Erişim Tuşu',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	anchorName: 'Bağlantı Adı ile',
 	charset: 'Bağlı Kaynak Karakter Gurubu',
 	cssClasses: 'Biçem Sayfası Sınıfları',
+	download: 'İndirmeye Zorla',
+	displayText: 'Gösterim Metni',
 	emailAddress: 'E-Posta Adresi',
 	emailBody: 'İleti Gövdesi',
 	emailSubject: 'İleti Konusu',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	noAnchors: '(Bu belgede hiç çapa yok)',
 	noEmail: 'Lütfen E-posta adresini yazın',
 	noUrl: 'Lütfen Link URL\'sini yazın',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<diğer>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Bağımlı (Netscape)',
 	popupFeatures: 'Yeni Açılan Pencere Özellikleri',
 	popupFullScreen: 'Tam Ekran (IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	toAnchor: 'Bu sayfada çapa',
 	toEmail: 'E-Posta',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Link Ekle/Düzenle',
 	type: 'Link Türü',
 	unlink: 'Köprü Kaldır',

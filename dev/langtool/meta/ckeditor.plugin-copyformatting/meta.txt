@@ -1,0 +1,8 @@
+# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+
+label = Toolbar button tooltip for the Copy Formatting feature.
+notification.copied = Screen reader notification for copying styles.
+notification.applied = Screen reader notification for applying styles.
+notification.canceled = Screen reader notification for cancellation of applying styles.
+notification.failed = Screen reader notification for trying to apply styles without copying them.

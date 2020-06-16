@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'pt-br', {
 	auto: 'Automático',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'pt-br', {
 		F0FFFF: 'Azure',
 		F0F8FF: 'Azul Alice',
 		E6E6FA: 'Lavanda 2',
-		FFF: 'Branco'
+		FFF: 'Branco',
+		'1ABC9C': 'Ciano Forte',
+		'2ECC71': 'Esmeralda',
+		'3498DB': 'Azul Brilhante',
+		'9B59B6': 'Ametista',
+		'4E5F70': 'Azul acinzentado',
+		'F1C40F': 'Amarelo Vívido',
+		'16A085': 'Ciano Escuro',
+		'27AE60': 'Esmeralda Escura',
+		'2980B9': 'Azul Forte',
+		'8E44AD': 'Violeta Escura',
+		'2C3E50': 'Azul Dessaturado',
+		'F39C12': 'Laranja',
+		'E67E22': 'Laranja Cenoura',
+		'E74C3C': 'Vermelho Pálido',
+		'ECF0F1': 'Prata Brilhante',
+		'95A5A6': 'Ciano Acinzentado Claro ',
+		'DDD': 'Cinza Claro',
+		'D35400': 'Abóbora',
+		'C0392B': 'Vermelho Forte',
+		'BDC3C7': 'Prata',
+		'7F8C8D': 'Ciano Acinzentado',
+		'999': 'Cinza Escuro'
 	},
 	more: 'Mais Cores...',
 	panelTitle: 'Cores',

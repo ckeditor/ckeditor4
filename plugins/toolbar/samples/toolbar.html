@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 -->
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Toolbar Configuration &mdash; CKEditor Sample</title>
@@ -11,12 +11,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<meta name="ckeditor-sample-group" content="Advanced Samples">
 	<meta name="ckeditor-sample-description" content="Configuring CKEditor to display full or custom toolbar layout.">
 	<script src="../../../ckeditor.js"></script>
-	<link href="../../../samples/sample.css" rel="stylesheet">
+	<link href="../../../samples/old/sample.css" rel="stylesheet">
+	<meta name="description" content="Try the latest sample of CKEditor 4 and learn more about customizing your WYSIWYG editor with endless possibilities.">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Toolbar Configuration
+		<a href="../../../samples/old/index.html">CKEditor Samples</a> &raquo; Toolbar Configuration
 	</h1>
+	<div class="warning deprecated">
+		This sample is not maintained anymore. Check out the <a href="../../../samples/toolbarconfigurator/index.html#basic">brand new CKEditor Toolbar Configurator</a>.
+	</div>
 	<div class="description">
 		<p>
 			This sample page demonstrates editor with loaded <a href="#fullToolbar">full toolbar</a> (all registered buttons) and, if
@@ -25,7 +29,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 		<p>Since CKEditor 4 there are two ways to configure toolbar buttons.</p>
 
-		<h2 class="samples">By <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbar">config.toolbar</a></h2>
+		<h2 class="samples">By <a href="https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbar">config.toolbar</a></h2>
 
 		<p>
 			You can explicitly define which buttons are displayed in which groups and in which order.
@@ -45,7 +49,7 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 	]
 });</pre>
 
-		<h2 class="samples">By <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">config.toolbarGroups</a></h2>
+		<h2 class="samples">By <a href="https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarGroups">config.toolbarGroups</a></h2>
 
 		<p>
 			You can define which groups of buttons (like e.g. <code>basicstyles</code>, <code>clipboard</code>
@@ -74,7 +78,7 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 	<div id="currentToolbar" style="display: none">
 		<h2 class="samples">Current toolbar configuration</h2>
 		<p>Below you can see editor with current toolbar definition.</p>
-		<textarea cols="80" id="editorCurrent" name="editorCurrent" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		<textarea cols="80" id="editorCurrent" name="editorCurrent" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="https://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		<pre id="editorCurrentCfg" class="samples"></pre>
 	</div>
 
@@ -85,7 +89,7 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 			<strong>Note</strong>: To create editor instance with full toolbar you don't have to set anything.
 			Just leave <code>toolbar</code> and <code>toolbarGroups</code> with the default, <code>null</code> values.
 		</p>
-		<textarea cols="80" id="editorFull" name="editorFull" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		<textarea cols="80" id="editorFull" name="editorFull" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="https://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		<pre id="editorFullCfg" class="samples"></pre>
 	</div>
 
@@ -221,10 +225,10 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 	<div id="footer">
 		<hr>
 		<p>
-			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="https://ckeditor.com/">https://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2020, <a class="samples" href="https://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

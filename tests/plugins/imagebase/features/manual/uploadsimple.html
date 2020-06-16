@@ -1,0 +1,65 @@
+<div id="classic">
+	<p>This editor will accept png and jpg files. Go on drop some:</p>
+	<p></p>
+</div>
+
+<script>
+	// Ignore on mobiles due to lack of support for files drag and drop.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	var FAIL_TEMPLATE = new CKEDITOR.template( 'Uploading "{name}" (code {status}) 😢' ),
+		LOADED_TEMPLATE = new CKEDITOR.template( 'File "{name}" uploaded!' ),
+		editor = CKEDITOR.replace( 'classic', {
+			contentsCss: '/apps/ckeditor/plugins/easyimage/styles/easyimage.css',
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL,
+			on: {
+				instanceReady: function() {
+					var widgetDefinition = {
+						name: 'simpleupload',
+						allowedContent: 'div(success,success)',
+						template: '<div>Upload widget</div>',
+						// Supported mime type RegExp.
+						supportedTypes: /^image\/(jpeg|png)$/,
+						// Use Cloud Services loader. Otherwise it would be required to provide uploadUrl config.
+						loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
+						// Init method impleemnts the basic logic.
+						init: function() {
+							var widget = this;
+
+							this.once( 'uploadDone', function( evt ) {
+								widget.element.setText( LOADED_TEMPLATE.output( {
+									name: evt.data.loader.file.name
+								} ) );
+
+								this.addClass( 'success' );
+							} );
+
+							this.once( 'uploadFailed', function( evt ) {
+								widget.element.setText( FAIL_TEMPLATE.output( {
+									name: evt.data.loader.file.name,
+									status: evt.data.loader.xhr.status
+								} ) );
+
+								this.addClass( 'failed' );
+
+								evt.cancel();
+							} );
+						}
+					};
+
+					// Add widget upload feature.
+					widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( this, 'upload', widgetDefinition );
+
+					editor.widgets.add( widgetDefinition.name, widgetDefinition );
+				}
+			}
+		} );
+
+	CKEDITOR.addCss( '.cke_widget_wrapper_success { color: green; }\n' +
+		'.cke_widget_wrapper_failed { color: red; }' );
+</script>

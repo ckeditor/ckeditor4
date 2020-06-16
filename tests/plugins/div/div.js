@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dialog,div */
+/* bender-tags: editor,dialog,div */
 /* bender-ckeditor-plugins: dialog,toolbar,button,div,table,list */
 
 ( function() {
@@ -23,10 +23,43 @@
 		},
 
 		'test create div': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBot,
+				editor = this.editor;
 
 			bender.tools.testInputOut( 'create', function( source, output ) {
 				bot.setHtmlWithSelection( source );
+				bot.dialog( 'creatediv', function( dialog ) {
+					// (#2423)
+					assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ), 'Dialog should be in creation mode' );
+					assert.isNull( dialog.getModel( editor ), 'Model should not be defined' );
+
+					dialog.getButton( 'ok' ).click();
+					assert.areEqual( bender.tools.compatHtml( output ), bot.getData( 1 ) );
+				} );
+			} );
+		},
+
+		// https://dev.ckeditor.com/ticket/13585
+		'test create div from selection from 2 adjacent divs': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'create-divs', function( source, output ) {
+				bot.setHtmlWithSelection( source );
+
+				bot.dialog( 'creatediv', function( dialog ) {
+					dialog.getButton( 'ok' ).click();
+					assert.areEqual( bender.tools.compatHtml( output ), bot.getData( 1 ) );
+				} );
+			} );
+		},
+
+		// https://dev.ckeditor.com/ticket/13585
+		'test create nested divs from selection from 2 adjacent divs': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'create-divs-nested', function( source, output ) {
+				bot.setHtmlWithSelection( source );
+
 				bot.dialog( 'creatediv', function( dialog ) {
 					dialog.getButton( 'ok' ).click();
 					assert.areEqual( bender.tools.compatHtml( output ), bot.getData( 1 ) );
@@ -35,11 +68,16 @@
 		},
 
 		'test edit div': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBot,
+				editor = this.editor;
 
 			bender.tools.testInputOut( 'edit', function( source, output ) {
 				bot.setHtmlWithSelection( source );
 				bot.dialog( 'editdiv', function( dialog ) {
+					// (#2423)
+					assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog should be in editing mode' );
+					assert.areEqual( CKEDITOR.plugins.div.getSurroundDiv( editor ), dialog.getModel( editor ), 'Model should be defined' );
+
 					var styleField = dialog.getContentElement( 'info', 'elementStyle' ),
 					classField = dialog.getContentElement( 'info', 'class' );
 

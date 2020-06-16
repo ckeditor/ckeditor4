@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'pl', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'pl', {
 		checkboxTitle: 'Właściwości pola wyboru (checkbox)',
 		radioTitle: 'Właściwości przycisku opcji (radio)',
 		value: 'Wartość',
-		selected: 'Zaznaczone'
+		selected: 'Zaznaczone',
+		required: 'Wymagane'
 	},
 	form: {
 		title: 'Właściwości formularza',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pl', {
 		size: 'Rozmiar',
 		lines: 'wierszy',
 		chkMulti: 'Wielokrotny wybór',
+		required: 'Wymagane',
 		opText: 'Tekst',
 		opValue: 'Wartość',
 		btnAdd: 'Dodaj',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pl', {
 		value: 'Wartość',
 		charWidth: 'Szerokość w znakach',
 		maxChars: 'Szerokość maksymalna',
+		required: 'Wymagane',
 		type: 'Typ',
 		typeText: 'Tekst',
 		typePass: 'Hasło',

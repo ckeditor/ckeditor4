@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'pl', {
 	copy: 'Kopiuj',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pl', {
 	cut: 'Wytnij',
 	cutError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne wycinanie tekstu. Użyj skrótu klawiszowego Ctrl/Cmd+X.',
 	paste: 'Wklej',
-	pasteArea: 'Obszar wklejania',
-	pasteMsg: 'Wklej tekst w poniższym polu, używając skrótu klawiaturowego (<STRONG>Ctrl/Cmd+V</STRONG>), i kliknij <STRONG>OK</STRONG>.',
-	securityMsg: 'Zabezpieczenia przeglądarki uniemożliwiają wklejenie danych bezpośrednio do edytora. Proszę ponownie wkleić dane w tym oknie.',
-	title: 'Wklej'
+	pasteNotification: 'Naciśnij %1 by wkleić tekst. Twoja przeglądarka nie pozwala na wklejanie za pomocą przycisku paska narzędzi lub opcji menu kontekstowego.',
+	pasteArea: 'Miejsce do wklejenia treści',
+	pasteMsg: 'Wklej treść do obszaru poniżej i naciśnij OK.'
 } );

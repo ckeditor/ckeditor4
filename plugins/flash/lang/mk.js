@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'flash', 'mk', {
 	access: 'Script Access', // MISSING
@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'flash', 'mk', {
 	chkMenu: 'Enable Flash Menu', // MISSING
 	chkPlay: 'Auto Play', // MISSING
 	flashvars: 'Variables for Flash', // MISSING
-	hSpace: 'HSpace', // MISSING
+	hSpace: 'Хоризонтален простор',
 	properties: 'Flash Properties', // MISSING
 	propertiesTab: 'Properties', // MISSING
 	quality: 'Quality', // MISSING
@@ -32,7 +32,7 @@ CKEDITOR.plugins.setLang( 'flash', 'mk', {
 	scaleFit: 'Exact Fit', // MISSING
 	scaleNoBorder: 'No Border', // MISSING
 	title: 'Flash Properties', // MISSING
-	vSpace: 'VSpace', // MISSING
+	vSpace: 'Вертикален простор',
 	validateHSpace: 'HSpace must be a number.', // MISSING
 	validateSrc: 'URL must not be empty.', // MISSING
 	validateVSpace: 'VSpace must be a number.', // MISSING

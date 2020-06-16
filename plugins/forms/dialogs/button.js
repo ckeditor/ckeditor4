@@ -1,7 +1,8 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
+
 CKEDITOR.dialog.add( 'button', function( editor ) {
 	function commitAttributes( element ) {
 		var val = this.getValue();
@@ -20,21 +21,29 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		title: editor.lang.forms.button.title,
 		minWidth: 350,
 		minHeight: 150,
-		onShow: function() {
-			delete this.button;
-			var element = this.getParentEditor().getSelection().getSelectedElement();
+		getModel: function( editor ) {
+			var element = editor.getSelection().getSelectedElement();
+
 			if ( element && element.is( 'input' ) ) {
 				var type = element.getAttribute( 'type' );
 				if ( type in { button: 1, reset: 1, submit: 1 } ) {
-					this.button = element;
-					this.setupContent( element );
+					return element;
 				}
+			}
+
+			return null;
+		},
+		onShow: function() {
+			var element = this.getModel( this.getParentEditor() );
+
+			if ( element ) {
+				this.setupContent( element );
 			}
 		},
 		onOk: function() {
 			var editor = this.getParentEditor(),
-				element = this.button,
-				isInsertMode = !element;
+				element = this.getModel( editor ),
+				isInsertMode = this.getMode( editor ) == CKEDITOR.dialog.CREATION_MODE;
 
 			var fake = element ? CKEDITOR.htmlParser.fragment.fromHtml( element.getOuterHtml() ).children[ 0 ] : new CKEDITOR.htmlParser.element( 'input' );
 			this.commitContent( fake );
@@ -58,6 +67,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 				{
 					id: 'name',
 					type: 'text',
+					bidi: true,
 					label: editor.lang.common.name,
 					'default': '',
 					setup: function( element ) {

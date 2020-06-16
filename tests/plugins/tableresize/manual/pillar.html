@@ -1,0 +1,34 @@
+<div id="editor">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<thead>
+		<tr>
+			<th scope="row" style="width:227px">Header</th>
+			<th scope="col" style="width:90px">Header</th>
+			<th scope="col" style="width:165px">Header</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<th scope="row" style="width:227px">Header</th>
+			<td style="width:90px">&nbsp;not header</td>
+			<td style="width:165px">not header</td>
+		</tr>
+		<tr>
+			<th scope="row" style="width:227px">Header</th>
+			<td style="width:90px">not header</td>
+			<td style="width:165px">not header</td>
+		</tr>
+		</tbody>
+		<tfoot>
+		<tr>
+			<th scope="row" style="width:227px">Header Footer</th>
+			<td style="width:90px">footer</td>
+			<td style="width:165px">footer</td>
+		</tr>
+		</tfoot>
+	</table>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor' );
+</script>

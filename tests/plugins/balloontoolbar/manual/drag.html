@@ -1,0 +1,63 @@
+<textarea id="editor1" cols="10" rows="10">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+</textarea>
+
+<div id="editor2" contenteditable="true">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+</div>
+
+<div id="editor3" contenteditable="true">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+</div>
+
+<script>
+	// Currently balloon toolbar is not integrated with old IE browsers.
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.disableAutoInline = true;
+	function instanceReadyListener( evt ) {
+		var image = this.editable().findOne( 'img' ),
+			panel = new CKEDITOR.ui.balloonToolbar( this );
+
+		image.on( 'click', function() {
+			panel.addItems( {
+				link: new CKEDITOR.ui.button( {
+					command: 'link'
+				} ),
+				unlink: new CKEDITOR.ui.button( {
+					command: 'unlink'
+				} )
+			} );
+			panel.attach( this );
+		} );
+	}
+	var config = {
+		height: 300,
+		width: 600,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	};
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.inline( 'editor2', config );
+	CKEDITOR.replace( 'editor3', CKEDITOR.tools.extend( { extraPlugins: 'divarea' }, config ) );
+
+</script>

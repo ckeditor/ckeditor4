@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -10,7 +10,7 @@
 CKEDITOR.plugins.add( 'forms', {
 	requires: 'dialog,fakeobjects',
 	// jscs:disable maximumLineLength
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	// jscs:enable maximumLineLength
 	icons: 'button,checkbox,form,hiddenfield,imagebutton,radio,select,select-rtl,textarea,textarea-rtl,textfield', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
@@ -37,11 +37,11 @@ CKEDITOR.plugins.add( 'forms', {
 			order = 0,
 			textfieldTypes = { email: 1, password: 1, search: 1, tel: 1, text: 1, url: 1 },
 			allowedContent = {
-				checkbox: 'input[type,name,checked]',
-				radio: 'input[type,name,checked]',
-				textfield: 'input[type,name,value,size,maxlength]',
-				textarea: 'textarea[cols,rows,name]',
-				select: 'select[name,size,multiple]; option[value,selected]',
+				checkbox: 'input[type,name,checked,required]',
+				radio: 'input[type,name,checked,required]',
+				textfield: 'input[type,name,value,size,maxlength,required]',
+				textarea: 'textarea[cols,rows,name,required]',
+				select: 'select[name,size,multiple,required]; option[value,selected]',
 				button: 'input[type,name,value]',
 				form: 'form[action,name,id,enctype,target,method]',
 				hiddenfield: 'input[type,name,value]',
@@ -90,7 +90,7 @@ CKEDITOR.plugins.add( 'forms', {
 		var imagePlugin = editor.plugins.image;
 
 		// Since Image plugin is disabled when Image2 is to be loaded,
-		// ImageButton also got to be off (#11222).
+		// ImageButton also got to be off (https://dev.ckeditor.com/ticket/11222).
 		if ( imagePlugin && !editor.plugins.image2 )
 			addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
 
@@ -255,7 +255,7 @@ CKEDITOR.plugins.add( 'forms', {
 					input: function( input ) {
 						var attrs = input.attributes,
 							type = attrs.type;
-						// Old IEs don't provide type for Text inputs #5522
+						// Old IEs don't provide type for Text inputs https://dev.ckeditor.com/ticket/5522
 						if ( !type )
 							attrs.type = 'text';
 						if ( type == 'checkbox' || type == 'radio' )
@@ -277,3 +277,24 @@ CKEDITOR.plugins.add( 'forms', {
 		}
 	}
 } );
+
+/**
+ * Namespace containing helper functions for the Forms plugin.
+ *
+ * @since 4.11.0
+ * @singleton
+ * @class CKEDITOR.plugins.forms
+ */
+CKEDITOR.plugins.forms = {
+	/**
+	* Sets the dialog's `required` value to match the presence of the `required` attribute on an element.
+	* Based on the [algorithm described in the HTML specification](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attribute).
+	*
+	* @since 4.11.0
+	* @private
+	* @param {CKEDITOR.dom.element} element An element whose `required` attribute is checked.
+	*/
+	_setupRequiredAttribute: function( element ) {
+		this.setValue( element.hasAttribute( 'required' ) );
+	}
+};

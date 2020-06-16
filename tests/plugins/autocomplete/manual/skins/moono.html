@@ -1,0 +1,35 @@
+<h2>Classic</h2>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Start typing below:</p>
+	<p></p>
+</textarea>
+
+<h2>Inline</h2>
+
+<div id="editor2" contenteditable="true">
+	<p>Start typing below:</p>
+	<p></p>
+</div>
+
+<script>
+	CKEDITOR.disableAutoInline = true;
+
+	var cfg = {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
+			}
+		},
+		skin: 'moono'
+	};
+
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	CKEDITOR.replace( 'editor1', cfg );
+	CKEDITOR.inline( 'editor2', cfg );
+</script>

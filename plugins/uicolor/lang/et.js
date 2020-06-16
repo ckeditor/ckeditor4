@@ -1,11 +1,13 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'et', {
 	title: 'Värvivalija kasutajaliides',
-	preview: 'Automaatne eelvaade',
-	config: 'Aseta see sõne oma config.js faili.',
-	predefined: 'Eelmääratud värvikomplektid'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Eelmääratud värvikomplektid',
+	config: 'Aseta see sõne oma config.js faili.'
 } );

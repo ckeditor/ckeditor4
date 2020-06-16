@@ -1,0 +1,41 @@
+<div style="padding: 3000px 3000px 3000px 3000px;">
+	<div id="editor1" contenteditable="true" style="width:650px;">
+		<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans Neil Armstrong and Buzz Aldrin, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+		<p>Armstrong spent about three and a half two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, Michael Collins, piloted the command spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+		<p>Broadcasting and <em>quotes</em> </p>
+		<p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p>
+		<p>One small step for [a] man, one giant leap for mankind.</p>
+		<p>Apollo 11 effectively ended the Space Race and fulfilled a national goal proposed in 1961 by the late U.S. President John F. Kennedy in a speech before the United States Congress:</p>
+		<p>[...] before this decade is out, of landing a man on the Moon and returning him safely to the Earth.</p>
+		<p>Technical details </p>
+		<p><strong>Mission crew</strong></p>
+		<p>PositionAstronaut</p>
+		<p>CommanderNeil A. Armstrong</p>
+		<p>Command Module PilotMichael Collins</p>
+		<p>Lunar Module PilotEdwin "Buzz" E. Aldrin, Jr.</p>
+		<p>Launched by a <strong>Saturn V</strong> rocket from Kennedy Space Center in Merritt Island, Florida on July 16, Apollo 11 was the fifth manned mission of NASA's Apollo program. The Apollo spacecraft had three parts:</p>
+		<p><strong>Command Module</strong> with a cabin for the three astronauts which was the only part which landed back on Earth</p>
+		<p><strong>Service Module</strong> which supported the Command Module with propulsion, electrical power, oxygen and water</p>
+		<p><strong>Lunar Module</strong> for landing on the Moon.</p>
+		<p>After being sent to the Moon by the Saturn V's upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the Sea of Tranquility. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the Pacific Ocean on July 24.</p>
+		<p>Source: Wikipedia.org</p>
+	</div>
+	<p style="width:700px;">
+		<input onclick="manualPlayground.showWarning();" type="button" value="Show warning notification">
+		<input onclick="manualPlayground.showSuccess();" type="button" value="Show success notification">
+		<input onclick="manualPlayground.showInfo();" type="button" value="Show info notification">
+		<input onclick="manualPlayground.emulateProgress();" type="button" value="Show progress notification">
+	</p>
+	<script>
+		CKEDITOR.disableAutoInline = true;
+
+		var editor = CKEDITOR.inline( 'editor1', {
+			extraPlugins: 'notification',
+			toolbar: [ [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ] ]
+		} );
+
+		manualPlayground.init();
+		window.scrollTo( 2950, 2950 );
+	</script>
+
+</div>

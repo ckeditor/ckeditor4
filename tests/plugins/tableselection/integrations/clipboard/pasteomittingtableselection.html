@@ -1,0 +1,125 @@
+<textarea id="text">
+	<p>[Start</p>
+
+	<blockquote>
+	<p><strong>Before</strong></p>
+
+	<table border="1">
+		<tbody>
+			<tr>
+				<td><strong>First</strong></td>
+				<td>Second</td>
+			</tr>
+			<tr>
+				<td> </td>
+				<td>Start nesting
+				<table border="1" cellpadding="1" cellspacing="1" style="width:100%">
+					<tbody>
+						<tr>
+							<td><strong>Left</strong></td>
+							<td><strong>Middle</strong></td>
+							<td>Right</td>
+						</tr>
+						<tr>
+							<td>BotLeft</td>
+							<td> </td>
+							<td> </td>
+						</tr>
+					</tbody>
+				</table>
+
+				<p>End nesting</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>After]</p>
+	</blockquote>
+
+=>
+
+	<p>foo^</p>
+</textarea>
+
+<textarea id="inside-blockquote">
+	<blockquote>
+		<p><strong>from [here</strong></p>
+
+		<table border="1">
+			<tbody>
+				<tr>
+					<td>co</td>
+					<td>&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>up to here]. And more text</p>
+
+	</blockquote>
+
+=>
+	<blockquote>
+		<p>
+			<strong>from </strong>foo^. and more text
+		</p>
+	</blockquote>
+
+</textarea>
+
+<textarea id="all-blockquote">
+	<blockquote>
+		<p><strong>[from here</strong></p>
+
+		<table border="1">
+			<tbody>
+				<tr>
+					<td>co</td>
+					<td>&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>up to here]</p>
+
+	</blockquote>
+
+=>
+	<blockquote>
+		<p>
+			foo^
+		</p>
+	</blockquote>
+
+</textarea>
+
+<textarea id="boundary-without-table">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+			</tr>
+			<tr>
+				<td>^3</td>
+				<td>4</td>
+			</tr>
+		</tbody>
+	</table>
+=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+			</tr>
+			<tr>
+				<td><p>foo^</p>3</td>
+				<td>4</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<span id="text-paste">
+	<p>foo</p>
+</span>

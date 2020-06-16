@@ -289,3 +289,149 @@
 		</tbody>
 	</table>
 </textarea>
+
+<!-- same unit and value, change value -->
+<textarea id="table-12">
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:60%;">a[a</td>
+				<td style="height:60%;">b]b</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:20%;">aa</td>
+				<td style="height:20%;">bb</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<!-- different unit, same value, change value -->
+<textarea id="table-13">
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:60%;">a[a</td>
+				<td style="height:60px;">b]b</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:20%;">aa</td>
+				<td style="height:20px;">bb</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<!-- different unit and value, change value -->
+<textarea id="table-14">
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:60%;">a[a</td>
+				<td style="height:30px;">b]b</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:20%;">aa</td>
+				<td style="height:20px;">bb</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<!-- different unit and value, change unit and value -->
+<textarea id="table-15">
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:60%;">a[a</td>
+				<td style="height:30px;">b]b</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:20px;">aa</td>
+				<td style="height:20px;">bb</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-16">
+	<table>
+		<tbody>
+			<tr>
+				<td>[aa</td>
+				<td>bb]</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="required"></textarea>

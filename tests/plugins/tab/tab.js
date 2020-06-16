@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -20,7 +20,7 @@
 			assert.areSame( '<p>foo&nbsp;&nbsp;&nbsp;bar</p>', this.editorBot.getData( true ), '3 spaces were inserted' );
 		},
 
-		// #12157
+		// https://dev.ckeditor.com/ticket/12157
 		'test tab preserves inline styles': function() {
 			bender.tools.selection.setWithHtml( this.editor, '<p><em>foo{}</em>bar</p>' );
 

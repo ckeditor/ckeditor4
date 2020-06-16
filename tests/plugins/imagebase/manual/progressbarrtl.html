@@ -1,0 +1,29 @@
+<div id="classic">
+	<div class="progress-wrapper">
+		<p>line</p>
+		<p>line</p>
+	</div>
+	<p>Above div will gain your progress indicator.</p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	CKEDITOR.addCss( '.progress-wrapper { outline: 2px solid green; position: relative; background: #000; color: #fff; }' );
+
+	CKEDITOR.replace( 'classic', {
+		extraAllowedContent: 'div(progress-wrapper)',
+		contentsCss: [
+			'/apps/ckeditor/plugins/easyimage/styles/easyimage.css'
+		],
+		language: 'ar',
+		on: {
+			instanceReady: function( evt ) {
+				loader = new CKEDITOR.plugins.imagebase.progressBar();
+				this.editable().findOne( 'div' ).append( loader.wrapper, true );
+				loader.updated( 0.3 );
+			}
+		}
+	} );
+
+</script>

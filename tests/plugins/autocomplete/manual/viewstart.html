@@ -1,0 +1,23 @@
+<div id="editor">
+		Adipisicing aliquid dolorem repudiandae voluptate nihil. Eos est iste fugit doloribus dolore.
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	CKEDITOR.replace( 'editor', {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+				var data = [
+					{ id: 1, name: '@foo bar' }
+				];
+
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback( { regex: '@[a-zA-Z ]*$' } ),
+					dataCallback: autocompleteUtils.getDataCallback( { data: data } )
+				} );
+			}
+		}
+	} );
+</script>

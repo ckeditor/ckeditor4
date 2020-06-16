@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -17,9 +17,9 @@
  *
  * See also:
  *
- * * [The Plugin SDK](#!/guide/plugin_sdk_intro)
- * * [Creating a CKEditor plugin in 20 Lines of Code](#!/guide/plugin_sdk_sample)
- * * [Creating a Simple Plugin Tutorial](#!/guide/plugin_sdk_sample_1)
+ * * {@glink guide/plugin_sdk_intro The Plugin SDK}
+ * * {@glink guide/plugin_sdk_sample Creating a CKEditor plugin in 20 Lines of Code}
+ * * {@glink guide/plugin_sdk_sample_1 Creating a Simple Plugin Tutorial}
  *
  * @class CKEDITOR.pluginDefinition
  * @abstract
@@ -172,6 +172,46 @@
  * will automatically detect the HiDPI environment and attempt to load the
  * high-resolution resources.
  *
- * @since 4.2
+ * @since 4.2.0
  * @property {Boolean} hidpi
+ */
+
+/**
+ * The list of icon files registered by this plugin. These files are stored inside
+ * the `icons` directory in the plugin directory and follow the name
+ * pattern of `name.png`.
+ *
+ * ```javascript
+ *	CKEDITOR.plugins.add( 'sample', {
+ *		icons: 'first,second'
+ *	} );
+ * ```
+ *
+ * @property {String} [icons]
+ */
+
+/**
+ * A function that should be implemented if a plugin is not supported in every
+ * available environment according to
+ * [Browser Compatibility](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_browsers.html)
+ * or a specific editor configuration.
+ *
+ * This function will not be called by the plugin loader itself and it is not required for a proper
+ * plugin initialization. However, it is recommended to implement the function if a plugin
+ * has environment requirements. This information may be important for related features
+ * and the testing environment.
+ *
+ * ```javascript
+ * CKEDITOR.plugins.add( 'sample', {
+ *		isSupportedEnvironment: function( editor ) {
+ *			// A plugin supported only in modern browsers.
+ *			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
+ *		}
+ * } );
+ * ```
+ *
+ * @since 4.12.0
+ * @method isSupportedEnvironment
+ * @param {CKEDITOR.editor} editor
+ * @returns {Boolean} Information whether the plugin is supported in the current environment.
  */

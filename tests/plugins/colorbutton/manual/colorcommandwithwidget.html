@@ -1,0 +1,60 @@
+<style>
+	#read-only {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+</style>
+<button id="read-only">Toggle read-only</button>
+<div id="editor">
+	<p>Lorem ipsum dolor sit <span style="background-color:#f39c12">amet</span>, consectetur adipiscing elit. <span style="color:#f1c40f"><span style="background-color:#8e44ad">Aenean</span></span> dapibus pulvinar commodo. Proin rutrum <span style="color:#27ae60">dapibus</span> turpis ut iaculis. Nam iaculis sed ante vel consequat. Pellentesque facilisis eleifend semper. Nullam sed lectus nunc. Aliquam dapibus vel justo in rhoncus. Etiam placerat feugiat ante, vel fringilla nunc sagittis eget. <span style="color:#c0392b">Aliquam auctor dui at malesuada tempor.</span> Vestibulum ac <span style="background-color:#1abc9c">malesuada massa.</span> Curabitur et justo mattis, porta diam ac, gravida sapien. <span style="background-color:#bdc3c7">Sed aliquet nisl eu leo dignissim</span>, a feugiat lectus dictum. Aenean vel quam sit amet turpis tincidunt tempor. In hac habitasse platea dictumst.</p>
+	<div class="testwidget">
+		<div class="row1"><p> </p></div>
+		<div class="row2"><p> </p></div>
+		<div class="row3"><p> </p></div>
+	</div>
+	<p>Praesent nec malesuada risus, <span style="color:#3498db"><span style="background-color:#f1c40f">ac viverra metus.</span></span> Ut blandit blandit enim non commodo. <span style="color:#ffffff"><span style="background-color:#000000">Curabitur condimentum lectus porttitor</span></span> felis scelerisque pellentesque. Sed scelerisque arcu lorem, ut commodo nunc elementum et. <span style="color:#f39c12">In suscipit odio eu accumsan elementum.</span> Nullam eget ornare enim, blandit aliquet magna. <span style="background-color:#3498db">Praesent euismod risus eget</span> velit faucibus, et mattis leo convallis. <span style="color:#8e44ad">Maecenas nec elementum urna.</span> Pellentesque eget tortor consectetur, <span style="background-color:#e74c3c">venenatis ligula ut,</span> posuere est.</p>
+</div>
+
+<script>
+	CKEDITOR.addCss( '.testwidget {	border: 1px dashed #AAAAFF;	} .row1, .row2, .row3 { border: 1px dashed #AA9090; margin: 5px; }' );
+	CKEDITOR.plugins.add( 'testWidget', {
+		requires: 'widget',
+		button: 'testWidget',
+		init: function( editor ) {
+			editor.widgets.add( 'testWidget', {
+				button: 'testWidget',
+				template: '<div class="testwidget">' +
+						'<div class="row1"></div>' +
+						'<div class="row2"></div>' +
+						'<div class="row3"></div>' +
+					'</div>',
+				editables: {
+					row1: {
+						selector: '.row1',
+						allowedContent: 'p'
+					},
+					row2: {
+						selector: '.row2',
+						allowedContent: 'p;span{color}'
+					},
+					row3: {
+						selector: '.row3'
+					}
+				},
+				upcast: function( element ) {
+					return element.hasClass( 'testwidget' );
+				}
+			} );
+		}
+	} );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		height: 400,
+		allowedContent: true,
+		extraPlugins: 'testWidget'
+	} );
+
+	CKEDITOR.document.getById( 'read-only' ).on( 'click', function() {
+		editor.setReadOnly( !editor.readOnly );
+	} );
+</script>

@@ -1,0 +1,13 @@
+<div id="editor">
+	 Some content [[placeholder]] and more here!
+</div>
+
+<script>
+	if ( !CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		readOnly: true
+	} );
+</script>

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,insertion */
+/* bender-tags: editor,insertion */
 
 ( function() {
 	'use strict';
@@ -79,7 +79,7 @@
 			} );
 		},
 
-		// #11848
+		// https://dev.ckeditor.com/ticket/11848
 		'test insertElementIntoSelection with no selection': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
@@ -109,7 +109,8 @@
 
 				editable.insertElement( element, range );
 
-				assert.areSame( '<p>foo</p><div>hi!</div><p>bar</p>', bot.getData( true, true ) );
+				assert.isInnerHtmlMatching( '<p>foo@</p><div>hi!</div><p>^bar@</p>', bender.tools.selection.getWithHtml( editor ),
+					{ compareSelection: true, normalizeSelection: true }, 'Editor content' );
 			} );
 		}
 	} );

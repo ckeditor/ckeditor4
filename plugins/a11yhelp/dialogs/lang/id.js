@@ -1,38 +1,39 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'id', {
-	title: 'Accessibility Instructions', // MISSING
+	title: 'Instruksi Accessibility',
 	contents: 'Bantuan. Tekan ESC untuk menutup dialog ini.',
 	legend: [
 		{
 		name: 'Umum',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'Toolbar Editor',
+			legend: 'Tekan ${toolbarFocus} untuk berpindah ke toolbar. Untuk berpindah ke group toolbar selanjutnya dan sebelumnya gunakan TAB dan SHIFT+TAB. Untuk berpindah ke tombol toolbar selanjutnya dan sebelumnya gunakan RIGHT ARROW atau LEFT ARROW. Tekan SPASI atau ENTER untuk mengaktifkan tombol toolbar.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: 'Dialog Editor',
+			legend:
+				'Pada jendela dialog, tekan TAB untuk berpindah pada elemen dialog selanjutnya, tekan SHIFT+TAB untuk berpindah pada elemen dialog sebelumnya, tekan ENTER untuk submit dialog, tekan ESC untuk membatalkan dialog. Pada dialog dengan multi tab, daftar tab dapat diakses dengan ALT+F10 ataupun dengan tombol TAB sesuai urutan tab pada dialog. Jika daftar tab aktif terpilih, untuk berpindah tab dapat menggunakan RIGHT dan LEFT ARROW.' 
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
+			name: 'Context Menu Editor',
 			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'List Box Editor',
+			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
 		},
 
 			{
 			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
 		}
 		]
 	},
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'id', {
 			{
 			name: ' Accessibility Help', // MISSING
 			legend: 'Press ${a11yHelp}' // MISSING
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}', // MISSING
+			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
 	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
 	pause: 'Pause', // MISSING
 	capslock: 'Caps Lock', // MISSING
 	escape: 'Escape', // MISSING
 	pageUp: 'Page Up', // MISSING
 	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
 	leftArrow: 'Left Arrow', // MISSING
 	upArrow: 'Up Arrow', // MISSING
 	rightArrow: 'Right Arrow', // MISSING
 	downArrow: 'Down Arrow', // MISSING
 	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'Select key', // MISSING

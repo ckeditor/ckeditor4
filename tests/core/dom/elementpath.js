@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dom */
+/* bender-tags: editor,dom */
 
 'use strict';
 
@@ -33,7 +33,7 @@ bender.test( {
 		assert.areSame( this.$( 'e1_1_1_2' ), path.lastElement );
 	},
 
-	// Test for #525.
+	// Test for https://dev.ckeditor.com/ticket/525.
 	'test constructor - body>div>div(inline contents)>span': function() {
 		var path = this.elPath( 'e2_1_1', 'e0' );
 
@@ -43,7 +43,7 @@ bender.test( {
 		assert.areSame( this.$( 'e2_1_1' ), path.lastElement );
 	},
 
-	// Test for #525.
+	// Test for https://dev.ckeditor.com/ticket/525.
 	'test constructor - body>div>div(block contents)>span': function() {
 		var path = this.elPath( 'e2_2_1', 'e0' );
 

@@ -1,10 +1,10 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'format', 'sk', {
 	label: 'Formát',
-	panelTitle: 'Formát',
+	panelTitle: 'Odsek',
 	tag_address: 'Adresa',
 	tag_div: 'Normálny (DIV)',
 	tag_h1: 'Nadpis 1',

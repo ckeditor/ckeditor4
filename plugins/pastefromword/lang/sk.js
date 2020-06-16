@@ -1,10 +1,10 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'sk', {
-	confirmCleanup: 'Vkladaný text vyzerá byť skopírovaný z Wordu. Chcete ho automaticky vyčistiť pred vkladaním?',
-	error: 'Nebolo možné vyčistiť vložené dáta kvôli internej chybe',
+	confirmCleanup: 'Zdá sa, že vkladaný text pochádza z programu MS Word. Chcete ho pred vkladaním automaticky vyčistiť?',
+	error: 'Kvôli internej chybe nebolo možné vložené dáta vyčistiť',
 	title: 'Vložiť z Wordu',
 	toolbar: 'Vložiť z Wordu'
 } );

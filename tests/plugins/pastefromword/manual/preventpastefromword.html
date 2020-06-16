@@ -1,0 +1,23 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	<p>Place the content below:</p>
+	<p></p>
+</textarea>
+<p>
+	Was last paste handled by PFW? <strong id="status"></strong>
+</p>
+<script>
+	var editor = CKEDITOR.replace( 'editor1', {
+		on: {
+			pasteFromWord: function( evt ) {
+				evt.cancel();
+			},
+			afterPasteFromWord: function() {
+				CKEDITOR.document.findOne( '#status' ).setText( 'Yes' );
+			}
+		}
+	} );
+
+	editor.on( 'paste', function() {
+		CKEDITOR.document.findOne( '#status' ).setText( 'Nope' );
+	}, null, null, 0 );
+</script>

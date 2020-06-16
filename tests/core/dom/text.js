@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dom */
+/* bender-tags: editor,dom */
 
 ( function() {
 	'use strict';
@@ -102,7 +102,35 @@
 			parent.getFirst().split( 2 );	// Right before "B"
 			parent.getChildren().getItem( 3 ).split( 2 );	// Right before "E"
 			assert.areSame( 5, parent.getChildren().count(), 'Child nodes num doesn\'t match after split' );
+		},
+
+		// (#3326)
+		'test isEmpty': function() {
+			var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
+
+			assert.isFalse( isEmptyNode( 'foobar' ), 'Node should not be empty' );
+			assert.isFalse( isEmptyNode( ' ' ), 'White space should be treated as valid charater' );
+			assert.isFalse( isEmptyNode( ' ' + fillingCharSequence + ' ' ),
+				'White space with filling char sequence should be treated as valid character' );
+
+			assert.isTrue( isEmptyNode( '' ), 'Node should be empty when empty' );
+			assert.isTrue( isEmptyNode( fillingCharSequence ), 'Node should be empty when filling char sequence' );
+		},
+
+		// (#3326)
+		'test isEmpty ignore white space': function() {
+			var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
+
+			assert.isFalse( isEmptyNode( ' foobar ', true ), 'Mixed white space with text should not be empty' );
+
+			assert.isTrue( isEmptyNode( ' ', true ), 'White space should be ignored' );
+			assert.isTrue( isEmptyNode( ' ' + fillingCharSequence + ' ', true ),
+				'Mixed white space with filling char sequence should be treated as empty' );
 		}
 	} );
+
+	function isEmptyNode( text, ignoreWhiteSpace ) {
+		return new CKEDITOR.dom.text( document.createTextNode( text ) ).isEmpty( ignoreWhiteSpace );
+	}
 
 } )();

@@ -1,0 +1,42 @@
+<h1>Editor 1:</h1>
+<p>
+	Max width: 350<br>
+	Max height: 350
+</p>
+<div id="editor1" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+<h1>Editor 2:</h1>
+<p>
+	Max width: 'natural'<br>
+	Max height: 'natural'
+</p>
+<div id="editor2" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+<h1>Editor 3:</h1>
+<p>
+	Max width: unset<br>
+	Max height: unset
+</p>
+<div id="editor3" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		image2_maxSize: {
+			width: 350,
+			height: 350
+		}
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		image2_maxSize: {
+			width: 'natural',
+			height: 'natural'
+		}
+	} );
+
+	CKEDITOR.replace( 'editor3' );
+</script>

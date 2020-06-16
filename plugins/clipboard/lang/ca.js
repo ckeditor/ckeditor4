@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'ca', {
 	copy: 'Copiar',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ca', {
 	cut: 'Retallar',
 	cutError: 'La configuració de seguretat del vostre navegador no permet executar automàticament les operacions de retallar. Si us plau, utilitzeu el teclat (Ctrl/Cmd+X).',
 	paste: 'Enganxar',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Àrea d\'enganxat',
-	pasteMsg: 'Si us plau, enganxi dins del següent camp utilitzant el teclat (<strong>Ctrl/Cmd+V</strong>) i premi OK.',
-	securityMsg: 'A causa de la configuració de seguretat del vostre navegador, l\'editor no pot accedir a les dades del porta-retalls directament. Enganxeu-ho un altre cop en aquesta finestra.',
-	title: 'Enganxar'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );

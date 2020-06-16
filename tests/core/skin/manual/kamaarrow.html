@@ -1,0 +1,15 @@
+<button id="disable">disable</button>
+<div id="editor"></div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+		skin: 'kama',
+		on: {
+			instanceReady: function() {
+				CKEDITOR.document.getById( 'disable' ).on( 'click', function() {
+					editor.setReadOnly( !editor.readOnly );
+				} );
+			}
+		}
+	} );
+</script>

@@ -1,0 +1,56 @@
+<style>
+	.input-container > div {
+		margin-bottom: 15px;
+	}
+
+	label {
+		display: block;
+	}
+
+	[type="checkbox"] + label {
+		display: inline-block;
+	}
+
+	button {
+		margin-bottom: 15px;
+	}
+</style>
+
+<div class="input-container">
+	<div>
+		<label for="width">Width</label>
+		<input type="text" name="width" id="width">
+	</div>
+
+	<div>
+		<label for="height">Height</label>
+		<input type="text" name="height" id="height">
+	</div>
+
+	<div>
+		<input type="checkbox" name="isContentHeight" id="isContentHeight">
+		<label for="isContentHeight">is content height</label>
+	</div>
+
+	<button type="submit" id="resize-button">Resize!</button>
+</div>
+
+<div id="editor">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor' ),
+		resizeButton = CKEDITOR.document.getById( 'resize-button' ),
+		editorWidth = CKEDITOR.document.getById( 'width' ),
+		editorHeight = CKEDITOR.document.getById( 'height' ),
+		isContentHeight = CKEDITOR.document.getById( 'isContentHeight' );
+
+	resizeButton.on( 'click', function () {
+		editor.resize(
+			editorWidth.getValue(),
+			editorHeight.getValue(),
+			isContentHeight.$.checked
+		);
+	} );
+</script>

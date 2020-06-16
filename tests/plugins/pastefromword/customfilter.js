@@ -1,5 +1,7 @@
-/* bender-tags: editor,unit,clipboard */
+/* bender-tags: editor,clipboard */
 /* bender-ckeditor-plugins: pastefromword */
+/* bender-include: generated/_helpers/pfwTools.js, ../pastetools/_helpers/ptTools.js */
+/* global ptTools */
 
 ( function() {
 	'use strict';
@@ -10,7 +12,7 @@
 		}
 	};
 
-	bender.test( {
+	var tests = {
 		'test whether custom filter is loaded': function() {
 			var editor = this.editor;
 
@@ -23,11 +25,15 @@
 			editor.fire( 'paste', {
 				type: 'auto',
 				// This data will be recognized as pasted from Word.
-				dataValue: '<p>fail <strong class="MsoNormal">fail</strong></p>'
+				dataValue: '<p>fail <strong class="MsoNormal">fail</strong></p>',
+				method: 'paste'
 			} );
 
 			wait();
 		}
-	} );
+	};
 
+	ptTools.ignoreTestsOnMobiles( tests );
+
+	bender.test( tests );
 } )();

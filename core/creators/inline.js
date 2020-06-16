@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -12,7 +12,8 @@
 	 * allowed element names.
 	 *
 	 * **Note:** If the DOM element for which inline editing is being enabled does not have
-	 * the `contenteditable` attribute set to `true`, the editor will start in read-only mode.
+	 * the `contenteditable` attribute set to `true` or {@link CKEDITOR.config#readOnly config.readOnly}
+	 * configuration option set to `false`, the editor will start in read-only mode.
 	 *
 	 *		<div contenteditable="true" id="content">...</div>
 	 *		...
@@ -28,14 +29,11 @@
 	 * @returns {CKEDITOR.editor} The editor instance created.
 	 */
 	CKEDITOR.inline = function( element, instanceConfig ) {
-		if ( !CKEDITOR.env.isCompatible )
+		element = CKEDITOR.editor._getEditorElement( element );
+
+		if ( !element ) {
 			return null;
-
-		element = CKEDITOR.dom.element.get( element );
-
-		// Avoid multiple inline editor instances on the same element.
-		if ( element.getEditor() )
-			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
+		}
 
 		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE ),
 			textarea = element.is( 'textarea' ) ? element : null;
@@ -57,6 +55,12 @@
 			if ( textarea.$.form )
 				editor._attachToForm();
 		} else {
+			// If editor element does not have contenteditable attribute, but config.readOnly
+			// is explicitly set to false, set the contentEditable property to true (#3866).
+			if ( instanceConfig && typeof instanceConfig.readOnly !== 'undefined' && !instanceConfig.readOnly ) {
+				element.setAttribute( 'contenteditable', 'true' );
+			}
+
 			// Initial editor data is simply loaded from the page element content to make
 			// data retrieval possible immediately after the editor creation.
 			editor.setData( element.getHtml(), null, true );
@@ -71,6 +75,7 @@
 
 			// Editable itself is the outermost element.
 			editor.container = element;
+			editor.ui.contentsElement = element;
 
 			// Load and process editor data.
 			editor.setData( editor.getData( 1 ) );
@@ -95,11 +100,16 @@
 
 		// Handle editor destroying.
 		editor.on( 'destroy', function() {
+			var container = editor.container;
 			// Remove container from DOM if inline-textarea editor.
 			// Show <textarea> back again.
+			// Editor can be destroyed before container is created (#3115).
+			if ( textarea && container ) {
+				container.clearCustomData();
+				container.remove();
+			}
+
 			if ( textarea ) {
-				editor.container.clearCustomData();
-				editor.container.remove();
 				textarea.show();
 			}
 

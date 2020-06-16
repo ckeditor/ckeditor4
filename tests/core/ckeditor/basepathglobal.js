@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -10,7 +10,7 @@
 		folderPath = path + testDir.slice( 0, testDir.lastIndexOf( '/' ) ),
 		expectedEditorPath = '/apps/ckeditor/',
 		query = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
-		secondDomainName = 'sub.ckeditor.dev',
+		secondDomainName = 'sub.ckeditor.example',
 		port = window.location.port;
 
 
@@ -49,6 +49,11 @@
 		},
 
 		'test full BASEPATH': function() {
+			if ( CKEDITOR.env.iOS ) {
+				// Tests using `secondDomainName` will not work on iOS where we can not set hosts.
+				assert.ignore();
+			}
+
 			var iframe = CKEDITOR.document.getById( 'iframe-full' ),
 				doc = iframe.getFrameDocument();
 
@@ -138,6 +143,11 @@
 		},
 
 		'test protocol relative BASEPATH': function() {
+			if ( CKEDITOR.env.iOS ) {
+				// Tests using `secondDomainName` will not work on iOS where we can not set hosts.
+				assert.ignore();
+			}
+
 			var iframe = CKEDITOR.document.getById( 'iframe-protocol-relative' ),
 				doc = iframe.getFrameDocument();
 

@@ -18,9 +18,9 @@ CKEDITOR.dialog.add( 'simplebox', function( editor ) {
 						label: 'Align',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[ editor.lang.common.alignLeft, 'left' ],
-							[ editor.lang.common.alignRight, 'right' ],
-							[ editor.lang.common.alignCenter, 'center' ]
+							[ editor.lang.common.left, 'left' ],
+							[ editor.lang.common.right, 'right' ],
+							[ editor.lang.common.center, 'center' ]
 						],
 						// When setting up this field, set its value to the "align" value from widget data.
 						// Note: Align values used in the widget need to be the same as those defined in the "items" array above.

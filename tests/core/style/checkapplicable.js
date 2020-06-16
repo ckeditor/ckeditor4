@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 
@@ -83,7 +83,7 @@
 	a( false, 'div', '<div>a^b</div>', 'p(bar)', 'tc2' );
 
 	CKEDITOR.tools.extend( tcs, {
-		// Since CKEditor 4.4 editor instance replaced filter  as checkApplicable's second argument.
+		// Since CKEditor 4.4.0 editor instance replaced filter  as checkApplicable's second argument.
 		// Make sure that discovering arguments order works.
 		'test checkApplicable arguments (filter vs editor) discovery': function() {
 			var editor = this.editor,

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 		items: [
 			{
 			name: 'Verktøylinje for editor',
-			legend: 'Trykk ${toolbarFocus} for å navigere til verktøylinjen. Flytt til neste og forrige verktøylinjegruppe med TAB og SHIFT-TAB. Flytt til neste og forrige verktøylinjeknapp med HØYRE PILTAST og VENSTRE PILTAST. Trykk MELLOMROM eller ENTER for å aktivere verktøylinjeknappen.'
+			legend: 'Trykk ${toolbarFocus} for å navigere til verktøylinjen. Flytt til neste og forrige verktøylinjegruppe med TAB og SHIFT+TAB. Flytt til neste og forrige verktøylinjeknapp med HØYRE PILTAST og VENSTRE PILTAST. Trykk MELLOMROM eller ENTER for å aktivere verktøylinjeknappen.'
 		},
 
 			{
 			name: 'Dialog for editor',
-			legend: 'Mens du er i en dialog, trykk TAB for å navigere til neste dialogfelt, press SHIFT + TAB for å flytte til forrige felt, trykk ENTER for å akseptere dialogen, trykk ESC for å avbryte dialogen. For dialoger med flere faner, trykk ALT + F10 for å navigere til listen over faner. Gå til neste fane med TAB eller HØYRE PILTAST. Gå til forrige fane med SHIFT + TAB eller VENSTRE PILTAST. Trykk MELLOMROM eller ENTER for å velge fanen.'
+			legend:
+				'Mens du er i en dialog, trykk TAB for å navigere til neste dialogelement, trykk SHIFT+TAB for å flytte til forrige dialogelement, trykk ENTER for å akseptere dialogen, trykk ESC for å avbryte dialogen. Når en dialog har flere faner, kan fanelisten nås med enten ALT+F10 eller med TAB. Når fanelisten er fokusert, går man til neste og forrige fane med henholdsvis HØYRE og VENSTRE PILTAST.' 
 		},
 
 			{
@@ -27,7 +28,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 
 			{
 			name: 'Listeboks for editor',
-			legend: 'I en listeboks, gå til neste alternativ i listen med TAB eller PILTAST NED. Gå til forrige alternativ i listen med SHIFT + TAB eller PILTAST OPP. Trykk MELLOMROM eller ENTER for å velge alternativet i listen. Trykk ESC for å lukke listeboksen.'
+			legend: 'I en listeboks, gå til neste alternativ i listen med TAB eller PILTAST NED. Gå til forrige alternativ i listen med SHIFT+TAB eller PILTAST OPP. Trykk MELLOMROM eller ENTER for å velge alternativet i listen. Trykk ESC for å lukke listeboksen.'
 		},
 
 			{
@@ -78,32 +79,29 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 			{
 			name: 'Hjelp for tilgjengelighet',
 			legend: 'Trykk ${a11yHelp}'
+		},
+			{
+			name: 'Lim inn som ren tekst',
+			legend: 'Trykk ${pastetext}',
+			legendEdge: 'Trykk ${pastetext}, etterfulgt av ${past}'
 		}
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tabulator',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: 'Venstre piltast',
 	upArrow: 'Opp-piltast',
 	rightArrow: 'Høyre piltast',
 	downArrow: 'Ned-piltast',
 	insert: 'Insert',
-	'delete': 'Delete',
 	leftWindowKey: 'Venstre Windows-tast',
 	rightWindowKey: 'Høyre Windows-tast',
-	selectKey: 'Select key', // MISSING
+	selectKey: 'Velg nøkkel',
 	numpad0: 'Numerisk tastatur 0',
 	numpad1: 'Numerisk tastatur 1',
 	numpad2: 'Numerisk tastatur 2',
@@ -114,11 +112,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 	numpad7: 'Numerisk tastatur 7',
 	numpad8: 'Numerisk tastatur 8',
 	numpad9: 'Numerisk tastatur 9',
-	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
+	multiply: 'Multipliser',
+	add: 'Legg til',
+	subtract: 'Trekk fra',
+	decimalPoint: 'Desimaltegn',
+	divide: 'Divider',
 	f1: 'F1',
 	f2: 'F2',
 	f3: 'F3',
@@ -139,9 +137,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 	dash: 'Bindestrek',
 	period: 'Punktum',
 	forwardSlash: 'Forover skråstrek',
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
+	graveAccent: 'Grav aksent',
+	openBracket: 'Åpne parentes',
 	backSlash: 'Bakover skråstrek',
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	closeBracket: 'Lukk parentes',
+	singleQuote: 'Enkelt sitattegn'
 } );

@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'font', 'pt', {
 	fontSize: {
@@ -9,6 +9,6 @@ CKEDITOR.plugins.setLang( 'font', 'pt', {
 		panelTitle: 'Tamanho da letra'
 	},
 	label: 'Fonte',
-	panelTitle: 'Nome do Tipo de Letra',
-	voiceLabel: 'Tipo de Letra'
+	panelTitle: 'Nome do tipo de letra',
+	voiceLabel: 'Tipo de letra'
 } );

@@ -1,0 +1,36 @@
+<head>
+	<style type="text/css">
+	h2 {
+		margin: 10px 0px 4px 0px;
+		padding: 0;
+		font-size: 14px;
+	}
+	</style>
+</head>
+<div>
+	<h2>Helpers</h2>
+	<div id="helpers">
+		<textarea style="width:49%; height:50px; float: left;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In commodo vulputate tempor. Sed <b>at</b> elit.</textarea>
+		<div style="width:49%; height:50px; float: right;">
+			<img height="40" alt="CKEditor logo" src="%BASE_PATH%_assets/logo.png" />
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+</div>
+<div>
+	<h2>Editor</h2>
+	<div id="editor">
+		<p>I'm working!</p>
+	</div>
+</div>
+<script>
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function( evt ) {
+				evt.editor.document.on( 'drop', function( evt ) {
+					evt.data.preventDefault();
+				} );
+			}
+		}
+	} );
+</script>

@@ -1,13 +1,13 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'es', {
 	button: 'Insertar fragmento de código',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	codeContents: 'Contenido del código',
+	emptySnippetError: 'Un fragmento de código no puede estar vacío.',
+	language: 'Lenguaje',
+	title: 'Fragmento de código',
+	pathName: 'fragmento de código'
 } );

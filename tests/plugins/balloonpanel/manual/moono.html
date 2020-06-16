@@ -1,0 +1,45 @@
+<style>
+	body {
+		margin: 0px;
+		padding-left: 350px;
+		position: static;
+	}
+</style>
+
+<h1>Moono skin</h1>
+
+<h2>Classic</h2>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p><em>Foo</em></p>
+</textarea>
+
+<h2>Inline</h2>
+
+<div id="editor2" contenteditable="true">
+	<p><em>Foo</em></p>
+</div>
+
+<script>
+	CKEDITOR.disableAutoInline = true;
+
+	var cfg = {
+		extraPlugins: 'balloonpanel',
+		on: {
+			instanceReady: function() {
+				var panel = new CKEDITOR.ui.balloonPanel( this, {
+					width: 'auto',
+					height: 100,
+					title: 'Balloon title',
+					content: 'This is the balloon content'
+				} );
+
+				panel.attach( this.editable().findOne( 'em' ) );
+			}
+		},
+		skin: 'moono'
+	};
+
+	CKEDITOR.replace( 'editor1', cfg );
+	CKEDITOR.inline( 'editor2', cfg );
+</script>

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 'use strict';
 
@@ -609,46 +609,6 @@ bender.test( {
 		assert.areSame( '<p f="1"><b>foobar</b><i>fuubar</i></p>', writer.getHtml( true ) );
 	},
 
-	'test blocking processing on elements with data-cke-processor="off" attribute': function() {
-		var filter = new CKEDITOR.htmlParser.filter(),
-			writer = new CKEDITOR.htmlParser.basicWriter();
-
-		writer.sortAttributes = true;
-
-		filter.addRules( {
-			root: function( el ) {
-				el.bar = '1';
-			},
-			elements: {
-				span: function( el ) {
-					el.attributes.foo = '1';
-				}
-			},
-			attributeNames: [
-				[ /^a$/, 'b' ]
-			],
-			text: function( value ) {
-				return value + 'X';
-			}
-		} );
-
-		var fragment = CKEDITOR.htmlParser.fragment.fromHtml(
-			'<p><span a="1">1<span a="1">1.1</span><span a="1" data-cke-processor="off">1.2<span>1.2.1</span></span><span a="1">1.3</span></span></p>' );
-		filter.applyTo( fragment );
-		fragment.writeHtml( writer );
-
-		assert.areSame(
-			'<p><span b="1" foo="1">1X<span b="1" foo="1">1.1X</span><span a="1" data-cke-processor="off">1.2<span>1.2.1</span></span><span b="1" foo="1">1.3X</span></span></p>',
-			writer.getHtml( true )
-		);
-
-		var elSpan = CKEDITOR.htmlParser.fragment.fromHtml( '<span a="1" data-cke-processor="off">A</span>' ).children[ 0 ];
-		filter.applyTo( elSpan );
-		elSpan.writeHtml( writer );
-
-		assert.areSame( '<span a="1" data-cke-processor="off">A</span>', writer.getHtml( true ) );
-	},
-
 	'test no processing of non-editable elements': function() {
 		var filter = new CKEDITOR.htmlParser.filter(),
 			writer = new CKEDITOR.htmlParser.basicWriter();
@@ -899,5 +859,53 @@ bender.test( {
 		assert.areSame( 5, group.rules[ 2 ].priority );
 		assert.areSame( options3, group.rules[ 1 ].options );
 		assert.areSame( options3, group.rules[ 2 ].options );
+	},
+
+	// (#3593)
+	'test should be possible to replace element node with text': function() {
+		var filter = new CKEDITOR.htmlParser.filter();
+
+		filter.addRules( {
+			elements: {
+				'span': function() {
+					return new CKEDITOR.htmlParser.text( 'test' );
+				},
+
+				'$': function( el ) {
+					el.filterChildren( filter );
+				}
+			},
+
+			text: function( value, element ) {
+				// It's necessary to access to element, to generate error. Before fix it was undefiend.
+				assert.areEqual( CKEDITOR.NODE_TEXT, element.type );
+			}
+		} );
+
+		assertFilter( '<p>foo test baz</p>', '<p>foo <span>bar</span> baz</p>', filter );
+	},
+
+	// (#3593)
+	'test should be possible to replace element node with comment': function() {
+		var filter = new CKEDITOR.htmlParser.filter();
+
+		filter.addRules( {
+			elements: {
+				'span': function() {
+					return new CKEDITOR.htmlParser.comment( 'test' );
+				},
+
+				'$': function( el ) {
+					el.filterChildren( filter );
+				}
+			},
+
+			comment: function( value, element ) {
+				// It's necessary to access to element, to generate error. Before fix it was undefiend.
+				assert.areEqual( CKEDITOR.NODE_COMMENT, element.type );
+			}
+		} );
+
+		assertFilter( '<p>foo <!--test--> baz</p>', '<p>foo <span>bar</span> baz</p>', filter );
 	}
 } );

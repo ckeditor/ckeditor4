@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 		items: [
 			{
 			name: '编辑器工具栏',
-			legend: '按 ${toolbarFocus} 导航到工具栏，使用 TAB 键和 SHIFT+TAB 组合键移动到上一个和下一个工具栏组。使用左右箭头键移动到上一个和下一个工具栏按钮。按空格键或回车键以选中工具栏按钮。'
+			legend: '按 ${toolbarFocus} 切换到工具栏，使用 TAB 键和 SHIFT+TAB 组合键移动到上一个和下一个工具栏组。使用左右箭头键移动到上一个或下一个工具栏按钮。按空格键或回车键以选中工具栏按钮。'
 		},
 
 			{
 			name: '编辑器对话框',
-			legend: '在对话框内，TAB 键移动到下一个字段，SHIFT + TAB 组合键移动到上一个字段，ENTER 键提交对话框，ESC 键取消对话框。对于有多选项卡的对话框，用ALT + F10来移到选项卡列表。然后用 TAB 键或者向右箭头来移动到下一个选项卡；SHIFT + TAB 组合键或者向左箭头移动到上一个选项卡。用 SPACE 键或者 ENTER 键选择选项卡。'
+			legend:
+				'在对话框内，按 TAB 键移动到下一个字段，按 SHIFT + TAB 组合键移动到上一个字段，按 ENTER 键提交对话框，按 ESC 键取消对话框。对于有多选项卡的对话框，可以按 ALT + F10 直接切换到或者按 TAB 键逐步移到选项卡列表，当焦点移到选项卡列表时可以用左右箭头键来移动到前后的选项卡。' 
 		},
 
 			{
@@ -27,7 +28,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 
 			{
 			name: '编辑器列表框',
-			legend: '在列表框中，移到下一列表项用 TAB 键或者下箭头键。移到上一列表项用SHIFT + TAB 组合键或者上箭头键，用 SPACE 键或者 ENTER 键选择列表项。用 ESC 键收起列表框。'
+			legend: '在列表框中，移到下一列表项用 TAB 键或者下箭头键。移到上一列表项用SHIFT+TAB 组合键或者上箭头键，用 SPACE 键或者 ENTER 键选择列表项。用 ESC 键收起列表框。'
 		},
 
 			{
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 			{
 			name: '辅助功能帮助',
 			legend: '按 ${a11yHelp}'
+		},
+			{
+			name: '粘贴为纯文本',
+			legend: '按 ${pastetext}',
+			legendEdge: '按 ${pastetext}，然后再按 ${paste}'
 		}
 		]
 	}
 	],
-	backspace: '退格键',
 	tab: 'Tab 键',
-	enter: '回车键',
-	shift: 'Shift 键',
-	ctrl: 'Ctrl 键',
-	alt: 'Alt 键',
 	pause: '暂停键',
 	capslock: '大写锁定键',
 	escape: 'Esc 键',
 	pageUp: '上翻页键',
 	pageDown: '下翻页键',
-	end: '行尾键',
-	home: '行首键',
 	leftArrow: '向左箭头键',
 	upArrow: '向上箭头键',
 	rightArrow: '向右箭头键',
 	downArrow: '向下箭头键',
 	insert: '插入键',
-	'delete': '删除键',
 	leftWindowKey: '左 WIN 键',
 	rightWindowKey: '右 WIN 键',
 	selectKey: '选择键',

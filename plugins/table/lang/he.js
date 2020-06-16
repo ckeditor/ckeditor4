@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'he', {
 	border: 'גודל מסגרת',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'he', {
 	headersColumn: 'עמודה ראשונה',
 	headersNone: 'אין',
 	headersRow: 'שורה ראשונה',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'שדה גודל המסגרת חייב להיות מספר.',
 	invalidCellPadding: 'שדה ריפוד התאים חייב להיות מספר חיובי.',
 	invalidCellSpacing: 'שדה ריווח התאים חייב להיות מספר חיובי.',

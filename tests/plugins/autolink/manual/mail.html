@@ -1,0 +1,25 @@
+<h3>Emails that should be turned into links</h3>
+
+<style>
+input[type=text] { width: 450px }
+</style>
+
+<ul>
+	<li><input type="text" readonly="readonly" value="example@mail.com"></li>
+	<li><input type="text" readonly="readonly" value="example@mail"></li>
+	<li><input type="text" readonly="readonly" value="mail@192.168.20.99"></li>
+</ul>
+
+<h3>Emails that shouldn't be turned into links</h3>
+
+<ul>
+	<li><input type="text" readonly="readonly" value="example@"></li>
+	<li><input type="text" readonly="readonly" value="@mail.com"></li>
+</ul>
+
+<textarea id="editor">
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor' );
+</script>

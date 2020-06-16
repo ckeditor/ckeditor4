@@ -1,0 +1,77 @@
+<textarea id="editor1">
+	<p>Hello world</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+</textarea>
+<div contenteditable="true" id="editor2">
+	<p>Hello world</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+</div>
+<div contenteditable="true" id="editor3">
+	<p>Hello world</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+	function instanceReadyListener( evt ) {
+		var images = this.editable().find( 'img' ).toArray(),
+			panel = new CKEDITOR.ui.balloonToolbar( this );
+
+		panel.addItems( {
+			bold: new CKEDITOR.ui.button( {
+				label: 'test',
+				command: 'bold'
+			} ),
+			language: evt.editor.ui.create( 'Language' ),
+			Styles: evt.editor.ui.create( 'Styles' )
+		} );
+
+		CKEDITOR.tools.array.forEach( images, function( image ) {
+			image.on( 'click', function() {
+				panel.attach( this );
+			} );
+		} );
+	}
+
+	// Overwrite prototype to simulate missing css file.
+	var stub = stubAppendStyleSheet();
+	CKEDITOR.once( 'instanceReady', stub.restore );
+
+	CKEDITOR.replace( 'editor1', {
+		skin: 'moono',
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+	CKEDITOR.replace( 'editor2', {
+		skin: 'moono',
+		extraPlugins: 'divarea',
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+	CKEDITOR.inline( 'editor3', {
+		skin: 'moono',
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+</script>

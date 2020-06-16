@@ -1,5 +1,5 @@
-/* bender-tags: editor,unit,widget */
-/* bender-ckeditor-plugins: image2,justify,toolbar */
+/* bender-tags: editor,widget */
+/* bender-ckeditor-plugins: image2,justify,toolbar,link */
 /* global widgetTestsTools, image2TestsTools */
 
 ( function() {
@@ -63,16 +63,19 @@
 					height: true,
 					hasCaption: true
 				}
+			},
+			link_target_allowed: {
+				name: 'link_target_allowed',
+				fields: {
+					src: true,
+					alt: true,
+					align: true,
+					width: true,
+					height: true,
+					hasCaption: true
+				}
 			}
-		}, bots;
-
-	for ( var d in defs ) {
-		CKEDITOR.tools.extend( defs[ d ].config, {
-			language: 'en',
-			extraAllowedContent: 'figure img[id]; p{text-align}',
-			autoParagraph: false
-		} );
-	}
+		};
 
 	function assertVisibleFields( bot, fields ) {
 		bot.editor.once( 'dialogShow', function( evt ) {
@@ -96,7 +99,7 @@
 	}
 
 	function test( name, html, data, expected ) {
-		var bot = bots[ name ];
+		var bot = bender.editorBots[ name ];
 
 		bot.setData( html, function() {
 			var widget = getWidgetById( bot.editor, 'x' ),
@@ -126,15 +129,15 @@
 		assert.areSame( justify, justifyCmd.state, 'justifyCmd.state' );
 	}
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
+	bender.editors = defs;
 
-			bender.tools.setUpEditors( defs, function( editors, botCollection ) {
-				bots = botCollection;
-				that.callback( editors );
-			} );
-		},
+	bender.editorsConfig = {
+		language: 'en',
+		extraAllowedContent: 'figure img[id]; p{text-align}',
+		autoParagraph: false
+	};
+
+	bender.test( {
 		'test image: src only': function() {
 			test( 'src_only',
 				'<img id="x" src="_assets/foo.png" alt="b" width="1" height="2" />',
@@ -255,8 +258,19 @@
 			);
 		},
 
+		'test allow caption link target': function() {
+			var bot = this.editorBots.link_target_allowed,
+				content = '<figure><img alt="" src="_assets/bar.png" /><figcaption>' +
+					'<a href="http://google.com" target="_blank">caption</a>' +
+					'</figcaption></figure>';
+
+			bot.setData( content, function() {
+				bender.assert.isInnerHtmlMatching( content, bot.getData() );
+			} );
+		},
+
 		'test justify plugin integration when (alignment disallowed)': function() {
-			var bot = bots.no_align;
+			var bot = this.editorBots.no_align;
 
 			bot.setData( 'x<img alt="b" height="2" id="x" src="_assets/foo.png" width="1" />', function() {
 				getWidgetById( bot.editor, 'x' ).focus();
@@ -265,7 +279,7 @@
 		},
 
 		'test justify plugin integration (alignment allowed)': function() {
-			var bot = bots.all_allowed;
+			var bot = this.editorBots.all_allowed;
 
 			bot.setData( 'x<img alt="b" height="2" id="x" style="float:left" src="_assets/foo.png" width="1" />', function() {
 				getWidgetById( bot.editor, 'x' ).focus();

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 'use strict';
 
@@ -83,7 +83,7 @@ bender.test( {
 	},
 
 	test_checkElementRemovable_fontFamily: function() {
-		var element = CKEDITOR.dom.element.createFromHtml( '<span style="font-family: georgia,  serif">Test Font</span>', doc );
+		var element = CKEDITOR.dom.element.createFromHtml( '<span style="font-family: Georgia,  serif">Test Font</span>', doc );
 		playground.append( element );
 
 		var style = new CKEDITOR.style( { element: 'span', styles: { 'font-family': '#(family)' } }, { family: 'Georgia, serif;' } );

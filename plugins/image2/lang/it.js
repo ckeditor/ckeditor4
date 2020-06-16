@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'it', {
 	alt: 'Testo alternativo',
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'it', {
 	resizer: 'Fare clic e trascinare per ridimensionare',
 	title: 'Proprietà immagine',
 	uploadTab: 'Carica',
-	urlMissing: 'Manca l\'URL dell\'immagine.'
+	urlMissing: 'Manca l\'URL dell\'immagine.',
+	altMissing: 'Testo alternativo mancante.'
 } );

@@ -1,0 +1,30 @@
+<h2>Markup 1:</h2>
+<input type="text" readonly style="width:100%" value="&lt;ul&gt;&lt;li&gt;&lt;div&gt;test&lt;ul&gt;&lt;!-- sneaky comment --&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/li&gt;&lt;li&gt;test&lt;/li&gt;&lt;/ul&gt;">
+<h2>Markup 2:</h2>
+<input type="text" readonly style="width:100%" value="&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://example.com&quot;&gt;Register&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;br&gt;&lt;/li&gt;&lt;li&gt;&middot;&lt;/li&gt;&lt;li&gt;&lt;br&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://example.com&quot;&gt;Sign In&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;br&gt;&lt;/li&gt;&lt;li&gt;&middot;&lt;/li&gt;&lt;li&gt;&lt;br&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://example.com&quot;&gt;Help&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;">
+
+<h2>Classic editor</h2>
+<textarea id="classic" cols="30" rows="10"></textarea>
+
+<h2>Divarea editor</h2>
+<div id="divarea"></div>
+
+<h2>Inline editor</h2>
+<div contenteditable="true" id="inline" style="border: 1px dotted black;"></div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'classic', {
+		extraAllowedContent: 'div'
+	} );
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'divarea',
+		extraAllowedContent: 'div'
+	} );
+	CKEDITOR.inline( 'inline', {
+		extraPlugins: 'floatingspace,sourcedialog',
+		extraAllowedContent: 'div'
+	} );
+</script>

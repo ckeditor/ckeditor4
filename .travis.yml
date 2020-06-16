@@ -1,0 +1,44 @@
+sudo: required
+dist: xenial
+services:
+  - xvfb
+
+branches:
+  only:
+  - master
+  - major
+  - stable
+  - latest
+  - /^\d+\.\d+(\.\d+)?(-\S*)?$/
+  - /^release\/\d+\.\d+\.x$/
+
+language: node_js
+
+node_js:
+  - 10
+
+env:
+  - BUILD=0 BROWSER=Chrome
+  - BUILD=1 BROWSER=Chrome
+  - BUILD=0 BROWSER=Firefox MOZ_HEADLESS=1
+  - BUILD=1 BROWSER=Firefox MOZ_HEADLESS=1
+
+addons:
+  firefox: "latest"
+  chrome: stable
+
+before_script:
+  # Prepare environment.
+  - 'npm install benderjs-cli -g'
+  - 'export DISPLAY=:99.0'
+  - 'sleep 3'
+
+  # The $TRAVIS_BRANCH points to target branch for PRs and for other branches it is the current branch name.
+  - 'BUILD_PATH=0'
+  - 'if [ "$BUILD" = "1" ] && ( [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "major" ] ); then
+        sh -e ./dev/travis/build.sh $TRAVIS_BRANCH && BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh)";
+    fi'
+
+script:
+  - 'if [ "$BUILD" = "0" ]; then bender run -c bender.ci.js; fi'
+  - 'if [ "$BUILD" = "1" ] && [ "$BUILD_PATH" != "0" ]; then cd $BUILD_PATH && bender run -c bender.ci.js; fi'

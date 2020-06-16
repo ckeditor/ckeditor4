@@ -1,0 +1,45 @@
+<style>
+	body {
+		position: static;
+	}
+</style>
+
+<h2>Classic editor</h2>
+<textarea id="classic">
+	<p>Hello world <em>emphasize</em>, <strong>strong</strong>.</p>
+</textarea>
+
+<h2>Divarea editor</h2>
+<div id="divarea" contenteditable="true">
+	<p>Hello world <em>emphasize</em>, <strong>strong</strong>.</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true" style="width:500px;">
+	<p>Hello world <em>emphasize</em>, <strong>strong</strong>.</p>
+</div>
+
+<script>
+	// Ignore on mobiles due to 'mousedown' event.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.on( 'instanceReady', function( evt ) {
+		evt.editor.balloonToolbars.create( {
+			buttons: 'Bold,Italic',
+			cssSelector: 'strong, em'
+		} );
+	} );
+
+	CKEDITOR.replace( 'classic', {
+		width: 500
+	} );
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'divarea',
+		width: 500
+	} );
+	CKEDITOR.inline( 'inline' );
+</script>

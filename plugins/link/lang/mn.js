@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'mn', {
 	acccessKey: 'Холбох түлхүүр',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	anchorName: 'Зангуугийн нэрээр',
 	charset: 'Тэмдэгт оноох нөөцөд холбогдсон',
 	cssClasses: 'Stylesheet классууд',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Э-шуудангийн хаяг',
 	emailBody: 'Зурвасны их бие',
 	emailSubject: 'Зурвасны гарчиг',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	noAnchors: '(Баримт бичиг зангуугүй байна)',
 	noEmail: 'Э-шуудангий хаягаа шивнэ үү',
 	noUrl: 'Холбоосны URL хаягийг шивнэ үү',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<other>', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Хамаатай (Netscape)',
 	popupFeatures: 'Popup цонхны онцлог',
 	popupFullScreen: 'Цонх дүүргэх (Internet Explorer)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	toAnchor: 'Энэ бичвэр дэх зангуу руу очих холбоос',
 	toEmail: 'Э-захиа',
 	toUrl: 'цахим хуудасны хаяг (URL)',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Холбоос',
 	type: 'Линкийн төрөл',
 	unlink: 'Холбоос авч хаях',

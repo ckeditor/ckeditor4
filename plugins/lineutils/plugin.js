@@ -1,9 +1,9 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
- /**
+/**
  * @fileOverview A set of utilities to find and create horizontal spaces in edited content.
  */
 
@@ -49,7 +49,7 @@
 	 * @constructor Creates a Finder class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that the Finder belongs to.
 	 * @param {Object} def Finder's definition.
-	 * @since 4.3
+	 * @since 4.3.0
 	 */
 	function Finder( editor, def ) {
 		CKEDITOR.tools.extend( this, {
@@ -379,6 +379,11 @@
 					continue;
 				}
 
+				// On IE8 element.getElementsByTagName returns comments... sic! (https://dev.ckeditor.com/ticket/13176)
+				if ( el.type != CKEDITOR.NODE_ELEMENT ) {
+					continue;
+				}
+
 				// Don't visit non-editable internals, for example widget's
 				// guts (above wrapper, below nested). Still check editable limits,
 				// as they are siblings with editable contents.
@@ -451,7 +456,7 @@
 	 * @class CKEDITOR.plugins.lineutils.locator
 	 * @constructor Creates a Locator class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that Locator belongs to.
-	 * @since 4.3
+	 * @since 4.3.0
 	 */
 	function Locator( editor, def ) {
 		CKEDITOR.tools.extend( this, def, {
@@ -625,7 +630,7 @@
 	 * @constructor Creates a Liner class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that Liner belongs to.
 	 * @param {Object} def Liner's definition.
-	 * @since 4.3
+	 * @since 4.3.0
 	 */
 	function Liner( editor, def ) {
 		var editable = editor.editable();
@@ -835,7 +840,7 @@
 
 			// Let's calculate the vertical position of the line.
 			if ( this.inline ) {
-				// (#13155)
+				// (https://dev.ckeditor.com/ticket/13155)
 				styles.top = loc + this.winTopScroll.y - this.rect.relativeY;
 			} else {
 				styles.top = this.rect.top + this.winTopScroll.y + loc;
@@ -848,7 +853,7 @@
 
 			// Now let's calculate the horizontal alignment (left and width).
 			if ( this.inline ) {
-				// (#13155)
+				// (https://dev.ckeditor.com/ticket/13155)
 				styles.left = rel.elementRect.left - this.rect.relativeX;
 			} else {
 				if ( rel.elementRect.left > 0 )
@@ -934,13 +939,13 @@
 			this.winTopScroll = this.winTop.getScrollPosition();
 			this.winTopPane = this.winTop.getViewPaneSize();
 
-			// (#13155)
+			// (https://dev.ckeditor.com/ticket/13155)
 			this.rect = this.getClientRect( this.inline ? this.editable : this.frame );
 		},
 
 		/**
 		 * Returns `boundingClientRect` of an element, shifted by the position
-		 * of `container` when the container is not `static` (#13155).
+		 * of `container` when the container is not `static` (https://dev.ckeditor.com/ticket/13155).
 		 *
 		 * See also: {@link CKEDITOR.dom.element#getClientRect}.
 		 *
@@ -1003,7 +1008,7 @@
 	 * @private
 	 * @class
 	 * @singleton
-	 * @since 4.3
+	 * @since 4.3.0
 	 */
 	CKEDITOR.plugins.lineutils = {
 		finder: Finder,

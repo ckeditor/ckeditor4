@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
@@ -12,27 +12,28 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		items: [
 			{
 			name: 'Editor værktøjslinje',
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			legend: 'Tryk ${toolbarFocus} for at navigere til værktøjslinjen. Flyt til næste eller forrige værktøjsline gruppe ved hjælp af TAB eller SHIFT+TAB. Flyt til næste eller forrige værktøjslinje knap med venstre- eller højre piltast. Tryk på SPACE eller ENTER for at aktivere værktøjslinje knappen.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: 'Editor dialogboks',
+			legend:
+				'Inde i en dialogboks kan du, trykke på TAB for at navigere til næste element, trykke på SHIFT+TAB for at navigere til forrige element, trykke på ENTER for at afsende eller trykke på ESC for at lukke dialogboksen. Når en dialogboks har flere faner, fanelisten kan tilgås med ALT+F10 eller med TAB. Hvis fanelisten er i fokus kan du skifte til næste eller forrige tab, med højre- og venstre piltast.' 
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			name: 'Redaktør kontekstmenu',
+			legend: 'Tryk ${contextMenu} eller APPLICATION KEY for at åbne kontekstmenuen. Flyt derefter til næste menuvalg med TAB eller PIL NED. Flyt til forrige valg med SHIFT+TAB eller PIL OP. Tryk MELLEMRUM eller RETUR for at vælge menu-muligheder. Åben under-menu af aktuelle valg med MELLEMRUM eller RETUR eller HØJRE PIL. Gå tilbage til overliggende menu-emne med ESC eller VENSTRE PIL. Luk kontekstmenu med ESC.'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'Redaktør listeboks',
+			legend: 'Flyt til næste emne med TAB eller PIL NED inde i en listeboks. Flyt til forrige listeemne med SHIFT+TAB eller PIL OP. Tryk MELLEMRUM eller RETUR for at vælge liste-muligheder. Tryk ESC for at lukke liste-boksen.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Redaktør elementsti-bar',
+			legend: 'Tryk ${elementsPathFocus} for at navigere til elementernes sti-bar. Flyt til næste element-knap med TAB eller HØJRE PIL. Flyt til forrige knap med SHIFT+TAB eller VENSTRE PIL. Klik MELLEMRUM eller RETUR for at vælge element i editoren.'
 		}
 		]
 	},
@@ -48,62 +49,59 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 			legend: 'Klik ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
+			name: 'Fed kommando',
 			legend: 'Klik ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
+			name: 'Kursiv kommando',
 			legend: 'Klik ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
+			name: 'Understregnings kommando',
 			legend: 'Klik ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
+			name: 'Link kommando',
 			legend: 'Klik ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
+			name: 'Klap værktøjslinje sammen kommando ',
 			legend: 'Klik ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Adgang til forrige fokusområde kommando',
+			legend: 'Klik på ${accessPreviousSpace} for at få adgang til det nærmeste utilgængelige fokusmellemrum før indskudstegnet, for eksempel: To nærliggende HR-elementer. Gentag nøglekombinationen for at nå fjentliggende fokusmellemrum.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Gå til næste fokusmellemrum kommando',
+			legend: 'Klik på ${accessNextSpace} for at få adgang til det nærmeste utilgængelige fokusmellemrum efter indskudstegnet, for eksempel: To nærliggende HR-elementer. Gentag nøglekombinationen for at nå fjentliggende fokusmellemrum.'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
+			name: 'Tilgængelighedshjælp',
 			legend: 'Kilk ${a11yHelp}'
+		},
+			{
+			name: 'Indsæt som ren tekst',
+			legend: 'Klik ${pastetext}',
+			legendEdge: 'Klik ${pastetext}, efterfult af ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
 	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: 'Venstre pil',
 	upArrow: 'Pil op',
 	rightArrow: 'Højre pil',
 	downArrow: 'Pil ned',
 	insert: 'Insert',
-	'delete': 'Delete',
 	leftWindowKey: 'Venstre Windows tast',
 	rightWindowKey: 'Højre Windows tast',
-	selectKey: 'Select key', // MISSING
+	selectKey: 'Select-knap',
 	numpad0: 'Numpad 0',
 	numpad1: 'Numpad 1',
 	numpad2: 'Numpad 2',
@@ -117,7 +115,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 	multiply: 'Gange',
 	add: 'Plus',
 	subtract: 'Minus',
-	decimalPoint: 'Decimal Point', // MISSING
+	decimalPoint: 'Komma',
 	divide: 'Divider',
 	f1: 'F1',
 	f2: 'F2',
@@ -139,7 +137,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 	dash: 'Bindestreg',
 	period: 'Punktum',
 	forwardSlash: 'Skråstreg',
-	graveAccent: 'Grave Accent', // MISSING
+	graveAccent: 'Accent grave',
 	openBracket: 'Start klamme',
 	backSlash: 'Omvendt skråstreg',
 	closeBracket: 'Slut klamme',

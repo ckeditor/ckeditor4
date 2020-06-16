@@ -1,12 +1,12 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'sl', {
 	button: {
 		title: 'Lastnosti gumba',
 		text: 'Besedilo (Vrednost)',
-		type: 'Tip',
+		type: 'Vrsta',
 		typeBtn: 'Gumb',
 		typeSbm: 'Potrdi',
 		typeRst: 'Ponastavi'
@@ -15,12 +15,13 @@ CKEDITOR.plugins.setLang( 'forms', 'sl', {
 		checkboxTitle: 'Lastnosti potrditvenega polja',
 		radioTitle: 'Lastnosti izbirnega polja',
 		value: 'Vrednost',
-		selected: 'Izbrano'
+		selected: 'Izbrano',
+		required: 'Zahtevano'
 	},
 	form: {
 		title: 'Lastnosti obrazca',
 		menu: 'Lastnosti obrazca',
-		action: 'Akcija',
+		action: 'Dejanje',
 		method: 'Metoda',
 		encoding: 'Kodiranje znakov'
 	},
@@ -36,33 +37,35 @@ CKEDITOR.plugins.setLang( 'forms', 'sl', {
 		value: 'Vrednost',
 		size: 'Velikost',
 		lines: 'vrstic',
-		chkMulti: 'Dovoli izbor večih vrstic',
+		chkMulti: 'Dovoli izbor več vrednosti',
+		required: 'Zahtevano',
 		opText: 'Besedilo',
 		opValue: 'Vrednost',
 		btnAdd: 'Dodaj',
 		btnModify: 'Spremeni',
 		btnUp: 'Gor',
 		btnDown: 'Dol',
-		btnSetValue: 'Postavi kot privzeto izbiro',
+		btnSetValue: 'Določi kot privzeto izbiro',
 		btnDelete: 'Izbriši'
 	},
 	textarea: {
-		title: 'Lastnosti vnosnega območja',
+		title: 'Lastnosti besedilnega območja',
 		cols: 'Stolpcev',
 		rows: 'Vrstic'
 	},
 	textfield: {
-		title: 'Lastnosti vnosnega polja',
+		title: 'Lastnosti besedilnega polja',
 		name: 'Ime',
 		value: 'Vrednost',
-		charWidth: 'Dolžina',
+		charWidth: 'Širina',
 		maxChars: 'Največje število znakov',
-		type: 'Tip',
+		required: 'Zahtevano',
+		type: 'Vrsta',
 		typeText: 'Besedilo',
 		typePass: 'Geslo',
 		typeEmail: 'E-pošta',
 		typeSearch: 'Iskanje',
-		typeTel: 'Telefonska Številka',
+		typeTel: 'Telefonska številka',
 		typeUrl: 'URL'
 	}
 } );

@@ -1,0 +1,28 @@
+<div>
+		<h2><pre>forcePasteAsPlainText=false</pre></h2>
+		<div>
+			<textarea cols="80" id="classic1"rows="10">
+					<p><strong>Lorem ipsum</strong> <u>dolor</u> <em>sit amet</em>, <strong>co<sub>ns<u>ec<s>tetu<sup>r <em>a</em>d</sup>ipis</s>ci</u>ng </sub>eli</strong>t. Sed scelerisque aliquam <u>lacus, nec cursus</u> ante facilisis vel.</p>
+			</textarea>
+		</div>
+	</div>
+	<hr>
+	<div>
+		<h2><pre>forcePasteAsPlainText=true</pre></h2>
+		<div>
+			<textarea cols="80" id="classic2"rows="10">
+					<p><strong>Lorem ipsum</strong> <u>dolor</u> <em>sit amet</em>, <strong>co<sub>ns<u>ec<s>tetu<sup>r <em>a</em>d</sup>ipis</s>ci</u>ng </sub>eli</strong>t. Sed scelerisque aliquam <u>lacus, nec cursus</u> ante facilisis vel.</p>
+			</textarea>
+		</div>
+	</div>
+	<script>
+		CKEDITOR.replace( 'classic1', {
+			forcePasteAsPlainText: false,
+			width: 600
+		} );
+
+		CKEDITOR.replace( 'classic2', {
+			forcePasteAsPlainText: true,
+			width: 600
+		} );
+	</script>

@@ -1,6 +1,6 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 // jscs:disable maximumLineLength
-/* bender-ckeditor-plugins: basicstyles,bidi,blockquote,button,clipboard,colorbutton,dialog,div,docprops,find,flash,font,format,forms,horizontalrule,iframe,iframedialog,image,indent,justify,link,list,listblock,maximize,newpage,pagebreak,pastefromword,pastetext,placeholder,preview,print,removeformat,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,table,templates,toolbar,uicolor,undo */
+/* bender-ckeditor-plugins: basicstyles,bidi,blockquote,button,clipboard,colorbutton,dialog,div,docprops,elementspath,find,flash,font,format,forms,horizontalrule,iframe,iframedialog,image,indent,justify,link,list,listblock,maximize,newpage,pagebreak,pastefromword,pastetext,placeholder,preview,print,removeformat,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,table,templates,toolbar,uicolor,undo */
 // jscs:enable maximumLineLength
 
 // This list of commands are to be maintained whenever new commands are added.
@@ -8,6 +8,20 @@ var READ_ONLY_CMDS = [
 	'a11yHelp', 'autogrow', 'about', 'contextMenu', 'copy', 'elementsPathFocus', 'find', 'maximize',
 	'preview', 'print', 'showblocks', 'showborders', 'source', 'toolbarCollapse', 'toolbarFocus', 'selectAll'
 ];
+
+function assertCommand( editor, cmd, commandDefinition ) {
+	// Register command from command instance.
+	editor.addCommand( 'cmd1', cmd );
+
+	// Register command from command definition.
+	editor.addCommand( 'cmd2', commandDefinition );
+
+	// Registered command should be same as the command that was passed as definition.
+	assert.areSame( editor.getCommand( 'cmd1' ), cmd );
+
+	// Registered command should't be same to another command with same definition.
+	assert.areNotSame( editor.getCommand( 'cmd2' ), cmd );
+}
 
 bender.editor = true;
 
@@ -35,11 +49,11 @@ bender.test( {
 		assert.areSame( cmd.state, CKEDITOR.TRISTATE_ON );
 
 		// We don't want this to be executed in successive tests
-		// since they use the same editor (#9848).
+		// since they use the same editor (https://dev.ckeditor.com/ticket/9848).
 		delete ed.commands.test_context_sensitive;
 	},
 
-	// #8342
+	// https://dev.ckeditor.com/ticket/8342
 	'test command states with readonly editor': function() {
 		var bot = this.editorBot, editor = bot.editor;
 		editor.setReadOnly( true );
@@ -134,7 +148,7 @@ bender.test( {
 								st2 = cmd2.state,
 								st3 = cmd3.state;
 
-							// #10103 Before this test was created commands were refreshed on #mode, but not on #instanceReady.
+							// https://dev.ckeditor.com/ticket/10103 Before this test was created commands were refreshed on #mode, but not on #instanceReady.
 							// So cmd4 wouldn't be refreshed because this listener will be executed after that
 							// refreshing commands.
 							cmd4 = editor.addCommand( 'acftest4', {
@@ -142,7 +156,7 @@ bender.test( {
 							} );
 
 							resume( function() {
-								// #10249 Commands should be updated on first 'mode' event, so they are ready
+								// https://dev.ckeditor.com/ticket/10249 Commands should be updated on first 'mode' event, so they are ready
 								// on 'instanceReady'.
 								assert.areSame( CKEDITOR.TRISTATE_OFF, st1, 'first "mode" cmd1.state' );
 								assert.areSame( CKEDITOR.TRISTATE_DISABLED, st2, 'first "mode" cmd2.state' );
@@ -256,5 +270,84 @@ bender.test( {
 
 		assert.isFalse( cmd.checkAllowed(), 'is not allowed - cache' );
 		assert.isTrue( cmd.checkAllowed( true ), 'is allowed - no cache' );
+	},
+
+	// https://dev.ckeditor.com/ticket/13548
+	'test copy command not disabled after clicking on elements path': function() {
+		if ( !CKEDITOR.env.ie ) {
+			assert.ignore();
+			return;
+		}
+
+		var editor = this.editor,
+			cmd = editor.getCommand( 'copy' );
+
+		var bot = this.editorBot;
+		bot.setHtmlWithSelection( '<p><strong>test^</strong></p>' );
+
+		editor.once( 'selectionChange', function() {
+			resume( function() {
+				assert.areNotSame( cmd.state, CKEDITOR.TRISTATE_DISABLED );
+			} );
+		} );
+		editor._.elementsPath.onClick( 0 );
+
+		wait();
+	},
+
+	// https://dev.ckeditor.com/ticket/13548
+	'test cut command not disabled after clicking on elements path': function() {
+		if ( !CKEDITOR.env.ie ) {
+			assert.ignore();
+			return;
+		}
+
+		var editor = this.editor,
+			cmd = editor.getCommand( 'cut' );
+
+		var bot = this.editorBot;
+		bot.setHtmlWithSelection( '<p><strong>test^</strong></p>' );
+
+		editor.once( 'selectionChange', function() {
+			resume( function() {
+				assert.areNotSame( cmd.state, CKEDITOR.TRISTATE_DISABLED );
+			} );
+		} );
+		editor._.elementsPath.onClick( 0 );
+
+		wait();
+	},
+
+	// (#1582)
+	'test addCommand from command instance': function() {
+		var editor = this.editor,
+			styleDefinition = {
+				element: 'span',
+				attributes: {
+					bar: 'foo'
+				}
+			},
+			style = new CKEDITOR.style( styleDefinition ),
+			commandDefinition = new CKEDITOR.styleCommand( style ),
+			cmd = new CKEDITOR.command( editor, commandDefinition );
+
+		assertCommand( editor, cmd, commandDefinition );
+	},
+
+	// (#1582)
+	'test addCommand from command subclass': function() {
+		var editor = this.editor,
+			styleDefinition = {
+				element: 'span',
+				attributes: {
+					bar: 'foo'
+				}
+			},
+			subCommand = CKEDITOR.tools.createClass( { base: CKEDITOR.command } ),
+			style = new CKEDITOR.style( styleDefinition ),
+			commandDefinition = new CKEDITOR.styleCommand( style ),
+			cmd = new subCommand( editor, commandDefinition );
+
+		assertCommand( editor, cmd, commandDefinition );
 	}
 } );

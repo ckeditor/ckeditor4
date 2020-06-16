@@ -1,38 +1,39 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 	title: 'Barrierefreiheitinformationen',
-	contents: 'Hilfeinhalt. Um den Dialog zu schliessen die Taste \'ESC\' drücken.',
+	contents: 'Hilfeinhalt. Um den Dialog zu schliessen die Taste ESC drücken.',
 	legend: [
 		{
 		name: 'Allgemein',
 		items: [
 			{
-			name: 'Editor Symbolleiste',
-			legend: 'Drücken Sie ${toolbarFocus} auf der Symbolleiste. Gehen Sie zur nächsten oder vorherigen Symbolleistengruppe mit TAB und SHIFT-TAB. Gehen Sie zur nächsten oder vorherigen Symbolleiste auf die Schaltfläche mit dem RECHTS- oder LINKS-Pfeil. Drücken Sie die Leertaste oder Eingabetaste, um die Schaltfläche in der Symbolleiste aktivieren.'
+			name: 'Editorwerkzeugleiste',
+			legend: 'Drücken Sie ${toolbarFocus} auf der Symbolleiste. Gehen Sie zur nächsten oder vorherigen Symbolleistengruppe mit TAB und SHIFT+TAB. Gehen Sie zur nächsten oder vorherigen Symbolleiste auf die Schaltfläche mit dem RECHTS- oder LINKS-Pfeil. Drücken Sie die Leertaste oder Eingabetaste, um die Schaltfläche in der Symbolleiste aktivieren.'
 		},
 
 			{
-			name: 'Editor Dialog',
-			legend: 'Innerhalb des Dialogs drücken Sie TAB um zum nächsten Dialogfeld zu gelangen, drücken Sie SHIFT-TAG um zum vorherigen Feld zu wechseln, drücken Sie ENTER um den Dialog abzusenden und ESC um den Dialog zu abzubrechen. Um zwischen den Reitern innerhalb eines Dialogs zu wechseln drücken sie ALT-F10. Um zum nächsten Reiter zu gelangen können Sie TAB oder die rechte Pfeiltaste. Zurück gelangt man mit SHIFT-TAB oder der linken Pfeiltaste. Mit der Leertaste oder Enter kann man den Reiter auswählen.'
+			name: 'Editordialog',
+			legend:
+				'Drücke innerhalb eines Dialogs TAB, um zum nächsten Element zu springen. Drücke SHIFT+TAB, um zum vorigen Element zu springen, drücke ENTER um das Formular im Dialog abzusenden, drücke ESC, um den Dialog zu schließen. Hat der Dialog mehrere Tabs, dann kannst du durch ALT+F10 die Tab-Liste aufrufen or mittels TAB als Teil der Dialog-Tab-Reihenfolge. Ist die Tab-Liste fokussiert, dann mithilfe der Pfeiltasten (LINKS und RECHTS) zwischen den Tabs gewechselt werden.' 
 		},
 
 			{
-			name: 'Editor Kontextmenü',
+			name: 'Editor-Kontextmenü',
 			legend: 'Dürcken Sie ${contextMenu} oder die Anwendungstaste um das Kontextmenü zu öffnen. Man kann die Pfeiltasten zum Wechsel benutzen. Mit der Leertaste oder der Enter-Taste kann man den Menüpunkt aufrufen. Schliessen Sie das Kontextmenü mit der ESC-Taste.'
 		},
 
 			{
-			name: 'Editor Listen',
-			legend: 'Innerhalb einer Listenbox kann man mit der TAB-Taste oder den Pfeilrunter-Taste den nächsten Menüeintrag wählen. Mit der Shift-TAB Tastenkombination oder der Pfeilhoch-Taste gelangt man zum vorherigen Menüpunkt. Mit der Leertaste oder Enter kann man den Menüpunkt auswählen. Drücken Sie ESC zum Verlassen des Menüs.'
+			name: 'Editor-Listenbox',
+			legend: 'Innerhalb einer Listenbox kann man mit der TAB-Taste oder den Pfeilrunter-Taste den nächsten Menüeintrag wählen. Mit der SHIFT+TAB Tastenkombination oder der Pfeilhoch-Taste gelangt man zum vorherigen Menüpunkt. Mit der Leertaste oder Enter kann man den Menüpunkt auswählen. Drücken Sie ESC zum Verlassen des Menüs.'
 		},
 
 			{
-			name: 'Editor Elementpfadleiste',
-			legend: 'Drücken Sie ${elementsPathFocus} um sich durch die Pfadleiste zu bewegen. Um zum nächsten Element zu gelangen drücken Sie TAB oder die Pfeilrechts-Taste. Zum vorherigen Element gelangen Sie mit der SHIFT-TAB oder der Pfeillinks-Taste. Drücken Sie die Leertaste oder Enter um das Element auszuwählen.'
+			name: 'Editor-Elementpfadleiste',
+			legend: 'Drücken Sie ${elementsPathFocus} um sich durch die Pfadleiste zu bewegen. Um zum nächsten Element zu gelangen drücken Sie TAB oder die Pfeilrechts-Taste. Zum vorherigen Element gelangen Sie mit der SHIFT+TAB oder der Pfeillinks-Taste. Drücken Sie die Leertaste oder Enter um das Element auszuwählen.'
 		}
 		]
 	},
@@ -40,31 +41,31 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 		name: 'Befehle',
 		items: [
 			{
-			name: 'Wiederholen Befehl',
+			name: 'Rückgängig-Befehl',
 			legend: 'Drücken Sie ${undo}'
 		},
 			{
-			name: 'Rückgängig Befehl',
+			name: 'Wiederherstellen-Befehl',
 			legend: 'Drücken Sie ${redo}'
 		},
 			{
-			name: 'Fettschrift Befehl',
+			name: 'Fettschrift-Befehl',
 			legend: 'Drücken Sie ${bold}'
 		},
 			{
-			name: 'Italic Befehl',
+			name: 'Kursiv-Befehl',
 			legend: 'Drücken Sie ${italic}'
 		},
 			{
-			name: 'Unterstreichung Befehl',
+			name: 'Unterstreichen-Befehl',
 			legend: 'Drücken Sie ${underline}'
 		},
 			{
-			name: 'Link Befehl',
+			name: 'Link-Befehl',
 			legend: 'Drücken Sie ${link}'
 		},
 			{
-			name: 'Symbolleiste zuammenklappen Befehl',
+			name: 'Werkzeugleiste einklappen-Befehl',
 			legend: 'Drücken Sie ${toolbarCollapse}'
 		},
 			{
@@ -78,29 +79,26 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 			{
 			name: 'Eingabehilfen',
 			legend: 'Drücken Sie ${a11yHelp}'
+		},
+			{
+			name: 'Einfügen als unformatierter Text. ',
+			legend: 'Drücke ${pastetext}',
+			legendEdge: 'Drücke ${pastetext} und anschließend ${paste}'
 		}
 		]
 	}
 	],
-	backspace: 'Rücklöschtaste',
 	tab: 'Tab',
-	enter: 'Eingabe',
-	shift: 'Umschalt',
-	ctrl: 'Strg',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Feststell',
 	escape: 'Escape',
 	pageUp: 'Bild auf',
 	pageDown: 'Bild ab',
-	end: 'Ende',
-	home: 'Pos1',
 	leftArrow: 'Linke Pfeiltaste',
 	upArrow: 'Obere Pfeiltaste',
 	rightArrow: 'Rechte Pfeiltaste',
 	downArrow: 'Untere Pfeiltaste',
 	insert: 'Einfügen',
-	'delete': 'Entfernen',
 	leftWindowKey: 'Linke Windowstaste',
 	rightWindowKey: 'Rechte Windowstaste',
 	selectKey: 'Taste auswählen',

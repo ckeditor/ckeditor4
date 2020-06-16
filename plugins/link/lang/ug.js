@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'ug', {
 	acccessKey: 'زىيارەت كۇنۇپكا',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	anchorName: 'لەڭگەرلىك نۇقتا ئاتى بويىچە',
 	charset: 'ھەرپ كودلىنىشى',
 	cssClasses: 'ئۇسلۇب خىلى ئاتى',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ئادرېس',
 	emailBody: 'مەزمۇن',
 	emailSubject: 'ماۋزۇ',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	noAnchors: '(بۇ پۈتۈكتە ئىشلەتكىلى بولىدىغان لەڭگەرلىك نۇقتا يوق)',
 	noEmail: 'ئېلخەت ئادرېسىنى كىرگۈزۈڭ',
 	noUrl: 'ئۇلانما ئادرېسىنى كىرگۈزۈڭ',
+	noTel: 'Please type the phone number', // MISSING
 	other: '‹باشقا›',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'تەۋە (NS)',
 	popupFeatures: 'قاڭقىش كۆزنەك خاسلىقى',
 	popupFullScreen: 'پۈتۈن ئېكران (IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	toAnchor: 'بەت ئىچىدىكى لەڭگەرلىك نۇقتا ئۇلانمىسى',
 	toEmail: 'ئېلخەت',
 	toUrl: 'ئادرېس',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'ئۇلانما قىستۇر/تەھرىرلە',
 	type: 'ئۇلانما تىپى',
 	unlink: 'ئۇلانما بىكار قىل',

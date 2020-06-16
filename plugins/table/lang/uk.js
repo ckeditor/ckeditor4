@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'uk', {
 	border: 'Розмір рамки',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'uk', {
 	headersColumn: 'Стовбці',
 	headersNone: 'Без заголовків',
 	headersRow: 'Рядки',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Розмір рамки повинен бути цілим числом.',
 	invalidCellPadding: 'Внутр. відступ комірки повинен бути цілим числом.',
 	invalidCellSpacing: 'Проміжок між комірками повинен бути цілим числом.',

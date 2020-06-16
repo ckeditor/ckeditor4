@@ -1,0 +1,43 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	&lt;p&gt;Drop an image:&lt;/p&gt;
+</textarea>
+
+<h2>Output</h2>
+
+<pre id="output" style="outline: 2px solid gray; min-height: 1em;">
+</pre>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var outputEl = CKEDITOR.document.getById( 'output' ),
+		editor = CKEDITOR.replace( 'editor1', {
+			height: 300,
+			uploadUrl: '%BASE_PATH%',
+			on: {
+				fileUploadRequest: function( evt ) {
+					evt.data.fileLoader.once( 'uploading', function() {
+						editor.destroy();
+					} );
+
+					evt.data.fileLoader.on( 'uploaded', function() {
+						outputEl.appendText( 'File uploaded successfully!\n' );
+					} );
+
+					evt.data.fileLoader.on( 'abort', function() {
+						outputEl.appendText( 'File upload aborted.\n' );
+					} );
+
+					evt.data.fileLoader.on( 'error', function() {
+						outputEl.appendText( 'An error occurred while uploading.\n' );
+					} );
+				},
+				instanceReady: function() {
+					bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
+				}
+			}
+		} );
+
+</script>

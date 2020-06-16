@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'ja', {
 	acccessKey: 'アクセスキー',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	anchorName: 'アンカー名',
 	charset: 'リンク先のcharset',
 	cssClasses: 'スタイルシートクラス',
+	download: '強制的にダウンロード',
+	displayText: '表示文字',
 	emailAddress: 'E-Mail アドレス',
 	emailBody: '本文',
 	emailSubject: '件名',
@@ -33,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	noAnchors: '(このドキュメント内にアンカーはありません)',
 	noEmail: 'メールアドレスを入力してください。',
 	noUrl: 'リンクURLを入力してください。',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<その他の>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: '開いたウィンドウに連動して閉じる (Netscape)',
 	popupFeatures: 'ポップアップウィンドウ特徴',
 	popupFullScreen: '全画面モード(IE)',
@@ -58,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	toAnchor: 'ページ内のアンカー',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'リンク挿入/編集',
 	type: 'リンクタイプ',
 	unlink: 'リンクを削除',

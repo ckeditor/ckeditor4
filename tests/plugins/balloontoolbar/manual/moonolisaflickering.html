@@ -1,0 +1,30 @@
+<div id="editor1">
+	<img src="%BASE_PATH%_assets/lena.jpg" />
+</div>
+
+<script>
+	// Currently balloon toolbar is not integrated with old IE browsers.
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	function instanceReadyListener( evt ) {
+		var image = this.editable().findOne( 'img' ),
+			panel = new CKEDITOR.ui.balloonToolbar( this );
+
+		image.on( 'click', function() {
+			panel.addItems( {
+				Styles: evt.editor.ui.create( 'Styles' ),
+				Styles2: evt.editor.ui.create( 'Styles' ),
+				Styles3: evt.editor.ui.create( 'Styles' )
+			} );
+			panel.attach( this );
+		} );
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		skin: 'moono-lisa',
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+
+</script>

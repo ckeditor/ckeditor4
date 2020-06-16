@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'km', {
 	alt: 'អត្ថបទជំនួស',
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'km', {
 	resizer: 'ចុច​ហើយ​ទាញ​ដើម្បី​ប្ដូរ​ទំហំ',
 	title: 'លក្ខណៈ​សម្បត្តិ​រូប​ភាប',
 	uploadTab: 'ផ្ទុក​ឡើង',
-	urlMissing: 'ខ្វះ URL ប្រភព​រូប​ភាព។'
+	urlMissing: 'ខ្វះ URL ប្រភព​រូប​ភាព។',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

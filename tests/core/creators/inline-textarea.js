@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: wysiwygarea */
 
 ( function() {
@@ -63,45 +63,9 @@
 			} );
 		},
 
-		'test create concurrent editor: framed on bound textarea': function() {
-			try {
-				CKEDITOR.replace( 'editor1', {
-					on: {
-						instanceReady: function() {
-							resume( function() {
-								assert.fail( 'This textarea is already bound to some instance!' );
-							} );
-						}
-					}
-				} );
-			} catch ( e ) {
-				resume( function() {
-					assert.isTrue( true );
-				} );
-			}
+		'test create concurrent editor: framed on bound textarea': createConcurrentEditorTest( 'replace', 'editor1' ),
 
-			wait();
-		},
-
-		'test create concurrent editor: inline on bound textarea': function() {
-			try {
-				CKEDITOR.inline( 'editor1', {
-					on: {
-						instanceReady: function() {
-							resume( function() {
-								assert.fail( 'This textarea is already bound to some instance!' );
-							} );
-						}
-					}
-				} );
-			} catch ( e ) {
-				resume( function() {
-					assert.isTrue( true );
-				} );
-			}
-
-			wait();
-		},
+		'test create concurrent editor: inline on bound textarea': createConcurrentEditorTest( 'inline', 'editor1' ),
 
 		'test update data on submit': function() {
 			var editor = this.editor,
@@ -145,6 +109,54 @@
 					assert.isNull( editor.container.getCustomData( 'x' ), 'Custom data purged' );
 				} );
 			} );
-		}
+		},
+
+		// (#3115)
+		'test destroy when editor.container is absent': testDestroy( function( editor ) {
+			var container = editor.container;
+
+			delete editor.container;
+			container.clearCustomData();
+			container.remove();
+		} ),
+
+		// (#3115)
+		'test destroy when editor.container is detached': testDestroy( function( editor ) {
+			editor.container.remove();
+		} )
 	} );
+
+	function testDestroy( callback ) {
+		return function() {
+			bender.editorBot.create( {
+				creator: 'inline',
+				name: 'editor4'
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				callback( editor );
+
+				try {
+					editor.destroy();
+					assert.pass( 'Passed without errors' );
+				} catch ( err ) {
+					assert.fail( err.toString() );
+				}
+			} );
+		};
+	}
+
+	function createConcurrentEditorTest( creator, element ) {
+		return function() {
+			var spy = sinon.spy( CKEDITOR, 'error' );
+
+			CKEDITOR[ creator ]( element );
+
+			spy.restore();
+			assert.areSame( 1, spy.callCount, 'Error was thrown' );
+			assert.isTrue( spy.calledWithExactly( 'editor-element-conflict', sinon.match( {
+				editorName: element
+			} ) ), 'Appropriate error code and additional data were used' );
+		};
+	}
 } )();

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -163,7 +163,7 @@ CKEDITOR.htmlParser = function() {
 					tagName = tagName.toLowerCase();
 
 					// There are some tag names that can break things, so let's
-					// simply ignore them when parsing. (#5224)
+					// simply ignore them when parsing. (https://dev.ckeditor.com/ticket/5224)
 					if ( /="/.test( tagName ) )
 						continue;
 

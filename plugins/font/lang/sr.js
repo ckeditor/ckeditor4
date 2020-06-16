@@ -1,14 +1,14 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'font', 'sr', {
 	fontSize: {
-		label: 'Величина фонта',
-		voiceLabel: 'Font Size',
-		panelTitle: 'Величина фонта'
+		label: 'Величина',
+		voiceLabel: 'Величина слова',
+		panelTitle: 'Величина слова'
 	},
 	label: 'Фонт',
-	panelTitle: 'Фонт',
+	panelTitle: 'Назиб фонта',
 	voiceLabel: 'Фонт'
 } );

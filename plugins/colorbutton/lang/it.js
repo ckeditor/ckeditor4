@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'it', {
 	auto: 'Automatico',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'it', {
 		F0FFFF: 'Azzurro',
 		F0F8FF: 'Celeste',
 		E6E6FA: 'Lavanda',
-		FFF: 'Bianco'
+		FFF: 'Bianco',
+		'1ABC9C': 'Ciano intenso',
+		'2ECC71': 'Smeraldo',
+		'3498DB': 'Blu luminoso',
+		'9B59B6': 'Ametista',
+		'4E5F70': 'Blu grigiastro',
+		'F1C40F': 'Giallo vivido',
+		'16A085': 'Ciano scuro',
+		'27AE60': 'Smeraldo scuro',
+		'2980B9': 'Blu intenso',
+		'8E44AD': 'Viola scuro',
+		'2C3E50': 'Blu desaturato',
+		'F39C12': 'Arancio',
+		'E67E22': 'Carota',
+		'E74C3C': 'Rosso pallido',
+		'ECF0F1': 'Argento luminoso',
+		'95A5A6': 'Ciano grigiastro chiaro',
+		'DDD': 'Grigio chiaro',
+		'D35400': 'Zucca',
+		'C0392B': 'Rosso intenso',
+		'BDC3C7': 'Argento',
+		'7F8C8D': 'Ciano grigiastro',
+		'999': 'Grigio scuro'
 	},
 	more: 'Altri colori...',
 	panelTitle: 'Colori',

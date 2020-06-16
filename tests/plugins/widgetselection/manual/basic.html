@@ -1,0 +1,59 @@
+<style>
+	div[id*=editor] { margin-bottom: 10px; }
+	h2 { text-decoration: underline; }
+</style>
+
+
+<h2>Beginning</h2>
+
+<div id="editor01">
+	<p contenteditable="false">NonEditable</p>
+	<h1>Hello world!</h1>
+	<p>I&#39;m an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+</div>
+
+<h2>End</h2>
+
+<div id="editor11">
+	<h1>Hello world!</h1>
+	<p>I&#39;m an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+	<p contenteditable="false">NonEditable</p>
+</div>
+
+<h2>Middle</h2>
+
+<div id="editor21">
+	<h1>Hello world!</h1>
+	<p contenteditable="false">NonEditable</p>
+	<p>I&#39;m an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+</div>
+
+<h2>Both beginning and end</h2>
+
+<div id="editor31">
+	<p contenteditable="false">NonEditable</p>
+	<h1>Hello world!</h1>
+	<p>I&#39;m an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+	<p contenteditable="false">NonEditable</p>
+</div>
+
+<h2>Only non-editable</h2>
+
+<div id="editor41">
+	<p contenteditable="false">NonEditable</p>
+	<p contenteditable="false">NonEditable</p>
+</div>
+
+
+<script>
+	var config1 = {
+		height: 200,
+		allowedContent: true
+	};
+
+	CKEDITOR.replace( 'editor01', config1 );
+	CKEDITOR.replace( 'editor11', config1 );
+	CKEDITOR.replace( 'editor21', config1 );
+	CKEDITOR.replace( 'editor31', config1 );
+	CKEDITOR.replace( 'editor41', config1 );
+</script>

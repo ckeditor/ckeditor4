@@ -1,0 +1,14 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	<p>Editor content.</p>
+</textarea>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		colorButton_colors: 'FontColor1/FF9900,FontColor2/0066CC,F00',
+		toolbar: [ [ 'BGColor' ] ]
+	} );
+</script>

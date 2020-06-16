@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 bender.test( {
 	// Return a set of css files for the specified skin part.

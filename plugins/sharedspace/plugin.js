@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -35,9 +35,14 @@
 		}
 	} );
 
-	function create( editor, spaceName, targetId ) {
-		var target = CKEDITOR.document.getById( targetId ),
-			innerHtml, space;
+	function create( editor, spaceName, target ) {
+		var innerHtml, space;
+
+		if ( typeof target == 'string' ) {
+			target = CKEDITOR.document.getById( target );
+		} else {
+			target = new CKEDITOR.dom.element( target );
+		}
 
 		if ( target ) {
 			// Have other plugins filling the space.
@@ -109,6 +114,9 @@
  * instances. In that case only the blocks relevant to the active editor instance
  * will be displayed.
  *
+ * Read more in the {@glink features/sharedspace documentation}
+ * and see the {@glink examples/sharedspace example}.
+ *
  *		// Place the toolbar inside the element with an ID of "someElementId" and the
  *		// elements path into the element with an  ID of "anotherId".
  *		config.sharedSpaces = {
@@ -122,7 +130,15 @@
  *			top: 'someElementId'
  *		};
  *
- * **Note:** The [Maximize](http://ckeditor.com/addon/maximize) and [Editor Resize](http://ckeditor.com/addon/resize)
+ *		// (Since 4.5.0)
+ *		// Place the toolbar inside a DOM element passed by a reference. The
+ *		// elements path will remain attached to the editor UI.
+ *		var htmlElement = document.getElementById( 'someElementId' );
+ *		config.sharedSpaces = {
+ *			top: htmlElement
+ *		};
+ *
+ * **Note:** The [Maximize](https://ckeditor.com/cke4/addon/maximize) and [Editor Resize](https://ckeditor.com/cke4/addon/resize)
  * features are not supported in the shared space environment and should be disabled in this context.
  *
  *		config.removePlugins = 'maximize,resize';

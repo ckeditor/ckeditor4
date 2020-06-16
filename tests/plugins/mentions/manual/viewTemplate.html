@@ -1,0 +1,16 @@
+<div id="editor"></div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+		width: 600,
+		mentions: [
+			{
+				feed: [ 'Anna', 'John', 'Thomas' ],
+				itemTemplate: '<li data-id="{id}">item: <strong>{name}</strong></li>',
+				minChars: 0
+			}
+		]
+	} );
+
+	bender.tools.ignoreUnsupportedEnvironment( 'mentions', editor );
+</script>

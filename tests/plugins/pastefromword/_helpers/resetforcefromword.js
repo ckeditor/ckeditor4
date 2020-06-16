@@ -1,3 +1,4 @@
+/* global simulatePasteCommand */
 /* exported testScenario */
 
 'use strict';
@@ -10,59 +11,29 @@ function testScenario( scenario, filterPath ) {
 		}
 	};
 
-	var stub;
-
-	bender.test( {
-		tearDown: function() {
-			if ( stub ) {
-				stub.restore();
-				stub = null;
-			}
-		},
-
-		// #10032
+	var tests = {
+		// https://dev.ckeditor.com/ticket/10032
 		'test reset forceFromWord': function() {
 			var editor = this.editor,
 				pasteHtml = '<p>foo</p>',
 				i = 0;
 
-
-			stub = sinon.stub( editor, 'getClipboardData', function( options, callback ) {
-				if ( callback ) {
-					callback( { dataValue: pasteHtml } );
-				}
-			} );
-
-			editor.once( 'paste', paste, null, null, 999 );
-
 			firePaste( editor, scenario[ i ] );
 
-			wait();
+			function onPaste( evt ) {
+				assertPaste( evt.data.dataValue, scenario[ i ], i );
 
-			function paste( evt ) {
-				resume( function() {
-					assertPaste( evt.data.dataValue, scenario[ i ], i );
+				if ( i == scenario.length ) {
+					return;
+				}
 
-					if ( i == scenario.length ) {
-						return;
-					}
+				i++;
 
-					editor.once( 'paste', paste, null, null, 999 );
-
-					i++;
-
-					firePaste( editor, scenario[ i ] );
-
-					wait();
-				} );
+				firePaste( editor, scenario[ i ] );
 			}
 
 			function firePaste( editor, fromWord ) {
-				if ( fromWord ) {
-					editor.execCommand( 'pastefromword' );
-				} else {
-					editor.fire( 'paste', { dataValue: pasteHtml } );
-				}
+				simulatePasteCommand( editor, { name: fromWord ? 'pastefromword' : 'paste' }, { dataValue: pasteHtml }, onPaste );
 			}
 
 			function assertPaste( value, fromWord, index ) {
@@ -76,5 +47,7 @@ function testScenario( scenario, filterPath ) {
 				}
 			}
 		}
-	} );
+	};
+
+	return tests;
 }

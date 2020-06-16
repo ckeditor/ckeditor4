@@ -1,11 +1,13 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'pl', {
 	title: 'Wybór koloru interfejsu',
-	preview: 'Podgląd na żywo',
-	config: 'Wklej poniższy łańcuch znaków do pliku config.js:',
-	predefined: 'Predefiniowane zestawy kolorów'
+	options: 'Opcje koloru',
+	highlight: 'Podgląd',
+	selected: 'Wybrany kolor',
+	predefined: 'Predefiniowane zestawy kolorów',
+	config: 'Wklej poniższy łańcuch znaków do pliku config.js:'
 } );

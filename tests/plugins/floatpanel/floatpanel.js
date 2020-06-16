@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: floatpanel,wysiwygarea,sourcearea */
 
 ( function() {
@@ -105,25 +105,38 @@
 			} );
 		},
 
-		'test panel hide on window resize': function() {
+		'test panel reposition on window resize': function() {
 			// IE7-8 can't fire custom event on DOM object.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 				assert.ignore();
 
-			var editor = this.editor;
+			var editor = this.editor,
+				showBlockSpy = sinon.spy( panel, 'showBlock' ),
+				repositionSpy = sinon.spy( panel, 'reposition' ),
+				args;
 
-			testHideOn( editor, CKEDITOR.document.getWindow(), 'resize', function() {
-				if ( document.createEvent ) {
-					var e = document.createEvent( 'HTMLEvents' );
-					e.initEvent( 'resize', true, false );
-					document.body.dispatchEvent( e );
-				} else if ( document.createEventObject ) {
-					document.body.fireEvent( 'onresize' );
-				}
-			} );
+			// Show panel for the first time.
+			panel.showBlock( 'testBlock2', editor.editable(), 1 );
+
+			// Mock resize event and check if panel was repositioned by calling reposition() and
+			// showBlock() for the second time.
+			if ( document.createEvent ) {
+				var e = document.createEvent( 'HTMLEvents' );
+				e.initEvent( 'resize', true, false );
+				document.body.dispatchEvent( e );
+			} else {
+				document.body.fireEvent( 'onresize' );
+			}
+
+			assert.isTrue( showBlockSpy.calledTwice, 'panel.showBlock should be called twice' );
+			assert.isTrue( repositionSpy.calledOnce, 'panel.reposition should be called once' );
+
+			// Check if showBlock is called second time with same parameters.
+			args = showBlockSpy.firstCall.args;
+			assert.isTrue( showBlockSpy.secondCall.calledWith( args[0], args[1], args[2] ), 'Second showBlock() call should use same arguments as first call.' );
 		},
 
-		// #9800. Scenario:
+		// https://dev.ckeditor.com/ticket/9800. Scenario:
 		// 1. open first panel,
 		// 2. close first panel,
 		// 3. open second panel,

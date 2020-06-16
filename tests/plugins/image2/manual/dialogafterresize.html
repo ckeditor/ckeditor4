@@ -1,0 +1,24 @@
+<div id="editor" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+<p class="dimensions-preview">Width: <span class="width"></span><br>
+	Height: <span class="height"></span>
+</p>
+<script>
+	if ( bender.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor', {
+		on: {
+			change: function() {
+				var preview = CKEDITOR.document.findOne( '.dimensions-preview' ),
+					image = this.editable().findOne( 'img' ),
+					width = image.getAttribute( 'width' ),
+					height = image.getAttribute( 'height' );
+
+				preview.findOne( '.width' ).setText( width ? width + 'px' : '' );
+				preview.findOne( '.height' ).setText( height ? height + 'px' : '' );
+			}
+		}
+	} );
+</script>

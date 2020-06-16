@@ -1,0 +1,42 @@
+<p>Count of <code>beforeGetData</code> events: <b id="counter-editor1">0</b></p>
+<div id="editor1">
+	<p>Drop h^ere</p>
+	<p>
+		<img src="%BASE_PATH%_assets/logo.png" alt="Logo">
+	</p>
+</div>
+
+<p>Count of <code>beforeGetData</code> events: <b id="counter-editor2">0</b></p>
+<div id="editor2">
+	<div>Drop h^ere</div>
+	<div>
+		<img src="%BASE_PATH%_assets/logo.png" alt="Logo">
+	</div>
+</div>
+
+<script>
+	// Drag & drop isn't supported on mobiles.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	( function() {
+		var config = {
+			on: {
+				beforeGetData: updateCounter
+			}
+		};
+
+		CKEDITOR.replace( 'editor1', config );
+		CKEDITOR.replace( 'editor2', CKEDITOR.tools.object.merge( config, {
+			enterMode: CKEDITOR.ENTER_DIV
+		} ) );
+
+		function updateCounter( evt ) {
+			var counter = CKEDITOR.document.getById( 'counter-' + evt.editor.name ),
+				i = parseInt( counter.getHtml(), 10 );
+
+			counter.setHtml( ++i );
+		}
+	}() );
+</script>

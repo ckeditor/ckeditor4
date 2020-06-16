@@ -1,0 +1,133 @@
+<div style="height: 1000px"></div>
+<H1> Left to right editors:</H1>
+<textarea id="classic-ltr">
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
+	<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<div>
+	<div id="inline-ltr" contenteditable="true">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
+		<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Head</th>
+					<th>Head</th>
+					<th>Head</th>
+					<th>Head</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Cell</td>
+					<td>Cell</td>
+					<td>Cell</td>
+					<td>Cell</td>
+				</tr>
+				<tr>
+					<td>Cell</td>
+					<td>Cell</td>
+					<td>Cell</td>
+					<td>Cell</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<H1> Right to left editors:</H1>
+<textarea id="classic-rtl">
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
+	<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+		<table border="1">
+		<thead>
+			<tr>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<div>
+	<div id="inline-rtl" dir="rtl" contenteditable="true">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
+		<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Head</th>
+					<th>Head</th>
+					<th>Head</th>
+					<th>Head</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Cell</td>
+					<td>Cell</td>
+					<td>Cell</td>
+					<td>Cell</td>
+				</tr>
+				<tr>
+					<td>Cell</td>
+					<td>Cell</td>
+					<td>Cell</td>
+					<td>Cell</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div style="height: 1000px"></div>
+<script>
+	CKEDITOR.replace( 'classic-ltr', {
+	} );
+	CKEDITOR.inline( 'inline-ltr' );
+	CKEDITOR.replace( 'classic-rtl', {
+		language: 'he'
+	} );
+	CKEDITOR.inline( 'inline-rtl', {
+		language: 'he'
+	} );
+</script>

@@ -1,9 +1,9 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'de', {
-	border: 'Rahmen',
+	border: 'Rahmengröße',
 	caption: 'Überschrift',
 	cell: {
 		menu: 'Zelle',
@@ -15,7 +15,7 @@ CKEDITOR.plugins.setLang( 'table', 'de', {
 		mergeDown: 'Nach unten verbinden',
 		splitHorizontal: 'Zelle horizontal teilen',
 		splitVertical: 'Zelle vertikal teilen',
-		title: 'Zellen-Eigenschaften',
+		title: 'Zelleneigenschaften',
 		cellType: 'Zellart',
 		rowSpan: 'Anzahl Zeilen verbinden',
 		colSpan: 'Anzahl Spalten verbinden',
@@ -29,8 +29,8 @@ CKEDITOR.plugins.setLang( 'table', 'de', {
 		header: 'Überschrift',
 		yes: 'Ja',
 		no: 'Nein',
-		invalidWidth: 'Zellenbreite muß eine Zahl sein.',
-		invalidHeight: 'Zellenhöhe muß eine Zahl sein.',
+		invalidWidth: 'Zellenbreite muss eine Zahl sein.',
+		invalidHeight: 'Zellenhöhe muss eine Zahl sein.',
 		invalidRowSpan: '"Anzahl Zeilen verbinden" muss eine Ganzzahl sein.',
 		invalidColSpan: '"Anzahl Spalten verbinden" muss eine Ganzzahl sein.',
 		chooseColor: 'Wählen'
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'de', {
 	headersColumn: 'Erste Spalte',
 	headersNone: 'Keine',
 	headersRow: 'Erste Zeile',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Die Rahmenbreite muß eine Zahl sein.',
 	invalidCellPadding: 'Der Zellenabstand innen muß eine positive Zahl sein.',
 	invalidCellSpacing: 'Der Zellenabstand außen muß eine positive Zahl sein.',

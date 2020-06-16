@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'gu', {
 	alt: 'ઑલ્ટર્નટ ટેક્સ્ટ',
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'gu', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'ચિત્રના ગુણ',
 	uploadTab: 'અપલોડ',
-	urlMissing: 'ઈમેજની મૂળ URL છે નહી.'
+	urlMissing: 'ઈમેજની મૂળ URL છે નહી.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

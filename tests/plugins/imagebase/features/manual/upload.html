@@ -1,0 +1,79 @@
+<div id="classic">
+	<p>Go on, drop some files below:</p>
+	<p></p>
+</div>
+
+<script>
+	// Ignore on mobiles due to lack of support for files drag and drop.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	var editor = CKEDITOR.replace( 'classic', {
+		cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL,
+			height: 500,
+			contentsCss: '/apps/ckeditor/plugins/easyimage/styles/easyimage.css'
+		} ),
+		FAIL_TEMPLATE = new CKEDITOR.template( 'Uploading "{name}" failed (code {status}) 😢' ),
+		LOADED_TEMPLATE = new CKEDITOR.template( 'File "{name}" uploaded!' );
+
+	editor.on( 'widgetDefinition', function( evt ) {
+		var def = evt.data;
+
+		if ( def.name === 'placeholder' ) {
+			var ret = CKEDITOR.plugins.imagebase.addFeature( this, 'upload', def ),
+				i;
+
+			// Put all the proprties into the original placeholder definition.
+			for ( i in ret ) {
+				def[ i ] = ret[ i ];
+			}
+
+			// Further customize.
+			def.loaderType = CKEDITOR.plugins.cloudservices.cloudServicesLoader;
+			// Match any file type.
+			def.supportedTypes = /^.*$/;
+
+			def.progressReporterType = CKEDITOR.plugins.imagebase.progressBar;
+		}
+	} );
+
+	editor.on( 'instanceReady', function( evt ) {
+		editor.widgets.on( 'instanceCreated', function( evt ) {
+			var widget = evt.data;
+
+			if ( widget.name === 'placeholder' ) {
+				widget.once( 'uploadStarted', function( uploadEvent ) {
+					widget.setData( 'name', 'Uploading...' );
+				} );
+
+				widget.once( 'uploadDone', function( uploadEvent ) {
+					var loader = uploadEvent.data.loader,
+						file = loader.file;
+
+					widget.setData( 'name', LOADED_TEMPLATE.output( {
+						name: file.name
+					} ) );
+
+					console.log( 'File ' + file.name + ' can be found at ' + loader.responseData.response[ 'default' ] );
+				} );
+
+				widget.once( 'uploadFailed', function( uploadEvent ) {
+					var xhr = uploadEvent.data.loader.xhr,
+						file = uploadEvent.data.loader.file;
+
+					widget.setData( 'name', FAIL_TEMPLATE.output( {
+						name: file.name,
+						status: xhr.status
+					} ) );
+
+					// Make sure that widget is not removed by default handling.
+					evt.cancel();
+				} );
+			}
+		} );
+	} );
+</script>

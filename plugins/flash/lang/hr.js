@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'flash', 'hr', {
 	access: 'Script Access',
@@ -34,7 +34,7 @@ CKEDITOR.plugins.setLang( 'flash', 'hr', {
 	title: 'Flash svojstva',
 	vSpace: 'VSpace',
 	validateHSpace: 'HSpace mora biti broj.',
-	validateSrc: 'Molimo upišite URL link',
+	validateSrc: 'Molimo upišite URL link.',
 	validateVSpace: 'VSpace mora biti broj.',
 	windowMode: 'Vrsta prozora',
 	windowModeOpaque: 'Opaque',

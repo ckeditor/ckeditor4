@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'no', {
 	auto: 'Automatisk',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'no', {
 		F0FFFF: 'Svakt asurblått',
 		F0F8FF: 'Svak cyan',
 		E6E6FA: 'Lavendel',
-		FFF: 'Hvit'
+		FFF: 'Hvit',
+		'1ABC9C': 'Kraftig turkis',
+		'2ECC71': 'Emerald', // MISSING
+		'3498DB': 'Lyseblå',
+		'9B59B6': 'Amethyst', // MISSING
+		'4E5F70': 'Gråblå',
+		'F1C40F': 'Vivid Yellow', // MISSING
+		'16A085': 'Mørk turkis',
+		'27AE60': 'Dark Emerald', // MISSING
+		'2980B9': 'Signalblå',
+		'8E44AD': 'Mørk fiolett',
+		'2C3E50': 'Desaturated Blue', // MISSING
+		'F39C12': 'Orange',
+		'E67E22': 'Gulrotfarge',
+		'E74C3C': 'Pale Red', // MISSING
+		'ECF0F1': 'Lys sølv',
+		'95A5A6': 'Lys gråturkis',
+		'DDD': 'Lysegrå',
+		'D35400': 'Pumpkin', // MISSING
+		'C0392B': 'Signalrød',
+		'BDC3C7': 'Sølv',
+		'7F8C8D': 'Gråturkis',
+		'999': 'Mørkegrå'
 	},
 	more: 'Flere farger...',
 	panelTitle: 'Farger',

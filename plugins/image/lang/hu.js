@@ -1,15 +1,14 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image', 'hu', {
-	alertUrl: 'Töltse ki a kép webcímét',
-	alt: 'Buborék szöveg',
+	alt: 'Alternatív szöveg',
 	border: 'Keret',
 	btnUpload: 'Küldés a szerverre',
-	button2Img: 'A kiválasztott képgombból sima képet szeretne csinálni?',
+	button2Img: 'Szeretne a kiválasztott képgombból sima képet csinálni?',
 	hSpace: 'Vízsz. táv',
-	img2Button: 'A kiválasztott képből képgombot szeretne csinálni?',
+	img2Button: 'Szeretne a kiválasztott képből képgombot csinálni?',
 	infoTab: 'Alaptulajdonságok',
 	linkTab: 'Hivatkozás',
 	lockRatio: 'Arány megtartása',
@@ -18,7 +17,7 @@ CKEDITOR.plugins.setLang( 'image', 'hu', {
 	title: 'Kép tulajdonságai',
 	titleButton: 'Képgomb tulajdonságai',
 	upload: 'Feltöltés',
-	urlMissing: 'Hiányzik a kép URL-je',
+	urlMissing: 'Hiányzik a kép URL-je.',
 	vSpace: 'Függ. táv',
 	validateBorder: 'A keret méretének egész számot kell beírni!',
 	validateHSpace: 'Vízszintes távolságnak egész számot kell beírni!',

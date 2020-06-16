@@ -1,0 +1,15 @@
+<div id="editor">
+	<p><img src="http://lorempixel.com/400/200/" alt="" /></p>
+</div>
+<script>
+	CKEDITOR.replace( 'editor', {
+		height: 400,
+		allowedContent: true,
+		stylesSet: [
+			{ name: 'Style 1, group: 1,2', type: 'widget', widget: 'image', attributes: { 'class': 'c1' }, group: [ '1', '2' ] },
+			{ name: 'Style 2, group: 1,3', type: 'widget', widget: 'image', attributes: { 'class': 'c2' }, group: [ '1', '3' ] },
+			{ name: 'Style 3, group: 2', type: 'widget', widget: 'image', attributes: { 'class': 'c3' }, group: '2'  },
+			{ name: 'Style 4, group: 1,2,3', type: 'widget', widget: 'image', attributes: { 'class': 'c4' }, group: [ '1', '2', '3' ] }
+		]
+	} );
+</script>

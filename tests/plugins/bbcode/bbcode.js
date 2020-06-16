@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: smiley,bbcode,entities,enterkey */
 
 bender.editor = { config: { autoParagraph: false } };
@@ -31,6 +31,7 @@ bender.test( {
 		this.assertToBBCode( '[b]foo[/b]', '<strong>foo</strong>' );
 		this.assertToBBCode( '[i]foo[/i]', '<em>foo</em>' );
 		this.assertToBBCode( '[u]foo[/u]', '<u>foo</u>' );
+		this.assertToBBCode( '[s]foo[/s]', '<s>foo</s>' );
 		this.assertToBBCode( '[url]http://example.org[/url]', '<a href="http://example.org">http://example.org</a>' );
 		this.assertToBBCode( '[url=http://example.com]example[/url]', '<a href="http://example.com">example</a>' );
 		this.assertToBBCode( '[img]http://a.cksource.com/c/1/inc/img/demo-little-red.jpg[/img]',
@@ -43,10 +44,23 @@ bender.test( {
 		this.assertToBBCode( '[list]\n[*]foo\n[*]bar\n[/list]\n', '<ul><li>foo</li><li>bar</li></ul>' );
 	},
 
+	// (#2248)
+	'test HTML to bbcode justify': function() {
+		this.assertToBBCode( '[left]foo[/left]', '<div style="text-align:left">foo</div>' );
+		this.assertToBBCode( '[center]foo[/center]', '<div style="text-align:center">foo</div>' );
+		this.assertToBBCode( '[right]foo[/right]', '<div style="text-align:right">foo</div>' );
+		this.assertToBBCode( '[justify]foo[/justify]', '<div style="text-align:justify">foo</div>' );
+		this.assertToBBCode( 'foo', '<div style="text-align:unset">foo</div>' );
+
+		this.assertToBBCode( '[right][img]http://a.cksource.com/c/1/inc/img/demo-little-red.jpg[/img][/right]',
+			'<div style="text-align:right"><img src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" /></div>' );
+	},
+
 	'test bbcode to HTML': function() {
 		this.assertToHtml( '<strong>foo</strong>', '[b]foo[/b]' );
 		this.assertToHtml( '<em>foo</em>', '[i]foo[/i]' );
 		this.assertToHtml( '<u>foo</u>', '[u]foo[/u]' );
+		this.assertToHtml( '<s>foo</s>', '[s]foo[/s]' );
 
 		this.assertToHtml( '<a href="http://example.org">http://example.org</a>', '[url]http://example.org[/url]' );
 		this.assertToHtml( '<a href="http://example.com">example</a>', '[url=http://example.com]example[/url]' );
@@ -63,9 +77,29 @@ bender.test( {
 		this.assertToHtml( '<ul><li>foo</li><li>bar</li></ul>', '[list]\n[*]foo\n[*]bar\n[/list]\n' );
 	},
 
-	// #8995
+	// (#2248)
+	'test bbcode to HTML justify': function() {
+		this.assertToHtml( '<div style="text-align:left;">foo</div>', '[left]foo[/left]' );
+		this.assertToHtml( '<div style="text-align:center;">foo</div>', '[center]foo[/center]' );
+		this.assertToHtml( '<div style="text-align:right;">foo</div>', '[right]foo[/right]' );
+		this.assertToHtml( '<div style="text-align:justify;">foo</div>', '[justify]foo[/justify]' );
+	},
+
+	// https://dev.ckeditor.com/ticket/8995
 	'test escape HTML entities in bbcode': function() {
-		var html = '<a href="foo&amp;bar">foo&lt;bar&gt;</a>', bbcode = '[url=foo&bar]foo<bar>[/url]';
+		var html = '<a href="foo&amp;bar">&amp;foo&lt;bar&gt;</a>', bbcode = '[url=foo&bar]&foo<bar>[/url]';
+		this.assertToHtml( html, bbcode );
+		this.assertToBBCode( bbcode, html );
+	},
+
+	'test escape HTML entities in bbcode - double encoding': function() {
+		var html = '<a href="foo&amp;amp;bar&amp;amp;lt;">foo&amp;lt;bar&amp;gt;bom&amp;amp;lt;</a>', bbcode = '[url=foo&amp;bar&amp;lt;]foo&lt;bar&gt;bom&amp;lt;[/url]';
+		this.assertToHtml( html, bbcode );
+		this.assertToBBCode( bbcode, html );
+	},
+
+	'test escape HTML entities in bbcode - ampresands in the text': function() {
+		var html = '&amp; &amp;amp; &amp;amp;amp;', bbcode = '& &amp; &amp;amp;';
 		this.assertToHtml( html, bbcode );
 		this.assertToBBCode( bbcode, html );
 	},

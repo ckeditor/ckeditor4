@@ -1,0 +1,39 @@
+<h2>LTR</h2>
+<div id="ltr">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tr>
+			<td>Cell 1</td>
+			<td>Cell 2</td>
+		</tr>
+		<tr>
+			<td>Cell 3</td>
+			<td>Cell 4</td>
+		</tr>
+	</table>
+</div>
+
+<h2>RTL</h2>
+<div id="rtl">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tr>
+			<td>Cell 1</td>
+			<td>Cell 2</td>
+		</tr>
+		<tr>
+			<td>Cell 3</td>
+			<td>Cell 4</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.addCss( 'table { border-collapse: collapse; }' );
+	CKEDITOR.replace( 'ltr' );
+	CKEDITOR.replace( 'rtl', {
+		contentsLangDirection: 'rtl'
+	} );
+</script>

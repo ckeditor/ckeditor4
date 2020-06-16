@@ -1,0 +1,11 @@
+<div contenteditable="true" id="editor">
+	<h1>Hello world!</h1>
+	<p>I&#39;m an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+</div>
+
+<script>
+	CKEDITOR.addCss( 'html{height:100%;} body{min-height:100%;}' );
+	var editor = CKEDITOR.replace( 'editor', {
+		allowedContent: true
+	} );
+</script>

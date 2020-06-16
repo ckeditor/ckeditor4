@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ja', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ja', {
 		checkboxTitle: 'チェックボックスのプロパティ',
 		radioTitle: 'ラジオボタンのプロパティ',
 		value: '値',
-		selected: '選択済み'
+		selected: '選択済み',
+		required: '必須'
 	},
 	form: {
 		title: 'フォームのプロパティ',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ja', {
 		size: 'サイズ',
 		lines: '行',
 		chkMulti: '複数選択を許可',
+		required: '必須',
 		opText: '選択項目名',
 		opValue: '値',
 		btnAdd: '追加',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ja', {
 		value: '値',
 		charWidth: 'サイズ',
 		maxChars: '最大長',
+		required: '必須',
 		type: 'タイプ',
 		typeText: 'テキスト',
 		typePass: 'パスワード入力',

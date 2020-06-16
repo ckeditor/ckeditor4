@@ -1,0 +1,8 @@
+# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+
+abort = Message informing the user that the upload was aborted.
+doneOne = Message informing the user that a file was successfully uploaded.
+doneMany = Message informing the user that files were successfully uploaded.
+uploadOne = Message informing the user about the file upload progress when 1 file is being uploaded.
+uploadMany = Message informing the user about the file upload progress when more files are being uploaded.

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -72,7 +72,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					if ( !this._.domOnChangeRegistered ) {
 						dialog.on( 'load', function() {
 							this.getInputElement().on( 'change', function() {
-								// Make sure 'onchange' doesn't get fired after dialog closed. (#5719)
+								// Make sure 'onchange' doesn't get fired after dialog closed. (https://dev.ckeditor.com/ticket/5719)
 								if ( !dialog.parts.dialog.isVisible() )
 									return;
 
@@ -93,6 +93,19 @@ CKEDITOR.plugins.add( 'dialogui', {
 						delete def[ i ];
 				}
 				return def;
+			},
+			// @context {CKEDITOR.dialog.uiElement} UI element (textarea or textInput)
+			// @param {CKEDITOR.dom.event} evt
+			toggleBidiKeyUpHandler = function( evt ) {
+				var keystroke = evt.data.getKeystroke();
+
+				// ALT + SHIFT + Home for LTR direction.
+				if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 36 )
+					this.setDirectionMarker( 'ltr' );
+
+				// ALT + SHIFT + End for RTL direction.
+				else if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 35 )
+					this.setDirectionMarker( 'rtl' );
 			};
 
 		CKEDITOR.tools.extend( CKEDITOR.ui.dialog, {
@@ -182,6 +195,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * A text input with a label. This UI element class represents both the
 			 * single-line text inputs and password inputs in dialog boxes.
 			 *
+			 * Since 4.11.0 it also represents the phone number input.
+			 *
 			 * @class CKEDITOR.ui.dialog.textInput
 			 * @extends CKEDITOR.ui.dialog.labeledElement
 			 * @constructor Creates a textInput class instance.
@@ -227,7 +242,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 							keyPressedOnMe = true;
 					} );
 
-					// Lower the priority this 'keyup' since 'ok' will close the dialog.(#3749)
+					// Lower the priority this 'keyup' since 'ok' will close the dialog.(https://dev.ckeditor.com/ticket/3749)
 					me.getInputElement().on( 'keyup', function( evt ) {
 						if ( evt.data.getKeystroke() == 13 && keyPressedOnMe ) {
 							dialog.getButton( 'ok' ) && setTimeout( function() {
@@ -235,6 +250,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 							}, 0 );
 							keyPressedOnMe = false;
 						}
+
+						if ( me.bidi )
+							toggleBidiKeyUpHandler.call( me, evt );
 					}, null, null, 1000 );
 				} );
 
@@ -301,6 +319,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				if ( elementDefinition.dir )
 					attributes.dir = elementDefinition.dir;
+
+				if ( me.bidi ) {
+					dialog.on( 'load', function() {
+						me.getInputElement().on( 'keyup', toggleBidiKeyUpHandler );
+					}, me );
+				}
 
 				var innerHTML = function() {
 						attributes[ 'aria-labelledby' ] = this._.labelId;
@@ -450,7 +474,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 						if ( typeof inputDefinition.inputStyle != 'undefined' )
 							inputDefinition.style = inputDefinition.inputStyle;
 
-						// Make inputs of radio type focusable (#10866).
+						// Make inputs of radio type focusable (https://dev.ckeditor.com/ticket/10866).
 						inputDefinition.keyboardFocusable = true;
 
 						children.push( new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes ) );
@@ -515,7 +539,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					( function() {
 						element.on( 'click', function( evt ) {
 							me.click();
-							// #9958
+							// https://dev.ckeditor.com/ticket/9958
 							evt.data.preventDefault();
 						} );
 
@@ -664,7 +688,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 							' src="javascript:void('
 					];
 
-					// Support for custom document.domain on IE. (#10165)
+					// Support for custom document.domain on IE. (https://dev.ckeditor.com/ticket/10165)
 					html.push( CKEDITOR.env.ie ?
 						'(function(){' + encodeURIComponent(
 							'document.open();' +
@@ -721,8 +745,15 @@ CKEDITOR.plugins.add( 'dialogui', {
 				myDefinition.className = ( myDefinition.className ? myDefinition.className + ' ' : '' ) + 'cke_dialog_ui_button';
 				myDefinition.onClick = function( evt ) {
 					var target = elementDefinition[ 'for' ]; // [ pageId, elementId ]
-					if ( !onClick || onClick.call( this, evt ) !== false ) {
-						dialog.getContentElement( target[ 0 ], target[ 1 ] ).submit();
+
+					// If exists onClick in elementDefinition, then it is called and checked response type.
+					// If it's possible, then XHR is used, what prevents of using submit.
+					var responseType = onClick ? onClick.call( this, evt ) : false;
+
+					if ( responseType !== false ) {
+						if ( responseType !== 'xhr' ) {
+							dialog.getContentElement( target[ 0 ], target[ 1 ] ).submit();
+						}
 						this.disable();
 					}
 				};
@@ -1011,8 +1042,72 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @returns {CKEDITOR.ui.dialog.textInput} The current UI element.
 			 */
 			setValue: function( value ) {
-				!value && ( value = '' );
+				if ( this.bidi ) {
+					var marker = value && value.charAt( 0 ),
+						dir = ( marker == '\u202A' ? 'ltr' : marker == '\u202B' ? 'rtl' : null );
+
+					if ( dir ) {
+						value = value.slice( 1 );
+					}
+
+					// Set the marker or reset it (if dir==null).
+					this.setDirectionMarker( dir );
+				}
+
+				if ( !value ) {
+					value = '';
+				}
+
 				return CKEDITOR.ui.dialog.uiElement.prototype.setValue.apply( this, arguments );
+			},
+
+			/**
+			 * Gets the value of this text input object.
+			 *
+			 * @returns {String} The value.
+			 */
+			getValue: function() {
+				var value = CKEDITOR.ui.dialog.uiElement.prototype.getValue.call( this );
+
+				if ( this.bidi && value ) {
+					var dir = this.getDirectionMarker();
+					if ( dir ) {
+						value = ( dir == 'ltr' ? '\u202A' : '\u202B' ) + value;
+					}
+				}
+
+				return value;
+			},
+
+			/**
+			 * Sets the text direction marker and the `dir` attribute of the input element.
+			 *
+			 * @since 4.5.0
+			 * @param {String} dir The text direction. Pass `null` to reset.
+			 */
+			setDirectionMarker: function( dir ) {
+				var inputElement = this.getInputElement();
+
+				if ( dir ) {
+					inputElement.setAttributes( {
+						dir: dir,
+						'data-cke-dir-marker': dir
+					} );
+				// Don't remove the dir attribute if this field hasn't got the marker,
+				// because the dir attribute could be set independently.
+				} else if ( this.getDirectionMarker() ) {
+					inputElement.removeAttributes( [ 'dir', 'data-cke-dir-marker' ] );
+				}
+			},
+
+			/**
+			 * Gets the value of the text direction marker.
+			 *
+			 * @since 4.5.0
+			 * @returns {String} `'ltr'`, `'rtl'` or `null` if the marker is not set.
+			 */
+			getDirectionMarker: function() {
+				return this.getInputElement().data( 'cke-dir-marker' );
 			},
 
 			keyboardFocusable: true
@@ -1204,7 +1299,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {
-					if ( !CKEDITOR.env.ie )
+					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) )
 						return commonEventProcessors.onChange.apply( this, arguments );
 					else {
 						dialog.on( 'load', function() {
@@ -1337,7 +1432,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 								'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
 									CKEDITOR.tools.htmlEncode( elementDefinition.label ),
 								'</label>',
-								// Set width to make sure that input is not clipped by the iframe (#11253).
+								// Set width to make sure that input is not clipped by the iframe (https://dev.ckeditor.com/ticket/11253).
 								'<input style="width:100%" id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
 									CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
 									'" size="',
@@ -1360,7 +1455,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 						buttons[ i ].enable();
 				}
 
-				// #3465: Wait for the browser to finish rendering the dialog first.
+				// https://dev.ckeditor.com/ticket/3465: Wait for the browser to finish rendering the dialog first.
 				if ( CKEDITOR.env.gecko )
 					setTimeout( generateFormField, 500 );
 				else
@@ -1415,6 +1510,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 		CKEDITOR.dialog.addUIElement( 'text', textBuilder );
 		CKEDITOR.dialog.addUIElement( 'password', textBuilder );
+		CKEDITOR.dialog.addUIElement( 'tel', textBuilder );
 		CKEDITOR.dialog.addUIElement( 'textarea', commonBuilder );
 		CKEDITOR.dialog.addUIElement( 'checkbox', commonBuilder );
 		CKEDITOR.dialog.addUIElement( 'radio', commonBuilder );

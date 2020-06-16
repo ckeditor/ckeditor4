@@ -1,0 +1,34 @@
+<div id="editor1">
+	<p>Foo foo foo</p>
+</div>
+<script>
+	var editor = CKEDITOR.replace( 'editor1' );
+
+	function createNotification() {
+		var notification = new CKEDITOR.plugins.notificationAggregator( editor,
+				'Loading {current} of {max}... {percentage}%'
+			),
+			tasks = [],
+			curTask;
+
+		notification.on( 'finished', function() {
+			notification.notification.update( { message: 'Everything is working just fine.', type: 'success' } );
+		} );
+
+		for ( var i = 0; i < 20; i++ ) {
+			tasks.push( notification.createTask() );
+		}
+
+		var interval = setInterval( function() {
+			if ( !tasks.length ) {
+				clearInterval( interval );
+			} else {
+				curTask = tasks.shift();
+				curTask.done();
+			}
+		}, 200 );
+	}
+</script>
+<p>
+	<input onclick="createNotification();" type="button" value="Create notification aggregator">
+</p>

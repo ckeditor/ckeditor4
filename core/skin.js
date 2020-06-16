@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -125,8 +125,12 @@
 			offset = overrideOffset || ( icon && icon.offset );
 			bgsize = overrideBgsize || ( icon && icon.bgsize ) || '16px';
 
+			// If we use apostrophes in background-image, we must escape apostrophes in path (just to be sure). (https://dev.ckeditor.com/ticket/13361)
+			if ( path )
+				path = path.replace( /'/g, '\\\'' );
+
 			return path &&
-				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;background-size:' + bgsize + ';' );
+				( 'background-image:url(\'' + CKEDITOR.getUrl( path ) + '\');background-position:0 ' + offset + 'px;background-size:' + bgsize + ';' );
 		}
 	};
 
@@ -265,24 +269,32 @@
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		// The chameleon feature is not for IE quirks.
-		if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
+		if ( CKEDITOR.env.ie && CKEDITOR.env.quirks ) {
 			return;
+		}
 
 		var editor = evt.editor,
 			showCallback = function( event ) {
-				var panel = event.data[ 0 ] || event.data;
-				var iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
+				var panel = event.data[ 0 ] || event.data,
+					iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
 
-				// Add stylesheet if missing.
+				// Add the stylesheet if missing.
 				if ( !iframe.getById( 'cke_ui_color' ) ) {
 					var node = getStylesheet( iframe );
 					uiColorMenus.push( node );
 
-					var color = editor.getUiColor();
-					// Set uiColor for new panel.
-					if ( color )
-						updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
+					// Cleanup after destroying the editor (#589).
+					editor.on( 'destroy', function() {
+						uiColorMenus = CKEDITOR.tools.array.filter( uiColorMenus, function( storedNode ) {
+							return node !== storedNode;
+						} );
+					} );
 
+					var color = editor.getUiColor();
+					// Set uiColor for the new panel.
+					if ( color ) {
+						updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
+					}
 				}
 			};
 
@@ -343,4 +355,24 @@
  * @method chameleon
  * @param {String} editor The editor instance that the color changes apply to.
  * @param {String} part The name of the skin part where the color changes take place.
+ */
+
+/**
+ * To help implement browser-specific "hacks" to the skin files and make it easy to maintain,
+ * it is possible to have dedicated files for such browsers. The browser files must be named after the main file names,
+ * appended by an underscore and the browser name (e.g. `editor_ie.css`, `editor_ie8.css`). The accepted browser names
+ * must match the {@link CKEDITOR.env} properties. You can find more information about browser "hacks" in the
+ * {@glink guide/skin_sdk_browser_hacks Dedicated Browser Hacks} guide.
+ *
+ *		CKEDITOR.skin.ua_editor = 'ie,iequirks,ie8,gecko';
+ *
+ * @property {String} ua_editor
+ */
+
+/**
+ * Similar to {@link #ua_editor} but used for dialog stylesheets.
+ *
+ *		CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie8,gecko';
+ *
+ * @property {String} ua_dialog
  */

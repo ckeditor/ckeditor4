@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'fo', {
 	alt: 'Alternativur tekstur',
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'fo', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Myndaeginleikar',
 	uploadTab: 'Send til ambætaran',
-	urlMissing: 'URL til mynd manglar.'
+	urlMissing: 'URL til mynd manglar.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

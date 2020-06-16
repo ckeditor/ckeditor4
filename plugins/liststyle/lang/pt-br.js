@@ -1,17 +1,13 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'pt-br', {
-	armenian: 'Numeração Armêna',
 	bulletedTitle: 'Propriedades da Lista sem Numeros',
 	circle: 'Círculo',
 	decimal: 'Numeração Decimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Numeração Decimal com zeros (01, 02, 03, etc.)',
 	disc: 'Disco',
-	georgian: 'Numeração da Geórgia (an, ban, gan, etc.)',
 	lowerAlpha: 'Numeração Alfabética minúscula (a, b, c, d, e, etc.)',
-	lowerGreek: 'Numeração Grega minúscula (alpha, beta, gamma, etc.)',
 	lowerRoman: 'Numeração Romana minúscula (i, ii, iii, iv, v, etc.)',
 	none: 'Nenhum',
 	notset: '<não definido>',

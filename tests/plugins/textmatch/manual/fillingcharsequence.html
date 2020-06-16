@@ -1,0 +1,41 @@
+<div id="editor"></div>
+
+<script>
+	if ( !CKEDITOR.env.webkit || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: dataCallback
+				} );
+			}
+		}
+	} );
+
+	function dataCallback( matchInfo, callback ) {
+		callback( [ { id: 1, name: '@foo' } ] );
+	}
+
+	function textTestCallback( range ) {
+		return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+	}
+
+	function matchCallback( text, offset ) {
+		var left = text.slice( 0, offset ),
+			match = left.match( new RegExp( '@\\w*$' ) );
+
+		if ( !match ) {
+			return null;
+		}
+
+		if ( text.indexOf( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE ) == 0 ) {
+			return null;
+		}
+
+		return { start: match.index, end: offset };
+	}
+</script>

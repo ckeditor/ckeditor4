@@ -1,0 +1,18 @@
+
+<h1>Editor 1</h1>
+
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	<p>A regular paragraph.</p>
+</textarea>
+
+<h1>Editor 2</h1>
+
+<textarea cols="80" id="editor2" name="editor1" rows="10">
+	<p>A regular paragraph.</p>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', { readOnly: true } );
+
+	CKEDITOR.replace( 'editor2' );
+</script>

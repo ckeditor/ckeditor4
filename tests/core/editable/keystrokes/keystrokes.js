@@ -1,4 +1,5 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
+/* bender-ckeditor-remove-plugins: tableselection */
 
 bender.editor = {
 	config: {
@@ -62,7 +63,7 @@ bender.test( {
 		'(not handled)', 'backspace not handled' );
 
 		// Make sure that the modifiers are ignored.
-		// http://dev.ckeditor.com/ticket/11861#comment:13
+		// https://dev.ckeditor.com/ticket/11861#comment:13
 
 		this.assertKeystroke( DEL, CKEDITOR.SHIFT,
 		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
@@ -102,7 +103,7 @@ bender.test( {
 		'(not handled)', 'table r1' );
 
 		// Make sure that the modifiers are ignored.
-		// http://dev.ckeditor.com/ticket/11861#comment:13
+		// https://dev.ckeditor.com/ticket/11861#comment:13
 		this.assertKeystroke( DEL, CKEDITOR.CTRL,
 		'<table><tbody><tr><td>[foo]</td></tr></tbody></table>' ,
 		'^', 'table a1 - CTRL' );
@@ -122,11 +123,11 @@ bender.test( {
 		this.assertKeystroke( DEL, 0, '<ul><li><img />[foo]</li></ul>' , '(not handled)', 'list r1' );
 
 		// Make sure that the modifiers are ignored.
-		// http://dev.ckeditor.com/ticket/11861#comment:13
+		// https://dev.ckeditor.com/ticket/11861#comment:13
 		this.assertKeystroke( DEL, CKEDITOR.CTRL, '<ul><li>[foo]</li></ul>' , '^', 'list a1 - CTRL' );
 	},
 
-	// #10646
+	// https://dev.ckeditor.com/ticket/10646
 	'test handle del with full nested list content selected': function() {
 		// A content in a parent list: before selected.
 		this.assertKeystroke( DEL, 0, '<ul><li>x<ul><li>[foo]</li></ul></li></ul>', '<ul><li>x^</li></ul>', 'list 1' );
@@ -138,7 +139,7 @@ bender.test( {
 		this.assertKeystroke( DEL, 0, '<ul><li><ul><li>[foo]</li></ul></li></ul>', '^', 'list 3' );
 	},
 
-	// #10646
+	// https://dev.ckeditor.com/ticket/10646
 	'test handle del with full nested table content selected': function() {
 		// A content in a parent table: before selected.
 		this.assertKeystroke( DEL, 0, '<table><tbody><tr><td>x<table><tbody><tr><td>[foo]</td></tr></tbody></table></td></tr></tbody></table>',
@@ -153,7 +154,7 @@ bender.test( {
 			'^', 'table 3' );
 	},
 
-	// #10646
+	// https://dev.ckeditor.com/ticket/10646
 	'test handle del with full nested table content selected within a list': function() {
 		// A content in a parent list: before selected.
 		this.assertKeystroke( DEL, 0, '<ul><li>x<table><tbody><tr><td>[foo]</td></tr></tbody></table></li></ul>',
@@ -166,5 +167,41 @@ bender.test( {
 		// No content in a parent list.
 		this.assertKeystroke( DEL, 0, '<ul><li><table><tbody><tr><td>[foo]</td></tr></tbody></table></li></ul>',
 			'^', 'table 3' );
+	},
+
+	// https://dev.ckeditor.com/ticket/13096
+	'test deleting text without selection with DEL key': function() {
+		var editor = this.editor,
+			bot = this.editorBot;
+		editor.focus();
+
+		bot.setHtmlWithSelection( '<p>^Foo</p>' );
+		editor.getSelection().removeAllRanges();
+		editor.fire( 'key', {
+			domEvent: {
+				getKey: function() {
+					return DEL;
+				}
+			}
+		} );
+		assert.pass();
+	},
+
+	'test deleting text without selection with BACKSPACE key': function() {
+		var editor = this.editor,
+			bot = this.editorBot;
+
+		editor.focus();
+		bot.setHtmlWithSelection( '<p>^Foo</p>' );
+		editor.getSelection().removeAllRanges();
+		editor.fire( 'key', {
+			domEvent: {
+				getKey: function() {
+					return BACKSPACE;
+				}
+			}
+		} );
+		assert.pass();
 	}
+
 } );

@@ -1,0 +1,35 @@
+<style>
+#logger {
+	height: 80px;
+	overflow-y: auto;
+	color: red;
+}
+</style>
+<strong>Logger: </strong>
+<ul id="logger"></ul>
+<div id="editor1" >
+	<p>@</p>
+	<p>@</p>
+	<p>@</p>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var logger = document.getElementById( 'logger' ),
+		editor = CKEDITOR.replace( 'editor1', {
+			on: {
+				instanceReady: function() {
+					var textWatcher = new CKEDITOR.plugins.textWatcher( editor, function( selectionRange ) {
+						var match = document.createElement( 'li' );
+						match.innerText = 'Check logged! The test failed!';
+						logger.appendChild( match );
+					} );
+
+					textWatcher.attach();
+				}
+			}
+		} );
+</script>

@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image', 'hr', {
-	alertUrl: 'Unesite URL slike',
 	alt: 'Alternativni tekst',
 	border: 'Okvir',
 	btnUpload: 'Pošalji na server',
@@ -11,7 +10,7 @@ CKEDITOR.plugins.setLang( 'image', 'hr', {
 	hSpace: 'HSpace',
 	img2Button: 'Želite li promijeniti odabranu sliku u gumb?',
 	infoTab: 'Info slike',
-	linkTab: 'Link',
+	linkTab: 'Veza',
 	lockRatio: 'Zaključaj odnos',
 	menu: 'Svojstva slika',
 	resetSize: 'Obriši veličinu',

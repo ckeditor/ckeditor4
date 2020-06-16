@@ -1,0 +1,60 @@
+<button id="button">Destroy</button>
+<strong>Filter: </strong>
+<span id="info">active</span>
+
+<div id="editor"></div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+			extraPlugins: 'test1'
+		} ),
+		widgetId = 0,
+		button = CKEDITOR.document.getById( 'button' ),
+		info = document.getElementById( 'info' );
+
+	CKEDITOR.plugins.add( 'test1', {
+		requires: 'widget',
+		init: function( editor ) {
+			editor.widgets.add( 'test1', {
+				button: 'Create autoparagraph test',
+				pathName: 'test-widget',
+
+				template:
+					'<div class="test1">' +
+						'<div class="content"></div>' +
+					'</div>',
+
+				editables: {
+					content: {
+						selector: '.content',
+						allowedContent: 'br'
+					}
+				},
+
+				allowedContent: 'div(test1,content)',
+				requiredContent: 'div(test1)',
+
+				upcast: function( element ) {
+					return element.name == 'div' && element.hasClass( 'test1' );
+				}
+			} );
+		}
+	} );
+
+	editor.once( 'pluginsLoaded', function() {
+		editor.setData( '<div class="test1">x<div class="content">Widget1</div>y</div> ' +
+			'<div class="test1">x<div class="content">Widget2</div>y</div>' );
+	} );
+
+	editor.once( 'instanceReady', function() {
+		button.on( 'click', function() {
+			var widget = editor.widgets.instances[ widgetId++ ];
+
+			if ( widget ) {
+				editor.widgets.destroy( widget );
+			}
+
+			info.innerText = editor.widgets._.filters.test1.content ? 'active' : 'removed';
+		} );
+	} );
+</script>

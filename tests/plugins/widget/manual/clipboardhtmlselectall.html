@@ -1,0 +1,49 @@
+<h2>At boundaries</h2>
+<div id="editor1">
+	<div data-widget="customwidget">Widget</div>
+	<p>Adipisicing corporis rem repellendus vel mollitia vero? Consectetur dolores voluptatibus illo ipsam eveniet? Lorem ipsum dolor sit amet.</p>
+	<div data-widget="customwidget">Widget</div>
+</div>
+
+<h2>In the middle</h2>
+<div id="editor2">
+	<p>Adipisicing corporis rem repellendus</p>
+	<div data-widget="customwidget">Widget</div>
+	<p>vel mollitia vero? Consectetur dolores voluptatibus illo ipsam eveniet? Lorem ipsum dolor sit amet.</p>
+</div>
+
+<script>
+	// No console support on mobiles (without connecting to another device).
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	( function() {
+		var editorConfig = {
+			extraAllowedContent: 'span',
+			extraPlugins: 'customwidget',
+			allowedContent: true
+		};
+
+		if ( bender.env.mobile || !CKEDITOR.env.webkit ) {
+			bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor1', editorConfig );
+		CKEDITOR.replace( 'editor2', editorConfig );
+
+		CKEDITOR.plugins.add( 'customwidget', {
+			requires: 'widget',
+			allowedContent: 'div',
+
+			init: function ( editor )	{
+				var counter = 0;
+
+				editor.widgets.add( 'customwidget', {
+					button: 'Add widget',
+					template: '<div>Widget</div>'
+				} );
+			}
+		} );
+	}() );
+</script>

@@ -1,0 +1,100 @@
+<h2>Iframe editor</h2>
+<div id="editor1">
+	<ul>
+		<li>Foo bar</li>
+		<li><strong>Foo</strong>
+			<ol>
+				<li>Bar</li>
+				<li><img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></li>
+				<li>Bar baz
+					<ol>
+						<li><strong>Baz</strong></li>
+						<li>Baz&nbsp;<strong><img alt="" src="../../../_assets/lena.jpg"
+												  style="font-weight:400; height:50px; width:50px"/></strong></li>
+						<li>Baz</li>
+					</ol>
+				</li>
+			</ol>
+		</li>
+	</ul>
+	<div>This is div</div>
+	<p>Text&nbsp;<img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></p>
+	<table border="1" cellspacing="1" cellpadding="1" style="width:500px">
+		<tbody>
+		<tr>
+			<td>Foo<br/>Bar</td>
+			<td>Bar</td>
+		</tr>
+		<tr>
+			<td><strong>Bar</strong></td>
+			<td><img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></td>
+		</tr>
+		<tr>
+			<td><img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></td>
+			<td><strong>Bar</strong><br/>Baz</td>
+		</tr>
+		</tbody>
+	</table>
+	<p>This is paragraph</p>
+	<p>This is paragraph</p>
+	<p><img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></p>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="editor2">
+	<ul>
+		<li>Foo bar</li>
+		<li><strong>Foo</strong>
+			<ol>
+				<li>Bar</li>
+				<li><img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></li>
+				<li>Bar baz
+					<ol>
+						<li><strong>Baz</strong></li>
+						<li>Baz&nbsp;<strong><img alt="" src="../../../_assets/lena.jpg"
+												  style="font-weight:400; height:50px; width:50px"/></strong></li>
+						<li>Baz</li>
+					</ol>
+				</li>
+			</ol>
+		</li>
+	</ul>
+	<div>This is div</div>
+	<p>Text&nbsp;<img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></p>
+	<table border="1" cellspacing="1" cellpadding="1" style="width:500px">
+		<tbody>
+		<tr>
+			<td>Foo<br/>Bar</td>
+			<td>Bar</td>
+		</tr>
+		<tr>
+			<td><strong>Bar</strong></td>
+			<td><img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></td>
+		</tr>
+		<tr>
+			<td><img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></td>
+			<td><strong>Bar</strong><br/>Baz</td>
+		</tr>
+		</tbody>
+	</table>
+	<p>This is paragraph</p>
+	<p>This is paragraph</p>
+	<p><img alt="" src="../../../_assets/lena.jpg" style="height:50px; width:50px"/></p>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'tableselection',
+		height: 800
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		removePlugins: 'tableselection',
+		extraPlugins: 'divarea',
+		height: 800
+	} );
+</script>

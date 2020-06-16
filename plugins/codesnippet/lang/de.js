@@ -1,13 +1,13 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'de', {
 	button: 'Codeschnipsel einfügen',
 	codeContents: 'Codeinhalt',
-	emptySnippetError: 'Ein Codeschnipsel kann nicht leer sein.',
+	emptySnippetError: 'Ein Codeschnipsel darf nicht leer sein.',
 	language: 'Sprache',
 	title: 'Codeschnipsel',
-	pathName: 'codeschnipsel'
+	pathName: 'Codeschnipsel'
 } );

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -78,23 +78,70 @@ CKEDITOR.lang[ 'et' ] = {
 		width: 'Laius',
 		height: 'Kõrgus',
 		align: 'Joondus',
-		alignLeft: 'Vasak',
-		alignRight: 'Paremale',
-		alignCenter: 'Kesk',
-		alignJustify: 'Rööpjoondus',
+		left: 'Vasak',
+		right: 'Paremale',
+		center: 'Kesk',
+		justify: 'Rööpjoondus',
+		alignLeft: 'Vasakjoondus',
+		alignRight: 'Paremjoondus',
+		alignCenter: 'Keskjoondus',
 		alignTop: 'Üles',
 		alignMiddle: 'Keskele',
 		alignBottom: 'Alla',
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Vigane väärtus.',
+		alignNone: 'Pole',
+		invalidValue: 'Vigane väärtus.',
 		invalidHeight: 'Kõrgus peab olema number.',
 		invalidWidth: 'Laius peab olema number.',
+		invalidLength: 'Välja "%1" väärtus peab olema positiivne arv korrektse ühikuga (%2) või ilma.',
 		invalidCssLength: '"%1" välja jaoks määratud väärtus peab olema positiivne täisarv CSS ühikuga (px, %, in, cm, mm, em, ex, pt või pc) või ilma.',
 		invalidHtmlLength: '"%1" välja jaoks määratud väärtus peab olema positiivne täisarv HTML ühikuga (px või %) või ilma.',
 		invalidInlineStyle: 'Reasisese stiili määrangud peavad koosnema paarisväärtustest (tuples), mis on semikoolonitega eraldatult järgnevas vormingus: "nimi : väärtus".',
 		cssLengthTooltip: 'Sisesta väärtus pikslites või number koos sobiva CSS-i ühikuga (px, %, in, cm, mm, em, ex, pt või pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, pole saadaval</span>'
+		unavailable: '%1<span class="cke_accessibility">, pole saadaval</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Tühik',
+			35: 'End',
+			36: 'Home',
+			46: 'Kustuta',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Kiirklahv',
+
+		optionDefault: 'Vaikeväärtus'
 	}
 };

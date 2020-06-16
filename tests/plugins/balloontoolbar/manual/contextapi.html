@@ -1,0 +1,22 @@
+<textarea id="editor1" cols="10" rows="10"></textarea>
+<script>
+	// Ignore on mobiles due to browser dev console requirement.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	CKEDITOR.plugins.add( 'testplugin', {
+		requires: 'balloontoolbar',
+		init: function( editor ) {
+			if ( typeof editor.balloonToolbars === 'undefined' ) {
+				throw 'editor.balloonToolbars should be initialized';
+			}
+		}
+	} );
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'testplugin'
+	} );
+</script>

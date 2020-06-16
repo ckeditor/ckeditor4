@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'sv', {
 	auto: 'Automatisk',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'sv', {
 		F0FFFF: 'Azurblå',
 		F0F8FF: 'Aliceblå',
 		E6E6FA: 'Lavendel',
-		FFF: 'Vit'
+		FFF: 'Vit',
+		'1ABC9C': 'Stark turkos',
+		'2ECC71': 'Smaragd',
+		'3498DB': 'Klarblå',
+		'9B59B6': 'Ametist',
+		'4E5F70': 'Gråblå',
+		'F1C40F': 'Klargul',
+		'16A085': 'Mörk turkos',
+		'27AE60': 'Mörk smaragd',
+		'2980B9': 'Stark blå',
+		'8E44AD': 'Mörk violett',
+		'2C3E50': 'Blek blå',
+		'F39C12': 'Orange',
+		'E67E22': 'Morot',
+		'E74C3C': 'Blekröd',
+		'ECF0F1': 'Stark silver',
+		'95A5A6': 'Ljus gråaktig turkos',
+		'DDD': 'Ljusgrå',
+		'D35400': 'Pumpa',
+		'C0392B': 'Stark röd',
+		'BDC3C7': 'Silver',
+		'7F8C8D': 'Gråaktig turkos',
+		'999': 'Mörkgrå'
 	},
 	more: 'Fler färger...',
 	panelTitle: 'Färger',

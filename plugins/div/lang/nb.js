@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'div', 'nb', {
 	IdInputLabel: 'Id',
@@ -8,9 +8,9 @@ CKEDITOR.plugins.setLang( 'div', 'nb', {
 	cssClassInputLabel: 'Stilark-klasser',
 	edit: 'Rediger Div',
 	inlineStyleInputLabel: 'Inlinestiler',
-	langDirLTRLabel: 'Venstre til høyre (VTH)',
+	langDirLTRLabel: 'Venstre til høyre (LTR)',
 	langDirLabel: 'Språkretning',
-	langDirRTLLabel: 'Høyre til venstre (HTV)',
+	langDirRTLLabel: 'Høyre til venstre (RTL)',
 	languageCodeInputLabel: ' Språkkode',
 	remove: 'Fjern Div',
 	styleSelectLabel: 'Stil',

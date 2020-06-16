@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 
 /*
@@ -20,7 +20,7 @@ editors:
 	   also its child elements.
 
 To understand why "reset" is needed, check the CKEditor Skin SDK:
-http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
+https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_reset.html
 */
 
 /* Reset for single elements, not their children. */
@@ -36,17 +36,13 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	height: auto;
 	vertical-align: baseline;
 	box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
 	position: static;
-	-webkit-transition: none;
-	-moz-transition: none;
-	-ms-transition: none;
 	transition: none;
 }
 
 /* Reset for elements and their children. */
-.cke_reset_all, .cke_reset_all *
+.cke_reset_all, .cke_reset_all *,
+.cke_reset_all a, .cke_reset_all textarea
 {
 	/* The following must be identical to .cke_reset. */
 	margin: 0;
@@ -58,12 +54,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	height: auto;
 	vertical-align: baseline;
 	box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
 	position: static;
-	-webkit-transition: none;
-	-moz-transition: none;
-	-ms-transition: none;
 	transition: none;
 
 	/* These are rule inherited by all children elements. */
@@ -73,6 +64,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
     text-align: left;
 	white-space: nowrap;
 	cursor: auto;
+	float: none;
 }
 
 .cke_reset_all .cke_rtl *
@@ -115,8 +107,6 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 .cke_reset_all select
 {
 	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 }
 
 .cke_reset_all table

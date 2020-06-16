@@ -1,25 +1,21 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'eu', {
-	armenian: 'Armenian numbering',
-	bulletedTitle: 'Bulleted List Properties',
-	circle: 'Circle',
-	decimal: 'Decimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)',
-	disc: 'Disc',
-	georgian: 'Georgian numbering (an, ban, gan, etc.)',
-	lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
-	lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
-	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
-	none: 'None',
-	notset: '<not set>',
-	numberedTitle: 'Numbered List Properties',
-	square: 'Square',
-	start: 'Start',
-	type: 'Type',
-	upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
-	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
+	bulletedTitle: 'Buletadun zerrendaren propietateak',
+	circle: 'Zirkulua',
+	decimal: 'Hamartarra (1, 2, 3...)',
+	disc: 'Diskoa',
+	lowerAlpha: 'Alfabetoa minuskulaz (a, b, c, d, e...)',
+	lowerRoman: 'Erromatarra minuskulaz (i, ii, iii, iv, v...)',
+	none: 'Bat ere ez',
+	notset: '<ezarri gabea>',
+	numberedTitle: 'Zenbakidun zerrendaren propietateak',
+	square: 'Karratua',
+	start: 'Hasi',
+	type: 'Mota',
+	upperAlpha: 'Alfabetoa maiuskulaz (A, B, C, D, E...)',
+	upperRoman: 'Erromatarra maiuskulaz (I, II, III, IV, V, etc.)',
+	validateStartNumber: 'Zerrendaren hasierako zenbakiak zenbaki osoa izan behar du.'
 } );

@@ -1,0 +1,8 @@
+# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+
+commands.fullImage = Label for the button converting an image to a full width image.
+commands.sideImage = Label for the button converting an image to a side image.
+commands.altText = Label for the button assigning the image an alternative text.
+commands.upload = Label for the editor toolbar button uploading an image to a server.
+uploadFailed = Alert message displayed when the image could not be uploaded due to a network error.

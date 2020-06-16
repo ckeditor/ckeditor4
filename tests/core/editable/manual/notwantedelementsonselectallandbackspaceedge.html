@@ -1,0 +1,44 @@
+<link rel="stylesheet" type="text/css" href="_assets/styles.css" />
+<script>
+CKEDITOR.disableAutoInline = true;
+</script>
+<h2>Inline editor</h2>
+<h1 id="editor0" contenteditable="true">
+Blockless inline editor
+</h1>
+
+<h2>Enter mode: P</h2>
+<textarea name="editor1">
+CKEditor instance.
+</textarea>
+
+<h2>Enter mode: DIV</h2>
+<textarea name="editor2">
+<div>Test</div>
+</textarea>
+
+<h2>Enter mode: BR</h2>
+<textarea name="editor3">
+CKEditor instance.
+</textarea>
+<script>
+	( function() {
+		var cfg = {
+			contentsCss: '_assets/styles.css',
+			extraPlugins: 'wysiwygarea,sourcearea,htmlwriter,entities,toolbar,elementspath,undo,clipboard,format,basicstyles,enterkey,div'
+		};
+
+		CKEDITOR.inline( 'editor0', {
+			plugins: 'toolbar,basicstyles,floatingspace,undo,format,stylescombo,enterkey'
+		} );
+
+		cfg.enterMode = CKEDITOR.ENTER_P;
+		CKEDITOR.replace( 'editor1', cfg );
+
+		cfg.enterMode = CKEDITOR.ENTER_DIV;
+		CKEDITOR.replace( 'editor2', cfg );
+
+		cfg.enterMode = CKEDITOR.ENTER_BR;
+		CKEDITOR.replace( 'editor3', cfg );
+	} )();
+</script>

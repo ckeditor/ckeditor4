@@ -1,0 +1,22 @@
+<div id="editor1"></div>
+<script>
+	CKEDITOR.replace( 'editor1', {
+		height: 400,
+		uploadUrl: '%BASE_PATH%',
+		on: {
+			instanceReady: function( evt ) {
+				if ( bender.tools.env.mobile ) {
+					return bender.ignore();
+				}
+
+				bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
+
+				var editor = evt.editor;
+				editor.widgets.registered.uploadimage.onAbort = function() {
+					editor.showNotification( 'You are awesome!' );
+					return true;
+				};
+			}
+		}
+	} );
+</script>

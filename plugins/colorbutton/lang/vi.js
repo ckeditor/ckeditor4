@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'vi', {
 	auto: 'Tự động',
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'vi', {
 		F0FFFF: 'Azure',
 		F0F8FF: 'Alice Blue',
 		E6E6FA: 'Lavender',
-		FFF: 'Trắng'
+		FFF: 'Trắng',
+		'1ABC9C': 'Xanh lơ đậm',
+		'2ECC71': 'Xanh lục bảo',
+		'3498DB': 'Xanh dương sáng',
+		'9B59B6': 'Tím thạch anh',
+		'4E5F70': 'Xanh dương xám',
+		'F1C40F': 'Vàng rực',
+		'16A085': 'Xanh lơ đạm',
+		'27AE60': 'Xanh lục bảo đậm',
+		'2980B9': 'Xanh biển đậm',
+		'8E44AD': 'Tím đậm',
+		'2C3E50': 'Xanh dương nhạt',
+		'F39C12': 'Cam',
+		'E67E22': 'Cà rốt',
+		'E74C3C': 'Đỏ tái',
+		'ECF0F1': 'Bạc sáng',
+		'95A5A6': 'Xanh lơ xám nhạt',
+		'DDD': 'Xám nhạt',
+		'D35400': 'Bí ngô',
+		'C0392B': 'Đỏ rực',
+		'BDC3C7': 'Bạc',
+		'7F8C8D': 'Xanh lơ xám',
+		'999': 'Xám đen'
 	},
 	more: 'Màu khác...',
 	panelTitle: 'Màu sắc',

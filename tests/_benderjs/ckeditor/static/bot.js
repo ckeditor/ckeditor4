@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2015, CKSource - Frederico Knabben. All rights reserved.
- * Licensed under the terms of the MIT License (see LICENSE.md).
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function( bender ) {
@@ -77,7 +77,7 @@
 
 			// Allow all instantiation tasks to complete.
 			setTimeout( function() {
-				if ( bender.runner._inTest ) {
+				if ( bender.runner._inTest && !profile.ignoreEditorWaits ) {
 					resume( function() {
 						callback( bot );
 					} );
@@ -107,10 +107,61 @@
 
 		CKEDITOR[ creator ]( element, profile.config );
 
-		if ( bender.runner._inTest ) {
+		if ( bender.runner._inTest && !profile.ignoreEditorWaits ) {
 			tc.wait();
 		}
 	};
+
+	bender.editorBot.createAsync = function( profile ) {
+		return new CKEDITOR.tools.promise( function( resolve, reject ) {
+			// By default this editor, should be surrounded with `promise`, so wait statements are generated inside that function,
+			// and shouldn't be call inside creation of new editor.
+			profile.ignoreEditorWaits = profile.ignoreEditorWaits === undefined ? true : profile.ignoreEditorWaits;
+
+			try {
+				bender.editorBot.create( profile, function( bot ) {
+					resolve( bot );
+				} );
+			} catch ( e ) {
+				reject( e );
+			}
+		} );
+	};
+
+	/**
+	 * Open a menu button drop down.
+	 * @param {String} name Name of the panel button.
+	 * @param {Function} callback The function invoked when panel is opened.
+	 */
+	function menuOrPanel( isPanel ) {
+		return function( name, callback ) {
+
+			var editor = this.editor,
+				btn = editor.ui.get( name ),
+				tc = this.testCase,
+				btnEl,
+				leftMouseButton = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT;
+
+			editor.once( 'panelShow', function() {
+				// Make sure resume comes after wait.
+				setTimeout( function() {
+					tc.resume(
+						function() {
+							callback.call( tc, isPanel ? btn._.panel : btn._.menu );
+						}
+						);
+				} );
+			} );
+
+			btnEl = CKEDITOR.document.getById( btn._.id );
+
+			btnEl.fireEventHandler( CKEDITOR.env.ie ? 'mouseup' : 'click', { button: leftMouseButton } );
+
+			// combo panel opening is synchronous.
+			tc.wait();
+		};
+	}
+
 
 	bender.editorBot.prototype = {
 		dialog: function( dialogName, callback ) {
@@ -130,7 +181,46 @@
 			} );
 
 			editor.execCommand( dialogName );
-			tc.wait( 1000 );
+
+			// Note: 1000ms isn't quite enough, i.e. in some slow browsers like MS Edge to run
+			// some heavy tests. It causes "wait() called but resume() never called"
+			// sort of errors because it takes longer to fire `dialogShow` than 1000ms,
+			// especially in build version of CKEditor (https://dev.ckeditor.com/ticket/13920).
+			tc.wait();
+		},
+
+		asyncDialog: function( dialogName ) {
+			var editor = this.editor;
+
+			return new CKEDITOR.tools.promise( function( resolve, reject ) {
+				var resolveTimeout,
+					rejectTimeout,
+					// IE 11 requires some delay to fully show up and initialize dialog. From testing it looks like 10ms is enough,
+					// however, the value is increased 5 times to have safe margin.
+					resolveDelay = CKEDITOR.env.ie && CKEDITOR.env.version === 11 ? 50 : 0;
+
+				editor.on( 'dialogShow', function( event ) {
+					var dialog = event.data;
+
+					event.removeListener();
+
+					resolveTimeout = CKEDITOR.tools.setTimeout( function() {
+						if ( rejectTimeout !== undefined ) {
+							window.clearTimeout( rejectTimeout );
+						}
+						resolve( dialog );
+					}, resolveDelay );
+				} );
+
+				rejectTimeout = CKEDITOR.tools.setTimeout( function() {
+					if ( resolveTimeout !== undefined ) {
+						window.clearTimeout( resolveTimeout );
+					}
+					reject( new Error( 'There was no "dialogShow" event for at least 5 seconds.' ) );
+				}, 5000 );
+
+				editor.execCommand( dialogName );
+			} );
 		},
 
 		getData: function( fixHtml, compatHtml ) {
@@ -171,6 +261,7 @@
 			var editor = this.editor,
 				combo = editor.ui.get( name ),
 				tc = this.testCase,
+				leftMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_LEFT, true ),
 				item;
 
 			editor.once( 'panelShow', function() {
@@ -186,7 +277,7 @@
 
 			item = CKEDITOR.document.getById( 'cke_' + combo.id );
 			item = item.getElementsByTag( 'a' ).getItem( 0 );
-			item.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
+			item.fireEventHandler( CKEDITOR.env.ie ? 'mouseup' : 'click', { button: leftMouseButton } );
 
 			// combo panel opening is synchronous.
 			tc.wait();
@@ -197,29 +288,14 @@
 		 * @param {String} name Name of the panel button.
 		 * @param {Function} callback The function invoked when panel is opened.
 		 */
-		menu: function( name, callback ) {
-			var editor = this.editor,
-				btn = editor.ui.get( name ),
-				tc = this.testCase,
-				btnEl;
+		menu: menuOrPanel( false ),
 
-			editor.once( 'panelShow', function() {
-				// Make sure resume comes after wait.
-				setTimeout( function() {
-					tc.resume(
-						function() {
-							callback.call( tc, btn._.menu );
-						}
-					);
-				} );
-			} );
-
-			btnEl = CKEDITOR.document.getById( btn._.id );
-			btnEl.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
-
-			// combo panel opening is synchronous.
-			tc.wait();
-		},
+		/**
+		 * Open a menu button drop down.
+		 * @param {String} name Name of the panel button.
+		 * @param {Function} callback The function invoked when panel is opened.
+		 */
+		panel: menuOrPanel( true ),
 
 		/**
 		 * Open the context menu on current editor.
@@ -227,7 +303,8 @@
 		 */
 		contextmenu: function( callback ) {
 			var editor = this.editor,
-				tc = this.testCase;
+				tc = this.testCase,
+				range;
 
 			editor.once( 'panelShow', function() {
 				// Make sure resume comes after wait.
@@ -240,10 +317,20 @@
 				} );
 			} );
 
+			// Force selection in the editor as opening menu
+			// by user always results in selection in non readonly editor.
+			if ( !editor.readOnly && editor.getSelection().getType() === CKEDITOR.SELECTION_NONE ) {
+				range = editor.createRange();
+
+				range.selectNodeContents( editor.editable() );
+				range.collapse( true );
+				range.select();
+			}
+
 			// Open context menu on editable element.
 			editor.contextMenu.open( editor.editable() );
 
-			// combo panel opening is synchronous;
+			// Combo panel opening is asynchronous.
 			tc.wait();
 		},
 
@@ -314,4 +401,5 @@
 			wait();
 		}
 	};
+
 } )( bender );

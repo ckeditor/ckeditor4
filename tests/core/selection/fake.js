@@ -1,11 +1,12 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: basicstyles,undo,sourcearea,toolbar */
 
 bender.editor = {
 	config: {
 		extraAllowedContent: 'p span em ul li[id,contenteditable]',
 		// They make HTML comparison different in build and dev modes.
-		removePlugins: 'htmlwriter,entities'
+		removePlugins: 'htmlwriter,entities',
+		extraPlugins: 'placeholder'
 	}
 };
 
@@ -74,6 +75,10 @@ function getKeyEvent( keyCode, preventDefaultCallback ) {
 }
 
 bender.test( {
+	tearDown: function() {
+		this.editor.setReadOnly( false );
+	},
+
 	'Make fake-selection': function() {
 		var editor = this.editor;
 
@@ -107,9 +112,15 @@ bender.test( {
 	},
 
 	'Reset fake-selection': function() {
-		var editor = this.editor;
+		var editor = this.editor,
+			inputHtml = '<p>{foo <span id="bar">bar</span>}</p>';
 
-		bender.tools.setHtmlWithSelection( editor, '<p>[foo <span id="bar">bar</span>]</p>' );
+		// Edge behaves very weird if there's element selection inside paragraph in this test.
+		if ( !CKEDITOR.env.edge || CKEDITOR.env.version < 14 ) {
+			inputHtml = '<p>[foo <span id="bar">bar</span>]</p>';
+		}
+
+		bender.tools.setHtmlWithSelection( editor, inputHtml );
 
 		var span = editor.document.getById( 'bar' ),
 			sel = editor.getSelection();
@@ -264,6 +275,22 @@ bender.test( {
 		assert.areSame( span, sel.getSelectedElement(), 'getSelectedElement() must return the fake-selected element' );
 		assert.areSame( 1, countHiddenContainers( editor.document ), 'One hidden container' );
 		assert.isTrue( editor.getSelection( 1 ).isHidden(), 'Real selection is placed in hidden element' );
+	},
+
+	'Fake-selection bookmark mark as not faked when no enclosed node found. (https://dev.ckeditor.com/ticket/13280)': function() {
+		bender.tools.selection.setWithHtml( this.editor, '<p>fo{o ba}r</p>' );
+
+		var sel = this.editor.getSelection(),
+			bookmarks = sel.createBookmarks2(),
+			selectRangesSpy = sinon.spy( sel, 'selectRanges' ),
+			warnStub = sinon.stub( CKEDITOR, 'warn' );
+
+		bookmarks.isFake = 1;
+		sel.selectBookmarks( bookmarks );
+		warnStub.restore();
+
+		assert.isTrue( selectRangesSpy.calledOnce );
+		assert.isFalse( !!sel.isFake, 'isFake is reset' );
 	},
 
 	'Fake-selection bookmark (serializable)': function() {
@@ -607,12 +634,15 @@ bender.test( {
 			editor.getSelection().selectRanges( [ range ] );
 			assertNoFakeSelection( editor, el2, 'selectRanges el1 contents' );
 
-			range.setStartBefore( el1 );
-			range.setEndAfter( el1 );
-			range2.setStartBefore( el2 );
-			range2.setEndAfter( el2 );
-			editor.getSelection().selectRanges( [ range, range2 ] );
-			assertNoFakeSelection( editor, el2, 'selectRanges el1 & el2' );
+			// Safari modifies ranges, ignore this case.
+			if ( !CKEDITOR.env.safari ) {
+				range.setStartBefore( el1 );
+				range.setEndAfter( el1 );
+				range2.setStartBefore( el2 );
+				range2.setEndAfter( el2 );
+				editor.getSelection().selectRanges( [ range, range2 ] );
+				assertNoFakeSelection( editor, el2, 'selectRanges el1 & el2' );
+			}
 
 			range.setStartBefore( el1 );
 			range.setEndAfter( el2 );
@@ -1001,7 +1031,7 @@ bender.test( {
 		} );
 	},
 
-	// #11393.
+	// https://dev.ckeditor.com/ticket/11393.
 	'Test select editable contents when fake selection was on and DOM has been overwritten': function() {
 		var editor = this.editor;
 
@@ -1031,6 +1061,65 @@ bender.test( {
 
 			// Be sure the selection is really there - regexp doesn't check it.
 			assert.isTrue( !!html.match( /\[/ ) && !!html.match( /\]/ ), 'Selection exists' );
+		} );
+	},
+
+	// #1516
+	'Test delete/backspace keys are not removing readonly selection': function() {
+
+		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor, bot = this.editorBot;
+
+		editor.setReadOnly( true );
+
+		bot.setData( '<p>[[placeholder]]</p>', function() {
+			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
+				domEvent = {
+					getKey: function() {
+						return false;
+					}
+				};
+			widget.focus();
+
+			editor.fire( 'key', { keyCode: 8, domEvent: domEvent } ); // backspace
+			editor.fire( 'key', { keyCode: 46, domEvent: domEvent } ); // delete
+
+			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
+		} );
+	},
+
+	// (#898)
+	'test hidden selection container styles': function() {
+		var bot = this.editorBot,
+			editor = bot.editor;
+
+		bot.setData( '<p>[<span id="bar">bar</span>]</p>', function() {
+			var hiddenSelectionContainer, expected;
+
+			editor.getSelection().fake( editor.document.getById( 'bar' ), '<i>foo</i>' );
+
+			hiddenSelectionContainer = editor.editable().findOne( '[data-cke-hidden-sel]' );
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 14 ) {
+				assert.areEqual( 'none', hiddenSelectionContainer.getStyle( 'display' ) );
+			} else {
+				expected = {
+					position: 'fixed',
+					top: '0px',
+					left: '-1000px',
+					width: '0px',
+					height: '0px',
+					overflow: 'hidden'
+				};
+
+				for ( var key in expected ) {
+					assert.areEqual( expected[ key ] , hiddenSelectionContainer.getComputedStyle( key ) );
+				}
+			}
 		} );
 	}
 } );

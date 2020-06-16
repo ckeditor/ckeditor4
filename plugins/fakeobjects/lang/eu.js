@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'eu', {
 	anchor: 'Aingura',
-	flash: 'Flash Animazioa',
-	hiddenfield: 'Ezkutuko Eremua',
-	iframe: 'IFrame',
+	flash: 'Flash animazioa',
+	hiddenfield: 'Ezkutuko eremua',
+	iframe: 'IFrame-a',
 	unknown: 'Objektu ezezaguna'
 } );

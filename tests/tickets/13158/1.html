@@ -1,0 +1,9 @@
+<div id="editor" contenteditable="true" >
+	<p>Some proper link: http://i.imgur.com/Z3ilPBI.jpg</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
+	} );
+</script>

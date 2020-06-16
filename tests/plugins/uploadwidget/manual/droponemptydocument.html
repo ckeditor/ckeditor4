@@ -1,0 +1,11 @@
+<div id="editor"></div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+		imageUploadUrl: 'http://sub.ckeditor.dev/'
+	} );
+
+	editor.once( 'instanceReady', function() {
+		bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
+	} );
+</script>

@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'hi', {
 	copy: 'कॉपी',
@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hi', {
 	cut: 'कट',
 	cutError: 'आपके ब्राउज़र की सुरक्षा सॅटिन्ग्स ने कट करने की अनुमति नहीं प्रदान की है। (Ctrl/Cmd+X) का प्रयोग करें।',
 	paste: 'पेस्ट',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Paste Area', // MISSING
-	pasteMsg: 'Ctrl/Cmd+V का प्रयोग करके पेस्ट करें और ठीक है करें.',
-	securityMsg: 'आपके ब्राउज़र की सुरक्षा आपके ब्राउज़र की सुरKश सैटिंग के कारण, एडिटर आपके क्लिपबोर्ड डेटा को नहीं पा सकता है. आपको उसे इस विन्डो में दोबारा पेस्ट करना होगा.',
-	title: 'पेस्ट'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );
