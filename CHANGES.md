@@ -20,6 +20,11 @@ Fixed Issues:
 * [#1959](https://github.com/ckeditor/ckeditor4/issues/1959): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work in a [maximized](https://ckeditor.com/cke4/addon/maximize) editor when the [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature is enabled. Thanks to [Roland Petto](https://github.com/arpi68)!
 * [#3998](https://github.com/ckeditor/ckeditor4/issues/3998): Fixed: An error is thrown when switching to the [source mode](https://ckeditor.com/cke4/addon/sourcearea) using a custom <kbd>Ctrl</kbd> + <kbd>Enter</kbd> [keystroke](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setKeystroke) with the [Widget](https://ckeditor.com/cke4/addon/widget) plugin present.
 
+Other Changes:
+
+* Updated [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) (WSC) and [SpellCheckAsYouType](https://ckeditor.com/cke4/addon/scayt) (SCAYT) plugins:
+	* Fixed: Active [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel causes active suggestions being unnecessarily checked by SCAYT spell checking mechanism.
+
 ## CKEditor 4.14
 
 **Security Updates:**
