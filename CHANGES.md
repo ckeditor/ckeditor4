@@ -8,22 +8,22 @@ Fixed Issues:
 * [#2607](https://github.com/ckeditor/ckeditor4/issues/2607): Fixed: The [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin SVG icons file is not loaded in CORS context.
 * [#3866](https://github.com/ckeditor/ckeditor4/issues/3866): Fixed: The [`config.readOnly`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-readOnly) configuration option not considered for startup read-only mode of inline editor.
 * [#3931](https://github.com/ckeditor/ckeditor4/issues/3931): [IE] Fixed: An error is thrown when pasting using the Paste button after accepting the browser Clipboard Access Prompt dialog.
-* [#3938](https://github.com/ckeditor/ckeditor4/issues/3938): Fixed: Cannot navigate the autocomplete panel with the keyboard after switching to source mode.
+* [#3938](https://github.com/ckeditor/ckeditor4/issues/3938): Fixed: Cannot navigate the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel with the keyboard after switching to source mode.
 * [#2823](https://github.com/ckeditor/ckeditor4/issues/2823): [IE] Fixed: Cannot resize the last table column using the [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin.
+* [#909](https://github.com/ckeditor/ckeditor4/issues/909): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work when the editor is placed in an absolutely positioned container. Thanks to [Roland Petto](https://github.com/arpi68)!
+* [#1959](https://github.com/ckeditor/ckeditor4/issues/1959): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work in a [maximized](https://ckeditor.com/cke4/addon/maximize) editor when the [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature is enabled. Thanks to [Roland Petto](https://github.com/arpi68)!
 * [#3156](https://github.com/ckeditor/ckeditor4/issues/3156): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) and [`config.autolink_emailRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_emailRegex) options are not customizable. Thanks to [Sergiy Dobrovolsky](https://github.com/serggoodwill)!
 * [#624](https://github.com/ckeditor/ckeditor4/issues/624): Fixed: [Notification](https://ckeditor.com/cke4/addon/notification) does not work with the [bottom toolbar location](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarLocation).
 * [#3000](https://github.com/ckeditor/ckeditor4/issues/3000): Fixed: [Auto Embed](https://ckeditor.com/cke4/addon/autoembed) does not work with the [bottom toolbar location](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarLocation).
 * [#1883](https://github.com/ckeditor/ckeditor4/issues/1883): Fixed: The [`editor.resize()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-resize) method does not work with CSS units.
 * [#3926](https://github.com/ckeditor/ckeditor4/issues/3926): Fixed: Dragging and dropping a [widget](https://ckeditor.com/cke4/addon/widget) sometimes produces an error.
 * [#4008](https://github.com/ckeditor/ckeditor4/issues/4008): Fixed: [Remove Format](https://ckeditor.com/cke4/addon/removeformat) does not work with a collapsed selection.
-* [#909](https://github.com/ckeditor/ckeditor4/issues/909): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work when the editor is placed in an absolutely positioned container. Thanks to [Roland Petto](https://github.com/arpi68)!
-* [#1959](https://github.com/ckeditor/ckeditor4/issues/1959): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work in a [maximized](https://ckeditor.com/cke4/addon/maximize) editor when the [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature is enabled. Thanks to [Roland Petto](https://github.com/arpi68)!
 * [#3998](https://github.com/ckeditor/ckeditor4/issues/3998): Fixed: An error is thrown when switching to the [source mode](https://ckeditor.com/cke4/addon/sourcearea) using a custom <kbd>Ctrl</kbd> + <kbd>Enter</kbd> [keystroke](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setKeystroke) with the [Widget](https://ckeditor.com/cke4/addon/widget) plugin present.
 
 Other Changes:
 
 * Updated [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) (WSC) and [SpellCheckAsYouType](https://ckeditor.com/cke4/addon/scayt) (SCAYT) plugins:
-	* Fixed: Active [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel causes active suggestions being unnecessarily checked by SCAYT spell checking mechanism.
+	* Fixed: Active [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel causes active suggestions to be unnecessarily checked by the SCAYT spell checking mechanism.
 
 ## CKEditor 4.14
 
