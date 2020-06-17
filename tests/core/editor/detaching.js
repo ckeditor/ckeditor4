@@ -305,6 +305,11 @@
 	// @returns {Function}
 	function getAfterIframeLoadTestCase( options ) {
 		return function() {
+			// (#3714)
+			if ( CKEDITOR.env.edge && CKEDITOR.env.version < 80 ) {
+				assert.ignore();
+			}
+
 			options.wrapper = this.wrapper;
 
 			var data = initializeEditor( options );
