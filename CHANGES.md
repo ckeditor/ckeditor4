@@ -1,4 +1,4 @@
-﻿CKEditor 4 Changelog
+CKEditor 4 Changelog
 ====================
 
 ## CKEditor 4.15
@@ -7,6 +7,30 @@ New features:
 
 * [#3940](https://github.com/ckeditor/ckeditor4/issues/3940): Introduced `colorName` property for customizing foreground and background styles in [color button](https://ckeditor.com/cke4/addon/colorbutton) plugin via [colorButton_foreStyle](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_foreStyle) and [colorButton_backStyle](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_backStyle) configuration options.
 * [#3793](https://github.com/ckeditor/ckeditor4/issues/3793): Introduced [Placeholder Text](https://ckeditor.com/cke4/addon/placeholdertext) plugin.
+
+## CKEditor 4.14.1
+
+Fixed Issues:
+
+* [#2607](https://github.com/ckeditor/ckeditor4/issues/2607): Fixed: The [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin SVG icons file is not loaded in CORS context.
+* [#3866](https://github.com/ckeditor/ckeditor4/issues/3866): Fixed: The [`config.readOnly`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-readOnly) configuration option not considered for startup read-only mode of inline editor.
+* [#3931](https://github.com/ckeditor/ckeditor4/issues/3931): [IE] Fixed: An error is thrown when pasting using the Paste button after accepting the browser Clipboard Access Prompt dialog.
+* [#3938](https://github.com/ckeditor/ckeditor4/issues/3938): Fixed: Cannot navigate the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel with the keyboard after switching to source mode.
+* [#2823](https://github.com/ckeditor/ckeditor4/issues/2823): [IE] Fixed: Cannot resize the last table column using the [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin.
+* [#909](https://github.com/ckeditor/ckeditor4/issues/909): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work when the editor is placed in an absolutely positioned container. Thanks to [Roland Petto](https://github.com/arpi68)!
+* [#1959](https://github.com/ckeditor/ckeditor4/issues/1959): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin does not work in a [maximized](https://ckeditor.com/cke4/addon/maximize) editor when the [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature is enabled. Thanks to [Roland Petto](https://github.com/arpi68)!
+* [#3156](https://github.com/ckeditor/ckeditor4/issues/3156): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) and [`config.autolink_emailRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_emailRegex) options are not customizable. Thanks to [Sergiy Dobrovolsky](https://github.com/serggoodwill)!
+* [#624](https://github.com/ckeditor/ckeditor4/issues/624): Fixed: [Notification](https://ckeditor.com/cke4/addon/notification) does not work with the [bottom toolbar location](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarLocation).
+* [#3000](https://github.com/ckeditor/ckeditor4/issues/3000): Fixed: [Auto Embed](https://ckeditor.com/cke4/addon/autoembed) does not work with the [bottom toolbar location](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarLocation).
+* [#1883](https://github.com/ckeditor/ckeditor4/issues/1883): Fixed: The [`editor.resize()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-resize) method does not work with CSS units.
+* [#3926](https://github.com/ckeditor/ckeditor4/issues/3926): Fixed: Dragging and dropping a [widget](https://ckeditor.com/cke4/addon/widget) sometimes produces an error.
+* [#4008](https://github.com/ckeditor/ckeditor4/issues/4008): Fixed: [Remove Format](https://ckeditor.com/cke4/addon/removeformat) does not work with a collapsed selection.
+* [#3998](https://github.com/ckeditor/ckeditor4/issues/3998): Fixed: An error is thrown when switching to the [source mode](https://ckeditor.com/cke4/addon/sourcearea) using a custom <kbd>Ctrl</kbd> + <kbd>Enter</kbd> [keystroke](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setKeystroke) with the [Widget](https://ckeditor.com/cke4/addon/widget) plugin present.
+
+Other Changes:
+
+* Updated [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) (WSC) and [SpellCheckAsYouType](https://ckeditor.com/cke4/addon/scayt) (SCAYT) plugins:
+	* Fixed: Active [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel causes active suggestions to be unnecessarily checked by the SCAYT spell checking mechanism.
 
 ## CKEditor 4.14
 
@@ -1398,7 +1422,7 @@ New Features:
 * [#11341](https://dev.ckeditor.com/ticket/11341): [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugin: It is now possible to add a link to any image type.
 * [#10202](https://dev.ckeditor.com/ticket/10202): Introduced wildcard support in the [Allowed Content Rules](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_allowed_content_rules.html) format.
 * [#10276](https://dev.ckeditor.com/ticket/10276): Introduced blacklisting in the [Allowed Content Filter](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html).
-* [#10480](https://dev.ckeditor.com/ticket/10480): Introduced code snippets with code highlighting. There are two versions available so far &mdash; the default [Code Snippet](https://ckeditor.com/cke4/addon/codesnippet) which uses the [highlight.js](http://highlightjs.org) library and the [Code Snippet GeSHi](https://ckeditor.com/cke4/addon/codesnippetgeshi) which uses the [GeSHi](http://qbnz.com/highlighter/) library.
+* [#10480](https://dev.ckeditor.com/ticket/10480): Introduced code snippets with code highlighting. There are two versions available so far &mdash; the default [Code Snippet](https://ckeditor.com/cke4/addon/codesnippet) which uses the [highlight.js](https://highlightjs.org) library and the [Code Snippet GeSHi](https://ckeditor.com/cke4/addon/codesnippetgeshi) which uses the [GeSHi](http://qbnz.com/highlighter/) library.
 * [#11737](https://dev.ckeditor.com/ticket/11737): Introduced an option to prevent [filtering](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html) of an element that matches custom criteria (see [`filter.addElementCallback()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_filter.html#method-addElementCallback)).
 * [#11532](https://dev.ckeditor.com/ticket/11532): Introduced the [`editor.addContentsCss()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-addContentsCss) method that can be used for [adding custom CSS files](https://ckeditor.com/docs/ckeditor4/latest/guide/plugin_sdk_styles.html).
 * [#11536](https://dev.ckeditor.com/ticket/11536): Added the [`CKEDITOR.tools.htmlDecode()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-htmlDecode) method for decoding HTML entities.

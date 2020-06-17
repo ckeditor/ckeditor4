@@ -35,6 +35,9 @@
 }
 
 /* TOP NAVIGATION */
+.cke_emoji-navigation_icons {
+	display: none;
+}
 .cke_emoji-inner_panel > nav {
 	width: 100%;
 	height: 24px;

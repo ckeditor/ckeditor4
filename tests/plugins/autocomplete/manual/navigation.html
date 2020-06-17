@@ -1,0 +1,26 @@
+<textarea id="editor" >
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	<p>Vitae perferendis architecto sapiente veniam eius eos enim mollitia</p>
+	<p>Sint accusamus sed voluptatum, consectetur illum nam, ab quod id amet.</p>
+</textarea>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		width: 600,
+		extraPlugins: 'textmatch',
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
+			}
+		}
+	} );
+</script>

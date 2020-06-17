@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'da', {
 	button: 'Indsæt som ikke-formateret tekst',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Klik %1 for at indsætte. Din browser understøtter ikke indsæt med tastatur eller kontekstmenu-valg.',
 	title: 'Indsæt som ikke-formateret tekst'
 } );

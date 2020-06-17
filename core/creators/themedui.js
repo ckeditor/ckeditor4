@@ -251,9 +251,13 @@ CKEDITOR.replaceClass = 'ckeditor';
 	/**
 	 * Resizes the editor interface.
 	 *
-	 *		editor.resize( 900, 300 );
+	 * **Note:** Since 4.14.1 this method accepts numeric or absolute CSS length units.
 	 *
-	 *		editor.resize( '100%', 450, true );
+	 * ```javascript
+	 *	editor.resize( 900, 300 );
+	 *
+	 *	editor.resize( '5in', 450, true );
+	 * ```
 	 *
 	 * @param {Number/String} width The new width. It can be an integer denoting a value
 	 * in pixels or a CSS size value with unit.
@@ -283,11 +287,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 			outer = container;
 		}
 
+		width = convertCssUnitToPx( width );
+
 		// Set as border box width. (https://dev.ckeditor.com/ticket/5353)
 		outer.setSize( 'width', width, true );
 
 		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (https://dev.ckeditor.com/ticket/8348)
 		contentsFrame && ( contentsFrame.style.width = '1%' );
+
+		height = convertCssUnitToPx( height );
 
 		// Get the height delta between the outer table and the content area.
 		var contentsOuterDelta = ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 ),
@@ -296,7 +304,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			resultContentsHeight = Math.max( height - ( isContentHeight ? 0 : contentsOuterDelta ), 0 ),
 			resultOuterHeight = ( isContentHeight ? height + contentsOuterDelta : height );
 
-		contents.setStyle( 'height', resultContentsHeight + 'px' );
+		contents.setStyle( 'height', CKEDITOR.tools.cssLength( resultContentsHeight ) );
 
 		// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (https://dev.ckeditor.com/ticket/8348)
 		contentsFrame && ( contentsFrame.style.width = '100%' );
@@ -321,6 +329,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 	CKEDITOR.editor.prototype.getResizable = function( forContents ) {
 		return forContents ? this.ui.space( 'contents' ) : this.container;
 	};
+
+	function convertCssUnitToPx( unit ) {
+		return CKEDITOR.tools.convertToPx( CKEDITOR.tools.cssLength( unit ) );
+	}
 
 	function createInstance( element, config, data, mode ) {
 		element = CKEDITOR.editor._getEditorElement( element );

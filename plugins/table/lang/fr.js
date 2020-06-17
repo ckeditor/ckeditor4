@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'fr', {
 	headersColumn: 'Première colonne',
 	headersNone: 'Aucun',
 	headersRow: 'Première ligne',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'unité de hauteur',
 	invalidBorder: 'La taille de la bordure doit être un nombre.',
 	invalidCellPadding: 'La marge interne des cellules doit être un nombre positif.',
 	invalidCellSpacing: 'L\'espacement entre les cellules doit être un nombre positif.',

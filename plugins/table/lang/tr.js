@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'tr', {
 	headersColumn: 'İlk Sütun',
 	headersNone: 'Yok',
 	headersRow: 'İlk Satır',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'yükseklik birimi',
 	invalidBorder: 'Çerceve büyüklüklüğü sayı olmalıdır.',
 	invalidCellPadding: 'Hücre aralığı (padding) sayı olmalıdır.',
 	invalidCellSpacing: 'Hücre boşluğu (spacing) sayı olmalıdır.',

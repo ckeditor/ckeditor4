@@ -1,0 +1,45 @@
+<style>
+	.container {
+		position: absolute;
+		width: 800px;
+		height: 300px;
+		z-index: 10000;
+	}
+</style>
+
+<h2>Inline editor</h2>
+
+<div class="container">
+	<div id="inline" contenteditable="true">
+		<p>Inline editor</p>
+		<table border="1" cellpadding="1" cellspacing="1" style="width:600px">
+			<thead>
+			<tr>
+				<th scope="row" style="width:150px">Header</th>
+				<th scope="col" style="width:300px" colspan="2">Header</th>
+				<th scope="col" style="width:150px">Header</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<th scope="row" style="width:150px">Header</th>
+				<td style="width:150px">not header</td>
+				<td style="width:150px">not header</td>
+				<td style="width:150px">not header</td>
+			</tr>
+			<tr>
+				<th scope="row" style="width:300px" colspan="2">Header</th>
+				<td style="width:300px" colspan="2">not header</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.inline( 'inline' );
+</script>

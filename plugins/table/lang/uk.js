@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'uk', {
 	headersColumn: 'Стовбці',
 	headersNone: 'Без заголовків',
 	headersRow: 'Рядки',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'одиниця висоти',
 	invalidBorder: 'Розмір рамки повинен бути цілим числом.',
 	invalidCellPadding: 'Внутр. відступ комірки повинен бути цілим числом.',
 	invalidCellSpacing: 'Проміжок між комірками повинен бути цілим числом.',
@@ -71,5 +71,5 @@ CKEDITOR.plugins.setLang( 'table', 'uk', {
 	toolbar: 'Таблиця',
 	widthPc: 'відсотків',
 	widthPx: 'пікселів',
-	widthUnit: 'Одиниці вимір.'
+	widthUnit: 'одиниця ширини'
 } );

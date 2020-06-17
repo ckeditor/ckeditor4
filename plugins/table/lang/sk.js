@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'sk', {
 	headersColumn: 'Prvý stĺpec',
 	headersNone: 'Žiadne',
 	headersRow: 'Prvý riadok',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'jednotka výšky',
 	invalidBorder: 'Šírka orámovania musí byť číslo.',
 	invalidCellPadding: 'Odsadenie v bunkách (cell padding) musí byť kladné číslo.',
 	invalidCellSpacing: 'Medzera mädzi bunkami (cell spacing) musí byť kladné číslo.',

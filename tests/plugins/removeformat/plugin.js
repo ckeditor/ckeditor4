@@ -154,7 +154,7 @@ bender.test(
 		} );
 	},
 
-	// #2451
+	// (#2451)
 	'test remove format keeps selection': function() {
 		var editor = this.editor,
 			html = '<ol><li><h1>[Test]</h1></li></ol>',
@@ -173,5 +173,17 @@ bender.test(
 		editor.execCommand( 'removeFormat' );
 
 		assert.beautified.html( html, bender.tools.selection.getWithHtml( editor ), { customFilters: [ filter ] } );
+	},
+
+	// (#4008)
+	'test remove format with collapsed selection': function() {
+		var editor = this.editor;
+
+		this.editorBot.setHtmlWithSelection( '<p><strong>Hello,^</strong></p>' );
+
+		editor.execCommand( 'removeFormat' );
+		editor.insertText( 'World!' );
+
+		assert.areEqual( '<p><strong>Hello,</strong>World!</p>', editor.getData() );
 	}
 } );

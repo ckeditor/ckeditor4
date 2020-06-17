@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'fa', {
 	button: 'چسباندن به عنوان متن ساده',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: '1% را فشاردهید تا بچسبد. مرورگر شما از چسباندن با دکمه نوارابزار یا گزینه منوی زمینه پشتیبانی نمیکند',
 	title: 'چسباندن به عنوان متن ساده'
 } );
