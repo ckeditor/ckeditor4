@@ -30,6 +30,11 @@
 			output = output ? output.replace( /%xss%/g, 'testXss()' ) : input;
 
 		tcs[ name ] = function() {
+			// (#3483)
+			if ( name == 'test xss - iframe with src=javascript 3' && CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+
 			var editor = this.editors.editor2,
 				xssed = false;
 
