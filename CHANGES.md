@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.14.2
 
+Fixed Issues:
+
+* [#3795](https://github.com/ckeditor/ckeditor4/issues/3795): Fixed: Setting [`dataIndentationChars`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-dataIndentationChars) config option to an empty string is ignored and replaced by a tab (`\t`) character. Thanks to [Thomas Grinderslev](https://github.com/Znegl)!
+
 ## CKEditor 4.14.1
 
 Fixed Issues:
