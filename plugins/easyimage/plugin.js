@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -525,7 +525,7 @@
 
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
-		lang: 'en',
+		lang: 'ar,az,bg,cs,da,de,en,en-au,et,fa,fr,gl,hr,hu,it,ku,lv,nb,nl,no,pl,pt,ro,ru,sk,sq,sr,sr-latn,sv,tr,tt,uk,zh,zh-cn',
 		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright,easyimageupload', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 

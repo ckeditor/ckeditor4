@@ -8,6 +8,6 @@ CKEDITOR.plugins.setLang( 'copyformatting', 'ru', {
 		copied: 'Форматирование скопировано',
 		applied: 'Форматирование применено',
 		canceled: 'Форматирование отменен',
-		failed: 'Formatting failed. You cannot apply styles without copying them first.' // MISSING
+		failed: 'Форматирование не выполнено. Стили необходимо скопировать перед применением.'
 	}
 } );
