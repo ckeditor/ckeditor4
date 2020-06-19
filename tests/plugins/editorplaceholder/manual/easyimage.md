@@ -1,6 +1,6 @@
 @bender-ui: collapsed
-@bender-tags: placeholdertext, feature, 4.15.0, 3793
-@bender-ckeditor-plugins: wysiwygarea, placeholdertext, toolbar, undo, basicstyles, clipboard, easyimage
+@bender-tags: editorplaceholder, feature, 4.15.0, 3793
+@bender-ckeditor-plugins: wysiwygarea, editorplaceholder, toolbar, undo, basicstyles, clipboard, easyimage
 
 ## Procedure
 
@@ -14,7 +14,7 @@
 
 	### Unexpected
 
-	There is error in the console: `Uncaught TypeError: Cannot read property 'data-cke-placeholdertext' of undefined`.
+	There is error in the console: `Uncaught TypeError: Cannot read property 'data-cke-editorplaceholder' of undefined`.
 2. Look at the image
 
 	### Expected
