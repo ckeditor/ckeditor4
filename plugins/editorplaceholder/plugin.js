@@ -7,17 +7,17 @@
  * @fileOverview Simple CKEditor 4 plugin that adds placeholder text to the editor.
  */
 ( function() {
-	CKEDITOR.plugins.add( 'placeholdertext', {
+	CKEDITOR.plugins.add( 'editorplaceholder', {
 		isSupportedEnvironment: function() {
 			return !CKEDITOR.env.ie || CKEDITOR.env.version >= 9;
 		},
 
 		onLoad: function() {
-			CKEDITOR.addCss( CKEDITOR.plugins.placeholdertext.styles );
+			CKEDITOR.addCss( CKEDITOR.plugins.editorplaceholder.styles );
 		},
 
 		init: function( editor ) {
-			if ( !this.isSupportedEnvironment() || !editor.config.placeholdertext ) {
+			if ( !this.isSupportedEnvironment() || !editor.config.editorplaceholder ) {
 				return;
 			}
 
@@ -31,17 +31,17 @@
 		}
 	} );
 
-	var ATTRIBUTE_NAME = 'data-cke-placeholdertext';
+	var ATTRIBUTE_NAME = 'data-cke-editorplaceholder';
 
 	/**
-	 * Namespace providing configuration for placeholdertext plugin.
+	 * Namespace providing configuration for editorplaceholder plugin.
 	 *
 	 * @singleton
-	 * @class CKEDITOR.plugins.placeholdertext
+	 * @class CKEDITOR.plugins.editorplaceholder
 	 * @since 4.15.0
 	 * @member CKEDITOR.plugins
 	 */
-	CKEDITOR.plugins.placeholdertext = {
+	CKEDITOR.plugins.editorplaceholder = {
 		/**
 		 * Styles that would be applied to the editor by placeholder text when visible.
 		 *
@@ -80,7 +80,7 @@
 		var editor = evt.listenerData.editor,
 			hasFocus = editor.focusManager.hasFocus,
 			editable = editor.editable(),
-			placeholder = editor.config.placeholdertext;
+			placeholder = editor.config.editorplaceholder;
 
 		if ( !isEditorEmpty( editor ) || hasFocus ) {
 			return editable.removeAttribute( ATTRIBUTE_NAME );
@@ -93,19 +93,19 @@
 	 * Text that will be used as a placeholder inside the editor.
 	 *
 	 * ```js
-	 * config.placeholdertext = 'Type your comment…';
+	 * config.editorplaceholder = 'Type your comment…';
 	 * ```
 	 *
 	 * If it is set to a falsy value like an empty string, it will disable placeholder.
 	 *
 	 * ```js
 	 * // Disable placeholder.
-	 * config.placeholdertext = '';
+	 * config.editorplaceholder = '';
 	 * ```
 	 *
-	 * @cfg {String} [placeholdertext='']
+	 * @cfg {String} [editorplaceholder='']
 	 * @since 4.15.0
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.placeholdertext = '';
+	CKEDITOR.config.editorplaceholder = '';
 }() );

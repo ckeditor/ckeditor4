@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: wysiwygarea,placeholdertext,toolbar,undo */
+/* bender-ckeditor-plugins: wysiwygarea,editorplaceholder,toolbar,undo */
 
 ( function() {
 	'use strict';
@@ -7,28 +7,28 @@
 	bender.editors = {
 		classic: {
 			config: {
-				placeholdertext: 'Type your comment'
+				editorplaceholder: 'Type your comment'
 			}
 		},
 
 		divarea: {
 			config: {
 				extraPlugins: 'divarea',
-				placeholdertext: 'Type your comment'
+				editorplaceholder: 'Type your comment'
 			}
 		},
 
 		inline: {
 			creator: 'inline',
 			config: {
-				placeholdertext: 'Type your comment'
+				editorplaceholder: 'Type your comment'
 			}
 		}
 	};
 
 	var tests = {
 		setUp: function() {
-			bender.tools.ignoreUnsupportedEnvironment( 'placeholdertext' );
+			bender.tools.ignoreUnsupportedEnvironment( 'editorplaceholder' );
 		},
 
 		'test getting data from editor': function( editor ) {
@@ -36,7 +36,7 @@
 		},
 
 		'test placeholder present on editor initialisation': function( editor ) {
-			assert.isTrue( editor.editable().hasAttribute( 'data-cke-placeholdertext' ) );
+			assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
 		},
 
 		'test placeholder disappear on editor focus and reappears on blur': function( editor ) {
@@ -46,14 +46,14 @@
 
 			setTimeout( function() {
 				resume( function() {
-					assert.isFalse( editable.hasAttribute( 'data-cke-placeholdertext' ),
+					assert.isFalse( editable.hasAttribute( 'data-cke-editorplaceholder' ),
 						'placeholder is hidden on focus' );
 
 					CKEDITOR.document.getById( 'focus-trap' ).$.focus();
 
 					setTimeout( function() {
 						resume( function() {
-							assert.isTrue( editable.hasAttribute( 'data-cke-placeholdertext' ),
+							assert.isTrue( editable.hasAttribute( 'data-cke-editorplaceholder' ),
 								'placeholder is visible on blur' );
 						} );
 					}, 300 );
@@ -93,13 +93,13 @@
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 
-	tests[ 'test not applying placeholder if config.placeholdertext is not set' ] = function() {
+	tests[ 'test not applying placeholder if config.editorplaceholder is not set' ] = function() {
 		bender.editorBot.create( {
 			name: 'no_config'
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			assert.isFalse( editor.editable().hasAttribute( 'data-cke-placeholdertext' ) );
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
 		} );
 	};
 
@@ -107,14 +107,14 @@
 		bender.editorBot.create( {
 			name: 'change_event',
 			config: {
-				placeholdertext: 'Some placeholder'
+				editorplaceholder: 'Some placeholder'
 			}
 		}, function( bot ) {
 			var editor = bot.editor;
 
 			editor.fire( 'change' );
 
-			assert.isTrue( editor.editable().hasAttribute( 'data-cke-placeholdertext' ) );
+			assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
 		} );
 	};
 
@@ -122,7 +122,7 @@
 		bender.editorBot.create( {
 			name: 'change_event2',
 			config: {
-				placeholdertext: 'Some placeholder'
+				editorplaceholder: 'Some placeholder'
 			}
 		}, function( bot ) {
 			var editor = bot.editor,
@@ -133,7 +133,7 @@
 			editable.setHtml( '<p>Test</p>' );
 			editor.fire( 'change' );
 
-			assert.isFalse( editor.editable().hasAttribute( 'data-cke-placeholdertext' ) );
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
 		} );
 	};
 
@@ -141,13 +141,13 @@
 		bender.editorBot.create( {
 			name: 'fullpage',
 			config: {
-				placeholdertext: 'Comandeer is a really good JS developer',
+				editorplaceholder: 'Comandeer is a really good JS developer',
 				fullPage: true
 			}
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			assert.isTrue( editor.editable().hasAttribute( 'data-cke-placeholdertext' ) );
+			assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
 		} );
 	};
 
@@ -159,7 +159,7 @@
 		bender.editorBot.create( {
 			config: {
 				extraPlugins: 'easyimage',
-				placeholdertext: 'Some placeholder'
+				editorplaceholder: 'Some placeholder'
 			},
 			startupData: '<p><figure class="easyimage"><img src="/tests/_assets/lena.jpg" alt=""><figcaption>Lena</figcaption></figure>'
 		}, function( bot ) {

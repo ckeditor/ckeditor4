@@ -1,6 +1,6 @@
 @bender-ui: collapsed
-@bender-tags: placeholdertext, feature, 4.15.0, 3793
-@bender-ckeditor-plugins: wysiwygarea, placeholdertext, toolbar, undo, basicstyles, clipboard, floatingspace
+@bender-tags: editorplaceholder, feature, 4.15.0, 3793
+@bender-ckeditor-plugins: wysiwygarea, editorplaceholder, toolbar, undo, basicstyles, clipboard, floatingspace
 
 Check if:
 
