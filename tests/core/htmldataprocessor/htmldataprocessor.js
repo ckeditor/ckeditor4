@@ -30,11 +30,6 @@
 			output = output ? output.replace( /%xss%/g, 'testXss()' ) : input;
 
 		tcs[ name ] = function() {
-			// (#3483)
-			if ( name == 'test xss - iframe with src=javascript 3' && CKEDITOR.env.safari ) {
-				assert.ignore();
-			}
-
 			var editor = this.editors.editor2,
 				xssed = false;
 
@@ -1322,8 +1317,9 @@
 
 	addXssTC( tcs, 'iframe with src=javascript 3',
 		'<p><iframe src="   jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
-		// Only Safari and Opera removes preceding spaces in the attribute (#1070).
-		'<p><iframe src="' + ( CKEDITOR.env.safari ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
+		// No browser removes preciding spaces from attribute value anymore. (#3483).
+		// However, I'm leaving this test as is (not removing spaces) as it's kind of pseudo-feature-docs.
+		'<p><iframe src="   javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
 
 	if ( !isBrowserDisplayingAlert() ) {
 		addXssTC( tcs, 'iframe with src=javascript 4',
