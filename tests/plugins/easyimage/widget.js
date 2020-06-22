@@ -88,11 +88,6 @@
 		},
 
 		'test upcasting image widget (figure)': function( editor, bot ) {
-			// (#3715)
-			if ( CKEDITOR.env.edge && CKEDITOR.env.version < 80 ) {
-				assert.ignore();
-			}
-
 			widgetTestsTools.assertWidget( {
 				count: editor.name === 'classicAllFigures' ? 2 : 1,
 				widgetOffset: 0,

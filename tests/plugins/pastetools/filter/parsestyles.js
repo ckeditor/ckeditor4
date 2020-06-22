@@ -6,11 +6,6 @@
 ( function() {
 	'use strict';
 
-	// (#3713)
-	if ( CKEDITOR.env.edge && CKEDITOR.env.version < 80 ) {
-		bender.ignore();
-	}
-
 	bender.editor = {};
 
 	function testStyles( name ) {
