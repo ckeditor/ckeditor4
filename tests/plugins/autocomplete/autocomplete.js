@@ -162,26 +162,33 @@
 			wait();
 		},
 
-		// (#3938)
+		// (#3938, #4107)
 		'test navigation keybindings are registered after changing mode': function() {
 			var editor = this.editors.source,
-				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
+				bot = this.editorBots.standard,
+				ac1 = new CKEDITOR.plugins.autocomplete( editor, configDefinition ),
+				ac2 = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			editor.setMode( 'source', function() {
 				editor.setMode( 'wysiwyg', function() {
 					resume( function() {
-						var spy = sinon.spy( ac, 'onKeyDown' );
-
-						this.editorBots.standard.setHtmlWithSelection( '' );
-
-						editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {} ) );
-
-						spy.restore();
-
-						assert.isTrue( spy.called );
+						testPanelEvents( ac1, 'The first autocomplete navigation bindings should work' );
+						testPanelEvents( ac2, 'The second autocomplete navigation bindings should work' );
 					} );
 				} );
 			} );
+
+			function testPanelEvents( autocomplete, msg ) {
+				var spy = sinon.spy( autocomplete, 'onKeyDown' );
+
+				bot.setHtmlWithSelection( '' );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {} ) );
+
+				spy.restore();
+
+				assert.isTrue( spy.called, msg );
+			}
 
 			wait();
 		},
