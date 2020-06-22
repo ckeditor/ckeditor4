@@ -47,7 +47,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							' title="' + this.label + '"' +
 							' draggable="false"' +
 							' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-							' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + this.color + '\', this);' +
+							' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + this.color + '\',\'' + this.label +  '\', this);' +
 							' return false;"' +
 							' href="javascript:void(\'' + this.color + '\')"' +
 							' data-value="' + this.color + '"' +
@@ -582,18 +582,18 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			function createClickFunction() {
-				return CKEDITOR.tools.addFunction( function addClickFn( color, colorbox ) {
+				return CKEDITOR.tools.addFunction( function addClickFn( color, colorName, colorbox ) {
 					editor.focus();
 					editor.fire( 'saveSnapshot' );
 
 					if ( color == '?' ) {
 						editor.getColorFromDialog( function( color ) {
 							if ( color ) {
-								setColor( color, history );
+								setColor( color, colorName, history );
 							}
 						}, null, colorData );
 					} else {
-						setColor( color && '#' + color, history );
+						setColor( color && '#' + color, colorName, history );
 					}
 
 					if ( !colorbox ) {
@@ -606,8 +606,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} );
 			}
 
-			function setColor( color, colorHistory ) {
-				var colorStyle = color && new CKEDITOR.style( createColorStyleTemplate(), { color: color } );
+			function setColor( color, colorName, colorHistory ) {
+				var colorStyleVars = {};
+
+				if ( color ) {
+					colorStyleVars.color = color;
+				}
+				if ( colorName ) {
+					colorStyleVars.colorName = colorName;
+				}
+
+				var colorStyle = !CKEDITOR.tools.isEmpty( colorStyleVars ) && new CKEDITOR.style( createColorStyleTemplate(), colorStyleVars );
 
 				editor.execCommand( commandName, { newStyle: colorStyle } );
 				if ( color && colorHistory ) {
