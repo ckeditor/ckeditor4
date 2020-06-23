@@ -472,7 +472,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
 
-					if ( ColorHistory.rowLimit ) {
+					if ( history ) {
 						history.setContainer( block.element.findOne( '.cke_colorhistory' ) );
 					}
 				},
