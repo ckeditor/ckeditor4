@@ -107,8 +107,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		} );
 
 		var ColorHistory = CKEDITOR.tools.createClass( {
-			$: function( cssProperty ) {
+			$: function( cssProperty, clickFn ) {
 				this.cssProperty = cssProperty;
+				this.clickFn = clickFn;
+
 				this.rows = [];
 				this._.addNewRow();
 			},
@@ -263,10 +265,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					this._.attachRows();
 				},
 
-				setClickFn: function( clickFn ) {
-					this.clickFn = clickFn;
-				},
-
 				renderContentColors: function() {
 					var colorOccurrences = this._.countColors();
 
@@ -382,7 +380,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorData = { type: type },
 				defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
 				clickFn = createClickFunction(),
-				history = ColorHistory.rowLimit ? new ColorHistory( type == 'back' ? 'background-color' : 'color' ) : undefined,
+				history = ColorHistory.rowLimit ? new ColorHistory( type == 'back' ? 'background-color' : 'color', clickFn ) : undefined,
 				panelBlock;
 
 			editor.addCommand( commandName, {
@@ -552,8 +550,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			if ( !ColorHistory.rowLimit ) {
 				return;
 			}
-
-			history.setClickFn( clickFn );
 
 			if ( editor.config.colorButton_renderContentColors ) {
 				// It can't be done right now - we have to wait till editable is set up.
