@@ -113,6 +113,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				this.rows = [];
 				this._.addNewRow();
+
+				if ( editor.config.colorButton_renderContentColors ) {
+					// It can't be done right away - we have to wait till editable is set up.
+					editor.once( 'instanceReady', function() {
+						this.renderContentColors();
+					}, this );
+				}
 			},
 
 			statics: {
@@ -546,17 +553,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					return automaticColor;
 				}
 			} );
-
-			if ( !ColorHistory.rowLimit ) {
-				return;
-			}
-
-			if ( editor.config.colorButton_renderContentColors ) {
-				// It can't be done right now - we have to wait till editable is set up.
-				editor.once( 'instanceReady', function() {
-					history.renderContentColors();
-				} );
-			}
 
 			function createColorStyleTemplate() {
 				var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
