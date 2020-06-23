@@ -456,10 +456,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					panelBlock = block;
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
-					block.element.setHtml( renderColors( {
-						colorBoxId: colorBoxId,
-						clickFn: clickFn
-					} ) );
+					block.element.setHtml( renderColors( colorBoxId, clickFn ) );
 
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
@@ -629,9 +626,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
-		function renderColors( options ) {
-			var colorBoxId = options.colorBoxId,
-				output = [],
+		function renderColors( colorBoxId, clickFn ) {
+			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				// Tells if we should include "More Colors..." button.
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
@@ -654,7 +650,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorName = parts[ 0 ],
 					colorCode = parts[ 1 ] || colorName,
 					colorLabel = parts[ 1 ] ? colorName : undefined,
-					box = new ColorBox( colorCode, options.clickFn, colorLabel ),
+					box = new ColorBox( colorCode, clickFn, colorLabel ),
 					position = i + 2; // At position #1 we have automatic button, so the first position is equal to 2.
 
 				box.setPositionIndex( position, total );
@@ -678,7 +674,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					' title="', lang.auto, '"',
 					' draggable="false"',
 					' ondragstart="return false;"', // Draggable attribute is buggy on Firefox.
-					' onclick="CKEDITOR.tools.callFunction(', options.clickFn, ',null\);return false;"',
+					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null\);return false;"',
 					' href="javascript:void(\'', lang.auto, '\')"',
 					' role="option" aria-posinset="1" aria-setsize="', total, '">',
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">',
@@ -699,7 +695,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								' title="', lang.more, '"',
 								' draggable="false"',
 								' ondragstart="return false;"', // Draggable attribute is buggy on Firefox.
-								' onclick="CKEDITOR.tools.callFunction(', options.clickFn, ',\'?\');return false;"',
+								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\');return false;"',
 								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total,
 								'" aria-setsize="', total, '">', lang.more,
 							'</a>',
