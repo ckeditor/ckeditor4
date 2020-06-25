@@ -2,6 +2,18 @@
 /* global testSelection, testSelectedElement, testSelectedText, testStartElement, rangy, doc, makeSelection,
 	convertRange, checkRangeEqual, checkSelection, assertSelectionsAreEqual, tools */
 
+bender.editors = {
+	divarea: {
+		name: 'divarea',
+		startupData: '<p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p>',
+		config: {
+			extraPlugins: 'divarea',
+			width: '100px',
+			height: '100px'
+		}
+	}
+};
+
 bender.editor = {
 	config: {
 		allowedContent: true
@@ -843,5 +855,19 @@ bender.test( {
 		editor.editable().fire( 'keydown', event );
 
 		assert.isFalse( eventSpy.called );
+	},
+
+	// (#4041)
+	'test scrollIntoView method': function() {
+		var editor = this.editors.divarea,
+			editable = editor.editable();
+
+		assert.areSame( 0, editable.$.scrollTop, 'Initial scrollTop is 0.' );
+
+		editor.getSelection().removeAllRanges();
+
+		editable.find( 'p' ).getItem( 3 ).scrollIntoView();
+
+		assert.isTrue( editable.$.scrollTop > 0, 'Editor was scrolled successfully.' );
 	}
 } );
