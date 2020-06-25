@@ -40,6 +40,11 @@
 		},
 
 		'test apply font size (collapsed selection)': function() {
+			// (#3180)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 9 ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBot,
 				editor = this.editor;
 

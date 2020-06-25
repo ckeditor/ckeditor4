@@ -165,6 +165,11 @@
 
 		// (#1342, #1496)
 		'test panel refresh position': function( editor, bot ) {
+			// (#3868)
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
 			bot.setData( '<img src="' + bender.basePath + '/_assets/lena.jpg">', function() {
 				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 					width: 100,

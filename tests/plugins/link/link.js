@@ -124,6 +124,11 @@
 		},
 
 		'test getSelectedLink for fake selection on non-editable element': function() {
+			// (#3527)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBots.noValidation,
 				editor = bot.editor;
 
@@ -132,6 +137,11 @@
 		},
 
 		'test create link on a non-editable inline element': function() {
+			// (#3527)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBots.noValidation,
 				editor = bot.editor;
 
@@ -146,6 +156,11 @@
 		},
 
 		'test edit link on a non-editable inline element': function() {
+			// (#3527)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBots.noValidation,
 				editor = bot.editor;
 
@@ -160,6 +175,11 @@
 		},
 
 		'test unlink on a non-editable inline element': function() {
+			// (#3527)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBots.noValidation,
 				editor = bot.editor;
 

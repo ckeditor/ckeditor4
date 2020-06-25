@@ -36,7 +36,7 @@
 			'Vertical_margin': true
 		},
 
-		ignoreAll: CKEDITOR.env.ie,
+		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile,
 
 		customFilters: [
 			pfwTools.filters.font

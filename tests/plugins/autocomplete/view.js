@@ -82,6 +82,11 @@
 		},
 
 		'test get caret rect (inline)': function() {
+			// (#2141)
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			this.editorBots.inline.setHtmlWithSelection( '' );
 
 			var rect = getCaretRect( this.editors.inline, { top: 2, height: 3, left: 4 }, { y: 2, x: 4 } );
@@ -108,6 +113,11 @@
 		},
 
 		'test get caret rect with repositioned offset host (inline)': function() {
+			// (#2141)
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			CKEDITOR.document.getBody().setStyles( {
 				position: 'relative',
 				'margin-left': '10px',

@@ -1043,6 +1043,11 @@
 
 		// (#2224)
 		'test convertToPx': function() {
+			// (#3717)
+			if ( bender.tools.env.mobile ) {
+				assert.ignore();
+			}
+
 			var conversionArray = [ {
 				input: '10px',
 				output: 10

@@ -84,7 +84,7 @@
 		},
 
 		setUp: function() {
-				bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 		},
 
 		'test upcasting image widget (figure)': function( editor, bot ) {

@@ -22,6 +22,11 @@ bender.test( {
 	},
 
 	'test fill fields': function() {
+		// (#3700)
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBot;
 
 		bot.dialog( 'radio', function( dialog ) {
@@ -51,6 +56,11 @@ bender.test( {
 
 	// (#2423)
 	'test dialog model with existing radio': function() {
+		// (#3700)
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBot,
 			editor = this.editor;
 

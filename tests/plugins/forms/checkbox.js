@@ -13,6 +13,11 @@ bender.editor = {
 
 bender.test( {
 	'test fill fields': function() {
+		// (#3700)
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBot;
 
 		bot.dialog( 'checkbox', function( dialog ) {
@@ -41,6 +46,11 @@ bender.test( {
 
 	// (#2423)
 	'test dialog model with existing checkbox': function() {
+		// (#3700)
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBot,
 			editor = this.editor;
 

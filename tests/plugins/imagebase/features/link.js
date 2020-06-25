@@ -239,6 +239,11 @@
 		},
 
 		'test add link to existing image widget': function( editor, bot ) {
+			// (#3147)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+				assert.ignore();
+			}
+
 			addTestWidget( editor );
 
 			testLinkCommand( {
@@ -263,6 +268,11 @@
 		},
 
 		'test edit link in existing image widget': function( editor, bot ) {
+			// (#3147)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+				assert.ignore();
+			}
+
 			addTestWidget( editor );
 
 			testLinkCommand( {
@@ -290,6 +300,11 @@
 		},
 
 		'test add link with attribute to existing image widget': function( editor, bot ) {
+			// (#3147)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+				assert.ignore();
+			}
+
 			addTestWidget( editor );
 
 			testLinkCommand( {
@@ -315,6 +330,11 @@
 		},
 
 		'test edit link attribute in existing image widget': function( editor, bot ) {
+			// (#3147)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+				assert.ignore();
+			}
+
 			addTestWidget( editor );
 
 			testLinkCommand( {
@@ -343,6 +363,11 @@
 		},
 
 		'test remove link attribute in existing image widget': function( editor, bot ) {
+			// (#3147)
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+				assert.ignore();
+			}
+
 			addTestWidget( editor );
 
 			testLinkCommand( {
