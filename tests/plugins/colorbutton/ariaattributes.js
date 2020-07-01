@@ -18,7 +18,7 @@
 		'test ariasetsize is correct (automatic: 0, morecolors: 0, history: 1 color)': function() {
 			testAriaAttributes(
 				{ first: 1, last: 24, total: 25 },
-				'<p><span style="color:red">Foobar</span></p>',
+				'<p><span style="color:red;background-color:yellow;">Foobar</span></p>',
 				{ colorButton_enableAutomatic: false }
 			);
 		},
@@ -37,7 +37,7 @@
 		'test ariasetsize is correct (automatic: 0, morecolors: 1, history: 1 color)': function() {
 			testAriaAttributes(
 				{ first: 1, last: 24, total: 26 },
-				'<p><span style="color:red">Foobar</span></p>',
+				'<p><span style="color:red;background-color:yellow;">Foobar</span></p>',
 				{
 					extraPlugins: 'colordialog',
 					colorButton_enableAutomatic: false
@@ -55,7 +55,7 @@
 		'test ariasetsize is correct (automatic: 1, morecolors: 0, history: 1 color)': function() {
 			testAriaAttributes(
 				{ first: 2, last: 25, total: 26 },
-				'<p><span style="color:red">Foobar</span></p>'
+				'<p><span style="color:red;background-color:yellow;">Foobar</span></p>'
 			);
 		},
 
@@ -70,7 +70,7 @@
 		'test ariasetsize is correct (automatic: 1, morecolors: 1, history: 1 color)': function() {
 			testAriaAttributes(
 				{ first: 2, last: 25, total: 27 },
-				'<p><span style="color:red">Foobar</span></p>',
+				'<p><span style="color:red;background-color:yellow;">Foobar</span></p>',
 				{ extraPlugins: 'colordialog' }
 			);
 		}
