@@ -254,7 +254,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				countPanelElements: function() {
-					var total = config.colorButton_colors.split( ',' ).length + this._.getLength();
+					var total = config.colorButton_colors.split( ',' ).length + this.getLength();
 
 					if ( editor.plugins.colordialog && config.colorButton_enableMore !== false ) {
 						total += 1;
@@ -269,17 +269,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				calculateFirstPosition: function( total ) {
 					if ( editor.plugins.colordialog && config.colorButton_enableMore !== false ) {
-						return total - this._.getLength();
+						return total - this.getLength();
 					} else {
-						return total - this._.getLength() + 1;
+						return total - this.getLength() + 1;
 					}
 				},
 
-				getLength: function() {
-					return CKEDITOR.tools.array.reduce( this.rows, function( total, row ) {
-						return total += row.boxes.length;
-					}, 0 );
-				},
 
 				attachRows: function() {
 					CKEDITOR.tools.array.forEach( this.rows, function( row ) {
@@ -317,6 +312,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					this._.alignRows();
+				},
+
+				getLength: function() {
+					return CKEDITOR.tools.array.reduce( this.rows, function( total, row ) {
+						return total += row.boxes.length;
+					}, 0 );
 				}
 			}
 		} );
@@ -483,7 +484,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					panelBlock = block;
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
-					block.element.setHtml( renderColors( colorBoxId, clickFn ) );
+					block.element.setHtml( renderColors( colorBoxId, clickFn, history.getLength() ) );
 
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
@@ -649,14 +650,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
-		function renderColors( colorBoxId, clickFn ) {
+		function renderColors( colorBoxId, clickFn, historyLength ) {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				// Tells if we should include "More Colors..." button.
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (https://dev.ckeditor.com/ticket/12097).
-				total = colors.length + ( moreColorsEnabled ? 1 : 0 ),
+				total = colors.length + historyLength + ( moreColorsEnabled ? 1 : 0 ),
 				startingPosition = 1;
 
 			if ( config.colorButton_enableAutomatic !== false ) {
