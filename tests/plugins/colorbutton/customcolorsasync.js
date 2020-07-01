@@ -104,13 +104,13 @@
 
 					firstTile = colorHistoryRow.findOne( '[data-value="888888"]' );
 
-					assert.areEqual( '1', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
-					assert.areEqual( '4', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
+					assert.areEqual( '26', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
+					assert.areEqual( '30', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
 
 					thirdTile = colorHistoryRow.findOne( '[data-value="22AAFF"]' );
 
-					assert.areEqual( '3', thirdTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
-					assert.areEqual( '4', thirdTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
+					assert.areEqual( '28', thirdTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
+					assert.areEqual( '30', thirdTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
 				} );
 		},
 
@@ -148,13 +148,13 @@
 
 					firstTile = firstHistoryRow.findOne( '[data-value="888888"]' );
 
-					assert.areEqual( '1', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset of 1st box is incorrect.' );
-					assert.areEqual( '5', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize of 1st box is incorrect.' );
+					assert.areEqual( '26', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset of 1st box is incorrect.' );
+					assert.areEqual( '31', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize of 1st box is incorrect.' );
 
 					fifthTile = colorHistoryTools.findInPanel( '[data-value="00FF00"]', txtColorBtn );
 
-					assert.areEqual( '5', fifthTile.getAttribute( 'aria-posinset' ), 'Aria-posinset of 5th box is incorrect.' );
-					assert.areEqual( '5', fifthTile.getAttribute( 'aria-setsize' ), 'Aria-setsize of 5th is incorrect.' );
+					assert.areEqual( '30', fifthTile.getAttribute( 'aria-posinset' ), 'Aria-posinset of 5th box is incorrect.' );
+					assert.areEqual( '31', fifthTile.getAttribute( 'aria-setsize' ), 'Aria-setsize of 5th is incorrect.' );
 				} );
 		}
 	};

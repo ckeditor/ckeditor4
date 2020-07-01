@@ -242,15 +242,37 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				refreshPositions: function() {
-					var position = 1,
-						historyLength = this._.getLength();
+					var total = this._.countPanelElements(),
+						position = this._.calculateFirstPosition( total );
 
 					CKEDITOR.tools.array.forEach( this.rows, function( row ) {
 						CKEDITOR.tools.array.forEach( row.boxes, function( colorBox ) {
-							colorBox.setPositionIndex( position, historyLength );
+							colorBox.setPositionIndex( position, total );
 							position += 1;
 						} );
 					} );
+				},
+
+				countPanelElements: function() {
+					var total = config.colorButton_colors.split( ',' ).length + this._.getLength();
+
+					if ( editor.plugins.colordialog && config.colorButton_enableMore !== false ) {
+						total += 1;
+					}
+
+					if ( config.colorButton_enableAutomatic !== false ) {
+						total += 1;
+					}
+
+					return total;
+				},
+
+				calculateFirstPosition: function( total ) {
+					if ( editor.plugins.colordialog && config.colorButton_enableMore !== false ) {
+						return total - this._.getLength();
+					} else {
+						return total - this._.getLength() + 1;
+					}
 				},
 
 				getLength: function() {
@@ -282,6 +304,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					var colorData = this._.sortByOccurrencesAscending( colorOccurrences, 'colorCode' );
 
 					this._.addColors( colorData );
+					this._.refreshPositions();
 				},
 
 				addColor: function( colorCode ) {
@@ -294,7 +317,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					this._.alignRows();
-					this._.refreshPositions();
 				}
 			}
 		} );
@@ -615,6 +637,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( color && colorHistory ) {
 					colorHistory.addColor( color.substr( 1 ).toUpperCase() );
 				}
+
+				var colors = panelBlock.element.find( '[role=option]' ).toArray();
+
+				for ( var i = 0; i < colors.length; i++ ) {
+					colors[ i ].setAttributes( {
+						'aria-posinset': i + 1,
+						'aria-setsize': colors.length
+					} );
+				}
 			}
 		}
 
@@ -625,9 +656,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (https://dev.ckeditor.com/ticket/12097).
-				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
+				total = colors.length + ( moreColorsEnabled ? 1 : 0 ),
+				startingPosition = 1;
 
 			if ( config.colorButton_enableAutomatic !== false ) {
+				total += 1;
+				startingPosition += 1;
 				generateAutomaticButtonHtml( output );
 			}
 
@@ -642,10 +676,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorName = parts[ 0 ],
 					colorCode = parts[ 1 ] || colorName,
 					colorLabel = parts[ 1 ] ? colorName : undefined,
-					box = new ColorBox( colorCode, clickFn, colorLabel ),
-					position = i + 2; // At position #1 we have automatic button, so the first position is equal to 2.
+					box = new ColorBox( colorCode, clickFn, colorLabel );
 
-				box.setPositionIndex( position, total );
+				box.setPositionIndex( startingPosition + i, total );
 				output.push( box.getHtml() );
 			}
 
