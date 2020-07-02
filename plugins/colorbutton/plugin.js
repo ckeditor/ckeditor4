@@ -259,11 +259,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				countPanelElements: function() {
 					var total = config.colorButton_colors.split( ',' ).length + this.getLength();
 
-					if ( editor.plugins.colordialog && config.colorButton_enableMore !== false ) {
+					if ( editor.plugins.colordialog && config.colorButton_enableMore ) {
 						total += 1;
 					}
 
-					if ( config.colorButton_enableAutomatic !== false ) {
+					if ( config.colorButton_enableAutomatic ) {
 						total += 1;
 					}
 
@@ -271,7 +271,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				calculateFirstPosition: function( total ) {
-					if ( editor.plugins.colordialog && config.colorButton_enableMore !== false ) {
+					if ( editor.plugins.colordialog && config.colorButton_enableMore ) {
 						return total - this.getLength();
 					} else {
 						return total - this.getLength() + 1;
@@ -536,7 +536,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						automaticColor = '#ffffff';
 					}
 
-					if ( config.colorButton_enableAutomatic !== false ) {
+					if ( config.colorButton_enableAutomatic ) {
 						panelBlock.element.findOne( '#' + colorBoxId ).setStyle( 'background-color', automaticColor );
 					}
 
@@ -657,13 +657,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				// Tells if we should include "More Colors..." button.
-				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
+				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (https://dev.ckeditor.com/ticket/12097).
 				total = colors.length + historyLength + ( moreColorsEnabled ? 1 : 0 ),
 				startingPosition = 1;
 
-			if ( config.colorButton_enableAutomatic !== false ) {
+			if ( config.colorButton_enableAutomatic ) {
 				total += 1;
 				startingPosition += 1;
 				generateAutomaticButtonHtml( output );
@@ -794,6 +794,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * @cfg {Boolean} [colorButton_enableMore=true]
  * @member CKEDITOR.config
  */
+CKEDITOR.config.colorButton_enableMore = true;
 
 /**
  * Defines the colors to be displayed in the color selectors. This is a string
@@ -914,6 +915,7 @@ CKEDITOR.config.colorButton_backStyle = {
  * @cfg {Boolean} [colorButton_enableAutomatic=true]
  * @member CKEDITOR.config
  */
+CKEDITOR.config.colorButton_enableAutomatic = true;
 
 /**
  * Defines how many colors will be shown per row in the color selectors.
@@ -927,7 +929,6 @@ CKEDITOR.config.colorButton_backStyle = {
  * @cfg {Number} [colorButton_colorsPerRow=6]
  * @member CKEDITOR.config
  */
-
 CKEDITOR.config.colorButton_colorsPerRow = 6;
 
 /**
@@ -950,7 +951,6 @@ CKEDITOR.config.colorButton_colorsPerRow = 6;
  * @cfg {Number} [colorButton_historyRowLimit=1]
  * @member CKEDITOR.config
  */
-
 CKEDITOR.config.colorButton_historyRowLimit = 1;
 
 /**
@@ -962,5 +962,4 @@ CKEDITOR.config.colorButton_historyRowLimit = 1;
  * @cfg {Number} [colorButton_renderContentColors=true]
  * @member CKEDITOR.config
  */
-
 CKEDITOR.config.colorButton_renderContentColors = true;
