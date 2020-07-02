@@ -10,7 +10,8 @@
  */
 
 ( function() {
-	var ColorBox;
+	var ColorBox,
+		ColorHistoryRow;
 
 	CKEDITOR.plugins.add( 'colorbutton', {
 		requires: 'panelbutton,floatpanel',
@@ -22,47 +23,6 @@
 		init: function( editor ) {
 			var config = editor.config,
 				lang = editor.lang.colorbutton;
-
-			var ColorHistoryRow = CKEDITOR.tools.createClass( {
-				$: function() {
-					this.$ = new CKEDITOR.dom.element( 'tr' );
-					this.$.addClass( 'cke_colorhistory_row' );
-					this.boxes = [];
-				},
-
-				statics: {
-					colorsPerRow: editor.config.colorButton_colorsPerRow
-				},
-
-				proto: {
-					getElement: function() {
-						return this.$;
-					},
-
-					removeLastColor: function() {
-						this.getElement().getLast().remove();
-						return this.boxes.pop();
-					},
-
-					addNewColor: function( colorBox ) {
-						this.boxes.unshift( colorBox );
-						this.getElement().append( colorBox.getElement(), true );
-					},
-
-					extractColorBox: function( colorCode ) {
-						var index = CKEDITOR.tools.getIndex( this.boxes, function( box ) {
-							return box.color === colorCode;
-						} );
-
-						if ( index < 0 ) {
-							return null;
-						}
-
-						this.boxes[ index ].getElement().remove();
-						return this.boxes.splice( index, 1 )[ 0 ];
-					}
-				}
-			} );
 
 			var ColorHistory = CKEDITOR.tools.createClass( {
 				$: function( cssProperty, clickFn ) {
@@ -84,7 +44,7 @@
 					renderContainer: function( output ) {
 						output.push( '</tbody><tbody class="cke_colorhistory">',
 							'<tr>',
-								'<td colspan="', ColorHistoryRow.colorsPerRow, '" align="center">',
+								'<td colspan="', editor.config.colorButton_colorsPerRow, '" align="center">',
 									'<span><hr></span>',
 								'</td>',
 							'</tr>',
@@ -94,7 +54,7 @@
 					rowLimit: editor.config.colorButton_historyRowLimit,
 
 					getCapacity: function() {
-						return ColorHistory.rowLimit * ColorHistoryRow.colorsPerRow;
+						return ColorHistory.rowLimit * editor.config.colorButton_colorsPerRow;
 					},
 
 					colorList: CKEDITOR.tools.style.parse._colors
@@ -188,7 +148,7 @@
 
 					alignRows: function() {
 						for ( var rowIndex = 0; rowIndex < ColorHistory.rowLimit; rowIndex++ ) {
-							if ( this.rows[ rowIndex ].boxes.length <= ColorHistoryRow.colorsPerRow ) {
+							if ( this.rows[ rowIndex ].boxes.length <= editor.config.colorButton_colorsPerRow ) {
 								return;
 							} else if ( this.rows[ rowIndex + 1 ] ) {
 								this._.moveLastBoxToNextRow( rowIndex );
@@ -634,7 +594,7 @@
 
 				// Render the color boxes.
 				for ( var i = 0; i < colors.length; i++ ) {
-					if ( ( i % ColorHistoryRow.colorsPerRow ) === 0 )
+					if ( ( i % editor.config.colorButton_colorsPerRow ) === 0 )
 						output.push( '</tr><tr>' );
 
 					var parts = colors[ i ].split( '/' ),
@@ -674,7 +634,7 @@
 						' role="option" aria-posinset="1" aria-setsize="', total, '">',
 							'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">',
 								'<tr>',
-									'<td colspan="', ColorHistoryRow.colorsPerRow, '" align="center">',
+									'<td colspan="', editor.config.colorButton_colorsPerRow, '" align="center">',
 										'<span class="cke_colorbox" id="', colorBoxId, '"></span>', lang.auto,
 									'</td>',
 								'</tr>',
@@ -685,7 +645,7 @@
 				function generateMoreColorsButtonHtml( output ) {
 					output.push( '</tr>',
 						'<tr>',
-							'<td colspan="', ColorHistoryRow.colorsPerRow, '" align="center">',
+							'<td colspan="', editor.config.colorButton_colorsPerRow, '" align="center">',
 								'<a class="cke_colormore" _cke_focus=1 hidefocus=true',
 									' title="', lang.more, '"',
 									' draggable="false"',
@@ -794,6 +754,43 @@
 					'aria-posinset': posinset,
 					'aria-setsize': setsize
 				} );
+			}
+		}
+	} );
+
+	ColorHistoryRow = CKEDITOR.tools.createClass( {
+		$: function() {
+			this.$ = new CKEDITOR.dom.element( 'tr' );
+			this.$.addClass( 'cke_colorhistory_row' );
+			this.boxes = [];
+		},
+
+		proto: {
+			getElement: function() {
+				return this.$;
+			},
+
+			removeLastColor: function() {
+				this.getElement().getLast().remove();
+				return this.boxes.pop();
+			},
+
+			addNewColor: function( colorBox ) {
+				this.boxes.unshift( colorBox );
+				this.getElement().append( colorBox.getElement(), true );
+			},
+
+			extractColorBox: function( colorCode ) {
+				var index = CKEDITOR.tools.getIndex( this.boxes, function( box ) {
+					return box.color === colorCode;
+				} );
+
+				if ( index < 0 ) {
+					return null;
+				}
+
+				this.boxes[ index ].getElement().remove();
+				return this.boxes.splice( index, 1 )[ 0 ];
 			}
 		}
 	} );
