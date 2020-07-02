@@ -169,7 +169,10 @@
 					},
 
 					createAtBeginning: function( colorCode ) {
-						var colorBox = new ColorBox( colorCode, this.clickFn, editor );
+						var colorBox = new ColorBox( {
+								color: colorCode,
+								clickFn: this.clickFn,
+								editor: editor } );
 
 						colorBox.getElement().getChild( 0 ).setAttribute( 'title', colorBox.label + ' - Color History' );
 						this._.moveToBeginning( colorBox );
@@ -638,7 +641,12 @@
 						colorName = parts[ 0 ],
 						colorCode = parts[ 1 ] || colorName,
 						colorLabel = parts[ 1 ] ? colorName : undefined,
-						box = new ColorBox( colorCode, clickFn, editor, colorLabel );
+						box = new ColorBox( {
+							color: colorCode,
+							clickFn: clickFn,
+							editor: editor,
+							label: colorLabel
+						} );
 
 					box.setPositionIndex( startingPosition + i, total );
 					output.push( box.getHtml() );
@@ -742,12 +750,12 @@
 	} );
 
 	ColorBox = CKEDITOR.tools.createClass( {
-		$: function( color, clickFn, editor, label ) {
+		$: function( options ) {
 			this.$ = new CKEDITOR.dom.element( 'td' );
 
-			this.color = color;
-			this.clickFn = clickFn;
-			this.label = label || ColorBox.colorNames( editor )[ this.color ] || this.color;
+			this.color = options.color;
+			this.clickFn = options.clickFn;
+			this.label = options.label || ColorBox.colorNames( options.editor )[ this.color ] || this.color;
 
 			this.setHtml();
 		},
