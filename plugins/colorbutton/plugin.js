@@ -340,14 +340,17 @@
 					editor.execCommand( commandName, { newStyle: colorStyle } );
 					if ( color && colorHistory ) {
 						colorHistory.addColor( color.substr( 1 ).toUpperCase() );
+						renumberElements( panelBlock );
 					}
+				}
 
-					var colors = panelBlock.element.find( '[role=option]' ).toArray();
+				function renumberElements( panel ) {
+					var panelElements = panel.element.find( '[role=option]' ).toArray();
 
-					for ( var i = 0; i < colors.length; i++ ) {
-						colors[ i ].setAttributes( {
+					for ( var i = 0; i < panelElements.length; i++ ) {
+						panelElements[ i ].setAttributes( {
 							'aria-posinset': i + 1,
-							'aria-setsize': colors.length
+							'aria-setsize': panelElements.length
 						} );
 					}
 				}
