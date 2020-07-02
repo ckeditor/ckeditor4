@@ -75,7 +75,7 @@
 
 				yellowColorBox = colorHistoryTools.findInPanel( ' .cke_colorhistory_row [data-value="F1C40F"]', txtColorBtn );
 
-				assert.areEqual( 'Vivid Yellow', yellowColorBox.getAttribute( 'title' ), 'Color box label is incorrect.' );
+				assert.areEqual( 'Vivid Yellow - Color History', yellowColorBox.getAttribute( 'title' ), 'Color box label is incorrect.' );
 			} );
 
 			colorHistoryTools.chooseColorFromDialog( editor, txtColorBtn, '#F1C40F' );
