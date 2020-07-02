@@ -11,7 +11,8 @@
 
 ( function() {
 	var ColorBox,
-		ColorHistoryRow;
+		ColorHistoryRow,
+		ColorHistory;
 
 	CKEDITOR.plugins.add( 'colorbutton', {
 		requires: 'panelbutton,floatpanel',
@@ -23,228 +24,6 @@
 		init: function( editor ) {
 			var config = editor.config,
 				lang = editor.lang.colorbutton;
-
-			var ColorHistory = CKEDITOR.tools.createClass( {
-				$: function( cssProperty, clickFn ) {
-					this.cssProperty = cssProperty;
-					this.clickFn = clickFn;
-
-					this.rows = [];
-					this._.addNewRow();
-
-					if ( editor.config.colorButton_renderContentColors ) {
-						// It can't be done right away - we have to wait till editable is set up.
-						editor.once( 'instanceReady', function() {
-							this.renderContentColors();
-						}, this );
-					}
-				},
-
-				statics: {
-					renderContainer: function( output ) {
-						output.push( '</tbody><tbody class="cke_colorhistory">',
-							'<tr>',
-								'<td colspan="', editor.config.colorButton_colorsPerRow, '" align="center">',
-									'<span><hr></span>',
-								'</td>',
-							'</tr>',
-						'</tbody><tbody>' );
-					},
-
-					rowLimit: editor.config.colorButton_historyRowLimit,
-
-					getCapacity: function() {
-						return ColorHistory.rowLimit * editor.config.colorButton_colorsPerRow;
-					},
-
-					colorList: CKEDITOR.tools.style.parse._colors
-				},
-
-				_: {
-					countColors: function() {
-						var spans = CKEDITOR.tools.getStyledSpans( this.cssProperty, editor.editable() ),
-							colorOccurrences = CKEDITOR.tools.array.reduce( spans, function( occurrences, span ) {
-								var colorCode = this._.getHexCode( span, this.cssProperty, ColorHistory.colorList );
-
-								occurrences[ colorCode ] = occurrences[ colorCode ] || 0;
-								occurrences[ colorCode ] += 1;
-
-								return occurrences;
-							}, {}, this );
-
-						return colorOccurrences;
-					},
-
-					getHexCode: function( span, cssProperty, list ) {
-						var color = span.getStyle( cssProperty );
-
-						return color in list ? list[ color ].substr( 1 ) : normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
-					},
-
-					sortByOccurrencesAscending: function( objectToParse, targetKeyName ) {
-						var result = [];
-
-						for ( var key in objectToParse ) {
-							var color = {};
-
-							color[ targetKeyName ] = key;
-							color.frequency = objectToParse[ key ];
-
-							result.push( color );
-						}
-
-						result.sort( function( a, b ) {
-							return b.frequency - a.frequency;
-						} );
-
-						this._.trimToCapacity( result );
-
-						return result.reverse();
-					},
-
-					trimToCapacity: function( array ) {
-						array.splice( ColorHistory.getCapacity() );
-					},
-
-					addColors: function( colorData ) {
-						CKEDITOR.tools.array.forEach( colorData, function( color ) {
-							this.addColor( color.colorCode );
-						}, this );
-					},
-
-					extractColorBox: function( colorCode ) {
-						for ( var i = 0; i < this.rows.length; i++ ) {
-							var box = this.rows[ i ].extractColorBox( colorCode );
-
-							if ( box ) {
-								return box;
-							}
-						}
-
-						return null;
-					},
-
-					moveToBeginning: function( colorBox ) {
-						this.rows[ 0 ].addNewColor( colorBox );
-					},
-
-					createAtBeginning: function( colorCode ) {
-						var colorBox = new ColorBox( {
-								color: colorCode,
-								clickFn: this.clickFn,
-								editor: editor } );
-
-						colorBox.getElement().getChild( 0 ).setAttribute( 'title', colorBox.label + ' - Color History' );
-						this._.moveToBeginning( colorBox );
-					},
-
-					addNewRow: function() {
-						this.rows.push( new ColorHistoryRow() );
-
-						if ( this.container ) {
-							this.container.append( this.rows[ this.rows.length - 1 ].getElement() );
-						}
-					},
-
-					alignRows: function() {
-						for ( var rowIndex = 0; rowIndex < ColorHistory.rowLimit; rowIndex++ ) {
-							if ( this.rows[ rowIndex ].boxes.length <= editor.config.colorButton_colorsPerRow ) {
-								return;
-							} else if ( this.rows[ rowIndex + 1 ] ) {
-								this._.moveLastBoxToNextRow( rowIndex );
-							} else if ( rowIndex < ColorHistory.rowLimit - 1 ) {
-								this._.addNewRow();
-								this._.moveLastBoxToNextRow( rowIndex );
-							} else {
-								this.rows[ rowIndex ].removeLastColor();
-							}
-						}
-					},
-
-					moveLastBoxToNextRow: function( index ) {
-						this.rows[ index + 1 ].addNewColor( this.rows[ index ].removeLastColor() );
-					},
-
-					refreshPositions: function() {
-						var total = this._.countPanelElements(),
-							position = this._.calculateFirstPosition( total );
-
-						CKEDITOR.tools.array.forEach( this.rows, function( row ) {
-							CKEDITOR.tools.array.forEach( row.boxes, function( colorBox ) {
-								colorBox.setPositionIndex( position, total );
-								position += 1;
-							} );
-						} );
-					},
-
-					countPanelElements: function() {
-						var total = config.colorButton_colors.split( ',' ).length + this.getLength();
-
-						if ( editor.plugins.colordialog && config.colorButton_enableMore ) {
-							total += 1;
-						}
-
-						if ( config.colorButton_enableAutomatic ) {
-							total += 1;
-						}
-
-						return total;
-					},
-
-					calculateFirstPosition: function( total ) {
-						if ( editor.plugins.colordialog && config.colorButton_enableMore ) {
-							return total - this.getLength();
-						} else {
-							return total - this.getLength() + 1;
-						}
-					},
-
-
-					attachRows: function() {
-						CKEDITOR.tools.array.forEach( this.rows, function( row ) {
-							this.container.append( row.getElement() );
-						}, this );
-					}
-				},
-
-				proto: {
-					setContainer: function( container ) {
-						this.container = container;
-						this._.attachRows();
-					},
-
-					renderContentColors: function() {
-						var colorOccurrences = this._.countColors();
-
-						if ( CKEDITOR.tools.isEmpty( colorOccurrences ) ) {
-							return;
-						}
-
-						var colorData = this._.sortByOccurrencesAscending( colorOccurrences, 'colorCode' );
-
-						this._.addColors( colorData );
-						this._.refreshPositions();
-					},
-
-					addColor: function( colorCode ) {
-						var existingBox = this._.extractColorBox( colorCode );
-
-						if ( existingBox ) {
-							this._.moveToBeginning( existingBox );
-						} else {
-							this._.createAtBeginning( colorCode );
-						}
-
-						this._.alignRows();
-					},
-
-					getLength: function() {
-						return CKEDITOR.tools.array.reduce( this.rows, function( total, row ) {
-							return total += row.boxes.length;
-						}, 0 );
-					}
-				}
-			} );
 
 			if ( !CKEDITOR.env.hc ) {
 				addButton( {
@@ -334,7 +113,7 @@
 					colorData = { type: type },
 					defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
 					clickFn = createClickFunction(),
-					history = ColorHistory.rowLimit ? new ColorHistory( type == 'back' ? 'background-color' : 'color', clickFn ) : undefined,
+					history = ColorHistory.getRowLimit( editor ) ? new ColorHistory( type == 'back' ? 'background-color' : 'color', clickFn, editor ) : undefined,
 					panelBlock;
 
 				editor.addCommand( commandName, {
@@ -612,8 +391,8 @@
 					output.push( box.getHtml() );
 				}
 
-				if ( ColorHistory.rowLimit ) {
-					ColorHistory.renderContainer( output );
+				if ( ColorHistory.getRowLimit( editor ) ) {
+					ColorHistory.renderContainer( output, editor );
 				}
 
 				if ( moreColorsEnabled ) {
@@ -791,6 +570,234 @@
 
 				this.boxes[ index ].getElement().remove();
 				return this.boxes.splice( index, 1 )[ 0 ];
+			}
+		}
+	} );
+
+	ColorHistory = CKEDITOR.tools.createClass( {
+		$: function( cssProperty, clickFn, editor ) {
+			this.cssProperty = cssProperty;
+			this.clickFn = clickFn;
+			this.editor = editor;
+
+			this.rows = [];
+			this._.addNewRow();
+
+			if ( this.editor.config.colorButton_renderContentColors ) {
+				// It can't be done right away - we have to wait till editable is set up.
+				this.editor.once( 'instanceReady', function() {
+					this.renderContentColors();
+				}, this );
+			}
+		},
+
+		statics: {
+			renderContainer: function( output, editor ) {
+				output.push( '</tbody><tbody class="cke_colorhistory">',
+					'<tr>',
+						'<td colspan="', editor.config.colorButton_colorsPerRow, '" align="center">',
+							'<span><hr></span>',
+						'</td>',
+					'</tr>',
+				'</tbody><tbody>' );
+			},
+
+			getRowLimit: function( editor ) {
+				return editor.config.colorButton_historyRowLimit;
+			},
+
+			getCapacity: function( editor ) {
+				return ColorHistory.getRowLimit( editor ) * editor.config.colorButton_colorsPerRow;
+			},
+
+			colorList: CKEDITOR.tools.style.parse._colors
+		},
+
+		_: {
+			countColors: function() {
+				var spans = CKEDITOR.tools.getStyledSpans( this.cssProperty, this.editor.editable() ),
+					colorOccurrences = CKEDITOR.tools.array.reduce( spans, function( occurrences, span ) {
+						var colorCode = this._.getHexCode( span, this.cssProperty, ColorHistory.colorList );
+
+						occurrences[ colorCode ] = occurrences[ colorCode ] || 0;
+						occurrences[ colorCode ] += 1;
+
+						return occurrences;
+					}, {}, this );
+
+				return colorOccurrences;
+			},
+
+			getHexCode: function( span, cssProperty, list ) {
+				var color = span.getStyle( cssProperty );
+
+				return color in list ? list[ color ].substr( 1 ) : this._.normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
+			},
+
+			sortByOccurrencesAscending: function( objectToParse, targetKeyName ) {
+				var result = [];
+
+				for ( var key in objectToParse ) {
+					var color = {};
+
+					color[ targetKeyName ] = key;
+					color.frequency = objectToParse[ key ];
+
+					result.push( color );
+				}
+
+				result.sort( function( a, b ) {
+					return b.frequency - a.frequency;
+				} );
+
+				this._.trimToCapacity( result );
+
+				return result.reverse();
+			},
+
+			trimToCapacity: function( array ) {
+				array.splice( ColorHistory.getCapacity( this.editor ) );
+			},
+
+			addColors: function( colorData ) {
+				CKEDITOR.tools.array.forEach( colorData, function( color ) {
+					this.addColor( color.colorCode );
+				}, this );
+			},
+
+			extractColorBox: function( colorCode ) {
+				for ( var i = 0; i < this.rows.length; i++ ) {
+					var box = this.rows[ i ].extractColorBox( colorCode );
+
+					if ( box ) {
+						return box;
+					}
+				}
+
+				return null;
+			},
+
+			moveToBeginning: function( colorBox ) {
+				this.rows[ 0 ].addNewColor( colorBox );
+			},
+
+			createAtBeginning: function( colorCode ) {
+				var colorBox = new ColorBox( {
+						color: colorCode,
+						clickFn: this.clickFn,
+						editor: this.editor } );
+
+				colorBox.getElement().getChild( 0 ).setAttribute( 'title', colorBox.label + ' - Color History' );
+				this._.moveToBeginning( colorBox );
+			},
+
+			addNewRow: function() {
+				this.rows.push( new ColorHistoryRow() );
+
+				if ( this.container ) {
+					this.container.append( this.rows[ this.rows.length - 1 ].getElement() );
+				}
+			},
+
+			alignRows: function() {
+				for ( var rowIndex = 0; rowIndex < ColorHistory.getRowLimit( this.editor ); rowIndex++ ) {
+					if ( this.rows[ rowIndex ].boxes.length <= this.editor.config.colorButton_colorsPerRow ) {
+						return;
+					} else if ( this.rows[ rowIndex + 1 ] ) {
+						this._.moveLastBoxToNextRow( rowIndex );
+					} else if ( rowIndex < ColorHistory.getRowLimit( this.editor ) - 1 ) {
+						this._.addNewRow();
+						this._.moveLastBoxToNextRow( rowIndex );
+					} else {
+						this.rows[ rowIndex ].removeLastColor();
+					}
+				}
+			},
+
+			moveLastBoxToNextRow: function( index ) {
+				this.rows[ index + 1 ].addNewColor( this.rows[ index ].removeLastColor() );
+			},
+
+			refreshPositions: function() {
+				var total = this._.countPanelElements(),
+					position = this._.calculateFirstPosition( total );
+
+				CKEDITOR.tools.array.forEach( this.rows, function( row ) {
+					CKEDITOR.tools.array.forEach( row.boxes, function( colorBox ) {
+						colorBox.setPositionIndex( position, total );
+						position += 1;
+					} );
+				} );
+			},
+
+			countPanelElements: function() {
+				var total = this.editor.config.colorButton_colors.split( ',' ).length + this.getLength();
+
+				if ( this.editor.plugins.colordialog && this.editor.config.colorButton_enableMore ) {
+					total += 1;
+				}
+
+				if ( this.editor.config.colorButton_enableAutomatic ) {
+					total += 1;
+				}
+
+				return total;
+			},
+
+			calculateFirstPosition: function( total ) {
+				if ( this.editor.plugins.colordialog && this.editor.config.colorButton_enableMore ) {
+					return total - this.getLength();
+				} else {
+					return total - this.getLength() + 1;
+				}
+			},
+
+			attachRows: function() {
+				CKEDITOR.tools.array.forEach( this.rows, function( row ) {
+					this.container.append( row.getElement() );
+				}, this );
+			},
+
+			normalizeColor: function( color ) {
+				return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
+			}
+		},
+
+		proto: {
+			setContainer: function( container ) {
+				this.container = container;
+				this._.attachRows();
+			},
+
+			renderContentColors: function() {
+				var colorOccurrences = this._.countColors();
+
+				if ( CKEDITOR.tools.isEmpty( colorOccurrences ) ) {
+					return;
+				}
+
+				var colorData = this._.sortByOccurrencesAscending( colorOccurrences, 'colorCode' );
+
+				this._.addColors( colorData );
+				this._.refreshPositions();
+			},
+
+			addColor: function( colorCode ) {
+				var existingBox = this._.extractColorBox( colorCode );
+
+				if ( existingBox ) {
+					this._.moveToBeginning( existingBox );
+				} else {
+					this._.createAtBeginning( colorCode );
+				}
+
+				this._.alignRows();
+			},
+
+			getLength: function() {
+				return CKEDITOR.tools.array.reduce( this.rows, function( total, row ) {
+					return total += row.boxes.length;
+				}, 0 );
 			}
 		}
 	} );
