@@ -211,7 +211,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				createAtBeginning: function( colorCode ) {
-					this._.moveToBeginning( new ColorBox( colorCode, this.clickFn ) );
+					var colorBox = new ColorBox( colorCode, this.clickFn );
+
+					colorBox.getElement().getChild( 0 ).setAttribute( 'title', colorBox.label + ' - Color History' );
+					this._.moveToBeginning( colorBox );
 				},
 
 				addNewRow: function() {
