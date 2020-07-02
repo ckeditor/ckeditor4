@@ -859,15 +859,15 @@ bender.test( {
 
 	// (#4041)
 	'test scrollIntoView method': function() {
-		var editor = this.editors.divarea,
-			editable = editor.editable();
+		var editor = this.editor,
+			selection = editor.getSelection();
 
-		assert.areSame( 0, editable.$.scrollTop, 'Initial scrollTop is 0.' );
+		selection.removeAllRanges();
 
-		editor.getSelection().removeAllRanges();
+		// Should be able to detect if selection equals none.
+		// Throws error for failing path.
+		selection.scrollIntoView();
 
-		editable.find( 'p' ).getItem( 3 ).scrollIntoView();
-
-		assert.isTrue( editable.$.scrollTop > 0, 'Editor was scrolled successfully.' );
+		assert.pass();
 	}
 } );
