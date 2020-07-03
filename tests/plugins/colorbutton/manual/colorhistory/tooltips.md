@@ -7,7 +7,7 @@
 1. Click on color button.
 1. Hover over the first color box from color history.
 
-  **Expected:** Tooltip contains color name with color history annotation (`Strong Blue` or it's equivalent in other lang).
+  **Expected:** Tooltip contains a color name (`Strong Blue` or it's equivalent in other langs).
 
   **Unexpected:** Tooltip is empty or contains hex code instead of name.
 
