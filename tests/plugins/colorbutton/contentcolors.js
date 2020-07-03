@@ -1,5 +1,5 @@
 /* bender-tags: editor,colorbutton,1795 */
-/* bender-ckeditor-plugins: colorbutton,undo,toolbar,wysiwygarea */
+/* bender-ckeditor-plugins: colorbutton,undo,toolbar,wysiwygarea,colordialog */
 /* bender-include: _helpers/tools.js */
 /* global colorHistoryTools */
 
@@ -103,7 +103,10 @@
 			bender.editorBot.create( {
 				name: 'editor5',
 				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> an <span style="color:#3498db">instance</span>' +
-				' of <span style="color:#2ecc71">CKEditor</span>.</p>'
+				' of <span style="color:#2ecc71">CKEditor</span>.</p>',
+				config: {
+					removePlugins: 'colordialog'
+				}
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
@@ -129,7 +132,10 @@
 				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> <span style="color:#f1c40f">an</span> ' +
 				' <span style="color:#3498db">instance</span> of <span style="color:#2ecc71">CKEditor</span>. ' +
 				' <span style="color:#2ecc71">Enjoy</span> <span style="color:#2ecc71">my</span> ' +
-				' <span style="color:#e74c3c">colors</span>!</p>'
+				' <span style="color:#e74c3c">colors</span>!</p>',
+				config: {
+					removePlugins: 'colordialog'
+				}
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),

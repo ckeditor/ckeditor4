@@ -6,6 +6,7 @@
 ( function() {
 	'use strict';
 
+	// The 'removePlugins' config is set for testing build version.
 	bender.test( {
 		'test ariasetsize is correct (automatic: 0, morecolors: 0, history: empty)': function() {
 			testAriaAttributes(
@@ -16,7 +17,8 @@
 				},
 				'<p>Foobar</p>',
 				{
-					colorButton_enableAutomatic: false
+					colorButton_enableAutomatic: false,
+					removePlugins: 'colordialog'
 				}
 			);
 		},
@@ -30,7 +32,8 @@
 				},
 				'<p><span style="color:red;background-color:yellow;">Foobar</span></p>',
 				{
-					colorButton_enableAutomatic: false
+					colorButton_enableAutomatic: false,
+					removePlugins: 'colordialog'
 				}
 			);
 		},
@@ -72,7 +75,10 @@
 					last: 25,
 					total: 25
 				},
-				'<p>Foobar</p>'
+				'<p>Foobar</p>',
+				{
+					removePlugins: 'colordialog'
+				}
 			);
 		},
 
@@ -83,7 +89,10 @@
 					last: 25,
 					total: 26
 				},
-				'<p><span style="color:red;background-color:yellow;">Foobar</span></p>'
+				'<p><span style="color:red;background-color:yellow;">Foobar</span></p>',
+				{
+					removePlugins: 'colordialog'
+				}
 			);
 		},
 
