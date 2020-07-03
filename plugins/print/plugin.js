@@ -39,13 +39,7 @@
 	 * // Using an 'Export to PDF' plugin to generate PDF.
 	 * CKEDITOR.plugins.print = {
 	 * 	exec: function( editor ) {
-	 * 		var data = {
-	 * 				html: ...,
-	 * 				css: ...,
-	 * 				options: ...
-	 * 			};
-	 *
-	 * 		editor.fire( 'exportPdf', data );
+	 * 		editor.execCommand( 'exportPdf' );
 	 * 	}
 	 * };
 	 * ```
