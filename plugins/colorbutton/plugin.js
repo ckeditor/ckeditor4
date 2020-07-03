@@ -187,7 +187,7 @@
 						panelBlock = block;
 						block.autoSize = true;
 						block.element.addClass( 'cke_colorblock' );
-						block.element.setHtml( renderColors( colorBoxId, clickFn, history.getLength() ) );
+						block.element.setHtml( renderColors( colorBoxId, clickFn, history ? history.getLength() : 0 ) );
 
 						// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 						block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
