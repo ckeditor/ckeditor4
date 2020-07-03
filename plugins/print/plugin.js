@@ -36,12 +36,16 @@
 	 * type and should be compatible with its API.
 	 *
 	 * ```javascript
-	 * // Using an external API to generate PDF.
+	 * // Using an 'Export to PDF' plugin to generate PDF.
 	 * CKEDITOR.plugins.print = {
 	 * 	exec: function( editor ) {
-	 * 		var data = editor.getData();
+	 * 		var data = {
+	 * 				html: ...,
+	 * 				css: ...,
+	 * 				options: ...
+	 * 			};
 	 *
-	 * 		pdfAPI.generateFromHTML( data );
+	 * 		editor.fire( 'exportPdf', data );
 	 * 	}
 	 * };
 	 * ```
