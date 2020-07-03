@@ -50,9 +50,9 @@ Load the CKEditor 4 script from CDN:
 </script>
 ```
 
-### Integrating with Angular and React
+### Integrating with Angular, React and Vue.js
 
-Refer to official usage guides for the [`ckeditor4-angular`](https://www.npmjs.com/package/ckeditor4-angular#usage) and [`ckeditor4-react`](https://www.npmjs.com/package/ckeditor4-react#usage) packages.
+Refer to official usage guides for the [`ckeditor4-angular`](https://www.npmjs.com/package/ckeditor4-angular#usage), [`ckeditor4-react`](https://www.npmjs.com/package/ckeditor4-react#usage) and [`ckeditor4-vue`](https://www.npmjs.com/package/ckeditor4-vue#installation-and-usage) packages.
 
 ### Manual download
 
