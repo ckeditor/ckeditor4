@@ -113,7 +113,7 @@
 					colorData = { type: type },
 					defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
 					clickFn = createClickFunction(),
-					history = ColorHistory.getRowLimit( editor ) ? new ColorHistory( type == 'back' ? 'background-color' : 'color', clickFn, editor ) : undefined,
+					history = ColorHistory.getRowLimit( editor ) ? new ColorHistory( editor, type == 'back' ? 'background-color' : 'color', clickFn ) : undefined,
 					panelBlock;
 
 				editor.addCommand( commandName, {
@@ -572,10 +572,10 @@
 	} );
 
 	ColorHistory = CKEDITOR.tools.createClass( {
-		$: function( cssProperty, clickFn, editor ) {
+		$: function( editor, cssProperty, clickFn ) {
+			this.editor = editor;
 			this.cssProperty = cssProperty;
 			this.clickFn = clickFn;
-			this.editor = editor;
 
 			this.rows = [];
 			this._.addNewRow();
