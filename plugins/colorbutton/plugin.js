@@ -596,7 +596,7 @@
 
 		statics: {
 			renderContainer: function( output, editor ) {
-				output.push( '</tbody><tbody class="cke_colorhistory">',
+				output.push( '</tbody><tbody class="cke_colorhistory" style="display:none;">',
 					'<tr>',
 						'<td colspan="', editor.config.colorButton_colorsPerRow, '" align="center">',
 							'<span><hr></span>',
@@ -768,6 +768,16 @@
 			setContainer: function( container ) {
 				this.container = container;
 				this._.attachRows();
+
+				if ( this.getLength() ) {
+					this.show();
+				}
+			},
+
+			show: function() {
+				if ( this.container ) {
+					this.container.show();
+				}
 			},
 
 			renderContentColors: function() {
@@ -785,6 +795,10 @@
 
 			addColor: function( colorCode ) {
 				var existingBox = this._.extractColorBox( colorCode );
+
+				if ( this.container && !this.container.isVisible() ) {
+					this.show();
+				}
 
 				if ( existingBox ) {
 					this._.moveToBeginning( existingBox );
