@@ -280,10 +280,10 @@
 					}
 				} );
 
-				function createColorStyleTemplate() {
-					var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
+				function createColorStyleDefinition() {
+					var colorStyleDefinition = editor.config[ 'colorButton_' + type + 'Style' ];
 
-					colorStyleTemplate.childRule = type == 'back' ?
+					colorStyleDefinition.childRule = type == 'back' ?
 						function( element ) {
 							// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
 							// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
@@ -293,7 +293,7 @@
 							return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 						};
 
-					return colorStyleTemplate;
+					return colorStyleDefinition;
 				}
 
 				function createClickFunction() {
@@ -335,7 +335,7 @@
 						colorStyleVars.colorName = colorName;
 					}
 
-					var colorStyle = !CKEDITOR.tools.isEmpty( colorStyleVars ) && new CKEDITOR.style( createColorStyleTemplate(), colorStyleVars );
+					var colorStyle = !CKEDITOR.tools.isEmpty( colorStyleVars ) && new CKEDITOR.style( createColorStyleDefinition(), colorStyleVars );
 
 					editor.execCommand( commandName, { newStyle: colorStyle } );
 					if ( color && colorHistory ) {
