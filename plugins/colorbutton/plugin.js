@@ -685,13 +685,11 @@
 			},
 
 			createAtBeginning: function( colorCode ) {
-				var colorBox = new ColorBox( {
+				this._.moveToBeginning( new ColorBox( {
 						color: colorCode,
 						clickFn: this.clickFn,
-						editor: this.editor } );
-
-				colorBox.getElement().getChild( 0 ).setAttribute( 'title', colorBox.label + ' - Color History' );
-				this._.moveToBeginning( colorBox );
+						editor: this.editor
+					} ) );
 			},
 
 			addNewRow: function() {

@@ -152,7 +152,7 @@
 
 				yellowColorBox = colorHistoryTools.findInPanel( '.cke_colorhistory_row [data-value="F1C40F"]', txtColorBtn );
 
-				assert.areEqual( 'Vivid Yellow - Color History', yellowColorBox.getAttribute( 'title' ), 'Color label is incorrect.' );
+				assert.areEqual( 'Vivid Yellow', yellowColorBox.getAttribute( 'title' ), 'Color label is incorrect.' );
 				assert.areEqual( '28', yellowColorBox.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
 				assert.areEqual( '29', yellowColorBox.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
 			} );
