@@ -1191,7 +1191,8 @@
 		 * @returns {Array} Returns an array of {@link CKEDITOR.dom.element}s.
 		 */
 		getStyledSpans: function( property, source ) {
-			var spans = source.find( 'span[style*=' + property + ']' ).toArray();
+			var testProperty = CKEDITOR.env.ie && CKEDITOR.env.version == 8 ? property.toUpperCase() : property,
+				spans = source.find( 'span[style*=' + testProperty + ']' ).toArray();
 
 			// This is to filter out spans e.g. with background color when we want text color.
 			return CKEDITOR.tools.array.filter( spans, function( span ) {
