@@ -129,7 +129,7 @@
 		config = config || {};
 
 		bender.editorBot.create( {
-			name: 'editor' + Date.now(),
+			name: 'editor' + new Date().getTime(),
 			startupData: startupData,
 			config: config
 		}, function( bot ) {
