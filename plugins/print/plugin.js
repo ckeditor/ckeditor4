@@ -35,6 +35,9 @@
 	 * **Note**: This class represents the {@link CKEDITOR.commandDefinition}
 	 * type and should be compatible with its API.
 	 *
+	 * For example, the official CKEditor 4 [Export to PDF](https://ckeditor.com/cke4/addon/exportpdf) plugin
+	 * can be used here (see the {@glink features/exporttopdf#installation installation guide}).
+	 *
 	 * ```javascript
 	 * // Using an 'Export to PDF' plugin to generate PDF.
 	 * CKEDITOR.plugins.print = {
