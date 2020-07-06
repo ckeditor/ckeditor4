@@ -4,7 +4,7 @@
 
 1. Click on color button.
 
-  **Expected:** Color history is empty (only horizontal rule is visible).
+  **Expected:** Color history is empty.
 
   **Unexpected:** Color history was initially filled with colors.
 
