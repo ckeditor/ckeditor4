@@ -29,14 +29,10 @@
 	} );
 
 	/**
-	 * Allows to customize the implementation of printing the editor content
-	 * provided by the [Print](https://ckeditor.com/cke4/addon/print) plugin.
-	 *
-	 * **Note**: This class represents the {@link CKEDITOR.commandDefinition}
-	 * type and should be compatible with its API.
-	 *
-	 * For example, the official CKEditor 4 [Export to PDF](https://ckeditor.com/cke4/addon/exportpdf) plugin
-	 * can be used here (see the {@glink features/exporttopdf#installation installation guide}).
+	 * Allows to customize the implementation of printing the editor content provided
+	 * by the [Print](https://ckeditor.com/cke4/addon/print) plugin. For example, the official
+	 * CKEditor 4 [Export to PDF](https://ckeditor.com/cke4/addon/exportpdf) plugin
+	 * can be used here (see the {@glink features/exporttopdf#installation installation guide}):
 	 *
 	 * ```javascript
 	 * // Using an 'Export to PDF' plugin to generate PDF.
@@ -46,6 +42,9 @@
 	 * 	}
 	 * };
 	 * ```
+	 *
+	 * **Note**: This class represents the {@link CKEDITOR.commandDefinition}
+	 * type and should be compatible with its API.
 	 *
 	 * @singleton
 	 * @since 4.14.0
