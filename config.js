@@ -74,4 +74,21 @@ CKEDITOR.editorConfig = function (config) {
 	// %REMOVE_END%
 };
 
+CKEDITOR.on('instanceReady', function(event) {
+	event.editor.on('beforeCommandExec', function(event) {
+		// Show the paste dialog for the paste buttons and context-menu paste
+		if (event.data.name == 'paste') {
+			event.editor._.forcePasteDialog = true;
+
+			return;
+		}
+
+		// Don't show the paste dialog for Ctrl/Cmd + Shift + V
+		if (event.data.name === 'pastetext' && event.data.commandData.from === 'keystrokeHandler') {
+
+			event.cancel();
+		}
+	})
+});
+
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%
