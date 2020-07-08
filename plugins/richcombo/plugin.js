@@ -373,12 +373,18 @@ CKEDITOR.plugins.add( 'richcombo', {
 				if ( this._.state == state )
 					return;
 
-				var el = this.document.getById( 'cke_' + this.id );
+				var el = this.document.getById( 'cke_' + this.id ),
+					linkEl = el.getElementsByTag( 'a' ).getItem( 0 );
+
 				el.setState( state, 'cke_combo' );
 
 				state == CKEDITOR.TRISTATE_DISABLED ?
 					el.setAttribute( 'aria-disabled', true ) :
 					el.removeAttribute( 'aria-disabled' );
+
+				if ( linkEl ) {
+					linkEl.setAttribute( 'aria-expanded', state == CKEDITOR.TRISTATE_ON );
+				}
 
 				this._.state = state;
 			},
