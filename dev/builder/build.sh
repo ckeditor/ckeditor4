@@ -9,7 +9,7 @@ set -e
 echo "CKBuilder - Builds a release version of ckeditor4."
 echo ""
 
-CKBUILDER_VERSION="2.3.3"
+CKBUILDER_VERSION="2.3.2"
 CKBUILDER_URL="https://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuilder.jar"
 
 PROGNAME=$(basename $0)
