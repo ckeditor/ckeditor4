@@ -1,0 +1,75 @@
+<h2>Classic editor:</h2>
+<textarea id="editor-classic">
+	<p>
+		<span style="color:red">
+		<span style="background-color:#DDD">Hello </span></span></span>
+		<span style="color:#aaa">
+		<span style="background-color:#DDD">world!</span></span>
+	</p>
+	<p>
+		<span style="color:#f1c40f">
+		<span style="background-color:#e74c3c">I'm</span></span>
+		<span style="background-color:#abcdef"> an </span>
+		<span style="background-color:#e74c3c">in</span>st
+		<span style="color:#2980b9">
+		<span style="background-color:#e74c3c">an</span></span>
+		<span style="background-color:#e74c3c">ce</span>
+		<span style="background-color:#e74c3c"> of </span>
+		<span style="color:#2980b9">CK</span>
+		Editor.
+	</p>
+</textarea>
+
+<h2>Divarea editor:</h2>
+<div id="editor-divarea" contenteditable="true">
+	<p>
+		<span style="color:red">
+		<span style="background-color:#DDD">Hello </span></span></span>
+		<span style="color:#aaa">
+		<span style="background-color:#DDD">world!</span></span>
+	</p>
+	<p>
+		<span style="color:#f1c40f">
+		<span style="background-color:#e74c3c">I'm</span></span>
+		<span style="background-color:#abcdef"> an </span>
+		<span style="background-color:#e74c3c">in</span>st
+		<span style="color:#2980b9">
+		<span style="background-color:#e74c3c">an</span></span>
+		<span style="background-color:#e74c3c">ce</span>
+		<span style="background-color:#e74c3c"> of </span>
+		<span style="color:#2980b9">CK</span>
+		Editor.
+	</p>
+</div>
+
+<h2>Inline editor:</h2>
+<div id="editor-inline" contenteditable="true">
+	<p>
+		<span style="color:red">
+		<span style="background-color:#DDD">Hello </span></span></span>
+		<span style="color:#aaa">
+		<span style="background-color:#DDD">world!</span></span>
+	</p>
+	<p>
+		<span style="color:#f1c40f">
+		<span style="background-color:#e74c3c">I'm</span></span>
+		<span style="background-color:#abcdef"> an </span>
+		<span style="background-color:#e74c3c">in</span>st
+		<span style="color:#2980b9">
+		<span style="background-color:#e74c3c">an</span></span>
+		<span style="background-color:#e74c3c">ce</span>
+		<span style="background-color:#e74c3c"> of </span>
+		<span style="color:#2980b9">CK</span>
+		Editor.
+	</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor-classic' );
+	CKEDITOR.replace( 'editor-divarea', {
+		extraPlugins: 'divarea'
+	} );
+	CKEDITOR.inline( 'editor-inline', {
+		extraPlugins: 'floatingspace'
+	} );
+</script>
