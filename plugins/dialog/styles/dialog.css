@@ -10,7 +10,7 @@
 	height: 100%;
 	top: 0;
 	left: 0;
-	z-index: 10010;
+	z-index: 999999 !important;
 }
 
 .cke_dialog_body {
