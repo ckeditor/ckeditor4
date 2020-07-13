@@ -395,7 +395,7 @@ CKEDITOR.config = {
 	 *
 	 * @cfg
 	 */
-	baseFloatZIndex: 10000,
+	baseFloatZIndex: 999999,
 
 	/**
 	 * The keystrokes that are blocked by default as the browser implementation
