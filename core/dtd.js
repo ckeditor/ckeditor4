@@ -29,6 +29,25 @@
  *		// Check if <p> is a block element.
  *		alert( !!CKEDITOR.dtd.$block[ 'p' ] ); // true
  *
+ * It is also possible to add a new element to DTD. It will ensure it is handled correctly e.g. in terms of nesting or positioning.
+ * For example, you can define it as a block element, which can be empty:
+ *
+ * ```js
+ * // Let's add a DTD for a new element - <signature> - and specify it can contain <p> and <img> elements:
+ * CKEDITOR.dtd[ 'signature' ] = {
+ * 	p: 1,
+ * 	img: 1
+ * };
+ *
+ *  // Define <signature> as block element.
+ * CKEDITOR.dtd.$block[ 'signature' ] = 1;
+ *
+ * // Allow <signature> element to be empty.
+ * CKEDITOR.dtd.$empty[ 'signature' ] = 1;
+ * ```
+ *
+ * **Note**: Editing the properties of the existing elements is also possible this way, but may cause a lot of unexpected outcome, so **it is not recommended**.
+ *
  * @class CKEDITOR.dtd
  * @singleton
  */
