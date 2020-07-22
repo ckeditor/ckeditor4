@@ -209,7 +209,7 @@ CKEDITOR.plugins.add('taotooltip', {
 		});
 
 		editor.ui.addButton('TaoTooltip', {
-			label: 'Tooltip',
+			label: editor.lang[commandName].button,
 			command: commandName,
 			icon: this.path + 'images/taotooltip.png'
 		});
