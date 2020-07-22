@@ -10,9 +10,9 @@ CKEDITOR.plugins.add('taoqtimaths', {
                 }
             }
         });
-        
+
         editor.ui.addButton('TaoQtiMaths', {
-            label: 'Insert Math Expression',
+            label: editor.lang.insertQtiMaths.button,
             command: 'insertQtiMaths',
             icon: this.path + 'images/taoqtimaths.png'
         });
