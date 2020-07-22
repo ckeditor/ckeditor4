@@ -1,4 +1,4 @@
-CKEDITOR.plugins.setLang( 'insertQtiMaths', 'mk', {
-	button: 'Insert Math Expression',
-	title: 'Insert Math Expression'
+CKEDITOR.plugins.setLang( 'insertQtiMedia', 'mk', {
+	button: 'Insert Media',
+	title: 'Insert Media'
 } );

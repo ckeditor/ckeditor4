@@ -10,9 +10,9 @@ CKEDITOR.plugins.add('taoqtimedia', {
                 }
             }
         });
-        
+
         editor.ui.addButton('TaoQtiMedia', {
-            label: 'Insert Media',
+            label: editor.lang.insertQtiMedia.button,
             command: 'insertQtiMedia',
             icon: this.path + 'images/taoqtimedia.png'
         });
