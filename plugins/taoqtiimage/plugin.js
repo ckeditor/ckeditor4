@@ -10,9 +10,9 @@ CKEDITOR.plugins.add('taoqtiimage', {
                 }
             }
         });
-        
+
         editor.ui.addButton('TaoQtiImage', {
-            label: 'Insert Image',
+            label: editor.lang.insertQtiImage.button,
             command: 'insertQtiImage',
             icon: this.path + 'images/taoqtiimage.png'
         });
