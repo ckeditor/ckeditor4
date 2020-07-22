@@ -10,9 +10,9 @@ CKEDITOR.plugins.add('taoqtiinclude', {
                 }
             }
         });
-        
+
         editor.ui.addButton('TaoQtiInclude', {
-            label: 'Insert Shared Stimulus',
+            label: editor.lang.insertQtiInclude.button,
             command: 'insertQtiInclude',
             icon: this.path + 'images/taoqtiimage.png'
         });
