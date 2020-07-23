@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'fr', {
 	strike: 'Barré',
 	subscript: 'Indice',
 	superscript: 'Exposant',
-	underline: 'Souligné'
+	underline: 'Souligner'
 } );
