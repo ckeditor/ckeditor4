@@ -1,5 +1,5 @@
 CKEDITOR.plugins.add('taoqtimedia', {
-	lang: 'de,fr,nl',
+	lang: 'de,en,fr,nl',
     init: function(editor) {
 
         editor.addCommand('insertQtiMedia', {
