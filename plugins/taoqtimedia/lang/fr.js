@@ -1,4 +1,4 @@
 CKEDITOR.plugins.setLang( 'insertQtiMedia', 'fr', {
-	button: 'Insert Media',
-	title: 'Insert Media'
+	button: 'Insérer un média',
+	title: 'Insérer un média'
 } );
