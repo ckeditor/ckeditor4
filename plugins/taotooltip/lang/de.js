@@ -1,4 +1,4 @@
 CKEDITOR.plugins.setLang( 'insertTaoTooltip', 'de', {
-	button: 'Tooltip',
-	title: 'Tooltip'
+	button: 'Werkzeug-tipp',
+	title: 'Werkzeug-tipp'
 } );
