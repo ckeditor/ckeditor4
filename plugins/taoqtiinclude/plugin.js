@@ -1,4 +1,5 @@
 CKEDITOR.plugins.add('taoqtiinclude', {
+	lang: 'de,fr,nl',
     init: function(editor) {
 
         editor.addCommand('insertQtiInclude', {
