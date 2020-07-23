@@ -1,4 +1,4 @@
 CKEDITOR.plugins.setLang( 'insertQtiImage', 'ru', {
-	button: 'Insert Image',
-	title: 'Insert Image'
+	button: 'Вставить рисунок',
+	title: 'Вставить рисунок'
 } );
