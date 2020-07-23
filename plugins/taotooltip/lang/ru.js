@@ -1,4 +1,4 @@
 CKEDITOR.plugins.setLang( 'insertTaoTooltip', 'ru', {
-	button: 'Tooltip',
-	title: 'Tooltip'
+	button: 'Вставить',
+	title: 'Вставить'
 } );
