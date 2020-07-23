@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'nl', {
 	bold: 'Vet',
 	italic: 'Cursief',
 	strike: 'Doorhalen',
-	subscript: 'Vermeld',
-	superscript: 'Exponent',
-	underline: 'Onderstreep'
+	subscript: 'Subscript',
+	superscript: 'Superscript',
+	underline: 'Onderstrepen'
 } );

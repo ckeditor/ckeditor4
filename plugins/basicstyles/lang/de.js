@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'de', {
 	strike: 'Durchgestrichen',
 	subscript: 'Tiefgestellt',
 	superscript: 'Hochgestellt',
-	underline: 'Unterstreichen'
+	underline: 'Unterstrichen'
 } );
