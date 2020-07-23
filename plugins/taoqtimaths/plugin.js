@@ -1,5 +1,5 @@
 CKEDITOR.plugins.add('taoqtimaths', {
-	lang: 'de,en,fr,nl',
+	lang: 'de,en,fr,nl', // %REMOVE_LINE_CORE%
     init: function(editor) {
 
         editor.addCommand('insertQtiMaths', {
