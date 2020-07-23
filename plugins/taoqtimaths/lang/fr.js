@@ -1,4 +1,4 @@
 CKEDITOR.plugins.setLang( 'insertQtiMaths', 'fr', {
-	button: 'Insert Math Expression',
-	title: 'Insert Math Expression'
+	button: 'Insérer une expression mathémat',
+	title: 'Insérer une expression mathémat'
 } );
