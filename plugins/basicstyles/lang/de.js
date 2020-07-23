@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'de', {
 	bold: 'Fett',
 	italic: 'Kursiv',
 	strike: 'Durchgestrichen',
-	subscript: 'Index',
+	subscript: 'Tiefgestellt',
 	superscript: 'Hochgestellt',
 	underline: 'Unterstreichen'
 } );
