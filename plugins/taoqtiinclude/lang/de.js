@@ -1,4 +1,4 @@
 CKEDITOR.plugins.setLang( 'insertQtiInclude', 'de', {
-	button: 'Insert Shared Stimulus',
-	title: 'Insert Shared Stimulus'
+	button: 'Gemeinsamen stimulus einsetzen',
+	title: 'Gemeinsamen stimulus einsetzen'
 } );

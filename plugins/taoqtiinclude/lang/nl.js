@@ -1,4 +1,4 @@
 CKEDITOR.plugins.setLang( 'insertQtiInclude', 'nl', {
-	button: 'Insert Shared Stimulus',
-	title: 'Insert Shared Stimulus'
+	button: 'Gedeelde stimulans bijvoegen',
+	title: 'Gedeelde stimulans bijvoegen'
 } );
