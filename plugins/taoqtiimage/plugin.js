@@ -1,4 +1,5 @@
 CKEDITOR.plugins.add('taoqtiimage', {
+	lang: 'de,fr,nl',
     init: function(editor) {
 
         editor.addCommand('insertQtiImage', {
