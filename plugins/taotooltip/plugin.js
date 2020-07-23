@@ -1,4 +1,5 @@
 CKEDITOR.plugins.add('taotooltip', {
+	lang: 'de,en,fr,nl',
 	init: function (editor) {
 		'use strict';
 
