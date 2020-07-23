@@ -48,7 +48,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				 * @param {Boolean} [nativeContextMenuOnCtrl] Whether to open native context menu if the
 				 * <kbd>Ctrl</kbd> key is held on opening the context menu. See {@link CKEDITOR.config#browserContextMenuOnCtrl}.
 				 */
-				addTarget: function( element, nativeContextMenuOnCtrl ) {
+				addTarget: function( element, contextMenuSwitchingEnabled, nativeContextMenuOnByDefault) {
 					var holdCtrlKey,
 						keystrokeActive;
 
@@ -59,8 +59,15 @@ CKEDITOR.plugins.add( 'contextmenu', {
 								// which make this property unreliable. (https://dev.ckeditor.com/ticket/4826)
 								( CKEDITOR.env.webkit ? holdCtrlKey : ( CKEDITOR.env.mac ? domEvent.$.metaKey : domEvent.$.ctrlKey ) );
 
-						if ( nativeContextMenuOnCtrl && isCtrlKeyDown ) {
+						if ( contextMenuSwitchingEnabled ) {
 							return;
+							if ( nativeContextMenuOnByDefault && !isCtrlKeyDown ) {
+								return;
+							}
+							
+							if ( !nativeContextMenuOnByDefault  && isCtrlKeyDown ) {
+								return;
+							}
 						}
 
 						// Cancel the browser context menu.
@@ -163,7 +170,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 		var contextMenu = editor.contextMenu = new CKEDITOR.plugins.contextMenu( editor );
 
 		editor.on( 'contentDom', function() {
-			contextMenu.addTarget( editor.editable(), editor.config.browserContextMenuOnCtrl !== false );
+			contextMenu.addTarget( editor.editable(), editor.config.contextMenuSwitchingEnabled !== false ,editor.config.nativeContextMenuOnByDefault == false );
 		} );
 
 		editor.addCommand( 'contextMenu', {
