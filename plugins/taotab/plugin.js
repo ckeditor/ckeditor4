@@ -1,4 +1,5 @@
 CKEDITOR.plugins.add('taotab', {
+	lang: 'de,en,fr,nl', // %REMOVE_LINE_CORE%
     init: function(editor) {
 
         /**
@@ -103,7 +104,7 @@ CKEDITOR.plugins.add('taotab', {
         });
 
         editor.ui.addButton('TaoTab', {
-            label: 'Insert Tab',
+            label: editor.lang.insertTab.button,
             command: 'insertTab',
             icon: this.path + 'images/taotab.png'
         });

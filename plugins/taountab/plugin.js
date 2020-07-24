@@ -1,4 +1,5 @@
 CKEDITOR.plugins.add('taountab', {
+	lang: 'de,en,fr,nl', // %REMOVE_LINE_CORE%
     init: function(editor) {
 
         /**
@@ -72,7 +73,7 @@ CKEDITOR.plugins.add('taountab', {
         });
 
         editor.ui.addButton('TaoUnTab', {
-            label: 'Remove Tab',
+            label: editor.lang.removeTab.button,
             command: 'removeTab',
             icon: this.path + 'images/taountab.png'
         });
