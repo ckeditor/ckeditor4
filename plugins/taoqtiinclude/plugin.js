@@ -1,4 +1,5 @@
 CKEDITOR.plugins.add('taoqtiinclude', {
+	lang: 'de,en,fr,nl', // %REMOVE_LINE_CORE%
     init: function(editor) {
 
         editor.addCommand('insertQtiInclude', {
@@ -10,9 +11,9 @@ CKEDITOR.plugins.add('taoqtiinclude', {
                 }
             }
         });
-        
+
         editor.ui.addButton('TaoQtiInclude', {
-            label: 'Insert Shared Stimulus',
+            label: editor.lang.insertQtiInclude.button,
             command: 'insertQtiInclude',
             icon: this.path + 'images/taoqtiimage.png'
         });

@@ -1,4 +1,5 @@
 CKEDITOR.plugins.add('taoqtimedia', {
+	lang: 'de,en,fr,nl', // %REMOVE_LINE_CORE%
     init: function(editor) {
 
         editor.addCommand('insertQtiMedia', {
@@ -10,9 +11,9 @@ CKEDITOR.plugins.add('taoqtimedia', {
                 }
             }
         });
-        
+
         editor.ui.addButton('TaoQtiMedia', {
-            label: 'Insert Media',
+            label: editor.lang.insertQtiMedia.button,
             command: 'insertQtiMedia',
             icon: this.path + 'images/taoqtimedia.png'
         });

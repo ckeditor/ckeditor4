@@ -1,4 +1,5 @@
 CKEDITOR.plugins.add('taotooltip', {
+	lang: 'de,en,fr,nl', // %REMOVE_LINE_CORE%
 	init: function (editor) {
 		'use strict';
 
@@ -209,7 +210,7 @@ CKEDITOR.plugins.add('taotooltip', {
 		});
 
 		editor.ui.addButton('TaoTooltip', {
-			label: 'Tooltip',
+			label: editor.lang[commandName].button,
 			command: commandName,
 			icon: this.path + 'images/taotooltip.png'
 		});
