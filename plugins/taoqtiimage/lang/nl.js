@@ -1,4 +1,4 @@
 CKEDITOR.plugins.setLang( 'insertQtiImage', 'nl', {
-	button: 'bijsluiterafbeelding',
-	title: 'bijsluiterafbeelding'
+	button: 'Bijsluiter afbeelding',
+	title: 'Bijsluiter afbeelding'
 } );
