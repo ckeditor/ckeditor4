@@ -5,6 +5,10 @@
 </textarea>
 
 <script>
+	if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor', {
 		lang: 'en'
 	} );
