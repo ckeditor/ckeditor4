@@ -9,6 +9,7 @@ Fixed Issues:
 * [#4107](https://github.com/ckeditor/ckeditor4/issues/4107): Fixed: Multiple [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) instances cause keyboard navigation issues.
 * [#4041](https://github.com/ckeditor/ckeditor4/issues/4041): Fixed: [`selection.scrollIntoView`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_selection.html#method-scrollIntoView) method throws an error when editor selection is not set.
 * [#3361](https://github.com/ckeditor/ckeditor4/issues/3361): Fixed: Loading multiple [custom editor configurations](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-customConfig) is prone to race condition between them.
+* [#4007](https://github.com/ckeditor/ckeditor4/issues/4007): Fixed: Screen readers don't announce [Rich Combo](https://ckeditor.com/cke4/addon/richcombo) plugin is collapsed/expanded.
 
 ## CKEditor 4.14.1
 
