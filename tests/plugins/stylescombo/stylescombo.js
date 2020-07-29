@@ -119,6 +119,24 @@
 						'Element with ID: #' + squareOptionId + ', should be displayed.' );
 				} );
 			} );
+		},
+
+		// (#3649)
+		'test removing block style with format combo': function() {
+			bender.editorBot.create( {
+				name: 'removeFormat'
+			}, function( bot ) {
+				bot.setHtmlWithSelection( '<h1>[Hello World!]</h1>' );
+
+				bot.combo( 'Styles', function( combo ) {
+					combo.onClick( 'Italic Title' );
+
+					bot.combo( 'Format', function( combo ) {
+						combo.onClick( 'p' );
+						assert.areEqual( bot.editor.getData(), '<p>Hello World!</p>', 'Editor should contain unformatted paragraph.' );
+					} );
+				} );
+			} );
 		}
 	} );
 } )();
