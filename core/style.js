@@ -1686,9 +1686,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			styles = CKEDITOR.style.getStyleText( def );
 
 		// Assign all defined attributes.
-		if ( attributes ) {
-			for ( var att in attributes )
-				el.setAttribute( att, attributes[ att ] );
+		for ( var att in attributes ) {
+			el.setAttribute( att, attributes[ att ] );
 		}
 
 		// Assign all defined styles.
