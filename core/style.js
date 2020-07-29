@@ -1659,23 +1659,26 @@ CKEDITOR.STYLE_OBJECT = 3;
 			elementName = style.element;
 
 		// The "*" element name will always be a span for this function.
-		if ( elementName == '*' )
+		if ( elementName == '*' ) {
 			elementName = 'span';
+		}
 
 		// Create the element.
 		el = new CKEDITOR.dom.element( elementName, targetDocument );
 
 		// https://dev.ckeditor.com/ticket/6226: attributes should be copied before the new ones are applied
-		if ( element )
+		if ( element ) {
 			element.copyAttributes( el );
+		}
 
 		el = setupElement( el, style );
 
 		// Avoid ID duplication.
-		if ( targetDocument.getCustomData( 'doc_processing_style' ) && el.hasAttribute( 'id' ) )
+		if ( targetDocument.getCustomData( 'doc_processing_style' ) && el.hasAttribute( 'id' ) ) {
 			el.removeAttribute( 'id' );
-		else
+		} else {
 			targetDocument.setCustomData( 'doc_processing_style', 1 );
+		}
 
 		return el;
 	}
