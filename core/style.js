@@ -1690,7 +1690,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			el.setAttribute( att, attributes[ att ] );
 		}
 
-		// Assign all defined styles.
+		// Assign all defined styles. If new format doesn't have any styles, remove the existing ones (#3649).
 		if ( styles ) {
 			el.setAttribute( 'style', styles );
 		} else {
