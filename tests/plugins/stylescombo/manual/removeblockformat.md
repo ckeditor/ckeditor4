@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: bug, 4.14.2, 3649
-@bender-ckeditor-plugins: wysiwygarea, toolbar, stylescombo, format, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, stylescombo, format, sourcearea, link, font
 
 1. Select the entire editor contents.
 1. Change the style to `Italic Title`.
