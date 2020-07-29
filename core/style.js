@@ -1692,8 +1692,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		// Assign all defined styles.
-		if ( styles )
+		if ( styles ) {
 			el.setAttribute( 'style', styles );
+		} else {
+			el.removeAttribute( 'style' );
+		}
 
 		el.getDocument().removeCustomData( 'doc_processing_style' );
 
