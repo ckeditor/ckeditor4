@@ -123,20 +123,30 @@
 
 		// (#3649)
 		'test removing block style with format combo': function() {
-			bender.editorBot.create( {
-				name: 'removeFormat'
-			}, function( bot ) {
-				bot.setHtmlWithSelection( '<h1>[Hello World!]</h1>' );
-
-				bot.combo( 'Styles', function( combo ) {
-					combo.onClick( 'Italic Title' );
-
-					bot.combo( 'Format', function( combo ) {
-						combo.onClick( 'p' );
-						assert.areEqual( bot.editor.getData(), '<p>Hello World!</p>', 'Editor should contain unformatted paragraph.' );
-					} );
-				} );
+			testCombos( {
+				firstCombo: 'Styles',
+				firstOption: 'Italic Title',
+				secondCombo: 'Format',
+				secondOption: 'p',
+				result: '<p>Hello World!</p>'
 			} );
 		}
 	} );
+
+	function testCombos( options ) {
+		bender.editorBot.create( {
+			name: 'editor' + ( new Date() ).getTime()
+		}, function( bot ) {
+			bot.setHtmlWithSelection( '<h1>[Hello World!]</h1>' );
+
+			bot.combo( options.firstCombo, function( combo ) {
+				combo.onClick( options.firstOption );
+
+				bot.combo( options.secondCombo, function( combo ) {
+					combo.onClick( options.secondOption );
+					assert.areEqual( bot.editor.getData(), options.result, 'Editor content is incorrect.' );
+				} );
+			} );
+		} );
+	}
 } )();
