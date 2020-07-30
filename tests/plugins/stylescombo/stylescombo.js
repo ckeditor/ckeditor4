@@ -195,7 +195,7 @@
 			bot.combo( options.combo, function( combo ) {
 				combo.onClick( options.option );
 
-				assert.areEqual( options.result, bot.editor.getData(), 'Editor content is incorrect.' );
+				assert.beautified.html( options.result, bot.editor.getData(), 'Editor content is incorrect.' );
 			} );
 		} );
 	}
