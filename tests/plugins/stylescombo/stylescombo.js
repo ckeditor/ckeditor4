@@ -122,18 +122,85 @@
 		},
 
 		// (#3649)
+		'test inline styles are preserved when a format is picked': function() {
+			testOneCombo( {
+				html: '<h1><span style="font-family:Courier New,Courier,monospace;">[Hello World!]</span></h1>',
+				combo: 'Format',
+				option: 'p',
+				result: '<p><span style="font-family:Courier New,Courier,monospace;">Hello World!</span></p>'
+			} );
+		},
+
+		// (#3649)
+		'test applying the style from Styles dropdown replaces the current format': function() {
+			testOneCombo( {
+				html: '<h1>[Hello World!]</h1>',
+				combo: 'Styles',
+				option: 'Italic Title',
+				result: '<h2 style="font-style:italic;">Hello World!</h2>'
+			} );
+		},
+
+		// (#3649)
 		'test removing block style with format combo': function() {
-			testCombos( {
+			testTwoCombos( {
 				firstCombo: 'Styles',
 				firstOption: 'Italic Title',
 				secondCombo: 'Format',
 				secondOption: 'p',
 				result: '<p>Hello World!</p>'
 			} );
+		},
+
+		// (#3649)
+		'test style is removed if the same option is picked twice': function() {
+			testTwoCombos( {
+				firstCombo: 'Styles',
+				firstOption: 'Italic Title',
+				secondCombo: 'Styles',
+				secondOption: 'Italic Title',
+				result: '<p>Hello World!</p>'
+			} );
+		},
+
+		// (#3649)
+		'test inline dropdown style is preserved when a format is picked': function() {
+			testTwoCombos( {
+				firstCombo: 'Styles',
+				firstOption: 'Marker',
+				secondCombo: 'Format',
+				secondOption: 'p',
+				result: '<p><span class="marker">Hello World!</span></p>'
+			} );
+		},
+
+		// (#3649)
+		'test a new style overrides the previous one correctly': function() {
+			testTwoCombos( {
+				firstCombo: 'Styles',
+				firstOption: 'Italic Title',
+				secondCombo: 'Styles',
+				secondOption: 'Special Container',
+				result: '<div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">Hello World!</div>'
+			} );
 		}
 	} );
 
-	function testCombos( options ) {
+	function testOneCombo( options ) {
+		bender.editorBot.create( {
+			name: 'editor' + ( new Date() ).getTime()
+		}, function( bot ) {
+			bot.setHtmlWithSelection( options.html );
+
+			bot.combo( options.combo, function( combo ) {
+				combo.onClick( options.option );
+
+				assert.areEqual( options.result, bot.editor.getData(), 'Editor content is incorrect.' );
+			} );
+		} );
+	}
+
+	function testTwoCombos( options ) {
 		bender.editorBot.create( {
 			name: 'editor' + ( new Date() ).getTime()
 		}, function( bot ) {
@@ -144,7 +211,7 @@
 
 				bot.combo( options.secondCombo, function( combo ) {
 					combo.onClick( options.secondOption );
-					assert.areEqual( bot.editor.getData(), options.result, 'Editor content is incorrect.' );
+					assert.areEqual( options.result, bot.editor.getData(), 'Editor content is incorrect.' );
 				} );
 			} );
 		} );
