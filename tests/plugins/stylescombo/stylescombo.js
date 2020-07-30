@@ -127,7 +127,7 @@
 				html: '<h1><span style="font-family:Courier New,Courier,monospace;">[Hello World!]</span></h1>',
 				combo: 'Format',
 				option: 'p',
-				result: '<p><span style="font-family:Courier New,Courier,monospace;">Hello World!</span></p>'
+				result: '<p><span style="font-family:courier new,courier,monospace;">hello world!</span></p>'
 			} );
 		},
 
@@ -137,7 +137,7 @@
 				html: '<h1>[Hello World!]</h1>',
 				combo: 'Styles',
 				option: 'Italic Title',
-				result: '<h2 style="font-style:italic;">Hello World!</h2>'
+				result: '<h2 style="font-style:italic;">hello world!</h2>'
 			} );
 		},
 
@@ -148,7 +148,7 @@
 				firstOption: 'Italic Title',
 				secondCombo: 'Format',
 				secondOption: 'p',
-				result: '<p>Hello World!</p>'
+				result: '<p>hello world!</p>'
 			} );
 		},
 
@@ -159,7 +159,7 @@
 				firstOption: 'Italic Title',
 				secondCombo: 'Styles',
 				secondOption: 'Italic Title',
-				result: '<p>Hello World!</p>'
+				result: '<p>hello world!</p>'
 			} );
 		},
 
@@ -170,7 +170,7 @@
 				firstOption: 'Marker',
 				secondCombo: 'Format',
 				secondOption: 'p',
-				result: '<p><span class="marker">Hello World!</span></p>'
+				result: '<p><span class="marker">hello world!</span></p>'
 			} );
 		},
 
@@ -181,7 +181,7 @@
 				firstOption: 'Italic Title',
 				secondCombo: 'Styles',
 				secondOption: 'Special Container',
-				result: '<div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">Hello World!</div>'
+				result: '<div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">hello world!</div>'
 			} );
 		}
 	} );
@@ -195,7 +195,7 @@
 			bot.combo( options.combo, function( combo ) {
 				combo.onClick( options.option );
 
-				assert.beautified.html( options.result, bot.editor.getData(), 'Editor content is incorrect.' );
+				assert.beautified.html( options.result, bender.tools.fixHtml( bot.editor.getData() ), 'Editor content is incorrect.' );
 			} );
 		} );
 	}
@@ -211,7 +211,8 @@
 
 				bot.combo( options.secondCombo, function( combo ) {
 					combo.onClick( options.secondOption );
-					assert.beautified.html( options.result, bot.editor.getData(), 'Editor content is incorrect.' );
+
+					assert.beautified.html( options.result, bender.tools.fixHtml( bot.editor.getData() ), 'Editor content is incorrect.' );
 				} );
 			} );
 		} );
