@@ -211,7 +211,7 @@
 
 				bot.combo( options.secondCombo, function( combo ) {
 					combo.onClick( options.secondOption );
-					assert.areEqual( options.result, bot.editor.getData(), 'Editor content is incorrect.' );
+					assert.areEqual( options.result, bender.tools.compatHtml( bot.editor.getData() ), 'Editor content is incorrect.' );
 				} );
 			} );
 		} );
