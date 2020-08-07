@@ -3498,7 +3498,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 	} );
 	
-	// Dialog related configurations.
 	CKEDITOR.plugins.add( 'dialog', {
 		requires: 'dialogui',
 		init: function( editor ) {
@@ -3514,6 +3513,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 	} );
 } )();
+
+
+// Dialog related configurations.
 
 /**
  * The color of the dialog background cover. It should be a valid CSS color string.
