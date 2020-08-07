@@ -66,7 +66,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 	var cssLength = CKEDITOR.tools.cssLength,
 		defaultDialogDefinition,
-		currentCover;
+		currentCover,
+		stylesLoaded = false;
 
 	function focusActiveTab( dialog ) {
 		dialog._.tabBarMode = true;
@@ -3496,26 +3497,23 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			return dialog;
 		}
 	} );
-} )();
+	
+	// Dialog related configurations.
+	CKEDITOR.plugins.add( 'dialog', {
+		requires: 'dialogui',
+		init: function( editor ) {
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'styles/dialog.css' );
+				stylesLoaded = true;
+			}
 
-var stylesLoaded = false;
-
-CKEDITOR.plugins.add( 'dialog', {
-	requires: 'dialogui',
-	init: function( editor ) {
-		if ( !stylesLoaded ) {
-			CKEDITOR.document.appendStyleSheet( this.path + 'styles/dialog.css' );
-			stylesLoaded = true;
+			editor.on( 'doubleclick', function( evt ) {
+				if ( evt.data.dialog )
+					editor.openDialog( evt.data.dialog );
+			}, null, null, 999 );
 		}
-
-		editor.on( 'doubleclick', function( evt ) {
-			if ( evt.data.dialog )
-				editor.openDialog( evt.data.dialog );
-		}, null, null, 999 );
-	}
-} );
-
-// Dialog related configurations.
+	} );
+} )();
 
 /**
  * The color of the dialog background cover. It should be a valid CSS color string.
