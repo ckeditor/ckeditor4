@@ -800,7 +800,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyInlineStyle( range ) {
-		var document = range.document;
+		var document = range.document,
+			// Some elements are unstylable by definition, e.g. <select> and its <option>s (#4141).
+			unstylableElements = [
+				'select',
+				'option'
+			];
 
 		if ( range.collapsed ) {
 			// Create the element to be inserted in the DOM.
@@ -876,7 +881,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			} else {
 				var nodeName = currentNode.type == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null,
 					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
-					nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
+					nodeIsUnstylable = nodeName && CKEDITOR.tools.array.indexOf( unstylableElements, nodeName ) !== -1,
+					nodeIsNoStyle = nodeName && ( currentNode.getAttribute( 'data-nostyle' ) || nodeIsUnstylable );
 
 				// Skip bookmarks or comments.
 				if ( ( nodeName && currentNode.data( 'cke-bookmark' ) ) || currentNode.type === CKEDITOR.NODE_COMMENT ) {
