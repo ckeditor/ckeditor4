@@ -273,6 +273,17 @@
 		// (#2294, #2380)
 		'test HTML comments between inline': createInlineStyleTestCase( 'html-comments-between-inline' ),
 
+		// (#4141)
+		'test applying style to <select> element': createInlineStyleTestCase( 'apply-select' ),
+
+		// (#4141)
+		'test applying to editor contents when <select> element is present': createInlineStyleTestCase( 'apply-select-whole-editor', {
+			ignore: function() {
+				// IE produces code with broken formatting, which leads to false negative result.
+				return CKEDITOR.env.ie;
+			}
+		} ),
+
 		test_inline_nobreak1: function() {
 			playground.setHtml( 'this is <a href="http://example.com/">some sample</a> text' );
 
@@ -1053,8 +1064,14 @@
 
 	bender.test( tcs );
 
-	function createInlineStyleTestCase( fixtureId ) {
+	function createInlineStyleTestCase( fixtureId, options ) {
+		options = options || {};
+
 		return function() {
+			if ( options.ignore && options.ignore() ) {
+				assert.ignore();
+			}
+
 			bender.tools.testInputOut( fixtureId, function( inputHtml, expectedHtml ) {
 				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
 
