@@ -1,0 +1,16 @@
+<body>
+<div id="editor">
+	<p>
+		<select>
+			<option>Some option</option>
+		</select>
+	</p>
+	<h4 style="font-size:40px;font-family:arial,sans-serif;">Heading</h4>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent : 'h4{*}'
+	} );
+</script>
+</body>
