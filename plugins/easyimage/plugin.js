@@ -270,11 +270,20 @@
 					function getNaturalWidth( image, callback ) {
 						var $image = image.$;
 
+
 						if ( $image.complete && $image.naturalWidth ) {
 							return callback( $image.naturalWidth );
 						}
 
 						image.once( 'load', function() {
+							// Sometimes Safari can't calculate correctly dimensions of the image.
+							// In such a case, force reload (#4183).
+							if ( !$image.naturalWidth ) {
+								$image.src = $image.src;
+
+								return getNaturalWidth( image, callback );
+							}
+
 							callback( $image.naturalWidth );
 						} );
 					}
@@ -289,9 +298,17 @@
 						}
 					}
 
-					var imagePart = this.parts.image;
+					var imagePart = this.parts.image,
+						isIncomplete = imagePart && !imagePart.$.complete,
+						isIncorrectlyCalculated = imagePart && imagePart.$.complete && !imagePart.$.naturalWidth;
 
-					if ( imagePart && !imagePart.$.complete ) {
+					if ( isIncomplete || isIncorrectlyCalculated ) {
+						if ( isIncorrectlyCalculated ) {
+							// Sometimes Safari can't calculate correctly dimensions of the image.
+							// In such a case, force reload (#4183).
+							imagePart.$.src = imagePart.$.src;
+						}
+
 						// If widget begins with incomplete image, make sure to refresh balloon toolbar (if present)
 						// once the image size is available.
 						getNaturalWidth( imagePart, function() {
