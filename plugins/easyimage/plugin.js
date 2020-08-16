@@ -270,7 +270,6 @@
 					function getNaturalWidth( image, callback ) {
 						var $image = image.$;
 
-
 						if ( $image.complete && $image.naturalWidth ) {
 							return callback( $image.naturalWidth );
 						}
