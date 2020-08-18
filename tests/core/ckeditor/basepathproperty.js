@@ -33,6 +33,7 @@
 			a( 'CKEDITOR.JS' );
 			// https://dev.ckeditor.com/ticket/12215
 			a( '/ckeditor.js;id=foo-bar' );
+			a( '/ckeditor-1a3bf.js' );
 
 			function a( src ) {
 				assert.isMatching( pattern, src, src );
