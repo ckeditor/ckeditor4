@@ -24,7 +24,7 @@ if ( !window.CKEDITOR ) {
 	 * @singleton
 	 */
 	window.CKEDITOR = ( function() {
-		var basePathSrcPattern = /(^|.*[\\\/])ckeditor\.js(?:\?.*|;.*)?$/i;
+		var basePathSrcPattern = /(^|.*[\\\/])ckeditor[-A-Fa-f0-9]*\.js(?:\?.*|;.*)?$/i;
 
 		var CKEDITOR = {
 
