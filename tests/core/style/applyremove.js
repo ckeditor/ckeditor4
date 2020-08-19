@@ -278,10 +278,8 @@
 
 		// (#4141)
 		'test applying to editor contents when <select> element is present': createInlineStyleTestCase( 'apply-select-whole-editor', {
-			ignore: function() {
-				// IE produces code with broken formatting, which leads to false negative result.
-				return CKEDITOR.env.ie;
-			}
+			// IE produces code with broken formatting, which leads to false negative result.
+			ignore: CKEDITOR.env.ie
 		} ),
 
 		// (#4141)
@@ -1081,7 +1079,7 @@
 		options = options || {};
 
 		return function() {
-			if ( options.ignore && options.ignore() ) {
+			if ( options.ignore && options.ignore ) {
 				assert.ignore();
 			}
 
