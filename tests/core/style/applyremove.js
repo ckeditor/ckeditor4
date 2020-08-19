@@ -284,6 +284,19 @@
 			}
 		} ),
 
+		// (#4141)
+		'test ignoring other elements': function() {
+			var oldUnstylableElements = CKEDITOR.style.unstylableElements;
+
+			CKEDITOR.style.unstylableElements = [
+				'em'
+			];
+
+			createInlineStyleTestCase( 'ignore-em' )();
+
+			CKEDITOR.unstylableElements = oldUnstylableElements;
+		},
+
 		test_inline_nobreak1: function() {
 			playground.setHtml( 'this is <a href="http://example.com/">some sample</a> text' );
 
