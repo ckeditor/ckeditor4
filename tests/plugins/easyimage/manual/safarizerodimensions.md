@@ -5,16 +5,18 @@
 
 1. Switch editor to source mode.
 2. Switch back.
-	### Expected
 
-	Image is still visible
+	### Expected:
 
-	### Unexpected
+	Image is visible.
+
+	### Unexpected:
 
 	Image disappeared.
+
 3. Repeat the procedure several times for every editor.
 4. Remove the image and upload another one. Repeat the procedure.
 
-### Note
+### Note:
 
-Sometimes image is not visible from the start.
+Sometimes image is not visible at the beginning. It shouldn't bother you - just proceed with the test.
