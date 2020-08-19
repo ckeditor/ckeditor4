@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#4183](https://github.com/ckeditor/ckeditor4/issues/4183): [Safari] Fixed: Incorrect images dimensions when using [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin alongside [IFrame Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) plugin.
 * [#3693](https://github.com/ckeditor/ckeditor4/issues/3693): Fixed: Incorrect default values for several [Color Button](https://ckeditor.com/cke4/addon/colorbutton) config variables in API documentation.
 * [#3795](https://github.com/ckeditor/ckeditor4/issues/3795): Fixed: Setting [`dataIndentationChars`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-dataIndentationChars) config option to an empty string is ignored and replaced by a tab (`\t`) character. Thanks to [Thomas Grinderslev](https://github.com/Znegl)!
 * [#4107](https://github.com/ckeditor/ckeditor4/issues/4107): Fixed: Multiple [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) instances cause keyboard navigation issues.
