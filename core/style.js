@@ -597,6 +597,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 	CKEDITOR.style.customHandlers = {};
 
 	/**
+	 * List of all elements that are ignored during styling.
+	 *
+	 * @since 4.14.2
+	 * @property {String[]} [unstylableElements=[ 'select', 'option' ]]
+	 * @member CKEDITOR.style
+	*/
+	CKEDITOR.style.unstylableElements = [
+		'select',
+		'option'
+	];
+
+	/**
 	 * Creates a {@link CKEDITOR.style} subclass and registers it in the style system.
 	 * Registered class will be used as a handler for a style of this type. This allows
 	 * to extend the styles system, which by default uses only the {@link CKEDITOR.style}, with
@@ -800,12 +812,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyInlineStyle( range ) {
-		var document = range.document,
-			// Some elements are unstylable by definition, e.g. <select> and its <option>s (#4141).
-			unstylableElements = [
-				'select',
-				'option'
-			];
+		var document = range.document;
 
 		if ( range.collapsed ) {
 			// Create the element to be inserted in the DOM.
@@ -881,7 +888,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			} else {
 				var nodeName = currentNode.type == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null,
 					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
-					nodeIsUnstylable = nodeName && CKEDITOR.tools.array.indexOf( unstylableElements, nodeName ) !== -1,
+					nodeIsUnstylable = nodeName &&
+						CKEDITOR.tools.array.indexOf( CKEDITOR.style.unstylableElements, nodeName ) !== -1,
 					nodeIsNoStyle = nodeName && ( currentNode.getAttribute( 'data-nostyle' ) || nodeIsUnstylable );
 
 				// Skip bookmarks or comments.
