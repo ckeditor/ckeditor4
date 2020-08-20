@@ -1,4 +1,4 @@
-@bender-tags: clipboard, widget, filetools
+@bender-tags: clipboard, widget, filetools, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, uploadwidget, basicstyles, image, uploadimage, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, link
 @bender-include: _helpers/xhr.js
