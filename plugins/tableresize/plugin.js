@@ -27,7 +27,7 @@
 				computed = 0;
 		}
 
-		return parseInt( computed, 10 );
+		return parseFloat( computed );
 	}
 
 	// Sets pillar height and position based on given table element (head, body, footer).
@@ -51,7 +51,9 @@
 				pillarRow,
 				pillarHeight = 0,
 				pillarPosition = null,
-				pillarDimensions = setPillarDimensions( $tr );
+				pillarDimensions = setPillarDimensions( $tr ),
+				isIE = CKEDITOR.env.ie && !CKEDITOR.env.edge,
+				isBorderCollapse = table.getComputedStyle( 'border-collapse' ) === 'collapse';
 
 			pillarHeight = pillarDimensions.height;
 			pillarPosition = pillarDimensions.position;
@@ -89,6 +91,15 @@
 				}
 
 				pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
+
+				// In case of IE and collapsed table border, we must substract pillarWidth
+				// from the current position and recalculate pillarWidth (#2823).
+				if ( isIE && isBorderCollapse ) {
+					pillarLeft -= pillarWidth;
+
+					pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
+				}
+
 
 				// The pillar should reflects exactly the shape of the hovered
 				// column border line.
@@ -275,7 +286,7 @@
 
 		resizer = CKEDITOR.dom.element.createFromHtml( '<div data-cke-temp=1 contenteditable=false unselectable=on ' +
 			'style="position:absolute;cursor:col-resize;filter:alpha(opacity=0);opacity:0;' +
-				'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
+				'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10000"></div>', document );
 
 		// Clean DOM when editor is destroyed.
 		editor.on( 'destroy', function() {

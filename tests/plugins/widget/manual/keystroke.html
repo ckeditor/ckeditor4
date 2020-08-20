@@ -1,0 +1,15 @@
+<div id="editor">
+	Hello world.
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		keystrokes: [
+			[ CKEDITOR.CTRL + 13 /*Enter*/, 'source' ]
+		]
+	} );
+</script>

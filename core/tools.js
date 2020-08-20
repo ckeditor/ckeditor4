@@ -1183,6 +1183,24 @@
 		},
 
 		/**
+		 * Finds all span {@link CKEDITOR.dom.element elements} styled with the given property in the editor contents.
+		 *
+		 * @since 4.15.0
+		 * @param {String} property CSS property which will be used in query.
+		 * @param {CKEDITOR.dom.element} source The element to be searched.
+		 * @returns {Array} Returns an array of {@link CKEDITOR.dom.element}s.
+		 */
+		getStyledSpans: function( property, source ) {
+			var testProperty = CKEDITOR.env.ie && CKEDITOR.env.version == 8 ? property.toUpperCase() : property,
+				spans = source.find( 'span[style*=' + testProperty + ']' ).toArray();
+
+			// This is to filter out spans e.g. with background color when we want text color.
+			return CKEDITOR.tools.array.filter( spans, function( span ) {
+				return !!( span.getStyle( property ) );
+			} );
+		},
+
+		/**
 		 * Tries to fix the `document.domain` of the current document to match the
 		 * parent window domain, avoiding "Same Origin" policy issues.
 		 * This is an Internet Explorer only requirement.

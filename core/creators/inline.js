@@ -12,7 +12,8 @@
 	 * allowed element names.
 	 *
 	 * **Note:** If the DOM element for which inline editing is being enabled does not have
-	 * the `contenteditable` attribute set to `true`, the editor will start in read-only mode.
+	 * the `contenteditable` attribute set to `true` or {@link CKEDITOR.config#readOnly config.readOnly}
+	 * configuration option set to `false`, the editor will start in read-only mode.
 	 *
 	 *		<div contenteditable="true" id="content">...</div>
 	 *		...
@@ -54,6 +55,12 @@
 			if ( textarea.$.form )
 				editor._attachToForm();
 		} else {
+			// If editor element does not have contenteditable attribute, but config.readOnly
+			// is explicitly set to false, set the contentEditable property to true (#3866).
+			if ( instanceConfig && typeof instanceConfig.readOnly !== 'undefined' && !instanceConfig.readOnly ) {
+				element.setAttribute( 'contenteditable', 'true' );
+			}
+
 			// Initial editor data is simply loaded from the page element content to make
 			// data retrieval possible immediately after the editor creation.
 			editor.setData( element.getHtml(), null, true );

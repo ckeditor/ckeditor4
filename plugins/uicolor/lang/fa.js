@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'fa', {
 	title: 'انتخاب رنگ رابط کاربری',
-	options: 'Color Options', // MISSING
-	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	options: 'گزینه های رنگ',
+	highlight: 'برجستگی',
+	selected: 'رنگ انتخاب شده',
 	predefined: 'مجموعه رنگ از پیش تعریف شده',
 	config: 'این رشته را در پروندهٔ config.js خود رونوشت کنید.'
 } );

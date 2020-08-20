@@ -760,6 +760,48 @@
 					testButton( 2, false );
 				} );
 			} );
+		},
+
+		// (#3926)
+		'test drop with initial widget id': function() {
+			var editor = this.editor,
+				widgetId = 0,
+				destroySpy = sinon.spy( editor.widgets, 'destroy' );
+
+			editor.widgets._.nextId = widgetId;
+
+			this.editorBot.setData( '<p><span data-widget="testwidget5" id="w1">foo</span></p>', function() {
+				var evt = { data: bender.tools.mockDropEvent() },
+					range = editor.createRange();
+
+				editor.focus();
+
+				bender.tools.resumeAfter( editor, 'drop', function( originalEvt ) {
+					destroySpy.restore();
+
+					assert.isTrue( destroySpy.calledWithMatch( function( widget ) {
+						return widget.id === widgetId;
+					} ), 'Widget should be destroyed' );
+
+					assert.areEqual( '<p>foobar</p>', originalEvt.data.dataTransfer.getData( 'text/html' ), 'Data transfer should have expected HTML' );
+				} );
+
+				// Ensure async.
+				wait( function() {
+					var widget = getWidgetById( editor, 'w1' );
+
+					dragstart( editor, evt.data, widget );
+
+					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+
+					evt.data.dataTransfer.setData( 'cke/widget-id', widgetId );
+
+					range.setStartBefore( widget.wrapper );
+					evt.data.testRange = range;
+
+					drop( editor, evt.data, range );
+				} );
+			} );
 		}
 	} );
 } )();

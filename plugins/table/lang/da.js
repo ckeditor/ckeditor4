@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'da', {
 	headersColumn: 'Første kolonne',
 	headersNone: 'Ingen',
 	headersRow: 'Første række',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'højde enhed',
 	invalidBorder: 'Rammetykkelse skal være et tal.',
 	invalidCellPadding: 'Cellemargen skal være et tal.',
 	invalidCellSpacing: 'Celleafstand skal være et tal.',

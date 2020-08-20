@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'da', {
 	title: 'Egenskaber for billede',
 	uploadTab: 'Upload',
 	urlMissing: 'Kilde på billed-URL mangler',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Alternativ-tekst mangler.'
 } );

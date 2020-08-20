@@ -33,7 +33,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'es', {
 	metaAuthor: 'Autor',
 	metaCopyright: 'Copyright',
 	metaDescription: 'Descripción del documento',
-	metaKeywords: 'Palabras claves del documento separadas por coma (meta keywords)',
+	metaKeywords: 'Palabras claves del documento (separadas por coma)',
 	other: 'Otro...',
 	previewHtml: '<p>Este es un <strong>texto de ejemplo</strong>. Usted está usando <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Propiedades del documento',

@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'hu', {
 	headersColumn: 'Első oszlop',
 	headersNone: 'Nincsenek',
 	headersRow: 'Első sor',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'Magasság egység',
 	invalidBorder: 'A szegélyméret mezőbe csak számokat írhat.',
 	invalidCellPadding: 'A cella belső margó mezőbe csak számokat írhat.',
 	invalidCellSpacing: 'A cella térköz mezőbe csak számokat írhat.',

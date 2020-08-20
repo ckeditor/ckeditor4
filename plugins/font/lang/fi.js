@@ -5,10 +5,10 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'font', 'fi', {
 	fontSize: {
 		label: 'Koko',
-		voiceLabel: 'Kirjaisimen koko',
+		voiceLabel: 'Kirjasimen koko',
 		panelTitle: 'Koko'
 	},
-	label: 'Kirjaisinlaji',
-	panelTitle: 'Kirjaisinlaji',
-	voiceLabel: 'Kirjaisinlaji'
+	label: 'Kirjasinlaji',
+	panelTitle: 'Kirjasinlaji',
+	voiceLabel: 'Kirjasinlaji'
 } );

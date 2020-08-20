@@ -1,0 +1,19 @@
+<p>Embeddable URLs</p>
+
+<ul>
+	<li><input type="text" value="https://placekitten.com/g/200/300"></li>
+	<li><input type="text" value="https://twitter.com/reinmarpl/status/573118615274315776"></li>
+</ul>
+
+<textarea id="editor" cols="10" rows="10"></textarea>
+
+<script>
+	embedTools.delayJsonp();
+	CKEDITOR.replace( 'editor', {
+		toolbarLocation: 'bottom',
+		extraPlugins: 'embed',
+		height: 500,
+		width: 600,
+		embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
+	} );
+</script>

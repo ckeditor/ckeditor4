@@ -1,0 +1,53 @@
+<div id="editor">
+	<p>
+		Sit eos ab tenetur non dolor. Perferendis quasi officiis sed error sit Dolore accusamus repudiandae aperiam non eligendi officia Volupta
+	</p>
+	<div class="simplebox">
+		<h2 class="simplebox-title">Title</h2>
+
+		<div class="simplebox-content">
+			<p>Content...</p>
+		</div>
+	</div>
+	<p>
+		Dolor minima ducimus repudiandae vitae labore Impedit nobis veniam obcaecati error vitae Atque facere laudantium ullam et sequi. Doloribus esse
+	</p>
+</div>
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.plugins.add( 'simplebox', {
+		requires: 'widget',
+		icons: 'simplebox',
+		init: function( editor ) {
+			editor.widgets.add( 'simplebox', {
+				allowedContent: 'div(!simplebox); div(!simplebox-content); h2(!simplebox-title)',
+				requiredContent: 'div(simplebox)',
+				editables: {
+					title: {
+						selector: '.simplebox-title',
+						allowedContent: 'br strong em'
+					},
+					content: {
+						selector: '.simplebox-content',
+						allowedContent: 'p br ul ol li strong em'
+					}
+				},
+				template:
+				'<div class="simplebox">' +
+				'<h2 class="simplebox-title">Title</h2>' +
+				'<div class="simplebox-content"><p>Content...</p></div>' +
+				'</div>',
+				button: 'Create a simple box',
+				upcast: function( element ) {
+					return element.name == 'div' && element.hasClass( 'simplebox' );
+				}
+			} );
+		}
+	} );
+	CKEDITOR.replace('editor', {
+		extraPlugins: 'simplebox'
+	} );
+</script>

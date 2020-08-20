@@ -1,0 +1,23 @@
+<iframe width="800px" height="400px" id="playground"></iframe>
+
+<script>
+	// Unfortunately, we cannot use `isSupportedEnvironment()` method here, as the plugin
+	// is loaded via external CDN with the editor. Also, test code should be only executed
+	// in modern browsers, otherwise it will freeze older browsers.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	} else {
+		// Encapsulate testing environment inside iframe, so automatically loaded
+		// CKEDITOR by bender won't have impact on test result.
+		var playground = document.getElementById( 'playground' ),
+			doc = playground.contentWindow.document;
+
+		doc.open();
+		// CDN points into commit revision with bug fix. To verify if test fails on older revision, replace CDN script with:
+		// doc.write( '<script src="https://raw.githack.com/ckeditor/ckeditor4/4.14.0/ckeditor.js"><\/script>' );
+		doc.write( '<script src="https://rawcdn.githack.com/ckeditor/ckeditor4/3ab1c74c3019ca61f1e3392f06d3870c032b482d/ckeditor.js"><\/script>' );
+		doc.write( '<div id="editor"></div>' );
+		doc.write( '<script>CKEDITOR.replace( "editor", { plugins: "wysiwygarea,toolbar,emoji" } )<\/script>' );
+		doc.close();
+	}
+</script>

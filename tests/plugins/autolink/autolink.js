@@ -14,6 +14,15 @@
 				removePlugins: 'link'
 			}
 		},
+		optionalParameters: {
+			config: {
+				allowedContent: true,
+				pasteFilter: null,
+				removePlugins: 'link',
+				autolink_urlRegex: /^https:\/\/foobar.com$/,
+				autolink_emailRegex: /^foo@foobar\.com$/
+			}
+		},
 		encodedDefault: {
 			config: {
 				allowedContent: true,
@@ -134,6 +143,14 @@
 			}
 		},
 
+		// (#3156)
+		'test valid URL link with optional regex': function() {
+			var pastedText = 'https://foobar.com',
+				expected = '<a href="' + pastedText + '">' + pastedText + '</a>';
+
+			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
+		},
+
 		'test various valid email links': function() {
 			var pastedTexts = [
 				'mail@example.com',
@@ -153,6 +170,14 @@
 
 				this.editors.classic.execCommand( 'paste', pastedText );
 			}
+		},
+
+		// (#3156)
+		'test valid email link with optional regex': function() {
+			var pastedText = 'foo@foobar.com',
+				expected = '<a href="mailto:' + pastedText + '">' + pastedText + '</a>';
+
+			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
 		},
 
 		'test various invalid URL links': function() {
@@ -177,6 +202,14 @@
 			}
 		},
 
+		// (#3156)
+		'test invalid URL link with optional regex': function() {
+			var pastedText = 'https://fobar.com';
+
+			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
+		},
+
+
 		'test various invalid email links': function() {
 			var pastedTexts = [
 				'mail@',
@@ -198,6 +231,13 @@
 
 				this.editors.classic.execCommand( 'paste', pastedText );
 			}
+		},
+
+		// (#3156)
+		'test invalid email link with optional regex': function() {
+			var pastedText = 'foo@fobar.com';
+
+			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test pasting multiple URL links': function() {

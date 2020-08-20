@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'cs', {
 	headersColumn: 'První sloupec',
 	headersNone: 'Žádné',
 	headersRow: 'První řádek',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'jednotka výšky',
 	invalidBorder: 'Zdaná velikost okraje musí být číselná.',
 	invalidCellPadding: 'Zadané odsazení obsahu v buňce musí být číselné.',
 	invalidCellSpacing: 'Zadaná vzdálenost buněk musí být číselná.',

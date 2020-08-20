@@ -1,0 +1,17 @@
+<div>
+	<h1>Apollo 11</h1>
+	Lorem ipsum <b>dolor</b> sit <i>amet</i>, consectetur adipiscing elit. In commodo vulputate tempor. Sed &lt;b&gt;at elit&lt;/b&gt; vel ligula mollis aliquet a ac odio.
+	<pre>
+Aenean cursus egestas ipsum.
+	</pre>
+</div>
+
+<div id="editor"></div>
+
+<script>
+	if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>

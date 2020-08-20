@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'de', {
 	noAnchors: '(Keine Anker im Dokument vorhanden)',
 	noEmail: 'Bitte geben Sie E-Mail-Adresse an',
 	noUrl: 'Bitte geben Sie die Link-URL an',
-	noTel: 'Please type the phone number', // MISSING
+	noTel: 'Bitte geben Sie die Telefonnummer ein',
 	other: '<andere>',
-	phoneNumber: 'Phone number', // MISSING
+	phoneNumber: 'Telefonnummer',
 	popupDependent: 'Abhängig (Netscape)',
 	popupFeatures: 'Pop-up Fenstereigenschaften',
 	popupFullScreen: 'Vollbild (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'de', {
 	toAnchor: 'Anker in dieser Seite',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Telefon',
 	toolbar: 'Link einfügen/editieren',
 	type: 'Link-Typ',
 	unlink: 'Link entfernen',

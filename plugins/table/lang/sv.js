@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'sv', {
 	headersColumn: 'Första kolumnen',
 	headersNone: 'Ingen',
 	headersRow: 'Första raden',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'Enhetshöjd',
 	invalidBorder: 'Ram måste vara ett nummer.',
 	invalidCellPadding: 'Luft i cell måste vara ett nummer.',
 	invalidCellSpacing: 'Luft i cell måste vara ett nummer.',

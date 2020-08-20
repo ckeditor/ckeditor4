@@ -412,7 +412,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		positionSticky.init();
 
 		CKEDITOR.document.getWindow().on( 'scroll',
-			new CKEDITOR.tools.eventsBuffer( 100, positionSticky.checkAll, positionSticky ).input
+			CKEDITOR.tools.eventsBuffer( 100, positionSticky.checkAll, positionSticky ).input
 		);
 
 		// Make the toolbar sticky.
