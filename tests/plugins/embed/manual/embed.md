@@ -1,3 +1,4 @@
+@bender-tags: feature, generic
 @bender-ui: collapsed
 @bender-include: ../../embedbase/_helpers/tools.js
 

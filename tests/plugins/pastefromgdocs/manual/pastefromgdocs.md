@@ -1,4 +1,4 @@
-@bender-tags: 4.13.0, 835, pastetools
+@bender-tags: 4.13.0, 835, pastetools, feature, generic
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromgdocs, sourcearea, elementspath, basicstyles, format, link, image2, autolink, colorbutton, stylescombo, font, justify, pagebreak, list, liststyle, tabletools, floatingspace
 
