@@ -565,9 +565,10 @@
 	// These rules will also be applied to non-editable content.
 	var defaultDataFilterRulesForAll = {
 		attributeNames: [
-			// Event attributes (onXYZ) must not be directly set. They can become
-			// active in the editing area (IE|WebKit).
+			// Event attributes (onXYZ) and formaction attributes must not be
+			// directly set. They can become active in the editing area (IE|WebKit).
 			[ ( /^on/ ), 'data-cke-pa-on' ],
+			[ ( /^formaction/ ), 'data-cke-pa-formaction' ],
 
 			// Prevent iframe's srcdoc attribute from being evaluated in the editable.
 			[ ( /^srcdoc/ ), 'data-cke-pa-srcdoc' ],

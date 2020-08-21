@@ -336,6 +336,15 @@
 			assert.areSame( output, bender.tools.fixHtml( dataProcessor.toHtml( input ) ) );
 		},
 
+		test_formaction_attribute_transformation: function() {
+			var dataProcessor = this.editor.dataProcessor;
+
+			var input = '<form><button formaction="javascript:alert(document.domain)">Preview Form</button></form>',
+				output = '<form><button data-cke-pa-formaction="javascript:alert(document.domain)">Preview Form</button></form>';
+
+			assert.areSame( output, dataProcessor.toHtml( input ) );
+		},
+
 		// Spaces between filler brs should be ignored.(https://dev.ckeditor.com/ticket/4344)
 		test_spaces_between_filler_br: function() {
 			var dataProcessor = this.editor.dataProcessor;
@@ -1334,7 +1343,6 @@
 		'<p><iframe src="' + getDataString( 'window.top.%xss%', '   dAtA' ) + '"></iframe></p>', false );
 	addXssTC( tcs, 'iframe with src=data 3',
 		'<p><iframe src="' + getDataString( 'window.top.%xss%', 'd     ata' ) + '"></iframe></p>', false );
-
 
 
 	// False positive cases.
