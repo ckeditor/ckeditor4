@@ -1,3 +1,7 @@
+<!--
+🚨 If you want to submit a PR for a security vulnerability, please contact us directly
+at https://ckeditor.com/contact/ instead. 🚨
+-->
 ## What is the purpose of this pull request?
 
 <!-- Bug fix / New feature / Typo fix / Other, please explain  -->
