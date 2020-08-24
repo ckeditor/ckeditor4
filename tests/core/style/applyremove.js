@@ -1,5 +1,6 @@
 /* bender-tags: editor */
-
+/* bender-include: _helpers/createInlineStyleTestCase.js */
+/* global createInlineStyleTestCase */
 ( function() {
 
 	'use strict';
@@ -274,16 +275,7 @@
 		'test HTML comments between inline': createInlineStyleTestCase( 'html-comments-between-inline' ),
 
 		// (#4141)
-		'test applying style to <select> element': createInlineStyleTestCase( 'apply-select' ),
-
-		// (#4141)
-		'test applying to editor contents when <select> element is present': createInlineStyleTestCase( 'apply-select-whole-editor', {
-			// IE produces code with broken formatting, which leads to false negative result.
-			ignore: CKEDITOR.env.ie
-		} ),
-
-		// (#4141)
-		'test ignoring other elements': function() {
+		'test ignoring elements': function() {
 			var oldUnstylableElements = CKEDITOR.style.unstylableElements;
 
 			CKEDITOR.style.unstylableElements = [
@@ -1074,25 +1066,4 @@
 
 
 	bender.test( tcs );
-
-	function createInlineStyleTestCase( fixtureId, options ) {
-		options = options || {};
-
-		return function() {
-			if ( options.ignore ) {
-				assert.ignore();
-			}
-
-			bender.tools.testInputOut( fixtureId, function( inputHtml, expectedHtml ) {
-				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
-
-				var rng = new CKEDITOR.dom.range( doc );
-				rng.selectNodeContents( playground );
-
-				getStyle( { element: 'strong' } ).applyToRange( rng );
-
-				assert.beautified.html( expectedHtml, playground.getHtml() );
-			} );
-		};
-	}
 } )();

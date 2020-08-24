@@ -1,0 +1,26 @@
+<div id="playground"></div>
+
+<!-- [selected=selected] is needed for IE8 🙄-->
+<textarea id="apply-select">
+	<p><select>
+		<option selected="selected">Some option</option>
+	</select></p>
+=>
+	<p><select>
+		<option selected="selected">Some option</option>
+	</select></p>
+</textarea>
+
+<textarea id="apply-select-whole-editor">
+	<p><select>
+		<option>Some option</option>
+	</select></p>
+	<h4 style="font-family: arial,sans-serif">Heading</h4>
+=>
+	<p><select>
+		<option>Some option</option>
+	</select></p>
+	<h4 style="font-family: arial,sans-serif">
+		<strong>Heading</strong>
+	</h4>
+</textarea>
