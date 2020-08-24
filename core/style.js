@@ -600,13 +600,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * List of all elements that are ignored during styling.
 	 *
 	 * @since 4.14.2
-	 * @property {String[]} [unstylableElements=[ 'select', 'option' ]]
+	 * @property {String[]} [unstylableElements=[]]
 	 * @member CKEDITOR.style
 	*/
-	CKEDITOR.style.unstylableElements = [
-		'select',
-		'option'
-	];
+	CKEDITOR.style.unstylableElements = [];
 
 	/**
 	 * Creates a {@link CKEDITOR.style} subclass and registers it in the style system.
