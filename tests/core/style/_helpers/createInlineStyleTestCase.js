@@ -2,7 +2,7 @@ window.createInlineStyleTestCase = function( fixtureId, options ) {
 	options = options || {};
 
 	return function() {
-		if ( options.ignore && options.ignore ) {
+		if ( options.ignore ) {
 			assert.ignore();
 		}
 
