@@ -96,15 +96,6 @@ if ( !CKEDITOR.event ) {
 			/**
 			 * Registers a listener to a specific event in the current object.
 			 *
-			 * **Note**: CKEditor's event system has a limitation that one function cannot be used as listener for the same event more than once.
-			 * Hence, wrapper functions:
-			 *
-			 * ```javascript
-			 * this._listeners.push( win.on( 'scroll', function() {
-			 * 	this.viewRepositionListener();
-			 * }, this ) );
-			 * ```
-			 *
 			 *		someObject.on( 'someEvent', function() {
 			 *			alert( this == someObject );		// true
 			 *		} );
@@ -120,6 +111,21 @@ if ( !CKEDITOR.event ) {
 			 *		someObject.on( 'someEvent', function() { ... } );						// 2nd called
 			 *		someObject.on( 'someEvent', function() { ... }, null, null, 100 );		// 3rd called
 			 *		someObject.on( 'someEvent', function() { ... }, null, null, 1 );		// 1st called
+			 *
+			 * **Note**: CKEditor's event system has a limitation that one function cannot be used as a listener for the same event more than once.
+			 * Hence, to reuse it with multiple listeners, it should be wrapped into additional wrapper function:
+			 *
+			 * ```javascript
+			 * function listener( evt ) { ... };
+			 *
+			 * someObject.on( 'someEvent', function() {
+			 * 	listener();
+			 * } );
+			 *
+			 * someObject( 'anotherEvent', function( evt ) {
+			 * 	listener( evt );
+			 * } );
+			 * ```
 			 *
 			 * @param {String} eventName The event name to which listen.
 			 * @param {Function} listenerFunction The function listening to the
