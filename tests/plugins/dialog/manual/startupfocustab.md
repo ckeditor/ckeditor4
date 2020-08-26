@@ -1,4 +1,4 @@
-@bender-tags: config
+@bender-tags: config, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, link
 
