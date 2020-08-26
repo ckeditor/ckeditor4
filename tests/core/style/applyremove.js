@@ -1,5 +1,6 @@
 /* bender-tags: editor */
-
+/* bender-include: _helpers/createInlineStyleTestCase.js */
+/* global createInlineStyleTestCase */
 ( function() {
 
 	'use strict';
@@ -272,6 +273,19 @@
 
 		// (#2294, #2380)
 		'test HTML comments between inline': createInlineStyleTestCase( 'html-comments-between-inline' ),
+
+		// (#4141)
+		'test ignoring elements': function() {
+			var oldUnstylableElements = CKEDITOR.style.unstylableElements;
+
+			CKEDITOR.style.unstylableElements = [
+				'em'
+			];
+
+			createInlineStyleTestCase( 'ignore-em' )();
+
+			CKEDITOR.unstylableElements = oldUnstylableElements;
+		},
 
 		test_inline_nobreak1: function() {
 			playground.setHtml( 'this is <a href="http://example.com/">some sample</a> text' );
@@ -1052,19 +1066,4 @@
 
 
 	bender.test( tcs );
-
-	function createInlineStyleTestCase( fixtureId ) {
-		return function() {
-			bender.tools.testInputOut( fixtureId, function( inputHtml, expectedHtml ) {
-				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
-
-				var rng = new CKEDITOR.dom.range( doc );
-				rng.selectNodeContents( playground );
-
-				getStyle( { element: 'strong' } ).applyToRange( rng );
-
-				assert.beautified.html( expectedHtml, playground.getHtml() );
-			} );
-		};
-	}
 } )();

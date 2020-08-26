@@ -31,6 +31,8 @@ CKEDITOR.plugins.add( 'forms', {
 				'height: 16px !important;' +
 			'}' );
 
+		// Mark <select>s and <option>s elements as unstylable (#4141).
+		CKEDITOR.style.unstylableElements.push( 'select', 'option' );
 	},
 	init: function( editor ) {
 		var lang = editor.lang,
