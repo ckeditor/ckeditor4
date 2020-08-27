@@ -1678,6 +1678,37 @@
 				// If that code is being executed, it means that everything is OK.
 				assert.pass( 'Editables with numeric ids are handled correctly.' );
 			} );
+		},
+
+		// (#4060)
+		'test nested editables\' content is correctly unescaped': function() {
+			// IE 8 returns wrong editor's data in this test, even if it works correctly in manual one.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+
+			var editor = this.editor,
+				bot = this.editorBot,
+				// String must be concatenated to avoid prematurely closing <script> element.
+				html = '<div data-widget="testprotected"><div class="content"><script>\'use strict\';</' +
+					'script></div></div>';
+
+			editor.widgets.add( 'testprotected', {
+				editables: {
+					foo: {
+						selector: '.content',
+						allowedContent: 'script'
+					}
+				}
+			} );
+
+			bot.setData( html, function() {
+				var editableContent = editor.editable().getHtml(),
+					protectedRegex = /<!--{cke_protected}.+?-->/;
+
+				assert.isTrue( protectedRegex.test( editableContent ), 'Source is protected' );
+				assert.areSame( html, editor.getData(), 'Data is correctly unescaped' );
+			} );
 		}
 	} );
 } )();

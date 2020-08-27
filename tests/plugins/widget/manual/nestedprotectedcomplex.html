@@ -1,0 +1,144 @@
+<p>
+	<button id="check">Check source protection</button>
+</p>
+<p id="result" style="color: white;"></p>
+<div id="editor">
+	<h2>First widget</h2>
+	<div class="testwidget">
+		<div class="header">
+			<p>I have a <strong>very important</strong> message</p>
+		</div>
+		<div class="content">
+			<div class="testwidget">
+				<div class="header">
+					<p>Yeah, it's very important</p>
+				</div>
+				<div class="content">
+					<p>CKEditor rulez</p>
+					<script src="data:text/javascript,''"></script>
+				</div>
+				<div class="footer">
+					<p>As you, it was really <strong>very important</strong> one.</p>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<p>End of the message</p>
+		</div>
+	</div>
+	<h2>Second widget</h2>
+	<div class="testwidget">
+		<div class="header">
+			<p>I have a <strong>very important</strong> message</p>
+		</div>
+		<div class="content">
+			<div class="testwidget">
+				<div class="header">
+					<p>Yeah, it's very important</p>
+				</div>
+				<div class="content">
+					<p>CKEditor rulez</p>
+					<script src="data:text/javascript,''"></script>
+				</div>
+				<div class="footer">
+					<p>As you, it was really <strong>very important</strong> one.</p>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<p>End of the message</p>
+		</div>
+	</div>
+	<h2>Third widget</h2>
+	<div class="testwidget">
+		<div class="header">
+			<p>I have a <strong>very important</strong> message</p>
+		</div>
+		<div class="content">
+			<div class="testwidget">
+				<div class="header">
+					<p>Yeah, it's very important</p>
+				</div>
+				<div class="content">
+					<p>CKEditor rulez</p>
+					<script src="data:text/javascript,''"></script>
+				</div>
+				<div class="footer">
+					<p>As you, it was really <strong>very important</strong> one.</p>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<p>End of the message</p>
+		</div>
+	</div>
+</div>
+
+<script>
+CKEDITOR.plugins.add( 'testwidget', {
+	requires: 'widget',
+
+	init: function( editor ) {
+		editor.widgets.add( 'testwidget', {
+
+			template: '<div class="testwidget">' +
+					'<div class="header"></div>' +
+					'<div class="content"></div>' +
+					'<div class="footer"></div>' +
+				'</div>',
+
+			editables: {
+				header: {
+					selector: '.header',
+					allowedContent: 'p;script[src];div(*);strong'
+				},
+
+				content: {
+					selector: '.content',
+					allowedContent: 'p;script[src];div(*);strong'
+				},
+
+				footer: {
+					selector: '.footer',
+					allowedContent: 'p;script[src];div(*);strong'
+				}
+			},
+
+			allowedContent:
+				'div(!testwidget); div(!content);',
+
+			requiredContent: 'div(testwidget);',
+
+			upcast: function( element ) {
+				return element.name == 'div' && element.hasClass( 'testwidget' );
+			}
+		} );
+	},
+} );
+
+CKEDITOR.replace( 'editor', {
+	extraPlugins: 'testwidget',
+	extraAllowedContent: 'div(testwidget,content,header,footer);script[src];h2;strong',
+	on: {
+		instanceReady: function( evt ) {
+			var editor = evt.editor,
+				button = CKEDITOR.document.getById( 'check' ),
+				result = CKEDITOR.document.getById( 'result' ),
+				protectedRegex = /<!--{cke_protected}.+?-->/g,
+				unprotectedRegex = /<script src="data:text\/javascript,''"><\/script>/g;
+
+			button.on( 'click', function() {
+				var editable = editor.editable(),
+					isWysiwyg = editor.mode === 'wysiwyg',
+					html = isWysiwyg ? editable.getHtml() : editable.getValue(),
+					modeRegex = isWysiwyg ? protectedRegex : unprotectedRegex,
+					match = html.match( modeRegex ),
+					isOk = match && match.length === 3;
+
+				result.setHtml( ( isOk ? 'Ok' : 'Not ok' ) + ' (editor mode: ' + editor.mode + ')' );
+				result.setStyle( 'background-color', isOk ? 'green' : 'red' );
+			} );
+		}
+	}
+} );
+</script>

@@ -1928,11 +1928,19 @@
 			}
 			this._.initialSetData = false;
 
+			// Unescape protected content to prevent double escaping and corruption of content.
+			// This can be done by transforming the content to data format and then back to input HTML (#4060).
+			data = this.editor.dataProcessor.toDataFormat( data, {
+				context: this.getName(),
+				filter: this.filter,
+				enterMode: this.enterMode
+			} );
 			data = this.editor.dataProcessor.toHtml( data, {
 				context: this.getName(),
 				filter: this.filter,
 				enterMode: this.enterMode
 			} );
+
 			this.setHtml( data );
 
 			this.editor.widgets.initOnAll( this );

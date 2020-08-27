@@ -1,0 +1,68 @@
+<p>
+	<button id="check">Check source protection</button>
+</p>
+<p id="result" style="color: white;"></p>
+<div id="editor">
+	<div class="testwidget">
+		<div class="content">
+			<p>CKEditor rulez</p>
+			<script src="data:text/javascript,''"></script>
+		</div>
+	</div>
+</div>
+
+<script>
+CKEDITOR.plugins.add( 'testwidget', {
+	requires: 'widget',
+
+	init: function( editor ) {
+		editor.widgets.add( 'testwidget', {
+
+			template: '<div class="testwidget">' +
+				  '<div class="content"></div>' +
+				'</div>',
+
+			editables: {
+				content: {
+					selector: '.content',
+					allowedContent: 'p;script[src]'
+				}
+			},
+
+			allowedContent:
+				'div(!testwidget); div(!content);',
+
+			requiredContent: 'div(testwidget);',
+
+			upcast: function( element ) {
+				return element.name == 'div' && element.hasClass( 'testwidget' );
+			}
+		} );
+	},
+} );
+
+CKEDITOR.replace( 'editor', {
+	extraPlugins: 'testwidget',
+	extraAllowedContent: 'div(testwidget,content);script[src]',
+	on: {
+		instanceReady: function( evt ) {
+			var editor = evt.editor,
+				button = CKEDITOR.document.getById( 'check' ),
+				result = CKEDITOR.document.getById( 'result' ),
+				protectedRegex = /<!--{cke_protected}.+?-->/,
+				unprotectedRegex = /<script src="data:text\/javascript,''"><\/script>/;
+
+			button.on( 'click', function() {
+				var editable = editor.editable(),
+					isWysiwyg = editor.mode === 'wysiwyg',
+					html = isWysiwyg ? editable.getHtml() : editable.getValue(),
+					modeRegex = isWysiwyg ? protectedRegex : unprotectedRegex,
+					isOk = modeRegex.test( html );
+
+				result.setHtml( ( isOk ? 'Ok' : 'Not ok' ) + ' (editor mode: ' + editor.mode + ')' );
+				result.setStyle( 'background-color', isOk ? 'green' : 'red' );
+			} );
+		}
+	}
+} );
+</script>
