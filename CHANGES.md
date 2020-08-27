@@ -10,6 +10,10 @@ New features:
 * [#1795](https://github.com/ckeditor/ckeditor4/issues/1795): Colors picked from [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) are now stored in [Color Button](https://ckeditor.com/cke4/addon/colorbutton) palette and can be easily reused.
 * [#3783](https://github.com/ckeditor/ckeditor4/issues/3783): Colors used in the document are now displayed as a part of the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) palette.
 
+Fixed Issues:
+
+* [#4060](https://github.com/ckeditor/ckeditor4/issues/4060): Fixed: Content inside [Widget](https://ckeditor.com/cke4/addon/widget) nested editables is escaped twice.
+
 ## CKEditor 4.14.1
 
 Fixed Issues:
