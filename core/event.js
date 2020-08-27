@@ -124,7 +124,7 @@ if ( !CKEDITOR.event ) {
 			 * 	listener();
 			 * } );
 			 *
-			 * someObject( 'anotherEvent', function( evt ) {
+			 * someObject.on( 'someEvent', function( evt ) {
 			 * 	listener( evt );
 			 * } );
 			 * ```
