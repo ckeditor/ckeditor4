@@ -1,6 +1,6 @@
 @bender-tags: 4.15.0, bug, 4060
 @bender-ui: collapsed
-@bender-ckeditor-plugins: widget, wysiwygarea, toolbar, sourcearea
+@bender-ckeditor-plugins: widget, wysiwygarea, toolbar, sourcearea, htmlwriter
 
 1. Switch editor to source mode.
 

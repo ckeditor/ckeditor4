@@ -25,7 +25,7 @@ CKEDITOR.plugins.add( 'testwidget', {
 			editables: {
 				content: {
 					selector: '.content',
-					allowedContent: 'script[src]'
+					allowedContent: 'p;script[src]'
 				}
 			},
 
@@ -54,7 +54,15 @@ CKEDITOR.replace( 'editor', {
 			button.on( 'click', function() {
 				var editable = editor.editable(),
 					html = editable.getHtml(),
-					isProtected = protectedRegex.test( html );
+					isProtected = protectedRegex.test( html ),
+					isWysiwyg = editor.mode === 'wysiwyg';
+
+				if ( !isWysiwyg ) {
+					result.setHtml( 'Please switch to WYSIWYG mode' );
+					result.setStyle( 'background-color', 'black' );
+
+					return;
+				}
 
 				result.setHtml( isProtected ? 'Ok' : 'Not ok' );
 				result.setStyle( 'background-color', isProtected ? 'green' : 'red' );
