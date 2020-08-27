@@ -49,23 +49,18 @@ CKEDITOR.replace( 'editor', {
 			var editor = evt.editor,
 				button = CKEDITOR.document.getById( 'check' ),
 				result = CKEDITOR.document.getById( 'result' ),
-				protectedRegex = /<!--{cke_protected}.+?-->/;
+				protectedRegex = /<!--{cke_protected}.+?-->/,
+				unprotectedRegex = /<script src="data:text\/javascript,''"><\/script>/;
 
 			button.on( 'click', function() {
 				var editable = editor.editable(),
-					html = editable.getHtml(),
-					isProtected = protectedRegex.test( html ),
-					isWysiwyg = editor.mode === 'wysiwyg';
+					isWysiwyg = editor.mode === 'wysiwyg',
+					html = isWysiwyg ? editable.getHtml() : editable.getValue(),
+					modeRegex = isWysiwyg ? protectedRegex : unprotectedRegex,
+					isOk = modeRegex.test( html );
 
-				if ( !isWysiwyg ) {
-					result.setHtml( 'Please switch to WYSIWYG mode' );
-					result.setStyle( 'background-color', 'black' );
-
-					return;
-				}
-
-				result.setHtml( isProtected ? 'Ok' : 'Not ok' );
-				result.setStyle( 'background-color', isProtected ? 'green' : 'red' );
+				result.setHtml( ( isOk ? 'Ok' : 'Not ok' ) + ' (editor mode: ' + editor.mode + ')' );
+				result.setStyle( 'background-color', isOk ? 'green' : 'red' );
 			} );
 		}
 	}
