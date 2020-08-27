@@ -96,21 +96,38 @@ if ( !CKEDITOR.event ) {
 			/**
 			 * Registers a listener to a specific event in the current object.
 			 *
-			 *		someObject.on( 'someEvent', function() {
-			 *			alert( this == someObject );		// true
-			 *		} );
+			 * ```javascript
+			 * someObject.on( 'someEvent', function() {
+			 * 	alert( this == someObject );		// true
+			 * } );
 			 *
-			 *		someObject.on( 'someEvent', function() {
-			 *			alert( this == anotherObject );		// true
-			 *		}, anotherObject );
+			 * someObject.on( 'someEvent', function() {
+			 * 	alert( this == anotherObject );		// true
+			 * }, anotherObject );
 			 *
-			 *		someObject.on( 'someEvent', function( event ) {
-			 *			alert( event.listenerData );		// 'Example'
-			 *		}, null, 'Example' );
+			 * someObject.on( 'someEvent', function( event ) {
+			 * 	alert( event.listenerData );		// 'Example'
+			 * }, null, 'Example' );
 			 *
-			 *		someObject.on( 'someEvent', function() { ... } );						// 2nd called
-			 *		someObject.on( 'someEvent', function() { ... }, null, null, 100 );		// 3rd called
-			 *		someObject.on( 'someEvent', function() { ... }, null, null, 1 );		// 1st called
+			 * someObject.on( 'someEvent', function() { ... } );						// 2nd called
+			 * someObject.on( 'someEvent', function() { ... }, null, null, 100 );		// 3rd called
+			 * someObject.on( 'someEvent', function() { ... }, null, null, 1 );		// 1st called
+			 * ```
+			 *
+			 * **Note**: CKEditor's event system has a limitation that one function cannot be used as a listener for the same event more than once.
+			 * Hence, to reuse it with multiple listeners, it should be wrapped into additional wrapper function:
+			 *
+			 * ```javascript
+			 * function listener( evt ) { ... };
+			 *
+			 * someObject.on( 'someEvent', function() {
+			 * 	listener();
+			 * } );
+			 *
+			 * someObject.on( 'someEvent', function( evt ) {
+			 * 	listener( evt );
+			 * } );
+			 * ```
 			 *
 			 * @param {String} eventName The event name to which listen.
 			 * @param {Function} listenerFunction The function listening to the
