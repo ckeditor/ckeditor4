@@ -11,5 +11,5 @@
 	### Unexpected
 
 	There is "Not ok" text on red background.
-2. Toggle between source and WYSIWYG mode and repeat step 1.
+2. Switch to source editing mode and repeat step 1.
 3. Repeat steps 1-2 several times.
