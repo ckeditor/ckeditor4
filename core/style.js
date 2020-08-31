@@ -599,7 +599,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	/**
 	 * List of all elements that are ignored during styling.
 	 *
-	 * @since 4.14.2
+	 * @since 4.15.0
 	 * @property {String[]} [unstylableElements=[]]
 	 * @member CKEDITOR.style
 	*/
