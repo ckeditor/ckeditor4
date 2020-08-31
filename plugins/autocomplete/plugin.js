@@ -298,7 +298,12 @@
 				this.registerPanelNavigation();
 			}
 
-			editor.on( 'contentDom', this.registerPanelNavigation, this );
+			// Note: CKEditor's event system has a limitation that one function
+			// cannot be used as listener for the same event more than once. Hence, wrapper function.
+			// (#4107)
+			editor.on( 'contentDom', function() {
+				this.registerPanelNavigation();
+			}, this );
 		},
 
 		registerPanelNavigation: function() {

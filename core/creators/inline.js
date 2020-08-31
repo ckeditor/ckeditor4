@@ -12,8 +12,8 @@
 	 * allowed element names.
 	 *
 	 * **Note:** If the DOM element for which inline editing is being enabled does not have
-	 * the `contenteditable` attribute set to `true` or {@link CKEDITOR.config#readOnly config.readOnly}
-	 * configuration option set to `false`, the editor will start in read-only mode.
+	 * the `contenteditable` attribute set to `true` or the {@link CKEDITOR.config#readOnly `config.readOnly`}
+	 * configuration option is set to `false`, the editor will start in read-only mode.
 	 *
 	 *		<div contenteditable="true" id="content">...</div>
 	 *		...

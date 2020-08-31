@@ -13,6 +13,14 @@ New features:
 Fixed Issues:
 
 * [#4060](https://github.com/ckeditor/ckeditor4/issues/4060): Fixed: Content inside [Widget](https://ckeditor.com/cke4/addon/widget) nested editables is escaped twice.
+* [#4183](https://github.com/ckeditor/ckeditor4/issues/4183): [Safari] Fixed: Incorrect images dimensions when using [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin alongside [IFrame Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) plugin.
+* [#3693](https://github.com/ckeditor/ckeditor4/issues/3693): Fixed: Incorrect default values for several [Color Button](https://ckeditor.com/cke4/addon/colorbutton) config variables in API documentation.
+* [#3795](https://github.com/ckeditor/ckeditor4/issues/3795): Fixed: Setting [`dataIndentationChars`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-dataIndentationChars) config option to an empty string is ignored and replaced by a tab (`\t`) character. Thanks to [Thomas Grinderslev](https://github.com/Znegl)!
+* [#4107](https://github.com/ckeditor/ckeditor4/issues/4107): Fixed: Multiple [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) instances cause keyboard navigation issues.
+* [#4041](https://github.com/ckeditor/ckeditor4/issues/4041): Fixed: [`selection.scrollIntoView`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_selection.html#method-scrollIntoView) method throws an error when editor selection is not set.
+* [#3361](https://github.com/ckeditor/ckeditor4/issues/3361): Fixed: Loading multiple [custom editor configurations](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-customConfig) is prone to race condition between them.
+* [#4007](https://github.com/ckeditor/ckeditor4/issues/4007): Fixed: Screen readers don't announce [Rich Combo](https://ckeditor.com/cke4/addon/richcombo) plugin is collapsed/expanded.
+* [#4141](https://github.com/ckeditor/ckeditor4/issues/4141): Fixed: Styles are incorrectly applied when there is `<select>` element inside the editor.
 
 ## CKEditor 4.14.1
 

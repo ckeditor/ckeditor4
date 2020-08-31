@@ -260,8 +260,9 @@
 		var customConfig = editor.config.customConfig;
 
 		// Check if there is a custom config to load.
-		if ( !customConfig )
+		if ( !customConfig ) {
 			return false;
+		}
 
 		customConfig = CKEDITOR.getUrl( customConfig );
 
@@ -275,19 +276,19 @@
 
 			// If there is no other customConfig in the chain, fire the
 			// "configLoaded" event.
-			if ( CKEDITOR.getUrl( editor.config.customConfig ) == customConfig || !loadConfig( editor ) )
+			if ( CKEDITOR.getUrl( editor.config.customConfig ) == customConfig || !loadConfig( editor ) ) {
 				editor.fireOnce( 'customConfigLoaded' );
+			}
+
 		} else {
 			// Load the custom configuration file.
 			// To resolve customConfig race conflicts, use scriptLoader#queue
 			// instead of scriptLoader#load (https://dev.ckeditor.com/ticket/6504).
 			CKEDITOR.scriptLoader.queue( customConfig, function() {
-				// If the CKEDITOR.editorConfig function has been properly
-				// defined in the custom configuration file, cache it.
-				if ( CKEDITOR.editorConfig )
-					loadedConfig.fn = CKEDITOR.editorConfig;
-				else
-					loadedConfig.fn = function() {};
+				// Cache config if it has been properly set using `editorConfig`,
+				// but make sure to not overwrite existing cache if the same config has
+				// been loaded multiple times by different editors (#3361).
+				loadedConfig.fn = loadedConfig.fn || CKEDITOR.editorConfig || function() {};
 
 				// Call the load config again. This time the custom
 				// config is already cached and so it will get loaded.

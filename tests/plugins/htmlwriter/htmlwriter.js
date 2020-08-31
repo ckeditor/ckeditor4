@@ -1,5 +1,6 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: wysiwygarea, htmlwriter */
+
 bender.test( {
 	'test extra line break': function() {
 		var data = '<div>Text <strong>inline</strong> Text <p>paragraph</p></div>';
@@ -56,6 +57,33 @@ bender.test( {
 			bot.editor.dataProcessor.writer.setRules( 'p', {
 				indent: false,
 				breakAfterClose: false
+			} );
+
+			bot.setData( data, function() {
+				assert.areSame( data, bot.getData( false, false ) );
+			} );
+		} );
+	},
+
+	// (#3795)
+	'test dataIndentationChars with empty character': function() {
+		// We are testing against indentation, not new line character. Preserve new lines for smoother comparison.
+		var data = '<ol>\n<li>One</li>\n<li>Two</li>\n<li>Three</li>\n</ol>\n';
+
+		bender.editorBot.create( {
+			name: 'dataIndentationChars',
+			formattedOutput: true,
+			config: {
+				allowedContent: true,
+				dataIndentationChars: ''
+			}
+		}, function( bot ) {
+			bot.editor.dataProcessor.writer.setRules( 'ol', {
+				indent: true
+			} );
+
+			bot.editor.dataProcessor.writer.setRules( 'li', {
+				indent: true
 			} );
 
 			bot.setData( data, function() {

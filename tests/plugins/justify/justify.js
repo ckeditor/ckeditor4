@@ -74,6 +74,11 @@
 		},
 
 		'test alignment commands with justifyClasses': function() {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			return bender.editorBot.createAsync( {
 					name: 'editor_classes',
 					config: {
@@ -114,6 +119,11 @@
 		},
 
 		'test alignment commands with justifyClasses - one disallowed': function() {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			return bender.editorBot.createAsync( {
 					name: 'editor_classes2',
 					config: {
@@ -174,6 +184,11 @@
 		},
 
 		'test alignment commands in div mode and with justifyClasses': function() {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			return bender.editorBot.createAsync( {
 					name: 'editor_enter_div',
 					config: {
@@ -374,6 +389,11 @@
 
 		// (#455)
 		'test alignment on multi-element non-collapsed selection (class)': function() {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			return bender.editorBot.createAsync( {
 					name: 'editor_p_2_class',
 					config: {
@@ -427,6 +447,11 @@
 
 		// (#455)
 		'test alignment on multi-element with disallowContent (class)': function() {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			return bender.editorBot.createAsync( {
 					name: 'editor_p_3_class',
 					config: {

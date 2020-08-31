@@ -1,0 +1,82 @@
+<style>
+	button {
+		margin-bottom: 16px;
+	}
+</style>
+
+<button type="button" id="scroll-into-view-button">Scroll Into View</button>
+
+<div id='editor'>
+	<h2><img alt='Bilancino Hotel logo' src='https://ckeditor.com/docs/ckeditor4/latest/examples/assets/image/bilancino-logo.png' style='height:100px; width:100px' /></h2>
+
+	<h2>The Flavorful Tuscany Meetup</h2>
+
+	<h3><strong>Welcome letter</strong></h3>
+
+	<p>&nbsp;</p>
+
+	<p>Dear Guest,</p>
+
+	<p>We are delighted to welcome you to the annual <em>Flavorful Tuscany Meetup</em> and hope you will enjoy the programme as well as your stay at the Bilancino Hotel.</p>
+
+	<p>Please find below the full schedule of the event.</p>
+
+	<table cellpadding='15' cellspacing='0'>
+		<thead>
+			<tr>
+				<th colspan='2' scope='col'>Saturday, July 14</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>9:30 AM - 11:30 AM</td>
+				<td>Americano vs. Brewed - &ldquo;know your coffee&rdquo; session with <strong>Stefano Garau</strong></td>
+			</tr>
+			<tr>
+				<td>1:00 PM - 3:00 PM</td>
+				<td>Pappardelle al pomodoro - live cooking session with <strong>Rita Fresco</strong></td>
+			</tr>
+			<tr>
+				<td>5:00 PM - 8:00 PM</td>
+				<td>Tuscan vineyards at a glance - wine-tasting session with <strong>Frederico Riscoli</strong></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script>
+	var plugin = {
+		icons: 'button',
+		init: function( editor ) {
+			editor.addCommand( 'test', {
+				exec: function( editor ) {
+					editor.getSelection().scrollIntoView();
+				},
+			} );
+
+			editor.ui.addButton( 'Test', {
+				label: 'Scroll to selection',
+				command: 'test',
+				directional: true,
+				icon: '%BASE_PATH%_assets/cog.svg'
+			} );
+		},
+	};
+
+	CKEDITOR.plugins.add( 'test', plugin );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		height: 250,
+		extraPlugins: 'test',
+		toolbar: [ {
+			name: 'demo',
+			items: [ 'Test' ]
+		} ],
+		allowedContent: true
+	} ),
+	scrollIntoViewButton = CKEDITOR.document.getById( 'scroll-into-view-button' );
+
+	scrollIntoViewButton.on( 'click', function() {
+		editor.getSelection().scrollIntoView();
+	} );
+</script>

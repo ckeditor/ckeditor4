@@ -5,6 +5,11 @@
 ( function() {
 	'use strict';
 
+	// (#3768)
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+		bender.ignore();
+	}
+
 	var assertWidgetDialog = widgetTestsTools.assertWidgetDialog;
 
 	bender.editor = {

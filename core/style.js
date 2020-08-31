@@ -597,6 +597,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 	CKEDITOR.style.customHandlers = {};
 
 	/**
+	 * List of all elements that are ignored during styling.
+	 *
+	 * @since 4.14.2
+	 * @property {String[]} [unstylableElements=[]]
+	 * @member CKEDITOR.style
+	*/
+	CKEDITOR.style.unstylableElements = [];
+
+	/**
 	 * Creates a {@link CKEDITOR.style} subclass and registers it in the style system.
 	 * Registered class will be used as a handler for a style of this type. This allows
 	 * to extend the styles system, which by default uses only the {@link CKEDITOR.style}, with
@@ -876,7 +885,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			} else {
 				var nodeName = currentNode.type == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null,
 					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
-					nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
+					nodeIsUnstylable = nodeName &&
+						CKEDITOR.tools.array.indexOf( CKEDITOR.style.unstylableElements, nodeName ) !== -1,
+					nodeIsNoStyle = nodeName && ( currentNode.getAttribute( 'data-nostyle' ) || nodeIsUnstylable );
 
 				// Skip bookmarks or comments.
 				if ( ( nodeName && currentNode.data( 'cke-bookmark' ) ) || currentNode.type === CKEDITOR.NODE_COMMENT ) {

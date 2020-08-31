@@ -8,7 +8,7 @@ CKEDITOR.plugins.add( 'htmlwriter', {
 		var writer = new CKEDITOR.htmlWriter();
 
 		writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
-		writer.indentationChars = editor.config.dataIndentationChars || '\t';
+		writer.indentationChars = typeof editor.config.dataIndentationChars === 'string' ? editor.config.dataIndentationChars : '\t';
 
 		// Overwrite default basicWriter initialized in hmtlDataProcessor constructor.
 		editor.dataProcessor.writer = writer;

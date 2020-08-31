@@ -1,0 +1,31 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<h2>Classic editor</h2>
+<div id="classic">
+	<figure class="easyimage easyimage-full">
+		<img alt="" sizes="100vw" src="../_assets/logo.png" srcset="../_assets/logo.png 350w" width="350" />
+	</figure>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="divarea">
+	<figure class="easyimage easyimage-full">
+		<img alt="" sizes="100vw" src="../_assets/logo.png" srcset="../_assets/logo.png 350w" width="350" />
+	</figure>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.safari ) {
+		bender.ignore();
+	}
+
+	var commonConfig = {
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL
+		};
+
+	CKEDITOR.replace( 'classic', commonConfig );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
+		extraPlugins: 'divarea'
+	}, commonConfig ) );
+</script>

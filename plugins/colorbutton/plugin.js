@@ -854,7 +854,7 @@ CKEDITOR.config.colorButton_enableMore = true;
  *			'FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,' +
  *			'FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF';
  *
- * @cfg {String} [colorButton_colors=see source]
+ * @cfg {String} [colorButton_colors]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,' +
@@ -886,7 +886,7 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
  *			attributes: { 'class': '#(colorName)' }
  *		};
  *
- * @cfg [colorButton_foreStyle=see source]
+ * @cfg [colorButton_foreStyle]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.colorButton_foreStyle = {
@@ -921,7 +921,7 @@ CKEDITOR.config.colorButton_foreStyle = {
  *			attributes: { 'class': '#(colorName)' }
  *		};
  *
- * @cfg [colorButton_backStyle=see source]
+ * @cfg [colorButton_backStyle]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.colorButton_backStyle = {

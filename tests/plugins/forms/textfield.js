@@ -36,6 +36,11 @@ bender.test( {
 
 	// (#2423)
 	'test dialog model with existing button': function() {
+		// (#3700)
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBot,
 			editor = this.editor;
 

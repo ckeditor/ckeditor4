@@ -531,7 +531,7 @@
 					} );
 				},
 
-				// To avoid CORS issues due to XML based SVG icons, they should be loaded into panel document.
+				// To avoid CORS issues due to XML-based SVG icons, they should be loaded into the panel document.
 				// This method ensures that the icons are loaded locally.
 				loadSVGNavigationIcons: function() {
 					if ( !this.editor.plugins.emoji.isSVGSupported() ) {

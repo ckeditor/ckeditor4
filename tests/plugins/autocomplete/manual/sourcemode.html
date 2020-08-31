@@ -1,0 +1,29 @@
+<textarea id="editor"></textarea>
+
+<script>
+	var feed = [
+		'john',
+		'thomas',
+		'anna',
+		'annabelle',
+		'cris',
+		'julia'
+	];
+
+	var editor = CKEDITOR.replace( 'editor', {
+		width: 600,
+		mentions: [
+			{
+				feed: feed,
+				minChars: 0
+			},
+			{
+				feed: feed,
+				minChars: 0,
+				marker: '#'
+			}
+		]
+	} );
+
+	bender.tools.ignoreUnsupportedEnvironment( 'mentions', editor );
+</script>
