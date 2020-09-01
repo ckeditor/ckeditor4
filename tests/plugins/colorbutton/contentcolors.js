@@ -9,7 +9,10 @@
 	bender.test( {
 		'test color history exists': function() {
 			bender.editorBot.create( {
-				name: 'editor1'
+				name: 'editor1',
+				config: {
+					language: 'en'
+				}
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
@@ -29,7 +32,10 @@
 
 		'test horizontal rule is visible and history row exists when there are no colors in content': function() {
 			bender.editorBot.create( {
-				name: 'editor2'
+				name: 'editor2',
+				config: {
+					language: 'en'
+				}
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
@@ -54,7 +60,10 @@
 		'test horizontal rule is visible and history row is not empty when there is a color in content': function() {
 			bender.editorBot.create( {
 				name: 'editor3',
-				startupData: '<p>[<span style="color:#ff3333; background-color:#3333ff">Moo</span>]</p>'
+				startupData: '<p>[<span style="color:#ff3333; background-color:#3333ff">Moo</span>]</p>',
+				config: {
+					language: 'en'
+				}
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
@@ -77,7 +86,10 @@
 		'test content color tiles work': function() {
 			bender.editorBot.create( {
 				name: 'editor4',
-				startupData: '<p><span style="color:#ff3333; background-color:#3333ff">Moo</span> and not moo</p>'
+				startupData: '<p><span style="color:#ff3333; background-color:#3333ff">Moo</span> and not moo</p>',
+				config: {
+					language: 'en'
+				}
 			}, function( bot ) {
 				var editor = bot.editor,
 					txtColorBtn = editor.ui.get( 'TextColor' ),
@@ -105,7 +117,8 @@
 				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> an <span style="color:#3498db">instance</span>' +
 				' of <span style="color:#2ecc71">CKEditor</span>.</p>',
 				config: {
-					removePlugins: 'colordialog'
+					removePlugins: 'colordialog',
+					language: 'en'
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
@@ -134,7 +147,8 @@
 				' <span style="color:#2ecc71">Enjoy</span> <span style="color:#2ecc71">my</span> ' +
 				' <span style="color:#e74c3c">colors</span>!</p>',
 				config: {
-					removePlugins: 'colordialog'
+					removePlugins: 'colordialog',
+					language: 'en'
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
@@ -167,7 +181,8 @@
 				'<span style="color:#2980b9">r</span><span style="color:#8e44ad">l</span><span style="color:#2c3e50">d</span>' +
 				'<span style="color:#f39c12">!</span></p>',
 				config: {
-					colorButton_colorsPerRow: 4
+					colorButton_colorsPerRow: 4,
+					language: 'en'
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
@@ -190,7 +205,8 @@
 				'<span style="color:#f39c12">!</span></p>',
 				config: {
 					colorButton_colorsPerRow: 4,
-					colorButton_historyRowLimit: 2
+					colorButton_historyRowLimit: 2,
+					language: 'en'
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
@@ -209,7 +225,8 @@
 				startupData: '<p><span style="color:#e74c3c">I&#39;m</span> an <span style="color:#3498db">instance</span>' +
 				' of <span style="color:#2ecc71">CKEditor</span>.</p>',
 				config: {
-					colorButton_renderContentColors: false
+					colorButton_renderContentColors: false,
+					language: 'en'
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
