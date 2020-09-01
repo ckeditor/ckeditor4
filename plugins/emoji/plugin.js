@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -566,7 +566,7 @@
 
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax,panelbutton,floatpanel',
-		lang: 'en', // %REMOVE_LINE_CORE%
+		lang: 'da,de,en,en-au,et,fr,gl,hr,hu,it,nl,pl,pt-br,sr,sr-latn,sv,tr,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'emojipanel',
 		hidpi: true,
 
