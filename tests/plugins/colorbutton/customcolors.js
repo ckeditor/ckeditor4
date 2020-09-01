@@ -6,7 +6,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			language: 'en'
+		}
+	};
 
 	bender.test( {
 		'test row is not empty after choosing custom text color': function() {
