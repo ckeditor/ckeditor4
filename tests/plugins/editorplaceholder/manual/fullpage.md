@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: editorplaceholder, feature, 4.15.0, 3793, 4249
-@bender-ckeditor-plugins: wysiwygarea, editorplaceholder, toolbar, undo, basicstyles, clipboard, htmlwriter
+@bender-ckeditor-plugins: wysiwygarea, editorplaceholder, toolbar, undo, basicstyles, clipboard, htmlwriter, list, table, docprops
 
 ## Procedure
 
