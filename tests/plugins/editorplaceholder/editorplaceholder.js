@@ -152,20 +152,20 @@
 	};
 
 	// (#4249)
-	tests[ 'test placeholder works correctly in full-page editor with htmlwriter and some content' ] = function() {
+	tests[ 'test placeholder works correctly with RTL setting' ] = function() {
 		bender.editorBot.create( {
-			name: 'fullpageregex',
+			name: 'fullpageregexrtl',
 			config: {
-				extraPlugins: 'htmlwriter',
+				contentsLangDirection: 'rtl',
 				editorplaceholder: 'Comandeer is a really good JS developer',
 				fullPage: true
 			},
-			startupData: '<p>Whatever</p>'
+			startupData: ''
 		}, function( bot ) {
 			var editor = bot.editor;
 
 			// If we are already here, it means that the issue is fixed – as regex didn't throw.
-			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
 		} );
 	};
 

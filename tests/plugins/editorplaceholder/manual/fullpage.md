@@ -11,6 +11,8 @@
 
 	Placeholder is visible.
 
+	Note: the editor's content directory is set to RTL.
+
 	### Unexpected
 
 	Placeholder is not visible.
