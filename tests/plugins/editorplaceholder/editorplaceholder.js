@@ -151,6 +151,24 @@
 		} );
 	};
 
+	// (#4249)
+	tests[ 'test placeholder works correctly in full-page editor with htmlwriter and some content' ] = function() {
+		bender.editorBot.create( {
+			name: 'fullpageregex',
+			config: {
+				extraPlugins: 'htmlwriter',
+				editorplaceholder: 'Comandeer is a really good JS developer',
+				fullPage: true
+			},
+			startupData: '<p>Whatever</p>'
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			// If we are already here, it means that the issue is fixed – as regex didn't throw.
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+		} );
+	};
+
 	tests[ 'test integration with easyimage' ] = function() {
 		if ( CKEDITOR.env.ie || CKEDITOR.env.version < 11 ) {
 			assert.ignore();
