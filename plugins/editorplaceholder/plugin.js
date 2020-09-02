@@ -65,8 +65,9 @@
 	}
 
 	function isEditorEmpty( editor ) {
-		// We need to include newline in the regex, as htmlwriter returns nicely formatted HTML (#4249).
-		var fullPageRegex = /<body>((?:.|[\n\r])*?)<\/body>/i,
+		// We need to include newline in the regex, as htmlwriter returns nicely formatted HTML.
+		// We need to also account for <body>'s attributes (#4249).
+		var fullPageRegex = /<body.*?>((?:.|[\n\r])*?)<\/body>/i,
 			isFullPage = editor.config.fullPage,
 			data = editor.getData();
 
