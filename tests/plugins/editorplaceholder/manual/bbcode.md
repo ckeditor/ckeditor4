@@ -7,19 +7,22 @@
 1. Open the console.
 2. Look at the editor.
 
-	### Expected
+  ### Expected
 
-	Placeholder is visible.
+  * Placeholder is visible.
+  * There is no error in the console.
 
-	### Unexpected
+  ### Unexpected
 
-	Placeholder is not visible.
+  * Placeholder is not visible.
+  * There is an error in the console.
+
 3. Type anything in the editor.
 
-	### Expected
+  ### Expected
 
-	There is no error in the console.
+  There is no error in the console.
 
-	### Unexpected
+  ### Unexpected
 
-	There is an error in the console.
+  There is an error in the console.
