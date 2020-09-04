@@ -8,6 +8,10 @@
 <textarea id="inline"></textarea>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'classic' );
 	CKEDITOR.replace( 'divarea', { extraPlugins: 'divarea' } )
 	CKEDITOR.inline( 'inline' );
