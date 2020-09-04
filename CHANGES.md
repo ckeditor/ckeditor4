@@ -12,7 +12,7 @@ New features:
 
 Fixed Issues:
 
-* [#4060](https://github.com/ckeditor/ckeditor4/issues/4060): Fixed: The content inside the [Widget](https://ckeditor.com/cke4/addon/widget) nested editables is escaped twice.
+* [#4060](https://github.com/ckeditor/ckeditor4/issues/4060): Fixed: The content inside a [Widget](https://ckeditor.com/cke4/addon/widget) nested editables is escaped twice.
 * [#4183](https://github.com/ckeditor/ckeditor4/issues/4183): [Safari] Fixed: Incorrect image dimensions when using the [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin alongside the [IFrame Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) plugin.
 * [#3693](https://github.com/ckeditor/ckeditor4/issues/3693): Fixed: Incorrect default values for several [Color Button](https://ckeditor.com/cke4/addon/colorbutton) configuration variables in the API documentation.
 * [#3795](https://github.com/ckeditor/ckeditor4/issues/3795): Fixed: Setting the [`dataIndentationChars`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-dataIndentationChars) configuration option to an empty string is ignored and replaced by a tab (`\t`) character. Thanks to [Thomas Grinderslev](https://github.com/Znegl)!
