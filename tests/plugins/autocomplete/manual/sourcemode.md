@@ -2,7 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, mentions, sourcearea
 
-1. Toggle source mode.
+1. Switch to source mode.
+1. Switch back to WYSIWYG mode.
 1. Focus the editor.
 1. Type `@` to open completion panel.
 1. Navigate through items using arrow keys.
