@@ -2030,7 +2030,7 @@
 			while ( ( node = that.mergeCandidates.pop() ) )
 				node.mergeSiblings();
 
-			range.startPath().block.$.normalize()
+			range.startPath().block.$.normalize();
 			range.moveToBookmark( bm );
 
 			// Rule 3.
