@@ -34,7 +34,7 @@
 	var ATTRIBUTE_NAME = 'data-cke-editorplaceholder';
 
 	/**
-	 * Namespace providing configuration for editorplaceholder plugin.
+	 * Namespace providing the configuration for the Editor Placeholder plugin.
 	 *
 	 * @singleton
 	 * @class CKEDITOR.plugins.editorplaceholder
@@ -43,7 +43,7 @@
 	 */
 	CKEDITOR.plugins.editorplaceholder = {
 		/**
-		 * Styles that would be applied to the editor by placeholder text when visible.
+		 * Styles that would be applied to the editor by the placeholder text when visible.
 		 *
 		 * @property {String}
 		 */
@@ -92,16 +92,16 @@
 	}
 
 	/**
-	 * Text that will be used as a placeholder inside the editor.
+	 * The text that will be used as a placeholder inside the editor.
 	 *
 	 * ```js
 	 * config.editorplaceholder = 'Type your comment…';
 	 * ```
 	 *
-	 * If it is set to a falsy value like an empty string, it will disable placeholder.
+	 * If it is set to a falsy value like an empty string, it will disable the placeholder.
 	 *
 	 * ```js
-	 * // Disable placeholder.
+	 * // Disable the placeholder.
 	 * config.editorplaceholder = '';
 	 * ```
 	 *
