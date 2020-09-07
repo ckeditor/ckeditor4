@@ -3497,7 +3497,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			return dialog;
 		}
 	} );
-	
+
 	CKEDITOR.plugins.add( 'dialog', {
 		requires: 'dialogui',
 		init: function( editor ) {
