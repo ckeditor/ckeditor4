@@ -81,6 +81,11 @@
 	bender.editor = {};
 
 	bender.test( {
+		// (#4262)
+		'test stylesLoaded is not polluting global context': function() {
+			assert.isUndefined( window.stylesLoaded );
+		},
+
 		'test open dialog from local': function() {
 			var ed = this.editor, tc = this;
 			ed.openDialog( 'testDialog1', function( dialog ) {
