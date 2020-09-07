@@ -1219,6 +1219,7 @@
 
 						if ( range.collapsed ) {
 							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) )
+								startPath.block.$.normalize();
 								return;
 						} else {
 							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) )
@@ -2029,7 +2030,7 @@
 			while ( ( node = that.mergeCandidates.pop() ) )
 				node.mergeSiblings();
 
-			range.root.$.normalize && range.root.$.normalize();
+			range.startPath().block.$.normalize()
 			range.moveToBookmark( bm );
 
 			// Rule 3.
