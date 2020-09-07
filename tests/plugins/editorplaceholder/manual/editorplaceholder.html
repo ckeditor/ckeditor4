@@ -1,0 +1,101 @@
+<head>
+	<style>
+		.data {
+			border: 1px #f00 dotted;
+		}
+	</style>
+</head>
+<body>
+	<h2>Empty classic editor</h2>
+	<div id="empty-classic"><br></div>
+
+	<button data-getData="empty-classic">Get editor's data</button>
+	<div id="empty-classic-data" class="data"></div>
+
+	<h2>Non-empty classic editor</h2>
+	<div id="nonempty-classic">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	</div>
+
+	<button data-getData="nonempty-classic">Get editor's data</button>
+	<div id="nonempty-classic-data" class="data"></div>
+
+	<h2>Empty divarea editor</h2>
+	<div id="empty-divarea"></div>
+
+	<button data-getData="empty-divarea">Get editor's data</button>
+	<div id="empty-divarea-data" class="data"></div>
+
+	<h2>Non-empty divarea editor</h2>
+	<div id="nonempty-divarea">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	</div>
+
+	<button data-getData="nonempty-divarea">Get editor's data</button>
+	<div id="nonempty-divarea-data" class="data"></div>
+
+	<h2>Empty inline editor</h2>
+	<div id="empty-inline" contenteditable="true"></div>
+
+	<button data-getData="empty-inline">Get editor's data</button>
+	<div id="empty-inline-data" class="data"></div>
+
+	<h2>Non-empty inline editor</h2>
+	<div id="nonempty-inline" contenteditable="true">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	</div>
+
+	<button data-getData="nonempty-inline">Get editor's data</button>
+	<div id="nonempty-inline-data" class="data"></div>
+
+	<script>
+		( function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'editorplaceholder' );
+
+			var commonConfig = {
+					editorplaceholder: 'Type your comment',
+					height: 100
+				},
+				forEach = CKEDITOR.tools.array.forEach,
+				buttons = CKEDITOR.document.find( 'button[data-getData]' ).toArray();
+
+			function generateVariantsForEditors( variants ) {
+				var editors = [];
+
+				forEach( variants, function( variant ) {
+					editors.push( variant + '-classic', variant + '-divarea', variant + '-inline' );
+				} );
+
+				return editors;
+			}
+
+			function initializeEditors( names ) {
+				forEach( names, function( name ) {
+					var config = commonConfig;
+
+					if ( name.indexOf( 'divarea' ) !== -1 ) {
+						config = CKEDITOR.tools.object.merge( config, {
+							extraPlugins: 'divarea'
+						} );
+					}
+
+					if ( name.indexOf( 'inline') !== -1 ) {
+						return CKEDITOR.inline( name, config );
+					}
+
+					return CKEDITOR.replace( name, config );
+				} );
+			}
+
+			initializeEditors( generateVariantsForEditors( [ 'empty', 'nonempty' ] ) );
+
+			forEach( buttons, function( button ) {
+				var editorId = button.getAttribute( 'data-getData' );
+
+				button.on( 'click', function() {
+					CKEDITOR.document.getById( editorId + '-data' ).setText( CKEDITOR.instances[ editorId ].getData() );
+				} );
+			} );
+		}() );
+	</script>
+</body>

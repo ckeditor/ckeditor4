@@ -1,3 +1,7 @@
+<!--
+🚨 If you want to submit a PR for a security vulnerability, please contact us directly
+at https://ckeditor.com/contact/ instead. 🚨
+-->
 ## What is the purpose of this pull request?
 
 <!-- Bug fix / New feature / Typo fix / Other, please explain  -->
@@ -24,7 +28,7 @@ Your code should follow the guidelines from the [CKEditor 4 code style guide](ht
 ## What is the proposed changelog entry for this pull request?
 
 ```
-*[#<ISSUE_NUMBER>](https://github.com/ckeditor/ckeditor4/issues/<ISSUE_NUMBER>): Describe the purpose of the pull request in a few simple sentences.
+* [#<ISSUE_NUMBER>](https://github.com/ckeditor/ckeditor4/issues/<ISSUE_NUMBER>): Describe the purpose of the pull request in a few simple sentences.
 ```
 
 ## What changes did you make?

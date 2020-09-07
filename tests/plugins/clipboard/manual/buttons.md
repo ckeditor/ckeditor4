@@ -1,3 +1,4 @@
+@bender-tags: feature, generic
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, clipboard, floatingspace, htmlwriter, blockquote, notification
 

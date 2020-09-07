@@ -1,4 +1,4 @@
-@bender-tags: widget
+@bender-tags: widget, feature, generic
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, table, undo, indent, justify, clipboard, floatingspace, basicstyles, image2, placeholder, mathjax, link, elementspath, blockquote, format, htmlwriter, list, maximize
 

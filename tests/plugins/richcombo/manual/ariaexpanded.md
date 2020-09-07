@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4007, 4.14.2, bug
+@bender-tags: 4007, 4.15.0, bug
 @bender-ckeditor-plugins: wysiwygarea, stylescombo, toolbar
 
 **Note:** This is the test for screen readers, so open one before testing.
