@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -275,6 +275,14 @@
 						}
 
 						image.once( 'load', function() {
+							// Sometimes Safari can't calculate correctly dimensions of the image.
+							// In such a case, force reload (#4183).
+							if ( !$image.naturalWidth ) {
+								$image.src = $image.src;
+
+								return getNaturalWidth( image, callback );
+							}
+
 							callback( $image.naturalWidth );
 						} );
 					}
@@ -289,9 +297,17 @@
 						}
 					}
 
-					var imagePart = this.parts.image;
+					var imagePart = this.parts.image,
+						isIncomplete = imagePart && !imagePart.$.complete,
+						isIncorrectlyCalculated = imagePart && imagePart.$.complete && !imagePart.$.naturalWidth;
 
-					if ( imagePart && !imagePart.$.complete ) {
+					if ( isIncomplete || isIncorrectlyCalculated ) {
+						if ( isIncorrectlyCalculated ) {
+							// Sometimes Safari can't calculate correctly dimensions of the image.
+							// In such a case, force reload (#4183).
+							imagePart.$.src = imagePart.$.src;
+						}
+
 						// If widget begins with incomplete image, make sure to refresh balloon toolbar (if present)
 						// once the image size is available.
 						getNaturalWidth( imagePart, function() {
@@ -525,7 +541,7 @@
 
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
-		lang: 'en',
+		lang: 'ar,az,bg,cs,da,de,en,en-au,et,fa,fr,gl,hr,hu,it,ku,lv,nb,nl,no,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,tt,uk,zh,zh-cn',
 		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright,easyimageupload', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 

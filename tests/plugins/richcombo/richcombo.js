@@ -61,6 +61,34 @@ bender.test( {
 		assert.areEqual( anchorEl.getAttribute( 'aria-haspopup' ), 'listbox' );
 	},
 
+	// (#4007)
+	'test richcombo has aria-expanded=false attribute set at initialisation': function() {
+		var editor = this.editor,
+			combo = editor.ui.get( 'custom_combo' ),
+			comboBtn = CKEDITOR.document.findOne( '#cke_' + combo.id + ' .cke_combo_button' );
+
+		combo.createPanel( editor );
+
+		assert.areEqual( 'false', comboBtn.getAttribute( 'aria-expanded' ), 'Aria-expanded attribute should be set at the element creation.' );
+	},
+
+	// (#4007)
+	'test richcombo has aria-expanded=true attribute set when opened': function() {
+		var editor = this.editor,
+			bot = this.editorBot,
+			activeCombo = editor.ui.get( 'custom_combo' ),
+			inactiveCombo = editor.ui.get( 'custom_combo_with_options' ),
+			activeComboBtn = CKEDITOR.document.findOne( '#cke_' + activeCombo.id + ' .cke_combo_button' ),
+			inactiveComboBtn = CKEDITOR.document.findOne( '#cke_' + inactiveCombo.id + ' .cke_combo_button' );
+
+		activeCombo.createPanel( editor );
+
+		bot.combo( 'custom_combo', function() {
+			assert.areEqual( 'true', activeComboBtn.getAttribute( 'aria-expanded' ), 'Aria-expanded attribute was not set to true.' );
+			assert.areEqual( 'false', inactiveComboBtn.getAttribute( 'aria-expanded' ), 'Aria-expanded attribute of different combo was changed' );
+		} );
+	},
+
 	// (#1477)
 	'test destroy removes combo listeners': function() {
 		var combo = this.editor.ui.get( 'custom_combo' ),

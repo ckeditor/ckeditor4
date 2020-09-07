@@ -8,6 +8,6 @@ CKEDITOR.plugins.setLang( 'copyformatting', 'ja', {
 		copied: 'コピーされたフォーマット',
 		applied: 'フォーマットを適用しました',
 		canceled: 'フォーマットを取り消しました',
-		failed: 'フォーマットに失敗しました。最初にフォーマットをコピーしてください。'
+		failed: 'フォーマットのコピーに失敗しました。最初にフォーマットをコピーしてから適用してください。'
 	}
 } );

@@ -1,0 +1,13 @@
+<body>
+	<div id="editor"></div>
+
+	<script>
+		bender.tools.ignoreUnsupportedEnvironment( 'editorplaceholder' );
+
+		CKEDITOR.replace( 'editor', {
+			fullPage: true,
+			contentsLangDirection: 'rtl',
+			editorplaceholder: 'Type your comment…'
+		} );
+	</script>
+</body>

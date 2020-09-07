@@ -54,6 +54,6 @@
 				}
 			} )
 		],
-		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version < 9
+		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version < 9 || bender.tools.env.mobile
 	} ) );
 } )();

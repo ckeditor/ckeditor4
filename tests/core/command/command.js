@@ -6,7 +6,7 @@
 // This list of commands are to be maintained whenever new commands are added.
 var READ_ONLY_CMDS = [
 	'a11yHelp', 'autogrow', 'about', 'contextMenu', 'copy', 'elementsPathFocus', 'find', 'maximize',
-	'preview', 'print', 'showblocks', 'showborders', 'source', 'toolbarCollapse', 'toolbarFocus', 'selectAll'
+	'preview', 'print', 'showblocks', 'showborders', 'source', 'toolbarCollapse', 'toolbarFocus', 'selectAll', 'exportPdf'
 ];
 
 function assertCommand( editor, cmd, commandDefinition ) {

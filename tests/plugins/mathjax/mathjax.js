@@ -67,7 +67,8 @@
 			} );
 
 			CKEDITOR.once( 'mathJaxUpdateDone', function() {
-				tc.callback();
+				// Deffer executing test callback since calling it synchronously fails in Chrome (starting from 85 version) (#4232).
+				setTimeout( tc.callback, 0 );
 			} );
 		},
 

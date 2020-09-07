@@ -1,4 +1,4 @@
-@bender-tags: 4.10.0, 1703, mentions
+@bender-tags: 4.10.0, 1703, mentions, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, mentions
 

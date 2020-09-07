@@ -1,0 +1,18 @@
+<body>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet</p>
+		<figure class="image easyimage">
+			<img alt="Lena" src="/tests/_assets/lena.jpg">
+			<figcaption>Lena</figcaption>
+		</figure>
+		<p>Lorem ipsum dolor sit amet</p>
+	</div>
+
+	<script>
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+		CKEDITOR.replace( 'editor', {
+			editorplaceholder: 'Type your comment…'
+		} );
+	</script>
+</body>

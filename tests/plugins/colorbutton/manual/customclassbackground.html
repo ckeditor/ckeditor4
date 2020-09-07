@@ -1,0 +1,22 @@
+<textarea id="editor" name="editor">Test text.</textarea>
+
+<script>
+	CKEDITOR.addCss( '.bg-red { background-color: #F00; } .bg-blue { background-color: #00F; }' );
+
+	CKEDITOR.replace( 'editor', {
+		colorButton_colors: 'bg-red/F00,bg-blue/00F',
+		colorButton_backStyle: {
+			element: 'span',
+			attributes: { 'class': '#(colorName)' },
+			overrides: [ {
+				element: 'span',
+				attributes: {
+					'class': /bg-/
+				}
+			} ]
+		},
+		// Config necessary due to #3994 and #3996
+		extraAllowedContent: 'span(*)',
+		removeButtons: 'TextColor'
+	} );
+</script>

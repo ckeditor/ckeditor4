@@ -1,6 +1,27 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.15
+
+New features:
+
+* [#3940](https://github.com/ckeditor/ckeditor4/issues/3940): Introduced the `colorName` property for customizing foreground and background styles in the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin via the [`config.colorButton_foreStyle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_foreStyle) and [`config.colorButton_backStyle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_backStyle) configuration options.
+* [#3793](https://github.com/ckeditor/ckeditor4/issues/3793): Introduced the [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin.
+* [#1795](https://github.com/ckeditor/ckeditor4/issues/1795): The colors picked from the [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) are now stored in the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) palette and can be reused easily.
+* [#3783](https://github.com/ckeditor/ckeditor4/issues/3783): The colors used in the document are now displayed as a part of the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) palette.
+
+Fixed Issues:
+
+* [#4060](https://github.com/ckeditor/ckeditor4/issues/4060): Fixed: The content inside a [widget](https://ckeditor.com/cke4/addon/widget) nested editable is escaped twice.
+* [#4183](https://github.com/ckeditor/ckeditor4/issues/4183): [Safari] Fixed: Incorrect image dimensions when using the [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin alongside the [IFrame Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) plugin.
+* [#3693](https://github.com/ckeditor/ckeditor4/issues/3693): Fixed: Incorrect default values for several [Color Button](https://ckeditor.com/cke4/addon/colorbutton) configuration variables in the API documentation.
+* [#3795](https://github.com/ckeditor/ckeditor4/issues/3795): Fixed: Setting the [`config.dataIndentationChars`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-dataIndentationChars) configuration option to an empty string is ignored and replaced by a tab (`\t`) character. Thanks to [Thomas Grinderslev](https://github.com/Znegl)!
+* [#4107](https://github.com/ckeditor/ckeditor4/issues/4107): Fixed: Multiple [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) instances cause keyboard navigation issues.
+* [#4041](https://github.com/ckeditor/ckeditor4/issues/4041): Fixed: The[`selection.scrollIntoView`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_selection.html#method-scrollIntoView) method throws an error when the editor selection is not set.
+* [#3361](https://github.com/ckeditor/ckeditor4/issues/3361): Fixed: Loading multiple [custom editor configurations](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-customConfig) is prone to a race condition between these.
+* [#4007](https://github.com/ckeditor/ckeditor4/issues/4007): Fixed: Screen readers do not announce the [Rich Combo](https://ckeditor.com/cke4/addon/richcombo) plugin is collapsed or expanded.
+* [#4141](https://github.com/ckeditor/ckeditor4/issues/4141): Fixed: The styles are incorrectly applied when there is a `<select>` element inside the editor.
+
 ## CKEditor 4.14.1
 
 Fixed Issues:
@@ -33,7 +54,7 @@ Other Changes:
 
 	Issue summary: It was possible to execute XSS inside CKEditor after persuading the victim to: (i) switch CKEditor to source mode, then (ii) paste a specially crafted HTML code, prepared by the attacker, into the opened CKEditor source area, and (iii) switch back to WYSIWYG mode or (i) copy the specially crafted HTML code, prepared by the attacker and (ii) paste it into CKEditor in WYSIWYG mode.
 
-* Fixed XSS vulnerability in the WebSpellChecker plugin reported by [Pham Van Khanh](https://twitter.com/rskvp93) from Viettel Cyber Security.
+* Fixed XSS vulnerability in the WebSpellChecker Dialog plugin reported by [Pham Van Khanh](https://twitter.com/rskvp93) from Viettel Cyber Security.
 
 	Issue summary: It was possible to execute XSS using CKEditor after persuading the victim to: (i) switch CKEditor to source mode, then (ii) paste a specially crafted HTML code, prepared by the attacker, into the opened CKEditor source area, then (iii) switch back to WYSIWYG mode, and (iv) preview CKEditor content outside CKEditor editable area.
 
@@ -52,7 +73,7 @@ Fixed Issues:
 
 * [#3587](https://github.com/ckeditor/ckeditor4/issues/3587): [Edge, IE] Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) with form input elements loses focus during typing.
 * [#3705](https://github.com/ckeditor/ckeditor4/issues/3705): [Safari] Fixed: Safari incorrectly removes blocks with the [`editor.extractSelectedHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-extractSelectedHtml) method after selecting all content.
-* [#1306](https://github.com/ckeditor/ckeditor4/issues/1306): Fixed: The [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin creates nested HTML `<span>` tags when reapplying the same font multiple times.
+* [#1306](https://github.com/ckeditor/ckeditor4/issues/1306): Fixed: The [Font](https://ckeditor.com/cke4/addon/font) plugin creates nested HTML `<span>` tags when reapplying the same font multiple times.
 * [#3498](https://github.com/ckeditor/ckeditor4/issues/3498): Fixed: The editor throws an error during the copy operation when a [widget](https://ckeditor.com/cke4/addon/widget) is partially selected.
 * [#2517](https://github.com/ckeditor/ckeditor4/issues/2517): [Chrome, Firefox, Safari] Fixed: Inserting a new image when the selection partially covers an existing [enhanced image](https://ckeditor.com/cke4/addon/image2) widget throws an error.
 * [#3007](https://github.com/ckeditor/ckeditor4/issues/3007): [Chrome, Firefox, Safari] Fixed: Cannot modify the editor content once the selection is released over a [widget](https://ckeditor.com/cke4/addon/widget).

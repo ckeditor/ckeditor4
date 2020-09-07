@@ -7,6 +7,10 @@
 </textarea>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	var editor = CKEDITOR.replace( 'classic', {
 		allowedContent: true
 	} );

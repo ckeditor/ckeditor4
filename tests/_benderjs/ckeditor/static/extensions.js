@@ -44,6 +44,23 @@
 	}
 
 	/*
+	 * Load the given plugin via `CKEDITOR.plugins.addExternal` call when tests are run
+	 * from an external repository. If tests are run from main `ckeditor4` repository,
+	 * the given plugin is simply loaded automatically and there is no need for `CKEDITOR.plugins.addExternal` call.
+	 *
+	 * It uses the fact that bender labels all tests in `./plugins/tests/`
+	 * directory as `External Plugins` for detection, which happens only in `ckeditor4` repository.
+	 *
+	 * @param {String} name Name of the plugin to be loaded.
+	 * @param {String} path Path to the plugin directory.
+	 */
+	bender.loadExternalPlugin = function( name, path ) {
+		if ( bender.testData.group !== 'External Plugins' ) {
+			CKEDITOR.plugins.addExternal( name, path, 'plugin.js' );
+		}
+	};
+
+	/*
 	 * @param {RegExp} expected RegExp that must be matched.
 	 * @param {String} actual String value to be tested.
 	 * @param {String} [message]

@@ -1,0 +1,24 @@
+<h2>Editor 1</h2>
+<div id="editor1"></div>
+<h2>Editor 2</h2>
+<div id="editor2"></div>
+<h2>Editor 3</h2>
+<div id="editor3"></div>
+
+<script>
+	var assetsPath = '%BASE_PATH%core/editor/_assets/',
+		config1 = assetsPath + 'raceconfig1.js',
+		config2 = assetsPath + 'raceconfig2.js';
+
+	CKEDITOR.replace( 'editor1', {
+		customConfig: config1
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		customConfig: config2
+	} );
+
+	CKEDITOR.replace( 'editor3', {
+		customConfig: config1
+	} );
+</script>
