@@ -941,6 +941,13 @@
 				top = Math.max( rect.bottom, editorViewportRect.top );
 			}
 
+			var windowHeight = window.innerHeight || Math.max( document.body.offsetHeight, document.documentElement.offsetHeight );
+
+			// Detect if panel goes beyond window borders.
+			if ( rect.top + viewHeight > windowHeight ) {
+				top = rect.top - viewHeight;
+			}
+
 			this.element.setStyles( {
 				left: rect.left + 'px',
 				top: top + 'px'
