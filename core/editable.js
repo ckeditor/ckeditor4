@@ -1218,9 +1218,12 @@
 							startPath = range.startPath();
 
 						if ( range.collapsed ) {
-							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) )
-								startPath.block.$.normalize();
+							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) ) {
+								if ( startPath.block ) {
+									startPath.block.$.normalize();
+								}
 								return;
+							}
 						} else {
 							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) )
 								return;
@@ -2030,7 +2033,9 @@
 			while ( ( node = that.mergeCandidates.pop() ) )
 				node.mergeSiblings();
 
-			range.startPath().block.$.normalize();
+			if ( range.startPath().block ) {
+				range.startPath().block.$.normalize();
+			}
 			range.moveToBookmark( bm );
 
 			// Rule 3.
