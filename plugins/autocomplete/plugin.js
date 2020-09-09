@@ -944,7 +944,7 @@
 			var windowHeight = window.innerHeight || Math.max( document.body.offsetHeight, document.documentElement.offsetHeight );
 
 			// Detect if panel goes beyond window borders.
-			if ( rect.top + viewHeight > windowHeight ) {
+			if ( rect.bottom + viewHeight > windowHeight ) {
 				top = rect.top - viewHeight;
 			}
 
