@@ -1,0 +1,57 @@
+<style>
+	html,
+	body {
+		height: 100%;
+	}
+
+	.wrapper {
+		position: absolute;
+		bottom: 0;
+		display: inline-flex;
+	}
+
+	.wrapper > div:not(:last-of-type) {
+		margin-right: 15px;
+	}
+</style>
+
+<div class="wrapper">
+	<div id="classic">
+		<p>1 &nbsp;</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+		<p>2 &nbsp;</p>
+	</div>
+
+	<div id="divarea">
+		<p>1 &nbsp;</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+		<p>2 &nbsp;</p>
+	</div>
+
+	<div id="inline" contenteditable="true">
+		<p>1 &nbsp;</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+		<p>2 &nbsp;</p>
+	</div>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	var config = {
+		width: 300,
+		height: 150,
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
+			}
+		}
+	};
+
+	CKEDITOR.replace( 'classic', config );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( { extraPlugins: 'divarea' }, config ) );
+	CKEDITOR.inline( 'inline', config );
+</script>
