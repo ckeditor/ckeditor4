@@ -45,10 +45,9 @@
 
 		var rows = table.$.rows;
 
-		CKEDITOR.tools.array.forEach( rows, function( item, index ) {
+		CKEDITOR.tools.array.forEach( rows, function( item ) {
 			var $tr = item,
 				pillarIndex = -1,
-				pillarRow,
 				pillarHeight = 0,
 				pillarPosition = null,
 				pillarDimensions = setPillarDimensions( $tr ),
@@ -67,7 +66,6 @@
 					pillar;
 
 				pillarIndex += td.$.colSpan || 1;
-				pillarRow = index;
 
 				// Calculate the pillar boundary positions.
 				var pillarLeft, pillarRight, pillarWidth;
