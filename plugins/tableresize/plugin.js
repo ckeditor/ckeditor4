@@ -41,7 +41,7 @@
 	function buildTableColumnPillars( table ) {
 		var pillars = [],
 			pillarIndexMap = {},
-			rtl = ( table.getComputedStyle( 'direction' ) == 'rtl' );
+			rtl = table.getComputedStyle( 'direction' ) === 'rtl';
 
 		var rows = table.$.rows;
 
@@ -63,29 +63,40 @@
 				// pillar size calculation.
 				var td = new CKEDITOR.dom.element( $tr.cells[ i ] ),
 					nextTd = $tr.cells[ i + 1 ] && new CKEDITOR.dom.element( $tr.cells[ i + 1 ] ),
-					pillar;
+					pillar,
+					pillarLeft,
+					pillarRight,
+					pillarWidth,
+					x = td.getDocumentPosition().x;
 
 				pillarIndex += td.$.colSpan || 1;
 
-				// Calculate the pillar boundary positions.
-				var pillarLeft, pillarRight, pillarWidth;
-
-				var x = td.getDocumentPosition().x;
-
 				// Calculate positions based on the current cell.
-				rtl ? pillarRight = x + getBorderWidth( td, 'left' ) : pillarLeft = x + td.$.offsetWidth - getBorderWidth( td, 'right' );
+				if ( rtl ) {
+					pillarRight = x + getBorderWidth( td, 'left' );
+				} else {
+					pillarLeft = x + td.$.offsetWidth - getBorderWidth( td, 'right' );
+				}
 
 				// Calculate positions based on the next cell, if available.
 				if ( nextTd ) {
 					x = nextTd.getDocumentPosition().x;
 
-					rtl ? pillarLeft = x + nextTd.$.offsetWidth - getBorderWidth( nextTd, 'right' ) : pillarRight = x + getBorderWidth( nextTd, 'left' );
+					if ( rtl ) {
+						pillarLeft = x + nextTd.$.offsetWidth - getBorderWidth( nextTd, 'right' );
+					} else {
+						pillarRight = x + getBorderWidth( nextTd, 'left' );
+					}
 				}
 				// Otherwise calculate positions based on the table (for last cell).
 				else {
 					x = table.getDocumentPosition().x;
 
-					rtl ? pillarLeft = x : pillarRight = x + table.$.offsetWidth;
+					if ( rtl ) {
+						pillarLeft = x
+					} else {
+						pillarRight = x + table.$.offsetWidth;
+					}
 				}
 
 				pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
