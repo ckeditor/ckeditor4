@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.15.1
 
+Other Changes:
+
+* [#4262](https://github.com/ckeditor/ckeditor4/issues/4262): Removed global reference to `stylesLoaded` variable. Thanks to [Levi Carter](https://github.com/swiftMessenger)!
+
 ## CKEditor 4.15
 
 New features:
