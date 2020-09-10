@@ -152,6 +152,26 @@
 
 			assert.areEqual( '200px', view.element.getStyle( 'top' ), 'View is displayed below the caret' );
 			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
+		},
+
+		// (#3582)
+		'test view position beyond window borders': function( editor ) {
+			var orginalWindowHeight = editor.element.getWindow().getViewPaneSize().height;
+
+			// Simulate small window height.
+			editor.element.getWindow().$.innerHeight = 200;
+
+			var view = createPositionedView( editor, {
+				caretRect: { top: 100, bottom: 110, left: 50 },
+				editorViewportRect: { top: 0, bottom: 500 },
+				viewPanelHeight: 100
+			} );
+
+			assert.areEqual( '0px', view.element.getStyle( 'top' ), 'View is displayed above the caret' );
+			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
+
+			// Restore original window height.
+			editor.element.getWindow().$.innerHeight = orginalWindowHeight;
 		}
 	};
 
