@@ -2233,7 +2233,7 @@
 		},
 
 		/**
-		 * Converts the shorthand form of the `margin` style to seperate styles.
+		 * Converts the shorthand form of the `margin` style to separate styles.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
