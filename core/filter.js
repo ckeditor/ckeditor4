@@ -2261,10 +2261,10 @@
 			delete element.styles.margin;
 
 			function mapStyles( map ) {
-				element.styles['margin-top'] = widths[ map[0] ];
-				element.styles['margin-right'] = widths[ map[1] ];
-				element.styles['margin-bottom'] = widths[ map[2] ];
-				element.styles['margin-left'] = widths[ map[3] ];
+				element.styles[ 'margin-top' ] = widths[ map[ 0 ] ];
+				element.styles[ 'margin-right' ] = widths[ map[ 1 ] ];
+				element.styles[ 'margin-bottom' ] = widths[ map[ 2 ] ];
+				element.styles[ 'margin-left' ] = widths[ map[ 3 ] ];
 			}
 		},
 
