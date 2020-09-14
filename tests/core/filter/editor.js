@@ -339,6 +339,35 @@
 				assert.isFalse( 'filter' in editor, 'editor.filter was deleted' );
 				assert.isFalse( 'activeFilter' in editor, 'editor.activeFilter was deleted' );
 			} );
+		},
+
+		// (#1330)
+		'test converting margin shortcut to separate styles': function() {
+			bender.editorBot.create( {
+				name: 'test_margin_shortcut',
+			}, function( bot ) {
+				var editor = bot.editor,
+					filter = editor.filter;
+
+				filter.allow( 'p{margin*}' );
+				filter.addFeature( {
+					contentTransformations: [
+						[
+							{
+								check: 'p{margin}',
+								right: function( el, tools ) {
+									tools.splitMarginShorthand( el );
+								}
+							}
+						]
+					]
+				} );
+
+				bot.setData( '<p style="margin: 0 0 12px 0;">Lorem ipsum dolor sit amet.</p>', function() {
+					assert.areSame( '<p style="margin-bottom:12px; margin-left:0; margin-right:0; margin-top:0">Lorem ipsum dolor sit amet.</p>', editor.getData() );
+				} );
+
+			} );
 		}
 	} );
 } )();
