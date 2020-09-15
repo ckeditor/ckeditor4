@@ -93,7 +93,7 @@
 					x = table.getDocumentPosition().x;
 
 					if ( rtl ) {
-						pillarLeft = x
+						pillarLeft = x;
 					} else {
 						pillarRight = x + table.$.offsetWidth;
 					}
