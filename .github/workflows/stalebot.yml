@@ -1,0 +1,24 @@
+name: Close stale issues and pull requests
+
+on:
+  schedule:
+  - cron: "0 9 * * *"
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/stale@v3
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: "Hi, It's been a while since we last heard from you. We are marking this issue as stale due to inactivity. Please, provide the requested feedback, or we will have to close the issue in the next 7 days."
+        stale-pr-message: "Hi, It's been a while since we last heard from you. We are marking this pull request as stale due to inactivity. Please, provide the requested feedback, or we will have to close the pull request in the next 7 days."
+        close-issue-message: "This issue has not been active for 14 days already. We're closing it for now. Still, feel free to provide us requested feedback so that we can reopen it."
+        close-pr-message: "This pull request has not been active for 14 days already. We're closing it for now. Still, feel free to provide us requested feedback so that we can reopen it."
+        stale-issue-label: 'status:stale'
+        stale-pr-label: 'status:stale'
+        exempt-issue-labels: 'status:confirmed'
+        exempt-pr-labels: 'status:confirmed'
+        remove-stale-when-updated: true
+        days-before-stale: 7
+        days-before-close: 7
