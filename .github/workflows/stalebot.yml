@@ -16,7 +16,7 @@ jobs:
         close-issue-message: "There was no activity regarding this issue in the last 14 days. We're closing it for now. Still, feel free to provide us with requested feedback so that we can reopen it."
         close-pr-message: "There was no activity regarding this pull request in the last 14 days. We're closing it for now. Still, feel free to provide us with requested feedback so that we can reopen it."
         stale-issue-label: 'status:stale'
-        stale-pr-label: 'pr:stale'
+        stale-pr-label: 'pr:stale :moyai:'
         exempt-issue-labels: 'status:confirmed'
         exempt-pr-labels: 'status:confirmed'
         close-issue-label: 'resolution:expired'
