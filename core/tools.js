@@ -2199,6 +2199,27 @@
 				}
 
 				return false;
+			},
+
+			/**
+			 * Zips corresponding objects from two arrays into a single array of object pairs.
+			 *
+			 * ```js
+			 * var zip = CKEDITOR.tools.array.zip( [ 'foo', 'bar', 'baz' ], [ 1, 2, 3 ] );
+			 * console.log( zip );
+			 * // Logs: [ [ 'foo', 1 ], [ 'bar', 2 ], [ 'baz', 3 ] ];
+			 * ```
+			 *
+			 * @since 4.15.1
+			 * @member CKEDITOR.tools.array
+			 * @param {Array} array1
+			 * @param {Array} array2
+			 * @returns {Array} Two dimensional array of object pairs.
+			 */
+			zip: function( array1, array2 ) {
+				return CKEDITOR.tools.array.map( array1, function( value, index ) {
+					return [ value, array2[ index ] ];
+				} );
 			}
 		},
 
