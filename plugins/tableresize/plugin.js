@@ -41,12 +41,14 @@
 	function buildTableColumnPillars( table ) {
 		var pillars = [],
 			pillarIndexMap = {},
-			rtl = table.getComputedStyle( 'direction' ) === 'rtl';
-
-		var rows = table.$.rows;
+			rtl = table.getComputedStyle( 'direction' ) === 'rtl',
+			// We are building table map to expand row spans (#3961).
+			rows = CKEDITOR.tools.array.zip( Array.prototype.slice.apply( table.$.rows ),
+				CKEDITOR.tools.buildTableMap( table ) );
 
 		CKEDITOR.tools.array.forEach( rows, function( item ) {
-			var $tr = item,
+			var $tr = item[ 0 ],
+				cells = item[ 1 ],
 				pillarIndex = -1,
 				pillarHeight = 0,
 				pillarPosition = null,
@@ -58,11 +60,11 @@
 			pillarPosition = pillarDimensions.position;
 
 			// Loop thorugh all cells, building pillars after each one of them.
-			for ( var i = 0, len = $tr.cells.length; i < len; i++ ) {
+			for ( var i = 0; i < cells.length; i++ ) {
 				// Both the current cell and the successive one will be used in the
 				// pillar size calculation.
-				var td = new CKEDITOR.dom.element( $tr.cells[ i ] ),
-					nextTd = $tr.cells[ i + 1 ] && new CKEDITOR.dom.element( $tr.cells[ i + 1 ] ),
+				var td = new CKEDITOR.dom.element( cells[ i ] ),
+					nextTd = cells[ i + 1 ] && new CKEDITOR.dom.element( cells[ i + 1 ] ),
 					pillar,
 					pillarLeft,
 					pillarRight,
