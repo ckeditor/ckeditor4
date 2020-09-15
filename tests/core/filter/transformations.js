@@ -441,6 +441,38 @@
 			} );
 		},
 
+		// (#1330)
+		'test unitless margin transformations': function() {
+			bender.editorBot.create( {
+				name: 'test_unitless_margin_transformations',
+				config: {
+					allowedContent: 'h1{margin*}'
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.filter.addTransformations( [
+					[ 'h1: splitMarginShorthand' ]
+				] );
+
+				assertToHtml( editor, '<h1 style="margin:0">A</h1>',
+					'<h1 style="margin-bottom:0; margin-left:0; margin-right:0; margin-top:0">A</h1>',
+					'margin shortcut 1 member with 0' );
+				assertToHtml( editor, '<h1 style="margin:auto">A</h1>',
+					'<h1 style="margin-bottom:auto; margin-left:auto; margin-right:auto; margin-top:auto">A</h1>',
+					'margin shortcut 1 member with auto' );
+				assertToHtml( editor, '<h1 style="margin:0 auto">A</h1>',
+					'<h1 style="margin-bottom:0; margin-left:auto; margin-right:auto; margin-top:0">A</h1>',
+					'margin shortcut 2 members with 0 and auto' );
+				assertToHtml( editor, '<h1 style="margin:10px auto 0">A</h1>',
+					'<h1 style="margin-bottom:0; margin-left:auto; margin-right:auto; margin-top:10px">A</h1>',
+					'margin shortcut 3 members with 0 and auto' );
+				assertToHtml( editor, '<h1 style="margin:0 0 12px 0">A</h1>',
+					'<h1 style="margin-bottom:12px; margin-left:0; margin-right:0; margin-top:0">A</h1>',
+					'margin shortcut 4 members with 0' );
+			} );
+		},
+
 		'test splitBorderShorthand transformation': function() {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				// IE8 has a browser "feature" which split up border into border-top, border-left, border-bottom, border-right styles.
