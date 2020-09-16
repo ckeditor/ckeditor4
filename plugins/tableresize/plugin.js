@@ -43,11 +43,11 @@
 			pillarIndexMap = {},
 			rtl = table.getComputedStyle( 'direction' ) === 'rtl',
 			// We are building table map to expand row spans (#3961).
-			rows = CKEDITOR.tools.array.zip( Array.prototype.slice.apply( table.$.rows ),
+			rows = CKEDITOR.tools.array.zip( new CKEDITOR.dom.nodeList( table.$.rows ).toArray(),
 				CKEDITOR.tools.buildTableMap( table ) );
 
 		CKEDITOR.tools.array.forEach( rows, function( item ) {
-			var $tr = item[ 0 ],
+			var $tr = item[ 0 ].$,
 				cells = item[ 1 ],
 				pillarIndex = -1,
 				pillarHeight = 0,
