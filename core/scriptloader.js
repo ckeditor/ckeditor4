@@ -59,6 +59,7 @@ CKEDITOR.scriptLoader = ( function() {
 				scope = CKEDITOR;
 
 			var scriptCount = scriptUrl.length,
+				scriptCountDoCallback = scriptCount,
 				completed = [],
 				failed = [];
 
@@ -71,7 +72,7 @@ CKEDITOR.scriptLoader = ( function() {
 					}
 				};
 
-			if ( scriptCount === 0 ) {
+			if ( scriptCountDoCallback === 0 ) {
 				doCallback( true );
 				return;
 			}
@@ -79,7 +80,7 @@ CKEDITOR.scriptLoader = ( function() {
 			var checkLoaded = function( url, success ) {
 					( success ? completed : failed ).push( url );
 
-					if ( --scriptCount <= 0 ) {
+					if ( --scriptCountDoCallback <= 0 ) {
 						showBusy && CKEDITOR.document.getDocumentElement().removeStyle( 'cursor' );
 						doCallback( success );
 					}
