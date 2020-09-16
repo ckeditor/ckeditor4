@@ -3,15 +3,16 @@
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, autocomplete, textmatch
 @bender-include: _helpers/utils.js
 
-1. Place cursor after `2 `.
-1. Type `@`.
+*Repeat steps below for all 3 editors and modes (horizontal or vertical).*
 
-*Repeat steps above for all 3 editors.*
+1. Select mode (horizontal or vertical).
+1. Place cursor at end of the line.
+1. Type `@`.
 
 ## Expected
 
-Mention panel should be appeared above cursor.
+Mention panel should be appeared inside browser borders.
 
 ## Unexpected
 
-Mention panel is not appearing above cursor.
+Mention panel appears outside browser borders.

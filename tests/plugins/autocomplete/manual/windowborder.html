@@ -6,37 +6,65 @@
 
 	.wrapper {
 		position: absolute;
-		bottom: 0;
 		display: inline-flex;
 	}
 
-	.wrapper > div:not(:last-of-type) {
+	.wrapper.horizontal > div:not(:last-of-type) {
 		margin-right: 15px;
+	}
+
+	.wrapper.vertical > div:not(:last-of-type) {
+		margin-bottom: 15px;
+	}
+
+	.wrapper.horizontal {
+		bottom: 0;
+	}
+
+	.wrapper.vertical {
+		right: 0;
+		flex-direction: column;
+	}
+
+	.wrapper.vertical .inline {
+		width: 300px;
 	}
 </style>
 
-<div class="wrapper">
+<div>
+	<p>Select mode</p>
+	<button type="button" id="horizontal-button">Horizontal</button>
+	<button type="button" id="vertical-button">Vertical</button>
+</div>
+
+<div class="wrapper" id="wrapper">
 	<div id="classic">
-		<p>1 &nbsp;</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
-		<p>2 &nbsp;</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. &nbsp;</p>
 	</div>
 
 	<div id="divarea">
-		<p>1 &nbsp;</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
-		<p>2 &nbsp;</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. &nbsp;</p>
 	</div>
 
-	<div id="inline" contenteditable="true">
-		<p>1 &nbsp;</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
-		<p>2 &nbsp;</p>
+	<div id="inline" class="inline" contenteditable="true">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. &nbsp;</p>
 	</div>
 </div>
 
 <script>
 	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	var wrapper = CKEDITOR.document.getById( 'wrapper' ),
+		horizontalButton = CKEDITOR.document.getById( 'horizontal-button' ),
+		verticalButton = CKEDITOR.document.getById( 'vertical-button' );
+
+	horizontalButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper horizontal' );
+	} );
+
+	verticalButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper vertical' );
+	} );
 
 	var config = {
 		width: 300,
