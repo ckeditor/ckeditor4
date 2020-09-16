@@ -859,6 +859,7 @@
 		setPosition: function( rect ) {
 			var editor = this.editor,
 				viewHeight = this.element.getSize( 'height' ),
+				viewWidth = this.element.getSize( 'width' ),
 				editable = editor.editable(),
 				// Bounding rect where the view should fit (visible editor viewport).
 				editorViewportRect;
@@ -873,7 +874,8 @@
 			// How much space is there for the view above and below the specified rect.
 			var spaceAbove = rect.top - editorViewportRect.top,
 				spaceBelow = editorViewportRect.bottom - rect.bottom,
-				top;
+				top,
+				left = rect.left;
 
 			// As a default, keep the view inside the editor viewport.
 			// +---------------------------------------------+
@@ -943,13 +945,21 @@
 
 			var windowHeight = this.element.getWindow().$.innerHeight;
 
-			// Detect if panel goes beyond window borders.
+			// Detect if panel goes beyond bottom window border.
 			if ( rect.bottom + viewHeight > windowHeight ) {
 				top = rect.top - viewHeight;
 			}
 
+			var windowWidth = this.element.getWindow().$.innerWidth;
+
+			// Detect if panel goes beyond right window border.
+			// TODO (hub33k): fix this condition
+			if ( rect.left + viewWidth > windowWidth ) {
+				left = rect.left - viewWidth;
+			}
+
 			this.element.setStyles( {
-				left: rect.left + 'px',
+				left: left + 'px',
 				top: top + 'px'
 			} );
 		},
