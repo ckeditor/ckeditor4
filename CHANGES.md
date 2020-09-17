@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.15.1
 
+Fixed Issues:
+
+* [#3961](https://github.com/ckeditor/ckeditor4/issues/3961): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) prevents editing of merged cells.
+
 Other Changes:
 
 * [#4262](https://github.com/ckeditor/ckeditor4/issues/4262): Removed global reference to `stylesLoaded` variable. Thanks to [Levi Carter](https://github.com/swiftMessenger)!
