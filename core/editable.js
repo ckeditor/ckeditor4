@@ -2031,9 +2031,12 @@
 				node.mergeSiblings();
 			}
 
-			if ( range.startPath().block ) {
-				range.startPath().block.$.normalize();
+			// Normalize text nodes (#848).
+			if ( CKEDITOR.env.webkit && range.startPath() ) {
+				var path = range.startPath();
+				path.block && path.block.$.normalize();
 			}
+
 			range.moveToBookmark( bm );
 
 			// Rule 3.
