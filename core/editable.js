@@ -1222,8 +1222,9 @@
 								return;
 							}
 						} else {
-							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) )
+							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) ) {
 								return;
+							}
 						}
 
 						// Scroll to the new position of the caret (https://dev.ckeditor.com/ticket/11960).
