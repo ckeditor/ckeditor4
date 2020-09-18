@@ -1588,16 +1588,22 @@
 				return rtfContent;
 			}
 
+			// This function is in fact a very primitive RTF parser.
+			// It iterates over RTF content and search for the last } in the group
+			// by keeping track of how many elements are open using a stack-like method.
 			function removeMatchedGroup( content ) {
 				var i = 0,
 					open = 0,
 					current = content[ i ];
 
 				do {
+					// Every group start has format of {\. However there can be some whitespace after { and before /.
+					// Additionally we need to filter also curly braces from the content – fortunately they are escaped.
 					var isValidGroupStart = current === '{' && getPreviousNonWhitespaceChar( content, i ) !== '\\' &&
 						getNextNonWhitespaceChar( content, i ) === '\\',
 						isValidGroupEnd = current === '}' && getPreviousNonWhitespaceChar( content, i ) !== '\\' &&
 							open > 0;
+
 					if ( isValidGroupStart ) {
 						open++;
 					} else if ( isValidGroupEnd ) {
@@ -1611,22 +1617,21 @@
 			}
 
 			function getPreviousNonWhitespaceChar( content, index ) {
-				var current = content[ --index ],
-					whiteSpaceRegex = /[\s]/;
-
-				while ( current && whiteSpaceRegex.test( current ) ) {
-					current = content[ --index ];
-				}
-
-				return current;
+				return getNonWhitespaceChar( content, index, -1 );
 			}
 
 			function getNextNonWhitespaceChar( content, index ) {
-				var current = content[ ++index ],
+				return getNonWhitespaceChar( content, index, 1 );
+			}
+
+			function getNonWhitespaceChar( content, startIndex, direction ) {
+				var index = startIndex + direction,
+					current = content[ index ],
 					whiteSpaceRegex = /[\s]/;
 
 				while ( current && whiteSpaceRegex.test( current ) ) {
-					current = content[ ++index ];
+					index = index + direction;
+					current = content[ index ];
 				}
 
 				return current;
