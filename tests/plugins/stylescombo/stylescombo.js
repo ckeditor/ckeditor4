@@ -124,7 +124,17 @@
 		// (#3649)
 		'test inline styles are preserved when a format is picked': function() {
 			testOneCombo( {
-				html: '<h1><span style="font-family:Courier New,Courier,monospace;">[Hello World!]</span></h1>',
+				html: '<h1><span style="font-family:Courier New,Courier,monospace;">[hello world!]</span></h1>',
+				combo: 'Format',
+				option: 'p',
+				result: '<p><span style="font-family:courier new,courier,monospace;">hello world!</span></p>'
+			} );
+		},
+
+		// (#3649)
+		'1. test inline styles are preserved when a format is picked': function() {
+			testOneCombo( {
+				html: '<h1><span style="font-family:Courier New,Courier,monospace;">[hello world!]</span></h1>',
 				combo: 'Format',
 				option: 'p',
 				result: '<p><span style="font-family:courier new,courier,monospace;">hello world!</span></p>'
@@ -134,7 +144,7 @@
 		// (#3649)
 		'test applying the style from Styles dropdown replaces the current format': function() {
 			testOneCombo( {
-				html: '<h1>[Hello World!]</h1>',
+				html: '<h1>[hello world!]</h1>',
 				combo: 'Styles',
 				option: 'Italic Title',
 				result: '<h2 style="font-style:italic;">hello world!</h2>'
@@ -142,23 +152,81 @@
 		},
 
 		// (#3649)
-		'test removing block style with format combo': function() {
-			testTwoCombos( {
-				firstCombo: 'Styles',
-				firstOption: 'Italic Title',
-				secondCombo: 'Format',
-				secondOption: 'p',
+		'2. test style is removed when the current format is applied': function() {
+			testOneCombo( {
+				html: '<h2 style="font-style:italic;">[hello world!]</h2>',
+				combo: 'Format',
+				option: 'h2',
+				result: '<h2>hello world!</h2>'
+			} );
+		},
+
+		// (#3649)
+		'3. test style is toggled when reapplied': function() {
+			testOneCombo( {
+				html: '<h2 style="font-style:italic;">[hello world!]</h2>',
+				combo: 'Styles',
+				option: 'Italic Title',
 				result: '<p>hello world!</p>'
 			} );
 		},
 
 		// (#3649)
-		'test style is removed if the same option is picked twice': function() {
-			testTwoCombos( {
-				firstCombo: 'Styles',
-				firstOption: 'Italic Title',
-				secondCombo: 'Styles',
-				secondOption: 'Italic Title',
+		'4. test inline style is untouched when block style is toggled': function() {
+			testOneCombo( {
+				html: '<h2 style="font-style:italic;"><big>[hello world!]</big></h2>',
+				combo: 'Styles',
+				option: 'Italic Title',
+				result: '<p><big>hello world!</big></p>'
+			} );
+		},
+
+		// (#3649)
+		'5. test custom class is removed when format is applied': function() {
+			testOneCombo( {
+				html: '<h2 class="red-text">[hello world!]</h2>',
+				combo: 'Format',
+				option: 'p',
+				result: '<p>hello world!</p>'
+			} );
+		},
+
+		// (#3649)
+		'6. test custom class is removed when style is applied': function() {
+			testOneCombo( {
+				html: '<h2 class="red-text">[hello world!]</h2>',
+				combo: 'Styles',
+				option: 'Italic Title',
+				result: '<h2 style="font-style:italic;">hello world!</h2>'
+			} );
+		},
+
+		// (#3649)
+		'7.1 test custom attribute is not removed when style is applied': function() {
+			testOneCombo( {
+				html: '<h2 custom-attribute>[hello world!]</h2>',
+				combo: 'Styles',
+				option: 'Italic Title',
+				result: '<h2 style="font-style:italic;" custom-attribute>hello world!</h2>'
+			} );
+		},
+
+		// (#3649)
+		'7.2 test custom attribute is not removed when format is applied': function() {
+			testOneCombo( {
+				html: '<h2 custom-attribute>[hello world!]</h2>',
+				combo: 'Format',
+				option: 'p',
+				result: '<p custom-attribute>hello world!</p>'
+			} );
+		},
+
+		// (#3649)
+		'test removing block style with format combo': function() {
+			testOneCombo( {
+				html: '<h2 style="font-style:italic;">[hello world!]</h2>',
+				combo: 'Format',
+				option: 'p',
 				result: '<p>hello world!</p>'
 			} );
 		},
@@ -204,7 +272,7 @@
 		bender.editorBot.create( {
 			name: 'editor' + ( new Date() ).getTime()
 		}, function( bot ) {
-			bot.setHtmlWithSelection( '<h1>[Hello World!]</h1>' );
+			bot.setHtmlWithSelection( '<h1>[hello world!]</h1>' );
 
 			bot.combo( options.firstCombo, function( combo ) {
 				combo.onClick( options.firstOption );
