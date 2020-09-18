@@ -1219,9 +1219,6 @@
 
 						if ( range.collapsed ) {
 							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) ) {
-								if ( startPath.block ) {
-									startPath.block.$.normalize();
-								}
 								return;
 							}
 						} else {
@@ -2030,8 +2027,9 @@
 			}
 
 			// Eventually merge identical inline elements.
-			while ( ( node = that.mergeCandidates.pop() ) )
+			while ( ( node = that.mergeCandidates.pop() ) ) {
 				node.mergeSiblings();
+			}
 
 			if ( range.startPath().block ) {
 				range.startPath().block.$.normalize();
