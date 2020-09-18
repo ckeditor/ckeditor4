@@ -123,7 +123,7 @@
 
 		// (#3649)
 		'test inline styles are preserved when a format is picked': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h1><span style="font-family:Courier New,Courier,monospace;">[hello world!]</span></h1>',
 				combo: 'Format',
 				option: 'p',
@@ -133,7 +133,7 @@
 
 		// (#3649)
 		'test inline styles are preserved when a style is picked': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h1><span style="font-family:Courier New,Courier,monospace;">[hello world!]</span></h1>',
 				combo: 'Styles',
 				option: 'Italic Title',
@@ -143,7 +143,7 @@
 
 		// (#3649)
 		'test applying the style from Styles dropdown replaces the current format': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h1>[hello world!]</h1>',
 				combo: 'Styles',
 				option: 'Italic Title',
@@ -153,7 +153,7 @@
 
 		// (#3649)
 		'test style is removed when the current format is applied': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h2 style="font-style:italic;">[hello world!]</h2>',
 				combo: 'Format',
 				option: 'h2',
@@ -163,7 +163,7 @@
 
 		// (#3649)
 		'test style is toggled when reapplied': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h2 style="font-style:italic;">[hello world!]</h2>',
 				combo: 'Styles',
 				option: 'Italic Title',
@@ -173,7 +173,7 @@
 
 		// (#3649)
 		'test inline style is untouched when block style is toggled': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h2 style="font-style:italic;"><big>[hello world!]</big></h2>',
 				combo: 'Styles',
 				option: 'Italic Title',
@@ -183,7 +183,7 @@
 
 		// (#3649)
 		'test custom class is removed when format is applied': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h2 class="red-text">[hello world!]</h2>',
 				combo: 'Format',
 				option: 'p',
@@ -193,7 +193,7 @@
 
 		// (#3649)
 		'test custom class is removed when style is applied': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h2 class="red-text">[hello world!]</h2>',
 				combo: 'Styles',
 				option: 'Italic Title',
@@ -203,7 +203,7 @@
 
 		// (#3649)
 		'test custom attribute is not removed when style is applied': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h2 custom-attribute>[hello world!]</h2>',
 				combo: 'Styles',
 				option: 'Italic Title',
@@ -213,7 +213,7 @@
 
 		// (#3649)
 		'test custom attribute is not removed when format is applied': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h2 custom-attribute>[hello world!]</h2>',
 				combo: 'Format',
 				option: 'p',
@@ -223,7 +223,7 @@
 
 		// (#3649)
 		'test removing block style with format combo': function() {
-			testOneCombo( {
+			testCombo( {
 				html: '<h2 style="font-style:italic;">[hello world!]</h2>',
 				combo: 'Format',
 				option: 'p',
@@ -233,28 +233,26 @@
 
 		// (#3649)
 		'test inline dropdown style is preserved when a format is picked': function() {
-			testTwoCombos( {
-				firstCombo: 'Styles',
-				firstOption: 'Marker',
-				secondCombo: 'Format',
-				secondOption: 'p',
+			testCombo( {
+				html: '<h1><span class="marker">[hello world!]</span></h1>',
+				combo: 'Format',
+				option: 'p',
 				result: '<p><span class="marker">hello world!</span></p>'
 			} );
 		},
 
 		// (#3649)
 		'test a new style overrides the previous one correctly': function() {
-			testTwoCombos( {
-				firstCombo: 'Styles',
-				firstOption: 'Italic Title',
-				secondCombo: 'Styles',
-				secondOption: 'Special Container',
+			testCombo( {
+				html: '<h2 style="font-style:italic;">[hello world!]</h2>',
+				combo: 'Styles',
+				option: 'Special Container',
 				result: '<div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">hello world!</div>'
 			} );
 		}
 	} );
 
-	function testOneCombo( options ) {
+	function testCombo( options ) {
 		bender.editorBot.create( {
 			name: 'editor' + ( new Date() ).getTime()
 		}, function( bot ) {
@@ -264,24 +262,6 @@
 				combo.onClick( options.option );
 
 				assert.beautified.html( options.result, bender.tools.fixHtml( bot.editor.getData() ), 'Editor content is incorrect.' );
-			} );
-		} );
-	}
-
-	function testTwoCombos( options ) {
-		bender.editorBot.create( {
-			name: 'editor' + ( new Date() ).getTime()
-		}, function( bot ) {
-			bot.setHtmlWithSelection( '<h1>[hello world!]</h1>' );
-
-			bot.combo( options.firstCombo, function( combo ) {
-				combo.onClick( options.firstOption );
-
-				bot.combo( options.secondCombo, function( combo ) {
-					combo.onClick( options.secondOption );
-
-					assert.beautified.html( options.result, bender.tools.fixHtml( bot.editor.getData() ), 'Editor content is incorrect.' );
-				} );
 			} );
 		} );
 	}
