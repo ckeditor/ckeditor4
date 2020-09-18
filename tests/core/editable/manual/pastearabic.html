@@ -1,0 +1,21 @@
+<textarea name="editor1">
+	<p>Paste here: </p>
+</textarea>
+<hr />
+<textarea name="editor2">
+	<p>Paste here: </p>
+</textarea>
+<hr />
+<textarea name="editor3">
+	<p>Paste here: </p>
+</textarea>
+
+<script type="text/javascript">
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'divarea'
+	} );
+
+	CKEDITOR.replace( 'editor2' );
+
+	CKEDITOR.inline( 'editor3' );
+</script>
