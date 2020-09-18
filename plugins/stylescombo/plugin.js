@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -60,6 +60,19 @@
 				stylesList.sort( function( styleA, styleB ) {
 					return styleA._.weight - styleB._.weight;
 				} );
+			} );
+
+			// (#3649)
+			editor.on( 'stylesRemove', function( evt ) {
+				var type = evt.data.type;
+
+				for ( var styleName in styles ) {
+					var style = styles[ styleName ];
+
+					if ( style.type == type ) {
+						editor.removeStyle( style );
+					}
+				}
 			} );
 
 			editor.ui.addRichCombo( 'Styles', {
