@@ -1546,6 +1546,7 @@
 				wholeImages,
 				imageType;
 
+			rtfContent = removeHeadersAndFooters( rtfContent );
 			wholeImages = rtfContent.match( rePicture );
 			if ( !wholeImages ) {
 				return ret;
@@ -1569,6 +1570,67 @@
 			}
 
 			return ret;
+
+			function removeHeadersAndFooters( rtfContent ) {
+				var startRegex = /\{\\(?:header|footer)[lrf]?/,
+					current;
+
+				while ( current = rtfContent.match( startRegex ) ) {
+					var precedingContent = rtfContent.substring( 0, current.index - 1 ),
+						contentToParse = rtfContent.substring( current.index ),
+						parsedContent = removeMatchedGroup( contentToParse );
+
+					rtfContent = precedingContent + parsedContent;
+
+					startRegex.lastIndex = 0;
+				}
+
+				return rtfContent;
+			}
+
+			function removeMatchedGroup( content ) {
+				var i = 0,
+					open = 0,
+					current = content[ i ];
+
+				do {
+					var isValidGroupStart = current === '{' && getPreviousNonWhitespaceChar( content, i ) !== '\\' &&
+						getNextNonWhitespaceChar( content, i ) === '\\',
+						isValidGroupEnd = current === '}' && getPreviousNonWhitespaceChar( content, i ) !== '\\' &&
+							open > 0;
+					if ( isValidGroupStart ) {
+						open++;
+					} else if ( isValidGroupEnd ) {
+						open--;
+					}
+
+					current = content[ ++i ];
+				} while ( current && open > 0 );
+
+				return content.substring( i );
+			}
+
+			function getPreviousNonWhitespaceChar( content, index ) {
+				var current = content[ --index ],
+					whiteSpaceRegex = /[\s]/;
+
+				while ( current && whiteSpaceRegex.test( current ) ) {
+					current = content[ --index ];
+				}
+
+				return current;
+			}
+
+			function getNextNonWhitespaceChar( content, index ) {
+				var current = content[ ++index ],
+					whiteSpaceRegex = /[\s]/;
+
+				while ( current && whiteSpaceRegex.test( current ) ) {
+					current = content[ ++index ];
+				}
+
+				return current;
+			}
 		},
 
 		/**
