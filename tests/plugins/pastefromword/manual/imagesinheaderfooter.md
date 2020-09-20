@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromword, image, pagebreak
 
 1. Copy and paste content of the following file into the editor:
-[Vertical_margin.docx](../generated/_fixtures/ImagesExtraction/InHeaderFooterComplex/InHeaderFooterComplex.docx)
+[InHeaderFooterComplex.docx](../generated/_fixtures/ImagesExtraction/InHeaderFooterComplex/InHeaderFooterComplex.docx)
 
 ## Expected
 
