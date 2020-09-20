@@ -1560,11 +1560,13 @@
 					var id = getImageId( currentImage ),
 						imageDataIndex = CKEDITOR.tools.array.indexOf( ret, function( image ) {
 							return image.id === id;
-						} );
+						} ),
+						isAlreadyExtracted = imageDataIndex !== -1 && ret[ imageDataIndex ].hex,
+						isWordArtShape = currentImage.indexOf( '\\defshp' ) !== -1,
+						isNonWordImage = currentImage.indexOf( '\\nonshppict' ) !== -1;
 
-					// This image is already extracted or it's a non-Word version.
-					if ( ( imageDataIndex !== -1 && ret[ imageDataIndex ].hex ) ||
-						currentImage.indexOf( '\\nonshppict' ) !== -1 ) {
+					// This image is already extracted, it's WordArt shape or it's a non-Word version.
+					if ( isAlreadyExtracted || isWordArtShape || isNonWordImage ) {
 						continue;
 					}
 
