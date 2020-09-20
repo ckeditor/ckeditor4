@@ -1541,35 +1541,61 @@
 		 */
 		extractFromRtf: function( rtfContent ) {
 			var ret = [],
-				rePictureHeader = /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
+				rePictureHeader = /(?:(?:\\\*)?\{\\(?:non)?shppict\s*)?\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
 				rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
 				wholeImages,
 				imageType;
 
 			rtfContent = removeHeadersAndFooters( rtfContent );
 			wholeImages = rtfContent.match( rePicture );
+
 			if ( !wholeImages ) {
 				return ret;
 			}
 
 			for ( var i = 0; i < wholeImages.length; i++ ) {
-				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
-					if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
+				var currentImage = wholeImages[ i ];
+
+				if ( rePictureHeader.test( currentImage ) ) {
+					var id = getImageId( currentImage );
+
+					if ( currentImage.indexOf( '\\nonshppict' ) !== -1 ) {
+						continue;
+					} else if ( currentImage.indexOf( '\\pngblip' ) !== -1 ) {
 						imageType = 'image/png';
-					} else if ( wholeImages[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
+					} else if ( currentImage.indexOf( '\\jpegblip' ) !== -1 ) {
 						imageType = 'image/jpeg';
 					} else {
-						continue;
+						imageType = 'unknown';
 					}
 
 					ret.push( {
-						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
+						id: id,
+						hex: imageType !== 'unknown' ?
+							currentImage.replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
 						type: imageType
 					} );
 				}
 			}
 
 			return ret;
+
+			function getImageId( image ) {
+				var blipUidRegex = /\\blipuid (\w+)\}/,
+					blipTagRegex = /\\bliptag(\d+)/,
+					blipUidMatch = image.match( blipUidRegex ),
+					blipTagMatch = image.match( blipTagRegex );
+
+				if ( blipUidMatch ) {
+					// console.log( 'blipuid', blipUidMatch[ 1 ] );
+					return blipUidMatch[ 1 ];
+				} else if ( blipTagMatch ) {
+					// console.log( 'blitag', blipTagMatch[ 1 ] );
+					return blipTagMatch[ 1 ];
+				}
+
+				return null;
+			}
 
 			function removeHeadersAndFooters( rtfContent ) {
 				var startRegex = /\{\\(?:header|footer)[lrf]?/,
