@@ -1557,11 +1557,18 @@
 				var currentImage = wholeImages[ i ];
 
 				if ( rePictureHeader.test( currentImage ) ) {
-					var id = getImageId( currentImage );
+					var id = getImageId( currentImage ),
+						imageDataIndex = CKEDITOR.tools.array.indexOf( ret, function( image ) {
+							return image.id === id;
+						} );
 
-					if ( currentImage.indexOf( '\\nonshppict' ) !== -1 ) {
+					// This image is already extracted or it's a non-Word version.
+					if ( ( imageDataIndex !== -1 && ret[ imageDataIndex ].hex ) ||
+						currentImage.indexOf( '\\nonshppict' ) !== -1 ) {
 						continue;
-					} else if ( currentImage.indexOf( '\\pngblip' ) !== -1 ) {
+					}
+
+					if ( currentImage.indexOf( '\\pngblip' ) !== -1 ) {
 						imageType = 'image/png';
 					} else if ( currentImage.indexOf( '\\jpegblip' ) !== -1 ) {
 						imageType = 'image/jpeg';
@@ -1569,12 +1576,18 @@
 						imageType = 'unknown';
 					}
 
-					ret.push( {
+					var newImageData = {
 						id: id,
 						hex: imageType !== 'unknown' ?
 							currentImage.replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
 						type: imageType
-					} );
+					};
+
+					if ( imageDataIndex !== -1 ) {
+						ret.splice( imageDataIndex, 1, newImageData );
+					} else {
+						ret.push( newImageData );
+					}
 				}
 			}
 
@@ -1582,15 +1595,13 @@
 
 			function getImageId( image ) {
 				var blipUidRegex = /\\blipuid (\w+)\}/,
-					blipTagRegex = /\\bliptag(\d+)/,
+					blipTagRegex = /\\bliptag(-?\d+)/,
 					blipUidMatch = image.match( blipUidRegex ),
 					blipTagMatch = image.match( blipTagRegex );
 
 				if ( blipUidMatch ) {
-					// console.log( 'blipuid', blipUidMatch[ 1 ] );
 					return blipUidMatch[ 1 ];
 				} else if ( blipTagMatch ) {
-					// console.log( 'blitag', blipTagMatch[ 1 ] );
 					return blipTagMatch[ 1 ];
 				}
 
