@@ -148,6 +148,10 @@
 				}
 
 				function createSrcWithBase64( img ) {
+					if ( img.type === 'unknown' ) {
+						return null;
+					}
+
 					return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
 				}
 
