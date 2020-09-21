@@ -1,0 +1,20 @@
+<textarea name="editor1">
+	<p>Type here: </p>
+</textarea>
+<hr />
+<textarea name="editor2">
+	<p>Type here: </p>
+</textarea>
+<hr />
+<p>Native textarea:</p>
+<textarea rows="10" cols="40">
+Type here:
+</textarea>
+
+<script type="text/javascript">
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'divarea'
+	} );
+
+	CKEDITOR.replace( 'editor2' );
+</script>
