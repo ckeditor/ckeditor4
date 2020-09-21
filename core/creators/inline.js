@@ -135,7 +135,8 @@
 			for ( var i = 0, len = elements.count(); i < len; i++ ) {
 				el = elements.getItem( i );
 
-				if ( el.getAttribute( 'contenteditable' ) == 'true' ) {
+				// Check if element is editable and if there isn't an editor attached to it already (#4293).
+				if ( el.getAttribute( 'contenteditable' ) == 'true' && !el.getEditor() ) {
 					// Fire the "inline" event, making it possible to customize
 					// the instance settings and eventually cancel the creation.
 
