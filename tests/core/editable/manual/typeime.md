@@ -2,8 +2,6 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, divarea
 
-## Test scenario
-
 **Perform below steps for both editors**.
 
 1. Switch OS keyboard to language requiring composition (Japanese, Chinese, Arabic).
@@ -22,4 +20,4 @@
 * Composition stops unexpectedly.
 * IME panel becomes unresponsive.
 
-**Note**: to check the expected result of composition you may check how it works in native `textarea`.
+**Note**: To check the expected result of composition you may check how it works in native `textarea`.

@@ -2,8 +2,6 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, divarea, floatingspace
 
-## Test scenario
-
 1. Copy the following text: عام
 1. For each editor:
 	1. Focus editor.

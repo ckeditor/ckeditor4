@@ -11,6 +11,10 @@
 </textarea>
 
 <script type="text/javascript">
+	if ( !CKEDITOR.env.webkit || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor1', {
 		removePlugins: 'divarea'
 	} );
