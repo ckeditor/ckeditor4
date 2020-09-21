@@ -18,6 +18,7 @@
 			}
 		},
 
+		// (#848).
 		'arabic text should be composed correctly on insertion (case 1)': function() {
 			var editor = this.editor;
 
@@ -31,6 +32,7 @@
 			assertTextNormalization( paragraph, 'Text: عامعام' );
 		},
 
+		// (#848).
 		'arabic text should be composed correctly on insertion (case 2)': function() {
 			var editor = this.editor;
 
@@ -45,6 +47,7 @@
 			assertTextNormalization( paragraph, 'Text: عامعامعام' );
 		},
 
+		// (#848).
 		'regular text should be normalized': function() {
 			var editor = this.editor;
 
@@ -58,6 +61,7 @@
 			assertTextNormalization( paragraph, 'Text: 123 456' );
 		},
 
+		// (#848).
 		'text nodes in other block elements should not be touched (before)': function() {
 			var editor = this.editor;
 
@@ -80,6 +84,7 @@
 			assertTextNormalization( paragraph2, 'Text2: Bax Bay' );
 		},
 
+		// (#848).
 		'text nodes in other block elements should not be touched (after)': function() {
 			var editor = this.editor;
 
@@ -102,6 +107,7 @@
 			assertTextNormalization( paragraph1, 'Text1: Bax Bay' );
 		},
 
+		// (#848).
 		'composable text which is not normally merged should not be merged due to normalization': function() {
 			var editor = this.editor;
 
