@@ -182,26 +182,6 @@
 		},
 
 		// (#3649)
-		'test custom class is removed when format is applied': function() {
-			testCombo( {
-				html: '<h2 class="red-text">[hello world!]</h2>',
-				combo: 'Format',
-				option: 'p',
-				result: '<p>hello world!</p>'
-			} );
-		},
-
-		// (#3649)
-		'test custom class is removed when style is applied': function() {
-			testCombo( {
-				html: '<h2 class="red-text">[hello world!]</h2>',
-				combo: 'Styles',
-				option: 'Italic Title',
-				result: '<h2 style="font-style:italic;">hello world!</h2>'
-			} );
-		},
-
-		// (#3649)
 		'test custom attribute is not removed when style is applied': function() {
 			testCombo( {
 				html: '<h2 custom-attribute>[hello world!]</h2>',
