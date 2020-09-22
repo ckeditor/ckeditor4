@@ -217,3 +217,20 @@
 		}
 	} );
 } )();
+
+/**
+ * Removes styles from the current editor selection.
+ *
+ * Note that you can pass `type` option to limit removing styles to the given type.
+ *
+ * ```js
+ * editor.fire( 'stylesRemove', { type: CKEDITOR.STYLE_BLOCK } );
+ * ```
+ *
+ * @since 4.15.1
+ * @event stylesRemove
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {Number} [data.type] Style type, see {@link CKEDITOR#STYLE_INLINE INLINE}/{@link CKEDITOR#STYLE_BLOCK BLOCK}/{@link CKEDITOR#STYLE_OBJECT OBJECT} style options.
+ */
