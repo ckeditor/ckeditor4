@@ -64,12 +64,13 @@
 
 			// (#3649)
 			editor.on( 'stylesRemove', function( evt ) {
-				var type = evt.data.type;
+				var type = evt.data && evt.data.type,
+					allowAll = type === undefined;
 
 				for ( var styleName in styles ) {
 					var style = styles[ styleName ];
 
-					if ( style.type == type ) {
+					if ( allowAll || style.type === type ) {
 						editor.removeStyle( style );
 					}
 				}

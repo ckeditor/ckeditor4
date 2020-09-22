@@ -122,6 +122,45 @@
 		},
 
 		// (#3649)
+		'test removeStyles event': function() {
+			testCombo( {
+				html: '<p>[hello world!]</p>',
+				combo: 'Styles',
+				option: 'Marker',
+				result: '<p>hello world!</p>',
+				callback: function( editor ) {
+					editor.fire( 'stylesRemove' );
+				}
+			} );
+		},
+
+		// (#3649)
+		'test removeStyles event with specific type': function() {
+			testCombo( {
+				html: '<h1>[hello world!]</h1>',
+				combo: 'Styles',
+				option: 'Italic Title',
+				result: '<p>hello world!</p>',
+				callback: function( editor ) {
+					editor.fire( 'stylesRemove', { type: CKEDITOR.STYLE_BLOCK } );
+				}
+			} );
+		},
+
+		// (#3649)
+		'test removeStyles event with different type': function() {
+			testCombo( {
+				html: '<p>[hello world!]</p>',
+				combo: 'Styles',
+				option: 'Marker',
+				result: '<p><span class="marker">hello world!</span></p>',
+				callback: function( editor ) {
+					editor.fire( 'stylesRemove', { type: CKEDITOR.STYLE_BLOCK } );
+				}
+			} );
+		},
+
+		// (#3649)
 		'test inline styles are preserved when a format is picked': function() {
 			testCombo( {
 				html: '<h1><span style="font-family:Courier New,Courier,monospace;">[hello world!]</span></h1>',
@@ -240,6 +279,10 @@
 
 			bot.combo( options.combo, function( combo ) {
 				combo.onClick( options.option );
+
+				if ( options.callback ) {
+					options.callback( bot.editor );
+				}
 
 				assert.beautified.html( options.result, bender.tools.fixHtml( bot.editor.getData() ), 'Editor content is incorrect.' );
 			} );
