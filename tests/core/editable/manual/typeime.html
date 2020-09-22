@@ -7,7 +7,7 @@
 </textarea>
 <hr />
 <p>Native textarea:</p>
-<textarea rows="10" cols="40">
+<textarea id="native" rows="10" cols="40" style="font-size: 16px;">
 Type here:
 </textarea>
 
@@ -20,5 +20,15 @@ Type here:
 		removePlugins: 'divarea'
 	} );
 
-	CKEDITOR.replace( 'editor2' );
+	CKEDITOR.replace( 'editor2', {
+		on: {
+			// Set the native textarea font-family to the same as inline editor
+			// to ease the comparison.
+			instanceReady: function( evt ) {
+				var fontFamily = evt.editor.container.getComputedStyle( 'font-family' );
+
+				CKEDITOR.document.getById( 'native' ).setStyle( 'font-family', fontFamily );
+			}
+		}
+	} );
 </script>
