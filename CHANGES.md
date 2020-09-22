@@ -6,6 +6,11 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#3961](https://github.com/ckeditor/ckeditor4/issues/3961): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) prevents editing of merged cells.
+* [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Fixed: Applying a [block format](https://ckeditor.com/docs/ckeditor4/latest/features/format.html) should remove existing block styles.
+
+API Changes:
+
+* [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Added new [stylesRemove](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#event-stylesRemove) editor event.
 
 Other Changes:
 

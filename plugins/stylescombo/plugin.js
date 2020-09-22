@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -60,6 +60,20 @@
 				stylesList.sort( function( styleA, styleB ) {
 					return styleA._.weight - styleB._.weight;
 				} );
+			} );
+
+			// (#3649)
+			editor.on( 'stylesRemove', function( evt ) {
+				var type = evt.data && evt.data.type,
+					allowAll = type === undefined;
+
+				for ( var styleName in styles ) {
+					var style = styles[ styleName ];
+
+					if ( allowAll || style.type === type ) {
+						editor.removeStyle( style );
+					}
+				}
 			} );
 
 			editor.ui.addRichCombo( 'Styles', {
@@ -203,3 +217,20 @@
 		}
 	} );
 } )();
+
+/**
+ * Removes styles from the current editor selection.
+ *
+ * Note that you can pass `type` option to limit removing styles to the given type.
+ *
+ * ```js
+ * editor.fire( 'stylesRemove', { type: CKEDITOR.STYLE_BLOCK } );
+ * ```
+ *
+ * @since 4.15.1
+ * @event stylesRemove
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {Number} [data.type] Style type, see {@link CKEDITOR#STYLE_INLINE INLINE}/{@link CKEDITOR#STYLE_BLOCK BLOCK}/{@link CKEDITOR#STYLE_OBJECT OBJECT} style options.
+ */
