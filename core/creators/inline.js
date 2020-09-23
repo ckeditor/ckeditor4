@@ -122,12 +122,12 @@
 	};
 
 	/**
-	 * Calls {@link CKEDITOR#inline} for all page elements with
-	 * the `contenteditable` attribute set to `true`.
-	 *
+	 * Calls {@link CKEDITOR#inline `CKEDITOR.inline()`} method for all page elements with the `contenteditable` attribute set to `true`
+	 * that are allowed in the {@link `CKEDITOR.dtd#$editable`} object.
 	 */
 	CKEDITOR.inlineAll = function() {
-		var el, data;
+		var el,
+			data;
 
 		for ( var name in CKEDITOR.dtd.$editable ) {
 			var elements = CKEDITOR.document.getElementsByTag( name );
@@ -145,8 +145,9 @@
 						config: {}
 					};
 
-					if ( CKEDITOR.fire( 'inline', data ) !== false )
+					if ( CKEDITOR.fire( 'inline', data ) !== false ) {
 						CKEDITOR.inline( el, data.config );
+					}
 				}
 			}
 		}
