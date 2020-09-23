@@ -119,6 +119,31 @@ var tests = {
 		} );
 
 		wait();
+	},
+
+	'test second load check': function() {
+		var tc = this;
+
+		var scriptsToLoad = [
+			'../_assets/queue1.js',
+			'../_assets/queue2.js',
+			'../_assets/queue3.js'
+		];
+		var callBackFuncSecond = function(success) {
+			tc.resume( function() {
+				assert.areSame( 'Foo', testVar1, 'Script has been loaded.' );
+				assert.areSame( 'Bar', testVar2, 'Script has been loaded.' );
+				assert.areSame( 'Bam', testVar3, 'Script has been loaded.' );
+
+				arrayAssert.itemsAreSame( scriptsToLoad, success, 'Scripts loaded in queue order.' );
+			} );
+		};
+		var callBackFuncFirst = function() {
+			CKEDITOR.scriptLoader.load(scriptsToLoad, callBackFuncSecond);
+		};
+		CKEDITOR.scriptLoader.load(scriptsToLoad, callBackFuncFirst);
+
+		this.wait();
 	}
 };
 
