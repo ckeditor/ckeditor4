@@ -13,4 +13,3 @@
 ## Unexpected
 
 1. There are errors in the console, especially `editor-element-conflict` one.
-2. The second editor is not created.
