@@ -47,9 +47,12 @@
 
 		'test image filter should not transform non-file images': function() {
 			var editor = this.editor,
-				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
+				filtersPaths = [
+					CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+					CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
+				];
 
-			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
+			return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="http://example.com/img.png" />',
 						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
