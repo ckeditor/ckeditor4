@@ -72,7 +72,7 @@
 			wholeImages,
 			imageType;
 
-		rtfContent = removeHeadersAndFooters( rtfContent );
+		rtfContent = CKEDITOR.plugins.pastetools.filters.common.rtf.removeGroups( rtfContent, '(?:header|footer)[lrf]?' );
 		wholeImages = rtfContent.match( rePicture );
 
 		if ( !wholeImages ) {
@@ -140,72 +140,6 @@
 			}
 
 			return null;
-		}
-
-		function removeHeadersAndFooters( rtfContent ) {
-			var startRegex = /\{\\(?:header|footer)[lrf]?/,
-				current;
-
-			while ( current = rtfContent.match( startRegex ) ) {
-				var precedingContent = rtfContent.substring( 0, current.index - 1 ),
-					contentToParse = rtfContent.substring( current.index ),
-					parsedContent = removeMatchedGroup( contentToParse );
-
-				rtfContent = precedingContent + parsedContent;
-
-				startRegex.lastIndex = 0;
-			}
-
-			return rtfContent;
-		}
-
-		// This function is in fact a very primitive RTF parser.
-		// It iterates over RTF content and search for the last } in the group
-		// by keeping track of how many elements are open using a stack-like method.
-		function removeMatchedGroup( content ) {
-			var i = 0,
-				open = 0,
-				current = content[ i ];
-
-			do {
-				// Every group start has format of {\. However there can be some whitespace after { and before /.
-				// Additionally we need to filter also curly braces from the content – fortunately they are escaped.
-				var isValidGroupStart = current === '{' && getPreviousNonWhitespaceChar( content, i ) !== '\\' &&
-					getNextNonWhitespaceChar( content, i ) === '\\',
-					isValidGroupEnd = current === '}' && getPreviousNonWhitespaceChar( content, i ) !== '\\' &&
-						open > 0;
-
-				if ( isValidGroupStart ) {
-					open++;
-				} else if ( isValidGroupEnd ) {
-					open--;
-				}
-
-				current = content[ ++i ];
-			} while ( current && open > 0 );
-
-			return content.substring( i );
-		}
-
-		function getPreviousNonWhitespaceChar( content, index ) {
-			return getNonWhitespaceChar( content, index, -1 );
-		}
-
-		function getNextNonWhitespaceChar( content, index ) {
-			return getNonWhitespaceChar( content, index, 1 );
-		}
-
-		function getNonWhitespaceChar( content, startIndex, direction ) {
-			var index = startIndex + direction,
-				current = content[ index ],
-				whiteSpaceRegex = /[\s]/;
-
-			while ( current && whiteSpaceRegex.test( current ) ) {
-				index = index + direction;
-				current = content[ index ];
-			}
-
-			return current;
 		}
 	}
 
