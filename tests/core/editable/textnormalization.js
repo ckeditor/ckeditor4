@@ -36,7 +36,7 @@
 		'arabic text should be composed correctly on insertion (case 1)': function() {
 			var editor = this.editors.enterp;
 
-			setHtmlWithSelection( editor, '<p>Text: ^</p>' );
+			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
 
 			editor.insertText( 'عام' );
 			editor.insertText( 'عام' );
@@ -50,7 +50,7 @@
 		'arabic text should be composed correctly on insertion (case 2)': function() {
 			var editor = this.editors.enterp;
 
-			setHtmlWithSelection( editor, '<p>Text: ^</p>' );
+			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
 
 			editor.insertText( 'عام' );
 			editor.insertText( 'عام' );
@@ -65,7 +65,7 @@
 		'arabic text should be composed correctly on insertion (enter_br, case 1)': function() {
 			var editor = this.editors.enterbr;
 
-			setHtmlWithSelection( editor, 'Text: ^' );
+			setHtmlWithSelection( editor, 'Text:&nbsp;^' );
 
 			editor.insertText( 'عام' );
 			editor.insertText( 'عام' );
@@ -79,7 +79,7 @@
 		'arabic text should be composed correctly on insertion (enter_br, case 2)': function() {
 			var editor = this.editors.enterbr;
 
-			setHtmlWithSelection( editor, 'Foo Bar<div>Text: ^</div>' );
+			setHtmlWithSelection( editor, 'Foo Bar<div>Text:&nbsp;^</div>' );
 
 			editor.insertText( 'عام' );
 			editor.insertText( 'عام' );
@@ -93,7 +93,7 @@
 		'regular text should be normalized': function() {
 			var editor = this.editors.enterp;
 
-			setHtmlWithSelection( editor, '<p>Text: ^</p>' );
+			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
 
 			editor.insertText( '123' );
 			editor.insertText( ' 456' );
@@ -107,7 +107,7 @@
 		'regular text should be normalized (enter_br)': function() {
 			var editor = this.editors.enterbr;
 
-			setHtmlWithSelection( editor, 'Text: ^' );
+			setHtmlWithSelection( editor, 'Text:&nbsp;^' );
 
 			editor.insertText( '123' );
 			editor.insertText( ' 456' );
@@ -121,7 +121,7 @@
 		'text nodes in other block elements should not be touched (before)': function() {
 			var editor = this.editors.enterp;
 
-			setHtmlWithSelection( editor, '<p>Foo Bar Baz</p><p>Text2: ^</p>' );
+			setHtmlWithSelection( editor, '<p>Foo Bar Baz</p><p>Text2:&nbsp;^</p>' );
 
 			var paragraph1 = editor.editable().find( 'p' ).getItem( 0 );
 
@@ -144,7 +144,7 @@
 		'text nodes in other block elements should not be touched (after)': function() {
 			var editor = this.editors.enterp;
 
-			setHtmlWithSelection( editor, '<p>Text1: ^</p><p>Foo Bar Baz</p>' );
+			setHtmlWithSelection( editor, '<p>Text1:&nbsp;^</p><p>Foo Bar Baz</p>' );
 
 			var paragraph2 = editor.editable().find( 'p' ).getItem( 1 );
 
@@ -167,7 +167,7 @@
 		'text nodes in other block elements will be touched for root text (enter_br, after)': function() {
 			var editor = this.editors.enterbr;
 
-			setHtmlWithSelection( editor, 'Text1: ^<div>Foo Bar Baz</div>' );
+			setHtmlWithSelection( editor, 'Text1:&nbsp;^<div>Foo Bar Baz</div>' );
 
 			var div = editor.editable().find( 'div' ).getItem( 0 );
 
@@ -190,7 +190,7 @@
 		'composable text which is not normally merged should not be merged due to normalization': function() {
 			var editor = this.editors.enterp;
 
-			setHtmlWithSelection( editor, '<p>Text: ^</p>' );
+			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
 
 			editor.insertText( 'ｈ' );
 			editor.insertText( 'え' );
@@ -216,7 +216,10 @@
 		// creating correct arabic text (I guess that's how correct unicode handling should work)
 		// so we need to return and compare array where each item represents single text node contents.
 		var nonEmptyTextNodes = CKEDITOR.tools.array.filter( element.getChildren().toArray(), function( child ) {
-			// Filter non-text nodes, empty text nodes and text nodes containing "filling char sequence" only.
+			// Filter:
+			// * non-text nodes
+			// * empty text nodes
+			// * text nodes containing "filling char sequence" only
 			return child.type === CKEDITOR.NODE_TEXT && child.getText() !== CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
 		} );
 
