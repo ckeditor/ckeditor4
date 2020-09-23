@@ -2242,7 +2242,7 @@
 				return;
 			}
 
-			var widths = element.styles.margin.match( /(\-?[\.\d]*\w+)/g ) || [ '0px' ];
+			var widths = element.styles.margin.match( /(auto|0|(?:\-?[\.\d]+(?:\w+|%)))/g );
 			switch ( widths.length ) {
 				case 1:
 					mapStyles( [ 0, 0, 0, 0 ] );
