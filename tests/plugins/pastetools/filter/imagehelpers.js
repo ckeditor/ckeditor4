@@ -1,11 +1,10 @@
 /* bender-tags: editor,pastefromword */
-/* bender-ckeditor-plugins: pastetools, pastefromword,ajax */
-/* bender-include: generated/_helpers/pfwTools.js, ../pastetools/_helpers/ptTools.js */
+/* bender-ckeditor-plugins: pastetools, ajax */
+/* bender-include: ../_helpers/ptTools.js */
 /* global ptTools */
 
 ( function() {
 	'use strict';
-
 
 	var extractImagesTestsGenerator = function() {
 		function cacheBuster() {
@@ -17,7 +16,7 @@
 				CKEDITOR.ajax.load( './_fixtures/' + name + '.rtf?' + cacheBuster(), function( rtf ) {
 					CKEDITOR.ajax.load( './_fixtures/' + name + '.json?' + cacheBuster(), function( json ) {
 						resume( function() {
-							var actualResult = CKEDITOR.plugins.pastefromword.images.extractFromRtf( rtf ),
+							var actualResult = CKEDITOR.pasteFilters.image.extractFromRtf( rtf ),
 								expectedResult = JSON.parse( json );
 							assert.areSame( expectedResult.length, actualResult.length );
 							for ( var i = 0; i < actualResult.length; i++ ) {
@@ -58,7 +57,7 @@
 			for ( i = 0; i < sourceLength; i++ ) {
 				bender.tools.testInputOut( 'source' + i, function( input, output ) {
 					var expectedResult = JSON.parse( output ),
-						actualResult = CKEDITOR.plugins.pastefromword.images.extractTagsFromHtml( input ),
+						actualResult = CKEDITOR.pasteFilters.image.extractTagsFromHtml( input ),
 						j;
 					assert.areSame( expectedResult.length, actualResult.length );
 					for ( j = 0; j < actualResult.length; j++ ) {
@@ -75,6 +74,6 @@
 
 	ptTools.testWithFilters( tests, [
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
-		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
+		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js' )
 	] );
 } )();
