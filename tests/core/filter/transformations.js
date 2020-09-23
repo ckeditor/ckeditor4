@@ -470,6 +470,9 @@
 				assertToHtml( editor, '<h1 style="margin:0 0 12px 0">A</h1>',
 					'<h1 style="margin-bottom:12px; margin-left:0; margin-right:0; margin-top:0">A</h1>',
 					'margin shortcut 4 members with 0' );
+				assertToHtml( editor, '<h1 style="margin:0 auto 2rem 30%">A</h1>',
+					'<h1 style="margin-bottom:2rem; margin-left:30%; margin-right:auto; margin-top:0">A</h1>',
+					'margin shortcut 4 members with 0' );
 			} );
 		},
 
