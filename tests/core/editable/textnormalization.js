@@ -215,6 +215,7 @@
 		// If the mapped array is joined (to create single text entry) it also merges text
 		// creating correct arabic text (I guess that's how correct unicode handling should work)
 		// so we need to return and compare array where each item represents single text node contents.
+
 		var nonEmptyTextNodes = CKEDITOR.tools.array.filter( element.getChildren().toArray(), function( child ) {
 			// Filter:
 			// * non-text nodes
@@ -224,6 +225,7 @@
 		} );
 
 		return CKEDITOR.tools.array.map( nonEmptyTextNodes, function( textNode ) {
+			// Replace "&nbsp;" and "filling char sequence" for easy text nodes comparison.
 			return textNode.getText()
 				.replace( /\u00a0/g, ' ' )
 				.replace( new RegExp( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, 'g' ), '' );
