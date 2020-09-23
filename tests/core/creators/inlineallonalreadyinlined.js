@@ -1,8 +1,8 @@
 /* bender-tags: editor */
 
-bender.editor = {};
-
 'use strict';
+
+bender.editor = {};
 
 bender.test( {
 	// (#4293)
