@@ -11,6 +11,20 @@
 		}
 	};
 
+	bender.editors = {
+		enterp: {
+			creator: 'replace',
+			name: 'enterp'
+		},
+		enterbr: {
+			creator: 'replace',
+			name: 'enterbr',
+			config: {
+				enterMode: CKEDITOR.ENTER_BR
+			}
+		}
+	};
+
 	bender.test( {
 		setUp: function() {
 			if ( !CKEDITOR.env.webkit ) {
@@ -20,7 +34,7 @@
 
 		// (#848).
 		'arabic text should be composed correctly on insertion (case 1)': function() {
-			var editor = this.editor;
+			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text: ^</p>' );
 
@@ -34,7 +48,7 @@
 
 		// (#848).
 		'arabic text should be composed correctly on insertion (case 2)': function() {
-			var editor = this.editor;
+			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text: ^</p>' );
 
@@ -48,8 +62,36 @@
 		},
 
 		// (#848).
+		'arabic text should be composed correctly on insertion (enter_br, case 1)': function() {
+			var editor = this.editors.enterbr;
+
+			setHtmlWithSelection( editor, 'Text: ^' );
+
+			editor.insertText( 'عام' );
+			editor.insertText( 'عام' );
+
+			var body = editor.editable();
+
+			assertTextNormalization( body, 'Text: عامعام' );
+		},
+
+		// (#848).
+		'arabic text should be composed correctly on insertion (enter_br, case 2)': function() {
+			var editor = this.editors.enterbr;
+
+			setHtmlWithSelection( editor, 'Foo Bar<div>Text: ^</div>' );
+
+			editor.insertText( 'عام' );
+			editor.insertText( 'عام' );
+
+			var div = editor.editable().find( 'div' ).getItem( 0 );
+
+			assertTextNormalization( div, 'Text: عامعام' );
+		},
+
+		// (#848).
 		'regular text should be normalized': function() {
-			var editor = this.editor;
+			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text: ^</p>' );
 
@@ -62,8 +104,22 @@
 		},
 
 		// (#848).
+		'regular text should be normalized (enter_br)': function() {
+			var editor = this.editors.enterbr;
+
+			setHtmlWithSelection( editor, 'Text: ^' );
+
+			editor.insertText( '123' );
+			editor.insertText( ' 456' );
+
+			var paragraph = editor.editable();
+
+			assertTextNormalization( paragraph, 'Text: 123 456' );
+		},
+
+		// (#848).
 		'text nodes in other block elements should not be touched (before)': function() {
-			var editor = this.editor;
+			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Foo Bar Baz</p><p>Text2: ^</p>' );
 
@@ -86,7 +142,7 @@
 
 		// (#848).
 		'text nodes in other block elements should not be touched (after)': function() {
-			var editor = this.editor;
+			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text1: ^</p><p>Foo Bar Baz</p>' );
 
@@ -108,8 +164,31 @@
 		},
 
 		// (#848).
+		'text nodes in other block elements will be touched for root text (enter_br, after)': function() {
+			var editor = this.editors.enterbr;
+
+			setHtmlWithSelection( editor, 'Text1: ^<div>Foo Bar Baz</div>' );
+
+			var div = editor.editable().find( 'div' ).getItem( 0 );
+
+			// Split single text node into few separate text nodes in first paragraph.
+			div.getChild( 0 ).split( 7 );
+
+			assertTextNodes( div, [ 'Foo Bar', ' Baz' ] );
+
+			// Insert text which triggers normalization.
+			editor.insertText( 'Bax' );
+			editor.insertText( ' Bay' );
+
+			var body = editor.editable();
+
+			assertTextNodes( div, [ 'Foo Bar Baz' ] );
+			assertTextNormalization( body, 'Text1: Bax Bay' );
+		},
+
+		// (#848).
 		'composable text which is not normally merged should not be merged due to normalization': function() {
-			var editor = this.editor;
+			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text: ^</p>' );
 
@@ -136,8 +215,15 @@
 		// If the mapped array is joined (to create single text entry) it also merges text
 		// creating correct arabic text (I guess that's how correct unicode handling should work)
 		// so we need to return and compare array where each item represents single text node contents.
-		return CKEDITOR.tools.array.map( element.getChildren().toArray(), function( child ) {
-			return child.getText().replace( /\u00a0/g, ' ' );
+		var nonEmptyTextNodes = CKEDITOR.tools.array.filter( element.getChildren().toArray(), function( child ) {
+			// Filter non-text nodes, empty text nodes and text nodes containing "filling char sequence" only.
+			return child.type === CKEDITOR.NODE_TEXT && child.getText() !== CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
+		} );
+
+		return CKEDITOR.tools.array.map( nonEmptyTextNodes, function( textNode ) {
+			return textNode.getText()
+				.replace( /\u00a0/g, ' ' )
+				.replace( new RegExp( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, 'g' ), '' );
 		} );
 	}
 } )();
