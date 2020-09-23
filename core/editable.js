@@ -2035,7 +2035,15 @@
 			// Normalize text nodes (#848).
 			if ( CKEDITOR.env.webkit && range.startPath() ) {
 				var path = range.startPath();
-				path.block && path.block.$.normalize();
+
+				if ( path.block ) {
+					path.block.$.normalize();
+				} else if ( path.blockLimit ) {
+					// Handle ENTER_BR mode when text is direct root/body child.
+					// This will call native `normalize` on entire editor content in this case
+					// normalizing text nodes in entire editor content.
+					path.blockLimit.$.normalize();
+				}
 			}
 
 			range.moveToBookmark( bm );
