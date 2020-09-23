@@ -11,6 +11,7 @@ bender.test( {
 			elementId = 'editorInlined',
 			element = CKEDITOR.document.getById( elementId );
 
+		// Make sure the element won't be inlined on CKEDITOR.domReady.
 		element.$.contentEditable = true;
 
 		CKEDITOR.inline( elementId, {

@@ -16,6 +16,7 @@
 	} );
 
 	CKEDITOR.document.getById( 'inlineAll' ).on( 'click', function() {
+		// Make sure the element won't be inlined on CKEDITOR.domReady.
 		CKEDITOR.document.getById( 'editor2' ).$.contentEditable = true;
 
 		CKEDITOR.inlineAll();
