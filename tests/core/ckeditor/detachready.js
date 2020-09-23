@@ -1,5 +1,4 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: wysiwygarea */
 
 ( function() {
 	'use strict';
