@@ -45,7 +45,10 @@
 					// As in Word we do image embedding before the main filter,
 					// there is a chance that some of the images are also inserted via VML.
 					// This regex ensures that we replace only HTML <img> tags.
-					var imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + imgTags[ i ] );
+					// Oh, and there are also Windows paths that need to be escaped
+					// before passing to regex.
+					var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
+						imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
 
 					html = html.replace( imgRegex, '$1' + newSrcValues[ i ] );
 				}
@@ -59,69 +62,54 @@
 	CKEDITOR.pasteFilters.image.extractTagsFromHtml = extractTagsFromHtml;
 
 	function extractFromRtf( rtfContent ) {
-		var ret = [],
-			rePictureHeader = /(?:(?:\\\*)?\{\\(?:non)?shppict\s*)?\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
-			rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
-			// Fallback regexp for picture header. Please note that instead \pngblip there might be also \jpegblip
-			// for different image compression type.
-			// 1. {\pict … \pngblip                  <- here inside "…" curly brakcets never appear
-			// 2. {\*\shppict{\pict{\* … \pngblip    <- here inside "…" curly brackets might be present
-			fallbackRePictureHeader = /(\{\\pict[^{}]+?|\{\\\*\\shppict\{\\pict\{\\\*[^*]+?)\\(?:jpeg|png)blip/,
-			fallbackRePicture = new RegExp( '(?:(' + fallbackRePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
-			isFallback = false,
+		var filter = CKEDITOR.plugins.pastetools.filters.common.rtf,
+			ret = [],
 			wholeImages,
 			imageType;
 
-		rtfContent = CKEDITOR.plugins.pastetools.filters.common.rtf.removeGroups( rtfContent, '(?:header|footer)[lrf]?' );
-		wholeImages = rtfContent.match( rePicture );
-
-		if ( !wholeImages ) {
-			isFallback = true;
-			wholeImages = rtfContent.match( fallbackRePicture );
-		}
+		// Remove headers, footers and non-Word images.
+		// Headers and footers are in \header* and \footer* groups,
+		// non-Word images are inside \nonshp groups.
+		rtfContent = filter.removeGroups( rtfContent, '(?:(?:header|footer)[lrf]?|nonshppict)' );
+		wholeImages = filter.getGroups( rtfContent, 'pict' );
 
 		if ( !wholeImages ) {
 			return ret;
 		}
 
 		for ( var i = 0; i < wholeImages.length; i++ ) {
-			var currentImage = wholeImages[ i ],
-				pictureHeaderRegex = isFallback ? fallbackRePictureHeader : rePictureHeader;
+			var currentImage = wholeImages[ i ].content,
+				id = getImageId( currentImage ),
+				imageDataIndex = CKEDITOR.tools.array.indexOf( ret, function( image ) {
+					return image.id === id;
+				} ),
+				isAlreadyExtracted = imageDataIndex !== -1 && ret[ imageDataIndex ].hex,
+				// WordArt shapes are defined using \defshp control word. Thanks to that
+				// they can be easily filtered.
+				isWordArtShape = currentImage.indexOf( '\\defshp' ) !== -1;
 
-			if ( pictureHeaderRegex.test( currentImage ) ) {
-				var id = getImageId( currentImage ),
-					imageDataIndex = CKEDITOR.tools.array.indexOf( ret, function( image ) {
-						return image.id === id;
-					} ),
-					isAlreadyExtracted = imageDataIndex !== -1 && ret[ imageDataIndex ].hex,
-					isWordArtShape = currentImage.indexOf( '\\defshp' ) !== -1,
-					isNonWordImage = currentImage.indexOf( '\\nonshppict' ) !== -1;
+			if ( isAlreadyExtracted || isWordArtShape ) {
+				continue;
+			}
 
-				// This image is already extracted, it's WordArt shape or it's a non-Word version.
-				if ( isAlreadyExtracted || isWordArtShape || isNonWordImage ) {
-					continue;
-				}
+			if ( currentImage.indexOf( '\\pngblip' ) !== -1 ) {
+				imageType = 'image/png';
+			} else if ( currentImage.indexOf( '\\jpegblip' ) !== -1 ) {
+				imageType = 'image/jpeg';
+			} else {
+				imageType = 'unknown';
+			}
 
-				if ( currentImage.indexOf( '\\pngblip' ) !== -1 ) {
-					imageType = 'image/png';
-				} else if ( currentImage.indexOf( '\\jpegblip' ) !== -1 ) {
-					imageType = 'image/jpeg';
-				} else {
-					imageType = 'unknown';
-				}
+			var newImageData = {
+				id: id,
+				hex: imageType !== 'unknown' ? getImageContent( currentImage ) : null,
+				type: imageType
+			};
 
-				var newImageData = {
-					id: id,
-					hex: imageType !== 'unknown' ?
-						currentImage.replace( pictureHeaderRegex, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
-					type: imageType
-				};
-
-				if ( imageDataIndex !== -1 ) {
-					ret.splice( imageDataIndex, 1, newImageData );
-				} else {
-					ret.push( newImageData );
-				}
+			if ( imageDataIndex !== -1 ) {
+				ret.splice( imageDataIndex, 1, newImageData );
+			} else {
+				ret.push( newImageData );
 			}
 		}
 
@@ -140,6 +128,15 @@
 			}
 
 			return null;
+		}
+
+		// Image content is basically \pict group content. However RTF sometimes
+		// break content into several lines and we don't want any whitespace
+		// in our images. So we need to get rid of it.
+		function getImageContent( image ) {
+			var content = filter.extractGroupContent( image );
+
+			return content.replace( /\s/g, '' );
 		}
 	}
 
