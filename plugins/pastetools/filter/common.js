@@ -773,18 +773,30 @@
 	 * @member CKEDITOR.plugins.pastetools.filters.common
 	 */
 	plug.rtf = {
+		getGroups: function( rtfContent, groupName ) {
+			var groups = [],
+				current,
+				from = 0;
+
+			while ( current = plug.rtf.getGroup( rtfContent, groupName, {
+				start: from
+			} ) ) {
+				from = current.end;
+
+				groups.push( current );
+			}
+
+			return groups;
+		},
+
 		removeGroups: function( rtfContent, groupName ) {
-			var startRegex = new RegExp( '\\{\\\\' + groupName ),
-				current;
+			var current;
 
-			while ( current = rtfContent.match( startRegex ) ) {
-				var precedingContent = rtfContent.substring( 0, current.index - 1 ),
-					contentToParse = rtfContent.substring( current.index ),
-					parsedContent = plug.rtf.removeMatchedGroup( contentToParse );
+			while ( current = plug.rtf.getGroup( rtfContent, groupName ) ) {
+				var beforeContent = rtfContent.substring( 0, current.start ),
+					afterContent = rtfContent.substring( current.end + 1 );
 
-				rtfContent = precedingContent + parsedContent;
-
-				startRegex.lastIndex = 0;
+				rtfContent = beforeContent + afterContent;
 			}
 
 			return rtfContent;
@@ -793,10 +805,29 @@
 		// This function is in fact a very primitive RTF parser.
 		// It iterates over RTF content and search for the last } in the group
 		// by keeping track of how many elements are open using a stack-like method.
-		removeMatchedGroup: function( content ) {
-			var i = 0,
-				open = 0,
-				current = content[ i ];
+		getGroup: function( content, groupName, options ) {
+			var open = 0,
+				// Despite the fact that we search for only one group,
+				// the global modifier is used to be able to manipulate
+				// the starting index of the search. Without g flag it's impossible.
+				startRegex = new RegExp( '\\{\\\\' + groupName, 'g' ),
+				group,
+				i,
+				current;
+
+			options = CKEDITOR.tools.object.merge( {
+				start: 0
+			}, options || {} );
+
+			startRegex.lastIndex = options.start;
+			group = startRegex.exec( content );
+
+			if ( !group ) {
+				return null;
+			}
+
+			i = group.index;
+			current = content[ i ];
 
 			do {
 				// Every group start has format of {\. However there can be some whitespace after { and before /.
@@ -815,7 +846,30 @@
 				current = content[ ++i ];
 			} while ( current && open > 0 );
 
-			return content.substring( i );
+			return {
+				start: group.index,
+				end: i,
+				content: content.substring( group.index, i )
+			};
+		},
+
+		extractGroupContent: function( group ) {
+			// The group starts with { followed by one or many control words (starting with \).
+			// Then there is a whitespace (space or newline) and the real content till the ending }.
+			var groupContentRegex = /^\{\\[\S]+\s+([\S]+)\}$/,
+				//However we need to remove subgroups as they can mess up content extracting
+				// (as they also can include their own content).
+				subgroupRegex = /^(\{(?:.|\n)*)(\{.+?\})((?:.|\n)*\})$/g,
+				matched;
+
+			group = group.replace( subgroupRegex, '$1$3' );
+			matched = group.match( groupContentRegex );
+
+			if ( !matched ) {
+				return null;
+			}
+
+			return matched[ 1 ];
 		}
 	};
 
