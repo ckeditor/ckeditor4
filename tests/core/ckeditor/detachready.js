@@ -3,27 +3,27 @@
 ( function() {
 	'use strict';
 
-	var documentRemoveListenerSpy,
-		windowRemoveListenerSpy;
-
-	// Since bender.tests are usually run after ready events ('DOMContentLoaded', 'load', 'onload', 'onreadystatechange')
-	// happens, attach spies as soon as possible.
-	if ( document.addEventListener ) {
-		documentRemoveListenerSpy = sinon.spy( document, 'removeEventListener' );
-		windowRemoveListenerSpy = sinon.spy( window, 'removeEventListener' );
-	} else if ( document.attachEvent ) {
-		documentRemoveListenerSpy = sinon.spy( document, 'detachEvent' );
-		windowRemoveListenerSpy = sinon.spy( window, 'detachEvent' );
+	// Ignore tests on IE8 since sinon can't spy window/documents method there
+	// throwing an error (https://github.com/sinonjs/sinon/issues/186). Also ignoring takes
+	// place on the very beginning to simplify further code (due to addEventListener vs attachEvent in IE8, etc).
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		bender.ignore();
+		return;
 	}
 
-	// Make sure tests are run after 'load' event so listeners had time to be detached.
+	// Since "bender.test" is usually run after ready events ('DOMContentLoaded', 'load')
+	// happen, we need to attach spies as soon as possible.
+	var documentRemoveListenerSpy = sinon.spy( document, 'removeEventListener' ),
+	windowRemoveListenerSpy = sinon.spy( window, 'removeEventListener' );
+
+	// Make sure tests are run after 'load' event so listeners had time to be detached by "onReady()" function.
 	window.addEventListener( 'load', function() {
 
 		setTimeout( function() {
 
 			bender.test( {
 				init: function() {
-					// Restore spied methods since we don't need spies anymore here.
+					// Restore spied methods since we don't need spying here anymore.
 					documentRemoveListenerSpy.restore();
 					windowRemoveListenerSpy.restore();
 				},
