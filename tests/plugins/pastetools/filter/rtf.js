@@ -98,6 +98,19 @@
 
 					assert.areSame( imageContent, extracted, 'extracted group content' );
 				} );
+		},
+
+		'test #extractGroupContent() can extract content from group when content is immediately after subgroup': function() {
+			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+				groupContent = 'hublabubla',
+				group = '{\\group\\control{\\subgroup subcontent}' + groupContent + '}';
+
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rtf' )
+				.then( function( filter ) {
+					var extracted = filter.extractGroupContent( group );
+
+					assert.areSame( groupContent, extracted, 'extracted group content' );
+				} );
 		}
 	};
 

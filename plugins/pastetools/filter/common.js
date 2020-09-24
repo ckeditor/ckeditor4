@@ -794,7 +794,7 @@
 
 			while ( current = plug.rtf.getGroup( rtfContent, groupName ) ) {
 				var beforeContent = rtfContent.substring( 0, current.start ),
-					afterContent = rtfContent.substring( current.end + 1 );
+					afterContent = rtfContent.substring( current.end );
 
 				rtfContent = beforeContent + afterContent;
 			}
@@ -854,24 +854,34 @@
 		},
 
 		extractGroupContent: function( group ) {
-			// The group starts with { followed by one or many control words (starting with \).
-			// Then there is a whitespace (space or newline) and the real content till the ending }.
-			var groupContentRegex = /^\{\\[\S]+\s+([\S]+)\}$/,
-				//However we need to remove subgroups as they can mess up content extracting
-				// (as they also can include their own content).
-				subgroupRegex = /^(\{(?:.|\n)*)(\{.+?\})((?:.|\n)*\})$/g,
-				matched;
+			var groupName = getGroupName( group ),
+				controlWordsRegex = /^\{(\\[\w-]+\s*)+/g,
+				// Sometimes content follows the last subgroup without any space.
+				// We need to add it to correctly parse the whole thing.
+				subgroupWithousSpaceRegex = /\}([^{\s]+)/g;
 
-			group = group.replace( subgroupRegex, '$1$3' );
-			matched = group.match( groupContentRegex );
+			group = group.replace( subgroupWithousSpaceRegex, '} $1' );
+			// And now remove all subgroups that are not the actual group.
+			group = plug.rtf.removeGroups( group, '(?!' + groupName + ')' );
+			// Remove all control words and trim the whitespace at the beginning
+			// that could be introduced by preserving space after last subgroup.
+			group = CKEDITOR.tools.trim( group.replace( controlWordsRegex, '' ) );
 
-			if ( !matched ) {
-				return null;
-			}
-
-			return matched[ 1 ];
+			// What's left is group content with } at the end.
+			return group.replace( /}$/, '' );
 		}
 	};
+
+	function getGroupName( group ) {
+		var groupNameRegex = /^\{\\(\w+)/,
+			groupName = group.match( groupNameRegex );
+
+		if ( !groupName ) {
+			return null;
+		}
+
+		return groupName[ 1 ];
+	}
 
 	function getPreviousNonWhitespaceChar( content, index ) {
 		return getNonWhitespaceChar( content, index, -1 );
