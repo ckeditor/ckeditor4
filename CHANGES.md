@@ -8,6 +8,7 @@ Fixed Issues:
 * [#4293](https://github.com/ckeditor/ckeditor4/issues/4293): Fixed: [`CKEDITOR.inlineAll()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inlineAll) method tries to initialize inline editor also on elements with editor already attached to them.
 * [#3961](https://github.com/ckeditor/ckeditor4/issues/3961): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) prevents editing of merged cells.
 * [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Fixed: Applying a [block format](https://ckeditor.com/docs/ckeditor4/latest/features/format.html) should remove existing block styles.
+* [#4282](https://github.com/ckeditor/ckeditor4/issues/4282): Fixed: [Script loader](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_scriptLoader.html) doesn't execute callback for scripts already loaded when called for the second time. Thanks to [Alexander Korotkevich](https://github.com/aldoom)!
 
 API Changes:
 
