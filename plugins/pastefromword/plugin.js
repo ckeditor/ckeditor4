@@ -101,6 +101,8 @@
 					data.dontFilter = true;
 
 					if ( forceFromWord || confirmCleanUp() ) {
+						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
+
 						// Paste From Word Image:
 						// RTF clipboard is required for embedding images.
 						// If img tags are not allowed there is no point to process images.
@@ -109,8 +111,6 @@
 							CKEDITOR.pasteFilters.image ) {
 							pfwEvtData.dataValue = CKEDITOR.pasteFilters.image( pfwEvtData.dataValue, editor, dataTransferRtf );
 						}
-
-						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 
