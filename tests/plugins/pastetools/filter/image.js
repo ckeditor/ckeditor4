@@ -19,47 +19,23 @@
 		];
 
 	var tests = {
-		'test image filter should transform 1st type of rtf data': function() {
-			var editor = this.editor,
-				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
+		'test image filter should transform 1st type of rtf data': ptTools.createFilterTest( {
+			html: '<img src="file://foo" />',
+			rtf: RTF[ 0 ],
+			expected: '<img src="data:image/png;base64,12345678" />'
+		} ),
 
-			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
-				.then( function( imageFilter ) {
-					var inputHtml = '<img src="file://foo" />',
-						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
+		'test image filer should transform 2nd type of rtf data': ptTools.createFilterTest( {
+			html: '<img src="file://foo" />',
+			rtf: RTF[ 1 ],
+			expected: '<img src="data:image/png;base64,12345678" />'
+		} ),
 
-					assert.areSame( '<img src="data:image/png;base64,12345678" />', actual );
-				} );
-		},
-
-		'test image filer should transform 2nd type of rtf data': function() {
-			var editor = this.editor,
-				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
-
-			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
-				.then( function( imageFilter ) {
-					var inputHtml = '<img src="file://foo" />',
-						actual = imageFilter( inputHtml, editor, RTF[ 1 ] );
-
-					assert.areSame( '<img src="data:image/png;base64,12345678" />', actual );
-				} );
-		},
-
-		'test image filter should not transform non-file images': function() {
-			var editor = this.editor,
-				filtersPaths = [
-					CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
-					CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
-				];
-
-			return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
-				.then( function( imageFilter ) {
-					var inputHtml = '<img src="http://example.com/img.png" />',
-						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
-
-					assert.areSame( '<img src="http://example.com/img.png" />', actual );
-				} );
-		}
+		'test image filter should not transform non-file images': ptTools.createFilterTest( {
+			html: '<img src="http://example.com/img.png" />',
+			rtf: RTF[ 0 ],
+			expected: '<img src="http://example.com/img.png" />'
+		} )
 	};
 
 	tests = bender.tools.createAsyncTests( tests );
