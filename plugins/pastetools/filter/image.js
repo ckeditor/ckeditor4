@@ -79,9 +79,7 @@
 		for ( var i = 0; i < wholeImages.length; i++ ) {
 			var currentImage = wholeImages[ i ].content,
 				id = getImageId( currentImage ),
-				imageDataIndex = CKEDITOR.tools.array.indexOf( ret, function( image ) {
-					return image.id === id;
-				} ),
+				imageDataIndex = getImageIndex( id ),
 				isAlreadyExtracted = imageDataIndex !== -1 && ret[ imageDataIndex ].hex,
 				// WordArt shapes are defined using \defshp control word. Thanks to that
 				// they can be easily filtered.
@@ -113,6 +111,18 @@
 		}
 
 		return ret;
+
+		function getImageIndex( id ) {
+			// In some cases LibreOffice does not include ids for images.
+			// In that case, always treat them as unique (not found in the array).
+			if ( typeof id !== 'string' ) {
+				return -1;
+			}
+
+			return CKEDITOR.tools.array.indexOf( ret, function( image ) {
+				return image.id === id;
+			} );
+		}
 
 		function getImageId( image ) {
 			var blipUidRegex = /\\blipuid (\w+)\}/,
