@@ -7,10 +7,10 @@
 
 ## Expected
 
-* Only the last image is pasted.
+* Only the last image is rendered correctly.
 
 ## Unexpected
 
-* Last image is not pasted correctly.
+* Last image is not rendered correctly.
 
-Note: the first two images could be broken, as they are in unsupported format.
+Note: all images will be pasted, but only the last one is in supported format and will be rendered correctly.
