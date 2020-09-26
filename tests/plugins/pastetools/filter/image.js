@@ -15,7 +15,8 @@
 	var RTF = [
 			'{\\pict\\picscalex100\\picscaley100\\piccropl0\\piccropr0\\piccropt0\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc}',
 			'{\\*\\shppict{\\pict{\\*\\picprop{\\sp{\\sn wzDescription}{\\sv }}{\\sp{\\sn wzName}{\\sv }}}\\picscalex19\\picscaley19\\piccropl0\\piccropr0\\piccropt0' +
-			'\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc }}{\\nonshppict{\\pict{\\*\\picprop{'
+			'\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc }}{\\nonshppict{\\pict{\\*\\picprop{',
+			'{\\pict\\picscalex100\\picscaley100\\piccropl0\\piccropr0\\piccropt0\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\emfblip d76df8e7aefc}'
 		];
 
 	var tests = {
@@ -35,7 +36,36 @@
 			html: '<img src="http://example.com/img.png" />',
 			rtf: RTF[ 0 ],
 			expected: '<img src="http://example.com/img.png" />'
-		} )
+		} ),
+
+		'test image filer should raise an error for unsupported image format': function() {
+			var editor = this.editor,
+					filtersPaths = [
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
+					],
+					spy = sinon.spy( CKEDITOR, 'error' );
+
+			return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
+				.then( function( imageFilter ) {
+					var inputHtml = '<img src="file://foo" />',
+						inputRtf = RTF[ 2 ],
+						actual = imageFilter( inputHtml, editor, inputRtf ),
+						spyCall = spy.getCall( 0 ),
+						expectedSpyArguments = [
+							'pastetools-unsupported-image',
+							{
+								type: 'emf'
+							}
+						];
+
+					spy.restore();
+
+					assert.areSame( inputHtml, actual, 'html output' );
+					assert.areSame( 1, spy.callCount, 'errors raised' );
+					objectAssert.areDeepEqual( expectedSpyArguments, spyCall.args );
+				} );
+		}
 	};
 
 	tests = bender.tools.createAsyncTests( tests );
