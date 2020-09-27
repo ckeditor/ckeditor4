@@ -44,7 +44,8 @@
 				if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) ) {
 					if ( !newSrcValues[ i ] ) {
 						CKEDITOR.error( 'pastetools-unsupported-image', {
-							type: hexImages[ i ].type
+							type: hexImages[ i ].type,
+							index: i
 						} );
 
 						continue;
@@ -67,12 +68,16 @@
 
 	CKEDITOR.pasteFilters.image.extractFromRtf = extractFromRtf;
 	CKEDITOR.pasteFilters.image.extractTagsFromHtml = extractTagsFromHtml;
+	CKEDITOR.pasteFilters.image.getImageType = getImageType;
+	CKEDITOR.pasteFilters.image.supportedImageTypes = [
+		'image/png',
+		'image/jpeg'
+	];
 
 	function extractFromRtf( rtfContent ) {
 		var filter = CKEDITOR.plugins.pastetools.filters.common.rtf,
 			ret = [],
-			wholeImages,
-			imageType;
+			wholeImages;
 
 		// Remove headers, footers and non-Word images.
 		// Headers and footers are in \header* and \footer* groups,
@@ -86,28 +91,22 @@
 
 		for ( var i = 0; i < wholeImages.length; i++ ) {
 			var currentImage = wholeImages[ i ].content,
-				id = getImageId( currentImage ),
-				imageDataIndex = getImageIndex( id ),
+				imageId = getImageId( currentImage ),
+				imageType = getImageType( currentImage ),
+				imageDataIndex = getImageIndex( imageId ),
 				isAlreadyExtracted = imageDataIndex !== -1 && ret[ imageDataIndex ].hex,
 				// WordArt shapes are defined using \defshp control word. Thanks to that
 				// they can be easily filtered.
-				isWordArtShape = currentImage.indexOf( '\\defshp' ) !== -1;
+				isWordArtShape = currentImage.indexOf( '\\defshp' ) !== -1,
+				isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, imageType ) !== -1;
 
 			if ( isAlreadyExtracted || isWordArtShape ) {
 				continue;
 			}
 
-			if ( currentImage.indexOf( '\\pngblip' ) !== -1 ) {
-				imageType = 'image/png';
-			} else if ( currentImage.indexOf( '\\jpegblip' ) !== -1 ) {
-				imageType = 'image/jpeg';
-			} else {
-				imageType = 'unknown';
-			}
-
 			var newImageData = {
-				id: id,
-				hex: imageType !== 'unknown' ? getImageContent( currentImage ) : null,
+				id: imageId,
+				hex: isSupportedType ? getImageContent( currentImage ) : null,
 				type: imageType
 			};
 
@@ -169,8 +168,43 @@
 		return ret;
 	}
 
+	function getImageType( imageContent ) {
+		var tests = [
+			{
+				marker: /\\pngblip/,
+				type: 'image/png'
+			},
+
+			{
+				marker: /\\jpegblip/,
+				type: 'image/jpeg'
+			},
+
+			{
+				marker: /\\emfblip/,
+				type: 'image/emf'
+			},
+
+			{
+				marker: /\\wmetafile\d/,
+				type: 'image/wmf'
+			}
+		],
+		extractedType = CKEDITOR.tools.array.find( tests, function( test ) {
+			return test.marker.test( imageContent );
+		} );
+
+		if ( extractedType ) {
+			return extractedType.type;
+		}
+
+		return 'unknown';
+	}
+
 	function createSrcWithBase64( img ) {
-		if ( img.type === 'unknown' ) {
+		var isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, img.type ) !== -1;
+
+		if ( !isSupportedType ) {
 			return null;
 		}
 
