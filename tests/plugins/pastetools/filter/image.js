@@ -55,7 +55,8 @@
 						expectedSpyArguments = [
 							'pastetools-unsupported-image',
 							{
-								type: 'emf'
+								type: 'image/emf',
+								index: 0
 							}
 						];
 
