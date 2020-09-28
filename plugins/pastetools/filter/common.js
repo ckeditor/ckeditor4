@@ -773,6 +773,16 @@
 	 * @member CKEDITOR.plugins.pastetools.filters.common
 	 */
 	plug.rtf = {
+		/**
+		 * Get all groups from the RTF content with the given name.
+		 *
+		 * @private
+		 * @since 4.16.0
+		 * @param {String} rtfContent
+		 * @param {String} groupName Group name to find. It can be a regex-like string.
+		 * @returns {CKEDITOR.plugins.pastetools.filters.common.rtf.GroupInfo[]}
+		 * @member CKEDITOR.plugins.pastetools.filters.common.rtf
+		 */
 		getGroups: function( rtfContent, groupName ) {
 			var groups = [],
 				current,
@@ -789,6 +799,15 @@
 			return groups;
 		},
 
+		/**
+		 * Remove all groups from the RTF content with the given name.
+		 *
+		 * @private
+		 * @since 4.16.0
+		 * @param {String} rtfContent
+		 * @param {String} groupName Group name to find. It can be a regex-like string.
+		 * @member CKEDITOR.plugins.pastetools.filters.common.rtf
+		 */
 		removeGroups: function( rtfContent, groupName ) {
 			var current;
 
@@ -802,10 +821,24 @@
 			return rtfContent;
 		},
 
-		// This function is in fact a very primitive RTF parser.
-		// It iterates over RTF content and search for the last } in the group
-		// by keeping track of how many elements are open using a stack-like method.
+		/**
+		 * Get the group from the RTF content with the given name.
+		 *
+		 * Groups are recognized thanks to being in `{\<name>}` format.
+		 *
+		 * @private
+		 * @since 4.16.0
+		 * @param {String} content RTF content.
+		 * @param {String} groupName Group name to find. It can be a regex-like string.
+		 * @param {Object} options Additional options.
+		 * @param {Number} options.start String index on which the search should begin.
+		 * @returns {CKEDITOR.plugins.pastetools.filters.common.rtf.GroupInfo}
+		 * @member CKEDITOR.plugins.pastetools.filters.common.rtf
+		 */
 		getGroup: function( content, groupName, options ) {
+			// This function is in fact a very primitive RTF parser.
+			// It iterates over RTF content and search for the last } in the group
+			// by keeping track of how many elements are open using a stack-like method.
 			var open = 0,
 				// Despite the fact that we search for only one group,
 				// the global modifier is used to be able to manipulate
@@ -853,6 +886,18 @@
 			};
 		},
 
+		/**
+		 * Get group content.
+		 *
+		 * The content starts with the first character that is not a part of
+		 * control word or subgroup.
+		 *
+		 * @private
+		 * @since 4.16.0
+		 * @param {String} group Whole group string.
+		 * @returns {String} Extracted group content.
+		 * @member CKEDITOR.plugins.pastetools.filters.common.rtf
+		 */
 		extractGroupContent: function( group ) {
 			var groupName = getGroupName( group ),
 				controlWordsRegex = /^\{(\\[\w-]+\s*)+/g,
@@ -1057,6 +1102,36 @@
 			}
 		}
 	}
+
+	/**
+	 * Virtual class that illustrates group info
+	 * returned by {@link CKEDITOR.plugins.pastetools.filters.common.rtf#getGroup} method.
+	 *
+	 * @since 4.16.0
+	 * @class CKEDITOR.plugins.pastetools.filters.common.rtf.GroupInfo
+	 * @abstract
+	 */
+
+	/**
+	 * String index, on which the group starts.
+	 *
+	 * @property {Number} start
+	 * @member CKEDITOR.plugins.pastetools.filters.common.rtf.GroupInfo
+	 */
+
+	/**
+	 * String index, on which the group ends.
+	 *
+	 * @property {Number} end
+	 * @member CKEDITOR.plugins.pastetools.filters.common.rtf.GroupInfo
+	 */
+
+	/**
+	 * The whole group, including control words and subgroups.
+	 *
+	 * @property {String} content
+	 * @member CKEDITOR.plugins.pastetools.filters.common.rtf.GroupInfo
+	 */
 
 	/**
 	 * Whether to ignore all font-related formatting styles, including:

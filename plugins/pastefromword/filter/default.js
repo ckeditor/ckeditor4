@@ -1825,8 +1825,39 @@
 	 * @property {Object} images
 	 * @private
 	 * @deprecated 4.13.0
+	 * @removed 4.16.0
 	 * @since 4.8.0
 	 * @member CKEDITOR.plugins.pastefromword
+	 */
+
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters.image}.
+	 *
+	 * @property {Object} images
+	 * @private
+	 * @removed 4.16.0
+	 * @since 4.13.0
+	 * @member CKEDITOR.plugins.pastetools.filters.word
+	 */
+
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters.image#extractFromRtf}.
+	 *
+	 * @property {Function} extractFromRtf
+	 * @private
+	 * @removed 4.16.0
+	 * @since 4.13.0
+	 * @member CKEDITOR.plugins.pastetools.filters.word.images
+	 */
+
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters.image#extractTagsFromHtml}.
+	 *
+	 * @property {Function} extractTagsFromHtml
+	 * @private
+	 * @removed 4.16.0
+	 * @since 4.13.0
+	 * @member CKEDITOR.plugins.pastetools.filters.word.images
 	 */
 
 	/**
@@ -1848,6 +1879,8 @@
 	 * @since 4.6.0
 	 * @member CKEDITOR.plugins.pastefromword
 	 */
+
+
 
 	/**
 	 * See {@link #pasteTools_removeFontStyles}.

@@ -10,6 +10,16 @@
 ( function() {
 	'use strict';
 
+	/**
+	 * Filter handling pasting images from RTF content.
+	 *
+	 * @private
+	 * @since 4.14.0
+	 * @param {String} html
+	 * @param {CKEDITOR.editor} editor
+	 * @param {String} rtf
+	 * @member CKEDITOR.plugins.pastetools.filters
+	 */
 	CKEDITOR.pasteFilters.image = function( html, editor, rtf ) {
 		var imgTags,
 			hexImages,
@@ -73,9 +83,64 @@
 		return html;
 	};
 
+	/**
+	 * Parses RTF content to find embedded images.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @param {String} rtfContent RTF content to be checked for images.
+	 * @returns {CKEDITOR.plugins.pastetools.filters.image.ImageData[]} An array of images found in the `rtfContent`.
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
 	CKEDITOR.pasteFilters.image.extractFromRtf = extractFromRtf;
+
+	/**
+	 * Extracts an array of `src`` attributes in `<img>` tags from the given HTML. `<img>` tags belonging to VML shapes are removed.
+	 *
+	 * ```js
+	 * CKEDITOR.plugins.pastefromword.images.extractTagsFromHtml( html );
+	 * // Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
+	 * ```
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @param {String} html A string representing HTML code.
+	 * @returns {String[]} An array of strings representing the `src` attribute of the `<img>` tags found in `html`.
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
 	CKEDITOR.pasteFilters.image.extractTagsFromHtml = extractTagsFromHtml;
+
+	/**
+	 * Extract image type from its RTF content
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @param {String} imageContent Image content as RTF string.
+	 * @returns {String} If the image type can be extracted, it is returned in `image/*` format.
+	 * Otherwise, `'unknown'` is returned.
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
 	CKEDITOR.pasteFilters.image.getImageType = getImageType;
+
+	/**
+	 * Creates image source as Base64-encoded [Data URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs).
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @param {CKEDITOR.plugins.pastetools.filters.image.ImageData} img Image data.
+	 * @returns {String} Data URL representing the image.
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
+	CKEDITOR.pasteFilters.image.createSrcWithBase64 = createSrcWithBase64;
+
+	/**
+	 * Array of all supported image formats.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @type {String[]}
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
 	CKEDITOR.pasteFilters.image.supportedImageTypes = [
 		'image/png',
 		'image/jpeg'
@@ -230,3 +295,34 @@
 		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
 	}
 } )();
+
+/**
+ * Virtual class that illustrates image data
+ * returned by {@link CKEDITOR.plugins.pastetools.filters.image#extractFromRtf} method.
+ *
+ * @since 4.16.0
+ * @class CKEDITOR.plugins.pastetools.filters.image.ImageData
+ * @abstract
+ */
+
+/**
+ * Unique id of an image extracted from RTF content.
+ *
+ * @property {String} id
+ * @member CKEDITOR.plugins.pastetools.filters.image.ImageData
+ */
+
+/**
+ * Image content extracted from RTF content as a hexadecimal string.
+ *
+ * @property {String} hex
+ * @member CKEDITOR.plugins.pastetools.filters.image.ImageData
+ */
+
+/**
+ * MIME type of an image extracted from RTF content.
+ * If the type couldn't be extracted or it's unknown, `'unknown'` value is used.
+ *
+ * @property {String} type
+ * @member CKEDITOR.plugins.pastetools.filters.image.ImageData
+ */
