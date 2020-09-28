@@ -36,7 +36,8 @@
 				'twoimages_mac',
 				'multipleimagesandshapes_mac',
 				'hyperlinkedimage_mac',
-				'wrappedimage_mac'
+				'wrappedimage_mac',
+				'duplicatedimage'
 			];
 
 		for ( i = 0; i < testsFilesNames.length; i++ ) {
