@@ -37,29 +37,36 @@
 			return createSrcWithBase64( img );
 		}, this );
 
+		if ( imgTags.length !== newSrcValues.length ) {
+			CKEDITOR.error( 'pastetools-failed-image-extraction', {
+				rtf: hexImages.length,
+				html: imgTags.length
+			} );
+
+			return html;
+		}
+
 		// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
-		if ( imgTags.length === newSrcValues.length ) {
-			for ( i = 0; i < imgTags.length; i++ ) {
-				// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-				if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) ) {
-					if ( !newSrcValues[ i ] ) {
-						CKEDITOR.error( 'pastetools-unsupported-image', {
-							type: hexImages[ i ].type,
-							index: i
-						} );
+		for ( i = 0; i < imgTags.length; i++ ) {
+			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+			if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) ) {
+				if ( !newSrcValues[ i ] ) {
+					CKEDITOR.error( 'pastetools-unsupported-image', {
+						type: hexImages[ i ].type,
+						index: i
+					} );
 
-						continue;
-					}
-
-					// In Word there is a chance that some of the images are also inserted via VML.
-					// This regex ensures that we replace only HTML <img> tags.
-					// Oh, and there are also Windows paths that need to be escaped
-					// before passing to regex.
-					var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
-						imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
-
-					html = html.replace( imgRegex, '$1' + newSrcValues[ i ] );
+					continue;
 				}
+
+				// In Word there is a chance that some of the images are also inserted via VML.
+				// This regex ensures that we replace only HTML <img> tags.
+				// Oh, and there are also Windows paths that need to be escaped
+				// before passing to regex.
+				var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
+					imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
+
+				html = html.replace( imgRegex, '$1' + newSrcValues[ i ] );
 			}
 		}
 

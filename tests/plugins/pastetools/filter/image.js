@@ -66,6 +66,66 @@
 					assert.areSame( 1, spy.callCount, 'errors raised' );
 					objectAssert.areDeepEqual( expectedSpyArguments, spyCall.args );
 				} );
+		},
+
+		'test image filer should raise an error if there are more images in RTF than in HTML': function() {
+			var editor = this.editor,
+					filtersPaths = [
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
+					],
+					spy = sinon.spy( CKEDITOR, 'error' );
+
+			return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
+				.then( function( imageFilter ) {
+					var inputHtml = '<img src="file://foo" />',
+						inputRtf = RTF[ 0 ] + RTF[ 2 ],
+						actual = imageFilter( inputHtml, editor, inputRtf ),
+						spyCall = spy.getCall( 0 ),
+						expectedSpyArguments = [
+							'pastetools-failed-image-extraction',
+							{
+								rtf: 2,
+								html: 1
+							}
+						];
+
+					spy.restore();
+
+					assert.areSame( inputHtml, actual, 'html output' );
+					assert.areSame( 1, spy.callCount, 'errors raised' );
+					objectAssert.areDeepEqual( expectedSpyArguments, spyCall.args );
+				} );
+		},
+
+		'test image filer should raise an error if there are more images in HTML than in RTF': function() {
+			var editor = this.editor,
+					filtersPaths = [
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
+					],
+					spy = sinon.spy( CKEDITOR, 'error' );
+
+			return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
+				.then( function( imageFilter ) {
+					var inputHtml = '<img src="file://foo" /><img src="file://bar" />',
+						inputRtf = RTF[ 0 ],
+						actual = imageFilter( inputHtml, editor, inputRtf ),
+						spyCall = spy.getCall( 0 ),
+						expectedSpyArguments = [
+							'pastetools-failed-image-extraction',
+							{
+								rtf: 1,
+								html: 2
+							}
+						];
+
+					spy.restore();
+
+					assert.areSame( inputHtml, actual, 'html output' );
+					assert.areSame( 1, spy.callCount, 'errors raised' );
+					objectAssert.areDeepEqual( expectedSpyArguments, spyCall.args );
+				} );
 		}
 	};
 
