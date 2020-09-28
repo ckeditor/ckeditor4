@@ -102,12 +102,24 @@
 				imageType = getImageType( currentImage ),
 				imageDataIndex = getImageIndex( imageId ),
 				isAlreadyExtracted = imageDataIndex !== -1 && ret[ imageDataIndex ].hex,
+				// If the same image is inserted more then once, the same id is used.
+				isDuplicated = isAlreadyExtracted && ret[ imageDataIndex ].type === imageType,
+				// Sometimes image is duplicated with another format, especially if
+				// it's right after the original one (so, in other words, original is the last image extracted).
+				isAlternateFormat = isAlreadyExtracted && ret[ imageDataIndex ].type !== imageType &&
+					imageDataIndex === ret.length - 1,
 				// WordArt shapes are defined using \defshp control word. Thanks to that
 				// they can be easily filtered.
 				isWordArtShape = currentImage.indexOf( '\\defshp' ) !== -1,
 				isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, imageType ) !== -1;
 
-			if ( isAlreadyExtracted || isWordArtShape ) {
+			if ( isDuplicated ) {
+				ret.push( ret[ imageDataIndex ] );
+
+				continue;
+			}
+
+			if ( isAlternateFormat || isWordArtShape ) {
 				continue;
 			}
 
