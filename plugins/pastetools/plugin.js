@@ -281,5 +281,5 @@
 		return toLoad.length === 0;
 	}
 
-	CKEDITOR.pasteFilters = {};
+	CKEDITOR.pasteFilters = CKEDITOR.plugins.pastetools.filters;
 } )();
