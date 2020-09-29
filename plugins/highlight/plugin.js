@@ -7,7 +7,7 @@ CKEDITOR.plugins.add( 'highlight', {
     init: function( editor ) {
         editor.addCommand( 'insertHighlight', {
             exec: function( editor ) {
-              const element = editor.getSelection().getStartElement().$;
+              var element = editor.getSelection().getStartElement().$;
               if(element.getAttribute('class') == "highlight") {
                 // remove highlight (toggle)
                 var selected_text = element.innerText; // Get Text
