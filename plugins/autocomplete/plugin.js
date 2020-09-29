@@ -957,8 +957,7 @@
 			var windowWidth = this.element.getWindow().$.innerWidth;
 
 			// Detect if panel goes beyond right window border.
-			// TODO (hub33k): fix this condition
-			if ( rect.left + viewWidth > windowWidth ) {
+			if ( rect.right + viewWidth > windowWidth ) {
 				left = rect.left - viewWidth;
 			}
 
