@@ -1,9 +1,4 @@
 <style>
-	html,
-	body {
-		height: 100%;
-	}
-
 	body {
 		margin: 0;
 		padding-left: 350px;
@@ -12,7 +7,6 @@
 
 	.wrapper {
 		position: absolute;
-		display: inline-flex;
 	}
 
 	.wrapper.horizontal > div:not(:last-of-type) {
@@ -24,36 +18,55 @@
 	}
 
 	.wrapper.horizontal {
-		bottom: 0;
+		display: inline-flex;
 	}
 
 	.wrapper.vertical {
-		right: 0;
 		flex-direction: column;
 	}
 
-	.wrapper.vertical .inline {
+	.wrapper.left {
+		left: 0;
+	}
+
+	.wrapper.right {
+		right: 0;
+	}
+
+	.wrapper.bottom {
+		bottom: 0;
+	}
+
+	.inline {
 		width: 300px;
+		height: 194px;
 	}
 </style>
 
 <div>
 	<p>Select mode</p>
-	<button type="button" id="horizontal-button">Horizontal</button>
-	<button type="button" id="vertical-button">Vertical</button>
+	<button type="button" id="left-button">Left</button>
+	<button type="button" id="right-button">Right</button>
+	<button type="button" id="bottom-button">Bottom</button>
+
+	<button type="button" id="reset-button">Reset</button>
 </div>
 
 <div class="wrapper" id="wrapper">
 	<div id="classic">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. &nbsp;</p>
+		<h3>Classic editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
 	</div>
 
 	<div id="divarea">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. &nbsp;</p>
+		<h3>Divarea editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
 	</div>
 
 	<div id="inline" class="inline" contenteditable="true">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. &nbsp;</p>
+		<p style="padding-top: 40px;">Fake toolbar</p>
+		<h3>Inline editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
 	</div>
 </div>
 
@@ -61,20 +74,32 @@
 	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 
 	var wrapper = CKEDITOR.document.getById( 'wrapper' ),
-		horizontalButton = CKEDITOR.document.getById( 'horizontal-button' ),
-		verticalButton = CKEDITOR.document.getById( 'vertical-button' );
+		leftButton = CKEDITOR.document.getById( 'left-button' ),
+		rightButton = CKEDITOR.document.getById( 'right-button' ),
+		bottomButton = CKEDITOR.document.getById( 'bottom-button' ),
+		resetButton = CKEDITOR.document.getById( 'reset-button' );
 
-	horizontalButton.on( 'click', function() {
-		wrapper.setAttribute( 'class', 'wrapper horizontal' );
+	leftButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper vertical left' );
 	} );
 
-	verticalButton.on( 'click', function() {
-		wrapper.setAttribute( 'class', 'wrapper vertical' );
+	rightButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper vertical right' );
+	} );
+
+	bottomButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper horizontal bottom' );
+	} );
+
+	resetButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper' );
 	} );
 
 	var config = {
 		width: 300,
 		height: 150,
+		language: 'en',
+		extraAllowedContent: 'h3; p{padding*}',
 		on: {
 			instanceReady: function( evt ) {
 				new CKEDITOR.plugins.autocomplete( evt.editor, {
