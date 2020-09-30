@@ -949,7 +949,6 @@
 
 			var windowHeight = this.element.getWindow().$.innerHeight;
 
-
 			// (#3582)
 			// If the view goes beyond bottom window border - reverse view position.
 			// +---------------------------------------------+
