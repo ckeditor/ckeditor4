@@ -963,7 +963,7 @@
 			// |                caret position - █           |
 			// +---------------------------------------------+
 			// =============================================== - bottom window border
-			if ( rect.bottom + viewHeight > windowHeight ) {
+			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && rect.bottom + viewHeight > windowHeight ) {
 				top = rect.top - viewHeight;
 			}
 
