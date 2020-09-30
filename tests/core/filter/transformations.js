@@ -487,7 +487,7 @@
 		// Check for regressions in handling invalid values (#1330).
 		'test (partially) invalid margin transformations': function() {
 			bender.editorBot.create( {
-				name: 'test_invalid_margin_transformations',
+				name: 'test_partially_invalid_margin_transformations',
 				config: {
 					allowedContent: 'h1{margin*}'
 				}
