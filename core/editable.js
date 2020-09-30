@@ -2033,16 +2033,21 @@
 			}
 
 			// Normalize text nodes (#848).
+			var blockElementToNormalize = null;
 			if ( CKEDITOR.env.webkit && range.startPath() ) {
 				var path = range.startPath();
 
 				if ( path.block ) {
-					path.block.$.normalize();
+					blockElementToNormalize = path.block;
 				} else if ( path.blockLimit ) {
 					// Handle ENTER_BR mode when text is direct root/body child.
 					// This will call native `normalize` on entire editor content in this case
 					// normalizing text nodes in entire editor content.
-					path.blockLimit.$.normalize();
+					blockElementToNormalize = path.blockLimit;
+				}
+
+				if ( blockElementToNormalize ) {
+					blockElementToNormalize.$.normalize();
 				}
 			}
 
@@ -2074,6 +2079,12 @@
 				}
 
 				movedIntoInline && range.moveToRange( movedIntoInline );
+			}
+
+			// Rule 4.
+			// Normalize text nodes.
+			if ( blockElementToNormalize ) {
+				blockElementToNormalize.$.normalize();
 			}
 
 		}
