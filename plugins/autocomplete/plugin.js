@@ -949,14 +949,41 @@
 
 			var windowHeight = this.element.getWindow().$.innerHeight;
 
-			// Detect if panel goes beyond bottom window border.
+
+			// (#3582)
+			// If the view goes beyond bottom window border - reverse view position.
+			// +---------------------------------------------+
+			// |               editor viewport               |
+			// |                                             |
+			// |                                             |
+			// |             +-------------------+           |
+			// |             |                   |           |
+			// |             |       view        |           |
+			// |             |                   |           |
+			// |             +-------------------+           |
+			// |                caret position - █           |
+			// +---------------------------------------------+
+			// =============================================== - bottom window border
 			if ( rect.bottom + viewHeight > windowHeight ) {
 				top = rect.top - viewHeight;
 			}
 
 			var windowWidth = this.element.getWindow().$.innerWidth;
 
-			// Detect if panel goes beyond right window border.
+			// (#3582)
+			// If the view goes beyond right window border - reverse view position.
+			// +---------------------------------------------+   ||
+			// |               editor viewport               |   ||
+			// |                                             |   ||
+			// |                                             |   ||
+			// |                                             |   ||
+			// |                         caret position - █  |   || - right window border
+			// |                      +-------------------+  |   ||
+			// |                      |       view        |  |   ||
+			// |                      +-------------------+  |   ||
+			// |                                             |   ||
+			// |                                             |   ||
+			// +---------------------------------------------+   ||
 			if ( rect.right + viewWidth > windowWidth ) {
 				left = rect.left - viewWidth;
 			}
