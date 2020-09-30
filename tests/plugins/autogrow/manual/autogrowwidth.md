@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autogrow
 
 1. Place cursor inside editor.
-1. Press <kbd>Enter</kdb> key few times.
+1. Press <kbd>Enter</kdb> key about 5 times.
 
 ### Expected result:
 
