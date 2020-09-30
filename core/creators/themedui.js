@@ -287,7 +287,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			outer = container;
 		}
 
-		width = convertCssUnitToPx( width );
+		if ( width !== '' ) {
+			width = convertCssUnitToPx( width );
+		}
 
 		// Set as border box width. (https://dev.ckeditor.com/ticket/5353)
 		outer.setSize( 'width', width, true );
