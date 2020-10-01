@@ -492,6 +492,11 @@
 					allowedContent: 'h1{margin*}'
 				}
 			}, function( bot ) {
+				// IE removes any invalid styles when CSS value is invalid.
+				if ( CKEDITOR.env.ie ) {
+					assert.ignore();
+				}
+
 				var editor = bot.editor;
 
 				editor.filter.addTransformations( [
@@ -528,6 +533,11 @@
 					allowedContent: 'h1{margin*}'
 				}
 			}, function( bot ) {
+				// IE removes any invalid styles when CSS value is invalid.
+				if ( CKEDITOR.env.ie ) {
+					assert.ignore();
+				}
+
 				var editor = bot.editor;
 
 				editor.filter.addTransformations( [
