@@ -1,6 +1,6 @@
 @bender-tags: feature, 4.16.0, 2800, pastefromword
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromlibreoffice, image, pagebreak
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromlibreoffice, image, pagebreak, autogrow
 
 1. Open console.
 2. Copy and paste content of the following file into the editor:
