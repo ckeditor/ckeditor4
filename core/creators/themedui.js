@@ -287,7 +287,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			outer = container;
 		}
 
-		if ( width ) {
+		if ( width || width === 0 ) {
 			width = convertCssUnitToPx( width );
 		}
 
