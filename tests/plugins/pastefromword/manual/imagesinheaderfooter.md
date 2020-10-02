@@ -1,6 +1,6 @@
 @bender-tags: feature, 4.16.0, 2800, pastefromword
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromword, image, pagebreak
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromword, image, pagebreak, autogrow
 
 1. Copy and paste content of the following file into the editor:
 [InHeaderFooterComplex.docx](../generated/_fixtures/ImagesExtraction/InHeaderFooterComplex/InHeaderFooterComplex.docx)
