@@ -7,7 +7,6 @@
 	bender.editor = {};
 
 	bender.test( {
-		// #4286
 		'test autogrow': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
