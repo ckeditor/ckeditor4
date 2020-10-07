@@ -25,7 +25,7 @@
 						var editorWidth = getEditorSize( editor ).width,
 							editorHeight = getEditorSize( editor ).height;
 
-						assert.isTrue( editorHeight > initialEditorHeight, true, 'is editor height bigger than initial editor height' );
+                        assert.isTrue( editorHeight > initialEditorHeight, 'editor height should increase' );
 						assert.areEqual( editorWidth, initialEditorWidth, 'does width of editor changes' );
 					} );
 				} );
