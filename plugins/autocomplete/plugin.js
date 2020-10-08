@@ -756,7 +756,7 @@
 		 * @param {CKEDITOR.dom.range} range The range of the text match.
 		 * @returns {Object} Represents the position of the caret. The value is relative to the panel's offset parent.
 		 * @returns {Number} rect.left
-		 * @returns {Number} rect.right
+		 * @returns {Number} rect.right Introduced in CKEditor 4.16.0.
 		 * @returns {Number} rect.top
 		 * @returns {Number} rect.bottom
 		 */
