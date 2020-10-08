@@ -35,7 +35,7 @@
 							editorHeight = getEditorSize( editor ).height;
 
 						assert.isTrue( editorHeight > initialEditorHeight, 'editor height should increase' );
-						assert.areEqual( editorWidth, initialEditorWidth, 'editor width does not change' );
+						assert.areEqual( editorWidth, initialEditorWidth, 'editor width should not change' );
 					} );
 				} );
 
@@ -45,7 +45,7 @@
 		},
 
 		// #4286
-		'test borderless editor width': function() {
+		'test autogrow with borderless editor': function() {
 			var editor = this.editors.borderless,
 				bot = this.editorBots.borderless;
 
@@ -65,7 +65,7 @@
 
 						assert.isTrue( editorHeight > initialEditorHeight, 'editor height should increase' );
 						assert.isTrue( editorWidth > 0, 'editor width should be greater than zero' );
-						assert.areEqual( editorWidth, initialEditorWidth, 'editor width does not change' );
+						assert.areEqual( editorWidth, initialEditorWidth, 'editor width should not change' );
 					} );
 				} );
 
@@ -79,6 +79,6 @@
 		return {
 			width: parseInt( editor.editable().getComputedStyle( 'width' ), 10 ),
 			height: parseInt( editor.editable().getComputedStyle( 'height' ), 10 )
-		}
+		};
 	}
 } )();
