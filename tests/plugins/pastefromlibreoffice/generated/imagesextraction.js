@@ -19,8 +19,6 @@
 		} )
 	};
 
-	var isSafari = CKEDITOR.env.safari;
-
 	bender.test( createTestSuite( {
 		browsers: [
 			'chrome',
@@ -38,7 +36,7 @@
 			'ImagesExtraction/UnsupportedFormats': true,
 			'ImagesExtraction/DuplicatedImage': true
 		},
-		ignoreAll: isSafari || CKEDITOR.env.ie || bender.tools.env.mobile,
+		ignoreAll: CKEDITOR.env.safari || CKEDITOR.env.ie || bender.tools.env.mobile,
 		includeRTF: true,
 		customFilters: [
 			new CKEDITOR.htmlParser.filter( {
