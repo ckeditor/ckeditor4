@@ -11,6 +11,7 @@ Fixed Issues:
 * [#4282](https://github.com/ckeditor/ckeditor4/issues/4282): Fixed: [Script loader](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_scriptLoader.html) doesn't execute callback for scripts already loaded when called for the second time. Thanks to [Alexander Korotkevich](https://github.com/aldoom)!
 * [#4273](https://github.com/ckeditor/ckeditor4/issues/4273): Fixed: memory leak in [`CKEDITOR.domReady()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-domReady) connected with not removing `load` event listeners. Thanks to [rohit1](https://github.com/rohit1)!
 * [#1330](https://github.com/ckeditor/ckeditor4/issues/1330): Fixed: Incomplete CSS margin parsing if "auto" or "0" value is used.
+* [#4286](https://github.com/ckeditor/ckeditor4/issues/4286): Fixed: The [Auto Grow](https://ckeditor.com/cke4/addon/autogrow) plugin causes editor's width to be set to 0 on editor resize.
 
 API Changes:
 
