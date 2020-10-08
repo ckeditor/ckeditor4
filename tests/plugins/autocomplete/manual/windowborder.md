@@ -5,7 +5,7 @@
 
 *Repeat steps below for all 3 editors and modes (Left, Right and Bottom).*
 
-1. Select mode (horizontal or vertical).
+1. Select mode (Left / Right / Bottom).
 1. Place cursor as close as possible to window border.
 1. Type `@`.
 
