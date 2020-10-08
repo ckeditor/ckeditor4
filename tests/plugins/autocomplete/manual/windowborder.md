@@ -11,7 +11,7 @@
 
 ## Expected
 
-Mention panel should be appeared inside browser borders.
+Mention panel should appear inside browser viewport and be fully visible.
 
 ## Unexpected
 
