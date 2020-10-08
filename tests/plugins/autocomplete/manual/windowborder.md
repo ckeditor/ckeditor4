@@ -15,4 +15,4 @@ Mention panel should be appeared inside browser borders.
 
 ## Unexpected
 
-Mention panel appears outside browser borders.
+Mention panel appears outside browser borders and is not fully visible.
