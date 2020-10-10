@@ -31,6 +31,24 @@
 				} );
 		},
 
+		'test #getGroup() can extract custom groups from RTF-like string using a regex': function() {
+			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+				expectedGroup = '{\\comandeer1 valid}',
+				unexpectedGroup = '{\\comandeer\\d invalid}',
+				rtf = '{\\somegroup\\withcontrol\\words' + unexpectedGroup + expectedGroup + '}',
+				startIndex = rtf.indexOf( expectedGroup ),
+				endIndex = startIndex + expectedGroup.length;
+
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rtf' )
+				.then( function( filter ) {
+					var extracted = filter.getGroup( rtf, 'comandeer\\d' );
+
+					assert.areSame( startIndex, extracted.start, 'extracted group start' );
+					assert.areSame( endIndex, extracted.end , 'extracted group end' );
+					assert.areSame( expectedGroup, extracted.content, 'extracted group content' );
+				} );
+		},
+
 		'test #getGroup() can extract custom groups from RTF-like string from given position': function() {
 			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
 				expectedGroup = '{\\comandeer test}',
@@ -47,6 +65,34 @@
 					assert.areSame( startIndex, extracted.start, 'extracted group start' );
 					assert.areSame( endIndex, extracted.end , 'extracted group end' );
 					assert.areSame( expectedGroup, extracted.content, 'extracted group content' );
+				} );
+		},
+
+		'test #getGroup() returns null for non-existing group': function() {
+			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+				rtf = '{\\somegroup\\withcontrol\\words and content}';
+
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rtf' )
+				.then( function( filter ) {
+					var extracted = filter.getGroup( rtf, 'comandeer' );
+
+					assert.isNull( extracted, 'extracted group' );
+				} );
+		},
+
+		'test #getGroup() returns null for string where all groups are before the start index': function() {
+			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+				group = '{\\testgroup content}',
+				rtf = '{\\somegroup\\withcontrol\\words' + group + group + group + ' some content}',
+				startIndex = rtf.indexOf( 'some content' );
+
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rtf' )
+				.then( function( filter ) {
+					var extracted = filter.getGroup( rtf, 'testgroup', {
+						start: startIndex
+					} );
+
+					assert.isNull( extracted, 'extracted group' );
 				} );
 		},
 
@@ -84,6 +130,47 @@
 				} );
 		},
 
+		'test #getGroups() returns empty array for non-existing group': function() {
+			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+				rtf = '{\\somegroup\\withcontrol\\words and content}';
+
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rtf' )
+				.then( function( filter ) {
+					var extracted = filter.getGroups( rtf, 'comandeer' );
+
+					assert.areSame( 0, extracted.length, 'extracted groups amount' );
+				} );
+		},
+
+		'test #removeGroups() removes all matching groups in given string': function() {
+			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+				group1 = '{\\comandeer test1}',
+				group2 = '{\\comandeer test2}',
+				group3 = '{\\comandeer test3}',
+				rtf = '{\\somegroup\\withcontrol\\words' + group1 + '}' + group2 + '{\\group{\\subgroup' +
+					group3 + '}}',
+				expected = '{\\somegroup\\withcontrol\\words}{\\group{\\subgroup}}';
+
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rtf' )
+				.then( function( filter ) {
+					var transformed = filter.removeGroups( rtf, 'comandeer' );
+
+					assert.areSame( expected, transformed, 'transformed RTF content' );
+				} );
+		},
+
+		'test #removeGroups() returns unchanged RTF content after removing non-existing group': function() {
+			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+				rtf = '{\\somegroup\\withcontrol\\words and content}';
+
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rtf' )
+				.then( function( filter ) {
+					var transformed = filter.removeGroups( rtf, 'comandeer' );
+
+					assert.areSame( rtf, transformed, 'transformed RTF content' );
+				} );
+		},
+
 		'test #extractGroupContent() can extract content from group': function() {
 			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
 				imageContent = 'hublabubla',
@@ -110,6 +197,18 @@
 					var extracted = filter.extractGroupContent( group );
 
 					assert.areSame( groupContent, extracted, 'extracted group content' );
+				} );
+		},
+
+		'test #extractGroupContent() returns empty string for a group without content': function() {
+			var filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+				group = '{\\group\\control{\\subgroup subcontent}}';
+
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rtf' )
+				.then( function( filter ) {
+					var extracted = filter.extractGroupContent( group );
+
+					assert.areSame( '', extracted, 'extracted group content' );
 				} );
 		}
 	};
