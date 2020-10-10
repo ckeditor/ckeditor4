@@ -146,6 +146,39 @@
 		'image/jpeg'
 	];
 
+	/**
+	 * Array of all recognizable image types with their respective markers.
+	 *
+	 * The recognizing of image type is done by searching for image marker
+	 * inside the image content.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @type {CKEDITOR.plugins.pastetools.filters.image.RecognizableImageType[]}
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
+	CKEDITOR.pasteFilters.image.recognizableImageTypes = [
+		{
+			marker: /\\pngblip/,
+			type: 'image/png'
+		},
+
+		{
+			marker: /\\jpegblip/,
+			type: 'image/jpeg'
+		},
+
+		{
+			marker: /\\emfblip/,
+			type: 'image/emf'
+		},
+
+		{
+			marker: /\\wmetafile\d/,
+			type: 'image/wmf'
+		}
+	];
+
 	function extractFromRtf( rtfContent ) {
 		var filter = CKEDITOR.plugins.pastetools.filters.common.rtf,
 			ret = [],
@@ -253,27 +286,7 @@
 	}
 
 	function getImageType( imageContent ) {
-		var tests = [
-			{
-				marker: /\\pngblip/,
-				type: 'image/png'
-			},
-
-			{
-				marker: /\\jpegblip/,
-				type: 'image/jpeg'
-			},
-
-			{
-				marker: /\\emfblip/,
-				type: 'image/emf'
-			},
-
-			{
-				marker: /\\wmetafile\d/,
-				type: 'image/wmf'
-			}
-		],
+		var tests = CKEDITOR.pasteFilters.image.recognizableImageTypes,
 		extractedType = CKEDITOR.tools.array.find( tests, function( test ) {
 			return test.marker.test( imageContent );
 		} );
@@ -325,4 +338,27 @@
  *
  * @property {String} type
  * @member CKEDITOR.plugins.pastetools.filters.image.ImageData
+ */
+
+/**
+ * Virtual class that illustrates format of objects in
+ * {@link CKEDITOR.plugins.pastetools.filters.image#recognizableImageTypes} property.
+ *
+ * @since 4.16.0
+ * @class CKEDITOR.plugins.pastetools.filters.image.RecognizableImageType
+ * @abstract
+ */
+
+/**
+ * Regular expression that matches the marker unique for the given image type.
+ *
+ * @property {RegExp} marker
+ * @member CKEDITOR.plugins.pastetools.filters.image.RecognizableImageType
+ */
+
+/**
+ * Image MIME type.
+ *
+ * @property {String} type
+ * @member CKEDITOR.plugins.pastetools.filters.image.RecognizableImageType
  */
