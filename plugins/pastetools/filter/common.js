@@ -766,7 +766,7 @@
 	plug.parseShorthandMargins = parseShorthandMargins;
 
 	/**
-	 * Namespace containing all the helper functions to work with RTF.
+	 * Namespace containing all the helper functions to work with [RTF](https://interoperability.blob.core.windows.net/files/Archive_References/%5bMSFT-RTF%5d.pdf).
 	 *
 	 * @private
 	 * @since 4.16.0
@@ -775,6 +775,20 @@
 	plug.rtf = {
 		/**
 		 * Get all groups from the RTF content with the given name.
+		 *
+		 * ```js
+		 * var rtfContent = '{\\rtf1\\some\\control\\words{\\group content}{\\group content}{\\whatever {\\subgroup content}}}',
+		 * 	groups = CKEDITOR.plugins.pastetools.filters.common.rtf.getGroups( rtfContent, '(group|whatever)' );
+		 *
+		 * console.log( groups );
+		 *
+		 * // Result of the console.log:
+		 * // [
+		 * // 	{"start":25,"end":41,"content":"{\\group content}"},
+		 * // 	{"start":41,"end":57,"content":"{\\group content}"},
+		 * // 	{"start":57,"end":88,"content":"{\\whatever {\\subgroup content}}"}
+		 * // ]
+		 * ```
 		 *
 		 * @private
 		 * @since 4.16.0
@@ -802,10 +816,18 @@
 		/**
 		 * Remove all groups from the RTF content with the given name.
 		 *
+		 * ```js
+		 * var rtfContent = '{\\rtf1\\some\\control\\words{\\group content}{\\group content}{\\whatever {\\subgroup content}}}',
+		 * 	rtfWithoutGroups = CKEDITOR.plugins.pastetools.filters.common.rtf.removeGroups( rtfContent, '(group|whatever)' );
+		 *
+		 * console.log( rtfWithoutGroups ); // {\rtf1\some\control\words}
+		 * ```
+		 *
 		 * @private
 		 * @since 4.16.0
 		 * @param {String} rtfContent
 		 * @param {String} groupName Group name to find. It can be a regex-like string.
+		 * @returns {String} RTF content without the removed groups.
 		 * @member CKEDITOR.plugins.pastetools.filters.common.rtf
 		 */
 		removeGroups: function( rtfContent, groupName ) {
@@ -825,6 +847,17 @@
 		 * Get the group from the RTF content with the given name.
 		 *
 		 * Groups are recognized thanks to being in `{\<name>}` format.
+		 *
+		 * ```js
+		 * var rtfContent = '{\\rtf1\\some\\control\\words{\\group content1}{\\group content2}{\\whatever {\\subgroup content}}}',
+		 * 	firstGroup = CKEDITOR.plugins.pastetools.filters.common.rtf.getGroup( rtfContent, '(group|whatever)' ),
+		 * 	lastGroup = CKEDITOR.plugins.pastetools.filters.common.rtf.getGroup( rtfContent, '(group|whatever)', {
+		 * 		start: 50
+		 * 	} );
+		 *
+		 * console.log( firstGroup ); // {"start":25,"end":42,"content":"{\\group content1}"}
+		 * console.log( lastGroup ); // {"start":59,"end":90,"content":"{\\whatever {\\subgroup content}}"}
+		 * ```
 		 *
 		 * @private
 		 * @since 4.16.0
@@ -891,6 +924,13 @@
 		 *
 		 * The content starts with the first character that is not a part of
 		 * control word or subgroup.
+		 *
+		 * ```js
+		 * var group = '{\\group{\\subgroup subgroupcontent} group content}',
+		 * 	groupContent = CKEDITOR.plugins.pastetools.filters.common.rtf.extractGroupContent( group );
+		 *
+		 * console.log( groupContent ); // "group content"
+		 * ```
 		 *
 		 * @private
 		 * @since 4.16.0
