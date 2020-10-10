@@ -287,9 +287,9 @@
 
 	function getImageType( imageContent ) {
 		var tests = CKEDITOR.pasteFilters.image.recognizableImageTypes,
-		extractedType = CKEDITOR.tools.array.find( tests, function( test ) {
-			return test.marker.test( imageContent );
-		} );
+			extractedType = CKEDITOR.tools.array.find( tests, function( test ) {
+				return test.marker.test( imageContent );
+			} );
 
 		if ( extractedType ) {
 			return extractedType.type;
