@@ -33,7 +33,7 @@
 		},
 
 		// (#848).
-		'arabic text should be composed correctly on insertion (end, case 1)': function() {
+		'test arabic text should be composed correctly on insertion (end, case 1)': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
@@ -48,7 +48,7 @@
 		},
 
 		// (#848).
-		'arabic text should be composed correctly on insertion (end, case 2)': function() {
+		'test arabic text should be composed correctly on insertion (end, case 2)': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
@@ -64,7 +64,7 @@
 		},
 
 		// (#848).
-		'arabic text should be composed correctly on insertion (middle)': function() {
+		'test arabic text should be composed correctly on insertion (middle)': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text:&nbsp;عامعا^معام</p>' );
@@ -78,7 +78,7 @@
 		},
 
 		// (#848).
-		'arabic text should be composed correctly on insertion (beginning)': function() {
+		'test arabic text should be composed correctly on insertion (beginning)': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text:&nbsp;^عامعامعام</p>' );
@@ -92,7 +92,7 @@
 		},
 
 		// (#848).
-		'arabic text should be composed correctly on insertion (enter_br, case 1)': function() {
+		'test arabic text should be composed correctly on insertion (enter_br, case 1)': function() {
 			var editor = this.editors.enterbr;
 
 			setHtmlWithSelection( editor, 'Text:&nbsp;^' );
@@ -107,7 +107,7 @@
 		},
 
 		// (#848).
-		'arabic text should be composed correctly on insertion (enter_br, case 2)': function() {
+		'test arabic text should be composed correctly on insertion (enter_br, case 2)': function() {
 			var editor = this.editors.enterbr;
 
 			setHtmlWithSelection( editor, 'Foo Bar<div>Text:&nbsp;^</div>' );
@@ -122,7 +122,7 @@
 		},
 
 		// (#848).
-		'regular text should be normalized': function() {
+		'test regular text should be normalized': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
@@ -137,7 +137,7 @@
 		},
 
 		// (#848).
-		'regular text should be normalized (enter_br)': function() {
+		'test regular text should be normalized (enter_br)': function() {
 			var editor = this.editors.enterbr;
 
 			setHtmlWithSelection( editor, 'Text:&nbsp;^' );
@@ -152,7 +152,7 @@
 		},
 
 		// (#848).
-		'text nodes in other block elements should not be touched (before)': function() {
+		'test text nodes in other block elements should not be touched (before)': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Foo Bar Baz</p><p>Text2:&nbsp;^</p>' );
@@ -176,7 +176,7 @@
 		},
 
 		// (#848).
-		'text nodes in other block elements should not be touched (after)': function() {
+		'test text nodes in other block elements should not be touched (after)': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text1:&nbsp;^</p><p>Foo Bar Baz</p>' );
@@ -200,7 +200,7 @@
 		},
 
 		// (#848).
-		'text nodes in other block elements will be touched for root text (enter_br, after)': function() {
+		'test text nodes in other block elements will be touched for root text (enter_br, after)': function() {
 			var editor = this.editors.enterbr;
 
 			setHtmlWithSelection( editor, 'Text1:&nbsp;^<div>Foo Bar Baz</div>' );
@@ -224,7 +224,7 @@
 		},
 
 		// (#848).
-		'composable text which is not normally merged should not be merged due to normalization': function() {
+		'test composable text which is not normally merged should not be merged due to normalization': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
