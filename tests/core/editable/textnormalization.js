@@ -73,7 +73,7 @@
 
 			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
 
-			assertTextNormalization( paragraph, 'Text:&nbsp;عامعاعاممعام' );
+			assertTextNormalization( paragraph, 'Text: عامعاعاممعام' );
 			assertCaretPosition( '<p>Text:&nbsp;عامعاعام^معام</p>', editor );
 		},
 
@@ -200,7 +200,7 @@
 		},
 
 		// (#848).
-		'test text nodes in other block elements will be touched for root text (enter_br, after)': function() {
+		'test text nodes in other block elements will not be touched for root text (enter_br, after)': function() {
 			var editor = this.editors.enterbr;
 
 			setHtmlWithSelection( editor, 'Text1:&nbsp;^<div>Foo Bar Baz</div>' );
@@ -218,7 +218,7 @@
 
 			var body = editor.editable();
 
-			assertTextNodes( div, [ 'Foo Bar Baz' ] );
+			assertTextNodes( div, [ 'Foo Bar', ' Baz' ] );
 			assertTextNormalization( body, 'Text1: Bax Bay' );
 			assertCaretPosition( 'Text1:&nbsp;Bax&nbsp;Bay^<div>Foo Bar Baz</div>', editor );
 		},
@@ -263,7 +263,8 @@
 			// * non-text nodes
 			// * empty text nodes
 			// * text nodes containing "filling char sequence" only
-			return child.type === CKEDITOR.NODE_TEXT && child.getText() !== CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
+			return child.type === CKEDITOR.NODE_TEXT &&
+				( child.getText() !== CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE && child.getText().length > 0 );
 		} );
 
 		return CKEDITOR.tools.array.map( nonEmptyTextNodes, function( textNode ) {

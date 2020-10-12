@@ -2032,21 +2032,54 @@
 				node.mergeSiblings();
 			}
 
+			range.moveToBookmark( bm );
+
 			// Normalize text nodes (#848).
 			if ( CKEDITOR.env.webkit && range.startPath() ) {
-				var path = range.startPath();
+				var path = range.startPath(),
+					container = null;
 
+				// Get parent block element.
 				if ( path.block ) {
-					path.block.$.normalize();
+					container = path.block;
 				} else if ( path.blockLimit ) {
 					// Handle ENTER_BR mode when text is direct root/body child.
 					// This will call native `normalize` on entire editor content in this case
 					// normalizing text nodes in entire editor content.
-					path.blockLimit.$.normalize();
+					container = path.blockLimit;
+				}
+
+				// Get text child node which holds current selection.
+				if ( container && container.type == CKEDITOR.NODE_ELEMENT && container.getChildCount() > 0 ) {
+					var childNode = container.getChild( range.startOffset - 1 );
+
+					if ( childNode.type == CKEDITOR.NODE_TEXT ) {
+						var prevSibling = childNode,
+							textNode = null;
+
+						while ( prevSibling && prevSibling.type == CKEDITOR.NODE_TEXT ) {
+							textNode = prevSibling;
+							prevSibling = prevSibling.getPrevious();
+						}
+
+						if ( textNode ) {
+							var bm2 = range.createBookmark2( true );
+
+							var nextSibling = textNode.getNext();
+							while ( nextSibling && nextSibling.type == CKEDITOR.NODE_TEXT ) {
+								textNode.setText(
+									textNode.getText().replace( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, '' ) +
+									nextSibling.getText().replace( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, '' ) );
+
+								nextSibling.setText( '' );
+								nextSibling = nextSibling.getNext();
+							}
+
+							range.moveToBookmark( bm2 );
+						}
+					}
 				}
 			}
-
-			range.moveToBookmark( bm );
 
 			// Rule 3.
 			// Shrink range to the BEFOREEND of previous innermost editable node in source order.
