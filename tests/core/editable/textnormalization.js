@@ -200,7 +200,7 @@
 		},
 
 		// (#848).
-		'test text nodes in other block elements will not be touched for root text (enter_br, after)': function() {
+		'test text nodes in other block elements will be touched for root text (enter_br, after)': function() {
 			var editor = this.editors.enterbr;
 
 			setHtmlWithSelection( editor, 'Text1:&nbsp;^<div>Foo Bar Baz</div>' );
@@ -218,7 +218,7 @@
 
 			var body = editor.editable();
 
-			assertTextNodes( div, [ 'Foo Bar', ' Baz' ] );
+			assertTextNodes( div, [ 'Foo Bar Baz' ] );
 			assertTextNormalization( body, 'Text1: Bax Bay' );
 			assertCaretPosition( 'Text1:&nbsp;Bax&nbsp;Bay^<div>Foo Bar Baz</div>', editor );
 		},

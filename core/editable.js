@@ -2049,35 +2049,12 @@
 					container = path.blockLimit;
 				}
 
-				// Get text child node which holds current selection.
-				if ( container && container.type == CKEDITOR.NODE_ELEMENT && container.getChildCount() > 0 ) {
-					var childNode = container.getChild( range.startOffset - 1 );
+				if ( container ) {
+					var bookmark = range.createBookmark2( true );
 
-					if ( childNode.type == CKEDITOR.NODE_TEXT ) {
-						var prevSibling = childNode,
-							textNode = null;
+					container.$.normalize();
 
-						while ( prevSibling && prevSibling.type == CKEDITOR.NODE_TEXT ) {
-							textNode = prevSibling;
-							prevSibling = prevSibling.getPrevious();
-						}
-
-						if ( textNode ) {
-							var bm2 = range.createBookmark2( true );
-
-							var nextSibling = textNode.getNext();
-							while ( nextSibling && nextSibling.type == CKEDITOR.NODE_TEXT ) {
-								textNode.setText(
-									textNode.getText().replace( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, '' ) +
-									nextSibling.getText().replace( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, '' ) );
-
-								nextSibling.setText( '' );
-								nextSibling = nextSibling.getNext();
-							}
-
-							range.moveToBookmark( bm2 );
-						}
-					}
+					range.moveToBookmark( bookmark );
 				}
 			}
 
