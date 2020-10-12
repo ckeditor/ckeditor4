@@ -33,7 +33,7 @@
 		},
 
 		// (#848).
-		'arabic text should be composed correctly on insertion (case 1)': function() {
+		'arabic text should be composed correctly on insertion (end, case 1)': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
@@ -44,10 +44,11 @@
 			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
 
 			assertTextNormalization( paragraph, 'Text: عامعام' );
+			assertCaretPosition( '<p>Text:&nbsp;عامعام^</p>', editor );
 		},
 
 		// (#848).
-		'arabic text should be composed correctly on insertion (case 2)': function() {
+		'arabic text should be composed correctly on insertion (end, case 2)': function() {
 			var editor = this.editors.enterp;
 
 			setHtmlWithSelection( editor, '<p>Text:&nbsp;^</p>' );
@@ -59,6 +60,35 @@
 			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
 
 			assertTextNormalization( paragraph, 'Text: عامعامعام' );
+			assertCaretPosition( '<p>Text:&nbsp;عامعامعام^</p>', editor );
+		},
+
+		// (#848).
+		'arabic text should be composed correctly on insertion (middle)': function() {
+			var editor = this.editors.enterp;
+
+			setHtmlWithSelection( editor, '<p>Text:&nbsp;عامعا^معام</p>' );
+
+			editor.insertText( 'عام' );
+
+			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
+
+			assertTextNormalization( paragraph, 'Text:&nbsp;عامعاعاممعام' );
+			assertCaretPosition( '<p>Text:&nbsp;عامعاعام^معام</p>', editor );
+		},
+
+		// (#848).
+		'arabic text should be composed correctly on insertion (beginning)': function() {
+			var editor = this.editors.enterp;
+
+			setHtmlWithSelection( editor, '<p>Text:&nbsp;^عامعامعام</p>' );
+
+			editor.insertText( 'عام' );
+
+			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
+
+			assertTextNormalization( paragraph, 'Text: عامعامعامعام' );
+			assertCaretPosition( '<p>Text:&nbsp;عام^عامعامعام</p>', editor );
 		},
 
 		// (#848).
@@ -73,6 +103,7 @@
 			var body = editor.editable();
 
 			assertTextNormalization( body, 'Text: عامعام' );
+			assertCaretPosition( 'Text:&nbsp;عامعام^', editor );
 		},
 
 		// (#848).
@@ -87,6 +118,7 @@
 			var div = editor.editable().find( 'div' ).getItem( 0 );
 
 			assertTextNormalization( div, 'Text: عامعام' );
+			assertCaretPosition( 'Foo Bar<div>Text:&nbsp;عامعام^</div>', editor );
 		},
 
 		// (#848).
@@ -101,6 +133,7 @@
 			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
 
 			assertTextNormalization( paragraph, 'Text: 123 456' );
+			assertCaretPosition( '<p>Text:&nbsp;123&nbsp;456^</p>', editor );
 		},
 
 		// (#848).
@@ -115,6 +148,7 @@
 			var paragraph = editor.editable();
 
 			assertTextNormalization( paragraph, 'Text: 123 456' );
+			assertCaretPosition( 'Text:&nbsp;123&nbsp;456^', editor );
 		},
 
 		// (#848).
@@ -138,6 +172,7 @@
 
 			assertTextNodes( paragraph1, [ 'Foo ', 'Bar Baz' ] );
 			assertTextNormalization( paragraph2, 'Text2: Bax Bay' );
+			assertCaretPosition( '<p>Foo Bar Baz</p><p>Text2:&nbsp;Bax&nbsp;Bay^</p>', editor );
 		},
 
 		// (#848).
@@ -161,6 +196,7 @@
 
 			assertTextNodes( paragraph2, [ 'Foo Bar', ' Baz' ] );
 			assertTextNormalization( paragraph1, 'Text1: Bax Bay' );
+			assertCaretPosition( '<p>Text1:&nbsp;Bax&nbsp;Bay^</p><p>Foo Bar Baz</p>', editor );
 		},
 
 		// (#848).
@@ -184,6 +220,7 @@
 
 			assertTextNodes( div, [ 'Foo Bar Baz' ] );
 			assertTextNormalization( body, 'Text1: Bax Bay' );
+			assertCaretPosition( 'Text1:&nbsp;Bax&nbsp;Bay^<div>Foo Bar Baz</div>', editor );
 		},
 
 		// (#848).
@@ -198,11 +235,16 @@
 			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
 
 			assertTextNormalization( paragraph, 'Text: ｈえ' );
+			assertCaretPosition( '<p>Text:&nbsp;ｈえ^</p>', editor );
 		}
 	} );
 
 	function assertTextNormalization( element, expectedText ) {
 		assertTextNodes( element, [ expectedText ] );
+	}
+
+	function assertCaretPosition( expected, editor ) {
+		assert.areSame( expected, normalizeText( bender.tools.getHtmlWithSelection( editor ) ) );
 	}
 
 	function assertTextNodes( element, textNodesContents ) {
@@ -225,10 +267,14 @@
 		} );
 
 		return CKEDITOR.tools.array.map( nonEmptyTextNodes, function( textNode ) {
-			// Replace "&nbsp;" and "filling char sequence" for easy text nodes comparison.
-			return textNode.getText()
-				.replace( /\u00a0/g, ' ' )
-				.replace( new RegExp( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, 'g' ), '' );
+			return normalizeText( textNode.getText() );
 		} );
+	}
+
+	function normalizeText( str ) {
+		// Replace "&nbsp;" and "filling char sequence" for easy text nodes comparison.
+		return str
+			.replace( /\u00a0/g, ' ' )
+			.replace( new RegExp( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, 'g' ), '' );
 	}
 } )();
