@@ -64,34 +64,6 @@
 		},
 
 		// (#848).
-		'test arabic text should be composed correctly on insertion (middle)': function() {
-			var editor = this.editors.enterp;
-
-			setHtmlWithSelection( editor, '<p>Text:&nbsp;عامعا^معام</p>' );
-
-			editor.insertText( 'عام' );
-
-			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
-
-			assertTextNormalization( paragraph, 'Text: عامعاعاممعام' );
-			assertCaretPosition( '<p>Text:&nbsp;عامعاعام^معام</p>', editor );
-		},
-
-		// (#848).
-		'test arabic text should be composed correctly on insertion (beginning)': function() {
-			var editor = this.editors.enterp;
-
-			setHtmlWithSelection( editor, '<p>Text:&nbsp;^عامعامعام</p>' );
-
-			editor.insertText( 'عام' );
-
-			var paragraph = editor.editable().find( 'p' ).getItem( 0 );
-
-			assertTextNormalization( paragraph, 'Text: عامعامعامعام' );
-			assertCaretPosition( '<p>Text:&nbsp;عام^عامعامعام</p>', editor );
-		},
-
-		// (#848).
 		'test arabic text should be composed correctly on insertion (enter_br, case 1)': function() {
 			var editor = this.editors.enterbr;
 

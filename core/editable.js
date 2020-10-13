@@ -2032,31 +2032,21 @@
 				node.mergeSiblings();
 			}
 
-			range.moveToBookmark( bm );
-
 			// Normalize text nodes (#848).
 			if ( CKEDITOR.env.webkit && range.startPath() ) {
-				var path = range.startPath(),
-					container = null;
+				var path = range.startPath();
 
-				// Get parent block element.
 				if ( path.block ) {
-					container = path.block;
+					path.block.$.normalize();
 				} else if ( path.blockLimit ) {
 					// Handle ENTER_BR mode when text is direct root/body child.
 					// This will call native `normalize` on entire editor content in this case
 					// normalizing text nodes in entire editor content.
-					container = path.blockLimit;
-				}
-
-				if ( container ) {
-					var bookmark = range.createBookmark2( true );
-
-					container.$.normalize();
-
-					range.moveToBookmark( bookmark );
+					path.blockLimit.$.normalize();
 				}
 			}
+
+			range.moveToBookmark( bm );
 
 			// Rule 3.
 			// Shrink range to the BEFOREEND of previous innermost editable node in source order.
