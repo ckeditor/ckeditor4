@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Contains tools used in selection optimization.
+ * @fileOverview Defines methods used for selection optimization.
  */
 
 ( function() {
