@@ -184,10 +184,11 @@
 			ret = [],
 			wholeImages;
 
-		// Remove headers, footers and non-Word images.
+		// Remove headers, footers, non-Word images and drawn objects.
 		// Headers and footers are in \header* and \footer* groups,
 		// non-Word images are inside \nonshp groups.
-		rtfContent = filter.removeGroups( rtfContent, '(?:(?:header|footer)[lrf]?|nonshppict)' );
+		// Drawn objects are inside \shprslt and could be e.g. image alignment.
+		rtfContent = filter.removeGroups( rtfContent, '(?:(?:header|footer)[lrf]?|nonshppict|shprslt)' );
 		wholeImages = filter.getGroups( rtfContent, 'pict' );
 
 		if ( !wholeImages ) {
