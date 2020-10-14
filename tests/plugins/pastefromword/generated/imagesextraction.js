@@ -30,7 +30,9 @@
 			'ImagesExtraction/InHeaderFooterComplex': true,
 			'ImagesExtraction/InHeaderFooterCurlyBraces': true,
 			'ImagesExtraction/UnsupportedFormats': true,
-			'ImagesExtraction/DuplicatedImage': true
+			'ImagesExtraction/DuplicatedImage': true,
+			'ImagesExtraction/DrawnObject': true,
+			'ImagesExtraction/WrappedImages': true
 		},
 
 		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile,
