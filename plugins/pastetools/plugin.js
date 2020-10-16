@@ -281,5 +281,13 @@
 		return toLoad.length === 0;
 	}
 
-	CKEDITOR.pasteFilters = {};
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters}.
+	 *
+	 * @property {Object} pasteFilters
+	 * @private
+	 * @since 4.13.0
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.pasteFilters = CKEDITOR.plugins.pastetools.filters;
 } )();
