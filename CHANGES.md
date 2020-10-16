@@ -3,6 +3,20 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.16
 
+New Features:
+
+* [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin on paste, additionally showing descriptive error messages.
+* [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin on paste, additionally showing descriptive error messages.
+
+Fixed Issues:
+
+* [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Fixed: No images are imported from Microsoft Word when content pasted by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin if there is at least one image in unsupported format.
+
+API Changes:
+
+* [#3782](https://github.com/ckeditor/ckeditor4/issues/3782): Moved [`CKEDITOR.plugins.pastetool.filters.word.images`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters_word_images.html) filters to [`CKEDITOR.plugins.pastetools.filters.image`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters_image.html) namespace.
+* [#4297](https://github.com/ckeditor/ckeditor4/issues/4297): All [`CKEDITOR.plugins.pastetools.filters`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters.html) are now available under [`CKEDITOR.pasteTools`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-pasteTools) alias.
+
 ## CKEditor 4.15
 
 New features:
