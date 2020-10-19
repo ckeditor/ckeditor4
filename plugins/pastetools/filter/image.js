@@ -94,6 +94,30 @@
 	CKEDITOR.pasteFilters.image.createSrcWithBase64 = createSrcWithBase64;
 
 	/**
+	 * Converts blob url into base64 string. Conversion is happening asynchronously.
+	 * Currently supported file types: `image/png`, `image/jpeg`, `image/gif`.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @param {String} blobUrlSrc Address of blob which is going to be converted
+	 * @returns {CKEDITOR.tools.promise.<String/null>} Promise, which resolves to Data URL representing image.
+	 * If image's type is unsupported, promise resolves to `null`.
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
+	CKEDITOR.pasteFilters.image.convertBlobUrlToBase64 = convertBlobUrlToBase64;
+
+	/**
+	 * Return file type based on first 4 bytes of given file. Currently recognised file types: `image/png`, `image/jpeg`, `image/gif`.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @param {Uint8Array} bytesArray Typed array which will be analysed to obtain file type.
+	 * @returns {String/Null} File type recognized from given typed array or null.
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
+	CKEDITOR.pasteFilters.image.getImageTypeFromHeader = getImageTypeFromHeader;
+
+	/**
 	 * Array of all supported image formats.
 	 *
 	 * @private
@@ -188,8 +212,33 @@
 		return html;
 	}
 
-	function handleBlobImages( editor, html ) {
+	function handleBlobImages( editor, html, imgTags ) {
+		var blobUrls = removeDuplicates( CKEDITOR.tools.array.filter( imgTags, function( imgTag ) {
+				return imgTag.match( /^blob:/i );
+			} ) ),
+			promises = CKEDITOR.tools.array.map( blobUrls, function( blobUrl ) {
+				return convertBlobUrlToBase64( blobUrl );
+			} );
+
+		CKEDITOR.tools.promise.all( promises ).then( function( dataUrls ) {
+			CKEDITOR.tools.array.forEach( dataUrls, function( dataUrl, i ) {
+				var blob = blobUrls[ i ],
+					nodeList = editor.editable().find( 'img[src="' + blob + '"]' ).toArray();
+
+				CKEDITOR.tools.array.forEach( nodeList, function( element ) {
+					element.setAttribute( 'src', dataUrl );
+					element.setAttribute( 'data-cke-saved-src', dataUrl );
+				}, this );
+			} );
+		} );
+
 		return html;
+
+		function removeDuplicates( arr ) {
+			return CKEDITOR.tools.array.filter( arr, function( item, index ) {
+				return index === CKEDITOR.tools.array.indexOf( arr, item );
+			} );
+		}
 	}
 
 	function extractFromRtf( rtfContent ) {
@@ -313,13 +362,60 @@
 	}
 
 	function createSrcWithBase64( img ) {
-		var isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, img.type ) !== -1;
+		var isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, img.type ) !== -1,
+			data = img.hex;
 
 		if ( !isSupportedType ) {
 			return null;
 		}
 
-		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
+		if ( typeof data === 'string' )  {
+			data = CKEDITOR.tools.convertHexStringToBytes( img.hex );
+		}
+
+		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( data ) : null;
+	}
+
+	function convertBlobUrlToBase64( blobUrlSrc ) {
+		return new CKEDITOR.tools.promise( function( resolve ) {
+			CKEDITOR.ajax.load( blobUrlSrc, function( arrayBuffer ) {
+				var data = new Uint8Array( arrayBuffer ),
+					imageType = getImageTypeFromHeader( data.subarray( 0, 4 ) ),
+					base64 = createSrcWithBase64( {
+						type: imageType,
+						hex: data
+					} );
+
+				resolve( base64 );
+			} , 'arraybuffer' );
+		} );
+	}
+
+	function getImageTypeFromHeader( bytesArray ) {
+		var header = '',
+			fileType = null,
+			bytesHeader = bytesArray.subarray( 0, 4 );
+
+		for ( var i = 0; i < bytesHeader.length; i++ ) {
+			header += bytesHeader[ i ].toString( 16 );
+		}
+
+		switch ( header ) {
+			case '89504e47':
+				fileType = 'image/png';
+				break;
+			case '47494638':
+				fileType = 'image/gif';
+				break;
+			case 'ffd8ffe0':
+			case 'ffd8ffe1':
+			case 'ffd8ffe2':
+			case 'ffd8ffe3':
+			case 'ffd8ffe8':
+				fileType = 'image/jpeg';
+				break;
+		}
+		return fileType;
 	}
 } )();
 
