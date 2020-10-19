@@ -11,7 +11,9 @@
 	'use strict';
 
 	/**
-	 * Filter handling pasting images from RTF content.
+	 * Filter handling pasting images. In Safari images are extracted
+	 * from [Object URLs](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications#Example_Using_object_URLs_to_display_images).
+	 * In other browsers they are extracted from RTF content.
 	 *
 	 * @private
 	 * @since 4.14.0
@@ -21,13 +23,10 @@
 	 * @member CKEDITOR.plugins.pastetools.filters
 	 */
 	CKEDITOR.pasteFilters.image = function( html, editor, rtf ) {
-		var imgTags,
-			hexImages,
-			newSrcValues,
-			i;
+		var imgTags;
 
-		// If there is no RTF content or the editor does not allow images, skip embedding.
-		if ( !rtf || ( editor.activeFilter && !editor.activeFilter.check( 'img[src]' ) ) ) {
+		// If the editor does not allow images, skip embedding.
+		if ( editor.activeFilter && !editor.activeFilter.check( 'img[src]' ) ) {
 			return html;
 		}
 
@@ -37,50 +36,11 @@
 			return html;
 		}
 
-		hexImages = extractFromRtf( rtf );
-
-		if ( hexImages.length === 0 ) {
-			return html;
+		if ( rtf ) {
+			return handleRtfImages( html, rtf, imgTags );
 		}
 
-		newSrcValues = CKEDITOR.tools.array.map( hexImages, function( img ) {
-			return createSrcWithBase64( img );
-		}, this );
-
-		if ( imgTags.length !== newSrcValues.length ) {
-			CKEDITOR.error( 'pastetools-failed-image-extraction', {
-				rtf: hexImages.length,
-				html: imgTags.length
-			} );
-
-			return html;
-		}
-
-		// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
-		for ( i = 0; i < imgTags.length; i++ ) {
-			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-			if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) ) {
-				if ( !newSrcValues[ i ] ) {
-					CKEDITOR.error( 'pastetools-unsupported-image', {
-						type: hexImages[ i ].type,
-						index: i
-					} );
-
-					continue;
-				}
-
-				// In Word there is a chance that some of the images are also inserted via VML.
-				// This regex ensures that we replace only HTML <img> tags.
-				// Oh, and there are also Windows paths that need to be escaped
-				// before passing to regex.
-				var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
-					imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
-
-				html = html.replace( imgRegex, '$1' + newSrcValues[ i ] );
-			}
-		}
-
-		return html;
+		return handleBlobImages( editor, html, imgTags );
 	};
 
 	/**
@@ -178,6 +138,59 @@
 			type: 'image/wmf'
 		}
 	];
+
+	function handleRtfImages( html, rtf, imgTags ) {
+		var hexImages = extractFromRtf( rtf ),
+			newSrcValues,
+			i;
+
+		if ( hexImages.length === 0 ) {
+			return html;
+		}
+
+		newSrcValues = CKEDITOR.tools.array.map( hexImages, function( img ) {
+			return createSrcWithBase64( img );
+		}, this );
+
+		if ( imgTags.length !== newSrcValues.length ) {
+			CKEDITOR.error( 'pastetools-failed-image-extraction', {
+				rtf: hexImages.length,
+				html: imgTags.length
+			} );
+
+			return html;
+		}
+
+		// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
+		for ( i = 0; i < imgTags.length; i++ ) {
+			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+			if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) ) {
+				if ( !newSrcValues[ i ] ) {
+					CKEDITOR.error( 'pastetools-unsupported-image', {
+						type: hexImages[ i ].type,
+						index: i
+					} );
+
+					continue;
+				}
+
+				// In Word there is a chance that some of the images are also inserted via VML.
+				// This regex ensures that we replace only HTML <img> tags.
+				// Oh, and there are also Windows paths that need to be escaped
+				// before passing to regex.
+				var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
+					imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
+
+				html = html.replace( imgRegex, '$1' + newSrcValues[ i ] );
+			}
+		}
+
+		return html;
+	}
+
+	function handleBlobImages( editor, html ) {
+		return html;
+	}
 
 	function extractFromRtf( rtfContent ) {
 		var filter = CKEDITOR.plugins.pastetools.filters.common.rtf,
