@@ -66,7 +66,7 @@
 
 		// (#1134)
 		'test getImageTypeFromHeader': function() {
-			if ( typeof Uint8Array !== 'function' ) {
+			if ( typeof Uint8Array !== 'function' || typeof Uint8Array.from !== 'function' ) {
 				assert.ignore();
 			}
 			var test_cases = [
