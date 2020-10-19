@@ -62,6 +62,78 @@
 					}
 				} );
 			}
+		},
+
+		// (#1134)
+		'test getImageTypeFromHeader': function() {
+			if ( typeof Uint8Array !== 'function' ) {
+				assert.ignore();
+			}
+			var test_cases = [
+				{
+					input: '89504e47',
+					output: 'image/png'
+				},
+				{
+					input: '47494638',
+					output: 'image/gif'
+				},
+				{
+					input: 'ffd8ffe0',
+					output: 'image/jpeg'
+				},
+				{
+					input: 'ffd8ffe1',
+					output: 'image/jpeg'
+				},
+				{
+					input: 'ffd8ffe2',
+					output: 'image/jpeg'
+				},
+				{
+					input: 'ffd8ffe3',
+					output: 'image/jpeg'
+				},
+				{
+					input: 'ffd8ffe8',
+					output: 'image/jpeg'
+				},
+				{
+					input: '12345678',
+					output: null
+				},
+				{
+					input: 'ff',
+					output: null
+				}
+			];
+
+			CKEDITOR.tools.array.forEach( test_cases, function( test ) {
+				var imageData = Uint8Array.from( CKEDITOR.tools.convertHexStringToBytes( test.input ) ),
+					header = CKEDITOR.pasteFilters.image.getImageTypeFromHeader( imageData );
+
+				assert.areEqual( test.output, header, 'There is problem for test case with input: ' + test.input );
+			} );
+		},
+
+		// (#1134)
+		'test convertBlobUrlToBase64': function() {
+			if ( typeof Uint8Array !== 'function' || typeof Blob !== 'function' || typeof URL !== 'function' ) {
+				assert.ignore();
+			}
+
+			var imageHex = '89504e470d0a1a0a0000000d4948445200000001000000010804000000b51c0c020000000b4944415478da6364600000000600023081d02f0000000049454e44ae426082',
+				imageBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+				fileType = 'image/png',
+				typedArray = Uint8Array.from( CKEDITOR.tools.convertHexStringToBytes( imageHex ) ),
+				blobUrl = URL.createObjectURL( new Blob( [ typedArray ], { type: fileType } ) );
+
+			CKEDITOR.pasteFilters.image.convertBlobUrlToBase64( blobUrl ).then( function( base64 ) {
+				resume( function() {
+					assert.areEqual( 'data:' + fileType + ';base64,' + imageBase64, base64, 'obtained data uri string is different than expected' );
+				} );
+			} );
+			wait();
 		}
 	};
 
