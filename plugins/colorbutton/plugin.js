@@ -303,7 +303,7 @@
 
 						if ( color == '?' ) {
 							editor.getColorFromDialog( function( color ) {
-								if ( ColorBox.validateColor( color ) ) {
+								if ( color ) {
 									setColor( color, colorName, history );
 								}
 							}, null, colorData );
