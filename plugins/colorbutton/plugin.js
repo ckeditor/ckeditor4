@@ -503,7 +503,7 @@
 
 			validateColor: function( color ) {
 				// Following regexp allows the use of hex, RGB and HSL formats or just HTML color names.
-				var colorRegexp = /^[a-z0-9()#%,]+$/i;
+				var colorRegexp = /^[a-z0-9()#%,.]+$/i;
 
 				color = color.replace( /\s+/g, '' );
 

@@ -33,7 +33,7 @@ CKEDITOR.plugins.colordialog = {
 			onClose = function( evt ) {
 				releaseHandlers( this );
 				var color = evt.name == 'ok' ? this.getValueOf( 'picker', 'selectedColor' ) : null,
-					validationRegexp = /^[a-z0-9()#%,]+$/i;
+					validationRegexp = /^[a-z0-9()#%,.]+$/i;
 
 				color = color.replace( /\s+/g, '' );
 
