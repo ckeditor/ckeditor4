@@ -32,13 +32,10 @@ CKEDITOR.plugins.colordialog = {
 
 			onClose = function( evt ) {
 				releaseHandlers( this );
-				var color = evt.name == 'ok' ? this.getValueOf( 'picker', 'selectedColor' ) : null,
-					validationRegexp = /^[a-z0-9()#%,.]+$/i;
+				var color = evt.name == 'ok' ? this.getValueOf( 'picker', 'selectedColor' ) : null;
 
-				color = color.replace( /\s+/g, '' );
-
-				if ( !validationRegexp.test( color ) ) {
-					color = '';
+				if ( color && !CKEDITOR.tools.canBeValidColor( color ) ) {
+					color = null;
 				}
 
 				// Adding `#` character to hexadecimal 3 or 6 digit numbers to have proper color value (#565).

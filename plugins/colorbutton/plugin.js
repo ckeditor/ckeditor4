@@ -489,7 +489,7 @@
 		$: function( editor, colorData, clickFn ) {
 			this.$ = new CKEDITOR.dom.element( 'td' );
 
-			this.color = ColorBox.validateColor( colorData.color ) ? colorData.color : '';
+			this.color = CKEDITOR.tools.canBeValidColor( colorData.color ) ? colorData.color : '';
 			this.clickFn = clickFn;
 			this.label = colorData.label || ColorBox.colorNames( editor )[ this.color ] || this.color;
 
@@ -499,15 +499,6 @@
 		statics: {
 			colorNames: function( editor ) {
 				return editor.lang.colorbutton.colors;
-			},
-
-			validateColor: function( color ) {
-				// Following regexp allows the use of hex, RGB and HSL formats or just HTML color names.
-				var colorRegexp = /^[a-z0-9()#%,.]+$/i;
-
-				color = color.replace( /\s+/g, '' );
-
-				return colorRegexp.test( color );
 			}
 		},
 

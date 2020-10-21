@@ -1045,6 +1045,27 @@
 		},
 
 		/**
+		 * Checks if the passed string may be in one of the following color formats:
+		 *
+		 * * hexadecimal notation;
+		 * * RGB or RGBA notation;
+		 * * HSL or HSLA notation;
+		 * * HTML color name.
+		 *
+		 * **Note:** This method doesn't perform any logical check like if the values in RGB format are correct
+		 * or if the passed color name actually exists.
+		 *
+		 * @since 4.15.1
+		 * @param {String} colorCode String to be validated.
+		 * @returns {Boolean} Information if the string doesn't contain any unallowed characters.
+		 */
+		canBeValidColor: function( colorCode ) {
+			colorCode = colorCode.replace( /\s+/g, '' );
+
+			return /^[a-z0-9()#%,.]+$/i.test( colorCode );
+		},
+
+		/**
 		 * Turns inline style text properties into one hash.
 		 *
 		 * @param {String} styleText The style data to be parsed.
