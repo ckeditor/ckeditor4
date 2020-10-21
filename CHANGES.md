@@ -12,6 +12,7 @@ Fixed Issues:
 * [#4273](https://github.com/ckeditor/ckeditor4/issues/4273): Fixed: memory leak in [`CKEDITOR.domReady()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-domReady) connected with not removing `load` event listeners. Thanks to [rohit1](https://github.com/rohit1)!
 * [#1330](https://github.com/ckeditor/ckeditor4/issues/1330): Fixed: Incomplete CSS margin parsing if "auto" or "0" value is used.
 * [#4286](https://github.com/ckeditor/ckeditor4/issues/4286): Fixed: The [Auto Grow](https://ckeditor.com/cke4/addon/autogrow) plugin causes editor's width to be set to 0 on editor resize.
+* [#848](https://github.com/ckeditor/ckeditor4/issues/848): Fixed: Arabic text not being "bound" correctly when pasting. Thanks to [Thomas Hunkapiller](https://github.com/devoidfury) and [J. Ivan Duarte Rodríguez](https://github.com/jidrone-mbm)!
 
 API Changes:
 

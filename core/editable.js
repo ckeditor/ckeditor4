@@ -1218,11 +1218,13 @@
 							startPath = range.startPath();
 
 						if ( range.collapsed ) {
-							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) )
+							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) ) {
 								return;
+							}
 						} else {
-							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) )
+							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) ) {
 								return;
+							}
 						}
 
 						// Scroll to the new position of the caret (https://dev.ckeditor.com/ticket/11960).
@@ -2026,8 +2028,23 @@
 			}
 
 			// Eventually merge identical inline elements.
-			while ( ( node = that.mergeCandidates.pop() ) )
+			while ( ( node = that.mergeCandidates.pop() ) ) {
 				node.mergeSiblings();
+			}
+
+			// Normalize text nodes (#848).
+			if ( CKEDITOR.env.webkit && range.startPath() ) {
+				var path = range.startPath();
+
+				if ( path.block ) {
+					path.block.$.normalize();
+				} else if ( path.blockLimit ) {
+					// Handle ENTER_BR mode when text is direct root/body child.
+					// This will call native `normalize` on entire editor content in this case
+					// normalizing text nodes in entire editor content.
+					path.blockLimit.$.normalize();
+				}
+			}
 
 			range.moveToBookmark( bm );
 
