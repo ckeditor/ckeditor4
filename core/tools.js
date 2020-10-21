@@ -1060,6 +1060,10 @@
 		 * @returns {Boolean} Information if the string doesn't contain any unallowed characters.
 		 */
 		canBeValidColor: function( colorCode ) {
+			if ( !colorCode ) {
+				return false;
+			}
+
 			colorCode = colorCode.replace( /\s+/g, '' );
 
 			return /^[a-z0-9()#%,.]+$/i.test( colorCode );
