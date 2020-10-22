@@ -34,6 +34,11 @@
 
 		// (#27)
 		'test CKEDITOR.tools.canBeValidColor() does not throw error when called without parameter': function() {
+			// console is required, so sorry IE.
+			if ( bender.env.ie && bender.env.version < 10 ) {
+				assert.ignore();
+			}
+
 			var stub = sinon.stub( console, 'log' );
 
 			try {
