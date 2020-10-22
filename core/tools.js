@@ -1066,7 +1066,7 @@
 
 			colorCode = colorCode.replace( /\s+/g, '' );
 
-			return /^[a-z0-9()#%,.]+$/i.test( colorCode );
+			return /^[a-z0-9()#%,./]+$/i.test( colorCode );
 		},
 
 		/**
