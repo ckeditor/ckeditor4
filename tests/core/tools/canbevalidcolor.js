@@ -5,51 +5,66 @@
 ( function() {
 	'use strict';
 
-	bender.test( {
-		// (#27)
-		'test CKEDITOR.tools.canBeValidColor() returns proper values': function() {
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( '123' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( '#123' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( '123123' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( '#123123' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'rgb(60,60,60)' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'rgb( 60, 60, 60 )' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'rgba(60,60,60,0.2)' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'rgba( 60, 60, 60, 0.2 )' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'hsl(60,60%,60%)' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'hsl( 60, 60%, 60% )' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'hsla(60,60%,60%,0.2)' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'hsla( 60, 60%, 60%, 0.2 )' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'hsla( 60, 60%, 60% / 0.2 )' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'red' ) );
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( 'darkblue' ) );
+	var tests = {},
+		testValuesPass = [
+			'123',
+			'#123',
+			'123123',
+			'#123123',
+			'rgb(60,60,60)',
+			'rgba(60,60,60,0.2)',
+			'rgba( 60, 60, 60, 0.2 )',
+			'hsl(60,60%,60%)',
+			'hsl( 60, 60%, 60% )',
+			'hsla(60,60%,60%,0.2)',
+			'hsla( 60, 60%, 60%, 0.2 )',
+			'hsla( 60, 60%, 60% / 0.2 )',
+			'red',
+			'darkblue'
+		],
+		testValuesFail = [
+			'<img>',
+			'scam!',
+			'deceit;',
+			'foo-',
+			'bar&',
+			'<im src="1" onerror="&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x31;&#x29;" />'
+		];
 
-			assert.isFalse( CKEDITOR.tools.canBeValidColor( '<img>' ) );
-			assert.isFalse( CKEDITOR.tools.canBeValidColor( 'scam!' ) );
-			assert.isFalse( CKEDITOR.tools.canBeValidColor( 'deceit;' ) );
-			assert.isFalse( CKEDITOR.tools.canBeValidColor( 'foo-' ) );
-			assert.isFalse( CKEDITOR.tools.canBeValidColor( 'bar&' ) );
-			assert.isFalse( CKEDITOR.tools.canBeValidColor( '<im src="1" onerror="&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x31;&#x29;" />' ) );
-		},
+	for ( var i = 0; i < testValuesPass.length; i++ ) {
+		tests[ 'test CKEDITOR.tools.canBeValidColor() returns proper value for the string: ' + testValuesPass[ i ] ] = function() {
+			// (#27)
+			// This will be executed after the whole for loop, so we can't use `i` variable here.
+			assert.isTrue( CKEDITOR.tools.canBeValidColor( testValuesPass.shift() ) );
+		};
+	}
 
-		// (#27)
-		'test CKEDITOR.tools.canBeValidColor() does not throw error when called without parameter': function() {
-			// console is required, so sorry IE.
-			if ( bender.env.ie && bender.env.version < 10 ) {
-				assert.ignore();
-			}
+	for ( var j = 0; j < testValuesFail.length; j++ ) {
+		tests[ 'test CKEDITOR.tools.canBeValidColor() returns proper value for the string: ' + testValuesFail[ j ] ] = function() {
+			// (#27)
+			// This will be executed after the whole for loop, so we can't use `j` variable here.
+			assert.isFalse( CKEDITOR.tools.canBeValidColor( testValuesFail.shift() ) );
+		};
+	}
 
-			var stub = sinon.stub( console, 'log' );
-
-			try {
-				CKEDITOR.tools.canBeValidColor();
-			} catch ( error ) {
-				console.log( error );
-			}
-
-			sinon.assert.notCalled( stub );
-			stub.restore();
-			assert.pass();
+	tests[ 'test CKEDITOR.tools.canBeValidColor() does not throw error when called without parameter' ] = function() {
+		// console is required, so sorry IE.
+		if ( bender.env.ie && bender.env.version < 10 ) {
+			assert.ignore();
 		}
-	} );
+
+		var stub = sinon.stub( console, 'log' );
+
+		try {
+			CKEDITOR.tools.canBeValidColor();
+		} catch ( error ) {
+			console.log( error );
+		}
+
+		sinon.assert.notCalled( stub );
+		stub.restore();
+		assert.pass();
+	};
+
+	bender.test( tests );
 } )();
