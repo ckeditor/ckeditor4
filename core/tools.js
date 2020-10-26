@@ -1045,15 +1045,33 @@
 		},
 
 		/**
-		 * Checks if the passed string may be in one of the following color formats:
+		 * Checks if the passed string doesn't contain any characters disallowed
+		 * by the following color formats:
 		 *
 		 * * hexadecimal notation;
 		 * * RGB or RGBA notation;
 		 * * HSL or HSLA notation;
 		 * * HTML color name.
 		 *
-		 * **Note:** This method doesn't perform any logical check like if the values in RGB format are correct
+		 * **Note:** This method is intended mostly for the input security validations.
+		 * It doesn't perform any logical check like if the values in RGB format are correct
 		 * or if the passed color name actually exists.
+		 * See the examples below:
+		 *
+		 * ```javascript
+		 * CKEDITOR.tools.isValidColorFormat( '123456' ); // true
+		 * CKEDITOR.tools.isValidColorFormat( '#4A2' ); // true
+		 * CKEDITOR.tools.isValidColorFormat( 'rgb( 40, 40, 150 )' ); // true
+		 * CKEDITOR.tools.isValidColorFormat( 'hsla( 180, 50%, 50%, 0.2 )' ); // true
+		 *
+		 * CKEDITOR.tools.isValidColorFormat( '333333;' ); // false
+		 * CKEDITOR.tools.isValidColorFormat( '<833AF2>' ); // false
+		 *
+		 * // But also:
+		 * CKEDITOR.tools.isValidColorFormat( 'ckeditor' ); // true
+		 * CKEDITOR.tools.isValidColorFormat( '1234' ); // true
+		 * CKEDITOR.tools.isValidColorFormat( 'hsrgb( 100 )' ); // true
+		 * ```
 		 *
 		 * @since 4.15.1
 		 * @param {String} colorCode String to be validated.
