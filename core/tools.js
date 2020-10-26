@@ -1059,7 +1059,7 @@
 		 * @param {String} colorCode String to be validated.
 		 * @returns {Boolean} Information if the string doesn't contain any unallowed characters.
 		 */
-		canBeValidColor: function( colorCode ) {
+		isValidColorFormat: function( colorCode ) {
 			if ( !colorCode ) {
 				return false;
 			}

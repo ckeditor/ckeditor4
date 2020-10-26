@@ -34,7 +34,7 @@ CKEDITOR.plugins.colordialog = {
 				releaseHandlers( this );
 				var color = evt.name == 'ok' ? this.getValueOf( 'picker', 'selectedColor' ) : null;
 
-				if ( color && !CKEDITOR.tools.canBeValidColor( color ) ) {
+				if ( color && !CKEDITOR.tools.isValidColorFormat( color ) ) {
 					color = null;
 				}
 

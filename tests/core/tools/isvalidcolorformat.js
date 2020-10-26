@@ -32,22 +32,22 @@
 		];
 
 	for ( var i = 0; i < testValuesPass.length; i++ ) {
-		tests[ 'test CKEDITOR.tools.canBeValidColor() returns proper value for the string: ' + testValuesPass[ i ] ] = function() {
+		tests[ 'test CKEDITOR.tools.isValidColorFormat() returns proper value for the string: ' + testValuesPass[ i ] ] = function() {
 			// (#27)
 			// This will be executed after the whole for loop, so we can't use `i` variable here.
-			assert.isTrue( CKEDITOR.tools.canBeValidColor( testValuesPass.shift() ) );
+			assert.isTrue( CKEDITOR.tools.isValidColorFormat( testValuesPass.shift() ) );
 		};
 	}
 
 	for ( var j = 0; j < testValuesFail.length; j++ ) {
-		tests[ 'test CKEDITOR.tools.canBeValidColor() returns proper value for the string: ' + testValuesFail[ j ] ] = function() {
+		tests[ 'test CKEDITOR.tools.isValidColorFormat() returns proper value for the string: ' + testValuesFail[ j ] ] = function() {
 			// (#27)
 			// This will be executed after the whole for loop, so we can't use `j` variable here.
-			assert.isFalse( CKEDITOR.tools.canBeValidColor( testValuesFail.shift() ) );
+			assert.isFalse( CKEDITOR.tools.isValidColorFormat( testValuesFail.shift() ) );
 		};
 	}
 
-	tests[ 'test CKEDITOR.tools.canBeValidColor() does not throw error when called without parameter' ] = function() {
+	tests[ 'test CKEDITOR.tools.isValidColorFormat() does not throw error when called without parameter' ] = function() {
 		// console is required, so sorry IE.
 		if ( bender.env.ie && bender.env.version < 10 ) {
 			assert.ignore();
@@ -56,7 +56,7 @@
 		var stub = sinon.stub( console, 'log' );
 
 		try {
-			CKEDITOR.tools.canBeValidColor();
+			CKEDITOR.tools.isValidColorFormat();
 		} catch ( error ) {
 			console.log( error );
 		}
