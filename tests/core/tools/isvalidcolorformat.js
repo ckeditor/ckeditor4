@@ -31,22 +31,25 @@
 			'<im src="1" onerror="&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x31;&#x29;" />'
 		];
 
+	// (#27)
 	for ( var i = 0; i < testValuesPass.length; i++ ) {
-		tests[ 'test CKEDITOR.tools.isValidColorFormat() returns proper value for the string: ' + testValuesPass[ i ] ] = function() {
-			// (#27)
-			// This will be executed after the whole for loop, so we can't use `i` variable here.
-			assert.isTrue( CKEDITOR.tools.isValidColorFormat( testValuesPass.shift() ) );
+		var testPassing = testValuesPass[ i ];
+
+		tests[ 'test CKEDITOR.tools.isValidColorFormat() returns proper value for the string: ' + testPassing ] = function() {
+			assert.isTrue( CKEDITOR.tools.isValidColorFormat( testPassing ) );
 		};
 	}
 
+	// (#27)
 	for ( var j = 0; j < testValuesFail.length; j++ ) {
-		tests[ 'test CKEDITOR.tools.isValidColorFormat() returns proper value for the string: ' + testValuesFail[ j ] ] = function() {
-			// (#27)
-			// This will be executed after the whole for loop, so we can't use `j` variable here.
-			assert.isFalse( CKEDITOR.tools.isValidColorFormat( testValuesFail.shift() ) );
+		var testFailing = testValuesPass[ i ];
+
+		tests[ 'test CKEDITOR.tools.isValidColorFormat() returns proper value for the string: ' + testFailing ] = function() {
+			assert.isFalse( CKEDITOR.tools.isValidColorFormat( testFailing ) );
 		};
 	}
 
+	// (#27)
 	tests[ 'test CKEDITOR.tools.isValidColorFormat() does not throw error when called without parameter' ] = function() {
 		// console is required, so sorry IE.
 		if ( bender.env.ie && bender.env.version < 10 ) {
