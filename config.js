@@ -72,6 +72,11 @@ CKEDITOR.editorConfig = function( config ) {
 		'undo,' +
 		'uploadimage,' +
 		'wysiwygarea';
+
+
+    config.allowedContent = 'u em strong p span{background-color,color}';
+    // config.disallowedContent = 'h1;h2;h3;h4;h5;h6'
+
 	// %REMOVE_END%
 };
 

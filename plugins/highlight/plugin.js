@@ -1,6 +1,10 @@
 CKEDITOR.config.allowedContent = true;
 CKEDITOR.config.extraAllowedContent = 'span(highlight)';
-
+CKEDITOR.addCss(
+    '.highlight {' +
+        'background-color: #DCDCDC;' +
+    '}'
+);
 CKEDITOR.plugins.add( 'highlight', {
     icons: 'about',
     lang: 'en',
@@ -27,7 +31,7 @@ CKEDITOR.plugins.add( 'highlight', {
             label: 'Insert Highlight',
             command: 'insertHighlight',
             toolbar: 'colors',
-            icon: this.path + 'icons/about.png'
+            icon: this.path + 'icons/marker1.png'
         });
     }
 });
