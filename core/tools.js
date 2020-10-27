@@ -1045,7 +1045,7 @@
 		},
 
 		/**
-		 * Checks if the passed string doesn't contain any characters disallowed
+		 * Checks if passed string doesn't contain any characters disallowed
 		 * by the following color formats:
 		 *
 		 * * hexadecimal notation;
@@ -1053,9 +1053,10 @@
 		 * * HSL or HSLA notation;
 		 * * HTML color name.
 		 *
-		 * **Note:** This method is intended mostly for the input security validations.
+         * **Note:** This method is intended mostly for the input validations.
 		 * It doesn't perform any logical check like if the values in RGB format are correct
 		 * or if the passed color name actually exists.
+		 
 		 * See the examples below:
 		 *
 		 * ```javascript
@@ -1075,7 +1076,7 @@
 		 *
 		 * @since 4.15.1
 		 * @param {String} colorCode String to be validated.
-		 * @returns {Boolean} Information if the string doesn't contain any unallowed characters.
+		 * @returns {Boolean} Whether the input string contains only allowed characters.
 		 */
 		isValidColorFormat: function( colorCode ) {
 			if ( !colorCode ) {
