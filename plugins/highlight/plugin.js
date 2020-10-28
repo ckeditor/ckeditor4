@@ -12,12 +12,11 @@ CKEDITOR.plugins.add( 'highlight', {
         editor.addCommand( 'insertHighlight', {
             exec: function( editor ) {
               var element = editor.getSelection().getStartElement().$;
-              if(element.getAttribute('class') == "highlight") {
-                // remove highlight (toggle)
-                var selected_text = element.innerText; // Get Text
-                var selected_html = element.innerHTML; // Get HTML
-                editor.getSelection().getStartElement().remove(false)
-                editor.insertText(selected_text)
+              var selection = editor.getSelection().getSelectedText();
+              if(element.classList.contains('highlight')) {
+                element.classList.remove('highlight');
+              } else if(element.innerText == selection && element.tagName == "SPAN") {
+                element.classList.add('highlight');
               } else {
                 var range = editor.getSelection().getRanges()[ 0 ];
                 var newElement = new CKEDITOR.dom.element("span");           // Make Span
