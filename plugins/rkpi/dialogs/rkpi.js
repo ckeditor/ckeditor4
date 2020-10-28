@@ -15,7 +15,6 @@ function getDecimals(text) {
   if(!charsAfterTheDot) return 0;
   return charsAfterTheDot.length
 }
-
 CKEDITOR.dialog.add( 'rkpi', function( editor ) {
     return {
         title:          'Running KPI',
@@ -113,11 +112,13 @@ CKEDITOR.dialog.add( 'rkpi', function( editor ) {
                       type:           'text',
                       label:          'COUNT TO',
                       id:             'countTo',
+                      validate:       CKEDITOR.dialog.validate.number('Count to must be a number'),
                       'default':      '100'
                   }, {
                       type:           'text',
                       label:          'COUNT FROM',
                       id:             'countFrom',
+                      validate:       CKEDITOR.dialog.validate.number('Count from must be a number'),
                       'default':      '0'
                   }, {
                       type:           'text',
@@ -134,7 +135,7 @@ CKEDITOR.dialog.add( 'rkpi', function( editor ) {
                     id: 'speed',
                     label: 'Running speed',
                     items: [ [ 'Fast', '1200' ], [ 'Medium', '1800' ], [ 'Slow', '2500' ] ],
-                    'default': '1200'
+                    'default': '1800'
                 }
                 ]
             }
