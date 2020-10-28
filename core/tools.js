@@ -1045,8 +1045,7 @@
 		},
 
 		/**
-		 * Checks if passed string doesn't contain any characters disallowed
-		 * by the following color formats:
+		 * Validates color string correctness. Works for:
 		 *
 		 * * hexadecimal notation;
 		 * * RGB or RGBA notation;
