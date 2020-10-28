@@ -47,7 +47,9 @@ CKEDITOR.dialog.add( 'rkpi', function( editor ) {
             }
         },
         onOk: function () {
+
           var element = editor.getSelection().getStartElement().$;
+          var selection = editor.getSelection().getSelectedText();
           var isEdit = element.getAttribute('data-start-counter-class') != null;
           var countTo = this.getValueOf( 'tab1', 'countTo' );
           var countFrom = this.getValueOf( 'tab1', 'countFrom' );
@@ -66,6 +68,18 @@ CKEDITOR.dialog.add( 'rkpi', function( editor ) {
             element.setAttribute('data-speed', speed);
             element.setAttribute('data-decimals', decimals);
             element.innerHTML = displayText;
+          } else if (selection == element.innerText && element.tagName == "SPAN") { // add if exists
+            var className = 'rkpi-' + randomString();
+            element.setAttribute('data-to', countTo);
+            element.setAttribute('data-from', countFrom);
+            element.setAttribute('data-prefix', prefix);
+            element.setAttribute('data-suffix', suffix);
+            element.setAttribute('data-speed', speed);
+            element.setAttribute('data-decimals', decimals);
+            element.setAttribute('data-start-counter-class', className);
+            element.setAttribute('contentEditable', false);
+            element.innerHTML = displayText;
+            element.classList.add(className);
           } else {
             var className = 'rkpi-' + randomString();
             var tag = editor.document.createElement( 'span', {
