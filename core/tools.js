@@ -1060,25 +1060,26 @@
 		 * See the examples below:
 		 *
 		 * ```javascript
-		 * CKEDITOR.tools.isValidColorFormat( '123456' ); // true
-		 * CKEDITOR.tools.isValidColorFormat( '#4A2' ); // true
-		 * CKEDITOR.tools.isValidColorFormat( 'rgb( 40, 40, 150 )' ); // true
-		 * CKEDITOR.tools.isValidColorFormat( 'hsla( 180, 50%, 50%, 0.2 )' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( '123456' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( '#4A2' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( 'rgb( 40, 40, 150 )' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( 'hsla( 180, 50%, 50%, 0.2 )' ); // true
 		 *
-		 * CKEDITOR.tools.isValidColorFormat( '333333;' ); // false
-		 * CKEDITOR.tools.isValidColorFormat( '<833AF2>' ); // false
+		 * CKEDITOR.tools._isValidColorFormat( '333333;' ); // false
+		 * CKEDITOR.tools._isValidColorFormat( '<833AF2>' ); // false
 		 *
 		 * // But also:
-		 * CKEDITOR.tools.isValidColorFormat( 'ckeditor' ); // true
-		 * CKEDITOR.tools.isValidColorFormat( '1234' ); // true
-		 * CKEDITOR.tools.isValidColorFormat( 'hsrgb( 100 )' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( 'ckeditor' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( '1234' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( 'hsrgb( 100 )' ); // true
 		 * ```
 		 *
 		 * @since 4.15.1
+		 * @private
 		 * @param {String} colorCode String to be validated.
 		 * @returns {Boolean} Whether the input string contains only allowed characters.
 		 */
-		isValidColorFormat: function( colorCode ) {
+		_isValidColorFormat: function( colorCode ) {
 			if ( !colorCode ) {
 				return false;
 			}

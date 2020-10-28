@@ -35,8 +35,8 @@
 	for ( var i = 0; i < testValuesPass.length; i++ ) {
 		var testPassing = testValuesPass[ i ];
 
-		tests[ 'test CKEDITOR.tools.isValidColorFormat() returns proper value for the string: ' + testPassing ] = function() {
-			assert.isTrue( CKEDITOR.tools.isValidColorFormat( testPassing ) );
+		tests[ 'test CKEDITOR.tools._isValidColorFormat() returns proper value for the string: ' + testPassing ] = function() {
+			assert.isTrue( CKEDITOR.tools._isValidColorFormat( testPassing ) );
 		};
 	}
 
@@ -44,13 +44,13 @@
 	for ( var j = 0; j < testValuesFail.length; j++ ) {
 		var testFailing = testValuesPass[ i ];
 
-		tests[ 'test CKEDITOR.tools.isValidColorFormat() returns proper value for the string: ' + testFailing ] = function() {
-			assert.isFalse( CKEDITOR.tools.isValidColorFormat( testFailing ) );
+		tests[ 'test CKEDITOR.tools._isValidColorFormat() returns proper value for the string: ' + testFailing ] = function() {
+			assert.isFalse( CKEDITOR.tools._isValidColorFormat( testFailing ) );
 		};
 	}
 
 	// (#27)
-	tests[ 'test CKEDITOR.tools.isValidColorFormat() does not throw error when called without parameter' ] = function() {
+	tests[ 'test CKEDITOR.tools._isValidColorFormat() does not throw error when called without parameter' ] = function() {
 		// console is required, so sorry IE.
 		if ( bender.env.ie && bender.env.version < 10 ) {
 			assert.ignore();
@@ -59,7 +59,7 @@
 		var stub = sinon.stub( console, 'log' );
 
 		try {
-			CKEDITOR.tools.isValidColorFormat();
+			CKEDITOR.tools._isValidColorFormat();
 		} catch ( error ) {
 			console.log( error );
 		}

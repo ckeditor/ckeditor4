@@ -489,7 +489,7 @@
 		$: function( editor, colorData, clickFn ) {
 			this.$ = new CKEDITOR.dom.element( 'td' );
 
-			this.color = CKEDITOR.tools.isValidColorFormat( colorData.color ) ? colorData.color : '';
+			this.color = CKEDITOR.tools._isValidColorFormat( colorData.color ) ? colorData.color : '';
 			this.clickFn = clickFn;
 			this.label = colorData.label || ColorBox.colorNames( editor )[ this.color ] || this.color;
 
