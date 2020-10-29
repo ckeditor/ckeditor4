@@ -40,6 +40,24 @@ tests[ 'test getData call (p enter mode)' ] = function() {
 	} );
 };
 
+// (#4301)
+tests[ 'test multiple paste into empty editor' ] = function() {
+	bender.editorBot.create( {
+		name: 'multiple_paste',
+		config: {
+			enterMode: CKEDITOR.ENTER_DIV
+		}
+	}, function( bot ) {
+		var html = 'Lorem ipsum',
+			editor = bot.editor;
+
+		editor.insertHtml( html );
+		editor.insertHtml( html );
+
+		assert.areSame( '<div>' + html + html + '</div>', editor.getData() );
+	} );
+};
+
 bender.test( tests );
 
 function testInsertHtml( htmlString ) {
