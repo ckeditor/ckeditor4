@@ -25,20 +25,10 @@ var tests = {
 	'test insert two divs': testInsertHtml( '<div>foo</div><div>bar</div>' ),
 
 	// (#2751)
-	'test insert two divs wrapped in another div': testInsertHtml( '<div><div>foo</div><div>bar</div></div>' ),
-
-	// (#3379)
-	'test getData call (div enter mode)': testGetData()
+	'test insert two divs wrapped in another div': testInsertHtml( '<div><div>foo</div><div>bar</div></div>' )
 };
 
 tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
-
-// (#3379)
-tests[ 'test getData call (p enter mode)' ] = function() {
-	bender.editorBot.create( {}, function( bot ) {
-		testGetData()( bot.editor, bot );
-	} );
-};
 
 // (#4301)
 tests[ 'test multiple paste into empty editor' ] = function() {
@@ -65,27 +55,6 @@ function testInsertHtml( htmlString ) {
 		bot.setData( '', function() {
 			editor.insertHtml( htmlString );
 			assert.areSame( htmlString, editor.getData() );
-		} );
-	};
-}
-
-function testGetData() {
-	return function( editor, bot ) {
-		bot.setData( '', function() {
-			var i = 0,
-				listener = editor.on( 'beforeGetData', function() {
-					++i;
-				} ),
-				spy = sinon.spy( CKEDITOR.editor.prototype, 'getData' ),
-				expectedGetDataCount = Number( editor.config.enterMode === CKEDITOR.ENTER_DIV );
-
-			editor.insertHtml( 'hublabubla' );
-
-			listener.removeListener();
-			spy.restore();
-
-			assert.areSame( expectedGetDataCount, spy.callCount, 'getData count' );
-			assert.areSame( 0, i, 'beforeGetData count' );
 		} );
 	};
 }
