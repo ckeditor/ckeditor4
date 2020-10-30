@@ -3,6 +3,14 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.15.1
 
+**Security Updates:**
+
+* Fixed XSS vulnerability in the [Color History feature](https://ckeditor.com/docs/ckeditor4/latest/features/colorbutton.html#color-history) reported by [Mark Wade](https://github.com/mark-wade).
+
+	Issue summary: It was possible to execute XSS inside CKEditor 4 by persuading a victim to paste a specially crafted HTML code into [Color Button](https://ckeditor.com/cke4/addon/colorbutton) dialog.
+
+**An upgrade is highly recommended!**
+
 Fixed Issues:
 
 * [#4293](https://github.com/ckeditor/ckeditor4/issues/4293): Fixed: [`CKEDITOR.inlineAll()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inlineAll) method tries to initialize inline editor also on elements with editor already attached to them.
