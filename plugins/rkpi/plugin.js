@@ -18,8 +18,8 @@ CKEDITOR.plugins.add( 'rkpi', {
     init: function( editor ) {
         var dialog = CKEDITOR.dialog.add( 'rkpi', this.path + 'dialogs/rkpi.js' );
         var dialogCommand = editor.addCommand( 'openDialog', new CKEDITOR.dialogCommand( 'rkpi' ) );
-        editor.ui.addButton( 'Running KPI', {
-            label: 'Insert running KPI',
+        editor.ui.addButton( 'Animated Numbers', {
+            label: 'Insert Animated Numbers',
             command: 'openDialog',
             toolbar: 'basicstyles,100',
             icon: this.path + 'icons/rkpi4.png'

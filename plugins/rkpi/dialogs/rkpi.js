@@ -17,7 +17,7 @@ function getDecimals(text) {
 }
 CKEDITOR.dialog.add( 'rkpi', function( editor ) {
     return {
-        title:          'Running KPI',
+        title:          'Animated Numbers',
         resizable:      CKEDITOR.DIALOG_RESIZE_NONE,
         minWidth:       300,
         minHeight:      200,
