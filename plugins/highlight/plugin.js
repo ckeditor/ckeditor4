@@ -49,7 +49,6 @@ CKEDITOR.plugins.add( 'highlight', {
         // add class command
         var form = [
           [ 'span', function( el ) {
-            el.classList.push('highlight');
             return el.classList.contains('highlight');
           } ]
         ];
