@@ -224,6 +224,24 @@
 			arrayAssert.itemsAreEquivalent( expected, this.array.zip( array1, array2 ), function( arr1, arr2 ) {
 				return arr1[ 0 ] === arr2[ 0 ] && arr1[ 1 ]  === arr2[ 1 ];
 			} );
+		},
+
+		// (#1134)
+		'test array.unique method': function() {
+			var obj1 = {},
+				obj2 = {},
+				testArray = [];
+
+			arrayAssert.itemsAreSame( [ 1, 2, 3, 4 ], this.array.unique( [ 1, 2, 3, 4 ] ),
+				'array of primitives without duplicates' );
+			arrayAssert.itemsAreSame( [ 1, 2, 3, 4 ], this.array.unique( [ 1, 2, 3, 4, 4, 3 ] ),
+				'array of primitives with duplicates' );
+			arrayAssert.itemsAreSame( [ obj1, obj2 ], this.array.unique( [ obj1, obj2 ] ),
+				'array of objects without duplicates' );
+			arrayAssert.itemsAreSame( [ obj1, obj2 ], this.array.unique( [ obj1, obj2, obj2, obj1 ] ),
+				'array of objects without duplicates' );
+
+			assert.areNotSame( testArray, this.array.unique( testArray ), 'output' );
 		}
 	} );
 

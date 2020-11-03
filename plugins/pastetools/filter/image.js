@@ -213,7 +213,7 @@
 	}
 
 	function handleBlobImages( editor, html, imgTags ) {
-		var blobUrls = removeDuplicates( CKEDITOR.tools.array.filter( imgTags, function( imgTag ) {
+		var blobUrls = CKEDITOR.tools.array.unique( CKEDITOR.tools.array.filter( imgTags, function( imgTag ) {
 				return imgTag.match( /^blob:/i );
 			} ) ),
 			promises = CKEDITOR.tools.array.map( blobUrls, function( blobUrl ) {
@@ -233,12 +233,6 @@
 		} );
 
 		return html;
-
-		function removeDuplicates( arr ) {
-			return CKEDITOR.tools.array.filter( arr, function( item, index ) {
-				return index === CKEDITOR.tools.array.indexOf( arr, item );
-			} );
-		}
 	}
 
 	function extractFromRtf( rtfContent ) {
