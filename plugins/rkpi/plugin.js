@@ -24,5 +24,22 @@ CKEDITOR.plugins.add( 'rkpi', {
             toolbar: 'basicstyles,100',
             icon: this.path + 'icons/rkpi4.png'
         });
+
+        // Activate listener for content change
+        var style = {
+          name: 'runningNumbers',
+          element: 'span',
+          checkActive: function (elementPath) {
+            for(var i = 0; i < elementPath.elements.length; i++) {
+              var element = elementPath.elements[i].$
+              var isActive = element ? element.getAttribute('data-start-counter-class') != null : false;
+              if(isActive) return true;
+            }
+            return false;
+          }
+        };
+        editor.attachStyleStateChange( style, function( state ) {
+          !editor.readOnly && editor.getCommand( 'openDialog' ).setState( state );
+        } );
     }
 });
