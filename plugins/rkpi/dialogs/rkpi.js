@@ -76,7 +76,7 @@ CKEDITOR.dialog.add( 'rkpi', function( editor ) {
             element.setAttribute('data-speed', speed);
             element.setAttribute('data-decimals', decimals);
             element.setAttribute('data-start-counter-class', className);
-            // element.setAttribute('contentEditable', false);
+            element.setAttribute('contentEditable', false);
             element.innerHTML = displayText;
             element.classList.add(className);
           } else {
@@ -91,7 +91,7 @@ CKEDITOR.dialog.add( 'rkpi', function( editor ) {
                 'data-start-counter-class': className,
                 'data-decimals': decimals,
                 'class': className,
-                // 'contentEditable': false
+                'contentEditable': false
               }
             } );
             tag.setHtml(displayText);
