@@ -339,7 +339,10 @@
 
 					editor.execCommand( commandName, { newStyle: colorStyle } );
 					if ( color && colorHistory ) {
-						colorHistory.addColor( color.substr( 1 ).toUpperCase() );
+
+						var colorCode = color.startsWith( '#' ) ? color.substr( 1 ) : color;
+
+						colorHistory.addColor( colorCode.toUpperCase() );
 						renumberElements( panelBlock );
 					}
 				}
