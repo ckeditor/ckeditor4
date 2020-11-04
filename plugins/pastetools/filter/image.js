@@ -127,14 +127,15 @@
 	 */
 	CKEDITOR.pasteFilters.image.supportedImageTypes = [
 		'image/png',
-		'image/jpeg'
+		'image/jpeg',
+		'image/gif'
 	];
 
 	/**
 	 * Array of all recognizable image types with their respective markers.
 	 *
 	 * The recognizing of image type is done by searching for image marker
-	 * inside the image content.
+	 * inside the RTF image content.
 	 *
 	 * @private
 	 * @since 4.16.0
