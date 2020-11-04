@@ -32,7 +32,8 @@
 			'ImagesExtraction/UnsupportedFormats': true,
 			'ImagesExtraction/DuplicatedImage': true,
 			'ImagesExtraction/DrawnObject': true,
-			'ImagesExtraction/WrappedImages': true
+			'ImagesExtraction/WrappedImages': true,
+			'ImagesExtraction/AnimatedGif': true
 		},
 
 		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile,
