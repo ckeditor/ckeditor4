@@ -22,10 +22,11 @@
 		$: function (colorCode) {
 			this._.originalColorCode = colorCode;
 
-			var finalHex  = colorCode;
+			var stringToHex = this._.convertStringToHex( colorCode );
+			var rgbToHex = this._.convertRgbToHex( colorCode );
+			var hexToHex = this._.normalizeHex( colorCode );
 
-			finalHex = this._.convertStringToHex( finalHex );
-			finalHex = this._.convertRgbToHex( finalHex );
+			var finalHex  = stringToHex || rgbToHex || hexToHex || this._.defaultHexColorCode;
 
 			this._.hexColorCode = finalHex;
 		},
@@ -33,6 +34,8 @@
 		_: {
 			originalColorCode: '',
 			hexColorCode: '',
+			defaultHexColorCode: '#000000',
+
 			/**
 			 * Normalizes hexadecimal notation so that the color string is always 6 characters long and lowercase.
 			 *
@@ -40,31 +43,46 @@
 			 * @returns {String} The style data with hex colors normalized.
 			 */
 			normalizeHex: function(hexColorCode) {
-				return hexColorCode.replace( /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi, function( match, hexColor, hexColorPart, separator ) {
-					var normalizedHexColor = hexColor.toLowerCase();
+				var hexRegExp = /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi;
 
-					if ( normalizedHexColor.length == 3 ) {
-						var parts = normalizedHexColor.split( '' );
-						normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
-					}
+				if(hexColorCode.match(hexRegExp))
+				{
+					return hexColorCode.replace( hexRegExp, function( match, hexColor, hexColorPart, separator ) {
+						var normalizedHexColor = hexColor.toLowerCase();
 
-					return '#' + normalizedHexColor + separator;
-				} );
+						if ( normalizedHexColor.length == 3 ) {
+							var parts = normalizedHexColor.split( '' );
+							normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
+						}
+
+						return '#' + normalizedHexColor + separator;
+					} );
+				}
+				else {
+					return null;
+				}
+
 			},
 
 			convertRgbToHex: function( styleText ) {
-				return styleText.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) {
-					var color = [ red, green, blue ];
-					// Add padding zeros if the hex value is less than 0x10.
-					for ( var i = 0; i < 3; i++ )
+				var rgbRegExp = /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi;
+
+				if( styleText.match( rgbRegExp ) ) {
+					return styleText.replace(rgbRegExp, function( match, red, green, blue ) {
+						var color = [ red, green, blue ];
+						// Add padding zeros if the hex value is less than 0x10.
+						for ( var i = 0; i < 3; i++ )
 						color[ i ] = ( '0' + parseInt( color[ i ], 10 ).toString( 16 ) ).slice( -2 );
-					return '#' + color.join( '' );
-				} );
+						return '#' + color.join( '' );
+					} );
+				}else {
+					return null;
+				}
 			},
 
 			convertStringToHex: function( colorCode ) {
 				var colorToHexObject = CKEDITOR.tools.style.parse._colors;
-				var resultCode = colorToHexObject[colorCode] || colorCode;
+				var resultCode = colorToHexObject[colorCode] || null;
 
 				return  resultCode;
 			}
@@ -72,11 +90,11 @@
 
 		proto: {
 			getHex: function() {
-				var finalColorCode = this._.normalizeHex( this._.hexColorCode );
-				finalColorCode = finalColorCode.toUpperCase();
+				finalColorCode = this._.hexColorCode.toUpperCase();
 
 				return finalColorCode;
 			}
 		}
+
 	  }
   );

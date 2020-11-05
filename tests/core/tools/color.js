@@ -54,7 +54,19 @@
 			var resultHex = colorObject.getHex();
 
 			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from invalid string color name return default color': function() {
+			var validColorString = 'NotValidColorName';
+			var expectedDefaultHexCode ='#000000';
+
+			var colorObject = this.createColor( validColorString );
+
+			var resultHex = colorObject.getHex();
+
+			assert.areSame( expectedDefaultHexCode, resultHex );
 		}
+
 	});
 
 } )();
