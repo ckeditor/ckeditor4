@@ -29,6 +29,8 @@ API Changes:
 Other Changes:
 
 * [#4262](https://github.com/ckeditor/ckeditor4/issues/4262): Removed global reference to `stylesLoaded` variable. Thanks to [Levi Carter](https://github.com/swiftMessenger)!
+* Updated [Export to PDF](https://ckeditor.com/cke4/addon/exportpdf) plugin to `1.0.1` version:
+	* Improved external CSS support for [Classic Editor](https://ckeditor.com/docs/ckeditor4/latest/examples/classic.html) by handling exceptions and displaying convenient [error messages](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_errors.html#exportpdf-stylesheets-incaccessible).
 
 ## CKEditor 4.15
 
