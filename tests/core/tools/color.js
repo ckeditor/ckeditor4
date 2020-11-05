@@ -15,7 +15,7 @@
 			assert.isObject(colorObject);
 		},
 
-		'test color return 6-HEX from 6-HEX string ignore letter-case': function() {
+		'test color from 6-HEX lower-case string return 6-HEX': function() {
 			var hexCode = '#ffffff';
 			var expectedHex = '#FFFFFF';
 			var colorObject = this.createColor(hexCode);
@@ -25,7 +25,7 @@
 			assert.areSame(expectedHex, resultHex);
 		},
 
-		'test color return 6-HEX from 3-HEX string ignore letter-case' : function(){
+		'test color from 3-HEX lower-case string return 6-HEX' : function(){
 			var hexCode = '#fff';
 			var expectedHexCode = '#FFFFFF';
 			var colorObject = this.createColor(hexCode);
@@ -35,14 +35,25 @@
 			assert.areSame(expectedHexCode, resultHex);
 		},
 
-		'test color from 3 non defined color characters value string return 6-HEX': function() {
-			var hexCode = 'fff';
-			var expectedHexCode = '#FFFFFF';
-			var colorObject = this.createColor(hexCode);
+		'test color from valid rgb string return HEX': function() {
+			var validRgbString = 'rgb( 40, 40, 150 )';
+			var expectedHexCode  = '#282896';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from valid string color name return HEX': function(){
+			var validColorString = 'red';
+			var expectedHexCode ='#FF0000';
+
+			var colorObject = this.createColor( validColorString );
 
 			var resultHex = colorObject.getHex();
 
-			assert.areSame(expectedHexCode, resultHex);
+			assert.areSame( expectedHexCode, resultHex );
 		}
 	});
 

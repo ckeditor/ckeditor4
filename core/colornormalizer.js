@@ -21,10 +21,18 @@
   CKEDITOR.tools.style.Color = CKEDITOR.tools.createClass( {
 		$: function (colorCode) {
 			this._.originalColorCode = colorCode;
+
+			var finalHex  = colorCode;
+
+			finalHex = this._.convertStringToHex( finalHex );
+			finalHex = this._.convertRgbToHex( finalHex );
+
+			this._.hexColorCode = finalHex;
 		},
 
 		_: {
 			originalColorCode: '',
+			hexColorCode: '',
 			/**
 			 * Normalizes hexadecimal notation so that the color string is always 6 characters long and lowercase.
 			 *
@@ -42,12 +50,29 @@
 
 					return '#' + normalizedHexColor + separator;
 				} );
+			},
+
+			convertRgbToHex: function( styleText ) {
+				return styleText.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) {
+					var color = [ red, green, blue ];
+					// Add padding zeros if the hex value is less than 0x10.
+					for ( var i = 0; i < 3; i++ )
+						color[ i ] = ( '0' + parseInt( color[ i ], 10 ).toString( 16 ) ).slice( -2 );
+					return '#' + color.join( '' );
+				} );
+			},
+
+			convertStringToHex: function( colorCode ) {
+				var colorToHexObject = CKEDITOR.tools.style.parse._colors;
+				var resultCode = colorToHexObject[colorCode] || colorCode;
+
+				return  resultCode;
 			}
 		},
 
 		proto: {
 			getHex: function() {
-				var finalColorCode = this._.normalizeHex(this._.originalColorCode);
+				var finalColorCode = this._.normalizeHex( this._.hexColorCode );
 				finalColorCode = finalColorCode.toUpperCase();
 
 				return finalColorCode;
