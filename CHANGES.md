@@ -7,18 +7,18 @@ CKEditor 4 Changelog
 
 * Fixed XSS vulnerability in the [Color History feature](https://ckeditor.com/docs/ckeditor4/latest/features/colorbutton.html#color-history) reported by [Mark Wade](https://github.com/mark-wade).
 
-	Issue summary: It was possible to execute XSS inside CKEditor 4 by persuading a victim to paste a specially crafted HTML code into [Color Button](https://ckeditor.com/cke4/addon/colorbutton) dialog.
+	Issue summary: It was possible to execute an XSS-type attack inside CKEditor 4 by persuading a victim to paste a specially crafted HTML code into the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) dialog.
 
 **An upgrade is highly recommended!**
 
 Fixed Issues:
 
-* [#4293](https://github.com/ckeditor/ckeditor4/issues/4293): Fixed: [`CKEDITOR.inlineAll()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inlineAll) method tries to initialize inline editor also on elements with editor already attached to them.
-* [#3961](https://github.com/ckeditor/ckeditor4/issues/3961): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) prevents editing of merged cells.
+* [#4293](https://github.com/ckeditor/ckeditor4/issues/4293): Fixed: The [`CKEDITOR.inlineAll()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inlineAll) method tries to initialize inline editor also on elements with editor already attached to them.
+* [#3961](https://github.com/ckeditor/ckeditor4/issues/3961): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) prevents editing of merged cells.
 * [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Fixed: Applying a [block format](https://ckeditor.com/docs/ckeditor4/latest/features/format.html) should remove existing block styles.
-* [#4282](https://github.com/ckeditor/ckeditor4/issues/4282): Fixed: [Script loader](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_scriptLoader.html) doesn't execute callback for scripts already loaded when called for the second time. Thanks to [Alexander Korotkevich](https://github.com/aldoom)!
+* [#4282](https://github.com/ckeditor/ckeditor4/issues/4282): Fixed: The [Script loader](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_scriptLoader.html) does not execute callback for scripts already loaded when called for the second time. Thanks to [Alexander Korotkevich](https://github.com/aldoom)!
 * [#4273](https://github.com/ckeditor/ckeditor4/issues/4273): Fixed: memory leak in [`CKEDITOR.domReady()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-domReady) connected with not removing `load` event listeners. Thanks to [rohit1](https://github.com/rohit1)!
-* [#1330](https://github.com/ckeditor/ckeditor4/issues/1330): Fixed: Incomplete CSS margin parsing if "auto" or "0" value is used.
+* [#1330](https://github.com/ckeditor/ckeditor4/issues/1330): Fixed: Incomplete CSS margin parsing if an "auto" or "0" value is used.
 * [#4286](https://github.com/ckeditor/ckeditor4/issues/4286): Fixed: The [Auto Grow](https://ckeditor.com/cke4/addon/autogrow) plugin causes editor's width to be set to 0 on editor resize.
 * [#848](https://github.com/ckeditor/ckeditor4/issues/848): Fixed: Arabic text not being "bound" correctly when pasting. Thanks to [Thomas Hunkapiller](https://github.com/devoidfury) and [J. Ivan Duarte Rodríguez](https://github.com/jidrone-mbm)!
 
