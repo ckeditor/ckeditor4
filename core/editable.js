@@ -2039,9 +2039,9 @@
 				if ( path.block ) {
 					path.block.$.normalize();
 				} else if ( path.blockLimit ) {
-					// Handle ENTER_BR mode when text is direct root/body child.
-					// This will call native `normalize` on entire editor content in this case
-					// normalizing text nodes in entire editor content.
+					// Handle ENTER_BR mode when the text is a direct root/body child.
+					// This will call native `normalize` on the entire editor content in this case
+					// normalizing text nodes in the entire editor content.
 					path.blockLimit.$.normalize();
 				}
 			}
