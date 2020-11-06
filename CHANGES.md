@@ -13,24 +13,24 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#4293](https://github.com/ckeditor/ckeditor4/issues/4293): Fixed: The [`CKEDITOR.inlineAll()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inlineAll) method tries to initialize inline editor also on elements with editor already attached to them.
-* [#3961](https://github.com/ckeditor/ckeditor4/issues/3961): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) prevents editing of merged cells.
+* [#4293](https://github.com/ckeditor/ckeditor4/issues/4293): Fixed: The [`CKEDITOR.inlineAll()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inlineAll) method tries to initialize inline editor also on elements with an editor already attached to them.
+* [#3961](https://github.com/ckeditor/ckeditor4/issues/3961): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin prevents editing of merged cells.
 * [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Fixed: Applying a [block format](https://ckeditor.com/docs/ckeditor4/latest/features/format.html) should remove existing block styles.
-* [#4282](https://github.com/ckeditor/ckeditor4/issues/4282): Fixed: The [Script loader](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_scriptLoader.html) does not execute callback for scripts already loaded when called for the second time. Thanks to [Alexander Korotkevich](https://github.com/aldoom)!
-* [#4273](https://github.com/ckeditor/ckeditor4/issues/4273): Fixed: memory leak in [`CKEDITOR.domReady()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-domReady) connected with not removing `load` event listeners. Thanks to [rohit1](https://github.com/rohit1)!
-* [#1330](https://github.com/ckeditor/ckeditor4/issues/1330): Fixed: Incomplete CSS margin parsing if an "auto" or "0" value is used.
-* [#4286](https://github.com/ckeditor/ckeditor4/issues/4286): Fixed: The [Auto Grow](https://ckeditor.com/cke4/addon/autogrow) plugin causes editor's width to be set to 0 on editor resize.
+* [#4282](https://github.com/ckeditor/ckeditor4/issues/4282): Fixed: The [script loader](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_scriptLoader.html) does not execute callback for scripts already loaded when called for the second time. Thanks to [Alexander Korotkevich](https://github.com/aldoom)!
+* [#4273](https://github.com/ckeditor/ckeditor4/issues/4273): Fixed: A memory leak in the [`CKEDITOR.domReady()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-domReady) method connected with not removing `load` event listeners. Thanks to [rohit1](https://github.com/rohit1)!
+* [#1330](https://github.com/ckeditor/ckeditor4/issues/1330): Fixed: Incomplete CSS margin parsing if an `auto` or `0` value is used.
+* [#4286](https://github.com/ckeditor/ckeditor4/issues/4286): Fixed: The [Auto Grow](https://ckeditor.com/cke4/addon/autogrow) plugin causes the editor width to be set to `0` on editor resize.
 * [#848](https://github.com/ckeditor/ckeditor4/issues/848): Fixed: Arabic text not being "bound" correctly when pasting. Thanks to [Thomas Hunkapiller](https://github.com/devoidfury) and [J. Ivan Duarte Rodríguez](https://github.com/jidrone-mbm)!
 
 API Changes:
 
-* [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Added new [stylesRemove](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#event-stylesRemove) editor event.
+* [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Added a new [`stylesRemove`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#event-stylesRemove) editor event.
 
 Other Changes:
 
-* [#4262](https://github.com/ckeditor/ckeditor4/issues/4262): Removed global reference to `stylesLoaded` variable. Thanks to [Levi Carter](https://github.com/swiftMessenger)!
-* Updated [Export to PDF](https://ckeditor.com/cke4/addon/exportpdf) plugin to `1.0.1` version:
-	* Improved external CSS support for [Classic Editor](https://ckeditor.com/docs/ckeditor4/latest/examples/classic.html) by handling exceptions and displaying convenient [error messages](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_errors.html#exportpdf-stylesheets-incaccessible).
+* [#4262](https://github.com/ckeditor/ckeditor4/issues/4262): Removed the global reference to the `stylesLoaded` variable. Thanks to [Levi Carter](https://github.com/swiftMessenger)!
+* Updated the [Export to PDF](https://ckeditor.com/cke4/addon/exportpdf) plugin to `1.0.1` version:
+	* Improved external CSS support for [classic editor](https://ckeditor.com/docs/ckeditor4/latest/examples/classic.html) by handling exceptions and displaying convenient [error messages](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_errors.html#exportpdf-stylesheets-incaccessible).
 
 ## CKEditor 4.15
 
