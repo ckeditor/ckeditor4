@@ -1053,8 +1053,8 @@
 		 * * HTML color name.
 		 *
          * **Note:** This method is intended mostly for the input validations.
-		 * It doesn't perform any logical check like if the values in RGB format are correct
-		 * or if the passed color name actually exists.
+		 * It performs no logical check e.g.: are the values in RGB format correct
+		 * or does the passed color name actually exists?
 
 		 * See the examples below:
 		 *
