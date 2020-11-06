@@ -962,9 +962,10 @@
 			// |                caret position - █           |
 			// +---------------------------------------------+
 			// =============================================== - bottom window border
-			var windowHeight = windowRect.height;
+			var windowHeight = windowRect.height,
+				shouldReverseViewVertically = ( rect.bottom + viewHeight ) > ( windowHeight + this.element.getWindow().getScrollPosition().y );
 
-			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && rect.bottom + viewHeight > windowHeight ) {
+			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && shouldReverseViewVertically ) {
 				top = rect.top - viewHeight;
 			}
 
