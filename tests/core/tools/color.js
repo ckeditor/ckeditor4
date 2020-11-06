@@ -57,10 +57,10 @@
 		},
 
 		'test color from invalid string color name return default color': function() {
-			var validColorString = 'NotValidColorName';
+			var notValidColorString = 'NotValidColorName';
 			var expectedDefaultHexCode = '#000000';
 
-			var colorObject = this.createColor( validColorString );
+			var colorObject = this.createColor( notValidColorString );
 
 			var resultHex = colorObject.getHex();
 

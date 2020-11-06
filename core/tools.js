@@ -1021,13 +1021,8 @@ CKEDITOR.tools.normalizeCssText = function( styleText, nativeNormalize ) {
 		* @returns {String} The style data with RGB colors converted to hexadecimal equivalents.
 		*/
 CKEDITOR.tools.convertRgbToHex = function( styleText ) {
-	return styleText.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) {
-		var color = [ red, green, blue ];
-		// Add padding zeros if the hex value is less than 0x10.
-		for ( var i = 0; i < 3; i++ )
-			color[ i ] = ( '0' + parseInt( color[ i ], 10 ).toString( 16 ) ).slice( -2 );
-		return '#' + color.join( '' );
-	} );
+	var color = new CKEDITOR.tools.style.Color( styleText, true );
+	return color.getHex();
 };
 
 /**
@@ -1035,16 +1030,11 @@ CKEDITOR.tools.convertRgbToHex = function( styleText ) {
 		*
 		* @param {String} styleText The style data (or just a string containing hex colors) to be converted.
 		* @returns {String} The style data with hex colors normalized.
+		* @deprecated Use CKEDITOR.tools.style.Color for color code manipulation
 		*/
 CKEDITOR.tools.normalizeHex = function( styleText ) {
-	return styleText.replace( /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi, function( match, hexColor, hexColorPart, separator ) {
-		var normalizedHexColor = hexColor.toLowerCase();
-		if ( normalizedHexColor.length == 3 ) {
-			var parts = normalizedHexColor.split( '' );
-			normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
-		}
-		return '#' + normalizedHexColor + separator;
-	} );
+	var color = new CKEDITOR.tools.style.Color( styleText, true );
+	return color.getHex();
 };
 
 /**

@@ -17,14 +17,18 @@
 	'use strict';
 
 	var colorClassDefinition = {
-			$: function( colorCode ) {
+			$: function( colorCode, compatibilityMode ) {
+				this._.compatibilityMode = compatibilityMode || false;
 				this._.originalColorCode = colorCode;
 
 				var stringToHex = this._.convertStringToHex( colorCode );
 				var rgbToHex = this._.convertRgbToHex( colorCode );
 				var hexToHex = this._.normalizeHex( colorCode );
 
-				var finalHex  = stringToHex || rgbToHex || hexToHex || this._.defaultHexColorCode;
+				//due to compatibility
+				var defaultValue = this._.compatibilityMode ? colorCode : this._.defaultHexColorCode;
+
+				var finalHex  = stringToHex || rgbToHex || hexToHex || defaultValue;
 
 				this._.hexColorCode = finalHex;
 			},
@@ -32,6 +36,7 @@
 			_: {
 				originalColorCode: '',
 				hexColorCode: '',
+				compatibilityMode: false,
 				defaultHexColorCode: '#000000',
 
 				/**
@@ -87,7 +92,11 @@
 
 			proto: {
 				getHex: function() {
-					var finalColorCode = this._.hexColorCode.toUpperCase();
+					var finalColorCode = this._.hexColorCode;
+
+					if ( !this._.compatibilityMode ) {
+						finalColorCode = finalColorCode.toUpperCase();
+					}
 
 					return finalColorCode;
 				}
@@ -260,9 +269,9 @@
 	//Wrapp function for classCreator
 	//Delay parsing CKEDITOR.tools.createClass until first object is created
 	//Due to circular dependency with tools
-	CKEDITOR.tools.style.Color = function( param ) {
+	CKEDITOR.tools.style.Color = function( colorCode, compatibilityMode ) {
 		var createdClass = CKEDITOR.tools.createClass( colorClassDefinition );
-		return new createdClass( param );
+		return new createdClass( colorCode, compatibilityMode );
 	};
 
 	//Make statics available, even if class creation is delayed
