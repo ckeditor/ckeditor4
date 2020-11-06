@@ -756,7 +756,6 @@
 		 * @param {CKEDITOR.dom.range} range The range of the text match.
 		 * @returns {Object} Represents the position of the caret. The value is relative to the panel's offset parent.
 		 * @returns {Number} rect.left
-		 * @returns {Number} rect.right Introduced in CKEditor 4.16.0.
 		 * @returns {Number} rect.top
 		 * @returns {Number} rect.bottom
 		 */
@@ -789,8 +788,7 @@
 			return {
 				top: ( viewPositionRect.top + offset.y ),
 				bottom: ( viewPositionRect.top + viewPositionRect.height + offset.y ),
-				left: ( viewPositionRect.left + offset.x ),
-				right: ( viewPositionRect.right + viewPositionRect.width + offset.x )
+				left: ( viewPositionRect.left + offset.x )
 			};
 		},
 
@@ -852,9 +850,7 @@
 		 * @param {Object} rect Represents the position of a vertical (e.g. a caret) line relative to which
 		 * the panel should be positioned.
 		 * @param {Number} rect.left The position relative to the panel's offset parent in pixels.
-		 * For example, the position of the left of the caret.
-		 * @param {Number} rect.right The position relative to the panel's offset parent in pixels.
-		 * For example, the position of the right of the caret.
+		 * For example, the position of the caret.
 		 * @param {Number} rect.top The position relative to the panel's offset parent in pixels.
 		 * For example, the position of the upper end of the caret.
 		 * @param {Number} rect.bottom The position relative to the panel's offset parent in pixels.
