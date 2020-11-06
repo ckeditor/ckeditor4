@@ -986,7 +986,7 @@
 			// +---------------------------------------------+   ||
 			var windowWidth = windowRect.width;
 
-			if ( rect.right + viewWidth > windowWidth ) {
+			if ( rect.left + viewWidth > windowWidth ) {
 				left = windowWidth - viewWidth;
 			}
 
