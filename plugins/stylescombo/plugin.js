@@ -221,7 +221,7 @@
 /**
  * Removes styles from the current editor selection.
  *
- * Note that you can pass `type` option to limit removing styles to the given type.
+ * Note that you can pass the `type` option to limit removing styles to the given type.
  *
  * ```js
  * editor.fire( 'stylesRemove', { type: CKEDITOR.STYLE_BLOCK } );

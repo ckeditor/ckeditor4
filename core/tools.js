@@ -2258,7 +2258,7 @@
 			 * @member CKEDITOR.tools.array
 			 * @param {Array} array1
 			 * @param {Array} array2
-			 * @returns {Array} Two dimensional array of object pairs.
+			 * @returns {Array} A two-dimensional array of object pairs.
 			 */
 			zip: function( array1, array2 ) {
 				return CKEDITOR.tools.array.map( array1, function( value, index ) {
