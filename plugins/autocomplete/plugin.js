@@ -865,6 +865,7 @@
 				viewHeight = this.element.getSize( 'height' ),
 				viewWidth = this.element.getSize( 'width' ),
 				editable = editor.editable(),
+				windowRect = this.element.getWindow().getViewPaneSize(),
 				// Bounding rect where the view should fit (visible editor viewport).
 				editorViewportRect;
 
@@ -947,8 +948,6 @@
 				top = Math.max( rect.bottom, editorViewportRect.top );
 			}
 
-			var windowHeight = this.element.getWindow().$.innerHeight;
-
 			// (#3582)
 			// If the view goes beyond bottom window border - reverse view position.
 			// +---------------------------------------------+
@@ -963,11 +962,11 @@
 			// |                caret position - █           |
 			// +---------------------------------------------+
 			// =============================================== - bottom window border
+			var windowHeight = windowRect.height;
+
 			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && rect.bottom + viewHeight > windowHeight ) {
 				top = rect.top - viewHeight;
 			}
-
-			var windowWidth = this.element.getWindow().$.innerWidth;
 
 			// (#3582)
 			// If the view goes beyond right window border - reverse view position.
@@ -983,6 +982,8 @@
 			// |                                             |   ||
 			// |                                             |   ||
 			// +---------------------------------------------+   ||
+			var windowWidth = windowRect.width;
+
 			if ( rect.right + viewWidth > windowWidth ) {
 				left = rect.left - viewWidth;
 			}
