@@ -985,7 +985,7 @@
 			var windowWidth = windowRect.width;
 
 			if ( rect.right + viewWidth > windowWidth ) {
-				left = rect.left - viewWidth;
+				left = windowWidth - viewWidth;
 			}
 
 			this.element.setStyles( {
