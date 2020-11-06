@@ -865,7 +865,8 @@
 				viewHeight = this.element.getSize( 'height' ),
 				viewWidth = this.element.getSize( 'width' ),
 				editable = editor.editable(),
-				windowRect = this.element.getWindow().getViewPaneSize(),
+				documentWindow = this.element.getWindow(),
+				windowRect = documentWindow.getViewPaneSize(),
 				// Bounding rect where the view should fit (visible editor viewport).
 				editorViewportRect;
 
@@ -879,8 +880,8 @@
 			// How much space is there for the view above and below the specified rect.
 			var spaceAbove = rect.top - editorViewportRect.top,
 				spaceBelow = editorViewportRect.bottom - rect.bottom,
-				top,
-				left = rect.left;
+				left = rect.left,
+				top;
 
 			// As a default, keep the view inside the editor viewport.
 			// +---------------------------------------------+
@@ -963,7 +964,7 @@
 			// +---------------------------------------------+
 			// =============================================== - bottom window border
 			var windowHeight = windowRect.height,
-				shouldReverseViewVertically = ( rect.bottom + viewHeight ) > ( windowHeight + this.element.getWindow().getScrollPosition().y );
+				shouldReverseViewVertically = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
 
 			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && shouldReverseViewVertically ) {
 				top = rect.top - viewHeight;
