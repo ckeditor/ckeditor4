@@ -46,10 +46,11 @@
 				* @returns {String} The style data with hex colors normalized.
 				*/
 				normalizeHex: function( hexColorCode ) {
-					var hexRegExp = /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi;
+					//also style string with hex color
+					var styleHexRegExp = /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi;
 
-					if ( hexColorCode.match( hexRegExp ) ) {
-						return hexColorCode.replace( hexRegExp, function( match, hexColor, hexColorPart, separator ) {
+					if ( hexColorCode.match( styleHexRegExp ) ) {
+						return hexColorCode.replace( styleHexRegExp, function( match, hexColor, hexColorPart, separator ) {
 							var normalizedHexColor = hexColor.toLowerCase();
 
 							if ( normalizedHexColor.length == 3 ) {
@@ -82,9 +83,9 @@
 					}
 				},
 
-				convertStringToHex: function( colorCode ) {
-					var colorToHexObject = CKEDITOR.tools.style.parse._colors;
-					var resultCode = colorToHexObject[ colorCode ] || null;
+				convertStringToHex: function( colorName ) {
+					var colorToHexObject = CKEDITOR.tools.style.Color.namedColors;
+					var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
 
 					return resultCode;
 				}
@@ -103,8 +104,83 @@
 			},
 
 			statics: {
+				hexRegExp: /^\#[a-f0-9]{3}(?:[a-f0-9]{3})?$/gi,
+				hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+				rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+				widthRegExp: /^(thin|medium|thick|[\+-]?\d+(\.\d+)?[a-z%]+|[\+-]?0+(\.0+)?|\.\d+[a-z%]+)$/,
+				/**
+					* Searches the `value` for any CSS color occurrences and returns it.
+					*
+					* @param {String} value
+					* @returns {String[]} An array of matched results.
+					* @member CKEDITOR.tools.style.parse
+					*/
+				extractAnyColors: function( value ) {
+					var ret = [],
+					arrayTools = CKEDITOR.tools.array;
+
+					// Check for rgb(a).
+					ret = ret.concat( value.match( this.rgbaRegExp ) || [] );
+
+					// Check for hsl(a).
+					ret = ret.concat( value.match( this.hslaRegExp ) || [] );
+
+					ret = ret.concat( arrayTools.filter( value.split( /\s+/ ), function( colorEntry ) {
+						// Check for hex format.
+						if ( colorEntry.match( CKEDITOR.tools.style.Color.hexRegExp ) ) {
+							return true;
+						}
+
+						// Check for preset names.
+						return colorEntry.toLowerCase() in CKEDITOR.tools.style.Color.namedColors;
+					} ) );
+
+					return ret;
+				},
+				/**
+					* Validates color string correctness. Works for:
+					*
+					* * hexadecimal notation;
+					* * RGB or RGBA notation;
+					* * HSL or HSLA notation;
+					* * HTML color name.
+					*
+											* **Note:** This method is intended mostly for the input validations.
+					* It doesn't perform any logical check like if the values in RGB format are correct
+					* or if the passed color name actually exists.
+
+					* See the examples below:
+					*
+					* ```javascript
+					* CKEDITOR.tools._isValidColorFormat( '123456' ); // true
+					* CKEDITOR.tools._isValidColorFormat( '#4A2' ); // true
+					* CKEDITOR.tools._isValidColorFormat( 'rgb( 40, 40, 150 )' ); // true
+					* CKEDITOR.tools._isValidColorFormat( 'hsla( 180, 50%, 50%, 0.2 )' ); // true
+					*
+					* CKEDITOR.tools._isValidColorFormat( '333333;' ); // false
+					* CKEDITOR.tools._isValidColorFormat( '<833AF2>' ); // false
+					*
+					* // But also:
+					* CKEDITOR.tools._isValidColorFormat( 'ckeditor' ); // true
+					* CKEDITOR.tools._isValidColorFormat( '1234' ); // true
+					* CKEDITOR.tools._isValidColorFormat( 'hsrgb( 100 )' ); // true
+					* ```
+					*
+					* @since 4.15.1
+					* @param {String} colorCode String to be validated.
+					* @returns {Boolean} Whether the input string contains only allowed characters.
+					*/
+				isValidColorFormat: function( colorCode ) {
+					if ( !colorCode ) {
+						return false;
+					}
+
+					colorCode = colorCode.replace( /\s+/g, '' );
+
+					return /^[a-z0-9()#%,./]+$/i.test( colorCode );
+				},
 				// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
-				names: {
+				namedColors: {
 					aliceblue: '#F0F8FF',
 					antiquewhite: '#FAEBD7',
 					aqua: '#00FFFF',

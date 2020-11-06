@@ -1019,6 +1019,7 @@ CKEDITOR.tools.normalizeCssText = function( styleText, nativeNormalize ) {
 		*
 		* @param {String} styleText The style data (or just a string containing RGB colors) to be converted.
 		* @returns {String} The style data with RGB colors converted to hexadecimal equivalents.
+		* @deprecated Use CKEDITOR.tools.style.Color class for conversions
 		*/
 CKEDITOR.tools.convertRgbToHex = function( styleText ) {
 	var color = new CKEDITOR.tools.style.Color( styleText, true );
@@ -1030,7 +1031,7 @@ CKEDITOR.tools.convertRgbToHex = function( styleText ) {
 		*
 		* @param {String} styleText The style data (or just a string containing hex colors) to be converted.
 		* @returns {String} The style data with hex colors normalized.
-		* @deprecated Use CKEDITOR.tools.style.Color for color code manipulation
+		* @deprecated Use CKEDITOR.tools.style.Color class for conversions
 		*/
 CKEDITOR.tools.normalizeHex = function( styleText ) {
 	var color = new CKEDITOR.tools.style.Color( styleText, true );
@@ -1070,8 +1071,10 @@ CKEDITOR.tools.normalizeHex = function( styleText ) {
 		* @private
 		* @param {String} colorCode String to be validated.
 		* @returns {Boolean} Whether the input string contains only allowed characters.
+		* @deprecated Use CKEDITOR.tools.style.Color.isValidColorFormat.
 		*/
 CKEDITOR.tools._isValidColorFormat = function( colorCode ) {
+//	return CKEDITOR.tools.style.Color.isValidColorFormat( colorCode );
 	if ( !colorCode ) {
 		return false;
 	}
@@ -1708,9 +1711,10 @@ if ( !CKEDITOR.tools.style ) {
 	* @member CKEDITOR.tools.style
 	*/
 CKEDITOR.tools.style.parse = {
-	// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
-
-	_colors: CKEDITOR.tools.style.Color.names,
+	/**
+	 * @deprecated Use CKEDITOR.tools.style.Color.namedColors
+	 */
+	_colors: CKEDITOR.tools.style.Color.namedColors,
 
 	_borderStyle: [
 		'none',
@@ -1725,11 +1729,20 @@ CKEDITOR.tools.style.parse = {
 		'outset'
 	],
 
-	_widthRegExp: /^(thin|medium|thick|[\+-]?\d+(\.\d+)?[a-z%]+|[\+-]?0+(\.0+)?|\.\d+[a-z%]+)$/,
+	/**
+	 * @deprecated Use CKEDITOR.tools.style.Color.widthRegEx
+	 */
+	_widthRegExp: CKEDITOR.tools.style.Color.widthRegExp,
 
-	_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+	/**
+	 * @deprecated Use CKEDITOR.tools.style.Color.rgbaRegExp
+	 */
+	_rgbaRegExp: CKEDITOR.tools.style.Color.rgbaRegExp,
 
-	_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+	/**
+	 * @deprecated Use CKEDITOR.tools.style.Color.hslaRegExp
+	 */
+	_hslaRegExp: CKEDITOR.tools.style.Color.hslaRegExp,
 
 	/**
 		* Parses the `value` used as a `background` property shorthand and returns information as an object.
@@ -1866,29 +1879,10 @@ CKEDITOR.tools.style.parse = {
 		* @param {String} value
 		* @returns {String[]} An array of matched results.
 		* @member CKEDITOR.tools.style.parse
+		* @deprecated Use CKEDITOR.tools.style.Color.extractAnyColors
 		*/
 	_findColor: function( value ) {
-		var ret = [],
-			arrayTools = CKEDITOR.tools.array;
-
-
-		// Check for rgb(a).
-		ret = ret.concat( value.match( this._rgbaRegExp ) || [] );
-
-		// Check for hsl(a).
-		ret = ret.concat( value.match( this._hslaRegExp ) || [] );
-
-		ret = ret.concat( arrayTools.filter( value.split( /\s+/ ), function( colorEntry ) {
-			// Check for hex format.
-			if ( colorEntry.match( /^\#[a-f0-9]{3}(?:[a-f0-9]{3})?$/gi ) ) {
-				return true;
-			}
-
-			// Check for preset names.
-			return colorEntry.toLowerCase() in CKEDITOR.tools.style.parse._colors;
-		} ) );
-
-		return ret;
+		return CKEDITOR.tools.style.Color.extractAnyColors( value );
 	}
 };
 
