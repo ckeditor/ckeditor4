@@ -415,10 +415,8 @@
 	}
 
 	function getImageTypeFromSignature( bytesArray ) {
-		// We need to convert TypedArray to "normal" one, because some signatures
-		// can be trimmed due to TypedArray's limits.
-		var fileSignature = Array.from( bytesArray.subarray( 0, 4 ) ),
-			hexSignature = fileSignature.map( function( signatureByte ) {
+		var fileSignature = bytesArray.subarray( 0, 4 ),
+			hexSignature = CKEDITOR.tools.array.map( fileSignature, function( signatureByte ) {
 				return signatureByte.toString( 16 );
 			} ).join( '' ),
 			matchedType = CKEDITOR.tools.array.find( CKEDITOR.pasteFilters.image.recognizableImageSignatures,
