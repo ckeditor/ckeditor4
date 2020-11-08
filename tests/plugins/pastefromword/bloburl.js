@@ -43,9 +43,62 @@
 		}
 	};
 
+	tests = CKEDITOR.tools.extend( tests, generateTestsForFixtures() );
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 
 	blobHelpers.ignoreUnsupportedEnvironment( tests );
 
 	bender.test( tests );
+
+	function generateTestsForFixtures() {
+		var testsFilesNames = [
+				'comandeer.jpg',
+				'ckeditor.png',
+				'ckeditor.gif'
+			];
+
+		return CKEDITOR.tools.array.reduce( testsFilesNames, function( tests, test ) {
+			tests[ 'test extract image from blob (' + test + ')' ] = generateTest( test );
+
+			return tests;
+		}, {} );
+
+		function generateTest( name ) {
+			return function( editor, bot ) {
+				CKEDITOR.ajax.load( './_fixtures/blob/' + name + '?' + cacheBuster(), function( image ) {
+					CKEDITOR.ajax.load( './_fixtures/blob/' + name + '.txt?' + cacheBuster(), function( txt ) {
+						var dataUrl = CKEDITOR.tools.trim( txt );
+
+						resume( function() {
+							bot.setData( '', function() {
+								blobHelpers.simulatePasteBlob( editor, function( input, expected ) {
+									assert.beautified.html( expected, editor.getData() );
+								}, {
+									image: image,
+									imageType: getImageTypeFromExtension( name ),
+									imageDataUrl: dataUrl
+								} );
+							} );
+						} );
+					} );
+				}, 'arraybuffer' );
+				wait();
+			};
+		}
+
+		function cacheBuster() {
+			return ( new Date() ).getTime().toString() + Math.floor( Math.random() * 1000000 ).toString();
+		}
+
+		function getImageTypeFromExtension( fileName ) {
+			var nameParts = fileName.split( '.' ),
+				extension = nameParts.pop();
+
+			if ( extension === 'jpg' ) {
+				extension = 'jpeg';
+			}
+
+			return 'image/' + extension;
+		}
+	}
 } )();
