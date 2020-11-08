@@ -251,6 +251,13 @@
 
 		CKEDITOR.tools.promise.all( promises ).then( function( dataUrls ) {
 			CKEDITOR.tools.array.forEach( dataUrls, function( dataUrl, i ) {
+				if ( !dataUrl ) {
+					CKEDITOR.error( 'pastetools-unsupported-image', {
+						type: 'blob',
+						index: i
+					} );
+					return;
+				}
 				var blob = blobUrls[ i ],
 					nodeList = editor.editable().find( 'img[src="' + blob + '"]' ).toArray();
 
