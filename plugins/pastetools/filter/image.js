@@ -112,7 +112,7 @@
 	 * @private
 	 * @since 4.16.0
 	 * @param {Uint8Array} bytesArray Typed array which will be analysed to obtain file type.
-	 * @returns {String/Null} File type recognized from given typed array or null.
+	 * @returns {String/null} File type recognized from given typed array or null.
 	 * @member CKEDITOR.plugins.pastetools.filters.image
 	 */
 	CKEDITOR.pasteFilters.image.getImageTypeFromSignature = getImageTypeFromSignature;
@@ -217,7 +217,7 @@
 		// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
 		for ( i = 0; i < imgTags.length; i++ ) {
 			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-			if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) ) {
+			if ( imgTags[ i ].indexOf( 'file://' ) === 0 ) {
 				if ( !newSrcValues[ i ] ) {
 					CKEDITOR.error( 'pastetools-unsupported-image', {
 						type: hexImages[ i ].type,
@@ -245,9 +245,7 @@
 		var blobUrls = CKEDITOR.tools.array.unique( CKEDITOR.tools.array.filter( imgTags, function( imgTag ) {
 				return imgTag.match( /^blob:/i );
 			} ) ),
-			promises = CKEDITOR.tools.array.map( blobUrls, function( blobUrl ) {
-				return convertBlobUrlToBase64( blobUrl );
-			} );
+			promises = CKEDITOR.tools.array.map( blobUrls, convertBlobUrlToBase64 );
 
 		CKEDITOR.tools.promise.all( promises ).then( function( dataUrls ) {
 			CKEDITOR.tools.array.forEach( dataUrls, function( dataUrl, i ) {

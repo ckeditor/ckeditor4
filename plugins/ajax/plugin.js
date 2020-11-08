@@ -136,9 +136,9 @@
 			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded
-			 * synchronously. Please notice that only text data might be loaded synchrnously.
+			 * synchronously. Please notice that only text data might be loaded synchronously.
 			 * @param {String} [responseType='text'] Defines type of returned data.
-			 * Currently supports: `text`, `xml`, `arraybuffer`. This parameter was added in 4.10.
+			 * Currently supports: `text`, `xml`, `arraybuffer`. This parameter was added in 4.16.0.
 			 * @returns {String/null} The loaded data. For asynchronous requests, an
 			 * empty string. For invalid requests, `null`.
 			 */
