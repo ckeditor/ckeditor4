@@ -40,6 +40,29 @@
 					assert.isTrue( editor.undoManager.hasUndo, 'Undo step is created' );
 				} );
 			} );
+		},
+
+		'test throwing error when the file type is not recognised': function( editor ) {
+			var spy = sinon.spy( CKEDITOR, 'error' );
+
+			blobHelpers.simulatePasteBlob( editor, function() {
+				var spyCall = spy.getCall( 0 ),
+					expectedSpyArguments = [
+						'pastetools-unsupported-image',
+						{
+							type: 'blob',
+							index: 0
+						}
+					];
+
+				spy.restore();
+
+				assert.areSame( 1, spy.callCount, 'errors raised' );
+				objectAssert.areDeepEqual( expectedSpyArguments, spyCall.args );
+			}, {
+				image: new ArrayBuffer(),
+				type: 'image/whatever'
+			} );
 		}
 	};
 
