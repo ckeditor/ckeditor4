@@ -201,6 +201,36 @@
 				CKEDITOR.ajax.load( blobUrl, cb, 'arraybuffer' );
 			}, 0 );
 			wait();
+		},
+
+		// (#1134)
+		'test load async xml': function() {
+			setTimeout( function() {
+				CKEDITOR.ajax.load( '../../_assets/sample.xml', callback, 'xml' );
+			}, 0 );
+			wait();
+
+			function callback( data ) {
+				resume( function() {
+					assert.isInstanceOf( CKEDITOR.xml, data );
+					assert.isNotNull( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (null)' );
+					assert.isNotUndefined( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (undefined)' );
+				} );
+			}
+		},
+
+		// (#1134)
+		'test load async text': function() {
+			setTimeout( function() {
+				CKEDITOR.ajax.load( '../../_assets/sample.txt', callback, 'text' );
+			}, 0 );
+			wait();
+
+			function callback( data ) {
+				resume( function() {
+					assert.areSame( 'Sample Text', data, 'The loaded data doesn\'t match' );
+				} );
+			}
 		}
 	} );
 } )();
