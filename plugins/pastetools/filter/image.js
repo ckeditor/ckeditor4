@@ -115,7 +115,7 @@
 	 * @returns {String/Null} File type recognized from given typed array or null.
 	 * @member CKEDITOR.plugins.pastetools.filters.image
 	 */
-	CKEDITOR.pasteFilters.image.getImageTypeFromHeader = getImageTypeFromHeader;
+	CKEDITOR.pasteFilters.image.getImageTypeFromSignature = getImageTypeFromSignature;
 
 	/**
 	 * Array of all supported image formats.
@@ -161,6 +161,34 @@
 		{
 			marker: /\\wmetafile\d/,
 			type: 'image/wmf'
+		}
+	];
+
+	/**
+	 * Array of all recognizable image file signatrues with their respective types.
+	 *
+	 * The recognizing of image type is done by matching the first bytes
+	 * of the signature represented as hex string.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @type {CKEDITOR.plugins.pastetools.filters.image.RecognizableImageSignature[]}
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
+	CKEDITOR.pasteFilters.image.recognizableImageSignatures = [
+		{
+			signature: 'ffd8ff',
+			type: 'image/jpeg'
+		},
+
+		{
+			signature: '47494638',
+			type: 'image/gif'
+		},
+
+		{
+			signature: '89504e47',
+			type: 'image/png'
 		}
 	];
 
@@ -375,7 +403,7 @@
 		return new CKEDITOR.tools.promise( function( resolve ) {
 			CKEDITOR.ajax.load( blobUrlSrc, function( arrayBuffer ) {
 				var data = new Uint8Array( arrayBuffer ),
-					imageType = getImageTypeFromHeader( data.subarray( 0, 4 ) ),
+					imageType = getImageTypeFromSignature( data.subarray( 0, 4 ) ),
 					base64 = createSrcWithBase64( {
 						type: imageType,
 						hex: data
@@ -386,31 +414,23 @@
 		} );
 	}
 
-	function getImageTypeFromHeader( bytesArray ) {
-		var header = '',
-			fileType = null,
-			bytesHeader = bytesArray.subarray( 0, 4 );
+	function getImageTypeFromSignature( bytesArray ) {
+		// We need to convert TypedArray to "normal" one, because some signatures
+		// can be trimmed due to TypedArray's limits.
+		var fileSignature = Array.from( bytesArray.subarray( 0, 4 ) ),
+			hexSignature = fileSignature.map( function( signatureByte ) {
+				return signatureByte.toString( 16 );
+			} ).join( '' ),
+			matchedType = CKEDITOR.tools.array.find( CKEDITOR.pasteFilters.image.recognizableImageSignatures,
+				function( test ) {
+					return hexSignature.indexOf( test.signature ) === 0;
+				} );
 
-		for ( var i = 0; i < bytesHeader.length; i++ ) {
-			header += bytesHeader[ i ].toString( 16 );
+		if ( !matchedType ) {
+			return null;
 		}
 
-		switch ( header ) {
-			case '89504e47':
-				fileType = 'image/png';
-				break;
-			case '47494638':
-				fileType = 'image/gif';
-				break;
-			case 'ffd8ffe0':
-			case 'ffd8ffe1':
-			case 'ffd8ffe2':
-			case 'ffd8ffe3':
-			case 'ffd8ffe8':
-				fileType = 'image/jpeg';
-				break;
-		}
-		return fileType;
+		return matchedType.type;
 	}
 } )();
 
@@ -466,4 +486,27 @@
  *
  * @property {String} type
  * @member CKEDITOR.plugins.pastetools.filters.image.RecognizableImageType
+ */
+
+/**
+ * Virtual class that illustrates format of objects in
+ * {@link CKEDITOR.plugins.pastetools.filters.image#recognizableImageSignatures} property.
+ *
+ * @since 4.16.0
+ * @class CKEDITOR.plugins.pastetools.filters.image.RecognizableImageSignature
+ * @abstract
+ */
+
+/**
+ * File signature as a hex string.
+ *
+ * @property {String} signature
+ * @member CKEDITOR.plugins.pastetools.filters.image.RecognizableImageSignature
+ */
+
+/**
+ * Image MIME type.
+ *
+ * @property {String} type
+ * @member CKEDITOR.plugins.pastetools.filters.image.RecognizableImageSignature
  */

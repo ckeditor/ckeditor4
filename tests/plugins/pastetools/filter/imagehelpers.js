@@ -65,7 +65,7 @@
 		},
 
 		// (#1134)
-		'test getImageTypeFromHeader': function() {
+		'test getImageTypeFromSignature': function() {
 			if ( typeof Uint8Array !== 'function' || typeof Uint8Array.from !== 'function' ) {
 				assert.ignore();
 			}
@@ -110,7 +110,7 @@
 
 			CKEDITOR.tools.array.forEach( test_cases, function( test ) {
 				var imageData = Uint8Array.from( CKEDITOR.tools.convertHexStringToBytes( test.input ) ),
-					header = CKEDITOR.pasteFilters.image.getImageTypeFromHeader( imageData );
+					header = CKEDITOR.pasteFilters.image.getImageTypeFromSignature( imageData );
 
 				assert.areEqual( test.output, header, 'There is problem for test case with input: ' + test.input );
 			} );
