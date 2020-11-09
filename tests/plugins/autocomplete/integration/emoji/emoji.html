@@ -71,7 +71,7 @@
 </div>
 
 <script>
-	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
 
 	var wrapper = CKEDITOR.document.getById( 'wrapper' ),
 		leftButton = CKEDITOR.document.getById( 'left-button' ),
@@ -98,16 +98,7 @@
 	var config = {
 		width: 300,
 		height: 180,
-		language: 'en',
-		extraAllowedContent: 'h3; p{padding*}',
-		on: {
-			instanceReady: function( evt ) {
-				new CKEDITOR.plugins.autocomplete( evt.editor, {
-					textTestCallback: autocompleteUtils.getTextTestCallback(),
-					dataCallback: autocompleteUtils.getDataCallback()
-				} );
-			}
-		}
+		language: 'en'
 	};
 
 	CKEDITOR.replace( 'classic', config );
