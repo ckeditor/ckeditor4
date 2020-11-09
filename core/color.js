@@ -39,7 +39,7 @@
 				 */
 				legacyParsing: function( colorCode ) {
 					var stringToHex = this._.matchStringToNamedColor( colorCode );
-					var rgbToHex = this.convertRgbStringToHex( colorCode );
+					var rgbToHex = this._.convertRgbStringToHex( colorCode );
 					var hexToHex = this._.normalizeHex( colorCode );
 
 					//due to compatibility
