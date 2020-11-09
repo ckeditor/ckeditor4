@@ -65,6 +65,16 @@
 			var resultHex = colorObj.getHex();
 
 			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from valid hsl string return HEX': function() {
+			var validRgbString = 'hsl( 195, 1, 0.5 )';//0-360 , 0-1, 0-1
+			var expectedHexCode  = '#00BFFF';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
 		}
 	} );
 

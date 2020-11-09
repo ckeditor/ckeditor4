@@ -36,64 +36,20 @@
 				defaultHexColorCode: '#000000',
 
 				parseInput: function( colorCode ) {
-					console.log( '******************' );
 					this._.hexColorCode = this._.matchStringToNamedColor( colorCode );
 					if ( this._.hexColorCode ) {
 						return;
 					}
-					console.log( 'after named colors' );
 					this._.hexColorCode = this._.matchStringToHex( colorCode );
 					if ( this._.hexColorCode ) {
 						return;
 					}
 
-					console.log( 'after string to hex' );
 					this._.hexColorCode = this._.matchStringToHSLorRGB( colorCode );
 					if ( this._.hexColorCode ) {
 						return;
 					}
-					console.log( 'default color is comming!' );
 					this._.hexColorCode = this._.defaultHexColorCode;
-				},
-				hslToRgb: function( h,s,l ) {
-					var r, g, b;
-
-					if ( s == 0 ) {
-						r = g = b = l; // achromatic
-					} else {
-						function hue2rgb( p, q, t ) {
-							if ( t < 0 ) t += 1;
-							if ( t > 1 ) t -= 1;
-							if ( t < 1 / 6 ) return p + ( q - p ) * 6 * t;
-							if ( t < 1 / 2 ) return q;
-							if ( t < 2 / 3 ) return p + ( q - p ) * ( 2 / 3 - t ) * 6;
-							return p;
-						}
-
-						var q = l < 0.5 ? l * ( 1 + s ) : l + s - l * s;
-						var p = 2 * l - q;
-
-						r = hue2rgb( p, q, h + 1 / 3 );
-						g = hue2rgb( p, q, h );
-						b = hue2rgb( p, q, h - 1 / 3 );
-					}
-
-					return [ r * 255, g * 255, b * 255 ];
-				},
-				/**
-				 * @deprecated For compatibility
-				 */
-				legacyParsing: function( colorCode ) {
-					var stringToHex = this._.matchStringToNamedColor( colorCode );
-					var rgbToHex = this._.convertRgbToHex( colorCode );
-					var hexToHex = this._.normalizeHex( colorCode );
-
-					//due to compatibility
-					var defaultValue = colorCode;
-
-					var finalHex  = stringToHex || rgbToHex || hexToHex || defaultValue;
-
-					this._.hexColorCode = finalHex;
 				},
 				matchStringToHSLorRGB: function( colorCode ) {
 					var colorFormat = colorCode.trim().slice( 0,3 ).toLowerCase();
@@ -109,8 +65,6 @@
 						return Number( number );
 					} );
 
-					console.table( colorNumberValues );
-
 					//extract alpha
 					var alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
 
@@ -121,6 +75,44 @@
 					colorNumberValues = this._.blendAlphaColor( colorNumberValues, alpha );
 
 					return this._.rgbToHex( colorNumberValues );
+				},
+				//based on https://www.w3schools.com/lib/w3color.js
+				hslToRgb: function( hue,sat,light ) {
+					var t1, t2, r, g, b;
+					hue = hue / 60;
+					if ( light <= 0.5 ) {
+						t2 = light * ( sat + 1 );
+					} else {
+						t2 = light + sat - ( light * sat );
+					}
+					t1 = light * 2 - t2;
+					r = this._.hueToRgb( t1, t2, hue + 2 ) * 255;
+					g = this._.hueToRgb( t1, t2, hue ) * 255;
+					b = this._.hueToRgb( t1, t2, hue - 2 ) * 255;
+					return [ r, g, b ];
+				},
+				hueToRgb: function( t1, t2, hue ) {
+					if ( hue < 0 ) hue += 6;
+					if ( hue >= 6 ) hue -= 6;
+					if ( hue < 1 ) return ( t2 - t1 ) * hue + t1;
+					else if ( hue < 3 ) return t2;
+					else if ( hue < 4 ) return ( t2 - t1 ) * ( 4 - hue ) + t1;
+					else return t1;
+				},
+				/**
+				 * @deprecated For compatibility
+				 */
+				legacyParsing: function( colorCode ) {
+					var stringToHex = this._.matchStringToNamedColor( colorCode );
+					var rgbToHex = this._.convertRgbToHex( colorCode );
+					var hexToHex = this._.normalizeHex( colorCode );
+
+					//due to compatibility
+					var defaultValue = colorCode;
+
+					var finalHex  = stringToHex || rgbToHex || hexToHex || defaultValue;
+
+					this._.hexColorCode = finalHex;
 				},
 				blendAlphaColor: function( rgb, alpha ) {
 					// Based on https://en.wikipedia.org/wiki/Alpha_compositing
