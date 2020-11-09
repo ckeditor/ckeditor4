@@ -1074,14 +1074,7 @@ CKEDITOR.tools.normalizeHex = function( styleText ) {
 		* @deprecated Use CKEDITOR.tools.style.Color.isValidColorFormat.
 		*/
 CKEDITOR.tools._isValidColorFormat = function( colorCode ) {
-//	return CKEDITOR.tools.style.Color.isValidColorFormat( colorCode );
-	if ( !colorCode ) {
-		return false;
-	}
-
-	colorCode = colorCode.replace( /\s+/g, '' );
-
-	return /^[a-z0-9()#%,./]+$/i.test( colorCode );
+	return CKEDITOR.tools.style.Color.isValidColorFormat( colorCode );
 };
 
 /**
