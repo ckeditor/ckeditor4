@@ -179,6 +179,7 @@
 				},
 				rgbToHex: function( rgb ) {
 					var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
+						number = number > 255 ? 0 : number;
 						return this._.valueToHex( number );
 					}, this );
 

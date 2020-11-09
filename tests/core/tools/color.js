@@ -67,6 +67,17 @@
 			assert.areSame( expectedHexCode, resultHex );
 		},
 
+		'test color from outranged rgb values return default HEX': function() {
+			var validRgbString = 'rgb( 2940, 8840, 11150 )';
+			var expectedHexCode  = '#000000';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+
+		},
+
 		'test color from valid hsl string return HEX': function() {
 			var validRgbString = 'hsl( 195, 1, 0.5 )';//0-360 , 0-1, 0-1
 			var expectedHexCode  = '#00BFFF';
