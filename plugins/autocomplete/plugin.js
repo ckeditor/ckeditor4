@@ -906,6 +906,7 @@
 			// |     +--------------+                        |
 			// |     █ - caret position                      |
 			// |                                             |
+			// |                                             |
 			// +---------------------------------------------+
 			if ( viewHeight > spaceBelow && viewHeight < spaceAbove ) {
 				top = rect.top - viewHeight;
@@ -946,19 +947,21 @@
 			}
 
 			// (#3582)
-			// If the view goes beyond bottom window border - reverse view position.
+			// If the view goes beyond bottom window border - reverse view position, even if it fits editor viewport.
 			// +---------------------------------------------+
 			// |               editor viewport               |
 			// |                                             |
 			// |                                             |
-			// |             +-------------------+           |
-			// |             |                   |           |
-			// |             |       view        |           |
-			// |             |                   |           |
-			// |             +-------------------+           |
-			// |                caret position - █           |
-			// +---------------------------------------------+
+			// |                  +--------------+           |
+			// |                  |     view     |           |
+			// |                  +--------------+           |
+			// | caret position - █                          |
+			// |                                             |
 			// =============================================== - bottom window border
+			// |                                             |
+			// |                                             |
+			// +---------------------------------------------+
+
 			var windowHeight = windowRect.height,
 				shouldReverseViewVertically = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
 
@@ -967,17 +970,17 @@
 			}
 
 			// (#3582)
-			// If the view goes beyond right window border - reverse view position.
+			// If the view goes beyond right window border - stick it to the edge of the available viewport.
 			// +---------------------------------------------+   ||
 			// |               editor viewport               |   ||
 			// |                                             |   ||
 			// |                                             |   ||
-			// |                                             |   ||
 			// |                         caret position - █  |   || - right window border
-			// |                      +-------------------+  |   ||
-			// |                      |       view        |  |   ||
-			// |                      +-------------------+  |   ||
-			// |                                             |   ||
+			// |                                 +--------------+||
+			// |                                 |              |||
+			// |                                 |     view     |||
+			// |                                 |              |||
+			// |                                 +--------------+||
 			// |                                             |   ||
 			// +---------------------------------------------+   ||
 			var windowWidth = windowRect.width;
