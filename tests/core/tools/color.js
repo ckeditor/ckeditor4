@@ -75,6 +75,27 @@
 			var resultHex = colorObj.getHex();
 
 			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from outranged hsl string return HEX': function() {
+			var validRgbString = 'hsl( 999, 1882, 128 )';//0-360 , 0-1, 0-1
+			var expectedHexCode  = '#FFFFFF';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from percentage hsl string return HEX': function() {
+			var validRgbString = 'hsl( 195, 100%, 50% )';//0-360 , 0-1, 0-1
+			var expectedHexCode  = '#00BFFF';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+
 		}
 	} );
 

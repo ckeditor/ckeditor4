@@ -115,23 +115,40 @@
 
 					//take values
 					var colorNumberValues = colorCode.match( /\d+\.?\d*/g );
-					//convert them to numbers
+					if ( !colorNumberValues ) {
+						return null;
+					}
 					colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( number ) {
 						return Number( number );
 					} );
-
 					//extract alpha
 					var alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
 
 					if ( colorFormat === 'hsl' ) {
 						colorNumberValues = this._.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
 					}
+
 					//blend alpha
 					colorNumberValues = this._.blendAlphaColor( colorNumberValues, alpha );
 
 					return this._.rgbToHex( colorNumberValues );
 				},
-				hslToRgb: function( hue,sat,light ) {
+				clampValueInRange: function( value, min, max ) {
+					return Math.min( Math.max( value, min ), max );
+				},
+				normalizePercentValue: function( value ) {
+					if ( value > 1 ) {
+						value =  value / 100;
+					}
+
+					return this._.clampValueInRange( value, 0, 1 );
+				},
+				hslToRgb: function( hue, sat, light ) {
+
+					hue = this._.clampValueInRange( hue, 0, 360 );
+					sat = this._.normalizePercentValue( sat );
+					light = this._.normalizePercentValue( light );
+
 					//based on https://www.w3schools.com/lib/w3color.js
 					var t1, t2, r, g, b;
 					hue = hue / 60;
