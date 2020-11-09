@@ -9,7 +9,7 @@
 
 /**
 *Basic definitions
-*HEX 	 -> valid HEX Color Value with # character: #FFF or #FFFFFF
+*HEX 	 -> valid HEX Color Value with # value: #FFF or #FFFFFF
 *3-HEX -> HEX but with only 3 characters value: #FFF
 *6-HEX -> HEX but with exactly 6 characters value: #FFFFFF
 */
@@ -21,24 +21,128 @@
 				this._.compatibilityMode = compatibilityMode || false;
 				this._.originalColorCode = colorCode;
 
-				var stringToHex = this._.convertStringToHex( colorCode );
-				var rgbToHex = this._.convertRgbToHex( colorCode );
-				var hexToHex = this._.normalizeHex( colorCode );
-
-				//due to compatibility
-				var defaultValue = this._.compatibilityMode ? colorCode : this._.defaultHexColorCode;
-
-				var finalHex  = stringToHex || rgbToHex || hexToHex || defaultValue;
-
-				this._.hexColorCode = finalHex;
+				if ( this._.compatibilityMode ) {
+					this._.legacyParsing( colorCode );
+				} else {
+					this._.parseInput( colorCode );
+				}
 			},
 
 			_: {
+				//could be valid color code or trash input
 				originalColorCode: '',
 				hexColorCode: '',
 				compatibilityMode: false,
 				defaultHexColorCode: '#000000',
 
+				parseInput: function( colorCode ) {
+					console.log( '******************' );
+					this._.hexColorCode = this._.matchStringToNamedColor( colorCode );
+					if ( this._.hexColorCode ) {
+						return;
+					}
+					console.log( 'after named colors' );
+					this._.hexColorCode = this._.matchStringToHex( colorCode );
+					if ( this._.hexColorCode ) {
+						return;
+					}
+
+					console.log( 'after string to hex' );
+					this._.hexColorCode = this._.matchStringToHSLorRGB( colorCode );
+					if ( this._.hexColorCode ) {
+						return;
+					}
+					console.log( 'default color is comming!' );
+					this._.hexColorCode = this._.defaultHexColorCode;
+				},
+				hslToRgb: function( h,s,l ) {
+					var r, g, b;
+
+					if ( s == 0 ) {
+						r = g = b = l; // achromatic
+					} else {
+						function hue2rgb( p, q, t ) {
+							if ( t < 0 ) t += 1;
+							if ( t > 1 ) t -= 1;
+							if ( t < 1 / 6 ) return p + ( q - p ) * 6 * t;
+							if ( t < 1 / 2 ) return q;
+							if ( t < 2 / 3 ) return p + ( q - p ) * ( 2 / 3 - t ) * 6;
+							return p;
+						}
+
+						var q = l < 0.5 ? l * ( 1 + s ) : l + s - l * s;
+						var p = 2 * l - q;
+
+						r = hue2rgb( p, q, h + 1 / 3 );
+						g = hue2rgb( p, q, h );
+						b = hue2rgb( p, q, h - 1 / 3 );
+					}
+
+					return [ r * 255, g * 255, b * 255 ];
+				},
+				/**
+				 * @deprecated For compatibility
+				 */
+				legacyParsing: function( colorCode ) {
+					var stringToHex = this._.matchStringToNamedColor( colorCode );
+					var rgbToHex = this._.convertRgbToHex( colorCode );
+					var hexToHex = this._.normalizeHex( colorCode );
+
+					//due to compatibility
+					var defaultValue = colorCode;
+
+					var finalHex  = stringToHex || rgbToHex || hexToHex || defaultValue;
+
+					this._.hexColorCode = finalHex;
+				},
+				matchStringToHSLorRGB: function( colorCode ) {
+					var colorFormat = colorCode.trim().slice( 0,3 ).toLowerCase();
+
+					if ( colorFormat !== 'rgb' && colorFormat !== 'hsl' ) {
+						return null;
+					}
+
+					//take values
+					var colorNumberValues = colorCode.match( /\d+\.?\d*/g );
+					//convert them to numbers
+					colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( number ) {
+						return Number( number );
+					} );
+
+					console.table( colorNumberValues );
+
+					//extract alpha
+					var alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
+
+					if ( colorFormat === 'hsl' ) {
+						colorNumberValues = this._.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
+					}
+					//blend alpha
+					colorNumberValues = this._.blendAlphaColor( colorNumberValues, alpha );
+
+					return this._.rgbToHex( colorNumberValues );
+				},
+				blendAlphaColor: function( rgb, alpha ) {
+					// Based on https://en.wikipedia.org/wiki/Alpha_compositing
+					return CKEDITOR.tools.array.map( rgb, function( color ) {
+						return Math.round( 255 - alpha * ( 255 - color ) );
+					}, this );
+				},
+				rgbToHex: function( rgb ) {
+					var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
+						return this._.valueToHex( number );
+					}, this );
+
+					return '#' + hexValues.join( '' );
+				},
+				valueToHex: function( value ) {
+					var hex = value.toString( 16 );
+
+					return hex.length == 1 ? '0' + hex : hex;
+				},
+				matchStringToHex: function( colorCode ) {
+					return this._.normalizeHex( colorCode );
+				},
 				/**
 				* Normalizes hexadecimal notation so that the color string is always 6 characters long and lowercase.
 				*
@@ -83,7 +187,7 @@
 					}
 				},
 
-				convertStringToHex: function( colorName ) {
+				matchStringToNamedColor: function( colorName ) {
 					var colorToHexObject = CKEDITOR.tools.style.Color.namedColors;
 					var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
 
@@ -105,8 +209,11 @@
 
 			statics: {
 				hexRegExp: /^\#[a-f0-9]{3}(?:[a-f0-9]{3})?$/gi,
+
 				hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+
 				rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+
 				widthRegExp: /^(thin|medium|thick|[\+-]?\d+(\.\d+)?[a-z%]+|[\+-]?0+(\.0+)?|\.\d+[a-z%]+)$/,
 				/**
 					* Searches the `value` for any CSS color occurrences and returns it.
