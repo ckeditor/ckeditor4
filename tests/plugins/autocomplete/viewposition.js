@@ -155,23 +155,113 @@
 		},
 
 		// (#3582)
-		'test view position beyond window borders': function( editor ) {
-			var orginalWindowHeight = editor.element.getWindow().getViewPaneSize().height;
+		'test view position wraps on bottom window border': function( editor ) {
+			// +---------------------------------------------+
+			// |               editor viewport               |
+			// |                                             |
+			// |                                             |
+			// |                  +--------------+           |
+			// |                  |     view     |           |
+			// |                  +--------------+           |
+			// | caret position - █                          |
+			// |                                             |
+			// =============================================== - bottom window border
+			// |                                             |
+			// |                                             |
+			// +---------------------------------------------+
+			var getViewPaneSizeStub = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' ).returns( { height: 150, width: 300 } ),
+				view = createPositionedView( editor, {
+					caretRect: { top: 100, bottom: 110, left: 50 },
+					editorViewportRect: { top: 0, bottom: 500 },
+					viewPanelHeight: 100
+				} );
 
-			// Simulate small window height.
-			editor.element.getWindow().$.innerHeight = 200;
+			getViewPaneSizeStub.restore();
 
-			var view = createPositionedView( editor, {
-				caretRect: { top: 100, bottom: 110, left: 50 },
-				editorViewportRect: { top: 0, bottom: 500 },
-				viewPanelHeight: 100
-			} );
+			assert.areEqual( '0px', view.element.getStyle( 'top' ), 'View should be displayed above the caret.' );
+			assert.areEqual( '50px', view.element.getStyle( 'left' ), 'View should not be moved horizontally.' );
+		},
 
-			assert.areEqual( '0px', view.element.getStyle( 'top' ), 'View is displayed above the caret' );
-			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
+		// (#3582)
+		'test view position sticks to right window border': function( editor ) {
+			// +---------------------------------------------+   ||
+			// |               editor viewport               |   ||
+			// |                                             |   ||
+			// |                                             |   ||
+			// |                         caret position - █  |   || - right window border
+			// |                                 +--------------+||
+			// |                                 |              |||
+			// |                                 |     view     |||
+			// |                                 |              |||
+			// |                                 +--------------+||
+			// |                                             |   ||
+			// +---------------------------------------------+   ||
+			var getViewPaneSizeStub = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' ).returns( { height: 300, width: 300 } ),
+				view = createPositionedView( editor, {
+					caretRect: { top: 100, bottom: 110, left: 250 },
+					editorViewportRect: { top: 0, bottom: 500 },
+					viewPanelHeight: 100
+				} );
 
-			// Restore original window height.
-			editor.element.getWindow().$.innerHeight = orginalWindowHeight;
+			getViewPaneSizeStub.restore();
+
+			assert.areEqual( '110px', view.element.getStyle( 'top' ), 'View should be displayed below the caret.' );
+			assert.areEqual( '200px', view.element.getStyle( 'left' ), 'View should be glued to the right window border.' );
+		},
+
+		// (#3582)
+		'test view position stays within top window border': function( editor ) {
+			// +==== caret position - █ =====================+ - top window border
+			// |                      +--------------+       |
+			// |                      |     view     |       |
+			// |                      +--------------+       |
+			// |                                             |
+			// |                                             |
+			// |                                             |
+			// |                                             |
+			// |                                             |
+			// |               editor viewport               |
+			// +---------------------------------------------+
+			var getViewPaneSizeStub = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' ).returns( { height: 300, width: 300 } ),
+				view = createPositionedView( editor, {
+					caretRect: { top: 0, bottom: 10, left: 50 },
+					editorViewportRect: { top: 0, bottom: 500 },
+					viewPanelHeight: 100
+				} );
+
+			getViewPaneSizeStub.restore();
+
+			assert.areEqual( '10px', view.element.getStyle( 'top' ), 'View should be displayed below the caret.' );
+			assert.areEqual( '50px', view.element.getStyle( 'left' ), 'View should not be moved horizontally.' );
+		},
+
+		// (#3582)
+		'test view position stays within left window border': function( editor ) {
+			// || - left window border
+			// ||
+			// || +---------------------------------------------+
+			// || |               editor viewport               |
+			// || |                                             |
+			// || █ - caret position                            |
+			// || +--------------+                              |
+			// || |     view     |                              |
+			// || +--------------+                              |
+			// || |                                             |
+			// || |                                             |
+			// || |                                             |
+			// || |                                             |
+			// || +---------------------------------------------+
+			var getViewPaneSizeStub = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' ).returns( { height: 300, width: 300 } ),
+				view = createPositionedView( editor, {
+					caretRect: { top: 100, bottom: 110, left: 0 },
+					editorViewportRect: { top: 0, bottom: 500 },
+					viewPanelHeight: 100
+				} );
+
+			getViewPaneSizeStub.restore();
+
+			assert.areEqual( '110px', view.element.getStyle( 'top' ), 'View should be displayed below the caret.' );
+			assert.areEqual( '0px', view.element.getStyle( 'left' ), 'View should not be moved horizontally.' );
 		}
 	};
 
