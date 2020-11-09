@@ -214,6 +214,16 @@
 				assert.areSame( testArray, array );
 				assert.areSame( testThis, this );
 			}, testThis );
+		},
+
+		'test array.zip method': function() {
+			var array1 = [ 'foo', 'bar', 'baz' ],
+				array2 = [ 1, 2, 3 ],
+				expected = [ [ 'foo', 1 ], [ 'bar', 2 ], [ 'baz', 3 ] ];
+
+			arrayAssert.itemsAreEquivalent( expected, this.array.zip( array1, array2 ), function( arr1, arr2 ) {
+				return arr1[ 0 ] === arr2[ 0 ] && arr1[ 1 ]  === arr2[ 1 ];
+			} );
 		}
 	} );
 

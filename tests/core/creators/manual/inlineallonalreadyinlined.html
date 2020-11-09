@@ -1,0 +1,24 @@
+<p>
+	<button id="inlineAll">Inline all</button>
+</p>
+
+<div id="editor1">
+	<p>Lorem ipsum dolor sit amet</p>
+</div>
+
+<div id="editor2">
+	<p>Lorem ipsum dolor sit amet</p>
+</div>
+
+<script>
+	CKEDITOR.inline( 'editor1', {
+		readOnly: false
+	} );
+
+	CKEDITOR.document.getById( 'inlineAll' ).on( 'click', function() {
+		// Make sure the element won't be inlined on CKEDITOR.domReady.
+		CKEDITOR.document.getById( 'editor2' ).$.contentEditable = true;
+
+		CKEDITOR.inlineAll();
+	} );
+</script>

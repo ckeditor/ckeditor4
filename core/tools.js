@@ -1045,6 +1045,50 @@
 		},
 
 		/**
+		 * Validates color string correctness. Works for:
+		 *
+		 * * hexadecimal notation;
+		 * * RGB or RGBA notation;
+		 * * HSL or HSLA notation;
+		 * * HTML color name.
+		 *
+         * **Note:** This method is intended mostly for the input validations.
+		 * It performs no logical check e.g.: are the values in RGB format correct
+		 * or does the passed color name actually exists?
+
+		 * See the examples below:
+		 *
+		 * ```javascript
+		 * CKEDITOR.tools._isValidColorFormat( '123456' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( '#4A2' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( 'rgb( 40, 40, 150 )' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( 'hsla( 180, 50%, 50%, 0.2 )' ); // true
+		 *
+		 * CKEDITOR.tools._isValidColorFormat( '333333;' ); // false
+		 * CKEDITOR.tools._isValidColorFormat( '<833AF2>' ); // false
+		 *
+		 * // But also:
+		 * CKEDITOR.tools._isValidColorFormat( 'ckeditor' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( '1234' ); // true
+		 * CKEDITOR.tools._isValidColorFormat( 'hsrgb( 100 )' ); // true
+		 * ```
+		 *
+		 * @since 4.15.1
+		 * @private
+		 * @param {String} colorCode String to be validated.
+		 * @returns {Boolean} Whether the input string contains only allowed characters.
+		 */
+		_isValidColorFormat: function( colorCode ) {
+			if ( !colorCode ) {
+				return false;
+			}
+
+			colorCode = colorCode.replace( /\s+/g, '' );
+
+			return /^[a-z0-9()#%,./]+$/i.test( colorCode );
+		},
+
+		/**
 		 * Turns inline style text properties into one hash.
 		 *
 		 * @param {String} styleText The style data to be parsed.
@@ -2199,6 +2243,27 @@
 				}
 
 				return false;
+			},
+
+			/**
+			 * Zips corresponding objects from two arrays into a single array of object pairs.
+			 *
+			 * ```js
+			 * var zip = CKEDITOR.tools.array.zip( [ 'foo', 'bar', 'baz' ], [ 1, 2, 3 ] );
+			 * console.log( zip );
+			 * // Logs: [ [ 'foo', 1 ], [ 'bar', 2 ], [ 'baz', 3 ] ];
+			 * ```
+			 *
+			 * @since 4.15.1
+			 * @member CKEDITOR.tools.array
+			 * @param {Array} array1
+			 * @param {Array} array2
+			 * @returns {Array} A two-dimensional array of object pairs.
+			 */
+			zip: function( array1, array2 ) {
+				return CKEDITOR.tools.array.map( array1, function( value, index ) {
+					return [ value, array2[ index ] ];
+				} );
 			}
 		},
 
