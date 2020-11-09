@@ -34,77 +34,12 @@
 				hexColorCode: '',
 				compatibilityMode: false,
 				defaultHexColorCode: '#000000',
-
-				parseInput: function( colorCode ) {
-					this._.hexColorCode = this._.matchStringToNamedColor( colorCode );
-					if ( this._.hexColorCode ) {
-						return;
-					}
-					this._.hexColorCode = this._.matchStringToHex( colorCode );
-					if ( this._.hexColorCode ) {
-						return;
-					}
-
-					this._.hexColorCode = this._.matchStringToHSLorRGB( colorCode );
-					if ( this._.hexColorCode ) {
-						return;
-					}
-					this._.hexColorCode = this._.defaultHexColorCode;
-				},
-				matchStringToHSLorRGB: function( colorCode ) {
-					var colorFormat = colorCode.trim().slice( 0,3 ).toLowerCase();
-
-					if ( colorFormat !== 'rgb' && colorFormat !== 'hsl' ) {
-						return null;
-					}
-
-					//take values
-					var colorNumberValues = colorCode.match( /\d+\.?\d*/g );
-					//convert them to numbers
-					colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( number ) {
-						return Number( number );
-					} );
-
-					//extract alpha
-					var alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
-
-					if ( colorFormat === 'hsl' ) {
-						colorNumberValues = this._.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
-					}
-					//blend alpha
-					colorNumberValues = this._.blendAlphaColor( colorNumberValues, alpha );
-
-					return this._.rgbToHex( colorNumberValues );
-				},
-				//based on https://www.w3schools.com/lib/w3color.js
-				hslToRgb: function( hue,sat,light ) {
-					var t1, t2, r, g, b;
-					hue = hue / 60;
-					if ( light <= 0.5 ) {
-						t2 = light * ( sat + 1 );
-					} else {
-						t2 = light + sat - ( light * sat );
-					}
-					t1 = light * 2 - t2;
-					r = this._.hueToRgb( t1, t2, hue + 2 ) * 255;
-					g = this._.hueToRgb( t1, t2, hue ) * 255;
-					b = this._.hueToRgb( t1, t2, hue - 2 ) * 255;
-					return [ r, g, b ];
-				},
-				hueToRgb: function( t1, t2, hue ) {
-					if ( hue < 0 ) hue += 6;
-					if ( hue >= 6 ) hue -= 6;
-					if ( hue < 1 ) return ( t2 - t1 ) * hue + t1;
-					else if ( hue < 3 ) return t2;
-					else if ( hue < 4 ) return ( t2 - t1 ) * ( 4 - hue ) + t1;
-					else return t1;
-				},
 				/**
 				 * @deprecated For compatibility
 				 */
 				legacyParsing: function( colorCode ) {
 					var stringToHex = this._.matchStringToNamedColor( colorCode );
-					var rgbToHex = this._.convertRgbToHex( colorCode );
+					var rgbToHex = this.convertRgbStringToHex( colorCode );
 					var hexToHex = this._.normalizeHex( colorCode );
 
 					//due to compatibility
@@ -114,26 +49,27 @@
 
 					this._.hexColorCode = finalHex;
 				},
-				blendAlphaColor: function( rgb, alpha ) {
-					// Based on https://en.wikipedia.org/wiki/Alpha_compositing
-					return CKEDITOR.tools.array.map( rgb, function( color ) {
-						return Math.round( 255 - alpha * ( 255 - color ) );
-					}, this );
-				},
-				rgbToHex: function( rgb ) {
-					var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
-						return this._.valueToHex( number );
-					}, this );
+				matchStringToNamedColor: function( colorName ) {
+					var colorToHexObject = CKEDITOR.tools.style.Color.namedColors;
+					var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
 
-					return '#' + hexValues.join( '' );
+					return resultCode;
 				},
-				valueToHex: function( value ) {
-					var hex = value.toString( 16 );
+				convertRgbStringToHex: function( styleText ) {
+					var rgbRegExp = /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi;
 
-					return hex.length == 1 ? '0' + hex : hex;
-				},
-				matchStringToHex: function( colorCode ) {
-					return this._.normalizeHex( colorCode );
+					if ( styleText.match( rgbRegExp ) ) {
+						return styleText.replace( rgbRegExp, function( match, red, green, blue ) {
+							var color = [ red, green, blue ];
+							// Add padding zeros if the hex value is less than 0x10.
+							for ( var i = 0; i < 3; i++ ) {
+								color[ i ] = ( '0' + parseInt( color[ i ], 10 ).toString( 16 ) ).slice( -2 );
+							}
+							return '#' + color.join( '' );
+						} );
+					} else {
+						return null;
+					}
 				},
 				/**
 				* Normalizes hexadecimal notation so that the color string is always 6 characters long and lowercase.
@@ -161,29 +97,83 @@
 					}
 
 				},
+				parseInput: function( colorCode ) {
+					var hexStringFromNamedColor = this._.matchStringToNamedColor( colorCode );
 
-				convertRgbToHex: function( styleText ) {
-					var rgbRegExp = /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi;
+					var hexFromHexString = this._.matchStringToHex( colorCode );
 
-					if ( styleText.match( rgbRegExp ) ) {
-						return styleText.replace( rgbRegExp, function( match, red, green, blue ) {
-							var color = [ red, green, blue ];
-							// Add padding zeros if the hex value is less than 0x10.
-							for ( var i = 0; i < 3; i++ ) {
-								color[ i ] = ( '0' + parseInt( color[ i ], 10 ).toString( 16 ) ).slice( -2 );
-							}
-							return '#' + color.join( '' );
-						} );
-					} else {
+					var hexFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
+
+					this._.hexColorCode = hexStringFromNamedColor || hexFromHexString || hexFromRgbOrHsl || this._.defaultHexColorCode;
+				},
+				rgbOrHslToHex: function( colorCode ) {
+					var colorFormat = colorCode.trim().slice( 0,3 ).toLowerCase();
+
+					if ( colorFormat !== 'rgb' && colorFormat !== 'hsl' ) {
 						return null;
 					}
+
+					//take values
+					var colorNumberValues = colorCode.match( /\d+\.?\d*/g );
+					//convert them to numbers
+					colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( number ) {
+						return Number( number );
+					} );
+
+					//extract alpha
+					var alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
+
+					if ( colorFormat === 'hsl' ) {
+						colorNumberValues = this._.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
+					}
+					//blend alpha
+					colorNumberValues = this._.blendAlphaColor( colorNumberValues, alpha );
+
+					return this._.rgbToHex( colorNumberValues );
 				},
+				hslToRgb: function( hue,sat,light ) {
+					//based on https://www.w3schools.com/lib/w3color.js
+					var t1, t2, r, g, b;
+					hue = hue / 60;
+					if ( light <= 0.5 ) {
+						t2 = light * ( sat + 1 );
+					} else {
+						t2 = light + sat - ( light * sat );
+					}
+					t1 = light * 2 - t2;
+					r = this._.hueToRgb( t1, t2, hue + 2 ) * 255;
+					g = this._.hueToRgb( t1, t2, hue ) * 255;
+					b = this._.hueToRgb( t1, t2, hue - 2 ) * 255;
+					return [ r, g, b ];
+				},
+				hueToRgb: function( t1, t2, hue ) {
+					if ( hue < 0 ) hue += 6;
+					if ( hue >= 6 ) hue -= 6;
+					if ( hue < 1 ) return ( t2 - t1 ) * hue + t1;
+					else if ( hue < 3 ) return t2;
+					else if ( hue < 4 ) return ( t2 - t1 ) * ( 4 - hue ) + t1;
+					else return t1;
+				},
+				blendAlphaColor: function( rgb, alpha ) {
+					// Based on https://en.wikipedia.org/wiki/Alpha_compositing
+					return CKEDITOR.tools.array.map( rgb, function( color ) {
+						return Math.round( 255 - alpha * ( 255 - color ) );
+					}, this );
+				},
+				rgbToHex: function( rgb ) {
+					var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
+						return this._.valueToHex( number );
+					}, this );
 
-				matchStringToNamedColor: function( colorName ) {
-					var colorToHexObject = CKEDITOR.tools.style.Color.namedColors;
-					var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
+					return '#' + hexValues.join( '' );
+				},
+				valueToHex: function( value ) {
+					var hex = value.toString( 16 );
 
-					return resultCode;
+					return hex.length == 1 ? '0' + hex : hex;
+				},
+				matchStringToHex: function( colorCode ) {
+					return this._.normalizeHex( colorCode );
 				}
 			},
 
