@@ -8,12 +8,12 @@
 1. Place selection inside editor content as close as possible to window border.
 1. Type `:da`.
 
-### Expected:
+  ### Expected:
 
-Emoji panel should appear inside browser viewport and be fully visible.
+  Emoji panel should appear inside browser viewport and be fully visible.
 
-### Unexpected:
+  ### Unexpected:
 
-Emoji panel appears outside browser borders and is not fully visible.
+  Emoji panel appears outside browser borders and is not fully visible.
 
 1. Play around with different caret placements to check if the panel is always visible and accessible.
