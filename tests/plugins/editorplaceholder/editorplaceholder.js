@@ -205,5 +205,20 @@
 		} );
 	};
 
+	// (#4253)
+	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin'] = function() {
+		bender.editorBot.create( {
+			name: 'bbcodeFailTest',
+			config: {
+				extraPlugins: 'bbcode',
+				editorplaceholder: 'any',
+				fullPage: true
+			}
+		}, function( bot ) {
+			//no errors during editor load - so test can pass
+			assert.isTrue( true );
+		} );
+	};
+
 	bender.test( tests );
 }() );

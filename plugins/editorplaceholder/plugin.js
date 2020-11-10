@@ -72,7 +72,12 @@
 			data = editor.getData();
 
 		if ( isFullPage ) {
-			data = data.match( fullPageRegex )[ 1 ];
+			var bodyDataMatched = data.match( fullPageRegex );
+
+			if ( bodyDataMatched && bodyDataMatched.length > 1 ) {
+				//found data inside `<body>` element
+				data = bodyDataMatched[1];
+			}
 		}
 
 		return data.length === 0;
