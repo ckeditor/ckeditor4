@@ -207,17 +207,41 @@
 
 	// (#4253)
 	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin'] = function() {
+
+		var errorLogStub = sinon.stub( console, 'error' );
+
+		var onErrorStub = function() {
+			resume( function() {
+				assert.fail( 'There should be no RunTime errors!' );
+			} );
+		};
+
+		window.addEventListener( 'error', onErrorStub );
+
+		var instanceReadyCallback = function( e ) {
+			resume( function() {
+				assert.isFalse( errorLogStub.called, 'There should be no errors during initialization' );
+			} );
+		};
+
 		bender.editorBot.create( {
 			name: 'bbcodeFailTest',
 			config: {
 				extraPlugins: 'bbcode',
 				editorplaceholder: 'any',
-				fullPage: true
+				fullPage: true,
+				on: {
+					instanceReady: instanceReadyCallback
+				}
 			}
 		}, function( bot ) {
-			//no errors during editor load - so test can pass
-			assert.isTrue( true );
+
 		} );
+
+		errorLogStub.restore();
+		window.removeEventListener( 'error', onErrorStub );
+
+		wait();
 	};
 
 	bender.test( tests );
