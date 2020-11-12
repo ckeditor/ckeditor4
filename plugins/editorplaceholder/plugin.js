@@ -74,9 +74,9 @@
 		if ( isFullPage ) {
 			var bodyDataMatched = data.match( fullPageRegex );
 
+			// Check if body element exists in editor HTML (#4253).
 			if ( bodyDataMatched && bodyDataMatched.length > 1 ) {
-				//found data inside `<body>` element
-				data = bodyDataMatched[1];
+				data = bodyDataMatched[ 1 ];
 			}
 		}
 
