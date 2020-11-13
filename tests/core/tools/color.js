@@ -1,4 +1,12 @@
 /* bender-tags: editor */
+
+
+/**
+ * Basic definitions
+ * HEX 	 -> valid HEX Color Value with # value: #FFF or #FFFFFF
+ * 3-HEX -> HEX but with only 3 characters value: #FFF
+ * 6-HEX -> HEX but with exactly 6 characters value: #FFFFFF
+ */
 ( function() {
 	'use strict';
 

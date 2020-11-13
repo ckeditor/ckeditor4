@@ -1,18 +1,12 @@
 /**
-* @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
-* For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
-*/
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ */
 /**
-* @fileoverview Defines the {@link CKEDITOR.tools.style.color} normalizer class
-* 		that parse color string code other formats.
-*/
+ * @fileoverview Defines the {@link CKEDITOR.tools.style.color} normalizer class
+ * that parse color string code other formats.
+ */
 
-/**
-*Basic definitions
-*HEX 	 -> valid HEX Color Value with # value: #FFF or #FFFFFF
-*3-HEX -> HEX but with only 3 characters value: #FFF
-*6-HEX -> HEX but with exactly 6 characters value: #FFFFFF
-*/
 ( function() {
 	'use strict';
 
