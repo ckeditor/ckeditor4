@@ -5,7 +5,7 @@
 	bender.test( {
 		setUp: function() {
 			this.createColor = function( colorCode ) {
-				return new CKEDITOR.tools.style.Color( colorCode );
+				return new CKEDITOR.tools.style.color( colorCode );
 			};
 		},
 
