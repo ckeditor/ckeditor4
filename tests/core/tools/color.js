@@ -6,10 +6,10 @@
  * HEX 	 -> valid HEX Color Value with # value: #FFF or #FFFFFF
  * 3-HEX -> HEX but with only 3 characters value: #FFF
  * 6-HEX -> HEX but with exactly 6 characters value: #FFFFFF
+ * 8-HEX -> HEX but with exactly 8 characters value: #FFFFFF00. Last two characters are for alpha
  */
 ( function() {
 	'use strict';
-
 	bender.test( {
 		setUp: function() {
 			this.createColor = function( colorCode ) {
@@ -115,6 +115,66 @@
 
 			assert.areSame( expectedHexCode, resultHex );
 
+		},
+
+		'test color from valid rgba alpha 1 value returns HEX': function() {
+			var validRgbString = 'rgba( 123, 123, 123, 1 )';
+			var expectedHexCode  = '#7B7B7B';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from valid rgba alpha 0.5 value returns HEX': function() {
+			var validRgbString = 'rgba( 123, 123, 123, 0.5 )';
+			var expectedHexCode  = '#BDBDBD';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from valid rgba alpha 0 value returns HEX': function() {
+			var validRgbString = 'rgba( 123, 123, 123, 0)';
+			var expectedHexCode  = '#FFFFFF';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from valid hsla alpha 1 value returns HEX': function() {
+			var validRgbString = 'hsla( 123, 0.5, 0.5, 1 )';
+			var expectedHexCode  = '#40BF46';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from valid hsla alpha 0.5 value returns HEX': function() {
+			var validRgbString = 'hsla( 123, 0.5, 0.5, 0.5 )';
+			var expectedHexCode  = '#9FDFA3';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from valid hsla alpha 0 value returns HEX': function() {
+			var validRgbString = 'hsla( 123, 0.5, 0.5, 0)';
+			var expectedHexCode  = '#FFFFFF';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
 		}
 	} );
 
