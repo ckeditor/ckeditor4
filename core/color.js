@@ -63,7 +63,9 @@
 				return null;
 			}
 
-			colorNumberValues = colorNumberValues.map( Number );
+			colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( value ) {
+				return Number( value );
+			} );
 			//extract alpha
 			var alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
 
@@ -82,6 +84,7 @@
 			light = this.normalizePercentValue( light );
 
 			//based on https://www.w3schools.com/lib/w3color.js
+			//TODO rewrite
 			var t1, t2, r, g, b;
 			hue = hue / 60;
 			if ( light <= 0.5 ) {
@@ -115,12 +118,12 @@
 		},
 		blendAlphaColor: function( rgb, alpha ) {
 			// Based on https://en.wikipedia.org/wiki/Alpha_compositing
-			return rgb.map( function( color ) {
+			return CKEDITOR.tools.array.map( rgb, function( color ) {
 				return Math.round( 255 - alpha * ( 255 - color ) );
 			} );
 		},
 		rgbToHex: function( rgb ) {
-			var hexValues = rgb.map( function( number ) {
+			var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
 								number = number > 255 ? 0 : number;
 								return this.valueToHex( number );
 							}, this );
