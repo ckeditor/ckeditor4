@@ -1016,6 +1016,7 @@
 		 *
 		 * @param {String} styleText The style data (or just a string containing RGB colors) to be converted.
 		 * @returns {String} The style data with RGB colors converted to hexadecimal equivalents.
+		 * @deprecated Use CKEDITOR.tools.style.color
 		 */
 		convertRgbToHex: function( styleText ) {
 			return styleText.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) {
@@ -1032,6 +1033,7 @@
 		 *
 		 * @param {String} styleText The style data (or just a string containing hex colors) to be converted.
 		 * @returns {String} The style data with hex colors normalized.
+		 * @deprecated Use CKEDITOR.tools.style.color
 		 */
 		normalizeHex: function( styleText ) {
 			return styleText.replace( /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi, function( match, hexColor, hexColorPart, separator ) {
@@ -1077,6 +1079,7 @@
 		 * @private
 		 * @param {String} colorCode String to be validated.
 		 * @returns {Boolean} Whether the input string contains only allowed characters.
+		 * @deprecated Use CKEDITOR.tools.style.color
 		 */
 		_isValidColorFormat: function( colorCode ) {
 			if ( !colorCode ) {
@@ -1712,7 +1715,11 @@
 			 * @member CKEDITOR.tools.style
 			 */
 			parse: {
-				// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+				/**
+				 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+				 *
+				 * @deprecated Use CKEDITOR.tools.style.color.namedColors
+				 */
 				_colors: {
 					aliceblue: '#F0F8FF',
 					antiquewhite: '#FAEBD7',
@@ -1880,8 +1887,14 @@
 
 				_widthRegExp: /^(thin|medium|thick|[\+-]?\d+(\.\d+)?[a-z%]+|[\+-]?0+(\.0+)?|\.\d+[a-z%]+)$/,
 
+				/**
+				 * @deprecated Use CKEDITOR.tools.style.color
+				 */
 				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
+				/**
+				 * @deprecated Use CKEDITOR.tools.style.color
+				 */
 				_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
 				/**
