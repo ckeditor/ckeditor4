@@ -84,7 +84,7 @@ if ( !CKEDITOR.loader ) {
 			'skin': [],
 			'style': [ 'selection' ],
 			'template': [],
-			'tools': [ 'env', 'color' ],
+			'tools': [ 'env' ],
 			'ui': [],
 			'creators/themedui': [],
 			'creators/inline': [],
