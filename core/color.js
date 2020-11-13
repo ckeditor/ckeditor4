@@ -19,7 +19,11 @@
 		originalColorCode: '',
 		hexColorCode: '',
 		defaultHexColorCode: '#000000',
+		alpha: 1,
+		hex3charsRegExp: /#([0-9a-f]{3})/gi,
 		parseInput: function( colorCode ) {
+			colorCode = colorCode.trim();
+
 			var hexStringFromNamedColor = this.matchStringToNamedColor( colorCode );
 			var hexFromHexString = this.matchStringToHex( colorCode );
 			var hexFromRgbOrHsl = this.rgbOrHslToHex( colorCode );
@@ -33,26 +37,41 @@
 			return resultCode;
 		},
 		matchStringToHex: function( hexColorCode ) {
-			//TODO match only hex, not style text
-			var styleHexRegExp = /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi;
+			var hex6charsRegExp = /#([0-9a-f]{6})/gi;
+			var hex8charsRegExp = /#([0-9a-f]{8})/gi;
 
-			if ( hexColorCode.match( styleHexRegExp ) ) {
-				return hexColorCode.replace( styleHexRegExp, function( match, hexColor, hexColorPart, separator ) {
-					var normalizedHexColor = hexColor.toLowerCase();
+			var finalHex = null;
+			this.alpha = 1;
 
-					if ( normalizedHexColor.length == 3 ) {
-						var parts = normalizedHexColor.split( '' );
-						normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
-					}
-
-					return '#' + normalizedHexColor + separator;
-				} );
-			} else {
-				return null;
+			if ( hexColorCode.match( this.hex3charsRegExp ) ) {
+				finalHex = this.hex3ToHex6( hexColorCode );
 			}
+
+			if ( hexColorCode.match( hex6charsRegExp ) ) {
+				finalHex = hexColorCode;
+			}
+
+			if ( hexColorCode.match( hex8charsRegExp ) ) {
+				var firstAlphaCharIndex = 7;
+
+				finalHex = hexColorCode.slice( 0, firstAlphaCharIndex );
+				this.alpha = hexColorCode.slice( firstAlphaCharIndex );
+			}
+
+			return finalHex;
+		},
+		hex3ToHex6: function( hex3ColorCode ) {
+			return hex3ColorCode.replace( this.hex3charsRegExp, function( match, hexColor ) {
+				var normalizedHexColor = hexColor.toLowerCase();
+
+				var parts = normalizedHexColor.split( '' );
+				normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
+
+				return '#' + normalizedHexColor;
+			} );
 		},
 		rgbOrHslToHex: function( colorCode ) {
-			var colorFormat = colorCode.trim().slice( 0, 3 ).toLowerCase();
+			var colorFormat = colorCode.slice( 0, 3 ).toLowerCase();
 
 			if ( colorFormat !== 'rgb' && colorFormat !== 'hsl' ) {
 				return null;
@@ -66,15 +85,15 @@
 			colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( value ) {
 				return Number( value );
 			} );
-			//extract alpha
-			var alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
+
+			this.alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
 
 			if ( colorFormat === 'hsl' ) {
 				colorNumberValues = this.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
 			}
 
 			//blend alpha
-			colorNumberValues = this.blendAlphaColor( colorNumberValues, alpha );
+			colorNumberValues = this.blendAlphaColor( colorNumberValues, this.alpha );
 
 			return this.rgbToHex( colorNumberValues );
 		},
@@ -136,14 +155,15 @@
 			return hex.length == 1 ? '0' + hex : hex;
 		},
 		getHex: function() {
+			// Should return hex blended with this.alpha
+
 			var finalColorCode = this.hexColorCode;
 
 			finalColorCode = finalColorCode.toUpperCase();
 
 			return finalColorCode;
 		},
-
-	// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+		// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
 		namedColors: {
 			aliceblue: '#F0F8FF',
 			antiquewhite: '#FAEBD7',

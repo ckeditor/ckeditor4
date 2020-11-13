@@ -54,6 +54,17 @@
 			assert.areSame( expectedHexCode, resultHex );
 		},
 
+		'test color from 8-HEX string color name return HEX': function() {
+			var validColorString = '#FF00FF00';
+			var expectedHexCode = '#FFFFFF';
+
+			var colorObject = this.createColor( validColorString );
+
+			var resultHex = colorObject.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
 		'test color from valid string color name returns HEX': function() {
 			var validColorString = 'red';
 			var expectedHexCode = '#FF0000';
@@ -175,7 +186,8 @@
 			var resultHex = colorObj.getHex();
 
 			assert.areSame( expectedHexCode, resultHex );
-		}
+		},
+
 	} );
 
 } )();
