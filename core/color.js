@@ -99,30 +99,23 @@
 			return this.rgbToHex( colorNumberValues );
 		},
 		hslToRgb: function( hue, sat, light ) {
+			//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
 			hue = this.clampValueInRange( Number( hue ), 0, 360 );
 			sat = this.normalizePercentValue( sat );
 			light = this.normalizePercentValue( light );
 
-			//based on https://www.w3schools.com/lib/w3color.js
-			//TODO rewrite
-			var t1, t2, r, g, b;
-			hue = hue / 60;
-			if ( light <= 0.5 ) {
-				t2 = light * ( sat + 1 );
-			} else {
-				t2 = light + sat - ( light * sat );
-			}
-			t1 = light * 2 - t2;
-			r = this.hueToRgb( t1, t2, hue + 2 ) * 255;
-			g = this.hueToRgb( t1, t2, hue ) * 255;
-			b = this.hueToRgb( t1, t2, hue - 2 ) * 255;
+			var calculateValueFromConst = function( fixValue ) {
+				var k = (fixValue + ( hue / 30 ) ) % 12;
+				var a = sat * Math.min( light, 1 - light );
 
-			var rgb = [ r,g,b ];
+				var min = Math.min( k - 3, 9 - k, 1 );
+				var max = Math.max( -1, min );
+				var normalizedValue = light - ( a * max );
 
-			rgb = CKEDITOR.tools.array.map( rgb, function( color ) {
-				return Math.round( color );
-			} );
+				return Math.round( normalizedValue * 255 );
+			};
 
+			var rgb = [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
 			return rgb;
 		},
 		setAlpha: function( alphaValue ) {
@@ -144,14 +137,6 @@
 			}
 
 			return this.clampValueInRange( value, 0, 1 );
-		},
-		hueToRgb: function( t1, t2, hue ) {
-			if ( hue < 0 ) hue += 6;
-			if ( hue >= 6 ) hue -= 6;
-			if ( hue < 1 ) return ( t2 - t1 ) * hue + t1;
-			else if ( hue < 3 ) return t2;
-			else if ( hue < 4 ) return ( t2 - t1 ) * ( 4 - hue ) + t1;
-			else return t1;
 		},
 		blendAlphaColor: function( rgb, alpha ) {
 			// Based on https://en.wikipedia.org/wiki/Alpha_compositing
