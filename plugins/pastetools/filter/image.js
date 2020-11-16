@@ -408,7 +408,7 @@
 		return new CKEDITOR.tools.promise( function( resolve ) {
 			CKEDITOR.ajax.load( blobUrlSrc, function( arrayBuffer ) {
 				var data = new Uint8Array( arrayBuffer ),
-					imageType = getImageTypeFromSignature( data.subarray( 0, 4 ) ),
+					imageType = getImageTypeFromSignature( data ),
 					base64 = createSrcWithBase64( {
 						type: imageType,
 						hex: data
