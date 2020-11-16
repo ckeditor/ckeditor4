@@ -159,31 +159,26 @@
 			return hex.length == 1 ? '0' + hex : hex;
 		},
 		getHex: function() {
-			// console.log( '*******************************' );
-			// console.log( 'hex is: ', this.hexColorCode );
-			// return this.hexColorCode.toUpperCase();
+			//Remove '#' character and split onto color values
 			var colorValues = this.hexColorCode.slice( 1 ).match( /.{2}/ig );
-			// console.log( 'vals', colorValues );
 			var decimalColorValues = CKEDITOR.tools.array.map( colorValues, function( color ) {
 				return parseInt( color, 16 );
 			} );
-			// console.log( decimalColorValues );
 
 			decimalColorValues = this.blendAlphaColor( decimalColorValues, this.alpha );
-			// console.log( 'after blend: ', decimalColorValues );
 
 			var finalColor = CKEDITOR.tools.array.map( decimalColorValues, function( color ) {
 				return this.valueToHex( color );
 			}, this );
 
-			// console.log( 'final color:' ,  finalColor );
-
 			var finalColorCode = '#' + finalColor.join( '' );
-
 
 			finalColorCode = finalColorCode.toUpperCase();
 
 			return finalColorCode;
+		},
+		getHexAlpha: function() {
+			return this.hexColorCode + this.alpha.toString( 16 );
 		},
 		// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
 		namedColors: {

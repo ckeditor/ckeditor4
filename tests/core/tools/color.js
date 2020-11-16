@@ -54,13 +54,24 @@
 			assert.areSame( expectedHexCode, resultHex );
 		},
 
-		'test color from 8-HEX string color name return HEX': function() {
+		'test color from 8-HEX string color name returns HEX': function() {
 			var validColorString = '#FF00FF00';
 			var expectedHexCode = '#FFFFFF';
 
 			var colorObject = this.createColor( validColorString );
 
 			var resultHex = colorObject.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
+		'test color from 8-HEX string color name returns same 8-HEX': function() {
+			var validColorString = '#FF00FF00';
+			var expectedHexCode = '#FF00FF00';
+
+			var colorObject = this.createColor( validColorString );
+
+			var resultHex = colorObject.getHexAlpha();
 
 			assert.areSame( expectedHexCode, resultHex );
 		},
