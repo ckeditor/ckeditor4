@@ -199,6 +199,17 @@
 			assert.areSame( expectedHexCode, resultHex );
 		},
 
+		'test color from hsla with invalid alpha range value returns HEX': function() {
+			var validRgbString = 'hsla( 123, 0.5, 0.5, 200)';
+			var expectedHexCode  = '#40BF46';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+
+		}
+
 	} );
 
 } )();

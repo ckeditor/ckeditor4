@@ -41,7 +41,7 @@
 			var hex8charsRegExp = /#([0-9a-f]{8})/gi;
 
 			var finalHex = null;
-			this.alpha = 1;
+			this.setAlpha( 1 );
 
 			if ( hexColorCode.match( this.hex3charsRegExp ) ) {
 				finalHex = this.hex3ToHex6( hexColorCode );
@@ -55,7 +55,7 @@
 				var firstAlphaCharIndex = 7;
 
 				finalHex = hexColorCode.slice( 0, firstAlphaCharIndex );
-				this.alpha = hexColorCode.slice( firstAlphaCharIndex );
+				this.setAlpha( hexColorCode.slice( firstAlphaCharIndex ) );
 			}
 
 			return finalHex;
@@ -86,7 +86,7 @@
 				return Number( value );
 			} );
 
-			this.alpha = colorNumberValues.length === 4 ? colorNumberValues.pop() : 1;
+			this.setAlpha( colorNumberValues.length === 4 ? colorNumberValues.pop() : 1 );
 
 			if ( colorFormat === 'hsl' ) {
 				colorNumberValues = this.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
@@ -120,6 +120,11 @@
 			} );
 
 			return rgb;
+		},
+		setAlpha: function( alphaValue ) {
+			alphaValue = this.normalizePercentValue( alphaValue );
+			alphaValue = this.clampValueInRange( alphaValue, 0, 1 );
+			this.alpha = alphaValue;
 		},
 		clampValueInRange: function( value, min, max ) {
 			return Math.min( Math.max( value, min ), max );
@@ -178,7 +183,7 @@
 			return finalColorCode;
 		},
 		getHexAlpha: function() {
-			return this.hexColorCode + this.alpha.toString( 16 );
+			return this.hexColorCode + this.valueToHex( this.alpha );
 		},
 		// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
 		namedColors: {
