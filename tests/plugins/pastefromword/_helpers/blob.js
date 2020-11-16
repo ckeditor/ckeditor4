@@ -32,11 +32,18 @@
 		return new Blob( [ arrayBuffer ], { type: fileType } );
 	}
 
-	function simulatePasteBlob( editor, assertion, options ) {
-		var image = options && options.image || SAMPLE_PNG,
-			imageDataUrl = options && options.imageDataUrl || SAMPLE_PNG,
-			url = getObjectUrl( image, options && options.imageType ),
-			template = options && options.template || '<p{%CLASS%}>Hello<img style="height:200px; width:200px" src="{%URL%}" />world.</p>',
+	function simulatePasteBlob( editor, assertion, userOptions ) {
+		var defaultOptions = {
+				imageDataUrl: SAMPLE_PNG,
+				imageType: null,
+				template: '<p{%CLASS%}>Hello<img style="height:200px; width:200px" src="{%URL%}" />world.</p>'
+			},
+			// Our tools break ArrayBuffers, so we need to handle this option separately.
+			image = userOptions && userOptions.image || SAMPLE_PNG,
+			options = CKEDITOR.tools.object.merge( defaultOptions, userOptions || {} ),
+			imageDataUrl = options.imageDataUrl,
+			url = getObjectUrl( image, options.imageType ),
+			template = options.template,
 			input = template.replace( /{%URL%}/g, url ).replace( /{%CLASS%}/g, ' class="MsoNormal"' ),
 			expected = template.replace( /{%URL%}/g, imageDataUrl ).replace( /{%CLASS%}/g, '' );
 
