@@ -92,9 +92,6 @@
 				colorNumberValues = this.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
 			}
 
-			//blend alpha
-			colorNumberValues = this.blendAlphaColor( colorNumberValues, this.alpha );
-
 			return this.rgbToHex( colorNumberValues );
 		},
 		hslToRgb: function( hue, sat, light ) {
@@ -115,7 +112,14 @@
 			r = this.hueToRgb( t1, t2, hue + 2 ) * 255;
 			g = this.hueToRgb( t1, t2, hue ) * 255;
 			b = this.hueToRgb( t1, t2, hue - 2 ) * 255;
-			return [ r, g, b ];
+
+			var rgb = [ r,g,b ];
+
+			rgb = CKEDITOR.tools.array.map( rgb, function( color ) {
+				return Math.round( color );
+			} );
+
+			return rgb;
 		},
 		clampValueInRange: function( value, min, max ) {
 			return Math.min( Math.max( value, min ), max );
@@ -155,9 +159,27 @@
 			return hex.length == 1 ? '0' + hex : hex;
 		},
 		getHex: function() {
-			// Should return hex blended with this.alpha
+			// console.log( '*******************************' );
+			// console.log( 'hex is: ', this.hexColorCode );
+			// return this.hexColorCode.toUpperCase();
+			var colorValues = this.hexColorCode.slice( 1 ).match( /.{2}/ig );
+			// console.log( 'vals', colorValues );
+			var decimalColorValues = CKEDITOR.tools.array.map( colorValues, function( color ) {
+				return parseInt( color, 16 );
+			} );
+			// console.log( decimalColorValues );
 
-			var finalColorCode = this.hexColorCode;
+			decimalColorValues = this.blendAlphaColor( decimalColorValues, this.alpha );
+			// console.log( 'after blend: ', decimalColorValues );
+
+			var finalColor = CKEDITOR.tools.array.map( decimalColorValues, function( color ) {
+				return this.valueToHex( color );
+			}, this );
+
+			// console.log( 'final color:' ,  finalColor );
+
+			var finalColorCode = '#' + finalColor.join( '' );
+
 
 			finalColorCode = finalColorCode.toUpperCase();
 

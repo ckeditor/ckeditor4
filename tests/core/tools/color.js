@@ -170,7 +170,7 @@
 
 		'test color from valid hsla alpha 0.5 value returns HEX': function() {
 			var validRgbString = 'hsla( 123, 0.5, 0.5, 0.5 )';
-			var expectedHexCode  = '#9FDFA3';
+			var expectedHexCode  = '#A0DFA3';
 			var colorObj = this.createColor( validRgbString );
 
 			var resultHex = colorObj.getHex();
