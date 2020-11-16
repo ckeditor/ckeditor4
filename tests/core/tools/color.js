@@ -97,7 +97,7 @@
 			assert.areSame( expectedHexCode, resultHex );
 		},
 
-		'test color from outranged rgb values returns default HEX': function() {
+		'test color from outranged rgb value returns default HEX': function() {
 			var validRgbString = 'rgb( 2940, 8840, 11150 )';
 			var expectedHexCode  = '#000000';
 			var colorObj = this.createColor( validRgbString );
