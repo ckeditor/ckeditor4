@@ -108,6 +108,16 @@
 
 		},
 
+		'test color from percentage rgb value returns HEX': function() {
+			var validRgbString = 'rgb( 100%, 50%, 10% )';
+			var expectedHexCode  = '#FF801A';
+			var colorObj = this.createColor( validRgbString );
+
+			var resultHex = colorObj.getHex();
+
+			assert.areSame( expectedHexCode, resultHex );
+		},
+
 		'test color from valid hsl string returns HEX': function() {
 			var validRgbString = 'hsl( 195, 1, 0.5 )';//0-360 , 0-1, 0-1
 			var expectedHexCode  = '#00BFFF';

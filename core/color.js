@@ -77,16 +77,20 @@
 				return null;
 			}
 
-			var colorNumberValues = colorCode.match( /\d+\.?\d*/g );
+			var colorNumberValues = colorCode.match( /\d+\.?\d*%*/g );
 			if ( !colorNumberValues ) {
 				return null;
 			}
 
-			colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( value ) {
-				return Number( value );
-			} );
+			// colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( value ) {
+			// 	return Number( value );
+			// } );
+			var alpha = 1;
+			if ( colorNumberValues.length === 4 ) {
+				alpha = this.normalizePercentValue( colorNumberValues.pop() );
+			}
 
-			this.setAlpha( colorNumberValues.length === 4 ? colorNumberValues.pop() : 1 );
+			this.setAlpha( alpha );
 
 			if ( colorFormat === 'hsl' ) {
 				colorNumberValues = this.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
@@ -95,7 +99,7 @@
 			return this.rgbToHex( colorNumberValues );
 		},
 		hslToRgb: function( hue, sat, light ) {
-			hue = this.clampValueInRange( hue, 0, 360 );
+			hue = this.clampValueInRange( Number( hue ), 0, 360 );
 			sat = this.normalizePercentValue( sat );
 			light = this.normalizePercentValue( light );
 
@@ -123,14 +127,19 @@
 		},
 		setAlpha: function( alphaValue ) {
 			alphaValue = this.normalizePercentValue( alphaValue );
-			alphaValue = this.clampValueInRange( alphaValue, 0, 1 );
 			this.alpha = alphaValue;
 		},
 		clampValueInRange: function( value, min, max ) {
 			return Math.min( Math.max( value, min ), max );
 		},
 		normalizePercentValue: function( value ) {
-			if ( value > 1 ) {
+			if ( typeof value === 'string' && value.slice( -1 ) === '%' ) {
+				value = value.slice( 0, -1 );
+
+				value = Number( value );
+			}
+
+			if ( Math.abs( value ) > 1 ) {
 				value =  value / 100;
 			}
 
@@ -152,7 +161,14 @@
 		},
 		rgbToHex: function( rgb ) {
 			var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
-								number = number > 255 ? 0 : number;
+								if ( typeof number === 'string' && number.slice( -1 ) === '%' ) {
+									number = Number( number.slice( 0, -1 ) );
+									number = Math.round( 255 * this.normalizePercentValue( number ) );
+								} else {
+									number = Number( number );
+									//TODO clamp for negative numbers also
+									number = number > 255 ? 0 : number;
+								}
 								return this.valueToHex( number );
 							}, this );
 
