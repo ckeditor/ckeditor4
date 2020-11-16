@@ -11,9 +11,9 @@
 	'use strict';
 
 	/**
-	 * Filter handling pasting images. In Safari images are extracted
+	 * Filter handling pasting images. In case of missing RTF content images are extracted
 	 * from [Object URLs](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications#Example_Using_object_URLs_to_display_images).
-	 * In other browsers they are extracted from RTF content.
+	 * In other cases hey are extracted from RTF content.
 	 *
 	 * @private
 	 * @since 4.14.0
@@ -132,7 +132,7 @@
 	];
 
 	/**
-	 * Array of all recognizable image types with their respective markers.
+	 * Recognizable image types with their respective markers.
 	 *
 	 * The recognizing of image type is done by searching for image marker
 	 * inside the RTF image content.
@@ -165,7 +165,7 @@
 	];
 
 	/**
-	 * Array of all recognizable image file signatrues with their respective types.
+	 * Recognizable image file signatures with their respective types.
 	 *
 	 * The recognizing of image type is done by matching the first bytes
 	 * of the signature represented as hex string.

@@ -2275,6 +2275,7 @@
 			 * console.log( arrayWithoutDuplicates ); // [ 1, 2, 3 ]
 			 * ```
 			 *
+			 * @since 4.16.0
 			 * @param {Array} array Array from which duplicates should be removed.
 			 * @returns {Array} The copy of the input array without duplicates.
 			 */
