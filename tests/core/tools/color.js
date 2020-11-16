@@ -217,7 +217,26 @@
 			var resultHex = colorObj.getHex();
 
 			assert.areSame( expectedHexCode, resultHex );
+		},
 
+		'test color from HEX returns valid RGB': function() {
+			var validHex = '#FF00FF';
+			var expectedValidRgb = 'rgb(255,0,255)';
+			var colorObj = this.createColor( validHex );
+
+			var resultRgb = colorObj.getRgb();
+
+			assert.areSame( expectedValidRgb, resultRgb );
+		},
+
+		'test color from HEX returns valid RGBA': function() {
+			var validHex = '#FF00FF00';
+			var expectedValidRgb = 'rgba(255,0,255,0)';
+			var colorObj = this.createColor( validHex );
+
+			var resultRgb = colorObj.getRgba();
+
+			assert.areSame( expectedValidRgb, resultRgb );
 		}
 
 	} );

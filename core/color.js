@@ -201,7 +201,29 @@
 		getHexAlpha: function() {
 			return this.hexColorCode + this.valueToHex( this.alpha );
 		},
-		// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+		getRgb: function() {
+			var decimalColorValues = this.hexToRgb();
+
+			decimalColorValues = this.blendAlphaColor( decimalColorValues, this.alpha );
+
+			return this.formatRgbString( 'rgb', decimalColorValues );
+		},
+		getRgba: function() {
+			var decimalColorValues = this.hexToRgb();
+			decimalColorValues.push( this.alpha );
+
+			return this.formatRgbString( 'rgba', decimalColorValues );
+		},
+		hexToRgb: function() {
+			var colorValues = this.hexColorCode.slice( 1 ).match( /.{2}/ig );
+			return CKEDITOR.tools.array.map( colorValues, function( color ) {
+				return parseInt( color, 16 );
+			} );
+		},
+		formatRgbString: function( rgbPrefix, values ) {
+			return rgbPrefix + '(' + values.join( ',' ) + ')';
+		},
+	// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
 		namedColors: {
 			aliceblue: '#F0F8FF',
 			antiquewhite: '#FAEBD7',
