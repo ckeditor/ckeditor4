@@ -5,7 +5,7 @@
 1. Open [attached Word document](_assets/Image_safari.docx).
 1. Copy entire content of created document.
 1. Paste content in editor.
-1. Check src of pasted image by switching to source mode.
+1. Check `[src]` attribute of pasted image by switching to source mode.
 
 **Expected:** Image is pasted and transformed into base64.
 
