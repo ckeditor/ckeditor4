@@ -223,7 +223,54 @@
 		formatRgbString: function( rgbPrefix, values ) {
 			return rgbPrefix + '(' + values.join( ',' ) + ')';
 		},
-	// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+		getHsl: function() {
+			var rgb = this.hexToRgb();
+			rgb = this.blendAlphaColor( rgb, this.alpha );
+			var hsl = this.hexToHsl( rgb );
+
+			return this.formatHslString( 'hsl', hsl );
+		},
+		getHsla: function() {
+			var rgb = this.hexToRgb();
+			var hsl = this.hexToHsl( rgb );
+			hsl.push( this.alpha );
+
+			return this.formatHslString( 'hsla', hsl );
+		},
+		hexToHsl: function( rgb ) {
+			var r = rgb[0] / 255;
+			var g = rgb[1] / 255;
+			var b = rgb[2] / 255;
+
+			var max = Math.max( r, g, b ), min = Math.min( r, g, b );
+			var h, s, l = ( max + min ) / 2;
+
+			if ( max == min ) {
+				h = s = 0; // achromatic
+			} else {
+				var d = max - min;
+				s = l > 0.5 ? d / ( 2 - max - min ) : d / ( max + min );
+				switch ( max ){
+					case r: h = ( g - b ) / d + ( g < b ? 6 : 0 ); break;
+					case g: h = ( b - r ) / d + 2; break;
+					case b: h = ( r - g ) / d + 4; break;
+				}
+				h /= 6;
+			}
+
+			return [ Math.round( h * 360 ), s * 100, l * 100 ];
+		},
+		formatHslString: function( hslPrefix, hsl ) {
+			var alphaString = hsl[3] !== undefined ? ',' + hsl[3] : '';
+
+			return hslPrefix + '(' +
+			hsl[0] + ',' +
+			hsl[1] + '%,' +
+			hsl[2] + '%' +
+			alphaString +
+			')';
+		},
+		// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
 		namedColors: {
 			aliceblue: '#F0F8FF',
 			antiquewhite: '#FAEBD7',
