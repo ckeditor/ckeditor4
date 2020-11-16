@@ -98,15 +98,15 @@
 
 			return this.rgbToHex( colorNumberValues );
 		},
-		hslToRgb: function( hue, sat, light ) {
+		hslToRgb: function( hue, saturation, light ) {
 			//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
 			hue = this.clampValueInRange( Number( hue ), 0, 360 );
-			sat = this.normalizePercentValue( sat );
+			saturation = this.normalizePercentValue( saturation );
 			light = this.normalizePercentValue( light );
 
 			var calculateValueFromConst = function( fixValue ) {
 				var k = (fixValue + ( hue / 30 ) ) % 12;
-				var a = sat * Math.min( light, 1 - light );
+				var a = saturation * Math.min( light, 1 - light );
 
 				var min = Math.min( k - 3, 9 - k, 1 );
 				var max = Math.max( -1, min );
@@ -211,6 +211,7 @@
 		getHsl: function() {
 			var rgb = this.hexToRgb();
 			rgb = this.blendAlphaColor( rgb, this.alpha );
+
 			var hsl = this.hexToHsl( rgb );
 
 			return this.formatHslString( 'hsl', hsl );
@@ -223,27 +224,47 @@
 			return this.formatHslString( 'hsla', hsl );
 		},
 		hexToHsl: function( rgb ) {
-			var r = rgb[0] / 255;
-			var g = rgb[1] / 255;
-			var b = rgb[2] / 255;
+			//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
+			var r = rgb[ 0 ] / 255;
+			var g = rgb[ 1 ] / 255;
+			var b = rgb[ 2 ] / 255;
 
-			var max = Math.max( r, g, b ), min = Math.min( r, g, b );
-			var h, s, l = ( max + min ) / 2;
+			var Max = Math.max( r, g, b );
+			var min = Math.min( r, g, b );
+			var Chroma = Max - min;
 
-			if ( max == min ) {
-				h = s = 0; // achromatic
-			} else {
-				var d = max - min;
-				s = l > 0.5 ? d / ( 2 - max - min ) : d / ( max + min );
-				switch ( max ){
-					case r: h = ( g - b ) / d + ( g < b ? 6 : 0 ); break;
-					case g: h = ( b - r ) / d + 2; break;
-					case b: h = ( r - g ) / d + 4; break;
+			var calculateHprim = function ()
+			{
+				switch ( Max ) {
+					case r:
+						return ( ( g - b ) / Chroma ) % 6;
+					case g:
+						return ( ( b - r ) / Chroma ) + 2;
+					case b:
+						return ( ( r - g ) / Chroma ) + 4;
 				}
-				h /= 6;
+			};
+
+			var hPrim = calculateHprim();
+			var hue = Chroma === 0 ? 0 : 60 * hPrim;
+
+
+			var light = ( Max + min ) / 2;
+
+			var saturation = 1;
+			if(light === 1 || light === 0)
+			{
+				saturation = 0;
+			}else {
+				saturation = Chroma / ( 1 - Math.abs( ( 2 * light ) - 1 ) );
 			}
 
-			return [ Math.round( h * 360 ), s * 100, l * 100 ];
+			hue = Math.round(hue);
+			saturation = Math.round(saturation) * 100;
+			light = light * 100;
+
+			var hsl = [hue, saturation, light];
+			return hsl;
 		},
 		formatHslString: function( hslPrefix, hsl ) {
 			var alphaString = hsl[3] !== undefined ? ',' + hsl[3] : '';
