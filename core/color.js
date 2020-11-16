@@ -82,9 +82,6 @@
 				return null;
 			}
 
-			// colorNumberValues = CKEDITOR.tools.array.map( colorNumberValues, function( value ) {
-			// 	return Number( value );
-			// } );
 			var alpha = 1;
 			if ( colorNumberValues.length === 4 ) {
 				alpha = this.normalizePercentValue( colorNumberValues.pop() );
@@ -105,7 +102,7 @@
 			light = this.normalizePercentValue( light );
 
 			var calculateValueFromConst = function( fixValue ) {
-				var k = (fixValue + ( hue / 30 ) ) % 12;
+				var k = ( fixValue + ( hue / 30 ) ) % 12;
 				var a = saturation * Math.min( light, 1 - light );
 
 				var min = Math.min( k - 3, 9 - k, 1 );
@@ -126,10 +123,8 @@
 			return Math.min( Math.max( value, min ), max );
 		},
 		normalizePercentValue: function( value ) {
-			if ( typeof value === 'string' && value.slice( -1 ) === '%' ) {
-				value = value.slice( 0, -1 );
-
-				value = Number( value );
+			if ( this.isPercentValue( value ) ) {
+				value = this.convertPercentValueToNumber( value );
 			}
 
 			if ( Math.abs( value ) > 1 ) {
@@ -137,6 +132,12 @@
 			}
 
 			return this.clampValueInRange( value, 0, 1 );
+		},
+		isPercentValue: function( value ) {
+			return typeof value === 'string' && value.slice( -1 ) === '%';
+		},
+		convertPercentValueToNumber: function( value ) {
+			return Number( value.slice( 0, -1 ) );
 		},
 		blendAlphaColor: function( rgb, alpha ) {
 			// Based on https://en.wikipedia.org/wiki/Alpha_compositing
@@ -146,13 +147,13 @@
 		},
 		rgbToHex: function( rgb ) {
 			var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
-								if ( typeof number === 'string' && number.slice( -1 ) === '%' ) {
-									number = Number( number.slice( 0, -1 ) );
+								if ( this.isPercentValue( number ) ) {
+									number = this.convertPercentValueToNumber( number );
 									number = Math.round( 255 * this.normalizePercentValue( number ) );
 								} else {
 									number = Number( number );
-									//TODO clamp for negative numbers also
-									number = number > 255 ? 0 : number;
+									number = number > 255 ? 0 :
+												number < 0 ? 255 : number;
 								}
 								return this.valueToHex( number );
 							}, this );
@@ -233,8 +234,7 @@
 			var min = Math.min( r, g, b );
 			var Chroma = Max - min;
 
-			var calculateHprim = function ()
-			{
+			var calculateHprim = function() {
 				switch ( Max ) {
 					case r:
 						return ( ( g - b ) / Chroma ) % 6;
@@ -252,18 +252,17 @@
 			var light = ( Max + min ) / 2;
 
 			var saturation = 1;
-			if(light === 1 || light === 0)
-			{
+			if ( light === 1 || light === 0 ) {
 				saturation = 0;
-			}else {
+			} else {
 				saturation = Chroma / ( 1 - Math.abs( ( 2 * light ) - 1 ) );
 			}
 
-			hue = Math.round(hue);
-			saturation = Math.round(saturation) * 100;
+			hue = Math.round( hue );
+			saturation = Math.round( saturation ) * 100;
 			light = light * 100;
 
-			var hsl = [hue, saturation, light];
+			var hsl = [ hue, saturation, light ];
 			return hsl;
 		},
 		formatHslString: function( hslPrefix, hsl ) {
