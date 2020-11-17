@@ -65,7 +65,7 @@
 
 						assert.isTrue( editorHeight > initialEditorHeight, 'editor height should increase' );
 						assert.isTrue( editorWidth > 0, 'editor width should be greater than zero' );
-						assert.areEqual( editorWidth, initialEditorWidth, 'editor width should not change' );
+						assert.areEqual( initialEditorWidth, editorWidth, 'editor width should not change' );
 					} );
 				} );
 
@@ -77,8 +77,8 @@
 
 	function getEditorSize( editor ) {
 		return {
-			width: parseInt( editor.editable().getComputedStyle( 'width' ), 10 ),
-			height: parseInt( editor.editable().getComputedStyle( 'height' ), 10 )
+			width: parseInt( editor.getResizable().getComputedStyle( 'width' ), 10 ),
+			height: parseInt( editor.getResizable().getComputedStyle( 'height' ), 10 )
 		};
 	}
 } )();
