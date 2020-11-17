@@ -26,9 +26,23 @@
 		}
 	};
 
+	var consoleErrorStub;
+	var runtimeErrorListener;
+
 	var tests = {
+
 		setUp: function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'editorplaceholder' );
+		},
+
+		tearDown: function() {
+			if ( consoleErrorStub ) {
+				consoleErrorStub.restore();
+			}
+
+			if ( runtimeErrorListener ) {
+				window.removeEventListener( 'error', runtimeErrorListener );
+			}
 		},
 
 		'test getting data from editor': function( editor ) {
@@ -208,21 +222,16 @@
 	// (#4253)
 	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin'] = function() {
 
-		var errorLogStub = sinon.stub( console, 'error' );
+		consoleErrorStub = sinon.stub( console, 'error' );
 
-		var onErrorStub = function() {
+		var runtimeErrorListener = function() {
 			resume( function() {
 				assert.fail( 'There should be no RunTime errors!' );
 			} );
 		};
 
-		window.addEventListener( 'error', onErrorStub );
+		window.addEventListener( 'error', runtimeErrorListener );
 
-		var instanceReadyCallback = function( e ) {
-			resume( function() {
-				assert.isFalse( errorLogStub.called, 'There should be no errors during initialization' );
-			} );
-		};
 
 		bender.editorBot.create( {
 			name: 'bbcodeFailTest',
@@ -231,15 +240,17 @@
 				editorplaceholder: 'any',
 				fullPage: true,
 				on: {
-					instanceReady: instanceReadyCallback
+					instanceReady: function() {
+									resume( function() {
+										assert.isFalse( consoleErrorStub.called, 'There should be no errors during initialization' );
+									} );
+								}
 				}
 			}
 		}, function( bot ) {
 
 		} );
 
-		errorLogStub.restore();
-		window.removeEventListener( 'error', onErrorStub );
 
 		wait();
 	};
