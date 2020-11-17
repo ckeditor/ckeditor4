@@ -6,23 +6,31 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {};
+	bender.editors = {
+		borderless: {}
+	};
 
 	bender.test( {
+		init: function() {
+			// Remove border for borderless editor.
+			var borderlessEditor = CKEDITOR.document.getById( 'cke_borderless' );
+			borderlessEditor.setStyle( 'border', 'none' );
+		},
+
 		// #4286
-		'test autogrow': function() {
+		'test autogrow with borderless editor': function() {
 			if ( bender.env.ie && bender.env.version < 9 ) {
 				assert.ignore();
 			}
 
-			var editor = this.editor,
-				bot = this.editorBot;
+			var editor = this.editors.borderless,
+				bot = this.editorBots.borderless;
 
 			var html = '',
 				initialEditorWidth = autogrowTools.getEditorSize( editor ).width,
 				initialEditorHeight = autogrowTools.getEditorSize( editor ).height;
 
-			for ( var i = 0; i < 8; i++ ) {
+			for ( var i = 0; i < 6; i++ ) {
 				html += '<p>test ' + i + '</p>';
 			}
 
@@ -33,7 +41,8 @@
 							editorHeight = autogrowTools.getEditorSize( editor ).height;
 
 						assert.isTrue( editorHeight > initialEditorHeight, 'editor height should increase' );
-						assert.areEqual( editorWidth, initialEditorWidth, 'editor width should not change' );
+						assert.isTrue( editorWidth > 0, 'editor width should be greater than zero' );
+						assert.areEqual( initialEditorWidth, editorWidth, 'editor width should not change' );
 					} );
 				} );
 
