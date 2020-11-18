@@ -963,9 +963,9 @@
 			// +---------------------------------------------+
 
 			var windowHeight = windowRect.height,
-				shouldReverseViewVertically = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
+				viewExceedsViewport = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
 
-			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && shouldReverseViewVertically ) {
+			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && viewExceedsViewport ) {
 				top = rect.top - viewHeight;
 			}
 
