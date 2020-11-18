@@ -22,8 +22,8 @@
 				assert.ignore();
 			}
 
-			var editor = this.editor,
-				bot = this.editorBot,
+			var editor = this.editors.borderless,
+				bot = this.editorBots.borderless,
 				initialEditorSize = autogrowTools.getEditorSize( editor );
 
 			bot.setData( autogrowTools.getTestContent( 8 ), function() {
