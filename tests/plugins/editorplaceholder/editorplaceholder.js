@@ -289,8 +289,7 @@
 			name: 'placeholderFilterToNoContent',
 			config: {
 				editorplaceholder: 'any',
-				fullPage: true,
-				startupData: '<p>Initialized content</p>'
+				fullPage: true
 			}
 		}, function( bot ) {
 			var editor = bot.editor;
