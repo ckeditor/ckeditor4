@@ -8,7 +8,19 @@ var autogrowTools = ( function() {
 		};
 	}
 
+	function getTestContent( numberOfParagraphs ) {
+		var html = '',
+			paragraphsCount = numberOfParagraphs || 1;
+
+		for ( var i = 0; i < paragraphsCount; i++ ) {
+			html += '<p>test ' + i + '</p>';
+		}
+
+		return html;
+	}
+
 	return {
+		getTestContent: getTestContent,
 		getEditorSize: getEditorSize
 	};
 } )();
