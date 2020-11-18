@@ -26,22 +26,36 @@
 		}
 	};
 
-	var consoleErrorStub;
-	var runtimeErrorListener;
+	function addErrorAsserts( benderScope ) {
+		benderScope.consoleErrorStub = sinon.stub( console, 'error' );
+
+		benderScope.runtimeErrorListener = function() {
+			resume( function() {
+				assert.fail( 'There should be no RunTime errors!' );
+			} );
+		};
+
+		window.addEventListener( 'error', benderScope.runtimeErrorListener );
+	}
 
 	var tests = {
 
 		setUp: function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'editorplaceholder' );
+
+			this.consoleErrorStub = null;
+			this.runtimeErrorListener = null;
 		},
 
 		tearDown: function() {
-			if ( consoleErrorStub ) {
-				consoleErrorStub.restore();
+			if ( this.consoleErrorStub ) {
+				console.log('cleared errStub');
+				this.consoleErrorStub.restore();
 			}
 
-			if ( runtimeErrorListener ) {
-				window.removeEventListener( 'error', runtimeErrorListener );
+			if ( this.runtimeErrorListener ) {
+				console.log('cleared window');
+				window.removeEventListener( 'error', this.runtimeErrorListener );
 			}
 		},
 
@@ -221,15 +235,7 @@
 
 	// (#4253)
 	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin' ] = function() {
-		consoleErrorStub = sinon.stub( console, 'error' );
-
-		var runtimeErrorListener = function() {
-			resume( function() {
-				assert.fail( 'There should be no RunTime errors!' );
-			} );
-		};
-
-		window.addEventListener( 'error', runtimeErrorListener );
+		addErrorAsserts( this );
 
 		bender.editorBot.create( {
 			name: 'bbcodeFailTest',
@@ -240,13 +246,14 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.isFalse( consoleErrorStub.called, 'There should be no errors during initialization' );
+							assert.isFalse( this.consoleErrorStub.called, 'There should be no errors during initialization' );
 						} );
 					}
 				}
 			}
 		}, function( bot ) {
-
+			//Don't check if editorplaceholder exists, because of mix bbcode plugin with fullPage config - causing never empty content in editor
+			//Details: https://github.com/ckeditor/ckeditor4/pull/4251#pullrequestreview-481525255
 		} );
 
 		wait();
@@ -254,6 +261,8 @@
 
 	// (#4253)
 	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin and initial content' ] = function() {
+		addErrorAsserts( this );
+
 		bender.editorBot.create( {
 			name: 'bbcodeFailTestContent',
 			config: {
@@ -265,8 +274,13 @@
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			resume(function() {
+				assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			});
+
 		} );
+
+		wait();
 	};
 
 	// (#4253)
