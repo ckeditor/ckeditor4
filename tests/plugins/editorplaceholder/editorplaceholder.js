@@ -220,8 +220,7 @@
 	};
 
 	// (#4253)
-	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin'] = function() {
-
+	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin' ] = function() {
 		consoleErrorStub = sinon.stub( console, 'error' );
 
 		var runtimeErrorListener = function() {
@@ -232,7 +231,6 @@
 
 		window.addEventListener( 'error', runtimeErrorListener );
 
-
 		bender.editorBot.create( {
 			name: 'bbcodeFailTest',
 			config: {
@@ -241,18 +239,80 @@
 				fullPage: true,
 				on: {
 					instanceReady: function() {
-									resume( function() {
-										assert.isFalse( consoleErrorStub.called, 'There should be no errors during initialization' );
-									} );
-								}
+						resume( function() {
+							assert.isFalse( consoleErrorStub.called, 'There should be no errors during initialization' );
+						} );
+					}
 				}
 			}
 		}, function( bot ) {
 
 		} );
 
-
 		wait();
+	};
+
+	// (#4253)
+	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin and initial content' ] = function() {
+		bender.editorBot.create( {
+			name: 'bbcodeFailTestContent',
+			config: {
+				extraPlugins: 'bbcode',
+				editorplaceholder: 'any',
+				fullPage: true,
+				startupData: '<p>Initialized content</p>'
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+		} );
+	};
+
+	// (#4253)
+	tests[ 'test placeholder is visible with data filter to no content' ] = function() {
+		bender.editorBot.create( {
+			name: 'placeholderFilterToNoContent',
+			config: {
+				editorplaceholder: 'any',
+				fullPage: true,
+				startupData: '<p>Initialized content</p>'
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			editor.on( 'toDataFormat', function ( evt ) {
+				evt.data.dataValue = '';
+			}, null, null, 16 );
+
+			editor.fire( 'change' );
+
+			assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+		} );
+	};
+
+	// (#4253)
+	tests[ 'test placeholder not visible with data filter to preinitialized content' ] = function() {
+		var preinitializedContent = '<p>Initialized content</p>';
+
+		bender.editorBot.create( {
+			name: 'placeholderFilterPreinitialized',
+			config: {
+				editorplaceholder: 'any',
+				fullPage: true,
+				startupData:preinitializedContent
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			editor.on( 'toDataFormat', function ( evt ) {
+				evt.data.dataValue = preinitializedContent;
+			}, null, null, 16 );
+
+			editor.fire( 'change' );
+
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+		} );
 	};
 
 	bender.test( tests );
