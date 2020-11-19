@@ -49,12 +49,10 @@
 
 		tearDown: function() {
 			if ( this.consoleErrorStub ) {
-				console.log('cleared errStub');
 				this.consoleErrorStub.restore();
 			}
 
 			if ( this.runtimeErrorListener ) {
-				console.log('cleared window');
 				window.removeEventListener( 'error', this.runtimeErrorListener );
 			}
 		},
@@ -287,7 +285,7 @@
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			editor.on( 'toDataFormat', function ( evt ) {
+			editor.on( 'toDataFormat', function( evt ) {
 				evt.data.dataValue = '';
 			}, null, null, 16 );
 
@@ -306,12 +304,12 @@
 			config: {
 				editorplaceholder: 'any',
 				fullPage: true,
-				startupData:preinitializedContent
+				startupData: preinitializedContent
 			}
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			editor.on( 'toDataFormat', function ( evt ) {
+			editor.on( 'toDataFormat', function( evt ) {
 				evt.data.dataValue = preinitializedContent;
 			}, null, null, 16 );
 
