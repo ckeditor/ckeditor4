@@ -236,21 +236,49 @@
 		},
 
 		// (#3582)
+		'test view position stays below caret if there is not enough place below or above caret': function( editor ) {
+			// |                  editor viewport            |
+			// |                                             |
+			// |                                             |
+			// +=============================================+ - top window border
+			// |     caret position - █                      |
+			// |                      +--------------+       |
+			// |                      |     view     |       |
+			// +----------------------|--------------|-------+ - bottom editor border
+			// |                      |              |       |
+			// |                      +--------------+       |
+			// |                                             |
+			// |                                             |
+			var getScrollPositionStub = sinon.stub( CKEDITOR.dom.window.prototype, 'getScrollPosition' ).returns( { x: 0, y: 100 } ),
+				view = createPositionedView( editor, {
+					caretRect: { top: 150, bottom: 160, left: 50 },
+					editorViewportRect: { top: 0, bottom: 200 },
+					viewPaneSize: { height: 300, width: 300 },
+					viewPanelHeight: 100
+				} );
+
+			getScrollPositionStub.restore();
+
+			assert.areEqual( '160px', view.element.getStyle( 'top' ), 'View should be displayed below the caret.' );
+			assert.areEqual( '50px', view.element.getStyle( 'left' ), 'View should not be moved horizontally.' );
+		},
+
+		// (#3582)
 		'test view position stays within left window border': function( editor ) {
 			// || - left window border
 			// ||
-			// || +---------------------------------------------+
-			// || |               editor viewport               |
-			// || |                                             |
-			// || █ - caret position                            |
-			// || +--------------+                              |
-			// || |     view     |                              |
-			// || +--------------+                              |
-			// || |                                             |
-			// || |                                             |
-			// || |                                             |
-			// || |                                             |
-			// || +---------------------------------------------+
+			// || +------------------------------------------+
+			// || |               editor viewport            |
+			// || |                                          |
+			// || █ - caret position                         |
+			// || +--------------+                           |
+			// || |     view     |                           |
+			// || +--------------+                           |
+			// || |                                          |
+			// || |                                          |
+			// || |                                          |
+			// || |                                          |
+			// || +------------------------------------------+
 			var view = createPositionedView( editor, {
 				caretRect: { top: 100, bottom: 110, left: 0 },
 				editorViewportRect: { top: 0, bottom: 500 },
