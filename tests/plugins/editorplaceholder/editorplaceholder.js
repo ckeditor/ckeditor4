@@ -26,18 +26,6 @@
 		}
 	};
 
-	function addErrorAsserts( benderScope ) {
-		benderScope.consoleErrorStub = sinon.stub( console, 'error' );
-
-		benderScope.runtimeErrorListener = function() {
-			resume( function() {
-				assert.fail( 'There should be no RunTime errors!' );
-			} );
-		};
-
-		window.addEventListener( 'error', benderScope.runtimeErrorListener );
-	}
-
 	var tests = {
 
 		setUp: function() {
@@ -320,4 +308,17 @@
 	};
 
 	bender.test( tests );
+
+	function addErrorAsserts( benderScope ) {
+		benderScope.consoleErrorStub = sinon.stub( console, 'error' );
+
+		benderScope.runtimeErrorListener = function() {
+			resume( function() {
+				assert.fail( 'There should be no RunTime errors!' );
+			} );
+		};
+
+		window.addEventListener( 'error', benderScope.runtimeErrorListener );
+	}
+
 }() );
