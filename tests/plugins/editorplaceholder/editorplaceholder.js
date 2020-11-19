@@ -285,20 +285,20 @@
 
 	// (#4253)
 	tests[ 'test placeholder is not visible with data filter to initial content' ] = function() {
-		var preinitializedContent = '<p>Initialized content</p>';
+		var startupData = '<p>Initialized content</p>';
 
 		bender.editorBot.create( {
 			name: 'placeholderFilterPreinitialized',
 			config: {
 				editorplaceholder: 'any',
 				fullPage: true,
-				startupData: preinitializedContent
+				startupData: startupData
 			}
 		}, function( bot ) {
 			var editor = bot.editor;
 
 			editor.on( 'toDataFormat', function( evt ) {
-				evt.data.dataValue = preinitializedContent;
+				evt.data.dataValue = startupData;
 			}, null, null, 16 );
 
 			editor.fire( 'change' );
