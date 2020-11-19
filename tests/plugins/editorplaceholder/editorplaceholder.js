@@ -284,7 +284,7 @@
 	};
 
 	// (#4253)
-	tests[ 'test placeholder not visible with data filter to preinitialized content' ] = function() {
+	tests[ 'test placeholder is not visible with data filter to initial content' ] = function() {
 		var preinitializedContent = '<p>Initialized content</p>';
 
 		bender.editorBot.create( {
