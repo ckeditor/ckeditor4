@@ -314,7 +314,7 @@
 
 		benderScope.runtimeErrorListener = function() {
 			resume( function() {
-				assert.fail( 'There should be no RunTime errors!' );
+				assert.fail( 'There should be no runtime errors!' );
 			} );
 		};
 
