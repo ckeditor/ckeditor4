@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'es', {
 	noUrl: 'Por favor, escriba la dirección del iframe',
 	scrolling: 'Activar barras de desplazamiento',
 	title: 'Propiedades de iframe',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

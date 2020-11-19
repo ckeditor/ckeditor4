@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'lv', {
 	noUrl: 'Norādiet iframe adresi',
 	scrolling: 'Atļaut ritjoslas',
 	title: 'IFrame uzstādījumi',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

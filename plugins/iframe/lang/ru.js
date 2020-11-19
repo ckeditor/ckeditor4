@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'ru', {
 	noUrl: 'Пожалуйста, введите ссылку фрейма',
 	scrolling: 'Отображать полосы прокрутки',
 	title: 'Свойства iFrame',
-	toolbar: 'iFrame'
+	toolbar: 'iFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

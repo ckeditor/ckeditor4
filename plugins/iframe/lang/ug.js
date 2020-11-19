@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'ug', {
 	noUrl: 'كاندۇكنىڭ ئادرېسى(Url)نى كىرگۈزۈڭ',
 	scrolling: 'دومىلىما سۈرگۈچكە يول قوي',
 	title: 'IFrame خاسلىق',
-	toolbar: 'IFrame '
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

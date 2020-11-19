@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'en-gb', {
 	noUrl: 'Please type the iframe URL',
 	scrolling: 'Enable scrollbars',
 	title: 'IFrame Properties',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex'
 } );

@@ -8,7 +8,8 @@
 	// http://www.w3.org/TR/REC-html40/present/frames.html#h-16.5
 	var checkboxValues = {
 		scrolling: { 'true': 'yes', 'false': 'no' },
-		frameborder: { 'true': '1', 'false': '0' }
+		frameborder: { 'true': '1', 'false': '0' },
+		tabindex: { 'true': '-1', 'false': false }
 	};
 
 	function loadValue( iframeNode ) {
@@ -28,8 +29,13 @@
 			value = this.getValue();
 		if ( isRemove )
 			iframeNode.removeAttribute( this.att || this.id );
-		else if ( isCheckbox )
-			iframeNode.setAttribute( this.id, checkboxValues[ this.id ][ value ] );
+		else if ( isCheckbox ) {
+			if ( value === false ) {
+				iframeNode.removeAttribute( this.id );
+			} else {
+				iframeNode.setAttribute( this.id, checkboxValues[this.id][value] );
+			}
+		}
 		else
 			iframeNode.setAttribute( this.att || this.id, value );
 	}
@@ -180,6 +186,14 @@
 						setup: loadValue,
 						commit: commitValue
 					} ]
+				},
+				{
+					id: 'tabindex',
+					type: 'checkbox',
+					requiredContent: 'iframe[tabindex]',
+					label: iframeLang.tabindex,
+					setup: loadValue,
+					commit: commitValue
 				},
 				{
 					type: 'hbox',

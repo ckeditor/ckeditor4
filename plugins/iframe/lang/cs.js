@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'cs', {
 	noUrl: 'Zadejte prosím URL obsahu pro IFrame',
 	scrolling: 'Zapnout posuvníky',
 	title: 'Vlastnosti IFrame',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'eu', {
 	noUrl: 'Idatzi iframe-aren URLa, mesedez.',
 	scrolling: 'Gaitu korritze-barrak',
 	title: 'IFrame-aren propietateak',
-	toolbar: 'IFrame-a'
+	toolbar: 'IFrame-a',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

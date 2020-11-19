@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'hu', {
 	noUrl: 'Kérem írja be a iframe URL-t',
 	scrolling: 'Gördítősáv bekapcsolása',
 	title: 'IFrame Tulajdonságok',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );
