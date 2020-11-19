@@ -252,8 +252,8 @@
 				}
 			}
 		}, function( bot ) {
-			//Don't check if editorplaceholder exists, because of mix bbcode plugin with fullPage config - causing never empty content in editor
-			//Details: https://github.com/ckeditor/ckeditor4/pull/4251#pullrequestreview-481525255
+			// Don't check if editor placeholder was added, since combination of bbcode plugin with fullPage config results
+			// in lack editor placeholder due to https://github.com/ckeditor/ckeditor4/pull/4251#pullrequestreview-481525255 and #4386.
 		} );
 
 		wait();
