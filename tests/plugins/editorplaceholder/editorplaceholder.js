@@ -228,21 +228,17 @@
 			config: {
 				extraPlugins: 'bbcode',
 				editorplaceholder: 'any',
-				fullPage: true,
-				on: {
-					instanceReady: function() {
-						resume( function() {
-							assert.isFalse( this.consoleErrorStub.called, 'There should be no errors during initialization' );
-						} );
-					}
-				}
+				fullPage: true
 			}
 		}, function( bot ) {
 			// Don't check if editor placeholder was added, since combination of bbcode plugin with fullPage config results
 			// in lack editor placeholder due to https://github.com/ckeditor/ckeditor4/pull/4251#pullrequestreview-481525255 and #4386.
-		} );
+			if ( bot.testCase.consoleErrorStub ) { // Make sure console stub is there (handle older IEs)
+				assert.isFalse( bot.testCase.consoleErrorStub.called, 'There should be no errors during initialization' );
+			}
 
-		wait();
+			assert.pass( 'Error was not thrown' );
+		} );
 	};
 
 	// (#4253)
