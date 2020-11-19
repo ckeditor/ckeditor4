@@ -261,8 +261,6 @@
 
 	// (#4253)
 	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin and initial content' ] = function() {
-		addErrorAsserts( this );
-
 		bender.editorBot.create( {
 			name: 'bbcodeFailTestContent',
 			config: {
@@ -274,13 +272,8 @@
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			resume(function() {
-				assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
-			});
-
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
 		} );
-
-		wait();
 	};
 
 	// (#4253)
