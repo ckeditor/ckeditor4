@@ -908,7 +908,9 @@
 			// |                                             |
 			// |                                             |
 			// +---------------------------------------------+
-			if ( viewHeight > spaceBelow && viewHeight < spaceAbove ) {
+			var viewExceedsTopViewport = ( rect.top - viewHeight ) < documentWindow.getScrollPosition().y;
+
+			if ( viewHeight > spaceBelow && viewHeight < spaceAbove && !viewExceedsTopViewport ) {
 				top = rect.top - viewHeight;
 			}
 
@@ -963,9 +965,9 @@
 			// +---------------------------------------------+
 
 			var windowHeight = windowRect.height,
-				viewExceedsViewport = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
+				viewExceedsBottomViewport = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
 
-			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && viewExceedsViewport ) {
+			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && viewExceedsBottomViewport ) {
 				top = rect.top - viewHeight;
 			}
 
