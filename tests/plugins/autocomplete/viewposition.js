@@ -161,7 +161,7 @@
 		},
 
 		// (#3582)
-		'test view position wraps on bottom window border': function( editor ) {
+		'test view is displayed above caret if there is not enough space below it in browser viewport': function( editor ) {
 			// +---------------------------------------------+
 			// |               editor viewport               |
 			// |                                             |
