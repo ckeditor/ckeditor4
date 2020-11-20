@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.15.2
 
+Fixed Issues:
+
+* [#4253](https://github.com/ckeditor/ckeditor4/issues/4253): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin throws an error during editor initialization with [fullpage](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-fullPage) enabled when there is no `body` tag in editor content.
+
 ## CKEditor 4.15.1
 
 **Security Updates:**

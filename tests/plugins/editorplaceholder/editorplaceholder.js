@@ -1,5 +1,6 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: wysiwygarea,editorplaceholder,toolbar,undo */
+/* global console */
 
 ( function() {
 	'use strict';
@@ -27,8 +28,22 @@
 	};
 
 	var tests = {
+
 		setUp: function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'editorplaceholder' );
+
+			this.consoleErrorStub = null;
+			this.runtimeErrorListener = null;
+		},
+
+		tearDown: function() {
+			if ( this.consoleErrorStub ) {
+				this.consoleErrorStub.restore();
+			}
+
+			if ( this.runtimeErrorListener ) {
+				window.removeEventListener( 'error', this.runtimeErrorListener );
+			}
 		},
 
 		'test getting data from editor': function( editor ) {
@@ -205,5 +220,104 @@
 		} );
 	};
 
+	// (#4253)
+	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin' ] = function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			// Runtime error assert tries to invoke console.error() which is unavailable in IE9.
+			assert.ignore();
+		}
+		addErrorAsserts( this );
+
+		bender.editorBot.create( {
+			name: 'bbcodeFailTest',
+			config: {
+				extraPlugins: 'bbcode',
+				editorplaceholder: 'any',
+				fullPage: true
+			}
+		}, function( bot ) {
+			// Don't check if editor placeholder was added, since combination of bbcode plugin with fullPage config results
+			// in lack editor placeholder due to https://github.com/ckeditor/ckeditor4/pull/4251#pullrequestreview-481525255 and #4386.
+			assert.isFalse( bot.testCase.consoleErrorStub.called, 'There should be no errors during initialization' );
+
+			assert.pass( 'Error was not thrown' );
+		} );
+	};
+
+	// (#4253)
+	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin and initial content' ] = function() {
+		bender.editorBot.create( {
+			name: 'bbcodeFailTestContent',
+			config: {
+				extraPlugins: 'bbcode',
+				editorplaceholder: 'any',
+				fullPage: true,
+				startupData: '<p>Initialized content</p>'
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+		} );
+	};
+
+	// (#4253)
+	tests[ 'test placeholder is visible with data filter to no content' ] = function() {
+		bender.editorBot.create( {
+			name: 'placeholderFilterToNoContent',
+			config: {
+				editorplaceholder: 'any',
+				fullPage: true
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			editor.on( 'toDataFormat', function( evt ) {
+				evt.data.dataValue = '';
+			}, null, null, 16 );
+
+			editor.fire( 'change' );
+
+			assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+		} );
+	};
+
+	// (#4253)
+	tests[ 'test placeholder is not visible with data filter to initial content' ] = function() {
+		var startupData = '<p>Initialized content</p>';
+
+		bender.editorBot.create( {
+			name: 'placeholderFilterPreinitialized',
+			config: {
+				editorplaceholder: 'any',
+				fullPage: true,
+				startupData: startupData
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			editor.on( 'toDataFormat', function( evt ) {
+				evt.data.dataValue = startupData;
+			}, null, null, 16 );
+
+			editor.fire( 'change' );
+
+			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+		} );
+	};
+
 	bender.test( tests );
+
+	function addErrorAsserts( benderScope ) {
+		benderScope.consoleErrorStub = sinon.stub( console, 'error' );
+
+		benderScope.runtimeErrorListener = function() {
+			resume( function() {
+				assert.fail( 'There should be no runtime errors!' );
+			} );
+		};
+
+		window.addEventListener( 'error', benderScope.runtimeErrorListener );
+	}
+
 }() );

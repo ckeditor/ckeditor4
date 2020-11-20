@@ -72,7 +72,12 @@
 			data = editor.getData();
 
 		if ( isFullPage ) {
-			data = data.match( fullPageRegex )[ 1 ];
+			var bodyDataMatched = data.match( fullPageRegex );
+
+			// Check if body element exists in editor HTML (#4253).
+			if ( bodyDataMatched && bodyDataMatched.length > 1 ) {
+				data = bodyDataMatched[ 1 ];
+			}
 		}
 
 		return data.length === 0;
