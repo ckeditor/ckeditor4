@@ -221,6 +221,10 @@
 
 	// (#4253)
 	tests[ 'test placeholder loads correctly in full-page editor with bbcode plugin' ] = function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			// Runtime error try to invoke console.error() which is unavailable for IE9.
+			assert.ignore();
+		}
 		addErrorAsserts( this );
 
 		bender.editorBot.create( {
