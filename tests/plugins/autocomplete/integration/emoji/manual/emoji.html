@@ -73,6 +73,10 @@
 <script>
 	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
 
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	var wrapper = CKEDITOR.document.getById( 'wrapper' ),
 		leftButton = CKEDITOR.document.getById( 'left-button' ),
 		rightButton = CKEDITOR.document.getById( 'right-button' ),

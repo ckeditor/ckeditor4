@@ -12,6 +12,10 @@
 <script>
 	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	var config = {
 		extraPlugins: 'resize',
 		width: 300,
