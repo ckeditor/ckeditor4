@@ -8,57 +8,30 @@
 
 	bender.editor = {};
 
-	bender.createEditor = function( width, paragraphs ) {
-		bender.editorBot.create( {
-			name: 'EditorWidth' + width,
-			config: {
-				width: width
-			}
-		}, function( bot ) {
-			bot.setData( autogrowTools.getTestContent( paragraphs ), function() {
-				var editor = bot.editor;
-				var initialEditorSize = autogrowTools.getEditorSize( editor );
-
-				editor.once( 'afterCommandExec', function() {
-					resume( function name( params ) {
-						var editorSize = autogrowTools.getEditorSize( editor );
-
-						assert.isTrue( editorSize.height > initialEditorSize.height, 'editor height should increase' );
-						assert.areEqual( editorSize.width, initialEditorSize.width, 'editor width should not change' );
-					} );
-				} );
-
-				editor.execCommand( 'autogrow' );
-
-				wait();
-			} );
-		} );
-	};
-
 	bender.test( {
 		// (#4372)
 		'test autogrow for editor width 200%': function() {
-			bender.createEditor( '200%', 6 );
+			autogrowTools.testEditorSizeWithContent( '200%' );
 		},
 		// (#4372)
 		'test autogrow for editor width 20em': function() {
-			bender.createEditor( '20em', 6 );
+			autogrowTools.testEditorSizeWithContent( '20em' );
 		},
 		// (#4372)
 		'test autogrow for editor width 200px': function() {
-			bender.createEditor( '200px', 6 );
+			autogrowTools.testEditorSizeWithContent( '200px' );
 		},
 		// (#4372)
 		'test autogrow for editor width 200': function() {
-			bender.createEditor( 200, 6 );
+			autogrowTools.testEditorSizeWithContent( 200 );
 		},
 		// (#4372)
 		'test autogrow for editor width 0': function() {
-			bender.createEditor( 0, 6 );
+			autogrowTools.testEditorSizeWithContent( 0 );
 		},
 		// (#4372)
 		'test autogrow for editor width auto': function() {
-			bender.createEditor( 'auto', 6 );
+			autogrowTools.testEditorSizeWithContent( 'auto' );
 		},
 		// (#4286)
 		'test autogrow': function() {

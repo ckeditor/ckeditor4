@@ -19,8 +19,36 @@ var autogrowTools = ( function() {
 		return html;
 	}
 
+	function testEditorSizeWithContent( editorWidth ) {
+		bender.editorBot.create( {
+			name: 'EditorWidth' + editorWidth,
+			config: {
+				width: editorWidth
+			}
+		}, function( bot ) {
+			bot.setData( autogrowTools.getTestContent( 10 ), function() {
+				var editor = bot.editor;
+				var initialEditorSize = autogrowTools.getEditorSize( editor );
+
+				editor.once( 'afterCommandExec', function() {
+					resume( function name() {
+						var editorSize = autogrowTools.getEditorSize( editor );
+
+						assert.isTrue( editorSize.height > initialEditorSize.height, 'editor height should increase' );
+						assert.areEqual( editorSize.width, initialEditorSize.width, 'editor width should not change' );
+					} );
+				} );
+
+				editor.execCommand( 'autogrow' );
+
+				wait();
+			} );
+		} );
+	}
+
 	return {
 		getTestContent: getTestContent,
-		getEditorSize: getEditorSize
+		getEditorSize: getEditorSize,
+		testEditorSizeWithContent: testEditorSizeWithContent
 	};
 } )();
