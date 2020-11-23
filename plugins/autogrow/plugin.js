@@ -147,7 +147,13 @@
 			// to the one set by previous resizeEditor() call.
 			if ( newHeight != currentHeight && lastHeight != newHeight ) {
 				newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
-				editor.resize( editor.container.getStyle( 'width' ), newHeight, true );
+
+				var boxSizing = editor.container.getComputedStyle( 'box-sizing' );
+				var isBorderBox = boxSizing === 'border-box';
+
+				var width = editor.container.getSize( 'width', isBorderBox );
+
+				editor.resize( width, newHeight, true );
 				lastHeight = newHeight;
 			}
 
