@@ -14,10 +14,11 @@
 			config: {
 				width: width
 			}
-		}, function(bot){
+		}, function( bot ) {
 			bot.setData( autogrowTools.getTestContent( paragraphs ), function() {
 				var editor = bot.editor;
 				var initialEditorSize = autogrowTools.getEditorSize( editor );
+
 				editor.once( 'afterCommandExec', function() {
 					resume( function name( params ) {
 						var editorSize = autogrowTools.getEditorSize( editor );
@@ -36,17 +37,29 @@
 
 	bender.test( {
 		// (#4372)
-		'test autogrow for editor width 200%': function() { bender.createEditor('200%', 6); },
+		'test autogrow for editor width 200%': function() {
+			bender.createEditor( '200%', 6 );
+		},
 		// (#4372)
-		'test autogrow for editor width 20em': function() { bender.createEditor('20em', 6); },
+		'test autogrow for editor width 20em': function() {
+			bender.createEditor( '20em', 6 );
+		},
 		// (#4372)
-		'test autogrow for editor width 200px': function() { bender.createEditor('200px', 6); },
+		'test autogrow for editor width 200px': function() {
+			bender.createEditor( '200px', 6 );
+		},
 		// (#4372)
-		'test autogrow for editor width 200': function() { bender.createEditor(200, 6); },
+		'test autogrow for editor width 200': function() {
+			bender.createEditor( 200, 6 );
+		},
 		// (#4372)
-		'test autogrow for editor width 0': function() { bender.createEditor(0, 6); },
+		'test autogrow for editor width 0': function() {
+			bender.createEditor( 0, 6 );
+		},
 		// (#4372)
-		'test autogrow for editor width auto': function() { bender.createEditor('auto', 6); },
+		'test autogrow for editor width auto': function() {
+			bender.createEditor( 'auto', 6 );
+		},
 		// (#4286)
 		'test autogrow': function() {
 			if ( bender.env.ie && bender.env.version < 9 ) {
