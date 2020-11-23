@@ -24,7 +24,8 @@ try {
 		to: `// replace_start\n${ minified.code }\n// replace_end`
 	} );
 
-	console.log( `Replacement successful: ${ results }` );
+	console.log( `Replacement successful:` );
+	console.log( results );
 }
 catch ( error ) {
 	console.error( `Replacement failed: ${ error }` );
