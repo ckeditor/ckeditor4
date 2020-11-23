@@ -21,7 +21,7 @@ var autogrowTools = ( function() {
 
 	function testEditorSizeWithContent( editorWidth ) {
 		bender.editorBot.create( {
-			name: 'EditorWidth' + editorWidth,
+			name: 'editor_' + new Date().getTime(),
 			config: {
 				width: editorWidth
 			}
