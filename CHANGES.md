@@ -11,6 +11,7 @@ New Features:
 Fixed Issues:
 
 * [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Fixed: No images are imported from Microsoft Word when content pasted by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin if there is at least one image in unsupported format.
+* [#1134](https://github.com/ckeditor/ckeditor4/issues/1134): [Safari] Fixed: [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) does not embed images.
 
 API Changes:
 

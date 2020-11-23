@@ -50,7 +50,7 @@
 		} );
 
 	CKEDITOR.plugins.add( 'pastetools', {
-		requires: 'clipboard',
+		requires: [ 'clipboard', 'ajax' ],
 		beforeInit: function( editor ) {
 			editor.pasteTools = new PasteTools();
 

@@ -180,6 +180,57 @@
 			} );
 
 			wait();
+		},
+
+		// (#1134)
+		'test load async arraybuffer': function() {
+			if ( typeof Blob !== 'function' || typeof Uint8Array !== 'function' || typeof URL !== 'function' ) {
+				assert.ignore();
+			}
+			var testData = [ '0', '1', '2', '3' ];
+			var blobUrl = URL.createObjectURL( new Blob( new Uint8Array( testData ) ) );
+
+			function cb( data ) {
+				resume( function() {
+					// Test data are saved as char codes in buffer. That's why, result is compared to 48-51.
+					arrayAssert.itemsAreSame( [ 48, 49, 50, 51 ], new Uint8Array( data ), 'Data in buffer are not equivalent to stored values.' );
+				} );
+			}
+
+			setTimeout( function() {
+				CKEDITOR.ajax.load( blobUrl, cb, 'arraybuffer' );
+			}, 0 );
+			wait();
+		},
+
+		// (#1134)
+		'test load async xml': function() {
+			setTimeout( function() {
+				CKEDITOR.ajax.load( '../../_assets/sample.xml', callback, 'xml' );
+			}, 0 );
+			wait();
+
+			function callback( data ) {
+				resume( function() {
+					assert.isInstanceOf( CKEDITOR.xml, data );
+					assert.isNotNull( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (null)' );
+					assert.isNotUndefined( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (undefined)' );
+				} );
+			}
+		},
+
+		// (#1134)
+		'test load async text': function() {
+			setTimeout( function() {
+				CKEDITOR.ajax.load( '../../_assets/sample.txt', callback, 'text' );
+			}, 0 );
+			wait();
+
+			function callback( data ) {
+				resume( function() {
+					assert.areSame( 'Sample Text', data, 'The loaded data doesn\'t match' );
+				} );
+			}
 		}
 	} );
 } )();

@@ -11,7 +11,9 @@
 	'use strict';
 
 	/**
-	 * Filter handling pasting images from RTF content.
+	 * Filter handling pasting images. In case of missing RTF content images are extracted
+	 * from [Object URLs](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications#Example_Using_object_URLs_to_display_images).
+	 * In other cases hey are extracted from RTF content.
 	 *
 	 * @private
 	 * @since 4.14.0
@@ -21,13 +23,10 @@
 	 * @member CKEDITOR.plugins.pastetools.filters
 	 */
 	CKEDITOR.pasteFilters.image = function( html, editor, rtf ) {
-		var imgTags,
-			hexImages,
-			newSrcValues,
-			i;
+		var imgTags;
 
-		// If there is no RTF content or the editor does not allow images, skip embedding.
-		if ( !rtf || ( editor.activeFilter && !editor.activeFilter.check( 'img[src]' ) ) ) {
+		// If the editor does not allow images, skip embedding.
+		if ( editor.activeFilter && !editor.activeFilter.check( 'img[src]' ) ) {
 			return html;
 		}
 
@@ -37,50 +36,11 @@
 			return html;
 		}
 
-		hexImages = extractFromRtf( rtf );
-
-		if ( hexImages.length === 0 ) {
-			return html;
+		if ( rtf ) {
+			return handleRtfImages( html, rtf, imgTags );
 		}
 
-		newSrcValues = CKEDITOR.tools.array.map( hexImages, function( img ) {
-			return createSrcWithBase64( img );
-		}, this );
-
-		if ( imgTags.length !== newSrcValues.length ) {
-			CKEDITOR.error( 'pastetools-failed-image-extraction', {
-				rtf: hexImages.length,
-				html: imgTags.length
-			} );
-
-			return html;
-		}
-
-		// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
-		for ( i = 0; i < imgTags.length; i++ ) {
-			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-			if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) ) {
-				if ( !newSrcValues[ i ] ) {
-					CKEDITOR.error( 'pastetools-unsupported-image', {
-						type: hexImages[ i ].type,
-						index: i
-					} );
-
-					continue;
-				}
-
-				// In Word there is a chance that some of the images are also inserted via VML.
-				// This regex ensures that we replace only HTML <img> tags.
-				// Oh, and there are also Windows paths that need to be escaped
-				// before passing to regex.
-				var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
-					imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
-
-				html = html.replace( imgRegex, '$1' + newSrcValues[ i ] );
-			}
-		}
-
-		return html;
+		return handleBlobImages( editor, html, imgTags );
 	};
 
 	/**
@@ -134,6 +94,30 @@
 	CKEDITOR.pasteFilters.image.createSrcWithBase64 = createSrcWithBase64;
 
 	/**
+	 * Converts blob url into base64 string. Conversion is happening asynchronously.
+	 * Currently supported file types: `image/png`, `image/jpeg`, `image/gif`.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @param {String} blobUrlSrc Address of blob which is going to be converted
+	 * @returns {CKEDITOR.tools.promise.<String/null>} Promise, which resolves to Data URL representing image.
+	 * If image's type is unsupported, promise resolves to `null`.
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
+	CKEDITOR.pasteFilters.image.convertBlobUrlToBase64 = convertBlobUrlToBase64;
+
+	/**
+	 * Return file type based on first 4 bytes of given file. Currently recognised file types: `image/png`, `image/jpeg`, `image/gif`.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @param {Uint8Array} bytesArray Typed array which will be analysed to obtain file type.
+	 * @returns {String/null} File type recognized from given typed array or null.
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
+	CKEDITOR.pasteFilters.image.getImageTypeFromSignature = getImageTypeFromSignature;
+
+	/**
 	 * Array of all supported image formats.
 	 *
 	 * @private
@@ -143,14 +127,15 @@
 	 */
 	CKEDITOR.pasteFilters.image.supportedImageTypes = [
 		'image/png',
-		'image/jpeg'
+		'image/jpeg',
+		'image/gif'
 	];
 
 	/**
-	 * Array of all recognizable image types with their respective markers.
+	 * Recognizable image types with their respective markers.
 	 *
 	 * The recognizing of image type is done by searching for image marker
-	 * inside the image content.
+	 * inside the RTF image content.
 	 *
 	 * @private
 	 * @since 4.16.0
@@ -178,6 +163,111 @@
 			type: 'image/wmf'
 		}
 	];
+
+	/**
+	 * Recognizable image file signatures with their respective types.
+	 *
+	 * The recognizing of image type is done by matching the first bytes
+	 * of the signature represented as hex string.
+	 *
+	 * @private
+	 * @since 4.16.0
+	 * @type {CKEDITOR.plugins.pastetools.filters.image.RecognizableImageSignature[]}
+	 * @member CKEDITOR.plugins.pastetools.filters.image
+	 */
+	CKEDITOR.pasteFilters.image.recognizableImageSignatures = [
+		{
+			signature: 'ffd8ff',
+			type: 'image/jpeg'
+		},
+
+		{
+			signature: '47494638',
+			type: 'image/gif'
+		},
+
+		{
+			signature: '89504e47',
+			type: 'image/png'
+		}
+	];
+
+	function handleRtfImages( html, rtf, imgTags ) {
+		var hexImages = extractFromRtf( rtf ),
+			newSrcValues,
+			i;
+
+		if ( hexImages.length === 0 ) {
+			return html;
+		}
+
+		newSrcValues = CKEDITOR.tools.array.map( hexImages, function( img ) {
+			return createSrcWithBase64( img );
+		}, this );
+
+		if ( imgTags.length !== newSrcValues.length ) {
+			CKEDITOR.error( 'pastetools-failed-image-extraction', {
+				rtf: hexImages.length,
+				html: imgTags.length
+			} );
+
+			return html;
+		}
+
+		// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
+		for ( i = 0; i < imgTags.length; i++ ) {
+			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+			if ( imgTags[ i ].indexOf( 'file://' ) === 0 ) {
+				if ( !newSrcValues[ i ] ) {
+					CKEDITOR.error( 'pastetools-unsupported-image', {
+						type: hexImages[ i ].type,
+						index: i
+					} );
+
+					continue;
+				}
+
+				// In Word there is a chance that some of the images are also inserted via VML.
+				// This regex ensures that we replace only HTML <img> tags.
+				// Oh, and there are also Windows paths that need to be escaped
+				// before passing to regex.
+				var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
+					imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
+
+				html = html.replace( imgRegex, '$1' + newSrcValues[ i ] );
+			}
+		}
+
+		return html;
+	}
+
+	function handleBlobImages( editor, html, imgTags ) {
+		var blobUrls = CKEDITOR.tools.array.unique( CKEDITOR.tools.array.filter( imgTags, function( imgTag ) {
+				return imgTag.match( /^blob:/i );
+			} ) ),
+			promises = CKEDITOR.tools.array.map( blobUrls, convertBlobUrlToBase64 );
+
+		CKEDITOR.tools.promise.all( promises ).then( function( dataUrls ) {
+			CKEDITOR.tools.array.forEach( dataUrls, function( dataUrl, i ) {
+				if ( !dataUrl ) {
+					CKEDITOR.error( 'pastetools-unsupported-image', {
+						type: 'blob',
+						index: i
+					} );
+					return;
+				}
+				var blob = blobUrls[ i ],
+					nodeList = editor.editable().find( 'img[src="' + blob + '"]' ).toArray();
+
+				CKEDITOR.tools.array.forEach( nodeList, function( element ) {
+					element.setAttribute( 'src', dataUrl );
+					element.setAttribute( 'data-cke-saved-src', dataUrl );
+				}, this );
+			} );
+		} );
+
+		return html;
+	}
 
 	function extractFromRtf( rtfContent ) {
 		var filter = CKEDITOR.plugins.pastetools.filters.common.rtf,
@@ -300,13 +390,50 @@
 	}
 
 	function createSrcWithBase64( img ) {
-		var isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, img.type ) !== -1;
+		var isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, img.type ) !== -1,
+			data = img.hex;
 
 		if ( !isSupportedType ) {
 			return null;
 		}
 
-		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
+		if ( typeof data === 'string' )  {
+			data = CKEDITOR.tools.convertHexStringToBytes( img.hex );
+		}
+
+		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( data ) : null;
+	}
+
+	function convertBlobUrlToBase64( blobUrlSrc ) {
+		return new CKEDITOR.tools.promise( function( resolve ) {
+			CKEDITOR.ajax.load( blobUrlSrc, function( arrayBuffer ) {
+				var data = new Uint8Array( arrayBuffer ),
+					imageType = getImageTypeFromSignature( data ),
+					base64 = createSrcWithBase64( {
+						type: imageType,
+						hex: data
+					} );
+
+				resolve( base64 );
+			} , 'arraybuffer' );
+		} );
+	}
+
+	function getImageTypeFromSignature( bytesArray ) {
+		var fileSignature = bytesArray.subarray( 0, 4 ),
+			hexSignature = CKEDITOR.tools.array.map( fileSignature, function( signatureByte ) {
+				return signatureByte.toString( 16 );
+			} ).join( '' ),
+			matchedType = CKEDITOR.tools.array.find( CKEDITOR.pasteFilters.image.recognizableImageSignatures,
+				function( test ) {
+					return hexSignature.indexOf( test.signature ) === 0;
+				} );
+
+		if ( !matchedType ) {
+			return null;
+		}
+
+		return matchedType.type;
 	}
 } )();
 
@@ -362,4 +489,27 @@
  *
  * @property {String} type
  * @member CKEDITOR.plugins.pastetools.filters.image.RecognizableImageType
+ */
+
+/**
+ * Virtual class that illustrates format of objects in
+ * {@link CKEDITOR.plugins.pastetools.filters.image#recognizableImageSignatures} property.
+ *
+ * @since 4.16.0
+ * @class CKEDITOR.plugins.pastetools.filters.image.RecognizableImageSignature
+ * @abstract
+ */
+
+/**
+ * File signature as a hex string.
+ *
+ * @property {String} signature
+ * @member CKEDITOR.plugins.pastetools.filters.image.RecognizableImageSignature
+ */
+
+/**
+ * Image MIME type.
+ *
+ * @property {String} type
+ * @member CKEDITOR.plugins.pastetools.filters.image.RecognizableImageSignature
  */
