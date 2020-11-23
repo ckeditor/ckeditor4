@@ -149,8 +149,8 @@
 				newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
 
 				var boxSizingType = editor.container.getComputedStyle( 'box-sizing' ),
-				isBorderBox = boxSizingType === 'border-box',
-				width = editor.container.getSize( 'width', isBorderBox );
+					isBorderBox = boxSizingType === 'border-box',
+					width = editor.container.getSize( 'width', isBorderBox );
 
 				editor.resize( width, newHeight, true );
 				lastHeight = newHeight;
