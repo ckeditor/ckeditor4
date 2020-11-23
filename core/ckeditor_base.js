@@ -10,7 +10,7 @@
 
 // #### Compressed Code
 // Compressed code in ckeditor.js must be be updated on changes in the script.
-// Simply run `npm run build-base` after changing this file.
+// Simply run `grunt ckeditor-base-replace` after changing this file.
 
 // #### Raw code
 // ATTENTION: read the above "Compressed Code" notes when changing this code.
