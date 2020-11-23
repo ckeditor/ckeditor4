@@ -21,10 +21,13 @@
 		"grunt-jsduck": "^1.0.1",
 		"less": "^3.8.0",
 		"lesshat": "^4.1.0",
-		"shelljs": "^0.8.2"
+		"replace-in-file": "^6.1.0",
+		"shelljs": "^0.8.2",
+		"uglify-js": "^3.12.0"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build-base": "node dev/tasks/ckeditor-base-replace.js"
 	},
 	"keywords": [
 		"ckeditor4",

@@ -5,13 +5,12 @@
 
 /**
  * @fileOverview Contains the first and essential part of the {@link CKEDITOR}
- *		object definition.
+ * object definition.
  */
 
 // #### Compressed Code
 // Compressed code in ckeditor.js must be be updated on changes in the script.
-// The Closure Compiler online service should be used when updating this manually:
-// http://closure-compiler.appspot.com/
+// Simply run `npm run build-base` after changing this file.
 
 // #### Raw code
 // ATTENTION: read the above "Compressed Code" notes when changing this code.
