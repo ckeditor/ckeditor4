@@ -2270,12 +2270,13 @@
 			 * Removes duplicates from the array.
 			 *
 			 * ```js
-			 * var array = [ 1, 1, 2, 3, 2 ],
-			 * 	arrayWithoutDuplicates = CKEDITOR.tools.array.unique( array );
-			 * console.log( arrayWithoutDuplicates ); // [ 1, 2, 3 ]
+			 * var array = CKEDITOR.tools.array.unique( [ 1, 1, 2, 3, 2 ] );
+			 * console.log( array );
+			 * // Logs: [ 1, 2, 3 ]
 			 * ```
 			 *
 			 * @since 4.16.0
+			 * @member CKEDITOR.tools.array
 			 * @param {Array} array Array from which duplicates should be removed.
 			 * @returns {Array} The copy of the input array without duplicates.
 			 */
