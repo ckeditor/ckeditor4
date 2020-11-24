@@ -1741,6 +1741,7 @@
 				 * {@link CKEDITOR.tools.color#getRgba} to extract RGBA color value.
 				 *
 				 * @deprecated
+				 * @private
 				 */
 				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
@@ -1749,6 +1750,7 @@
 				 * {@link CKEDITOR.tools.color#getHsla} to extract HSLA color value.
 				 *
 				 * @deprecated
+				 * @private
 				 */
 				_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
