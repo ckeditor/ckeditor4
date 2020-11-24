@@ -9,6 +9,11 @@
 	bender.editor = {};
 
 	bender.test( {
+		setUp: function() {
+			if ( bender.env.ie && bender.env.version < 9 ) {
+				assert.ignore();
+			}
+		},
 		// (#4372)
 		'test autogrow for editor width 200%': function() {
 			autogrowTools.testEditorSizeWithContent( '200%' );
@@ -35,10 +40,6 @@
 		},
 		// (#4286)
 		'test autogrow': function() {
-			if ( bender.env.ie && bender.env.version < 9 ) {
-				assert.ignore();
-			}
-
 			var editor = this.editor,
 				bot = this.editorBot,
 				initialEditorSize = autogrowTools.getEditorSize( editor );
