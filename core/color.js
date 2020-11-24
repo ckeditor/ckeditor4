@@ -27,7 +27,7 @@
 				var hexFromHexString = this.matchStringToHex( colorCode );
 				var hexFromRgbOrHsl = this.rgbOrHslToHex( colorCode );
 
-				this._.hexColorCode = hexStringFromNamedColor || hexFromHexString || hexFromRgbOrHsl || this.defaultHexColorCode;
+				this._.hexColorCode = hexStringFromNamedColor || hexFromHexString || hexFromRgbOrHsl || CKEDITOR.tools.color.defaultHexColorCode;
 			},
 			setAlpha: function( alphaValue ) {
 				alphaValue = this._.normalizePercentValue( alphaValue );
@@ -141,8 +141,6 @@
 		},
 
 		proto: {
-			defaultHexColorCode: '#000000',
-			hex3charsRegExp: /#([0-9a-f]{3})/gi,
 			matchStringToNamedColor: function( colorName ) {
 				var colorToHexObject = CKEDITOR.tools.color.namedColors;
 				var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
@@ -156,7 +154,7 @@
 				var finalHex = null;
 				this._.setAlpha( 1 );
 
-				if ( hexColorCode.match( this.hex3charsRegExp ) ) {
+				if ( hexColorCode.match( CKEDITOR.tools.color.hex3charsRegExp ) ) {
 					finalHex = this.hex3ToHex6( hexColorCode );
 				}
 
@@ -174,7 +172,7 @@
 				return finalHex;
 			},
 			hex3ToHex6: function( hex3ColorCode ) {
-				return hex3ColorCode.replace( this.hex3charsRegExp, function( match, hexColor ) {
+				return hex3ColorCode.replace( CKEDITOR.tools.color.hex3charsRegExp, function( match, hexColor ) {
 					var normalizedHexColor = hexColor.toLowerCase();
 
 					var parts = normalizedHexColor.split( '' );
@@ -281,6 +279,10 @@
 			}
 		}
 	} );
+
+	CKEDITOR.tools.color.defaultHexColorCode = '#000000';
+
+	CKEDITOR.tools.color.hex3charsRegExp = /#([0-9a-f]{3})/gi;
 
 	/**
 	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
