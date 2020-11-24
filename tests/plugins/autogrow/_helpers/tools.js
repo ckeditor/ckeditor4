@@ -26,16 +26,18 @@ var autogrowTools = ( function() {
 				width: editorWidth
 			}
 		}, function( bot ) {
-			bot.setData( autogrowTools.getTestContent( 10 ), function() {
-				var editor = bot.editor;
-				var initialEditorSize = autogrowTools.getEditorSize( editor );
+			var paragraphsCount = 10;
+
+			bot.setData( autogrowTools.getTestContent( paragraphsCount ), function() {
+				var editor = bot.editor,
+					initialEditorSize = autogrowTools.getEditorSize( editor );
 
 				editor.once( 'afterCommandExec', function() {
 					resume( function name() {
 						var editorSize = autogrowTools.getEditorSize( editor );
 
-						assert.isTrue( editorSize.height > initialEditorSize.height, 'editor height should increase' );
-						assert.areEqual( editorSize.width, initialEditorSize.width, 'editor width should not change' );
+						assert.isTrue( editorSize.height > initialEditorSize.height, 'Editor height should increase' );
+						assert.areEqual( editorSize.width, initialEditorSize.width, 'Editor width should not change' );
 					} );
 				} );
 
