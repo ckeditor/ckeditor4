@@ -282,7 +282,10 @@
 		}
 	} );
 
-	// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+	/**
+	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+	 * @member CKEDITOR.tools
+	 */
 	CKEDITOR.tools.color.namedColors = {
 		aliceblue: '#F0F8FF',
 		antiquewhite: '#FAEBD7',
@@ -436,6 +439,8 @@
 	};
 
 	/**
+	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+	 * @member CKEDITOR.tools.style.parse
 	 * @deprecated
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
