@@ -13,7 +13,7 @@
 	bender.test( {
 		setUp: function() {
 			this.createColor = function( colorCode ) {
-				return new CKEDITOR.tools.style.color( colorCode );
+				return new CKEDITOR.tools.color( colorCode );
 			};
 		},
 
