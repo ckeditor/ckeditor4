@@ -443,6 +443,8 @@
 	/**
 	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
 	 * @member CKEDITOR.tools.style.parse
+	 *
+	 * @private
 	 * @deprecated
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
