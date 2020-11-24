@@ -1014,9 +1014,12 @@
 		/**
 		 * Finds and converts `rgb(x,x,x)` color definition to hexadecimal notation.
 		 *
+		 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
+		 * {@link CKEDITOR.tools.color#getHex} to extract hexadecimal equivalent.
+		 *
+		 * @deprecated
 		 * @param {String} styleText The style data (or just a string containing RGB colors) to be converted.
 		 * @returns {String} The style data with RGB colors converted to hexadecimal equivalents.
-		 * @deprecated Use CKEDITOR.tools.style.color
 		 */
 		convertRgbToHex: function( styleText ) {
 			return styleText.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) {
@@ -1031,9 +1034,12 @@
 		/**
 		 * Normalizes hexadecimal notation so that the color string is always 6 characters long and lowercase.
 		 *
+		 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
+		 * {@link CKEDITOR.tools.color#getHex} to extract hexadecimal equivalent. Then make it `toLowerCase()`.
+		 *
+		 * @deprecated
 		 * @param {String} styleText The style data (or just a string containing hex colors) to be converted.
 		 * @returns {String} The style data with hex colors normalized.
-		 * @deprecated Use CKEDITOR.tools.style.color
 		 */
 		normalizeHex: function( styleText ) {
 			return styleText.replace( /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi, function( match, hexColor, hexColorPart, separator ) {
@@ -1731,12 +1737,18 @@
 				_widthRegExp: /^(thin|medium|thick|[\+-]?\d+(\.\d+)?[a-z%]+|[\+-]?0+(\.0+)?|\.\d+[a-z%]+)$/,
 
 				/**
-				 * @deprecated Use CKEDITOR.tools.style.color
+				 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
+				 * {@link CKEDITOR.tools.color#getRgba} to extract RGBA color value.
+				 *
+				 * @deprecated
 				 */
 				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
 				/**
-				 * @deprecated Use CKEDITOR.tools.style.color
+				 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
+				 * {@link CKEDITOR.tools.color#getHsla} to extract HSLA color value.
+				 *
+				 * @deprecated
 				 */
 				_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
