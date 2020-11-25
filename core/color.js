@@ -255,25 +255,23 @@
 				this._.setAlpha( alpha );
 
 				if ( colorFormat === 'hsl' ) {
-					colorNumberValues = this.hslToRgb( colorNumberValues[0], colorNumberValues[1],colorNumberValues[2] );
+					colorNumberValues = this.hslToRgb( colorNumberValues );
 				}
 
-				return rgbToHex( colorNumberValues );
+				return this.rgbToHex( colorNumberValues );
 			},
 			/**
 			 * Convert hsl values into rgb.
 			 *
-			 * @param {string/Number} hue
-			 * @param {string/Number} saturation
-			 * @param {string/Number} light
+			 * @param {Array} hsl Array of hsl color values.
 			 *
 			 * @returns {Array} Array of decimal rgb values.
 			 */
-			hslToRgb: function( hue, saturation, light ) {
+			hslToRgb: function( hsl ) {
 				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
-				hue = clampValueInRange( Number( hue ), 0, 360 );
-				saturation = normalizePercentValue( saturation );
-				light = normalizePercentValue( light );
+				var hue = clampValueInRange( Number( hsl[0] ), 0, 360 );
+				var saturation = normalizePercentValue( hsl[1] );
+				var light = normalizePercentValue( hsl[2] );
 
 				var calculateValueFromConst = function( fixValue ) {
 					var k = ( fixValue + ( hue / 30 ) ) % 12;
