@@ -62,9 +62,9 @@
 			parseInput: function( colorCode ) {
 				colorCode = colorCode.trim();
 
-				var hexStringFromNamedColor = this.matchStringToNamedColor( colorCode );
-				var hexFromHexString = this.matchStringToHex( colorCode );
-				var hexFromRgbOrHsl = this.rgbOrHslToHex( colorCode );
+				var hexStringFromNamedColor = this._.matchStringToNamedColor( colorCode );
+				var hexFromHexString = this._.matchStringToHex( colorCode );
+				var hexFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
 
 				this._.hexColorCode = hexStringFromNamedColor || hexFromHexString || hexFromRgbOrHsl || CKEDITOR.tools.color.defaultHexColorCode;
 			},
@@ -77,9 +77,225 @@
 			setAlpha: function( alphaValue ) {
 				alphaValue = normalizePercentValue( alphaValue );
 				this._.alpha = alphaValue;
+			},
+			/**
+	 		 * Blend alpha into color. Assumes that background is white.
+			 *
+			 * @private
+			 * @param {Array} rgb Array of rgb color values.
+			 * @param {Number} alpha Alpha value.
+			 * @returns {Array} Input rgb color mixed with alpha.
+			 */
+			blendAlphaColor: function( rgb, alpha ) {
+				// Based on https://en.wikipedia.org/wiki/Alpha_compositing
+				return CKEDITOR.tools.array.map( rgb, function( color ) {
+					return Math.round( 255 - alpha * ( 255 - color ) );
+				} );
+			},
+			/**
+			 * Convert rgb values to hexadecimal color.
+			 *
+			 * @private
+			 * @param {Array} rgb Array with color values.
+			 * @returns {string} Hexadecimal color. Eg. `#FF00FF`
+			 */
+			rgbToHex: function( rgb ) {
+				var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
+									if ( isPercentValue( number ) ) {
+										number = convertPercentValueToNumber( number );
+										number = Math.round( 255 * normalizePercentValue( number ) );
+									} else {
+										number = Number( number );
+										number = number > 255 ? 0 :
+													number < 0 ? 255 : number;
+									}
+									return valueToHex( number );
+								}, this );
+
+				return '#' + hexValues.join( '' );
+			},
+			/**
+	 		 * Extract red, green, blue from hexadecimal color code.
+			 *
+			 * @private
+			 * @param {string} hexColorCode hexadecimal color code with leading #
+			 * @returns {Array} rgb decimal values.
+			 */
+			hexToRgb: function( hexColorCode ) {
+				var colorValues = hexColorCode.slice( 1 ).match( /.{2}/ig );
+				return CKEDITOR.tools.array.map( colorValues, function( color ) {
+					return parseInt( color, 16 );
+				} );
+			},
+			/**
+			 * Convert rgb color values to hsl color values.
+			 *
+			 * @private
+			 * @param {Array} rgb Array of rgb values.
+			 * @returns {Array} Array of hsl values.
+			 */
+			rgbToHsl: function( rgb ) {
+				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
+				var r = rgb[ 0 ] / 255;
+				var g = rgb[ 1 ] / 255;
+				var b = rgb[ 2 ] / 255;
+
+				var Max = Math.max( r, g, b );
+				var min = Math.min( r, g, b );
+				var Chroma = Max - min;
+
+				var calculateHprim = function() {
+					switch ( Max ) {
+						case r:
+							return ( ( g - b ) / Chroma ) % 6;
+						case g:
+							return ( ( b - r ) / Chroma ) + 2;
+						case b:
+							return ( ( r - g ) / Chroma ) + 4;
+					}
+				};
+
+				var hPrim = calculateHprim();
+				var hue = Chroma === 0 ? 0 : 60 * hPrim;
+
+				var light = ( Max + min ) / 2;
+
+				var saturation = 1;
+				if ( light === 1 || light === 0 ) {
+					saturation = 0;
+				} else {
+					saturation = Chroma / ( 1 - Math.abs( ( 2 * light ) - 1 ) );
+				}
+
+				hue = Math.round( hue );
+				saturation = Math.round( saturation ) * 100;
+				light = light * 100;
+
+				var hsl = [ hue, saturation, light ];
+				return hsl;
+			},
+			/**
+			 * Convert hsl values into rgb.
+			 *
+			 * @private
+			 * @param {Array} hsl Array of hsl color values.
+			 * @returns {Array} Array of decimal rgb values.
+			 */
+			hslToRgb: function( hsl ) {
+				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
+				var hue = clampValueInRange( Number( hsl[0] ), 0, 360 );
+				var saturation = normalizePercentValue( hsl[1] );
+				var light = normalizePercentValue( hsl[2] );
+
+				var calculateValueFromConst = function( fixValue ) {
+					var k = ( fixValue + ( hue / 30 ) ) % 12;
+					var a = saturation * Math.min( light, 1 - light );
+
+					var min = Math.min( k - 3, 9 - k, 1 );
+					var max = Math.max( -1, min );
+					var normalizedValue = light - ( a * max );
+
+					return Math.round( normalizedValue * 255 );
+				};
+
+				var rgb = [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
+				return rgb;
+			},
+			/**
+			 * Get hexadecimal color from named colors.
+			 *
+			 * @private
+			 * @param {string} colorName color name. Eg. `red`.
+			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or `null`.
+			 */
+			matchStringToNamedColor: function( colorName ) {
+				var colorToHexObject = CKEDITOR.tools.color.namedColors;
+				var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
+
+				return resultCode;
+			},
+			/**
+			 * Try to convert hexadecimal color code to exactly six characters long hexadecimal color.
+			 * Extract alpha or takes `1` as default alpha value.
+			 *
+			 * @private
+			 * @param {string} hexColorCode valid hexadecimal color. Eg. `#F0F`, `#FF00FF` or `#FF00FF00`.
+			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or null.
+			 */
+			matchStringToHex: function( hexColorCode ) {
+				var hex6charsRegExp = /#([0-9a-f]{6})/gi;
+				var hex8charsRegExp = /#([0-9a-f]{8})/gi;
+
+				var finalHex = null;
+				this._.setAlpha( 1 );
+
+				if ( hexColorCode.match( CKEDITOR.tools.color.hex3charsRegExp ) ) {
+					finalHex = this._.hex3ToHex6( hexColorCode );
+				}
+
+				if ( hexColorCode.match( hex6charsRegExp ) ) {
+					finalHex = hexColorCode;
+				}
+
+				if ( hexColorCode.match( hex8charsRegExp ) ) {
+					var firstAlphaCharIndex = 7;
+
+					finalHex = hexColorCode.slice( 0, firstAlphaCharIndex );
+					this._.setAlpha( hexColorCode.slice( firstAlphaCharIndex ) );
+				}
+
+				return finalHex;
+			},
+			/**
+			 * Convert hexadecimal color three characters long to six characters long.
+			 *
+			 * @private
+			 * @param {string} hex3ColorCode hexadecimal color, three characters long. Eg. `#F0F`.
+			 * @returns {string} hexadecimal color value. Eg. `#FF00FF`.
+			 */
+			hex3ToHex6: function( hex3ColorCode ) {
+				return hex3ColorCode.replace( CKEDITOR.tools.color.hex3charsRegExp, function( match, hexColor ) {
+					var normalizedHexColor = hexColor.toLowerCase();
+
+					var parts = normalizedHexColor.split( '' );
+					normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
+
+					return '#' + normalizedHexColor;
+				} );
+			},
+			/**
+			 * Convert rgb, rgba, hsl or hsla color code into hexadecimal color with alpha extraction.
+			 *
+			 * @private
+			 * @param {string} colorCode rgb, rgba, hsl or hsla color code. Eg. `rgb(255,255,255)` or `hsla(360, 10%, 5%, 0)`
+			 * @returns {string} hexadecimal color value. Eg. `#FF00FF`.
+			 */
+			rgbOrHslToHex: function( colorCode ) {
+				var colorFormat = colorCode.slice( 0, 3 ).toLowerCase();
+
+				if ( colorFormat !== 'rgb' && colorFormat !== 'hsl' ) {
+					return null;
+				}
+
+				var colorNumberValues = colorCode.match( /\d+\.?\d*%*/g );
+				if ( !colorNumberValues ) {
+					return null;
+				}
+
+				var alpha = 1;
+				if ( colorNumberValues.length === 4 ) {
+					alpha = normalizePercentValue( colorNumberValues.pop() );
+				}
+
+				this._.setAlpha( alpha );
+
+				if ( colorFormat === 'hsl' ) {
+					colorNumberValues = this._.hslToRgb( colorNumberValues );
+				}
+
+				return this._.rgbToHex( colorNumberValues );
 			}
 		},
-
 		proto: {
 			/**
 			 * Get hexadecimal color blended with alpha.
@@ -87,9 +303,9 @@
 			 * @returns {string} hexadecimal color code. Eg: `#FF00FF`.
 			 */
 			getHex: function() {
-				var decimalColorValues = hexToRgb( this._.hexColorCode );
+				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
 
-				decimalColorValues = blendAlphaColor( decimalColorValues, this._.alpha );
+				decimalColorValues = this._.blendAlphaColor( decimalColorValues, this._.alpha );
 
 				var finalColor = CKEDITOR.tools.array.map( decimalColorValues, function( color ) {
 					return valueToHex( color );
@@ -117,9 +333,9 @@
 			 * @returns {string} rgb color. Eg. `rgb(255,255,255)`.
 			 */
 			getRgb: function() {
-				var decimalColorValues = hexToRgb( this._.hexColorCode );
+				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
 
-				decimalColorValues = blendAlphaColor( decimalColorValues, this._.alpha );
+				decimalColorValues = this._.blendAlphaColor( decimalColorValues, this._.alpha );
 
 				return formatRgbString( 'rgb', decimalColorValues );
 			},
@@ -132,7 +348,7 @@
 			 * @returns {string} rgba color. Eg. `rgba(255,255,255,0)`.
 			 */
 			getRgba: function() {
-				var decimalColorValues = hexToRgb( this._.hexColorCode );
+				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
 				decimalColorValues.push( this._.alpha );
 
 				return formatRgbString( 'rgba', decimalColorValues );
@@ -147,10 +363,10 @@
 			 *
 			 */
 			getHsl: function() {
-				var rgb = hexToRgb( this._.hexColorCode );
-				rgb = blendAlphaColor( rgb, this._.alpha );
+				var rgb = this._.hexToRgb( this._.hexColorCode );
+				rgb = this._.blendAlphaColor( rgb, this._.alpha );
 
-				var hsl = rgbToHsl( rgb );
+				var hsl = this._.rgbToHsl( rgb );
 
 				return formatHslString( 'hsl', hsl );
 			},
@@ -164,128 +380,11 @@
 			 * @returns {string} hsla color. Eg. `hsla(360, 100%, 50%, 0)`.
 			 */
 			getHsla: function() {
-				var rgb = hexToRgb( this._.hexColorCode );
-				var hsl = rgbToHsl( rgb );
+				var rgb = this._.hexToRgb( this._.hexColorCode );
+				var hsl = this._.rgbToHsl( rgb );
 				hsl.push( this._.alpha );
 
 				return formatHslString( 'hsla', hsl );
-			},
-			/**
-			 * Get hexadecimal color from named colors.
-			 *
-			 * @param {string} colorName color name. Eg. `red`.
-			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or `null`.
-			 */
-			matchStringToNamedColor: function( colorName ) {
-				var colorToHexObject = CKEDITOR.tools.color.namedColors;
-				var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
-
-				return resultCode;
-			},
-			/**
-			 * Try to convert hexadecimal color code to exactly six characters long hexadecimal color.
-			 * Extract alpha or takes `1` as default alpha value.
-			 *
-			 * @param {string} hexColorCode valid hexadecimal color. Eg. `#F0F`, `#FF00FF` or `#FF00FF00`.
-			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or null.
-			 */
-			matchStringToHex: function( hexColorCode ) {
-				var hex6charsRegExp = /#([0-9a-f]{6})/gi;
-				var hex8charsRegExp = /#([0-9a-f]{8})/gi;
-
-				var finalHex = null;
-				this._.setAlpha( 1 );
-
-				if ( hexColorCode.match( CKEDITOR.tools.color.hex3charsRegExp ) ) {
-					finalHex = this.hex3ToHex6( hexColorCode );
-				}
-
-				if ( hexColorCode.match( hex6charsRegExp ) ) {
-					finalHex = hexColorCode;
-				}
-
-				if ( hexColorCode.match( hex8charsRegExp ) ) {
-					var firstAlphaCharIndex = 7;
-
-					finalHex = hexColorCode.slice( 0, firstAlphaCharIndex );
-					this._.setAlpha( hexColorCode.slice( firstAlphaCharIndex ) );
-				}
-
-				return finalHex;
-			},
-			/**
-			 * Convert hexadecimal color three characters long to six characters long.
-			 *
-			 * @param {string} hex3ColorCode hexadecimal color, three characters long. Eg. `#F0F`.
-			 * @returns {string} hexadecimal color value. Eg. `#FF00FF`.
-			 */
-			hex3ToHex6: function( hex3ColorCode ) {
-				return hex3ColorCode.replace( CKEDITOR.tools.color.hex3charsRegExp, function( match, hexColor ) {
-					var normalizedHexColor = hexColor.toLowerCase();
-
-					var parts = normalizedHexColor.split( '' );
-					normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
-
-					return '#' + normalizedHexColor;
-				} );
-			},
-			/**
-			 * Convert rgb, rgba, hsl or hsla color code into hexadecimal color with alpha extraction.
-			 *
-			 * @param {string} colorCode rgb, rgba, hsl or hsla color code. Eg. `rgb(255,255,255)` or `hsla(360, 10%, 5%, 0)`
-			 * @returns {string} hexadecimal color value. Eg. `#FF00FF`.
-			 */
-			rgbOrHslToHex: function( colorCode ) {
-				var colorFormat = colorCode.slice( 0, 3 ).toLowerCase();
-
-				if ( colorFormat !== 'rgb' && colorFormat !== 'hsl' ) {
-					return null;
-				}
-
-				var colorNumberValues = colorCode.match( /\d+\.?\d*%*/g );
-				if ( !colorNumberValues ) {
-					return null;
-				}
-
-				var alpha = 1;
-				if ( colorNumberValues.length === 4 ) {
-					alpha = normalizePercentValue( colorNumberValues.pop() );
-				}
-
-				this._.setAlpha( alpha );
-
-				if ( colorFormat === 'hsl' ) {
-					colorNumberValues = this.hslToRgb( colorNumberValues );
-				}
-
-				return this.rgbToHex( colorNumberValues );
-			},
-			/**
-			 * Convert hsl values into rgb.
-			 *
-			 * @param {Array} hsl Array of hsl color values.
-			 *
-			 * @returns {Array} Array of decimal rgb values.
-			 */
-			hslToRgb: function( hsl ) {
-				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
-				var hue = clampValueInRange( Number( hsl[0] ), 0, 360 );
-				var saturation = normalizePercentValue( hsl[1] );
-				var light = normalizePercentValue( hsl[2] );
-
-				var calculateValueFromConst = function( fixValue ) {
-					var k = ( fixValue + ( hue / 30 ) ) % 12;
-					var a = saturation * Math.min( light, 1 - light );
-
-					var min = Math.min( k - 3, 9 - k, 1 );
-					var max = Math.max( -1, min );
-					var normalizedValue = light - ( a * max );
-
-					return Math.round( normalizedValue * 255 );
-				};
-
-				var rgb = [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
-				return rgb;
 			}
 		}
 	} );
@@ -299,183 +398,7 @@
 	 */
 	CKEDITOR.tools.color.defaultHexColorCode = '#000000';
 
-	/**
-	 * Regular expresion for match with three characters long hexadecimal color.
-	 *
-	 * @private
-	 * @static
-	 * @property {RegExp}
-	 */
 	CKEDITOR.tools.color.hex3charsRegExp = /#([0-9a-f]{3})/gi;
-
-	function clampValueInRange( value, min, max ) {
-		return Math.min( Math.max( value, min ), max );
-	}
-	/**
-	 * Convert value into Number ranged in 0-100.
-	 * @param {string/Number} value.
-	 */
-	function normalizePercentValue( value ) {
-		if ( isPercentValue( value ) ) {
-			value = convertPercentValueToNumber( value );
-		}
-
-		if ( Math.abs( value ) > 1 ) {
-			value =  value / 100;
-		}
-
-		return clampValueInRange( value, 0, 1 );
-	}
-	/**
-	 * Validate if given value is string type and ends with `%` character.
-	 *
-	 * @param {*} value any value.
-	 * @returns {boolean}
-	 */
-	function isPercentValue( value ) {
-		return typeof value === 'string' && value.slice( -1 ) === '%';
-	}
-	/**
-	 * Remove `%` character and convert value to Number.
-	 *
-	 * @param {string} value Percent value. Eg. `100%`
-	 * @returns {Number} value as a Number.
-	 */
-	function convertPercentValueToNumber( value ) {
-		return Number( value.slice( 0, -1 ) );
-	}
-	/**
-	 * Convert given value as hexadecimal based.
-	 *
-	 * @param {*} value value to convert.
-	 * @returns {string} hexadecimal value.
-	 */
-	function valueToHex( value ) {
-		var hex = value.toString( 16 );
-
-		return hex.length == 1 ? '0' + hex : hex;
-	}
-	/**
-	 * Extract red, green, blue from hexadecimal color code.
-	 *
-	 * @param {string} hexColorCode hexadecimal color code with leading #
-	 * @returns {Array} rgb decimal values.
-	 */
-	function hexToRgb( hexColorCode ) {
-		var colorValues = hexColorCode.slice( 1 ).match( /.{2}/ig );
-		return CKEDITOR.tools.array.map( colorValues, function( color ) {
-			return parseInt( color, 16 );
-		} );
-	}
-	/**
-	 * Convert rgb values to hexadecimal color.
-	 *
-	 * @param {Array} rgb Array with color values.
-	 * @returns {string} Hexadecimal color. Eg. `#FF00FF`
-	 */
-	function rgbToHex( rgb ) {
-		var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
-							if ( isPercentValue( number ) ) {
-								number = convertPercentValueToNumber( number );
-								number = Math.round( 255 * normalizePercentValue( number ) );
-							} else {
-								number = Number( number );
-								number = number > 255 ? 0 :
-											number < 0 ? 255 : number;
-							}
-							return valueToHex( number );
-						}, this );
-
-		return '#' + hexValues.join( '' );
-	}
-	/**
-	 * Convert color values into formatted rgb or rgba color code.
-	 *
-	 * @param {string} rgbPrefix Prefix for color value. Expected: `rgb` or `rgba`.
-	 * @param {Array} values Array of color values.
-	 * @returns {string} Formatted color value. Eg. `rgb(255,255,255)`
-	 */
-	function formatRgbString( rgbPrefix, values ) {
-		return rgbPrefix + '(' + values.join( ',' ) + ')';
-	}
-	/**
-	 * Convert color values into formatted hsl or hsla color code.
-	 *
-	 * @private
-	 * @param {string} hslPrefix Prefix for color value. Expected `hsl` or `hsla`.
-	 * @param {Array} hsl Array of hsl or hsla color values.
-	 * @returns {string} Formatted color value. Eg. `hsl(360, 50%, 50%)`
-	 */
-	function formatHslString( hslPrefix, hsl ) {
-		var alphaString = hsl[3] !== undefined ? ',' + hsl[3] : '';
-
-		return hslPrefix + '(' +
-		hsl[0] + ',' +
-		hsl[1] + '%,' +
-		hsl[2] + '%' +
-		alphaString +
-		')';
-	}
-	/**
-	 * Convert rgb color values to hsl color values.
-	 *
-	 * @private
-	 * @param {Array} rgb Array of rgb values.
-	 * @returns {Array} Array of hsl values.
-	 */
-	function rgbToHsl( rgb ) {
-		//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
-		var r = rgb[ 0 ] / 255;
-		var g = rgb[ 1 ] / 255;
-		var b = rgb[ 2 ] / 255;
-
-		var Max = Math.max( r, g, b );
-		var min = Math.min( r, g, b );
-		var Chroma = Max - min;
-
-		var calculateHprim = function() {
-			switch ( Max ) {
-				case r:
-					return ( ( g - b ) / Chroma ) % 6;
-				case g:
-					return ( ( b - r ) / Chroma ) + 2;
-				case b:
-					return ( ( r - g ) / Chroma ) + 4;
-			}
-		};
-
-		var hPrim = calculateHprim();
-		var hue = Chroma === 0 ? 0 : 60 * hPrim;
-
-		var light = ( Max + min ) / 2;
-
-		var saturation = 1;
-		if ( light === 1 || light === 0 ) {
-			saturation = 0;
-		} else {
-			saturation = Chroma / ( 1 - Math.abs( ( 2 * light ) - 1 ) );
-		}
-
-		hue = Math.round( hue );
-		saturation = Math.round( saturation ) * 100;
-		light = light * 100;
-
-		var hsl = [ hue, saturation, light ];
-		return hsl;
-	}
-	/**
-	 * Blend alpha into color. Assumes that background is white.
-	 *
-	 * @param {Array} rgb Array of rgb color values.
-	 * @param {Number} alpha Alpha value.
-	 * @returns {Array} Input rgb color mixed with alpha.
-	 */
-	function blendAlphaColor( rgb, alpha ) {
-		// Based on https://en.wikipedia.org/wiki/Alpha_compositing
-		return CKEDITOR.tools.array.map( rgb, function( color ) {
-			return Math.round( 255 - alpha * ( 255 - color ) );
-		} );
-	}
 
 	/**
 	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
@@ -644,5 +567,70 @@
 	 * @deprecated
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
+
+	function clampValueInRange( value, min, max ) {
+		return Math.min( Math.max( value, min ), max );
+	}
+
+	// Convert value into Number ranged in 0-100.
+	// @param {string/Number} value.
+	function normalizePercentValue( value ) {
+		if ( isPercentValue( value ) ) {
+			value = convertPercentValueToNumber( value );
+		}
+
+		if ( Math.abs( value ) > 1 ) {
+			value =  value / 100;
+		}
+
+		return clampValueInRange( value, 0, 1 );
+	}
+
+	// Validate if given value is string type and ends with `%` character.
+	// @param {*} value any value.
+	// @returns {boolean}
+	function isPercentValue( value ) {
+		return typeof value === 'string' && value.slice( -1 ) === '%';
+	}
+
+	// Remove `%` character and convert value to Number.
+	// @param {string} value Percent value. Eg. `100%`
+	// @returns {Number} value as a Number.
+	function convertPercentValueToNumber( value ) {
+		return Number( value.slice( 0, -1 ) );
+	}
+
+	// Convert given value as hexadecimal based.
+	// @param {*} value value to convert.
+	// @returns {string} hexadecimal value.
+	function valueToHex( value ) {
+		var hex = value.toString( 16 );
+
+		return hex.length == 1 ? '0' + hex : hex;
+	}
+
+	// Convert color values into formatted rgb or rgba color code.
+	// @param {string} rgbPrefix Prefix for color value. Expected: `rgb` or `rgba`.
+	// @param {Array} values Array of color values.
+	// @returns {string} Formatted color value. Eg. `rgb(255,255,255)`
+	function formatRgbString( rgbPrefix, values ) {
+		return rgbPrefix + '(' + values.join( ',' ) + ')';
+	}
+
+	// Convert color values into formatted hsl or hsla color code.
+	// @private
+	// @param {string} hslPrefix Prefix for color value. Expected `hsl` or `hsla`.
+	// @param {Array} hsl Array of hsl or hsla color values.
+	// @returns {string} Formatted color value. Eg. `hsl(360, 50%, 50%)`
+	function formatHslString( hslPrefix, hsl ) {
+		var alphaString = hsl[3] !== undefined ? ',' + hsl[3] : '';
+
+		return hslPrefix + '(' +
+		hsl[0] + ',' +
+		hsl[1] + '%,' +
+		hsl[2] + '%' +
+		alphaString +
+		')';
+	}
 
 } )();
