@@ -30,8 +30,28 @@
 			this._.parseInput( colorCode );
 		},
 		_: {
+			/**
+			 * Original color code provided to create object.
+			 *
+			 * @private
+			 * @property {string}
+			 */
 			originalColorCode: '',
+			/**
+			 * Hexadecimal color code calculated from constructor input.
+			 *
+			 * @private
+			 * @property {string}
+			 */
 			hexColorCode: '',
+			/**
+			 * Alpha value extracted from constructor input.
+			 * Held separated due to conversions.
+			 * Ranged in 0-1.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
 			alpha: 1,
 			/**
 			 * Parse user input to valid color representation.
@@ -273,9 +293,20 @@
 
 	/**
 	 * Default hexadecimal color code.
+	 *
+	 * @private
+	 * @static
+	 * @property {string}
 	 */
 	CKEDITOR.tools.color.defaultHexColorCode = '#000000';
 
+	/**
+	 * Regular expresion for match with three characters long hexadecimal color.
+	 *
+	 * @private
+	 * @static
+	 * @property {RegExp}
+	 */
 	CKEDITOR.tools.color.hex3charsRegExp = /#([0-9a-f]{3})/gi;
 
 	function clampValueInRange( value, min, max ) {
@@ -447,7 +478,10 @@
 
 	/**
 	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+	 *
+	 * @static
 	 * @member CKEDITOR.tools
+	 * @property {Object}
 	 */
 	CKEDITOR.tools.color.namedColors = {
 		aliceblue: '#F0F8FF',
