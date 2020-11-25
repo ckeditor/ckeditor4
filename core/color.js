@@ -14,6 +14,7 @@
 	 * Class representing color. Provides conversion to various types like: hexadecimal, rgb, hsl.
 	 * Support alpha value.
 	 *
+	 * @since 4.16.0
 	 * @class
 	 */
 	CKEDITOR.tools.color = CKEDITOR.tools.createClass( {
