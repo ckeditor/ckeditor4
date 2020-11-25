@@ -859,18 +859,10 @@
 		setPosition: function( rect ) {
 			var editor = this.editor,
 				viewHeight = this.element.getSize( 'height' ),
-				editable = editor.editable(),
 				documentWindow = this.element.getWindow(),
 				windowRect = documentWindow.getViewPaneSize(),
 				// Bounding rect where the view should fit (visible editor viewport).
-				editorViewportRect;
-
-			// iOS classic editor has different viewport element (#1910).
-			if ( CKEDITOR.env.iOS && !editable.isInline() ) {
-				editorViewportRect = iOSViewportElement( editor ).getClientRect( true );
-			} else {
-				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
-			}
+				editorViewportRect = getEditorViewportRect( editor );
 
 			// How much space is there for the view above and below the specified rect.
 			var spaceAbove = rect.top - editorViewportRect.top,
@@ -977,6 +969,17 @@
 				left: left + 'px',
 				top: top + 'px'
 			} );
+
+			function getEditorViewportRect( editor ) {
+				var editable = editor.editable();
+
+				// iOS classic editor has different viewport element (#1910).
+				if ( CKEDITOR.env.iOS && !editable.isInline() ) {
+					return iOSViewportElement( editor ).getClientRect( true );
+				} else {
+					return editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
+				}
+			}
 
 			function setVerticalPosition() {
 			}
