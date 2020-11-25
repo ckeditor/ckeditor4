@@ -90,7 +90,7 @@ The following libraries are included only in the development version of CKEditor
 
 * Less.js - Copyright (c) 2009-2014 Alexis Sellier & The Core Less Team.
 
-The following libraries are included only in the development version of CKEditor under the FreeBSD License (see Appendix H):
+The following libraries are included only in the development version of CKEditor under the BSD-2 License (see Appendix H):
 
 * UglifyJS 3 - Copyright 2012-2019 (c) Mihai Bazon <mihai.bazon@gmail.com>.
 
@@ -1646,7 +1646,7 @@ END OF TERMS AND CONDITIONS
 
 (Ignore this line: %REMOVE_END%)
 
-Appendix H: The FreeBSD License
+Appendix H: The BSD-2 License
 -----------------------------
 
 ```
