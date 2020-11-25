@@ -62,9 +62,9 @@
 			parseInput: function( colorCode ) {
 				colorCode = colorCode.trim();
 
-				var hexStringFromNamedColor = this._.matchStringToNamedColor( colorCode );
-				var hexFromHexString = this._.matchStringToHex( colorCode );
-				var hexFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
+				var hexStringFromNamedColor = this._.matchStringToNamedColor( colorCode ),
+					hexFromHexString = this._.matchStringToHex( colorCode ),
+					hexFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
 
 				this._.hexColorCode = hexStringFromNamedColor || hexFromHexString || hexFromRgbOrHsl || CKEDITOR.tools.color.defaultHexColorCode;
 			},
@@ -136,15 +136,15 @@
 			 */
 			rgbToHsl: function( rgb ) {
 				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
-				var r = rgb[ 0 ] / 255;
-				var g = rgb[ 1 ] / 255;
-				var b = rgb[ 2 ] / 255;
+				var r = rgb[ 0 ] / 255,
+					g = rgb[ 1 ] / 255,
+					b = rgb[ 2 ] / 255;
 
-				var Max = Math.max( r, g, b );
-				var min = Math.min( r, g, b );
-				var Chroma = Max - min;
+				var Max = Math.max( r, g, b ),
+					min = Math.min( r, g, b ),
+					Chroma = Max - min;
 
-				var calculateHprim = function() {
+				var calculateHueFactor = function() {
 					switch ( Max ) {
 						case r:
 							return ( ( g - b ) / Chroma ) % 6;
@@ -155,8 +155,8 @@
 					}
 				};
 
-				var hPrim = calculateHprim();
-				var hue = Chroma === 0 ? 0 : 60 * hPrim;
+				var hFactor = calculateHueFactor();
+				var hue = Chroma === 0 ? 0 : 60 * hFactor;
 
 				var light = ( Max + min ) / 2;
 
@@ -183,17 +183,17 @@
 			 */
 			hslToRgb: function( hsl ) {
 				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
-				var hue = clampValueInRange( Number( hsl[0] ), 0, 360 );
-				var saturation = normalizePercentValue( hsl[1] );
-				var light = normalizePercentValue( hsl[2] );
+				var hue = clampValueInRange( Number( hsl[0] ), 0, 360 ),
+					saturation = normalizePercentValue( hsl[1] ),
+					light = normalizePercentValue( hsl[2] );
 
 				var calculateValueFromConst = function( fixValue ) {
-					var k = ( fixValue + ( hue / 30 ) ) % 12;
-					var a = saturation * Math.min( light, 1 - light );
+					var k = ( fixValue + ( hue / 30 ) ) % 12,
+						a = saturation * Math.min( light, 1 - light );
 
-					var min = Math.min( k - 3, 9 - k, 1 );
-					var max = Math.max( -1, min );
-					var normalizedValue = light - ( a * max );
+					var min = Math.min( k - 3, 9 - k, 1 ),
+						max = Math.max( -1, min ),
+						normalizedValue = light - ( a * max );
 
 					return Math.round( normalizedValue * 255 );
 				};
@@ -223,8 +223,8 @@
 			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or null.
 			 */
 			matchStringToHex: function( hexColorCode ) {
-				var hex6charsRegExp = /#([0-9a-f]{6})/gi;
-				var hex8charsRegExp = /#([0-9a-f]{8})/gi;
+				var hex6charsRegExp = /#([0-9a-f]{6})/gi,
+					hex8charsRegExp = /#([0-9a-f]{8})/gi;
 
 				var finalHex = null;
 				this._.setAlpha( 1 );
