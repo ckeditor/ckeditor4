@@ -71,6 +71,7 @@
 			/**
 			 * Set normalized alpha.
 			 *
+			 * @private
 			 * @param {*} alphaValue.
 			 */
 			setAlpha: function( alphaValue ) {
@@ -402,6 +403,7 @@
 	/**
 	 * Convert color values into formatted hsl or hsla color code.
 	 *
+	 * @private
 	 * @param {string} hslPrefix Prefix for color value. Expected `hsl` or `hsla`.
 	 * @param {Array} hsl Array of hsl or hsla color values.
 	 * @returns {string} Formatted color value. Eg. `hsl(360, 50%, 50%)`
@@ -419,6 +421,7 @@
 	/**
 	 * Convert rgb color values to hsl color values.
 	 *
+	 * @private
 	 * @param {Array} rgb Array of rgb values.
 	 * @returns {Array} Array of hsl values.
 	 */
@@ -480,7 +483,7 @@
 	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
 	 *
 	 * @static
-	 * @member CKEDITOR.tools
+	 * @member CKEDITOR.tools.color
 	 * @property {Object}
 	 */
 	CKEDITOR.tools.color.namedColors = {
