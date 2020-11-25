@@ -857,36 +857,17 @@
 		 * For example, the position of the bottom end of the caret.
 		 */
 		setPosition: function( rect ) {
-			var editor = this.editor,
-				viewHeight = this.element.getSize( 'height' ),
-				documentWindow = this.element.getWindow(),
+			var documentWindow = this.element.getWindow(),
 				windowRect = documentWindow.getViewPaneSize(),
-				// Bounding rect where the view should fit (visible editor viewport).
-				editorViewportRect = getEditorViewportRect( editor );
-
-			// How much space is there for the view above and below the specified rect.
-			var spaceAbove = rect.top - editorViewportRect.top,
-				spaceBelow = editorViewportRect.bottom - rect.bottom,
-				top = setVerticalPosition(),
-				left = setHorizontalPosition( this.element, windowRect );
+				top = setVerticalPosition( getEditorViewportRect( this.editor ), rect, this.element.getSize( 'height' ), documentWindow.getScrollPosition().y, windowRect.height ),
+				left = setHorizontalPosition( this.element.getSize( 'width' ), windowRect.width, rect.left );
 
 			this.element.setStyles( {
 				left: left + 'px',
 				top: top + 'px'
 			} );
 
-			function getEditorViewportRect( editor ) {
-				var editable = editor.editable();
-
-				// iOS classic editor has different viewport element (#1910).
-				if ( CKEDITOR.env.iOS && !editable.isInline() ) {
-					return iOSViewportElement( editor ).getClientRect( true );
-				} else {
-					return editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
-				}
-			}
-
-			function setVerticalPosition() {
+			function setVerticalPosition( editorViewportRect, caretRect, viewHeight, verticalScroll, windowHeight ) {
 				// If the caret position is below the view - keep it at the bottom edge.
 				// +---------------------------------------------+
 				// |       editor viewport                       |
@@ -900,8 +881,8 @@
 				// |     █ - caret position                      |
 				// |                                             |
 				// +---------------------------------------------+
-				if ( editorViewportRect.bottom < rect.bottom ) {
-					return Math.min( rect.top - viewHeight, editorViewportRect.bottom - viewHeight );
+				if ( editorViewportRect.bottom < caretRect.bottom ) {
+					return Math.min( caretRect.top, editorViewportRect.bottom ) - viewHeight;
 				}
 
 				// If the view doesn't fit below the caret position and fits above, set it there.
@@ -918,10 +899,13 @@
 				// |                                             |
 				// |                                             |
 				// +---------------------------------------------+
-				var viewExceedsTopViewport = ( rect.top - viewHeight ) < documentWindow.getScrollPosition().y;
+				// How much space is there for the view above and below the specified rect.
+				var spaceAbove = caretRect.top - editorViewportRect.top,
+					spaceBelow = editorViewportRect.bottom - caretRect.bottom,
+					viewExceedsTopViewport = ( caretRect.top - viewHeight ) < verticalScroll;
 
 				if ( viewHeight > spaceBelow && viewHeight < spaceAbove && !viewExceedsTopViewport ) {
-					return rect.top - viewHeight;
+					return caretRect.top - viewHeight;
 				}
 
 				// If the caret position is above the view - keep it at the top edge.
@@ -937,8 +921,8 @@
 				// |                                             |
 				// |       editor viewport                       |
 				// +---------------------------------------------+
-				if ( editorViewportRect.top > rect.top ) {
-					return Math.max( rect.bottom, editorViewportRect.top );
+				if ( editorViewportRect.top > caretRect.top ) {
+					return Math.max( caretRect.bottom, editorViewportRect.top );
 				}
 
 				// (#3582)
@@ -956,11 +940,10 @@
 				// |                                             |
 				// |                                             |
 				// +---------------------------------------------+
-				var windowHeight = windowRect.height,
-					viewExceedsBottomViewport = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
+				var viewExceedsBottomViewport = ( caretRect.bottom + viewHeight ) > ( windowHeight + verticalScroll );
 
 				if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && viewExceedsBottomViewport ) {
-					return rect.top - viewHeight;
+					return caretRect.top - viewHeight;
 				}
 
 				// As a default, keep the view inside the editor viewport.
@@ -976,13 +959,22 @@
 				// |                                             |
 				// |                                             |
 				// +---------------------------------------------+
-				return rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
+				return Math.min( editorViewportRect.bottom, caretRect.bottom );
 			}
 
-			function setHorizontalPosition( element, windowRect ) {
-				var windowWidth = windowRect.width,
-					viewWidth = element.getSize( 'width' );
+			// Bounding rect where the view should fit (visible editor viewport).
+			function getEditorViewportRect( editor ) {
+				var editable = editor.editable();
 
+				// iOS classic editor has different viewport element (#1910).
+				if ( CKEDITOR.env.iOS && !editable.isInline() ) {
+					return iOSViewportElement( editor ).getClientRect( true );
+				} else {
+					return editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
+				}
+			}
+
+			function setHorizontalPosition( viewWidth, windowWidth, leftPosition ) {
 				// (#3582)
 				// If the view goes beyond right window border - stick it to the edge of the available viewport.
 				// +---------------------------------------------+   ||
@@ -997,12 +989,12 @@
 				// |                                 +--------------+||
 				// |                                             |   ||
 				// +---------------------------------------------+   ||
-				if ( rect.left + viewWidth > windowWidth ) {
+				if ( leftPosition + viewWidth > windowWidth ) {
 					return windowWidth - viewWidth;
 				}
 
 				// Otherwise inherit the horizontal position from caret.
-				return rect.left;
+				return leftPosition;
 			}
 		},
 
