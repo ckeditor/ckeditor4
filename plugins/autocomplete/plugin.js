@@ -867,103 +867,8 @@
 			// How much space is there for the view above and below the specified rect.
 			var spaceAbove = rect.top - editorViewportRect.top,
 				spaceBelow = editorViewportRect.bottom - rect.bottom,
-				left,
-				top;
-
-			// As a default, keep the view inside the editor viewport.
-			// +---------------------------------------------+
-			// |       editor viewport                       |
-			// |                                             |
-			// |                                             |
-			// |                                             |
-			// |     █ - caret position                      |
-			// |     +--------------+                        |
-			// |     |     view     |                        |
-			// |     +--------------+                        |
-			// |                                             |
-			// |                                             |
-			// +---------------------------------------------+
-			top = rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
-
-			// If the view doesn't fit below the caret position and fits above, set it there.
-			// This means that the position below the caret is preferred.
-			// +---------------------------------------------+
-			// |                                             |
-			// |       editor viewport                       |
-			// |     +--------------+                        |
-			// |     |              |                        |
-			// |     |     view     |                        |
-			// |     |              |                        |
-			// |     +--------------+                        |
-			// |     █ - caret position                      |
-			// |                                             |
-			// |                                             |
-			// +---------------------------------------------+
-			var viewExceedsTopViewport = ( rect.top - viewHeight ) < documentWindow.getScrollPosition().y;
-
-			if ( viewHeight > spaceBelow && viewHeight < spaceAbove && !viewExceedsTopViewport ) {
-				top = rect.top - viewHeight;
-			}
-
-			// If the caret position is below the view - keep it at the bottom edge.
-			// +---------------------------------------------+
-			// |       editor viewport                       |
-			// |                                             |
-			// |     +--------------+                        |
-			// |     |              |                        |
-			// |     |     view     |                        |
-			// |     |              |                        |
-			// +-----+==============+------------------------+
-			// |                                             |
-			// |     █ - caret position                      |
-			// |                                             |
-			// +---------------------------------------------+
-			if ( editorViewportRect.bottom < rect.bottom ) {
-				top = Math.min( rect.top - viewHeight, editorViewportRect.bottom - viewHeight );
-			}
-
-			// If the caret position is above the view - keep it at the top edge.
-			// +---------------------------------------------+
-			// |                                             |
-			// |     █ - caret position                      |
-			// |                                             |
-			// +-----+==============+------------------------+
-			// |     |              |                        |
-			// |     |     view     |                        |
-			// |     |              |                        |
-			// |     +--------------+                        |
-			// |                                             |
-			// |       editor viewport                       |
-			// +---------------------------------------------+
-			if ( editorViewportRect.top > rect.top ) {
-				top = Math.max( rect.bottom, editorViewportRect.top );
-			}
-
-			// (#3582)
-			// If the view goes beyond bottom window border - reverse view position, even if it fits editor viewport.
-			// +---------------------------------------------+
-			// |               editor viewport               |
-			// |                                             |
-			// |                                             |
-			// |                  +--------------+           |
-			// |                  |     view     |           |
-			// |                  +--------------+           |
-			// | caret position - █                          |
-			// |                                             |
-			// =============================================== - bottom window border
-			// |                                             |
-			// |                                             |
-			// +---------------------------------------------+
-
-			var windowHeight = windowRect.height,
-				viewExceedsBottomViewport = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
-
-			if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && viewExceedsBottomViewport ) {
-				top = rect.top - viewHeight;
-			}
-
-			setVerticalPosition();
-			left = setHorizontalPosition( this.element, windowRect );
+				top = setVerticalPosition(),
+				left = setHorizontalPosition( this.element, windowRect );
 
 			this.element.setStyles( {
 				left: left + 'px',
@@ -982,6 +887,96 @@
 			}
 
 			function setVerticalPosition() {
+				// If the caret position is below the view - keep it at the bottom edge.
+				// +---------------------------------------------+
+				// |       editor viewport                       |
+				// |                                             |
+				// |     +--------------+                        |
+				// |     |              |                        |
+				// |     |     view     |                        |
+				// |     |              |                        |
+				// +-----+==============+------------------------+
+				// |                                             |
+				// |     █ - caret position                      |
+				// |                                             |
+				// +---------------------------------------------+
+				if ( editorViewportRect.bottom < rect.bottom ) {
+					return Math.min( rect.top - viewHeight, editorViewportRect.bottom - viewHeight );
+				}
+
+				// If the view doesn't fit below the caret position and fits above, set it there.
+				// This means that the position below the caret is preferred.
+				// +---------------------------------------------+
+				// |                                             |
+				// |       editor viewport                       |
+				// |     +--------------+                        |
+				// |     |              |                        |
+				// |     |     view     |                        |
+				// |     |              |                        |
+				// |     +--------------+                        |
+				// |     █ - caret position                      |
+				// |                                             |
+				// |                                             |
+				// +---------------------------------------------+
+				var viewExceedsTopViewport = ( rect.top - viewHeight ) < documentWindow.getScrollPosition().y;
+
+				if ( viewHeight > spaceBelow && viewHeight < spaceAbove && !viewExceedsTopViewport ) {
+					return rect.top - viewHeight;
+				}
+
+				// If the caret position is above the view - keep it at the top edge.
+				// +---------------------------------------------+
+				// |                                             |
+				// |     █ - caret position                      |
+				// |                                             |
+				// +-----+==============+------------------------+
+				// |     |              |                        |
+				// |     |     view     |                        |
+				// |     |              |                        |
+				// |     +--------------+                        |
+				// |                                             |
+				// |       editor viewport                       |
+				// +---------------------------------------------+
+				if ( editorViewportRect.top > rect.top ) {
+					return Math.max( rect.bottom, editorViewportRect.top );
+				}
+
+				// (#3582)
+				// If the view goes beyond bottom window border - reverse view position, even if it fits editor viewport.
+				// +---------------------------------------------+
+				// |               editor viewport               |
+				// |                                             |
+				// |                                             |
+				// |                  +--------------+           |
+				// |                  |     view     |           |
+				// |                  +--------------+           |
+				// | caret position - █                          |
+				// |                                             |
+				// =============================================== - bottom window border
+				// |                                             |
+				// |                                             |
+				// +---------------------------------------------+
+				var windowHeight = windowRect.height,
+					viewExceedsBottomViewport = ( rect.bottom + viewHeight ) > ( windowHeight + documentWindow.getScrollPosition().y );
+
+				if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && viewExceedsBottomViewport ) {
+					return rect.top - viewHeight;
+				}
+
+				// As a default, keep the view inside the editor viewport.
+				// +---------------------------------------------+
+				// |       editor viewport                       |
+				// |                                             |
+				// |                                             |
+				// |                                             |
+				// |     █ - caret position                      |
+				// |     +--------------+                        |
+				// |     |     view     |                        |
+				// |     +--------------+                        |
+				// |                                             |
+				// |                                             |
+				// +---------------------------------------------+
+				return rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
 			}
 
 			function setHorizontalPosition( element, windowRect ) {
