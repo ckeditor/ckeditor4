@@ -386,22 +386,30 @@
 
 				return formatHslString( 'hsla', hsl );
 			}
+		},
+		statics: {
+			/**
+			 * Regular expression to match three characters long hexadecimal color value.
+			 *
+			 * @private
+			 * @static
+			 * @property {RegExp}
+			 */
+			hex3charsRegExp: /#([0-9a-f]{3})/gi,
+
+			/**
+			 * Default hexadecimal color code.
+			 *
+			 * @private
+			 * @static
+			 * @property {string}
+			 */
+			defaultHexColorCode: '#000000'
 		}
 	} );
 
 	/**
-	 * Default hexadecimal color code.
-	 *
-	 * @private
-	 * @static
-	 * @property {string}
-	 */
-	CKEDITOR.tools.color.defaultHexColorCode = '#000000';
-
-	CKEDITOR.tools.color.hex3charsRegExp = /#([0-9a-f]{3})/gi;
-
-	/**
-	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+	 * Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
 	 *
 	 * @static
 	 * @member CKEDITOR.tools.color
