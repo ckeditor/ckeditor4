@@ -859,15 +859,31 @@
 		setPosition: function( rect ) {
 			var documentWindow = this.element.getWindow(),
 				windowRect = documentWindow.getViewPaneSize(),
-				top = setVerticalPosition( getEditorViewportRect( this.editor ), rect, this.element.getSize( 'height' ), documentWindow.getScrollPosition().y, windowRect.height ),
-				left = setHorizontalPosition( this.element.getSize( 'width' ), windowRect.width, rect.left );
+				top = setVerticalPosition( {
+					editorViewportRect: getEditorViewportRect( this.editor ),
+					caretRect: rect,
+					viewHeight: this.element.getSize( 'height' ),
+					verticalScroll: documentWindow.getScrollPosition().y,
+					windowHeight: windowRect.height
+				} ),
+				left = setHorizontalPosition( {
+					leftPosition: rect.left,
+					viewWidth: this.element.getSize( 'width' ),
+					windowWidth: windowRect.width
+				} );
 
 			this.element.setStyles( {
 				left: left + 'px',
 				top: top + 'px'
 			} );
 
-			function setVerticalPosition( editorViewportRect, caretRect, viewHeight, verticalScroll, windowHeight ) {
+			function setVerticalPosition( options ) {
+				var editorViewportRect = options.editorViewportRect,
+					caretRect = options.caretRect,
+					viewHeight = options.viewHeight,
+					verticalScroll = options.verticalScroll,
+					windowHeight = options.windowHeight;
+
 				// If the caret position is below the view - keep it at the bottom edge.
 				// +---------------------------------------------+
 				// |       editor viewport                       |
@@ -974,7 +990,11 @@
 				}
 			}
 
-			function setHorizontalPosition( viewWidth, windowWidth, leftPosition ) {
+			function setHorizontalPosition( options ) {
+				var leftPosition = options.leftPosition,
+					viewWidth = options.viewWidth,
+					windowWidth = options.windowWidth;
+
 				// (#3582)
 				// If the view goes beyond right window border - stick it to the edge of the available viewport.
 				// +---------------------------------------------+   ||
