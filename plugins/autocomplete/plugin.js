@@ -859,7 +859,6 @@
 		setPosition: function( rect ) {
 			var editor = this.editor,
 				viewHeight = this.element.getSize( 'height' ),
-				viewWidth = this.element.getSize( 'width' ),
 				editable = editor.editable(),
 				documentWindow = this.element.getWindow(),
 				windowRect = documentWindow.getViewPaneSize(),
@@ -876,7 +875,7 @@
 			// How much space is there for the view above and below the specified rect.
 			var spaceAbove = rect.top - editorViewportRect.top,
 				spaceBelow = editorViewportRect.bottom - rect.bottom,
-				left = rect.left,
+				left,
 				top;
 
 			// As a default, keep the view inside the editor viewport.
@@ -971,30 +970,42 @@
 				top = rect.top - viewHeight;
 			}
 
-			// (#3582)
-			// If the view goes beyond right window border - stick it to the edge of the available viewport.
-			// +---------------------------------------------+   ||
-			// |               editor viewport               |   ||
-			// |                                             |   ||
-			// |                                             |   ||
-			// |                         caret position - █  |   || - right window border
-			// |                                 +--------------+||
-			// |                                 |              |||
-			// |                                 |     view     |||
-			// |                                 |              |||
-			// |                                 +--------------+||
-			// |                                             |   ||
-			// +---------------------------------------------+   ||
-			var windowWidth = windowRect.width;
-
-			if ( rect.left + viewWidth > windowWidth ) {
-				left = windowWidth - viewWidth;
-			}
+			setVerticalPosition();
+			left = setHorizontalPosition( this.element, windowRect );
 
 			this.element.setStyles( {
 				left: left + 'px',
 				top: top + 'px'
 			} );
+
+			function setVerticalPosition() {
+			}
+
+			function setHorizontalPosition( element, windowRect ) {
+				var windowWidth = windowRect.width,
+					viewWidth = element.getSize( 'width' );
+
+				// (#3582)
+				// If the view goes beyond right window border - stick it to the edge of the available viewport.
+				// +---------------------------------------------+   ||
+				// |               editor viewport               |   ||
+				// |                                             |   ||
+				// |                                             |   ||
+				// |                         caret position - █  |   || - right window border
+				// |                                 +--------------+||
+				// |                                 |              |||
+				// |                                 |     view     |||
+				// |                                 |              |||
+				// |                                 +--------------+||
+				// |                                             |   ||
+				// +---------------------------------------------+   ||
+				if ( rect.left + viewWidth > windowWidth ) {
+					return windowWidth - viewWidth;
+				}
+
+				// Otherwise inherit the horizontal position from caret.
+				return rect.left;
+			}
 		},
 
 		/**
