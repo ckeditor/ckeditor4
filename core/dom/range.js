@@ -2897,7 +2897,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * start in the top left-hand corner of the selection and end in the bottom right-hand corner.
 		 * Possible cases when the returned rectangle does not fully cover ranges are presented below:
 		 *
-		 * <img src="../assets/img/dom-range-selection.png" alt="range selection fix">
+		 * <img src="../assets/img/dom-range-selection.png" alt="Possible incorrect cases.">
 		 *
 		 * @since 4.10.0
 		 * @param {Boolean} [isAbsolute] The function will retrieve an absolute rectangle of the element,
