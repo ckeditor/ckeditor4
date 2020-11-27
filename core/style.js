@@ -1888,6 +1888,8 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 /**
  * Manages styles registration and loading. See also {@link CKEDITOR.config#stylesSet}.
  *
+ * **Note** CKEDITOR.stylesSet is instance of {@link CKEDITOR.resourceManager}
+ *
  *		// The set of styles for the <b>Styles</b> drop-down list.
  *		CKEDITOR.stylesSet.add( 'default', [
  *			// Block Styles
@@ -1913,10 +1915,17 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
  * @since 3.2.0
  * @class
  * @singleton
- * @extends CKEDITOR.resourceManager
  */
 CKEDITOR.stylesSet = new CKEDITOR.resourceManager( '', 'stylesSet' );
 
+/**
+ * Adds new style definition.
+ *
+ * @member CKEDITOR.stylesSet
+ * @method add
+ * @param {String} name Styleset name.
+ * @param {Array} definition Array of objects styles definitions.
+ */
 // Backward compatibility (https://dev.ckeditor.com/ticket/5025).
 CKEDITOR.addStylesSet = CKEDITOR.tools.bind( CKEDITOR.stylesSet.add, CKEDITOR.stylesSet );
 CKEDITOR.loadStylesSet = function( name, url, callback ) {
