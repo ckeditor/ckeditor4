@@ -1919,7 +1919,7 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 CKEDITOR.stylesSet = new CKEDITOR.resourceManager( '', 'stylesSet' );
 
 /**
- * Adds new style definition.
+ * Adds new styleset definition.
  *
  * @member CKEDITOR.stylesSet
  * @method add
