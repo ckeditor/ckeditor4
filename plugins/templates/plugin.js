@@ -33,7 +33,11 @@
 						'<p>' +
 						'' +
 						'</p>';
-
+					editor.focus();
+					var selection = editor.getSelection();
+					var range = selection.getRanges()[0];
+					range.moveToPosition(range.root.getChild(0),CKEDITOR.POSITION_BEFORE_START);
+					range.select();
 					editor.insertHtml( html );
 				}
 			} );
