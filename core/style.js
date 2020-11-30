@@ -1915,17 +1915,10 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
  * @since 3.2.0
  * @class
  * @singleton
+ * @extends CKEDITOR.resourceManager
  */
 CKEDITOR.stylesSet = new CKEDITOR.resourceManager( '', 'stylesSet' );
 
-/**
- * Adds new styleset definition.
- *
- * @member CKEDITOR.stylesSet
- * @method add
- * @param {String} name Styleset name.
- * @param {Array} definition Array of objects styles definitions.
- */
 // Backward compatibility (https://dev.ckeditor.com/ticket/5025).
 CKEDITOR.addStylesSet = CKEDITOR.tools.bind( CKEDITOR.stylesSet.add, CKEDITOR.stylesSet );
 CKEDITOR.loadStylesSet = function( name, url, callback ) {
