@@ -39,19 +39,9 @@
 			 * @returns {string} hexadecimal color code. Eg: `#FF00FF`.
 			 */
 			getHex: function() {
-				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
+				var values = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
-				decimalColorValues = this._.blendAlphaColor( decimalColorValues, this._.alpha );
-
-				var finalColor = CKEDITOR.tools.array.map( decimalColorValues, function( color ) {
-					return valueToHex( color );
-				}, this );
-
-				var finalColorCode = '#' + finalColor.join( '' );
-
-				finalColorCode = finalColorCode.toUpperCase();
-
-				return finalColorCode;
+				return formatHexString( values[0], values[1], values[2] );
 			},
 			/**
 			 * Get hexadecimal color with alpha value.
@@ -59,7 +49,7 @@
 			 * @returns {string} hexadecimal color code. Eg: `#FF00FF00`.
 			 */
 			getHexAlpha: function() {
-				return this._.hexColorCode + valueToHex( this._.alpha );
+				return formatHexString( this._.red, this._.green, this._.blue, this._.alpha );
 			},
 			/**
 			 * Get rgb color blended with alpha.
@@ -69,9 +59,7 @@
 			 * @returns {string} rgb color. Eg. `rgb(255,255,255)`.
 			 */
 			getRgb: function() {
-				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
-
-				decimalColorValues = this._.blendAlphaColor( decimalColorValues, this._.alpha );
+				var decimalColorValues = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
 				return formatRgbString( 'rgb', decimalColorValues );
 			},
@@ -84,10 +72,9 @@
 			 * @returns {string} rgba color. Eg. `rgba(255,255,255,0)`.
 			 */
 			getRgba: function() {
-				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
-				decimalColorValues.push( this._.alpha );
+				var decimalValues = [ this._.red, this._.green, this._.blue, this._.alpha ];
 
-				return formatRgbString( 'rgba', decimalColorValues );
+				return formatRgbString( 'rgba', decimalValues );
 			},
 			/**
 			 * Get hsl color blended with alpha.
@@ -99,10 +86,9 @@
 			 *
 			 */
 			getHsl: function() {
-				var rgb = this._.hexToRgb( this._.hexColorCode );
-				rgb = this._.blendAlphaColor( rgb, this._.alpha );
+				var rgb = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
-				var hsl = this._.rgbToHsl( rgb );
+				var hsl = this._.rgbToHsl( rgb[0],rgb[1], rgb[2] );
 
 				return formatHslString( 'hsl', hsl );
 			},
@@ -116,8 +102,7 @@
 			 * @returns {string} hsla color. Eg. `hsla(360, 100%, 50%, 0)`.
 			 */
 			getHsla: function() {
-				var rgb = this._.hexToRgb( this._.hexColorCode );
-				var hsl = this._.rgbToHsl( rgb );
+				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
 				hsl.push( this._.alpha );
 
 				return formatHslString( 'hsla', hsl );
@@ -131,13 +116,6 @@
 			 * @property {string}
 			 */
 			originalColorCode: '',
-			/**
-			 * Hexadecimal color code calculated from constructor input.
-			 *
-			 * @private
-			 * @property {string}
-			 */
-			hexColorCode: '',
 			/**
 			 * Alpha value extracted from constructor input.
 			 * Held separated due to conversions.
@@ -160,7 +138,13 @@
 					hexFromHexString = this._.matchStringToHex( colorCode ),
 					hexFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
 
-				this._.hexColorCode = hexStringFromNamedColor || hexFromHexString || hexFromRgbOrHsl || CKEDITOR.tools.color.defaultHexColorCode;
+				var hexColorCode = hexStringFromNamedColor || hexFromHexString || hexFromRgbOrHsl || CKEDITOR.tools.color.defaultHexColorCode;
+
+				var rgb = this._.hexToRgb( hexColorCode );
+
+				this._.red = rgb[0];
+				this._.green = rgb[1];
+				this._.blue = rgb[2];
 			},
 			/**
 			 * Set normalized alpha.
@@ -180,7 +164,8 @@
 			 * @param {Number} alpha Alpha value.
 			 * @returns {Array} Input rgb color mixed with alpha.
 			 */
-			blendAlphaColor: function( rgb, alpha ) {
+			blendAlphaColor: function( red, green, blue, alpha ) {
+				var rgb = [ red, green, blue ];
 				// Based on https://en.wikipedia.org/wiki/Alpha_compositing
 				return CKEDITOR.tools.array.map( rgb, function( color ) {
 					return Math.round( 255 - alpha * ( 255 - color ) );
@@ -193,18 +178,19 @@
 			 * @param {Array} rgb Array with color values.
 			 * @returns {string} Hexadecimal color. Eg. `#FF00FF`
 			 */
-			rgbToHex: function( rgb ) {
+			rgbToHex: function( red, green, blue ) {
+				var rgb = [ red, green, blue ];
 				var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
-									if ( isPercentValue( number ) ) {
-										number = convertPercentValueToNumber( number );
-										number = Math.round( 255 * normalizePercentValue( number ) );
-									} else {
-										number = Number( number );
-										number = number > 255 ? 0 :
-													number < 0 ? 255 : number;
-									}
-									return valueToHex( number );
-								}, this );
+					if ( isPercentValue( number ) ) {
+						number = convertPercentValueToNumber( number );
+						number = Math.round( 255 * normalizePercentValue( number ) );
+					} else {
+						number = Number( number );
+						number = number > 255 ? 0 :
+							number < 0 ? 255 : number;
+					}
+					return valueToHex( number );
+				}, this );
 
 				return '#' + hexValues.join( '' );
 			},
@@ -228,11 +214,11 @@
 			 * @param {Array} rgb Array of rgb values.
 			 * @returns {Array} Array of hsl values.
 			 */
-			rgbToHsl: function( rgb ) {
+			rgbToHsl: function( red, green, blue ) {
 				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
-				var r = rgb[ 0 ] / 255,
-					g = rgb[ 1 ] / 255,
-					b = rgb[ 2 ] / 255;
+				var r = red / 255,
+					g = green / 255,
+					b = blue / 255;
 
 				var Max = Math.max( r, g, b ),
 					min = Math.min( r, g, b ),
@@ -275,19 +261,19 @@
 			 * @param {Array} hsl Array of hsl color values.
 			 * @returns {Array} Array of decimal rgb values.
 			 */
-			hslToRgb: function( hsl ) {
+			hslToRgb: function( hue, saturation, lightness ) {
 				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
-				var hue = clampValueInRange( Number( hsl[0] ), 0, 360 ),
-					saturation = normalizePercentValue( hsl[1] ),
-					light = normalizePercentValue( hsl[2] );
+				hue = clampValueInRange( Number( hue ), 0, 360 ),
+				saturation = normalizePercentValue( saturation ),
+				lightness = normalizePercentValue( lightness );
 
 				var calculateValueFromConst = function( fixValue ) {
 					var k = ( fixValue + ( hue / 30 ) ) % 12,
-						a = saturation * Math.min( light, 1 - light );
+						a = saturation * Math.min( lightness, 1 - lightness );
 
 					var min = Math.min( k - 3, 9 - k, 1 ),
 						max = Math.max( -1, min ),
-						normalizedValue = light - ( a * max );
+						normalizedValue = lightness - ( a * max );
 
 					return Math.round( normalizedValue * 255 );
 				};
@@ -381,10 +367,10 @@
 				this._.setAlpha( alpha );
 
 				if ( colorFormat === 'hsl' ) {
-					colorNumberValues = this._.hslToRgb( colorNumberValues );
+					colorNumberValues = this._.hslToRgb( colorNumberValues[0], colorNumberValues[1], colorNumberValues[2] );
 				}
 
-				return this._.rgbToHex( colorNumberValues );
+				return this._.rgbToHex( colorNumberValues[0], colorNumberValues[1], colorNumberValues[2] );
 			}
 		},
 		statics: {
@@ -408,168 +394,166 @@
 			 * @static
 			 * @property {string}
 			 */
-			defaultHexColorCode: '#000000'
+			defaultHexColorCode: '#000000',
+			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
+			 *
+			 * @static
+			 * @member CKEDITOR.tools.color
+			 * @property {Object}
+			 */
+			namedColors: {
+				aliceblue: '#F0F8FF',
+				antiquewhite: '#FAEBD7',
+				aqua: '#00FFFF',
+				aquamarine: '#7FFFD4',
+				azure: '#F0FFFF',
+				beige: '#F5F5DC',
+				bisque: '#FFE4C4',
+				black: '#000000',
+				blanchedalmond: '#FFEBCD',
+				blue: '#0000FF',
+				blueviolet: '#8A2BE2',
+				brown: '#A52A2A',
+				burlywood: '#DEB887',
+				cadetblue: '#5F9EA0',
+				chartreuse: '#7FFF00',
+				chocolate: '#D2691E',
+				coral: '#FF7F50',
+				cornflowerblue: '#6495ED',
+				cornsilk: '#FFF8DC',
+				crimson: '#DC143C',
+				cyan: '#00FFFF',
+				darkblue: '#00008B',
+				darkcyan: '#008B8B',
+				darkgoldenrod: '#B8860B',
+				darkgray: '#A9A9A9',
+				darkgreen: '#006400',
+				darkgrey: '#A9A9A9',
+				darkkhaki: '#BDB76B',
+				darkmagenta: '#8B008B',
+				darkolivegreen: '#556B2F',
+				darkorange: '#FF8C00',
+				darkorchid: '#9932CC',
+				darkred: '#8B0000',
+				darksalmon: '#E9967A',
+				darkseagreen: '#8FBC8F',
+				darkslateblue: '#483D8B',
+				darkslategray: '#2F4F4F',
+				darkslategrey: '#2F4F4F',
+				darkturquoise: '#00CED1',
+				darkviolet: '#9400D3',
+				deeppink: '#FF1493',
+				deepskyblue: '#00BFFF',
+				dimgray: '#696969',
+				dimgrey: '#696969',
+				dodgerblue: '#1E90FF',
+				firebrick: '#B22222',
+				floralwhite: '#FFFAF0',
+				forestgreen: '#228B22',
+				fuchsia: '#FF00FF',
+				gainsboro: '#DCDCDC',
+				ghostwhite: '#F8F8FF',
+				gold: '#FFD700',
+				goldenrod: '#DAA520',
+				gray: '#808080',
+				green: '#008000',
+				greenyellow: '#ADFF2F',
+				grey: '#808080',
+				honeydew: '#F0FFF0',
+				hotpink: '#FF69B4',
+				indianred: '#CD5C5C',
+				indigo: '#4B0082',
+				ivory: '#FFFFF0',
+				khaki: '#F0E68C',
+				lavender: '#E6E6FA',
+				lavenderblush: '#FFF0F5',
+				lawngreen: '#7CFC00',
+				lemonchiffon: '#FFFACD',
+				lightblue: '#ADD8E6',
+				lightcoral: '#F08080',
+				lightcyan: '#E0FFFF',
+				lightgoldenrodyellow: '#FAFAD2',
+				lightgray: '#D3D3D3',
+				lightgreen: '#90EE90',
+				lightgrey: '#D3D3D3',
+				lightpink: '#FFB6C1',
+				lightsalmon: '#FFA07A',
+				lightseagreen: '#20B2AA',
+				lightskyblue: '#87CEFA',
+				lightslategray: '#778899',
+				lightslategrey: '#778899',
+				lightsteelblue: '#B0C4DE',
+				lightyellow: '#FFFFE0',
+				lime: '#00FF00',
+				limegreen: '#32CD32',
+				linen: '#FAF0E6',
+				magenta: '#FF00FF',
+				maroon: '#800000',
+				mediumaquamarine: '#66CDAA',
+				mediumblue: '#0000CD',
+				mediumorchid: '#BA55D3',
+				mediumpurple: '#9370DB',
+				mediumseagreen: '#3CB371',
+				mediumslateblue: '#7B68EE',
+				mediumspringgreen: '#00FA9A',
+				mediumturquoise: '#48D1CC',
+				mediumvioletred: '#C71585',
+				midnightblue: '#191970',
+				mintcream: '#F5FFFA',
+				mistyrose: '#FFE4E1',
+				moccasin: '#FFE4B5',
+				navajowhite: '#FFDEAD',
+				navy: '#000080',
+				oldlace: '#FDF5E6',
+				olive: '#808000',
+				olivedrab: '#6B8E23',
+				orange: '#FFA500',
+				orangered: '#FF4500',
+				orchid: '#DA70D6',
+				palegoldenrod: '#EEE8AA',
+				palegreen: '#98FB98',
+				paleturquoise: '#AFEEEE',
+				palevioletred: '#DB7093',
+				papayawhip: '#FFEFD5',
+				peachpuff: '#FFDAB9',
+				peru: '#CD853F',
+				pink: '#FFC0CB',
+				plum: '#DDA0DD',
+				powderblue: '#B0E0E6',
+				purple: '#800080',
+				rebeccapurple: '#663399',
+				red: '#FF0000',
+				rosybrown: '#BC8F8F',
+				royalblue: '#4169E1',
+				saddlebrown: '#8B4513',
+				salmon: '#FA8072',
+				sandybrown: '#F4A460',
+				seagreen: '#2E8B57',
+				seashell: '#FFF5EE',
+				sienna: '#A0522D',
+				silver: '#C0C0C0',
+				skyblue: '#87CEEB',
+				slateblue: '#6A5ACD',
+				slategray: '#708090',
+				slategrey: '#708090',
+				snow: '#FFFAFA',
+				springgreen: '#00FF7F',
+				steelblue: '#4682B4',
+				tan: '#D2B48C',
+				teal: '#008080',
+				thistle: '#D8BFD8',
+				tomato: '#FF6347',
+				turquoise: '#40E0D0',
+				violet: '#EE82EE',
+				windowtext: 'windowtext',
+				wheat: '#F5DEB3',
+				white: '#FFFFFF',
+				whitesmoke: '#F5F5F5',
+				yellow: '#FFFF00',
+				yellowgreen: '#9ACD32'
+			}
 		}
 	} );
-
-	/**
-	 * Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
-	 *
-	 * @static
-	 * @member CKEDITOR.tools.color
-	 * @property {Object}
-	 */
-	CKEDITOR.tools.color.namedColors = {
-		aliceblue: '#F0F8FF',
-		antiquewhite: '#FAEBD7',
-		aqua: '#00FFFF',
-		aquamarine: '#7FFFD4',
-		azure: '#F0FFFF',
-		beige: '#F5F5DC',
-		bisque: '#FFE4C4',
-		black: '#000000',
-		blanchedalmond: '#FFEBCD',
-		blue: '#0000FF',
-		blueviolet: '#8A2BE2',
-		brown: '#A52A2A',
-		burlywood: '#DEB887',
-		cadetblue: '#5F9EA0',
-		chartreuse: '#7FFF00',
-		chocolate: '#D2691E',
-		coral: '#FF7F50',
-		cornflowerblue: '#6495ED',
-		cornsilk: '#FFF8DC',
-		crimson: '#DC143C',
-		cyan: '#00FFFF',
-		darkblue: '#00008B',
-		darkcyan: '#008B8B',
-		darkgoldenrod: '#B8860B',
-		darkgray: '#A9A9A9',
-		darkgreen: '#006400',
-		darkgrey: '#A9A9A9',
-		darkkhaki: '#BDB76B',
-		darkmagenta: '#8B008B',
-		darkolivegreen: '#556B2F',
-		darkorange: '#FF8C00',
-		darkorchid: '#9932CC',
-		darkred: '#8B0000',
-		darksalmon: '#E9967A',
-		darkseagreen: '#8FBC8F',
-		darkslateblue: '#483D8B',
-		darkslategray: '#2F4F4F',
-		darkslategrey: '#2F4F4F',
-		darkturquoise: '#00CED1',
-		darkviolet: '#9400D3',
-		deeppink: '#FF1493',
-		deepskyblue: '#00BFFF',
-		dimgray: '#696969',
-		dimgrey: '#696969',
-		dodgerblue: '#1E90FF',
-		firebrick: '#B22222',
-		floralwhite: '#FFFAF0',
-		forestgreen: '#228B22',
-		fuchsia: '#FF00FF',
-		gainsboro: '#DCDCDC',
-		ghostwhite: '#F8F8FF',
-		gold: '#FFD700',
-		goldenrod: '#DAA520',
-		gray: '#808080',
-		green: '#008000',
-		greenyellow: '#ADFF2F',
-		grey: '#808080',
-		honeydew: '#F0FFF0',
-		hotpink: '#FF69B4',
-		indianred: '#CD5C5C',
-		indigo: '#4B0082',
-		ivory: '#FFFFF0',
-		khaki: '#F0E68C',
-		lavender: '#E6E6FA',
-		lavenderblush: '#FFF0F5',
-		lawngreen: '#7CFC00',
-		lemonchiffon: '#FFFACD',
-		lightblue: '#ADD8E6',
-		lightcoral: '#F08080',
-		lightcyan: '#E0FFFF',
-		lightgoldenrodyellow: '#FAFAD2',
-		lightgray: '#D3D3D3',
-		lightgreen: '#90EE90',
-		lightgrey: '#D3D3D3',
-		lightpink: '#FFB6C1',
-		lightsalmon: '#FFA07A',
-		lightseagreen: '#20B2AA',
-		lightskyblue: '#87CEFA',
-		lightslategray: '#778899',
-		lightslategrey: '#778899',
-		lightsteelblue: '#B0C4DE',
-		lightyellow: '#FFFFE0',
-		lime: '#00FF00',
-		limegreen: '#32CD32',
-		linen: '#FAF0E6',
-		magenta: '#FF00FF',
-		maroon: '#800000',
-		mediumaquamarine: '#66CDAA',
-		mediumblue: '#0000CD',
-		mediumorchid: '#BA55D3',
-		mediumpurple: '#9370DB',
-		mediumseagreen: '#3CB371',
-		mediumslateblue: '#7B68EE',
-		mediumspringgreen: '#00FA9A',
-		mediumturquoise: '#48D1CC',
-		mediumvioletred: '#C71585',
-		midnightblue: '#191970',
-		mintcream: '#F5FFFA',
-		mistyrose: '#FFE4E1',
-		moccasin: '#FFE4B5',
-		navajowhite: '#FFDEAD',
-		navy: '#000080',
-		oldlace: '#FDF5E6',
-		olive: '#808000',
-		olivedrab: '#6B8E23',
-		orange: '#FFA500',
-		orangered: '#FF4500',
-		orchid: '#DA70D6',
-		palegoldenrod: '#EEE8AA',
-		palegreen: '#98FB98',
-		paleturquoise: '#AFEEEE',
-		palevioletred: '#DB7093',
-		papayawhip: '#FFEFD5',
-		peachpuff: '#FFDAB9',
-		peru: '#CD853F',
-		pink: '#FFC0CB',
-		plum: '#DDA0DD',
-		powderblue: '#B0E0E6',
-		purple: '#800080',
-		rebeccapurple: '#663399',
-		red: '#FF0000',
-		rosybrown: '#BC8F8F',
-		royalblue: '#4169E1',
-		saddlebrown: '#8B4513',
-		salmon: '#FA8072',
-		sandybrown: '#F4A460',
-		seagreen: '#2E8B57',
-		seashell: '#FFF5EE',
-		sienna: '#A0522D',
-		silver: '#C0C0C0',
-		skyblue: '#87CEEB',
-		slateblue: '#6A5ACD',
-		slategray: '#708090',
-		slategrey: '#708090',
-		snow: '#FFFAFA',
-		springgreen: '#00FF7F',
-		steelblue: '#4682B4',
-		tan: '#D2B48C',
-		teal: '#008080',
-		thistle: '#D8BFD8',
-		tomato: '#FF6347',
-		turquoise: '#40E0D0',
-		violet: '#EE82EE',
-		windowtext: 'windowtext',
-		wheat: '#F5DEB3',
-		white: '#FFFFFF',
-		whitesmoke: '#F5F5F5',
-		yellow: '#FFFF00',
-		yellowgreen: '#9ACD32'
-	};
 
 	/**
 	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
@@ -620,6 +604,18 @@
 
 		return hex.length == 1 ? '0' + hex : hex;
 	}
+
+	//Format rgb to hex
+	function formatHexString( red, green, blue, alpha ) {
+		var hexColorCode = '#' + valueToHex( red ) + valueToHex( green ) + valueToHex( blue );
+
+		if ( alpha !== undefined ) {
+			hexColorCode += valueToHex( alpha );
+		}
+
+		return hexColorCode.toUpperCase();
+	}
+
 
 	// Convert color values into formatted rgb or rgba color code.
 	// @param {string} rgbPrefix Prefix for color value. Expected: `rgb` or `rgba`.
