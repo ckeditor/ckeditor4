@@ -1060,6 +1060,9 @@
 		 * * HSL or HSLA notation;
 		 * * HTML color name.
 		 *
+		 * **Note:** This method is deprecated. To validate color input,
+		 * use {@link CKEDITOR.tools.color} to create color class with defaultValue argument.
+		 *
          * **Note:** This method is intended mostly for the input validations.
 		 * It performs no logical check e.g.: are the values in RGB format correct
 		 * or does the passed color name actually exists?
@@ -1081,11 +1084,11 @@
 		 * CKEDITOR.tools._isValidColorFormat( 'hsrgb( 100 )' ); // true
 		 * ```
 		 *
+		 * @deprecated
 		 * @since 4.15.1
 		 * @private
 		 * @param {String} colorCode String to be validated.
 		 * @returns {Boolean} Whether the input string contains only allowed characters.
-		 * @deprecated Use CKEDITOR.tools.style.color
 		 */
 		_isValidColorFormat: function( colorCode ) {
 			if ( !colorCode ) {
