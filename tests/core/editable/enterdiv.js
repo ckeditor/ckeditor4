@@ -30,6 +30,32 @@ var tests = {
 
 tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
+// (#2751, #4301)
+tests[ 'reinsert the current data' ] = function() {
+	var html = '<div>This is some sample text.</div><div>New line.</div>';
+
+	bender.editorBot.create( {
+		name: 'reinsert',
+		startupData: html,
+		config: {
+			plugins: 'selectall',
+			enterMode: CKEDITOR.ENTER_DIV
+		}
+	}, function( bot ) {
+		var editor = bot.editor,
+			range;
+
+		// Using Select All plugin ensures that the selection is emulating
+		// real user selection well.
+		editor.execCommand( 'selectAll' );
+		range = editor.getSelection().getRanges()[ 0 ];
+
+		editor.insertHtml( html, 'html', range );
+
+		assert.areSame( html, editor.getData() );
+	} );
+};
+
 // (#4301)
 tests[ 'test multiple paste into empty editor' ] = function() {
 	bender.editorBot.create( {
