@@ -1,7 +1,7 @@
 /* exported colorTools */
 
 var colorTools = ( function() {
-	function testColor( inputColorCode, expectedColorCode, getterMethod ) {
+	function testColorConversion( inputColorCode, expectedColorCode, getterMethod ) {
 		return function() {
 			var colorObj = new CKEDITOR.tools.color( inputColorCode );
 
@@ -12,6 +12,6 @@ var colorTools = ( function() {
 	}
 
 	return {
-		testColor: testColor
+		testColorConversion: testColorConversion
 	};
 } )();
