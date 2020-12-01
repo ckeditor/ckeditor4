@@ -23,7 +23,7 @@
 			assert.isObject( colorObject );
 		},
 
-		'test color from invalid string color name returns default color': colorTools.testColor( 'NotValidColorName', '#000000', 'getHex' ),
+		'test color from non-color string name returns default undefined value': colorTools.testColor( 'NotValidColorName', undefined, 'getHex' ),
 
 		'test color from 6-HEX lower-case string returns 6-HEX': colorTools.testColor( '#ffffff', '#FFFFFF', 'getHex' ),
 
