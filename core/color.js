@@ -28,8 +28,10 @@
 		 * @constructor
 		 * @param {string} colorCode
 		 */
-		$: function( colorCode ) {
+		$: function( colorCode, defaultValue ) {
 			this._.originalColorCode = colorCode;
+			this._.defaultValue = defaultValue;
+
 			this._.parseInput( colorCode );
 		},
 		proto: {
@@ -39,6 +41,10 @@
 			 * @returns {string} hexadecimal color code. Eg: `#FF00FF`.
 			 */
 			getHex: function() {
+				if ( this._.invalidCreation ) {
+					return this._.defaultValue;
+				}
+
 				var values = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
 				return formatHexString( values[0], values[1], values[2] );
@@ -49,6 +55,10 @@
 			 * @returns {string} hexadecimal color code. Eg: `#FF00FF00`.
 			 */
 			getHexAlpha: function() {
+				if ( this._.invalidCreation ) {
+					return this._.defaultValue;
+				}
+
 				return formatHexString( this._.red, this._.green, this._.blue, this._.alpha );
 			},
 			/**
@@ -59,6 +69,10 @@
 			 * @returns {string} rgb color. Eg. `rgb(255,255,255)`.
 			 */
 			getRgb: function() {
+				if ( this._.invalidCreation ) {
+					return this._.defaultValue;
+				}
+
 				var decimalColorValues = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
 				return formatRgbString( 'rgb', decimalColorValues );
@@ -72,6 +86,10 @@
 			 * @returns {string} rgba color. Eg. `rgba(255,255,255,0)`.
 			 */
 			getRgba: function() {
+				if ( this._.invalidCreation ) {
+					return this._.defaultValue;
+				}
+
 				var decimalValues = [ this._.red, this._.green, this._.blue, this._.alpha ];
 
 				return formatRgbString( 'rgba', decimalValues );
@@ -86,6 +104,10 @@
 			 *
 			 */
 			getHsl: function() {
+				if ( this._.invalidCreation ) {
+					return this._.defaultValue;
+				}
+
 				var rgb = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
 				var hsl = this._.rgbToHsl( rgb[0],rgb[1], rgb[2] );
@@ -102,6 +124,10 @@
 			 * @returns {string} hsla color. Eg. `hsla(360, 100%, 50%, 0)`.
 			 */
 			getHsla: function() {
+				if ( this._.invalidCreation ) {
+					return this._.defaultValue;
+				}
+
 				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
 				hsl.push( this._.alpha );
 
@@ -124,6 +150,13 @@
 			 * @property {string}
 			 */
 			originalColorCode: '',
+			/**
+			 * Flag indicated invalid constructor input
+			 *
+			 * @private
+			 * @property {boolean}
+			 */
+			invalidCreation: false,
 			/**
 			 * Alpha value extracted from constructor input.
 			 * Held separated due to conversions.
@@ -164,12 +197,16 @@
 				var	rgbaFromHex = this._.matchStringToHex( colorCode );
 				var rgbaFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
 
-				var rgba = rgbaFromNamed || rgbaFromHex || rgbaFromRgbOrHsl || [ 0, 0, 0, 1 ];
+				var rgba = rgbaFromNamed || rgbaFromHex || rgbaFromRgbOrHsl;
 
-				this._.red = rgba[0];
-				this._.green = rgba[1];
-				this._.blue = rgba[2];
-				this._.alpha = rgba[3];
+				if ( rgba ) {
+					this._.red = rgba[0];
+					this._.green = rgba[1];
+					this._.blue = rgba[2];
+					this._.alpha = rgba[3];
+				} else {
+					this._.invalidCreation = true;
+				}
 			},
 			/**
 			 * Set normalized alpha.
@@ -438,7 +475,7 @@
 			 * @static
 			 * @property {string}
 			 */
-			defaultHexColorCode: '#000000',
+			defaultValue: '#000000',
 			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
 			 *
 			 * @static
