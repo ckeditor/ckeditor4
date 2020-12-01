@@ -32,7 +32,7 @@
 		 *
 		 * @constructor
 		 * @param {string} colorCode
-		 * @param {any} defaultValue Value returned if colorCode is invalid.
+		 * @param {*} defaultValue Value returned if colorCode is invalid.
 		 */
 		$: function( colorCode, defaultValue ) {
 			this._.originalColorCode = colorCode;
@@ -44,7 +44,7 @@
 			/**
 			 * Get hexadecimal color blended with alpha.
 			 *
-			 * @returns {string/any} hexadecimal color code. Eg: `#FF00FF` or default value.
+			 * @returns {string/*} hexadecimal color code. Eg: `#FF00FF` or default value.
 			 */
 			getHex: function() {
 				if ( this._.invalidCreation ) {
@@ -58,7 +58,7 @@
 			/**
 			 * Get hexadecimal color with alpha value.
 			 *
-			 * @returns {string/any} hexadecimal color code. Eg: `#FF00FF00` or default value.
+			 * @returns {string/*} hexadecimal color code. Eg: `#FF00FF00` or default value.
 			 */
 			getHexAlpha: function() {
 				if ( this._.invalidCreation ) {
@@ -72,7 +72,7 @@
 			 *
 			 * Each color ranged in 0-255.
 			 *
-			 * @returns {string/any} rgb color. Eg. `rgb(255,255,255)` or default value.
+			 * @returns {string/*} rgb color. Eg. `rgb(255,255,255)` or default value.
 			 */
 			getRgb: function() {
 				if ( this._.invalidCreation ) {
@@ -89,7 +89,7 @@
 			 * Each color ranged in 0-255.
 			 * Alpha ranged in 0-1.
 			 *
-			 * @returns {string/any} rgba color. Eg. `rgba(255,255,255,0)` or default value.
+			 * @returns {string/*} rgba color. Eg. `rgba(255,255,255,0)` or default value.
 			 */
 			getRgba: function() {
 				if ( this._.invalidCreation ) {
@@ -106,7 +106,7 @@
 			 * Hue ranged in 0-360.
 			 * Saturation, Lightness ranged in 0-100%.
 			 *
-			 * @returns {string/any} hsl color. Eg. `hsl(360, 100%, 50%)` or default value.
+			 * @returns {string/*} hsl color. Eg. `hsl(360, 100%, 50%)` or default value.
 			 *
 			 */
 			getHsl: function() {
@@ -127,7 +127,7 @@
 			 * Saturation, Lightness ranged in 0-100%.
 			 * Alpha ranged in 0-1.
 			 *
-			 * @returns {string/any} hsla color. Eg. `hsla(360, 100%, 50%, 0)` or default value.
+			 * @returns {string/*} hsla color. Eg. `hsla(360, 100%, 50%, 0)` or default value.
 			 */
 			getHsla: function() {
 				if ( this._.invalidCreation ) {
