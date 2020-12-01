@@ -33,7 +33,11 @@
 
 		'test color from object returns default value': colorTools.testColorConversion( {}, 'default', 'getHex', 'default' ),
 
-		'test color from invalid 6-HEX returns default value': colorTools.testColorConversion( '#F00BAR', 'default', 'getHex', 'default' ),
+		'test color from invalid 3-HEX returns default value': colorTools.testColorConversion( '#F00BAR', 'default', 'getHex', 'default' ),
+
+		'test color from invalid 6-HEX returns default value': colorTools.testColorConversion( '#FF00FFRR', 'default', 'getHex', 'default' ),
+
+		'test color from invalid 8-HEX returns default value': colorTools.testColorConversion( '#FF00FF00RR', 'default', 'getHex', 'default' ),
 
 		'test color from 6-HEX lower-case string returns 6-HEX': colorTools.testColorConversion( '#ffffff', '#FFFFFF', 'getHex' ),
 

@@ -197,6 +197,11 @@
 			 */
 			blue: 0,
 			parseInput: function( colorCode ) {
+				if ( typeof colorCode !== 'string' ) {
+					this._.invalidCreation = true;
+					return;
+				}
+
 				colorCode = colorCode.trim();
 
 				var rgbaFromNamed = this._.matchStringToNamedColor( colorCode );
@@ -206,6 +211,7 @@
 				var rgba = rgbaFromNamed || rgbaFromHex || rgbaFromRgbOrHsl;
 
 				if ( rgba ) {
+					console.log( colorCode, 'proper rgba', rgba );
 					this._.red = rgba[0];
 					this._.green = rgba[1];
 					this._.blue = rgba[2];
@@ -399,6 +405,7 @@
 				var rgba = null;
 
 				if ( finalHex ) {
+					console.log( finalHex );
 					rgba = this._.hexToRgb( finalHex );
 					rgba.push( initAlpha );
 				}
@@ -466,7 +473,7 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			hex3charsRegExp: /#([0-9a-f]{3})/gi,
+			hex3charsRegExp: /#([0-9a-f]{3}$)/gim,
 			/**
 			 * Regular expression to match six characters long hexadecimal color value.
 			 *
@@ -474,15 +481,15 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			hex6charsRegExp: /#([0-9a-f]{6})/gi,
+			hex6charsRegExp: /#([0-9a-f]{6}$)/gim,
 			/**
 			 * Regular expression to match eight characters long hexadecimal color value.
 			 *
 			 * @private
-			 * @static
+			 * @statice
 			 * @property {RegExp}
 			 */
-			hex8charsRegExp: /#([0-9a-f]{8})/gi,
+			hex8charsRegExp: /#([0-9a-f]{8}$)/gim,
 
 			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
 			 *
