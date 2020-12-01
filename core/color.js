@@ -25,8 +25,15 @@
 		/**
 		 * Creates CKEDITOR.tools.color class instance.
 		 *
+		 * 		new CKEDITOR.tools.color('red');
+		 * 		new CKEDITOR.tools.color('#00FF00');
+		 * 		new CKEDITOR.tools.color('rgba(10,10,10, 0.5)');
+		 * 		new CKEDITOR.tools.color('hsl(360, 10%, 10%');
+		 *
+		 *
 		 * @constructor
 		 * @param {string} colorCode
+		 * @param {any} defaultValue Value returned if colorCode is invalid.
 		 */
 		$: function( colorCode, defaultValue ) {
 			this._.originalColorCode = colorCode;
@@ -38,7 +45,7 @@
 			/**
 			 * Get hexadecimal color blended with alpha.
 			 *
-			 * @returns {string} hexadecimal color code. Eg: `#FF00FF`.
+			 * @returns {string/any} hexadecimal color code. Eg: `#FF00FF` or default value.
 			 */
 			getHex: function() {
 				if ( this._.invalidCreation ) {
@@ -52,7 +59,7 @@
 			/**
 			 * Get hexadecimal color with alpha value.
 			 *
-			 * @returns {string} hexadecimal color code. Eg: `#FF00FF00`.
+			 * @returns {string/any} hexadecimal color code. Eg: `#FF00FF00` or default value.
 			 */
 			getHexAlpha: function() {
 				if ( this._.invalidCreation ) {
@@ -66,7 +73,7 @@
 			 *
 			 * Each color ranged in 0-255.
 			 *
-			 * @returns {string} rgb color. Eg. `rgb(255,255,255)`.
+			 * @returns {string/any} rgb color. Eg. `rgb(255,255,255)` or default value.
 			 */
 			getRgb: function() {
 				if ( this._.invalidCreation ) {
@@ -83,7 +90,7 @@
 			 * Each color ranged in 0-255.
 			 * Alpha ranged in 0-1.
 			 *
-			 * @returns {string} rgba color. Eg. `rgba(255,255,255,0)`.
+			 * @returns {string/any} rgba color. Eg. `rgba(255,255,255,0)` or default value.
 			 */
 			getRgba: function() {
 				if ( this._.invalidCreation ) {
@@ -100,7 +107,7 @@
 			 * Hue ranged in 0-360.
 			 * Saturation, Lightness ranged in 0-100%.
 			 *
-			 * @returns {string} hsl color. Eg. `hsl(360, 100%, 50%)`.
+			 * @returns {string/any} hsl color. Eg. `hsl(360, 100%, 50%)` or default value.
 			 *
 			 */
 			getHsl: function() {
@@ -121,7 +128,7 @@
 			 * Saturation, Lightness ranged in 0-100%.
 			 * Alpha ranged in 0-1.
 			 *
-			 * @returns {string} hsla color. Eg. `hsla(360, 100%, 50%, 0)`.
+			 * @returns {string/any} hsla color. Eg. `hsla(360, 100%, 50%, 0)` or default value.
 			 */
 			getHsla: function() {
 				if ( this._.invalidCreation ) {
@@ -212,7 +219,9 @@
 	 		 * Blend alpha into color. Assumes that background is white.
 			 *
 			 * @private
-			 * @param {Array} rgb Array of rgb color values.
+			 * @param {Number} red Number of red channel.
+			 * @param {Number} green Number of green channel.
+			 * @param {Number} blue Number of blue channel.
 			 * @param {Number} alpha Alpha value.
 			 * @returns {Array} Input rgb color mixed with alpha.
 			 */
@@ -224,11 +233,13 @@
 				} );
 			},
 			/**
-			 * Convert rgb values to hexadecimal color.
+			 * Normalize rgb values into 0-255 range.
 			 *
 			 * @private
-			 * @param {Array} rgb Array with color values.
-			 * @returns {string} Hexadecimal color. Eg. `#FF00FF`
+			 * @param {Number} red Number of red channel.
+			 * @param {Number} green Number of green channel.
+			 * @param {Number} blue Number of blue channel.
+			 * @returns {Array} Rgb Array of normalized values.
 			 */
 			normalizeRgbValues: function( red, green, blue ) {
 				function normalizer( number ) {
@@ -265,7 +276,9 @@
 			 * Convert rgb color values to hsl color values.
 			 *
 			 * @private
-			 * @param {Array} rgb Array of rgb values.
+			 * @param {Number} red Number of red channel.
+			 * @param {Number} green Number of green channel.
+			 * @param {Number} blue Number of blue channel.
 			 * @returns {Array} Array of hsl values.
 			 */
 			rgbToHsl: function( red, green, blue ) {
@@ -312,7 +325,9 @@
 			 * Convert hsl values into rgb.
 			 *
 			 * @private
-			 * @param {Array} hsl Array of hsl color values.
+			 * @param {Number} hue
+			 * @param {Number} saturation
+			 * @param {Number} lightness
 			 * @returns {Array} Array of decimal rgb values.
 			 */
 			hslToRgb: function( hue, saturation, lightness ) {
@@ -340,7 +355,7 @@
 			 *
 			 * @private
 			 * @param {string} colorName color name. Eg. `red`.
-			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or `null`.
+			 * @returns {Array/null} Array of rgba values or `null`.
 			 */
 			matchStringToNamedColor: function( colorName ) {
 				var colorToHexObject = CKEDITOR.tools.color.namedColors;
@@ -361,7 +376,7 @@
 			 *
 			 * @private
 			 * @param {string} hexColorCode valid hexadecimal color. Eg. `#F0F`, `#FF00FF` or `#FF00FF00`.
-			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or null.
+			 * @returns {Array/null} Array of rgba values or `null`.
 			 */
 			matchStringToHex: function( hexColorCode ) {
 				var finalHex = null;
@@ -413,7 +428,7 @@
 			 *
 			 * @private
 			 * @param {string} colorCode rgb, rgba, hsl or hsla color code. Eg. `rgb(255,255,255)` or `hsla(360, 10%, 5%, 0)`
-			 * @returns {string} hexadecimal color value. Eg. `#FF00FF`.
+			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or null.
 			 */
 			rgbOrHslToHex: function( colorCode ) {
 				var colorFormat = colorCode.slice( 0, 3 ).toLowerCase();
@@ -453,19 +468,23 @@
 			 * @property {RegExp}
 			 */
 			hex3charsRegExp: /#([0-9a-f]{3})/gi,
-
-			hex6charsRegExp: /#([0-9a-f]{6})/gi,
-
-			hex8charsRegExp: /#([0-9a-f]{8})/gi,
-
 			/**
-			 * Default hexadecimal color code.
+			 * Regular expression to match six characters long hexadecimal color value.
 			 *
 			 * @private
 			 * @static
-			 * @property {string}
+			 * @property {RegExp}
 			 */
-			defaultValue: '#000000',
+			hex6charsRegExp: /#([0-9a-f]{6})/gi,
+			/**
+			 * Regular expression to match eight characters long hexadecimal color value.
+			 *
+			 * @private
+			 * @static
+			 * @property {RegExp}
+			 */
+			hex8charsRegExp: /#([0-9a-f]{8})/gi,
+
 			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
 			 *
 			 * @static
