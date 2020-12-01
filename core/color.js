@@ -211,7 +211,6 @@
 				var rgba = rgbaFromNamed || rgbaFromHex || rgbaFromRgbOrHsl;
 
 				if ( rgba ) {
-					console.log( colorCode, 'proper rgba', rgba );
 					this._.red = rgba[0];
 					this._.green = rgba[1];
 					this._.blue = rgba[2];
@@ -405,7 +404,6 @@
 				var rgba = null;
 
 				if ( finalHex ) {
-					console.log( finalHex );
 					rgba = this._.hexToRgb( finalHex );
 					rgba.push( initAlpha );
 				}
