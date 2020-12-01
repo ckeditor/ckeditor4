@@ -134,17 +134,16 @@
 			parseInput: function( colorCode ) {
 				colorCode = colorCode.trim();
 
-				var hexStringFromNamedColor = this._.matchStringToNamedColor( colorCode ),
-					hexFromHexString = this._.matchStringToHex( colorCode ),
-					hexFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
+				var rgbaFromNamed = this._.matchStringToNamedColor( colorCode );
+				var	rgbaFromHex = this._.matchStringToHex( colorCode );
+				var rgbaFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
 
-				var hexColorCode = hexStringFromNamedColor || hexFromHexString || hexFromRgbOrHsl || CKEDITOR.tools.color.defaultHexColorCode;
+				var rgba = rgbaFromNamed || rgbaFromHex || rgbaFromRgbOrHsl || [ 0, 0, 0, 1 ];
 
-				var rgb = this._.hexToRgb( hexColorCode );
-
-				this._.red = rgb[0];
-				this._.green = rgb[1];
-				this._.blue = rgb[2];
+				this._.red = rgba[0];
+				this._.green = rgba[1];
+				this._.blue = rgba[2];
+				this._.alpha = rgba[3];
 			},
 			/**
 			 * Set normalized alpha.
@@ -152,9 +151,9 @@
 			 * @private
 			 * @param {*} alphaValue.
 			 */
-			setAlpha: function( alphaValue ) {
+			normalizeAlpha: function( alphaValue ) {
 				alphaValue = normalizePercentValue( alphaValue );
-				this._.alpha = alphaValue;
+				return alphaValue;
 			},
 			/**
 	 		 * Blend alpha into color. Assumes that background is white.
@@ -178,9 +177,8 @@
 			 * @param {Array} rgb Array with color values.
 			 * @returns {string} Hexadecimal color. Eg. `#FF00FF`
 			 */
-			rgbToHex: function( red, green, blue ) {
-				var rgb = [ red, green, blue ];
-				var hexValues = CKEDITOR.tools.array.map( rgb, function( number ) {
+			normalizeRgbValues: function( red, green, blue ) {
+				function normalizer( number ) {
 					if ( isPercentValue( number ) ) {
 						number = convertPercentValueToNumber( number );
 						number = Math.round( 255 * normalizePercentValue( number ) );
@@ -189,10 +187,13 @@
 						number = number > 255 ? 0 :
 							number < 0 ? 255 : number;
 					}
-					return valueToHex( number );
-				}, this );
+					return number;
+				}
+				red = normalizer( red );
+				green = normalizer( green );
+				blue = normalizer( blue );
 
-				return '#' + hexValues.join( '' );
+				return [ red, green, blue ];
 			},
 			/**
 	 		 * Extract red, green, blue from hexadecimal color code.
@@ -292,7 +293,14 @@
 				var colorToHexObject = CKEDITOR.tools.color.namedColors;
 				var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
 
-				return resultCode;
+				//push default alpha
+				if ( resultCode ) {
+					resultCode = this._.hexToRgb( resultCode );
+					resultCode.push( 1 );
+					return resultCode;
+				} else {
+					return null;
+				}
 			},
 			/**
 			 * Try to convert hexadecimal color code to exactly six characters long hexadecimal color.
@@ -304,7 +312,7 @@
 			 */
 			matchStringToHex: function( hexColorCode ) {
 				var finalHex = null;
-				this._.setAlpha( 1 );
+				var initAlpha = 1;
 
 				if ( hexColorCode.match( CKEDITOR.tools.color.hex3charsRegExp ) ) {
 					finalHex = this._.hex3ToHex6( hexColorCode );
@@ -318,10 +326,17 @@
 					var firstAlphaCharIndex = 7;
 
 					finalHex = hexColorCode.slice( 0, firstAlphaCharIndex );
-					this._.setAlpha( hexColorCode.slice( firstAlphaCharIndex ) );
+					initAlpha =  this._.normalizeAlpha( hexColorCode.slice( firstAlphaCharIndex ) );
 				}
 
-				return finalHex;
+				var rgba = null;
+
+				if ( finalHex ) {
+					rgba = this._.hexToRgb( finalHex );
+					rgba.push( initAlpha );
+				}
+
+				return rgba;
 			},
 			/**
 			 * Convert hexadecimal color three characters long to six characters long.
@@ -361,16 +376,19 @@
 
 				var alpha = 1;
 				if ( colorNumberValues.length === 4 ) {
-					alpha = normalizePercentValue( colorNumberValues.pop() );
+					alpha = this._.normalizeAlpha( colorNumberValues.pop() );
 				}
-
-				this._.setAlpha( alpha );
 
 				if ( colorFormat === 'hsl' ) {
 					colorNumberValues = this._.hslToRgb( colorNumberValues[0], colorNumberValues[1], colorNumberValues[2] );
+				} else {
+					colorNumberValues = this._.normalizeRgbValues( colorNumberValues[0], colorNumberValues[1], colorNumberValues[2] );
 				}
 
-				return this._.rgbToHex( colorNumberValues[0], colorNumberValues[1], colorNumberValues[2] );
+				//add alpha
+				colorNumberValues.push( alpha );
+
+				return colorNumberValues;
 			}
 		},
 		statics: {
