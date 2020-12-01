@@ -134,11 +134,29 @@
 			 */
 			alpha: 1,
 			/**
-			 * Parse user input to valid color representation.
+			 * Red channel
+			 * Ranged in 0-255.
 			 *
 			 * @private
-			 * @param {string} colorCode
+			 * @property {Number}
 			 */
+			red: 0,
+			/**
+			 * Green channel
+			 * Ranged in 0-255.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			green: 0,
+			/**
+			 * Blue channel
+			 * Ranged in 0-255.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			blue: 0,
 			parseInput: function( colorCode ) {
 				colorCode = colorCode.trim();
 
