@@ -209,16 +209,6 @@
 				}
 			},
 			/**
-			 * Set normalized alpha.
-			 *
-			 * @private
-			 * @param {*} alphaValue.
-			 */
-			normalizeAlpha: function( alphaValue ) {
-				alphaValue = normalizePercentValue( alphaValue );
-				return alphaValue;
-			},
-			/**
 	 		 * Blend alpha into color. Assumes that background is white.
 			 *
 			 * @private
@@ -389,7 +379,7 @@
 					var firstAlphaCharIndex = 7;
 
 					finalHex = hexColorCode.slice( 0, firstAlphaCharIndex );
-					initAlpha =  this._.normalizeAlpha( hexColorCode.slice( firstAlphaCharIndex ) );
+					initAlpha =  normalizePercentValue( hexColorCode.slice( firstAlphaCharIndex ) );
 				}
 
 				var rgba = null;
@@ -439,7 +429,7 @@
 
 				var alpha = 1;
 				if ( colorNumberValues.length === 4 ) {
-					alpha = this._.normalizeAlpha( colorNumberValues.pop() );
+					alpha = normalizePercentValue( colorNumberValues.pop() );
 				}
 
 				if ( colorFormat === 'hsl' ) {
