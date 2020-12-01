@@ -25,6 +25,16 @@
 
 		'test color from non-color string name returns default undefined value': colorTools.testColorConversion( 'NotValidColorName', undefined, 'getHex' ),
 
+		'test color from undefined value returns default value': colorTools.testColorConversion( undefined, 'default', 'getHex', 'default' ),
+
+		'test color from null value returns default value': colorTools.testColorConversion( null , 'default', 'getHex', 'default' ),
+
+		'test color from array returns default value': colorTools.testColorConversion( [], 'default', 'getHex', 'default' ),
+
+		'test color from object returns default value': colorTools.testColorConversion( {}, 'default', 'getHex', 'default' ),
+
+		'test color from invalid 6-HEX returns default value': colorTools.testColorConversion( '#F00BAR', 'default', 'getHex', 'default' ),
+
 		'test color from 6-HEX lower-case string returns 6-HEX': colorTools.testColorConversion( '#ffffff', '#FFFFFF', 'getHex' ),
 
 		'test color from 3-HEX lower-case string returns 6-HEX': colorTools.testColorConversion( '#fff', '#FFFFFF', 'getHex' ),
