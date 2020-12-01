@@ -15,7 +15,12 @@
 	 * Class representing color. Provides conversion to various types like: hexadecimal, rgb, hsl.
 	 * Support alpha value.
 	 *
-	 * TODO add code sample
+	 * 		var color = new CKEDITOR.tools.color( 'rgb( 225, 225, 225 )' ); // Create color instance.
+	 * 		console.log( color.getHex() ); // #FFFFFF
+	 *
+	 * 		var color = new CKEDITOR.tools.color( 'red' ); // Create color instance.
+	 * 		console.log( color.getHexAlpha() ); // #FF0000FF
+	 *
 	 *
 	 * @since 4.16.0
 	 * @class
@@ -24,12 +29,6 @@
 
 		/**
 		 * Creates CKEDITOR.tools.color class instance.
-		 *
-		 * 		new CKEDITOR.tools.color('red');
-		 * 		new CKEDITOR.tools.color('#00FF00');
-		 * 		new CKEDITOR.tools.color('rgba(10,10,10, 0.5)');
-		 * 		new CKEDITOR.tools.color('hsl(360, 10%, 10%');
-		 *
 		 *
 		 * @constructor
 		 * @param {string} colorCode
