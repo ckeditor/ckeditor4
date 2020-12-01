@@ -106,6 +106,14 @@
 				hsl.push( this._.alpha );
 
 				return formatHslString( 'hsla', hsl );
+			},
+			/**
+			 * Get original value used to create object
+			 *
+			 * @returns {Object} Any value used in constructor
+			 */
+			getOriginalValue: function() {
+				return this._.originalColorCode;
 			}
 		},
 		_: {
