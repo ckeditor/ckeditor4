@@ -2,8 +2,9 @@
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
+
 /**
- * @fileoverview Defines the {@link CKEDITOR.tools.color} normalizer class
+ * @fileOverview Defines te {@link CKEDITOR.tools.color} normalizer class
  * that parse color string code other formats.
  */
 
@@ -13,6 +14,8 @@
 	/**
 	 * Class representing color. Provides conversion to various types like: hexadecimal, rgb, hsl.
 	 * Support alpha value.
+	 *
+	 * TODO add code sample
 	 *
 	 * @since 4.16.0
 	 * @class
@@ -28,6 +31,97 @@
 		$: function( colorCode ) {
 			this._.originalColorCode = colorCode;
 			this._.parseInput( colorCode );
+		},
+		proto: {
+			/**
+			 * Get hexadecimal color blended with alpha.
+			 *
+			 * @returns {string} hexadecimal color code. Eg: `#FF00FF`.
+			 */
+			getHex: function() {
+				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
+
+				decimalColorValues = this._.blendAlphaColor( decimalColorValues, this._.alpha );
+
+				var finalColor = CKEDITOR.tools.array.map( decimalColorValues, function( color ) {
+					return valueToHex( color );
+				}, this );
+
+				var finalColorCode = '#' + finalColor.join( '' );
+
+				finalColorCode = finalColorCode.toUpperCase();
+
+				return finalColorCode;
+			},
+			/**
+			 * Get hexadecimal color with alpha value.
+			 *
+			 * @returns {string} hexadecimal color code. Eg: `#FF00FF00`.
+			 */
+			getHexAlpha: function() {
+				return this._.hexColorCode + valueToHex( this._.alpha );
+			},
+			/**
+			 * Get rgb color blended with alpha.
+			 *
+			 * Each color ranged in 0-255.
+			 *
+			 * @returns {string} rgb color. Eg. `rgb(255,255,255)`.
+			 */
+			getRgb: function() {
+				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
+
+				decimalColorValues = this._.blendAlphaColor( decimalColorValues, this._.alpha );
+
+				return formatRgbString( 'rgb', decimalColorValues );
+			},
+			/**
+			 * Get rgb color with alpha value.
+			 *
+			 * Each color ranged in 0-255.
+			 * Alpha ranged in 0-1.
+			 *
+			 * @returns {string} rgba color. Eg. `rgba(255,255,255,0)`.
+			 */
+			getRgba: function() {
+				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
+				decimalColorValues.push( this._.alpha );
+
+				return formatRgbString( 'rgba', decimalColorValues );
+			},
+			/**
+			 * Get hsl color blended with alpha.
+			 *
+			 * Hue ranged in 0-360.
+			 * Saturation, Lightness ranged in 0-100%.
+			 *
+			 * @returns {string} hsl color. Eg. `hsl(360, 100%, 50%)`.
+			 *
+			 */
+			getHsl: function() {
+				var rgb = this._.hexToRgb( this._.hexColorCode );
+				rgb = this._.blendAlphaColor( rgb, this._.alpha );
+
+				var hsl = this._.rgbToHsl( rgb );
+
+				return formatHslString( 'hsl', hsl );
+			},
+			/**
+			 * Get hsla color with alpha value.
+			 *
+			 * Hue ranged in 0-360.
+			 * Saturation, Lightness ranged in 0-100%.
+			 * Alpha ranged in 0-1.
+			 *
+			 * @returns {string} hsla color. Eg. `hsla(360, 100%, 50%, 0)`.
+			 */
+			getHsla: function() {
+				var rgb = this._.hexToRgb( this._.hexColorCode );
+				var hsl = this._.rgbToHsl( rgb );
+				hsl.push( this._.alpha );
+
+				return formatHslString( 'hsla', hsl );
+			}
 		},
 		_: {
 			/**
@@ -223,9 +317,6 @@
 			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or null.
 			 */
 			matchStringToHex: function( hexColorCode ) {
-				var hex6charsRegExp = /#([0-9a-f]{6})/gi,
-					hex8charsRegExp = /#([0-9a-f]{8})/gi;
-
 				var finalHex = null;
 				this._.setAlpha( 1 );
 
@@ -233,11 +324,11 @@
 					finalHex = this._.hex3ToHex6( hexColorCode );
 				}
 
-				if ( hexColorCode.match( hex6charsRegExp ) ) {
+				if ( hexColorCode.match( CKEDITOR.tools.color.hex6charsRegExp ) ) {
 					finalHex = hexColorCode;
 				}
 
-				if ( hexColorCode.match( hex8charsRegExp ) ) {
+				if ( hexColorCode.match( CKEDITOR.tools.color.hex8charsRegExp ) ) {
 					var firstAlphaCharIndex = 7;
 
 					finalHex = hexColorCode.slice( 0, firstAlphaCharIndex );
@@ -296,97 +387,6 @@
 				return this._.rgbToHex( colorNumberValues );
 			}
 		},
-		proto: {
-			/**
-			 * Get hexadecimal color blended with alpha.
-			 *
-			 * @returns {string} hexadecimal color code. Eg: `#FF00FF`.
-			 */
-			getHex: function() {
-				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
-
-				decimalColorValues = this._.blendAlphaColor( decimalColorValues, this._.alpha );
-
-				var finalColor = CKEDITOR.tools.array.map( decimalColorValues, function( color ) {
-					return valueToHex( color );
-				}, this );
-
-				var finalColorCode = '#' + finalColor.join( '' );
-
-				finalColorCode = finalColorCode.toUpperCase();
-
-				return finalColorCode;
-			},
-			/**
-			 * Get hexadecimal color with alpha value.
-			 *
-			 * @returns {string} hexadecimal color code. Eg: `#FF00FF00`.
-			 */
-			getHexAlpha: function() {
-				return this._.hexColorCode + valueToHex( this._.alpha );
-			},
-			/**
-			 * Get rgb color blended with alpha.
-			 *
-			 * Each color ranged in 0-255.
-			 *
-			 * @returns {string} rgb color. Eg. `rgb(255,255,255)`.
-			 */
-			getRgb: function() {
-				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
-
-				decimalColorValues = this._.blendAlphaColor( decimalColorValues, this._.alpha );
-
-				return formatRgbString( 'rgb', decimalColorValues );
-			},
-			/**
-			 * Get rgb color with alpha value.
-			 *
-			 * Each color ranged in 0-255.
-			 * Alpha ranged in 0-1.
-			 *
-			 * @returns {string} rgba color. Eg. `rgba(255,255,255,0)`.
-			 */
-			getRgba: function() {
-				var decimalColorValues = this._.hexToRgb( this._.hexColorCode );
-				decimalColorValues.push( this._.alpha );
-
-				return formatRgbString( 'rgba', decimalColorValues );
-			},
-			/**
-			 * Get hsl color blended with alpha.
-			 *
-			 * Hue ranged in 0-360.
-			 * Saturation, Lightness ranged in 0-100%.
-			 *
-			 * @returns {string} hsl color. Eg. `hsl(360, 100%, 50%)`.
-			 *
-			 */
-			getHsl: function() {
-				var rgb = this._.hexToRgb( this._.hexColorCode );
-				rgb = this._.blendAlphaColor( rgb, this._.alpha );
-
-				var hsl = this._.rgbToHsl( rgb );
-
-				return formatHslString( 'hsl', hsl );
-			},
-			/**
-			 * Get hsla color with alpha value.
-			 *
-			 * Hue ranged in 0-360.
-			 * Saturation, Lightness ranged in 0-100%.
-			 * Alpha ranged in 0-1.
-			 *
-			 * @returns {string} hsla color. Eg. `hsla(360, 100%, 50%, 0)`.
-			 */
-			getHsla: function() {
-				var rgb = this._.hexToRgb( this._.hexColorCode );
-				var hsl = this._.rgbToHsl( rgb );
-				hsl.push( this._.alpha );
-
-				return formatHslString( 'hsla', hsl );
-			}
-		},
 		statics: {
 			/**
 			 * Regular expression to match three characters long hexadecimal color value.
@@ -396,6 +396,10 @@
 			 * @property {RegExp}
 			 */
 			hex3charsRegExp: /#([0-9a-f]{3})/gi,
+
+			hex6charsRegExp: /#([0-9a-f]{6})/gi,
+
+			hex8charsRegExp: /#([0-9a-f]{8})/gi,
 
 			/**
 			 * Default hexadecimal color code.
