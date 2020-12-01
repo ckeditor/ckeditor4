@@ -1648,11 +1648,8 @@
 		function insert( editable, type, data, range ) {
 			var editor = editable.editor,
 				dontFilter = false,
-				html = editable.getHtml(),
-				// Instead of getData method, we directly check the HTML
-				// due to the fact that internal getData operates on latest snapshot,
-				// not the current content (#4301).
-				isEmptyEditable = html === '' || html.match( emptyParagraphRegexp );
+				html,
+				isEmptyEditable;
 
 			if ( type == 'unfiltered_html' ) {
 				type = 'html';
@@ -1689,6 +1686,14 @@
 				};
 
 			prepareRangeToDataInsertion( that );
+
+			html = editable.getHtml(),
+			// Instead of getData method, we directly check the HTML
+			// due to the fact that internal getData operates on latest snapshot,
+			// not the current content.
+			// Checking it after clearing the range's content will give the
+			// most correct results (#4301).
+			isEmptyEditable = html === '' || html.match( emptyParagraphRegexp );
 
 			// When enter mode is set to div and content wrapped with div is pasted,
 			// we must ensure that no additional divs are created (#2751).
