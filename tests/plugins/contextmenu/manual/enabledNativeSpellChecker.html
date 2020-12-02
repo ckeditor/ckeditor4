@@ -1,0 +1,16 @@
+<h2>Spell Check Manual Test - Right Click should use native browser spell check when disableNativeSpellChecker is false (native spell checker enabled).</h2>
+<textarea id="editor1">&lt;p&gt;The more a thing tends to be permanent, the more it tends to be lifeleess.&lt;/p&gt;</textarea>
+
+<script>
+	// No console support on mobiles (without connecting to another device).
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	( function() {
+			editor1 = CKEDITOR.replace( 'editor1', {
+				resize_dir: 'both',
+				disableNativeSpellChecker: false
+			} );
+		}() );
+</script>
