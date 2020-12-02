@@ -239,6 +239,7 @@
 			/**
 			 * Extracts RGBA channels from given HEX string.
 			 *
+			 * @private
 			 * @param {String} colorCode HEX color representation.
 			 */
 			extractColorChannelsFromHex: function( colorCode ) {
