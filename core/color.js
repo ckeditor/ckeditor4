@@ -242,11 +242,11 @@
 			 * @param {String} colorCode HEX color representation.
 			 */
 			extractColorChannelsFromHex: function( colorCode ) {
-				if ( colorCode.match( CKEDITOR.tools.color.hex3charsRegExp ) ) {
+				if ( colorCode.match( CKEDITOR.tools.color.hex3CharsRegExp ) ) {
 					colorCode = this._.hex3ToHex6( colorCode );
 				}
 
-				if ( colorCode.match( CKEDITOR.tools.color.hex6charsRegExp ) || colorCode.match( CKEDITOR.tools.color.hex8charsRegExp ) ) {
+				if ( colorCode.match( CKEDITOR.tools.color.hex6CharsRegExp ) || colorCode.match( CKEDITOR.tools.color.hex8CharsRegExp ) ) {
 					var parts = colorCode.split( '' );
 
 					return [
@@ -433,7 +433,8 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			hex3charsRegExp: /#([0-9a-f]{3}$)/gim,
+			hex3CharsRegExp: /#([0-9a-f]{3}$)/gim,
+
 			/**
 			 * Regular expression to match six characters long hexadecimal color value.
 			 *
@@ -441,7 +442,8 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			hex6charsRegExp: /#([0-9a-f]{6}$)/gim,
+			hex6CharsRegExp: /#([0-9a-f]{6}$)/gim,
+
 			/**
 			 * Regular expression to match eight characters long hexadecimal color value.
 			 *
@@ -449,7 +451,7 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			hex8charsRegExp: /#([0-9a-f]{8}$)/gim,
+			hex8CharsRegExp: /#([0-9a-f]{8}$)/gim,
 
 			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
 			 *
