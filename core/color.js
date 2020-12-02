@@ -53,7 +53,7 @@
 			 * @returns {String/*} hexadecimal color code (e.g. `#FF00FF`) or default value.
 			 */
 			getHex: function() {
-				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
 				return this._.isValidColor ?
 					formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] ) :
@@ -226,6 +226,17 @@
 			},
 
 			/**
+			 * Get hexadecimal color value based on color name.
+			 *
+			 * @private
+			 * @param {String} colorName color name, e.g. `red`.
+			 * @returns {String/null} Hexadecimal color representation or `null` if such named color does not exists.
+			 */
+			matchStringToNamedColor: function( colorName ) {
+				return CKEDITOR.tools.color.namedColors[ colorName.toLowerCase() ] || null;
+			},
+
+			/**
 			 * Extracts RGBA channels from given HEX string.
 			 *
 			 * @param {String} colorCode HEX color representation.
@@ -258,23 +269,7 @@
 			extractColorChannelsFromHsla: function() {
 				return null;
 			},
-			/**
-	 		 * Blend alpha into color. Assumes that background is white.
-			 *
-			 * @private
-			 * @param {Number} red Number of red channel.
-			 * @param {Number} green Number of green channel.
-			 * @param {Number} blue Number of blue channel.
-			 * @param {Number} alpha Alpha value.
-			 * @returns {Array} Input rgb color mixed with alpha.
-			 */
-			blendAlphaColor: function( red, green, blue, alpha ) {
-				var rgb = [ red, green, blue ];
-				// Based on https://en.wikipedia.org/wiki/Alpha_compositing
-				return CKEDITOR.tools.array.map( rgb, function( color ) {
-					return Math.round( 255 - alpha * ( 255 - color ) );
-				} );
-			},
+
 			/**
 			 * Normalize rgb values into 0-255 range.
 			 *
@@ -393,16 +388,6 @@
 				var rgb = [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
 				return rgb;
 			},
-			/**
-			 * Get hexadecimal color from named colors.
-			 *
-			 * @private
-			 * @param {String} colorName color name. Eg. `red`.
-			 * @returns {Array/null} Array of rgba values or `null`.
-			 */
-			matchStringToNamedColor: function( colorName ) {
-				return CKEDITOR.tools.color.namedColors[ colorName.toLowerCase() ];
-			},
 
 			/**
 			 * Try to convert hexadecimal color code to exactly six characters long hexadecimal color.
@@ -494,11 +479,11 @@
 			},
 			/**
 			 * Return default value if object is invalidate.
-			 * Eventualy blend alpha into rgb and return value after conversion.
+			 * Eventually blend alpha into rgb and return value after conversion.
 			 *
 			 * @private
-			 * @param {boolean} blendAlpha Should blend alpha into rgb.
-			 * @param {function} converter Additional rgba processor.
+			 * @param {Boolean} blendAlpha Should blend alpha into rgb.
+			 * @param {Function} converter Additional rgba processor.
 			 * @returns {*} Default value or value from converter.
 			 */
 			getColorValue: function( blendAlpha, converter ) {
@@ -509,7 +494,7 @@
 				var rgb = [ this._.red, this._.green, this._.blue ] ;
 
 				if ( blendAlpha ) {
-					rgb = this._.blendAlphaColor( rgb[0],rgb[1],rgb[2], this._.alpha );
+					rgb = blendAlphaColor( rgb[0],rgb[1],rgb[2], this._.alpha );
 				}
 
 				return converter.call( this , rgb[0], rgb[1], rgb[2], this._.alpha );
@@ -536,7 +521,7 @@
 			 * Regular expression to match eight characters long hexadecimal color value.
 			 *
 			 * @private
-			 * @statice
+			 * @static
 			 * @property {RegExp}
 			 */
 			hex8charsRegExp: /#([0-9a-f]{8}$)/gim,
@@ -709,6 +694,21 @@
 	 * @deprecated
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
+
+	// Blends alpha into RGB color channels. Assumes that background is white.
+	//
+	// @private
+	// @param {Number} red Red channel value.
+	// @param {Number} green Green channel value.
+	// @param {Number} blue Blue channel value.
+	// @param {Number} alpha Alpha channel value.
+	// @returns {Array} Array containing RGB channels with alpha mixed.
+	function blendAlphaColor( red, green, blue, alpha ) {
+		// Based on https://en.wikipedia.org/wiki/Alpha_compositing.
+		return CKEDITOR.tools.array.map( [ red, green, blue ], function( color ) {
+			return Math.round( 255 - alpha * ( 255 - color ) );
+		} );
+	}
 
 	function clampValueInRange( value, min, max ) {
 		return Math.min( Math.max( value, min ), max );
