@@ -2,10 +2,10 @@
 /* bender-include: _helpers/colorTools.js */
 /* global colorTools */
 
- // Basic definitions
- // 3-HEX -> hexadecimal color with only 3 characters value: #FFF
- // 6-HEX -> hexadecimal color with exactly 6 characters value: #FFFFFF
- // 8-HEX -> hexadecimal color with exactly 8 characters value: #FFFFFF00. Last two characters are for alpha
+// Basic definitions
+// 3-HEX -> hexadecimal color with only 3 characters value: #FFF
+// 6-HEX -> hexadecimal color with exactly 6 characters value: #FFFFFF
+// 8-HEX -> hexadecimal color with exactly 8 characters value: #FFFFFF00. Last two characters are for alpha
 
 ( function() {
 	'use strict';
@@ -45,7 +45,7 @@
 
 		'test color from 8-HEX string color name returns 6-HEX': colorTools.testColorConversion( '#FF00FF00', '#FFFFFF', 'getHex' ),
 
-		'test color from 8-HEX string color name returns same 8-HEX': colorTools.testColorConversion( '#FF00FF00', '#FF00FF00', 'getHexAlpha' ),
+		'test color from 8-HEX string color name returns same 8-HEX': colorTools.testColorConversion( '#FF00FF00', '#FF00FF00', 'getHexWithAlpha' ),
 
 		'test color from valid string color name returns 6-HEX': colorTools.testColorConversion( 'red', '#FF0000', 'getHex' ),
 

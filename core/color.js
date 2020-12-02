@@ -4,24 +4,29 @@
  */
 
 /**
- * @fileOverview Defines te {@link CKEDITOR.tools.color} normalizer class
- * that parse color string code other formats.
+ * @fileOverview Defines te {@link CKEDITOR.tools.color} class for handling different color formats.
  */
 
 ( function() {
 	'use strict';
 
 	/**
-	 * Class representing color. Provides conversion to various types like: hexadecimal, rgb, hsl.
-	 * Support alpha value.
+	 * Class representing a color. Provides conversion between various color formats:
 	 *
-	 * 		var color = new CKEDITOR.tools.color( 'rgb( 225, 225, 225 )' ); // Create color instance.
-	 * 		console.log( color.getHex() ); // #FFFFFF
+	 * * Named colors.
+	 * * Hexadecimal format (with alpha support).
+	 * * RGB and RGBA formats.
+	 * * HSL and HSLA formats.
 	 *
-	 * 		var color = new CKEDITOR.tools.color( 'red' ); // Create color instance.
-	 * 		console.log( color.getHexAlpha() ); // #FF0000FF
+	 * It can be used to validate and convert color between above formats:
 	 *
+	 * ```js
+	 * var color = new CKEDITOR.tools.color( 'rgb( 225, 225, 225 )' );
+	 * console.log( color.getHex() ); // #FFFFFF
 	 *
+	 * var color = new CKEDITOR.tools.color( 'red' );
+	 * console.log( color.getHexWithAlpha() ); // #FF0000FF
+	 * ```
 	 * @since 4.16.0
 	 * @class
 	 */
@@ -31,20 +36,21 @@
 		 * Creates CKEDITOR.tools.color class instance.
 		 *
 		 * @constructor
-		 * @param {string} colorCode
-		 * @param {*} defaultValue Value returned if colorCode is invalid.
+		 * @param {String} colorCode
+		 * @param {*} defaultValue Value which will be returned by any getter if passed color is not valid.
 		 */
 		$: function( colorCode, defaultValue ) {
-			this._.originalColorCode = colorCode;
+			this._.initialColorCode = colorCode;
 			this._.defaultValue = defaultValue;
 
 			this._.parseInput( colorCode );
 		},
+
 		proto: {
 			/**
-			 * Get hexadecimal color blended with alpha.
+			 * Get hexadecimal color representation.
 			 *
-			 * @returns {string/*} hexadecimal color code. Eg: `#FF00FF` or default value.
+			 * @returns {String/*} hexadecimal color code (e.g. `#FF00FF`) or default value.
 			 */
 			getHex: function() {
 				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
@@ -55,15 +61,16 @@
 			},
 
 			/**
-			 * Get hexadecimal color with alpha value.
+			 * Get hexadecimal color representation with separate alpha channel.
 			 *
-			 * @returns {string/*} hexadecimal color code. Eg: `#FF00FF00` or default value.
+			 * @returns {String/*} hexadecimal color code (e.g. `#FF00FF00`) or default value.
 			 */
-			getHexAlpha: function() {
+			getHexWithAlpha: function() {
 				return this._.isValidColor ?
 					formatHexString( this._.red, this._.green, this._.blue, this._.alpha ) :
 					this._.defaultValue;
 			},
+
 			/**
 			 * Get rgb color blended with alpha.
 			 *
@@ -122,63 +129,72 @@
 					return formatHslString( 'hsla', hsl );
 				} );
 			},
+
 			/**
-			 * Get original value used to create object
+			 * Get raw value passed to constructor during color object creation.
 			 *
-			 * @returns {Object} Any value used in constructor
+			 * @returns {String} Raw value passed during color object creation.
 			 */
-			getOriginalValue: function() {
-				return this._.originalColorCode;
+			getInitialValue: function() {
+				return this._.initialColorCode;
 			}
 		},
+
 		_: {
 			/**
-			 * Original color code provided to create object.
+			 * Initial color code provided to create object.
 			 *
 			 * @private
-			 * @property {string}
+			 * @property {String}
 			 */
-			originalColorCode: '',
+			initialColorCode: '',
+
 			/**
-			 * Flag indicated invalid constructor input
+			 * Whether valid color input was passed.
 			 *
 			 * @private
 			 * @property {boolean}
 			 */
 			isValidColor: true,
+
 			/**
-			 * Alpha value extracted from constructor input.
-			 * Held separated due to conversions.
-			 * Ranged in 0-1.
-			 *
-			 * @private
-			 * @property {Number}
-			 */
-			alpha: 1,
-			/**
-			 * Red channel
-			 * Ranged in 0-255.
+			 * Red channel value. Ranges in 0-255.
 			 *
 			 * @private
 			 * @property {Number}
 			 */
 			red: 0,
+
 			/**
-			 * Green channel
-			 * Ranged in 0-255.
+			 * Green channel value. Ranges in 0-255.
 			 *
 			 * @private
 			 * @property {Number}
 			 */
 			green: 0,
+
 			/**
-			 * Blue channel
-			 * Ranged in 0-255.
+			 * Blue channel value. Ranges in 0-255.
 			 *
 			 * @private
 			 * @property {Number}
 			 */
 			blue: 0,
+
+			/**
+			 * Alpha channel value. Ranges in 0-1.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			alpha: 1,
+
+			/**
+			 * Parses color string trying to match it to any supported format and extract RGBA channels.
+			 *
+			 * @private
+			 * @param {String} colorCode Color to parse.
+			 */
 			parseInput: function( colorCode ) {
 				if ( typeof colorCode !== 'string' ) {
 					this._.isValidColor = false;
@@ -209,6 +225,11 @@
 				this._.alpha = colorChannels[ 3 ];
 			},
 
+			/**
+			 * Extracts RGBA channels from given HEX string.
+			 *
+			 * @param {String} colorCode HEX color representation.
+			 */
 			extractColorChannelsFromHex: function( colorCode ) {
 				if ( colorCode.match( CKEDITOR.tools.color.hex3charsRegExp ) ) {
 					colorCode = this._.hex3ToHex6( colorCode );
@@ -227,9 +248,13 @@
 
 				return null;
 			},
+
+			// TODO
 			extractColorChannelsFromRgba: function() {
 				return null;
 			},
+
+			// TODO
 			extractColorChannelsFromHsla: function() {
 				return null;
 			},
@@ -281,7 +306,7 @@
 	 		 * Extract red, green, blue from hexadecimal color code.
 			 *
 			 * @private
-			 * @param {string} hexColorCode hexadecimal color code with leading #
+			 * @param {String} hexColorCode hexadecimal color code with leading #
 			 * @returns {Array} rgb decimal values.
 			 */
 			hexToRgb: function( hexColorCode ) {
@@ -372,7 +397,7 @@
 			 * Get hexadecimal color from named colors.
 			 *
 			 * @private
-			 * @param {string} colorName color name. Eg. `red`.
+			 * @param {String} colorName color name. Eg. `red`.
 			 * @returns {Array/null} Array of rgba values or `null`.
 			 */
 			matchStringToNamedColor: function( colorName ) {
@@ -384,7 +409,7 @@
 			 * Extract alpha or takes `1` as default alpha value.
 			 *
 			 * @private
-			 * @param {string} hexColorCode valid hexadecimal color. Eg. `#F0F`, `#FF00FF` or `#FF00FF00`.
+			 * @param {String} hexColorCode valid hexadecimal color. Eg. `#F0F`, `#FF00FF` or `#FF00FF00`.
 			 * @returns {Array/null} Array of rgba values or `null`.
 			 */
 			matchStringToHex: function( hexColorCode ) {
@@ -419,8 +444,8 @@
 			 * Convert hexadecimal color three characters long to six characters long.
 			 *
 			 * @private
-			 * @param {string} hex3ColorCode hexadecimal color, three characters long. Eg. `#F0F`.
-			 * @returns {string} hexadecimal color value. Eg. `#FF00FF`.
+			 * @param {String} hex3ColorCode hexadecimal color, three characters long. Eg. `#F0F`.
+			 * @returns {String} hexadecimal color value. Eg. `#FF00FF`.
 			 */
 			hex3ToHex6: function( hex3ColorCode ) {
 				return hex3ColorCode.replace( CKEDITOR.tools.color.hex3charsRegExp, function( match, hexColor ) {
@@ -436,7 +461,7 @@
 			 * Convert rgb, rgba, hsl or hsla color code into hexadecimal color with alpha extraction.
 			 *
 			 * @private
-			 * @param {string} colorCode rgb, rgba, hsl or hsla color code. Eg. `rgb(255,255,255)` or `hsla(360, 10%, 5%, 0)`
+			 * @param {String} colorCode rgb, rgba, hsl or hsla color code. Eg. `rgb(255,255,255)` or `hsla(360, 10%, 5%, 0)`
 			 * @returns {string/null} hexadecimal color value. Eg. `#FF0000` or null.
 			 */
 			rgbOrHslToHex: function( colorCode ) {
@@ -711,7 +736,7 @@
 	}
 
 	// Remove `%` character and convert value to Number.
-	// @param {string} value Percent value. Eg. `100%`
+	// @param {String} value Percent value. Eg. `100%`
 	// @returns {Number} value as a Number.
 	function convertPercentValueToNumber( value ) {
 		return Number( value.slice( 0, -1 ) );
@@ -719,7 +744,7 @@
 
 	// Convert given value as hexadecimal based.
 	// @param {*} value value to convert.
-	// @returns {string} hexadecimal value.
+	// @returns {String} hexadecimal value.
 	function valueToHex( value ) {
 		var hex = value.toString( 16 );
 
@@ -744,18 +769,18 @@
 
 
 	// Convert color values into formatted rgb or rgba color code.
-	// @param {string} rgbPrefix Prefix for color value. Expected: `rgb` or `rgba`.
+	// @param {String} rgbPrefix Prefix for color value. Expected: `rgb` or `rgba`.
 	// @param {Array} values Array of color values.
-	// @returns {string} Formatted color value. Eg. `rgb(255,255,255)`
+	// @returns {String} Formatted color value. Eg. `rgb(255,255,255)`
 	function formatRgbString( rgbPrefix, values ) {
 		return rgbPrefix + '(' + values.join( ',' ) + ')';
 	}
 
 	// Convert color values into formatted hsl or hsla color code.
 	// @private
-	// @param {string} hslPrefix Prefix for color value. Expected `hsl` or `hsla`.
+	// @param {String} hslPrefix Prefix for color value. Expected `hsl` or `hsla`.
 	// @param {Array} hsl Array of hsl or hsla color values.
-	// @returns {string} Formatted color value. Eg. `hsl(360, 50%, 50%)`
+	// @returns {String} Formatted color value. Eg. `hsl(360, 50%, 50%)`
 	function formatHslString( hslPrefix, hsl ) {
 		var alphaString = hsl[3] !== undefined ? ',' + hsl[3] : '';
 
