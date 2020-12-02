@@ -47,19 +47,22 @@
 			 * @returns {string/*} hexadecimal color code. Eg: `#FF00FF` or default value.
 			 */
 			getHex: function() {
-				return this._.getColorValue( true, function( red, green, blue ) {
-					return formatHexString( red, green, blue );
-				} );
+				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+
+				return this._.isValidColor ?
+					formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] ) :
+					this._.defaultValue;
 			},
+
 			/**
 			 * Get hexadecimal color with alpha value.
 			 *
 			 * @returns {string/*} hexadecimal color code. Eg: `#FF00FF00` or default value.
 			 */
 			getHexAlpha: function() {
-				return this._.getColorValue( false, function( red, green, blue, alpha ) {
-					return formatHexString( red, green, blue, alpha );
-				} );
+				return this._.isValidColor ?
+					formatHexString( this._.red, this._.green, this._.blue, this._.alpha ) :
+					this._.defaultValue;
 			},
 			/**
 			 * Get rgb color blended with alpha.
@@ -142,7 +145,7 @@
 			 * @private
 			 * @property {boolean}
 			 */
-			invalidCreation: false,
+			isValidColor: true,
 			/**
 			 * Alpha value extracted from constructor input.
 			 * Held separated due to conversions.
@@ -178,13 +181,13 @@
 			blue: 0,
 			parseInput: function( colorCode ) {
 				if ( typeof colorCode !== 'string' ) {
-					this._.invalidCreation = true;
+					this._.isValidColor = false;
 					return;
 				}
 
 				colorCode = colorCode.trim();
 
-				// Check if named color was passed.
+				// Check if named color was passed and get its HEX representation.
 				var hexFromNamedColor = this._.matchStringToNamedColor( colorCode );
 				if ( hexFromNamedColor ) {
 					colorCode = hexFromNamedColor;
@@ -196,7 +199,7 @@
 					colorChannels = colorChannelsFromHex || colorChannelsFromRgba || colorChannelsFromHsla;
 
 				if ( !colorChannels ) {
-					this._.invalidCreation = true;
+					this._.isValidColor = false;
 					return;
 				}
 
@@ -474,7 +477,7 @@
 			 * @returns {*} Default value or value from converter.
 			 */
 			getColorValue: function( blendAlpha, converter ) {
-				if ( this._.invalidCreation ) {
+				if ( this._.isValidColor ) {
 					return this._.defaultValue;
 				}
 
