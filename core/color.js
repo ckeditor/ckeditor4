@@ -184,20 +184,51 @@
 
 				colorCode = colorCode.trim();
 
-				var rgbaFromNamed = this._.matchStringToNamedColor( colorCode );
-				var	rgbaFromHex = this._.matchStringToHex( colorCode );
-				var rgbaFromRgbOrHsl = this._.rgbOrHslToHex( colorCode );
-
-				var rgba = rgbaFromNamed || rgbaFromHex || rgbaFromRgbOrHsl;
-
-				if ( rgba ) {
-					this._.red = rgba[0];
-					this._.green = rgba[1];
-					this._.blue = rgba[2];
-					this._.alpha = rgba[3];
-				} else {
-					this._.invalidCreation = true;
+				// Check if named color was passed.
+				var hexFromNamedColor = this._.matchStringToNamedColor( colorCode );
+				if ( hexFromNamedColor ) {
+					colorCode = hexFromNamedColor;
 				}
+
+				var colorChannelsFromHex = this._.extractColorChannelsFromHex( colorCode ),
+					colorChannelsFromRgba = this._.extractColorChannelsFromRgba( colorCode ),
+					colorChannelsFromHsla = this._.extractColorChannelsFromHsla( colorCode ),
+					colorChannels = colorChannelsFromHex || colorChannelsFromRgba || colorChannelsFromHsla;
+
+				if ( !colorChannels ) {
+					this._.invalidCreation = true;
+					return;
+				}
+
+				this._.red = colorChannels[ 0 ];
+				this._.green = colorChannels[ 1 ];
+				this._.blue = colorChannels[ 2 ];
+				this._.alpha = colorChannels[ 3 ];
+			},
+
+			extractColorChannelsFromHex: function( colorCode ) {
+				if ( colorCode.match( CKEDITOR.tools.color.hex3charsRegExp ) ) {
+					colorCode = this._.hex3ToHex6( colorCode );
+				}
+
+				if ( colorCode.match( CKEDITOR.tools.color.hex6charsRegExp ) || colorCode.match( CKEDITOR.tools.color.hex8charsRegExp ) ) {
+					var parts = colorCode.split( '' );
+
+					return [
+						hexToValue( parts[ 1 ] + parts[ 2 ] ),
+						hexToValue( parts[ 3 ] + parts[ 4 ] ),
+						hexToValue( parts[ 5 ] + parts [ 6 ] ),
+						parts[ 7 ] && parts[ 8 ] ? hexToValue( parts[ 7 ] + parts[ 8 ] ) : 1
+					];
+				}
+
+				return null;
+			},
+			extractColorChannelsFromRgba: function() {
+				return null;
+			},
+			extractColorChannelsFromHsla: function() {
+				return null;
 			},
 			/**
 	 		 * Blend alpha into color. Assumes that background is white.
@@ -342,18 +373,9 @@
 			 * @returns {Array/null} Array of rgba values or `null`.
 			 */
 			matchStringToNamedColor: function( colorName ) {
-				var colorToHexObject = CKEDITOR.tools.color.namedColors;
-				var resultCode = colorToHexObject[ colorName.toLowerCase() ] || null;
-
-				//push default alpha
-				if ( resultCode ) {
-					resultCode = this._.hexToRgb( resultCode );
-					resultCode.push( 1 );
-					return resultCode;
-				} else {
-					return null;
-				}
+				return CKEDITOR.tools.color.namedColors[ colorName.toLowerCase() ];
 			},
+
 			/**
 			 * Try to convert hexadecimal color code to exactly six characters long hexadecimal color.
 			 * Extract alpha or takes `1` as default alpha value.
@@ -699,6 +721,11 @@
 		var hex = value.toString( 16 );
 
 		return hex.length == 1 ? '0' + hex : hex;
+	}
+
+	// Convert hexadecimal value to digit.
+	function hexToValue( hexValue ) {
+		return parseInt( hexValue, 16 );
 	}
 
 	//Format rgb to hex
