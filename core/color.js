@@ -271,6 +271,19 @@
 			},
 
 			/**
+			 * Convert 3-characters hexadecimal color format to 6-characters one.
+			 *
+			 * @private
+			 * @param {String} hex3ColorCode 3-characters hexadecimal color, e.g. `#F0F`.
+			 * @returns {String} 6-characters hexadecimal color e.g. `#FF00FF`.
+			 */
+			hex3ToHex6: function( hex3ColorCode ) {
+				var parts = hex3ColorCode.split( '' );
+
+				return '#' + parts[ 1 ] + parts[ 1 ] + parts[ 2 ] + parts[ 2 ] + parts[ 3 ] + parts[ 3 ];
+			},
+
+			/**
 			 * Normalize rgb values into 0-255 range.
 			 *
 			 * @private
@@ -425,23 +438,7 @@
 
 				return rgba;
 			},
-			/**
-			 * Convert hexadecimal color three characters long to six characters long.
-			 *
-			 * @private
-			 * @param {String} hex3ColorCode hexadecimal color, three characters long. Eg. `#F0F`.
-			 * @returns {String} hexadecimal color value. Eg. `#FF00FF`.
-			 */
-			hex3ToHex6: function( hex3ColorCode ) {
-				return hex3ColorCode.replace( CKEDITOR.tools.color.hex3charsRegExp, function( match, hexColor ) {
-					var normalizedHexColor = hexColor.toLowerCase();
 
-					var parts = normalizedHexColor.split( '' );
-					normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
-
-					return '#' + normalizedHexColor;
-				} );
-			},
 			/**
 			 * Convert rgb, rgba, hsl or hsla color code into hexadecimal color with alpha extraction.
 			 *
