@@ -47,13 +47,9 @@
 			 * @returns {string/*} hexadecimal color code. Eg: `#FF00FF` or default value.
 			 */
 			getHex: function() {
-				if ( this._.invalidCreation ) {
-					return this._.defaultValue;
-				}
-
-				var values = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
-
-				return formatHexString( values[0], values[1], values[2] );
+				return this._.getColorValue( true, function( red, green, blue ) {
+					return formatHexString( red, green, blue );
+				} );
 			},
 			/**
 			 * Get hexadecimal color with alpha value.
@@ -61,11 +57,9 @@
 			 * @returns {string/*} hexadecimal color code. Eg: `#FF00FF00` or default value.
 			 */
 			getHexAlpha: function() {
-				if ( this._.invalidCreation ) {
-					return this._.defaultValue;
-				}
-
-				return formatHexString( this._.red, this._.green, this._.blue, this._.alpha );
+				return this._.getColorValue( false, function( red, green, blue, alpha ) {
+					return formatHexString( red, green, blue, alpha );
+				} );
 			},
 			/**
 			 * Get rgb color blended with alpha.
@@ -75,13 +69,9 @@
 			 * @returns {string/*} rgb color. Eg. `rgb(255,255,255)` or default value.
 			 */
 			getRgb: function() {
-				if ( this._.invalidCreation ) {
-					return this._.defaultValue;
-				}
-
-				var decimalColorValues = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
-
-				return formatRgbString( 'rgb', decimalColorValues );
+				return this._.getColorValue( true, function( red, green, blue ) {
+					return formatRgbString( 'rgb', [ red, green, blue ] );
+				} );
 			},
 			/**
 			 * Get rgb color with alpha value.
@@ -92,13 +82,9 @@
 			 * @returns {string/*} rgba color. Eg. `rgba(255,255,255,0)` or default value.
 			 */
 			getRgba: function() {
-				if ( this._.invalidCreation ) {
-					return this._.defaultValue;
-				}
-
-				var decimalValues = [ this._.red, this._.green, this._.blue, this._.alpha ];
-
-				return formatRgbString( 'rgba', decimalValues );
+				return this._.getColorValue( false, function( red, green, blue, alpha ) {
+					return formatRgbString( 'rgba',  [ red, green, blue, alpha ] );
+				} );
 			},
 			/**
 			 * Get hsl color blended with alpha.
@@ -110,15 +96,11 @@
 			 *
 			 */
 			getHsl: function() {
-				if ( this._.invalidCreation ) {
-					return this._.defaultValue;
-				}
+				return this._.getColorValue( true, function( red, green, blue ) {
+					var hsl = this._.rgbToHsl( red, green, blue );
 
-				var rgb = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
-
-				var hsl = this._.rgbToHsl( rgb[0],rgb[1], rgb[2] );
-
-				return formatHslString( 'hsl', hsl );
+					return formatHslString( 'hsl', hsl );
+				} );
 			},
 			/**
 			 * Get hsla color with alpha value.
@@ -130,14 +112,12 @@
 			 * @returns {string/*} hsla color. Eg. `hsla(360, 100%, 50%, 0)` or default value.
 			 */
 			getHsla: function() {
-				if ( this._.invalidCreation ) {
-					return this._.defaultValue;
-				}
+				return this._.getColorValue( false, function( red, green, blue, alpha ) {
+					var hsl = this._.rgbToHsl( red, green, blue );
+					hsl.push( alpha );
 
-				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
-				hsl.push( this._.alpha );
-
-				return formatHslString( 'hsla', hsl );
+					return formatHslString( 'hsla', hsl );
+				} );
 			},
 			/**
 			 * Get original value used to create object
@@ -461,6 +441,28 @@
 				colorNumberValues.push( alpha );
 
 				return colorNumberValues;
+			},
+			/**
+			 * Return default value if object is invalidate.
+			 * Eventualy blend alpha into rgb and return value after conversion.
+			 *
+			 * @private
+			 * @param {boolean} blendAlpha Should blend alpha into rgb.
+			 * @param {function} converter Additional rgba processor.
+			 * @returns {*} Default value or value from converter.
+			 */
+			getColorValue: function( blendAlpha, converter ) {
+				if ( this._.invalidCreation ) {
+					return this._.defaultValue;
+				}
+
+				var rgb = [ this._.red, this._.green, this._.blue ] ;
+
+				if ( blendAlpha ) {
+					rgb = this._.blendAlphaColor( rgb[0],rgb[1],rgb[2], this._.alpha );
+				}
+
+				return converter.call( this , rgb[0], rgb[1], rgb[2], this._.alpha );
 			}
 		},
 		statics: {
