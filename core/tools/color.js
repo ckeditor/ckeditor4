@@ -291,6 +291,7 @@
 			/**
 			 * Extract RGBA channels from given HSLA string.
 			 *
+			 * @private
 			 * @param {String} colorCode HSL or HSLA color representation.
 			 */
 			extractColorChannelsFromHsla: function( colorCode ) {
