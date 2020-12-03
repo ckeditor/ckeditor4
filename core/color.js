@@ -261,8 +261,23 @@
 				return null;
 			},
 
-			// TODO
-			extractColorChannelsFromRgba: function() {
+			/**
+			 * Extracts RGBA channels from given RGBA string.
+			 *
+			 * @private
+			 * @param {String} colorCode RGB or RGBA color representation.
+			 */
+			extractColorChannelsFromRgba: function( colorCode ) {
+				var rgbMatch = colorCode.match( CKEDITOR.tools.color.rgbRegExp );
+				if ( colorCode.indexOf( 'rgb' ) === 0 && rgbMatch ) {
+					var rgb = this._.normalizeRgbValues( rgbMatch[0], rgbMatch[1], rgbMatch[2] );
+
+					var alpha = rgbMatch.length === 4 ? rgbMatch[3] :  1;
+
+					rgb.push( alpha );
+					return rgb;
+				}
+
 				return null;
 			},
 
@@ -454,6 +469,10 @@
 			 */
 			hex8CharsRegExp: /#([0-9a-f]{8}$)/gim,
 
+			/**
+			 *
+			 */
+			rgbRegExp: /\d+\.?\d*%*/g,
 			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
 			 *
 			 * @static
