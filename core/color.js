@@ -84,6 +84,7 @@
 					formatRgbString( 'rgb', color[ 0 ], color[ 1 ], color[ 2 ]  ) :
 					this._.defaultValue;
 			},
+
 			/**
 			 * Get rgb color with alpha value.
 			 *
@@ -97,6 +98,7 @@
 					formatRgbString( 'rgba', this._.red, this._.green, this._.blue, this._.alpha ) :
 					this._.defaultValue;
 			},
+
 			/**
 			 * Get hsl color blended with alpha.
 			 *
@@ -115,6 +117,7 @@
 					return this._.defaultValue;
 				}
 			},
+
 			/**
 			 * Get hsla color with alpha value.
 			 *
@@ -125,11 +128,11 @@
 			 * @returns {string/*} hsla color. Eg. `hsla(360, 100%, 50%, 0)` or default value.
 			 */
 			getHsla: function() {
-					var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
-					return this._.isValidColor ?
+				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
+				return this._.isValidColor ?
 					formatHslString( 'hsla', hsl[0], hsl[1], hsl[2], this._.alpha ) :
 					this._.defaultValue;
-				},
+			},
 
 			/**
 			 * Get raw value passed to constructor during color object creation.
@@ -340,19 +343,7 @@
 
 				return [ red, green, blue ];
 			},
-			/**
-	 		 * Extract red, green, blue from hexadecimal color code.
-			 *
-			 * @private
-			 * @param {String} hexColorCode hexadecimal color code with leading #
-			 * @returns {Array} rgb decimal values.
-			 */
-			hexToRgb: function( hexColorCode ) {
-				var colorValues = hexColorCode.slice( 1 ).match( /.{2}/ig );
-				return CKEDITOR.tools.array.map( colorValues, function( color ) {
-					return parseInt( color, 16 );
-				} );
-			},
+
 			/**
 			 * Convert rgb color values to hsl color values.
 			 *
@@ -402,6 +393,7 @@
 				var hsl = [ hue, saturation, light ];
 				return hsl;
 			},
+
 			/**
 			 * Convert hsl values into rgb.
 			 *
@@ -430,29 +422,6 @@
 
 				var rgb = [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
 				return rgb;
-			},
-
-			/**
-			 * Return default value if object is invalidate.
-			 * Eventually blend alpha into rgb and return value after conversion.
-			 *
-			 * @private
-			 * @param {Boolean} blendAlpha Should blend alpha into rgb.
-			 * @param {Function} converter Additional rgba processor.
-			 * @returns {*} Default value or value from converter.
-			 */
-			getColorValue: function( blendAlpha, converter ) {
-				if ( this._.isValidColor ) {
-					return this._.defaultValue;
-				}
-
-				var rgb = [ this._.red, this._.green, this._.blue ] ;
-
-				if ( blendAlpha ) {
-					rgb = blendAlphaColor( rgb[0],rgb[1],rgb[2], this._.alpha );
-				}
-
-				return converter.call( this , rgb[0], rgb[1], rgb[2], this._.alpha );
 			}
 		},
 		statics: {
@@ -484,9 +453,13 @@
 			hex8CharsRegExp: /#([0-9a-f]{8}$)/gim,
 
 			/**
-			 *
+			 * Regular expression to extract numbers from rgba / hsla color value.
+			 * @private
+			 * @static
+			 * @property {RegExp}
 			 */
 			rgbRegExp: /\d+\.?\d*%*/g,
+
 			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
 			 *
 			 * @static
@@ -727,7 +700,6 @@
 
 		return hexColorCode.toUpperCase();
 	}
-
 
 	// Convert color values into formatted rgb or rgba color code.
 	// @param {*} rgbPrefix
