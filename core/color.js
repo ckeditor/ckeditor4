@@ -107,11 +107,13 @@
 			 *
 			 */
 			getHsl: function() {
-				return this._.getColorValue( true, function( red, green, blue ) {
-					var hsl = this._.rgbToHsl( red, green, blue );
-
-					return formatHslString( 'hsl', hsl );
-				} );
+				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+				if ( this._.isValidColor ) {
+					var hsl = this._.rgbToHsl( color[0], color[1], color[2] );
+					return formatHslString( 'hsl', hsl[0], hsl[1], hsl[2] );
+				} else {
+					return this._.defaultValue;
+				}
 			},
 			/**
 			 * Get hsla color with alpha value.
@@ -123,13 +125,11 @@
 			 * @returns {string/*} hsla color. Eg. `hsla(360, 100%, 50%, 0)` or default value.
 			 */
 			getHsla: function() {
-				return this._.getColorValue( false, function( red, green, blue, alpha ) {
-					var hsl = this._.rgbToHsl( red, green, blue );
-					hsl.push( alpha );
-
-					return formatHslString( 'hsla', hsl );
-				} );
-			},
+					var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
+					return this._.isValidColor ?
+					formatHslString( 'hsla', hsl[0], hsl[1], hsl[2], this._.alpha ) :
+					this._.defaultValue;
+				},
 
 			/**
 			 * Get raw value passed to constructor during color object creation.
@@ -282,8 +282,21 @@
 				return null;
 			},
 
-			// TODO
-			extractColorChannelsFromHsla: function() {
+			/**
+			 * Extract RGBA channels from given HSLA string.
+			 *
+			 * @param {String} colorCode HSL or HSLA color representation.
+			 */
+			extractColorChannelsFromHsla: function( colorCode ) {
+				var hslMatch = colorCode.match( CKEDITOR.tools.color.rgbRegExp );
+				if ( colorCode.indexOf( 'hsl' ) === 0 && hslMatch ) {
+					var rgb = this._.hslToRgb( hslMatch[0],hslMatch[1], hslMatch[2] );
+					var alpha = hslMatch.length === 4 ? normalizePercentValue( hslMatch[3] ) : 1;
+
+					rgb.push( alpha );
+					return rgb;
+				}
+
 				return null;
 			},
 
@@ -736,15 +749,18 @@
 	// Convert color values into formatted hsl or hsla color code.
 	// @private
 	// @param {String} hslPrefix Prefix for color value. Expected `hsl` or `hsla`.
-	// @param {Array} hsl Array of hsl or hsla color values.
+	// @param {*} hue
+	// @param {*} saturation
+	// @param {*} lightness
+	// @param {*} alpha
 	// @returns {String} Formatted color value. Eg. `hsl(360, 50%, 50%)`
-	function formatHslString( hslPrefix, hsl ) {
-		var alphaString = hsl[3] !== undefined ? ',' + hsl[3] : '';
+	function formatHslString( hslPrefix, hue, saturation, lightness, alpha ) {
+		var alphaString = alpha !== undefined ? ',' + alpha : '';
 
 		return hslPrefix + '(' +
-		hsl[0] + ',' +
-		hsl[1] + '%,' +
-		hsl[2] + '%' +
+		hue + ',' +
+		saturation + '%,' +
+		lightness + '%' +
 		alphaString +
 		')';
 	}
