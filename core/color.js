@@ -20,7 +20,7 @@
 	 *
 	 * It can be used to validate and convert color between above formats:
 	 *
-	 * ```js
+	 * ```javascript
 	 * var color = new CKEDITOR.tools.color( 'rgb( 225, 225, 225 )' );
 	 * console.log( color.getHex() ); // #FFFFFF
 	 *
@@ -76,10 +76,11 @@
 			 *
 			 * Each color ranged in 0-255.
 			 *
-			 * @returns {string/*} rgb color. Eg. `rgb(255,255,255)` or default value.
+			 * @returns {String/*} rgb color (e.g. `rgb(255,255,255)`) or default value.
 			 */
 			getRgb: function() {
 				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+
 				return this._.isValidColor ?
 					formatRgbString( 'rgb', color[ 0 ], color[ 1 ], color[ 2 ]  ) :
 					this._.defaultValue;
@@ -91,7 +92,7 @@
 			 * Each color ranged in 0-255.
 			 * Alpha ranged in 0-1.
 			 *
-			 * @returns {string/*} rgba color. Eg. `rgba(255,255,255,0)` or default value.
+			 * @returns {String/*} rgba color. (e.g. `rgba(255,255,255,0)`) or default value.
 			 */
 			getRgba: function() {
 				return this._.isValidColor ?
@@ -105,11 +106,12 @@
 			 * Hue ranged in 0-360.
 			 * Saturation, Lightness ranged in 0-100%.
 			 *
-			 * @returns {string/*} hsl color. Eg. `hsl(360, 100%, 50%)` or default value.
+			 * @returns {String/*} hsl color (e.g. `hsl(360, 100%, 50%)`) or default value.
 			 *
 			 */
 			getHsl: function() {
 				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+
 				if ( this._.isValidColor ) {
 					var hsl = this._.rgbToHsl( color[0], color[1], color[2] );
 					return formatHslString( 'hsl', hsl[0], hsl[1], hsl[2] );
@@ -125,10 +127,11 @@
 			 * Saturation, Lightness ranged in 0-100%.
 			 * Alpha ranged in 0-1.
 			 *
-			 * @returns {string/*} hsla color. Eg. `hsla(360, 100%, 50%, 0)` or default value.
+			 * @returns {String/*} hsla color (e.g. `hsla(360, 100%, 50%, 0)`) or default value.
 			 */
 			getHsla: function() {
 				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
+
 				return this._.isValidColor ?
 					formatHslString( 'hsla', hsl[0], hsl[1], hsl[2], this._.alpha ) :
 					this._.defaultValue;
@@ -157,7 +160,7 @@
 			 * Whether valid color input was passed.
 			 *
 			 * @private
-			 * @property {boolean}
+			 * @property {Boolean}
 			 */
 			isValidColor: true,
 
@@ -649,7 +652,7 @@
 	}
 
 	// Convert value into Number ranged in 0-100.
-	// @param {string/Number} value.
+	// @param {String/Number} value.
 	function normalizePercentValue( value ) {
 		if ( isPercentValue( value ) ) {
 			value = convertPercentValueToNumber( value );
@@ -664,13 +667,13 @@
 
 	// Validate if given value is string type and ends with `%` character.
 	// @param {*} value any value.
-	// @returns {boolean}
+	// @returns {Boolean}
 	function isPercentValue( value ) {
 		return typeof value === 'string' && value.slice( -1 ) === '%';
 	}
 
 	// Remove `%` character and convert value to Number.
-	// @param {String} value Percent value. Eg. `100%`
+	// @param {String} value Percent value (e.g. `100%`)
 	// @returns {Number} value as a Number.
 	function convertPercentValueToNumber( value ) {
 		return Number( value.slice( 0, -1 ) );
@@ -707,7 +710,7 @@
 	// @param {*} green
 	// @param {*} blue
 	// @param {*} alpha
-	// @returns {String} Formatted color value. Eg. `rgb(255,255,255)`
+	// @returns {String} Formatted color value (e.g. `rgb(255,255,255)`)
 	function formatRgbString( rgbPrefix, red, green, blue, alpha ) {
 		var rgba = [ red, green, blue ];
 
@@ -725,7 +728,7 @@
 	// @param {*} saturation
 	// @param {*} lightness
 	// @param {*} alpha
-	// @returns {String} Formatted color value. Eg. `hsl(360, 50%, 50%)`
+	// @returns {String} Formatted color value (e.g. `hsl(360, 50%, 50%)`)
 	function formatHslString( hslPrefix, hue, saturation, lightness, alpha ) {
 		var alphaString = alpha !== undefined ? ',' + alpha : '';
 
