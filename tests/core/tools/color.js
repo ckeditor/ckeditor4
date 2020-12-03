@@ -28,6 +28,22 @@
 
 		'test color from object returns default value': colorTools.testColorConversion( {}, 'default', 'getHex', 'default' ),
 
+		'test color from outranged rgb value returns default value': colorTools.testColorConversion( 'rgb( 2940, 8840, 11150 )', 'default', 'getHex', 'default' ),
+
+		'test color from outranged percent rgb value returns default value': colorTools.testColorConversion( 'rgb( 101%, 101%, 101% )', 'default', 'getHex', 'default' ),
+
+		'test color from rgba with outranged alpha value returns default value': colorTools.testColorConversion( 'rgba( 120, 120, 120, 19 )', 'default', 'getHex', 'default' ),
+
+		'test color from rgba with outranged alpha percent value returns default value': colorTools.testColorConversion( 'rgba( 120, 120, 120, 101% )', 'default', 'getHex', 'default' ),
+
+		'test color from outranged percent hsl value returns default value': colorTools.testColorConversion( 'hsl( 361, 101%, 101% )', 'default', 'getHex', 'default' ),
+
+		'test color from outranged normalized hsl value returns default value': colorTools.testColorConversion( 'hsl( 361, 1.1, 1.1 )', 'default', 'getHex', 'default' ),
+
+		'test color from hsla with outranged alpha value returns default value': colorTools.testColorConversion( 'hsla( 120, 100%, 100%, 19 )', 'default', 'getHex', 'default' ),
+
+		'test color from hsla with outranged alpha percent value returns default value': colorTools.testColorConversion( 'hsla( 120, 100%, 100%, 101% )', 'default', 'getHex', 'default' ),
+
 		'test color from invalid 3-HEX returns default value': colorTools.testColorConversion( '#F00BAR', 'default', 'getHex', 'default' ),
 
 		'test color from invalid 6-HEX returns default value': colorTools.testColorConversion( '#FF00FFRR', 'default', 'getHex', 'default' ),
@@ -46,13 +62,9 @@
 
 		'test color from valid rgb string returns 6-HEX': colorTools.testColorConversion( 'rgb( 40, 40, 150 )', '#282896', 'getHex' ),
 
-		'test color from outranged rgb value returns default 6-HEX': colorTools.testColorConversion( 'rgb( 2940, 8840, 11150 )', '#000000', 'getHex' ),
-
 		'test color from percentage rgb value returns 6-HEX': colorTools.testColorConversion( 'rgb( 100%, 50%, 10% )', '#FF801A', 'getHex' ),
 
 		'test color from valid hsl string returns 6-HEX': colorTools.testColorConversion( 'hsl( 195, 1, 0.5 )', '#00BFFF', 'getHex' ),
-
-		'test color from outranged hsl string returns 6-HEX': colorTools.testColorConversion( 'hsl( 999, 1882, 128 )', '#FFFFFF', 'getHex' ),
 
 		'test color from percentage hsl string returns 6-HEX': colorTools.testColorConversion( 'hsl( 195, 100%, 50% )', '#00BFFF', 'getHex' ),
 
@@ -68,8 +80,6 @@
 
 		'test color from valid hsla alpha 0 value returns 6-HEX': colorTools.testColorConversion( 'hsla( 123, 0.5, 0.5, 0)', '#FFFFFF', 'getHex' ),
 
-		'test color from hsla with invalid alpha range value returns 6-HEX': colorTools.testColorConversion( 'hsla( 123, 0.5, 0.5, 200)', '#40BF46', 'getHex' ),
-
 		'test color from 6-HEX returns valid RGB': colorTools.testColorConversion( '#FF00FF', 'rgb(255,0,255)', 'getRgb' ),
 
 		'test color from 8-HEX returns valid RGBA': colorTools.testColorConversion( '#FF00FF00', 'rgba(255,0,255,0)', 'getRgba' ),
@@ -77,7 +87,6 @@
 		'test color from 6-HEX returns valid hsl': colorTools.testColorConversion( '#00BFFF', 'hsl(195,100%,50%)', 'getHsl' ),
 
 		'test color from 8-HEX returns valid hsla': colorTools.testColorConversion( '#00BFFF00','hsla(195,100%,50%,0)', 'getHsla' )
-
 	} );
 
 } )();
