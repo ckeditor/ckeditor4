@@ -1017,6 +1017,11 @@
 		 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
 		 * {@link CKEDITOR.tools.color#getHex} to extract hexadecimal equivalent.
 		 *
+		 * ```javascript
+		 * var color = new CKEDITOR.tools.color( 'rgb( 225, 225, 225 )' ); // Create color instance.
+		 * console.log( color.getHex() ); // #FFFFFF
+		 * ```
+		 *
 		 * @deprecated
 		 * @param {String} styleText The style data (or just a string containing RGB colors) to be converted.
 		 * @returns {String} The style data with RGB colors converted to hexadecimal equivalents.
@@ -1036,6 +1041,11 @@
 		 *
 		 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
 		 * {@link CKEDITOR.tools.color#getHex} to extract hexadecimal equivalent. Then make it `toLowerCase()`.
+		 *
+		 * ```javascript
+		 * var color = new CKEDITOR.tools.color( '#FFF' ); // Create color instance.
+		 * console.log( color.getHex().toLowerCase() ); // #ffffff
+		 * ```
 		 *
 		 * @deprecated
 		 * @param {String} styleText The style data (or just a string containing hex colors) to be converted.
