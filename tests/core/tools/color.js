@@ -11,14 +11,9 @@
 	'use strict';
 
 	bender.test( {
-		setUp: function() {
-			this.createColor = function( colorCode ) {
-				return new CKEDITOR.tools.color( colorCode );
-			};
-		},
 
 		'test color object creation': function() {
-			var colorObject = this.createColor( '' );
+			var colorObject = new CKEDITOR.tools.color( '' );
 
 			assert.isObject( colorObject );
 		},
