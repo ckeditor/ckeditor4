@@ -72,7 +72,7 @@
 			},
 
 			/**
-			 * Get rgb color blended with alpha.
+			 * Get rgb color representation.
 			 *
 			 * Each color ranged in 0-255.
 			 *
@@ -87,12 +87,12 @@
 			},
 
 			/**
-			 * Get rgb color with alpha value.
+			 * Get rgb color representation with separate alpha channel.
 			 *
 			 * Each color ranged in 0-255.
 			 * Alpha ranged in 0-1.
 			 *
-			 * @returns {String/*} rgba color. (e.g. `rgba(255,255,255,0)`) or default value.
+			 * @returns {String/*} rgba color (e.g. `rgba(255,255,255,0)`) or default value.
 			 */
 			getRgba: function() {
 				return this._.isValidColor ?
@@ -101,7 +101,7 @@
 			},
 
 			/**
-			 * Get hsl color blended with alpha.
+			 * Get hsl color representation.
 			 *
 			 * Hue ranged in 0-360.
 			 * Saturation, Lightness ranged in 0-100%.
@@ -121,7 +121,7 @@
 			},
 
 			/**
-			 * Get hsla color with alpha value.
+			 * Get hsla color representation with separate alpha channel.
 			 *
 			 * Hue ranged in 0-360.
 			 * Saturation, Lightness ranged in 0-100%.
