@@ -79,9 +79,10 @@
 			 * @returns {string/*} rgb color. Eg. `rgb(255,255,255)` or default value.
 			 */
 			getRgb: function() {
-				return this._.getColorValue( true, function( red, green, blue ) {
-					return formatRgbString( 'rgb', [ red, green, blue ] );
-				} );
+				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+				return this._.isValidColor ?
+					formatRgbString( 'rgb', color[ 0 ], color[ 1 ], color[ 2 ]  ) :
+					this._.defaultValue;
 			},
 			/**
 			 * Get rgb color with alpha value.
@@ -92,9 +93,9 @@
 			 * @returns {string/*} rgba color. Eg. `rgba(255,255,255,0)` or default value.
 			 */
 			getRgba: function() {
-				return this._.getColorValue( false, function( red, green, blue, alpha ) {
-					return formatRgbString( 'rgba',  [ red, green, blue, alpha ] );
-				} );
+				return this._.isValidColor ?
+					formatRgbString( 'rgba', this._.red, this._.green, this._.blue, this._.alpha ) :
+					this._.defaultValue;
 			},
 			/**
 			 * Get hsl color blended with alpha.
@@ -272,7 +273,7 @@
 				if ( colorCode.indexOf( 'rgb' ) === 0 && rgbMatch ) {
 					var rgb = this._.normalizeRgbValues( rgbMatch[0], rgbMatch[1], rgbMatch[2] );
 
-					var alpha = rgbMatch.length === 4 ? rgbMatch[3] :  1;
+					var alpha = rgbMatch.length === 4 ? normalizePercentValue( rgbMatch[3] ) : 1;
 
 					rgb.push( alpha );
 					return rgb;
@@ -716,11 +717,20 @@
 
 
 	// Convert color values into formatted rgb or rgba color code.
-	// @param {String} rgbPrefix Prefix for color value. Expected: `rgb` or `rgba`.
-	// @param {Array} values Array of color values.
+	// @param {*} rgbPrefix
+	// @param {*} red
+	// @param {*} green
+	// @param {*} blue
+	// @param {*} alpha
 	// @returns {String} Formatted color value. Eg. `rgb(255,255,255)`
-	function formatRgbString( rgbPrefix, values ) {
-		return rgbPrefix + '(' + values.join( ',' ) + ')';
+	function formatRgbString( rgbPrefix, red, green, blue, alpha ) {
+		var rgba = [ red, green, blue ];
+
+		if ( alpha !== undefined ) {
+			rgba.push( alpha );
+		}
+
+		return rgbPrefix + '(' + rgba.join( ',' ) + ')';
 	}
 
 	// Convert color values into formatted hsl or hsla color code.
