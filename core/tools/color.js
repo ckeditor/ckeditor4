@@ -285,40 +285,42 @@
 			 * @returns {Array/null}
 			 */
 			validateRgbValues: function( values ) {
-				var red = this._.validateValueInRgb( values[ 0 ] );
+				var red = this._.validateRgbChannelValue( values[ 0 ] );
+				var green = this._.validateRgbChannelValue( values[ 1 ] );
+				var blue = this._.validateRgbChannelValue( values[ 2 ] );
+				var alpha = this._.validateAlphaValue( values[ 3 ] );
 
-				var green = this._.validateValueInRgb( values[ 1 ] );
-
-				var blue = this._.validateValueInRgb( values[ 2 ] );
-
-				var rgb = [ red, green, blue ];
-
-				var alpha = 1;
-				if ( values[ 3 ] !== undefined ) {
-					alpha = this._.isValidPercentOrNormalizedPercent( values[ 3 ] );
-				}
-				rgb.push( alpha );
+				var rgb = [ red, green, blue, alpha ];
 
 				return rgb;
 			},
-
-			validateValueInRgb: function( value ) {
-				if ( isPercentValue( value ) ) {
-					// [0, 100]
-					value = convertPercentValueToNumber( value );
-					if ( Number.isNaN( value ) || value < 0 || value > 100 ) {
-						return null;
-					}
-					value = CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE * (value / 100);
-				} else {
-					// [0, 255]
-					value = Number.parseInt( value );
-					if ( Number.isNaN( value ) || value < 0 || value > CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) {
-						return null;
-					}
+			validateAlphaValue: function( value ) {
+				var alpha = 1;
+				if ( value !== undefined ) {
+					alpha = this._.isValidPercentOrNormalizedPercent( value );
 				}
 
-				return value;
+				return alpha;
+			},
+
+			/**
+			 *
+			 * @param {*} value
+			 */
+			validateRgbChannelValue: function( value ) {
+				var percentValue = null,
+					rangedValue = null;
+
+				if ( isPercentValue( value ) ) {
+					percentValue = this._.validatePercent( value );
+					if ( percentValue !== null ) {
+						percentValue = CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE * ( percentValue / 100 );
+					}
+				} else {
+					rangedValue = this._.validateValueInRange( value, 0, 255 );
+				}
+
+				return percentValue || rangedValue;
 			},
 
 			/**
@@ -352,45 +354,47 @@
 			 */
 			validateHslValues: function( values ) {
 				//validate hue: Int [0-360]
-				var hue = Number.parseInt( values[ 0 ] );
-				if ( Number.isNaN( hue ) || hue < 0 || hue > 360 ) {
-					hue = null;
-				}
+				var hue = this._.validateValueInRange( values[ 0 ], 0, 360 );
+				var saturation = this._.isValidPercentOrNormalizedPercent( values[ 1 ] );
+				var lightness = this._.isValidPercentOrNormalizedPercent( values[ 2 ] );
+				var alpha = this._.validateAlphaValue( values[ 3 ] );
 
-				//validate saturation & lightness [0.0, 1.0] or [0-100] %
-				var saturation = values[ 1 ];
-				saturation = this._.isValidPercentOrNormalizedPercent( saturation );
-
-				var lightness = values[ 2 ];
-				lightness = this._.isValidPercentOrNormalizedPercent( lightness );
-
-				var hsl = [ hue, saturation, lightness ];
-
-				var alpha = 1;
-				if ( values[ 3 ] !== undefined ) {
-					alpha = this._.isValidPercentOrNormalizedPercent( values[ 3 ] );
-				}
-				hsl.push( alpha );
+				var hsl = [ hue, saturation, lightness, alpha ];
 
 				return hsl;
 			},
 			isValidPercentOrNormalizedPercent: function( value ) {
+				var percentValue = null,
+					rangedValue = null;
+
 				if ( isPercentValue( value ) ) {
-					// [0, 100]
-					value = convertPercentValueToNumber( value );
-					if ( Number.isNaN( value ) || value < 0 || value > 100 ) {
-						return null;
+					percentValue = this._.validatePercent( value );
+					if ( percentValue !== null ) {
+						percentValue /= 100;
 					}
-					//normalize to [0.0, 1.0]
-					value /= 100;
 				} else {
-					// [0.0, 1.0]
-					value = Number.parseFloat( value );
-					if ( Number.isNaN( value ) || value < 0.0 || value > 1.0 ) {
-						return null;
-					}
+					rangedValue = this._.validateValueInRange( value, 0.0, 1.0 );
 				}
 
+				return percentValue || rangedValue;
+			},
+			validateValueInRange: function( value, min, max ) {
+				value = Number.parseFloat( value );
+				if ( Number.isNaN( value ) || value < min || value > max ) {
+					return null;
+				}
+
+				return value;
+			},
+			validatePercent: function( value ) {
+				if ( !isPercentValue( value ) ) {
+					return null;
+				}
+				// [0, 100]
+				value = convertPercentValueToNumber( value );
+				if ( Number.isNaN( value ) || value < 0 || value > 100 ) {
+					return null;
+				}
 				return value;
 			},
 
