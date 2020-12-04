@@ -113,8 +113,8 @@
 				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
 				if ( this._.isValidColor ) {
-					var hsl = this._.rgbToHsl( color[0], color[1], color[2] );
-					return formatHslString( 'hsl', hsl[0], hsl[1], hsl[2] );
+					var hsl = this._.rgbToHsl( color[ 0 ], color[ 1 ], color[ 2 ] );
+					return formatHslString( 'hsl', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
 				} else {
 					return this._.defaultValue;
 				}
@@ -133,7 +133,7 @@
 				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
 
 				return this._.isValidColor ?
-					formatHslString( 'hsla', hsl[0], hsl[1], hsl[2], this._.alpha ) :
+					formatHslString( 'hsla', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ], this._.alpha ) :
 					this._.defaultValue;
 			},
 
@@ -275,17 +275,82 @@
 			 * @param {String} colorCode RGB or RGBA color representation.
 			 */
 			extractColorChannelsFromRgba: function( colorCode ) {
-				var rgbMatch = colorCode.match( CKEDITOR.tools.color.rgbRegExp );
-				if ( colorCode.indexOf( 'rgb' ) === 0 && rgbMatch ) {
-					var rgb = this._.normalizeRgbValues( rgbMatch[0], rgbMatch[1], rgbMatch[2] );
+				var rgbMatch = this._.validateRgbaString( colorCode );
 
-					var alpha = rgbMatch.length === 4 ? normalizePercentValue( rgbMatch[3] ) : 1;
-
-					rgb.push( alpha );
-					return rgb;
+				if ( rgbMatch ) {
+					return rgbMatch;
 				}
 
 				return null;
+			},
+
+			/**
+			 *
+			 * @param {*} value
+			 * @returns {Array/null}
+			 */
+			validateRgbaString: function( value ) {
+				var rgbMatch = value.match( CKEDITOR.tools.color.rgbRegExp );
+				if ( !rgbMatch ) {
+					return null;
+				}
+
+				var prefix = rgbMatch[ 1 ];
+				var values = rgbMatch[ 2 ].split( ',' );
+
+				values = CKEDITOR.tools.array.map( values, function( value ) {
+					return value.trim();
+				} );
+				var shouldIncludeAlpha = prefix.slice( -1 ) === 'a';
+				var hasValidAmountOfValues = shouldIncludeAlpha ? values.length === 4 : values.length === 3;
+
+				if ( !hasValidAmountOfValues ) {
+					return null;
+				}
+
+				var red = this._.validateValueInRgb( values[ 0 ] );
+				if ( red === null ) {
+					return null;
+				}
+				var green = this._.validateValueInRgb( values[ 1 ] );
+				if ( green === null ) {
+					return null;
+				}
+				var blue = this._.validateValueInRgb( values[ 2 ] );
+				if ( blue === null ) {
+					return null;
+				}
+
+				var alpha = 1;
+				if ( shouldIncludeAlpha ) {
+					//validate alpha (0-1) or 0-100%
+					alpha = values[ 3 ];
+					alpha = this._.validatePercent( alpha );
+
+					if ( alpha === null ) {
+						return null;
+					}
+				}
+				return [ red, green, blue, alpha ];
+			},
+
+			validateValueInRgb: function( value ) {
+				if ( isPercentValue( value ) ) {
+					// [0, 100]
+					value = convertPercentValueToNumber( value );
+					if ( Number.isNaN( value ) || value < 0 || value > 100 ) {
+						return null;
+					}
+					value = this._.normalizeRgbValue( value );
+				} else {
+					// [0, 255]
+					value = Number.parseInt( value );
+					if ( Number.isNaN( value ) || value < 0 || value > 255 ) {
+						return null;
+					}
+				}
+
+				return value;
 			},
 
 			/**
@@ -298,9 +363,9 @@
 				var hslMatch =  this._.validateHslaString( colorCode );
 
 				if ( hslMatch ) {
-					var rgb = this._.hslToRgb( hslMatch[0], hslMatch[1], hslMatch[2] );
+					var rgb = this._.hslToRgb( hslMatch[ 0 ], hslMatch[ 1 ], hslMatch[ 2 ] );
 
-					rgb.push( hslMatch[3] );
+					rgb.push( hslMatch[ 3 ] );
 					return rgb;
 				}
 
@@ -315,6 +380,7 @@
 			 * Alpha: [0.0, 1.0] or [0, 100]%
 			 *
 			 * @param {*} value
+			 * @returns {Array/null}
 			 */
 			validateHslaString: function( value ) {
 				var hslMatch = value.match( CKEDITOR.tools.color.hslRegExp );
@@ -322,11 +388,11 @@
 					return null;
 				}
 
-				var prefix = hslMatch[1];
-				var values = hslMatch[2].split( ',' );
-				values = CKEDITOR.tools.array.map(values, function(value) {
+				var prefix = hslMatch[ 1 ];
+				var values = hslMatch[ 2 ].split( ',' );
+				values = CKEDITOR.tools.array.map( values, function( value ) {
 					return value.trim();
-				});
+				} );
 
 				var shouldIncludeAlpha = prefix.slice( -1 ) === 'a';
 				var hasValidAmountOfValues = shouldIncludeAlpha ? values.length === 4 : values.length === 3;
@@ -362,7 +428,7 @@
 					alpha = values[ 3 ];
 					alpha = this._.validatePercent( alpha );
 
-					if ( alpha === null) {
+					if ( alpha === null ) {
 						return null;
 					}
 				}
@@ -409,23 +475,8 @@
 			 * @param {Number} blue Number of blue channel.
 			 * @returns {Array} Rgb Array of normalized values.
 			 */
-			normalizeRgbValues: function( red, green, blue ) {
-				function normalizer( number ) {
-					if ( isPercentValue( number ) ) {
-						number = convertPercentValueToNumber( number );
-						number = Math.round( 255 * normalizePercentValue( number ) );
-					} else {
-						number = Number( number );
-						number = number > 255 ? 0 :
-							number < 0 ? 255 : number;
-					}
-					return number;
-				}
-				red = normalizer( red );
-				green = normalizer( green );
-				blue = normalizer( blue );
-
-				return [ red, green, blue ];
+			normalizeRgbValue: function( number ) {
+				return Math.round( 255 * normalizePercentValue( number ) );
 			},
 
 			/**
@@ -543,7 +594,7 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			rgbRegExp: /\d+\.?\d*%*/g,
+			rgbRegExp: /(rgb[a]?)\(([.,\d\s%]*)\)/i,
 
 			/**
 			 * Regular expression to match potentially valid hsl / hsla color value.
