@@ -54,7 +54,6 @@
 			 */
 			getHex: function() {
 				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
-
 				return this._.isValidColor ?
 					formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] ) :
 					this._.defaultValue;
@@ -218,8 +217,9 @@
 
 				var colorChannelsFromHex = this._.extractColorChannelsFromHex( colorCode ),
 					colorChannelsFromRgba = this._.extractColorChannelsFromRgba( colorCode ),
-					colorChannelsFromHsla = this._.extractColorChannelsFromHsla( colorCode ),
-					colorChannels = colorChannelsFromHex || colorChannelsFromRgba || colorChannelsFromHsla;
+					colorChannelsFromHsla = this._.extractColorChannelsFromHsla( colorCode );
+
+				var colorChannels = colorChannelsFromHex || colorChannelsFromRgba || colorChannelsFromHsla;
 
 				if ( !colorChannels ) {
 					this._.isValidColor = false;
@@ -275,13 +275,8 @@
 			 * @param {String} colorCode RGB or RGBA color representation.
 			 */
 			extractColorChannelsFromRgba: function( colorCode ) {
-				var rgbMatch = this._.validateRgbaString( colorCode );
-
-				if ( rgbMatch ) {
-					return rgbMatch;
-				}
-
-				return null;
+				var rgbMatch =  this._.extractDigitsFromPattern( colorCode, CKEDITOR.tools.color.rgbRegExp, this._.validateRgbValues );
+				return rgbMatch;
 			},
 
 			/**
@@ -289,49 +284,22 @@
 			 * @param {*} value
 			 * @returns {Array/null}
 			 */
-			validateRgbaString: function( value ) {
-				var rgbMatch = value.match( CKEDITOR.tools.color.rgbRegExp );
-				if ( !rgbMatch ) {
-					return null;
-				}
-
-				var prefix = rgbMatch[ 1 ];
-				var values = rgbMatch[ 2 ].split( ',' );
-
-				values = CKEDITOR.tools.array.map( values, function( value ) {
-					return value.trim();
-				} );
-				var shouldIncludeAlpha = prefix.slice( -1 ) === 'a';
-				var hasValidAmountOfValues = shouldIncludeAlpha ? values.length === 4 : values.length === 3;
-
-				if ( !hasValidAmountOfValues ) {
-					return null;
-				}
-
+			validateRgbValues: function( values ) {
 				var red = this._.validateValueInRgb( values[ 0 ] );
-				if ( red === null ) {
-					return null;
-				}
+
 				var green = this._.validateValueInRgb( values[ 1 ] );
-				if ( green === null ) {
-					return null;
-				}
+
 				var blue = this._.validateValueInRgb( values[ 2 ] );
-				if ( blue === null ) {
-					return null;
-				}
+
+				var rgb = [ red, green, blue ];
 
 				var alpha = 1;
-				if ( shouldIncludeAlpha ) {
-					//validate alpha (0-1) or 0-100%
-					alpha = values[ 3 ];
-					alpha = this._.validatePercent( alpha );
-
-					if ( alpha === null ) {
-						return null;
-					}
+				if ( values[ 3 ] !== undefined ) {
+					alpha = this._.validatePercent( values[ 3 ] );
 				}
-				return [ red, green, blue, alpha ];
+				rgb.push( alpha );
+
+				return rgb;
 			},
 
 			validateValueInRgb: function( value ) {
@@ -360,36 +328,82 @@
 			 * @param {String} colorCode HSL or HSLA color representation.
 			 */
 			extractColorChannelsFromHsla: function( colorCode ) {
-				var hslMatch =  this._.validateHslaString( colorCode );
+				var hslaMatch =  this._.extractDigitsFromPattern( colorCode, CKEDITOR.tools.color.hslRegExp, this._.validateHslValues );
 
-				if ( hslMatch ) {
-					var rgb = this._.hslToRgb( hslMatch[ 0 ], hslMatch[ 1 ], hslMatch[ 2 ] );
+				if ( hslaMatch ) {
+					var rgb = this._.hslToRgb( hslaMatch[ 0 ], hslaMatch[ 1 ], hslaMatch[ 2 ] );
+if(hslaMatch[3] !== undefined) {
 
-					rgb.push( hslMatch[ 3 ] );
+	rgb.push( hslaMatch[ 3 ] );
+}
 					return rgb;
 				}
 
 				return null;
 			},
+
 			/**
-			 * Validate if value has hsl(a) properly ranged values
 			 *
 			 * Hue: [0, 360]
 			 * Saturation: [0.0, 1.0] or [0, 100]%
 			 * Lightness: [0.0, 1.0] or [0, 100]%
-			 * Alpha: [0.0, 1.0] or [0, 100]%
 			 *
 			 * @param {*} value
 			 * @returns {Array/null}
 			 */
-			validateHslaString: function( value ) {
-				var hslMatch = value.match( CKEDITOR.tools.color.hslRegExp );
-				if ( !hslMatch ) {
+			validateHslValues: function( values ) {
+				//validate hue: Int [0-360]
+				var hue = Number.parseInt( values[ 0 ] );
+				if ( Number.isNaN( hue ) || hue < 0 || hue > 360 ) {
+					hue = null;
+				}
+
+				//validate saturation & lightness [0.0, 1.0] or [0-100] %
+				var saturation = values[ 1 ];
+				saturation = this._.validatePercent( saturation );
+
+				var lightness = values[ 2 ];
+				lightness = this._.validatePercent( lightness );
+
+				var hsl = [ hue, saturation, lightness ];
+
+				var alpha = 1;
+				if ( values[ 3 ] !== undefined ) {
+					alpha = this._.validatePercent( values[ 3 ] );
+				}
+				hsl.push( alpha );
+
+				return hsl;
+			},
+			validatePercent: function( value ) {
+				if ( isPercentValue( value ) ) {
+					// [0, 100]
+					value = convertPercentValueToNumber( value );
+					if ( Number.isNaN( value ) || value < 0 || value > 100 ) {
+						return null;
+					}
+					//normalize to [0.0, 1.0]
+					value /= 100;
+				} else {
+					// [0.0, 1.0]
+					value = Number.parseFloat( value );
+					if ( Number.isNaN( value ) || value < 0.0 || value > 1.0 ) {
+						return null;
+					}
+				}
+
+				return value;
+			},
+
+			extractDigitsFromPattern: function( value, regExp, validationStrategy ) {
+				var match = value.match( regExp );
+				if ( !match ) {
 					return null;
 				}
 
-				var prefix = hslMatch[ 1 ];
-				var values = hslMatch[ 2 ].split( ',' );
+				var prefix = match[ 1 ];
+				var values = match[ 2 ].split( ',' );
+
 				values = CKEDITOR.tools.array.map( values, function( value ) {
 					return value.trim();
 				} );
@@ -400,57 +414,15 @@
 				if ( !hasValidAmountOfValues ) {
 					return null;
 				}
+				var numbers = validationStrategy.call( this, values );
 
-				//validate hue: Int [0-360]
-				var hue = Number.parseInt( values[ 0 ] );
-				if ( Number.isNaN( hue ) || hue < 0 || hue > 360 ) {
+				if ( numbers.indexOf( null ) > -1) {
 					return null;
-				}
-
-				//validate saturation & lightness [0.0, 1.0] or [0-100] %
-				var saturation = values[ 1 ];
-				saturation = this._.validatePercent( saturation );
-
-				if ( saturation === null ) {
-					return null;
-				}
-
-				var lightness = values[ 2 ];
-				lightness = this._.validatePercent( lightness );
-
-				if ( lightness === null ) {
-					return null;
-				}
-
-				var alpha = 1;
-				if ( shouldIncludeAlpha ) {
-					//validate alpha (0-1) or 0-100%
-					alpha = values[ 3 ];
-					alpha = this._.validatePercent( alpha );
-
-					if ( alpha === null ) {
-						return null;
-					}
-				}
-
-				return [ hue, saturation, lightness, alpha ];
-			},
-			validatePercent: function( value ) {
-				if ( isPercentValue( value ) ) {
-					// [0, 100]
-					value = convertPercentValueToNumber( value );
-					if ( Number.isNaN( value ) || value < 0 || value > 100 ) {
-						return null;
-					}
 				} else {
-					// [0.0, 1.0]
-					value = Number.parseFloat( value );
-					if ( Number.isNaN( value ) || value < 0.0 || value > 1.0 ) {
-						return null;
-					}
+					return numbers;
 				}
 
-				return value;
+				return numbers;
 			},
 
 			/**
@@ -540,9 +512,9 @@
 			 */
 			hslToRgb: function( hue, saturation, lightness ) {
 				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
-				hue = clampValueInRange( Number( hue ), 0, 360 ),
-				saturation = normalizePercentValue( saturation ),
-				lightness = normalizePercentValue( lightness );
+				// hue = clampValueInRange( Number( hue ), 0, 360 ),
+				// saturation = normalizePercentValue( saturation ),
+				// lightness = normalizePercentValue( lightness );
 
 				var calculateValueFromConst = function( fixValue ) {
 					var k = ( fixValue + ( hue / 30 ) ) % 12,
