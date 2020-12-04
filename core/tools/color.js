@@ -295,16 +295,96 @@
 			 * @param {String} colorCode HSL or HSLA color representation.
 			 */
 			extractColorChannelsFromHsla: function( colorCode ) {
-				var hslMatch = colorCode.match( CKEDITOR.tools.color.rgbRegExp );
-				if ( colorCode.indexOf( 'hsl' ) === 0 && hslMatch ) {
-					var rgb = this._.hslToRgb( hslMatch[0],hslMatch[1], hslMatch[2] );
-					var alpha = hslMatch.length === 4 ? normalizePercentValue( hslMatch[3] ) : 1;
+				var hslMatch =  this._.validateHslaString( colorCode );
 
-					rgb.push( alpha );
+				if ( hslMatch ) {
+					var rgb = this._.hslToRgb( hslMatch[0], hslMatch[1], hslMatch[2] );
+
+					rgb.push( hslMatch[3] );
 					return rgb;
 				}
 
 				return null;
+			},
+			/**
+			 * Validate if value has hsl(a) properly ranged values
+			 *
+			 * Hue: [0, 360]
+			 * Saturation: [0.0, 1.0] or [0, 100]%
+			 * Lightness: [0.0, 1.0] or [0, 100]%
+			 * Alpha: [0.0, 1.0] or [0, 100]%
+			 *
+			 * @param {*} value
+			 */
+			validateHslaString: function( value ) {
+				var hslMatch = value.match( CKEDITOR.tools.color.hslRegExp );
+				if ( !hslMatch ) {
+					return null;
+				}
+
+				var prefix = hslMatch[1];
+				var values = hslMatch[2].split( ',' );
+				values = CKEDITOR.tools.array.map(values, function(value) {
+					return value.trim();
+				});
+
+				var shouldIncludeAlpha = prefix.slice( -1 ) === 'a';
+				var hasValidAmountOfValues = shouldIncludeAlpha ? values.length === 4 : values.length === 3;
+
+				if ( !hasValidAmountOfValues ) {
+					return null;
+				}
+
+				//validate hue: Int [0-360]
+				var hue = Number.parseInt( values[ 0 ] );
+				if ( Number.isNaN( hue ) || hue < 0 || hue > 360 ) {
+					return null;
+				}
+
+				//validate saturation & lightness [0.0, 1.0] or [0-100] %
+				var saturation = values[ 1 ];
+				saturation = this._.validatePercent( saturation );
+
+				if ( saturation === null ) {
+					return null;
+				}
+
+				var lightness = values[ 2 ];
+				lightness = this._.validatePercent( lightness );
+
+				if ( lightness === null ) {
+					return null;
+				}
+
+				var alpha = 1;
+				if ( shouldIncludeAlpha ) {
+					//validate alpha (0-1) or 0-100%
+					alpha = values[ 3 ];
+					alpha = this._.validatePercent( alpha );
+
+					if ( alpha === null) {
+						return null;
+					}
+				}
+
+				return [ hue, saturation, lightness, alpha ];
+			},
+			validatePercent: function( value ) {
+				if ( isPercentValue( value ) ) {
+					// [0, 100]
+					value = convertPercentValueToNumber( value );
+					if ( Number.isNaN( value ) || value < 0 || value > 100 ) {
+						return null;
+					}
+				} else {
+					// [0.0, 1.0]
+					value = Number.parseFloat( value );
+					if ( Number.isNaN( value ) || value < 0.0 || value > 1.0 ) {
+						return null;
+					}
+				}
+
+				return value;
 			},
 
 			/**
@@ -457,12 +537,22 @@
 			hex8CharsRegExp: /#([0-9a-f]{8}$)/gim,
 
 			/**
-			 * Regular expression to extract numbers from rgba / hsla color value.
+			 * Regular expression to extract numbers from rgba color value.
+			 *
 			 * @private
 			 * @static
 			 * @property {RegExp}
 			 */
 			rgbRegExp: /\d+\.?\d*%*/g,
+
+			/**
+			 * Regular expression to match potentially valid hsl / hsla color value.
+			 *
+			 * @private
+			 * @static
+			 * @property {RegExp}
+			 */
+			hslRegExp: /(hsl[a]?)\(([.,\d\s%]*)\)/i,
 
 			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
 			 *
