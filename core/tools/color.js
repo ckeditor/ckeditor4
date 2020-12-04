@@ -280,9 +280,11 @@
 			},
 
 			/**
+			 * Validate given array as RGBA values.
+			 * Returns array with valid channel values or nulls.
 			 *
-			 * @param {*} value
-			 * @returns {Array/null}
+			 * @param {Array} values
+			 * @returns {Array}
 			 */
 			validateRgbValues: function( values ) {
 				var red = this._.validateRgbChannelValue( values[ 0 ] );
@@ -294,6 +296,14 @@
 
 				return rgb;
 			},
+
+			/**
+			 * Validate given value as alpha value.
+			 *
+			 * Ranged [0.0, 1.0] or [0, 100]%
+			 *
+			 * @param {String} value
+			 */
 			validateAlphaValue: function( value ) {
 				var alpha = 1;
 				if ( value !== undefined ) {
@@ -304,8 +314,11 @@
 			},
 
 			/**
+			 * Validate given value if it's proper RGB channel value
 			 *
-			 * @param {*} value
+			 * Ranged [0, 255] or [0, 100]%
+			 *
+			 * @param {String} value Channel value
 			 */
 			validateRgbChannelValue: function( value ) {
 				var percentValue = null,
@@ -344,16 +357,16 @@
 			},
 
 			/**
+			 * Validate if given values are proper as HSLA values.
 			 *
 			 * Hue: [0, 360]
 			 * Saturation: [0.0, 1.0] or [0, 100]%
 			 * Lightness: [0.0, 1.0] or [0, 100]%
 			 *
-			 * @param {*} value
+			 * @param {Array} values
 			 * @returns {Array/null}
 			 */
 			validateHslValues: function( values ) {
-				//validate hue: Int [0-360]
 				var hue = this._.validateValueInRange( values[ 0 ], 0, 360 );
 				var saturation = this._.isValidPercentOrNormalizedPercent( values[ 1 ] );
 				var lightness = this._.isValidPercentOrNormalizedPercent( values[ 2 ] );
@@ -363,6 +376,13 @@
 
 				return hsl;
 			},
+
+			/**
+			 * Validate if value is percent or normalize percent
+			 *
+			 * @private
+			 * @param {String} value
+			 */
 			isValidPercentOrNormalizedPercent: function( value ) {
 				var percentValue = null,
 					rangedValue = null;
@@ -378,6 +398,14 @@
 
 				return percentValue || rangedValue;
 			},
+
+			/**
+			 * Validate if value is Number in given range.
+			 *
+			 * @param {String} value
+			 * @param {Number} min
+			 * @param {Number} max
+			 */
 			validateValueInRange: function( value, min, max ) {
 				value = Number.parseFloat( value );
 				if ( Number.isNaN( value ) || value < min || value > max ) {
@@ -386,6 +414,14 @@
 
 				return value;
 			},
+
+			/**
+			 * Validate if given string is percent value in [0, 100] range.
+			 *
+			 * @private
+			 * @param {String} value
+			 * @returns {Number/null}
+			 */
 			validatePercent: function( value ) {
 				if ( !isPercentValue( value ) ) {
 					return null;
@@ -398,6 +434,15 @@
 				return value;
 			},
 
+			/**
+			 * Validate values extracted based on given regular expression pattern.
+			 *
+			 * @private
+			 * @param {String} value String tested with pattern.
+			 * @param {RegExp} regExp Regular expression pattern.
+			 * @param {Function} validationStrategy Function to test values after extract from pattern.
+			 * @returns {Array/null} Array with extracted values or null if values doesn't pass validation.
+			 */
 			extractDigitsFromPattern: function( value, regExp, validationStrategy ) {
 				var match = value.match( regExp );
 				if ( !match ) {
@@ -417,6 +462,7 @@
 				if ( !hasValidAmountOfValues ) {
 					return null;
 				}
+
 				var numbers = validationStrategy.call( this, values );
 
 				if ( numbers.indexOf( null ) > -1 ) {
@@ -424,8 +470,6 @@
 				} else {
 					return numbers;
 				}
-
-				return numbers;
 			},
 
 			/**
