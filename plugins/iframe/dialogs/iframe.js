@@ -168,7 +168,7 @@
 				},
 				{
 					type: 'hbox',
-					widths: [ '50%', '50%' ],
+					widths: [ '33%', '33%', '33%' ],
 					children: [ {
 						id: 'scrolling',
 						type: 'checkbox',
@@ -184,15 +184,15 @@
 						label: iframeLang.border,
 						setup: loadValue,
 						commit: commitValue
+					},
+					{
+						id: 'tabindex',
+						type: 'checkbox',
+						requiredContent: 'iframe[tabindex]',
+						label: iframeLang.tabindex,
+						setup: loadValue,
+						commit: commitValue
 					} ]
-				},
-				{
-					id: 'tabindex',
-					type: 'checkbox',
-					requiredContent: 'iframe[tabindex]',
-					label: iframeLang.tabindex,
-					setup: loadValue,
-					commit: commitValue
 				},
 				{
 					type: 'hbox',
