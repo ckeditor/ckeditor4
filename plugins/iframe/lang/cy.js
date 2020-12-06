@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'cy', {
 	noUrl: 'Rhowch URL yr iframe',
 	scrolling: 'Galluogi bariau sgrolio',
 	title: 'Priodweddau IFrame',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

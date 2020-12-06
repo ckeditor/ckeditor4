@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'et', {
 	noUrl: 'Vali iframe URLi liik',
 	scrolling: 'Kerimisribade lubamine',
 	title: 'IFrame omadused',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

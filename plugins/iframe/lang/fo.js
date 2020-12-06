@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'fo', {
 	noUrl: 'Vinarliga skriva URL til iframe',
 	scrolling: 'Loyv scrollbars',
 	title: 'Møguleikar fyri IFrame',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

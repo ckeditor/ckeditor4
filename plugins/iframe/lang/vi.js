@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'vi', {
 	noUrl: 'Vui lòng nhập địa chỉ iframe',
 	scrolling: 'Kích hoạt thanh cuộn',
 	title: 'Thuộc tính iframe',
-	toolbar: 'Iframe',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'Iframe'
 } );

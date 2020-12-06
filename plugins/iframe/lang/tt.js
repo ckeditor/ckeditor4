@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'tt', {
 	noUrl: 'Please type the iframe URL', // MISSING
 	scrolling: 'Enable scrollbars', // MISSING
 	title: 'IFrame үзлекләре',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

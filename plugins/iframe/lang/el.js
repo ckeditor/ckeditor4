@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'el', {
 	noUrl: 'Παρακαλούμε εισάγεται το URL του iframe',
 	scrolling: 'Ενεργοποίηση μπαρών κύλισης',
 	title: 'Ιδιότητες IFrame',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

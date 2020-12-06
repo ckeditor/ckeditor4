@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'af', {
 	noUrl: 'Gee die iframe URL',
 	scrolling: 'Skuifbalke aan',
 	title: 'IFrame Eienskappe',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

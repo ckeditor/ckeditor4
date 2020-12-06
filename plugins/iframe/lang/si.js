@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'si', {
 	noUrl: 'කරුණාකර රුපයේ URL ලියන්න',
 	scrolling: 'සක්ක්‍රිය කරන්න',
 	title: 'IFrame Properties', // MISSING
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

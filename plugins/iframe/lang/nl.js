@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'nl', {
 	noUrl: 'Vul de IFrame URL in',
 	scrolling: 'Scrollbalken inschakelen',
 	title: 'IFrame-eigenschappen',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

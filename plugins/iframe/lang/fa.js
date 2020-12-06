@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'fa', {
 	noUrl: 'لطفا مسیر URL iframe را درج کنید',
 	scrolling: 'نمایش خطکشها',
 	title: 'ویژگیهای IFrame',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

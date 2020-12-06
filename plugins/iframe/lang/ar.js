@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'ar', {
 	noUrl: 'فضلا أكتب رابط الـ iframe',
 	scrolling: 'تفعيل أشرطة الإنتقال',
 	title: 'خصائص iframe',
-	toolbar: 'iframe',
-	tabindex: 'Remove from tabindex', // MISSING
+	toolbar: 'iframe'
 } );

@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'ja', {
 	noUrl: 'iframeのURLを入力してください。',
 	scrolling: 'スクロールバーの表示を許可',
 	title: 'iFrameのプロパティ',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

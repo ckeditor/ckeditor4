@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'sl', {
 	noUrl: 'Prosimo, vnesite iframe URL',
 	scrolling: 'Omogoči drsnike',
 	title: 'Lastnosti IFrame',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

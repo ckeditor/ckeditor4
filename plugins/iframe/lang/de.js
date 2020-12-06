@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'de', {
 	noUrl: 'Bitte geben Sie die IFrame-URL an',
 	scrolling: 'Rollbalken anzeigen',
 	title: 'IFrame-Eigenschaften',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

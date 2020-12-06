@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'ka', {
 	noUrl: 'აკრიფეთ iframe-ის URL',
 	scrolling: 'გადახვევის ზოლების დაშვება',
 	title: 'IFrame-ის პარამეტრები',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );

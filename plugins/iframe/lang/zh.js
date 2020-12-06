@@ -7,6 +7,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'zh', {
 	noUrl: '請輸入 iframe URL',
 	scrolling: '啟用捲軸列',
 	title: 'IFrame 屬性',
-	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	toolbar: 'IFrame'
 } );
