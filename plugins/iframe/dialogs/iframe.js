@@ -30,11 +30,10 @@
 		if ( isRemove )
 			iframeNode.removeAttribute( this.att || this.id );
 		else if ( isCheckbox ) {
-			if ( value === false ) {
+			if ( this.id === 'tabindex' && !checkboxValues[this.id][value] )
 				iframeNode.removeAttribute( this.id );
-			} else {
+			else
 				iframeNode.setAttribute( this.id, checkboxValues[this.id][value] );
-			}
 		}
 		else
 			iframeNode.setAttribute( this.att || this.id, value );
