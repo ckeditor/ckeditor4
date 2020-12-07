@@ -2,16 +2,16 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, clipboard, basicstyles, about, stylescombo, format, link, image
 
+**Note**: this test is dedicated for OSes that **DOES** support high contrast mode.
+
 1. Enable high contrast mode in your OS.
 2. Check the editor.
 
 	## Expected
 
-	* If the current OS and browser support high contrast: Buttons in the UI are replaced by text labels.
-	* If the current OS and browser don't support high contrast: Buttons in the UI are displayed with icons.
+	Buttons in the UI are replaced by text labels.
 
 	## Unexpected
 
-	* If the current OS and browser support high contrast: Buttons in the UI are displayed with icons.
-	* If the current OS and browser don't support high contrast: Buttons in the UI are replaced by text labels.
+	Buttons in the UI are displayed with icons.
 
