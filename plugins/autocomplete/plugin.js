@@ -859,14 +859,14 @@
 		setPosition: function( rect ) {
 			var documentWindow = this.element.getWindow(),
 				windowRect = documentWindow.getViewPaneSize(),
-				top = setVerticalPosition( {
+				top = getVerticalPosition( {
 					editorViewportRect: getEditorViewportRect( this.editor ),
 					caretRect: rect,
 					viewHeight: this.element.getSize( 'height' ),
-					verticalScroll: documentWindow.getScrollPosition().y,
+					scrollPositionY: documentWindow.getScrollPosition().y,
 					windowHeight: windowRect.height
 				} ),
-				left = setHorizontalPosition( {
+				left = getHorizontalPosition( {
 					leftPosition: rect.left,
 					viewWidth: this.element.getSize( 'width' ),
 					windowWidth: windowRect.width
@@ -877,11 +877,11 @@
 				top: top + 'px'
 			} );
 
-			function setVerticalPosition( options ) {
+			function getVerticalPosition( options ) {
 				var editorViewportRect = options.editorViewportRect,
 					caretRect = options.caretRect,
 					viewHeight = options.viewHeight,
-					verticalScroll = options.verticalScroll,
+					scrollPositionY = options.scrollPositionY,
 					windowHeight = options.windowHeight;
 
 				// If the caret position is below the view - keep it at the bottom edge.
@@ -918,7 +918,7 @@
 				// How much space is there for the view above and below the specified rect.
 				var spaceAbove = caretRect.top - editorViewportRect.top,
 					spaceBelow = editorViewportRect.bottom - caretRect.bottom,
-					viewExceedsTopViewport = ( caretRect.top - viewHeight ) < verticalScroll;
+					viewExceedsTopViewport = ( caretRect.top - viewHeight ) < scrollPositionY;
 
 				if ( viewHeight > spaceBelow && viewHeight < spaceAbove && !viewExceedsTopViewport ) {
 					return caretRect.top - viewHeight;
@@ -956,7 +956,7 @@
 				// |                                             |
 				// |                                             |
 				// +---------------------------------------------+
-				var viewExceedsBottomViewport = ( caretRect.bottom + viewHeight ) > ( windowHeight + verticalScroll );
+				var viewExceedsBottomViewport = ( caretRect.bottom + viewHeight ) > ( windowHeight + scrollPositionY );
 
 				if ( !( viewHeight > spaceBelow && viewHeight < spaceAbove ) && viewExceedsBottomViewport ) {
 					return caretRect.top - viewHeight;
@@ -978,20 +978,8 @@
 				return Math.min( editorViewportRect.bottom, caretRect.bottom );
 			}
 
-			// Bounding rect where the view should fit (visible editor viewport).
-			function getEditorViewportRect( editor ) {
-				var editable = editor.editable();
-
-				// iOS classic editor has different viewport element (#1910).
-				if ( CKEDITOR.env.iOS && !editable.isInline() ) {
-					return iOSViewportElement( editor ).getClientRect( true );
-				} else {
-					return editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
-				}
-			}
-
-			function setHorizontalPosition( options ) {
-				var leftPosition = options.leftPosition,
+			function getHorizontalPosition( options ) {
+				var caretLeftPosition = options.leftPosition,
 					viewWidth = options.viewWidth,
 					windowWidth = options.windowWidth;
 
@@ -1009,12 +997,24 @@
 				// |                                 +--------------+||
 				// |                                             |   ||
 				// +---------------------------------------------+   ||
-				if ( leftPosition + viewWidth > windowWidth ) {
+				if ( caretLeftPosition + viewWidth > windowWidth ) {
 					return windowWidth - viewWidth;
 				}
 
 				// Otherwise inherit the horizontal position from caret.
-				return leftPosition;
+				return caretLeftPosition;
+			}
+
+			// Bounding rect where the view should fit (visible editor viewport).
+			function getEditorViewportRect( editor ) {
+				var editable = editor.editable();
+
+				// iOS classic editor has different viewport element (#1910).
+				if ( CKEDITOR.env.iOS && !editable.isInline() ) {
+					return iOSViewportElement( editor ).getClientRect( true );
+				} else {
+					return editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
+				}
 			}
 		},
 
