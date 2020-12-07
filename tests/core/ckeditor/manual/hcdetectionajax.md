@@ -1,9 +1,7 @@
 @bender-tags: feature, 4.15.2, 4379
 @bender-ui: collapsed
 
-Note: this test works only on a built version of CKEDitor 4.
-
-1. Disable hight contrast mode in your OS.
+1. Run the test with disableb high contrast mode in your OS.
 2. Check the editor.
 
 	## Expected
