@@ -14,4 +14,13 @@
 	## Unexpected
 
 	Buttons in the UI are displayed with icons.
+3. Check the information above the editor.
+
+	## Expected
+
+	It says "HC is on".
+
+	## Unexpected
+
+	It says "HC is off".
 
