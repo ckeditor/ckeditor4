@@ -7,6 +7,7 @@ New Features:
 
 * [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin on paste, additionally showing descriptive error messages.
 * [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin on paste, additionally showing descriptive error messages.
+* [#3582](https://github.com/ckeditor/ckeditor4/issues/3582): Introduced smart positioning of [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel used by [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins. The panel will now be additionally positioned related to browser viewport to be always fully visible.
 
 Fixed Issues:
 
