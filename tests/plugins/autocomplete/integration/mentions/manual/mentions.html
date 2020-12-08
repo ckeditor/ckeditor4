@@ -1,0 +1,165 @@
+<style>
+	body {
+		margin: 0;
+		padding-left: 350px;
+		position: static;
+	}
+
+	.wrapper {
+		position: absolute;
+	}
+
+	.wrapper.horizontal > div:not(:last-of-type) {
+		margin-right: 15px;
+	}
+
+	.wrapper.vertical > div:not(:last-of-type) {
+		margin-bottom: 15px;
+	}
+
+	.wrapper.horizontal {
+		display: inline-flex;
+	}
+
+	.wrapper.vertical {
+		flex-direction: column;
+	}
+
+	.wrapper.left {
+		left: 0;
+	}
+
+	.wrapper.right {
+		right: 0;
+	}
+
+	.wrapper.bottom {
+		bottom: 0;
+	}
+
+	.inline {
+		width: 300px;
+		height: 194px;
+	}
+</style>
+
+<div>
+	<p>Select mode</p>
+	<button type="button" id="left-button">Left</button>
+	<button type="button" id="right-button">Right</button>
+	<button type="button" id="bottom-button">Bottom</button>
+
+	<button type="button" id="reset-button">Reset</button>
+</div>
+
+<div class="wrapper" id="wrapper">
+	<div id="classic">
+		<h3>Classic editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+	</div>
+
+	<div id="divarea">
+		<h3>Divarea editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+	</div>
+
+	<div id="inline" class="inline" contenteditable="true">
+		<p style="padding-top: 40px;">Fake toolbar</p>
+		<h3>Inline editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+	</div>
+</div>
+
+<script>
+	var wrapper = CKEDITOR.document.getById( 'wrapper' ),
+		leftButton = CKEDITOR.document.getById( 'left-button' ),
+		rightButton = CKEDITOR.document.getById( 'right-button' ),
+		bottomButton = CKEDITOR.document.getById( 'bottom-button' ),
+		resetButton = CKEDITOR.document.getById( 'reset-button' );
+
+	leftButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper vertical left' );
+	} );
+
+	rightButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper vertical right' );
+	} );
+
+	bottomButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper horizontal bottom' );
+	} );
+
+	resetButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper' );
+	} );
+
+	var data = [
+			{ id: 1, name: 'john', fullName: 'John Doe' },
+			{ id: 2, name: 'thomas', fullName: 'Thomas Doe' },
+			{ id: 3, name: 'anna', fullName: 'Anna Doe' },
+			{ id: 4, name: 'annabelle', fullName: 'Annabelle Doe' },
+			{ id: 5, name: 'cris', fullName: 'Cris Doe' },
+			{ id: 6, name: 'julia', fullName: 'Julia Doe' }
+		];
+
+	var config = {
+		width: 300,
+		height: 180,
+		language: 'en',
+		mentions: [
+			{
+				feed: CKEDITOR.tools.array.map( data, function( item ) {
+								return item.name;
+							} ),
+				minChars: 0
+			},
+			{
+				feed: '{encodedQuery}',
+				marker: '$',
+				minChars: 0,
+				template: '<li data-id="{id}">{fullName}</li>'
+			},
+			{
+				feed: dataCallback,
+				marker: '#',
+				minChars: 0,
+				template: '<li data-id="{id}">{name} ({fullName})</li>'
+			}
+		],
+		on: {
+			instanceReady: function() {
+				// We have to stub ajax.load function.
+				CKEDITOR.ajax.load = function( query, callback ) {
+					var results = data.filter( function( item ) {
+							return item.name.indexOf( query ) === 0;
+						} );
+
+					setTimeout( function() {
+						callback( JSON.stringify( results ) );
+					}, Math.random() * 500 );
+				}
+			}
+		}
+	};
+
+	// We need one editor reference to pass it to the bender.tools.ignoreUnsupportedEnvironment() method below.
+	var editor = CKEDITOR.replace( 'classic', config );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( { extraPlugins: 'divarea' }, config ) );
+	CKEDITOR.inline( 'inline', config );
+
+	bender.tools.ignoreUnsupportedEnvironment( 'mentions', editor );
+
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	function dataCallback( opts, callback ) {
+		setTimeout( function() {
+			callback(
+				data.filter( function( item ) {
+					return item.name.indexOf( opts.query ) === 0;
+				} )
+			);
+		}, Math.random() * 500 );
+	}
+</script>
