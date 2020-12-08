@@ -1014,15 +1014,15 @@
 		/**
 		 * Finds and converts `rgb(x,x,x)` color definition to hexadecimal notation.
 		 *
-		 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
-		 * {@link CKEDITOR.tools.color#getHex} to extract hexadecimal equivalent.
+		 * **Note**: This method is deprecated, instead use {@link CKEDITOR.tools.color} to create color instance and
+		 * {@link CKEDITOR.tools.color#getHex} method to get its hexadecimal representation:
 		 *
 		 * ```javascript
 		 * var color = new CKEDITOR.tools.color( 'rgb( 225, 225, 225 )' ); // Create color instance.
 		 * console.log( color.getHex() ); // #FFFFFF
 		 * ```
 		 *
-		 * @deprecated
+		 * @deprecated 4.16.0
 		 * @param {String} styleText The style data (or just a string containing RGB colors) to be converted.
 		 * @returns {String} The style data with RGB colors converted to hexadecimal equivalents.
 		 */
@@ -1039,15 +1039,16 @@
 		/**
 		 * Normalizes hexadecimal notation so that the color string is always 6 characters long and lowercase.
 		 *
-		 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
-		 * {@link CKEDITOR.tools.color#getHex} to extract hexadecimal equivalent. Then make it `toLowerCase()`.
+		 * **Note**: This method is deprecated, instead use {@link CKEDITOR.tools.color} to create color and
+		 * {@link CKEDITOR.tools.color#getHex} method to get its hexadecimal representation. Since it returns
+		 * uppercase string use `toLowerCase()` to get lowercase representation:
 		 *
 		 * ```javascript
 		 * var color = new CKEDITOR.tools.color( '#FFF' ); // Create color instance.
 		 * console.log( color.getHex().toLowerCase() ); // #ffffff
 		 * ```
 		 *
-		 * @deprecated
+		 * @deprecated 4.16.0
 		 * @param {String} styleText The style data (or just a string containing hex colors) to be converted.
 		 * @returns {String} The style data with hex colors normalized.
 		 */
@@ -1070,8 +1071,8 @@
 		 * * HSL or HSLA notation;
 		 * * HTML color name.
 		 *
-		 * **Note:** This method is deprecated. To validate color input,
-		 * use {@link CKEDITOR.tools.color} to create color class with defaultValue argument.
+		 * **Note:** This method is deprecated, instead use use {@link CKEDITOR.tools.color}
+		 * to create color class and check if passed color string is valid.
 		 *
          * **Note:** This method is intended mostly for the input validations.
 		 * It performs no logical check e.g.: are the values in RGB format correct
@@ -1094,7 +1095,7 @@
 		 * CKEDITOR.tools._isValidColorFormat( 'hsrgb( 100 )' ); // true
 		 * ```
 		 *
-		 * @deprecated
+		 * @deprecated 4.16.0
 		 * @since 4.15.1
 		 * @private
 		 * @param {String} colorCode String to be validated.
@@ -1750,19 +1751,17 @@
 				_widthRegExp: /^(thin|medium|thick|[\+-]?\d+(\.\d+)?[a-z%]+|[\+-]?0+(\.0+)?|\.\d+[a-z%]+)$/,
 
 				/**
-				 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
-				 * {@link CKEDITOR.tools.color#getRgba} to extract RGBA color value.
+				 * **Note**: This regexp is deprecated, use {@link CKEDITOR.tools.color} to handle colors.
 				 *
-				 * @deprecated
+				 * @deprecated 4.16.0
 				 * @private
 				 */
 				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
 				/**
-				 * **Note**: Deprecated since `4.16.0`, use {@link CKEDITOR.tools.color} to create color and
-				 * {@link CKEDITOR.tools.color#getHsla} to extract HSLA color value.
+				 * **Note**: This regexp is deprecated, use {@link CKEDITOR.tools.color} to handle colors.
 				 *
-				 * @deprecated
+				 * @deprecated 4.16.0
 				 * @private
 				 */
 				_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
@@ -2716,7 +2715,7 @@
 					var val = this[ propName ];
 
 					if ( val ) {
-						this[propName] = CKEDITOR.tools.array.reduce( this._.normalizeMap[ propName ], function( cur, rule ) {
+						this[ propName ] = CKEDITOR.tools.array.reduce( this._.normalizeMap[ propName ], function( cur, rule ) {
 							return cur.replace( rule[ 0 ], rule[ 1 ] );
 						}, val );
 					}
