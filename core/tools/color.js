@@ -50,10 +50,11 @@
 			/**
 			 * Get hexadecimal color representation.
 			 *
-			 * @returns {String/*} hexadecimal color code (e.g. `#FF00FF`) or default value.
+			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF`) or default value.
 			 */
 			getHex: function() {
 				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+
 				return this._.isValidColor ?
 					formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] ) :
 					this._.defaultValue;
@@ -62,7 +63,7 @@
 			/**
 			 * Get hexadecimal color representation with separate alpha channel.
 			 *
-			 * @returns {String/*} hexadecimal color code (e.g. `#FF00FF00`) or default value.
+			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF00`) or default value.
 			 */
 			getHexWithAlpha: function() {
 				return this._.isValidColor ?
@@ -71,11 +72,9 @@
 			},
 
 			/**
-			 * Get rgb color representation.
+			 * Get RGB color representation.
 			 *
-			 * Each color ranged in 0-255.
-			 *
-			 * @returns {String/*} rgb color (e.g. `rgb(255,255,255)`) or default value.
+			 * @returns {String/*} RGB color representation (e.g. `rgb(255,255,255)`) or default value.
 			 */
 			getRgb: function() {
 				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
@@ -86,12 +85,9 @@
 			},
 
 			/**
-			 * Get rgb color representation with separate alpha channel.
+			 * Get RGBA color representation.
 			 *
-			 * Each color ranged in 0-255.
-			 * Alpha ranged in 0-1.
-			 *
-			 * @returns {String/*} rgba color (e.g. `rgba(255,255,255,0)`) or default value.
+			 * @returns {String/*} RGBA color representation (e.g. `rgba(255,255,255,0)`) or default value.
 			 */
 			getRgba: function() {
 				return this._.isValidColor ?
@@ -100,12 +96,9 @@
 			},
 
 			/**
-			 * Get hsl color representation.
+			 * Get HSL color representation.
 			 *
-			 * Hue ranged in 0-360.
-			 * Saturation, Lightness ranged in 0-100%.
-			 *
-			 * @returns {String/*} hsl color (e.g. `hsl(360, 100%, 50%)`) or default value.
+			 * @returns {String/*} HSL color representation (e.g. `hsl(360, 100%, 50%)`) or default value.
 			 *
 			 */
 			getHsl: function() {
@@ -120,13 +113,9 @@
 			},
 
 			/**
-			 * Get hsla color representation with separate alpha channel.
+			 * Get HSLA color representation.
 			 *
-			 * Hue ranged in 0-360.
-			 * Saturation, Lightness ranged in 0-100%.
-			 * Alpha ranged in 0-1.
-			 *
-			 * @returns {String/*} hsla color (e.g. `hsla(360, 100%, 50%, 0)`) or default value.
+			 * @returns {String/*} HSLA color representation (e.g. `hsla(360, 100%, 50%, 0)`) or default value.
 			 */
 			getHsla: function() {
 				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
@@ -137,7 +126,7 @@
 			},
 
 			/**
-			 * Get raw value passed to constructor during color object creation.
+			 * Get raw value passed to the constructor during color object creation.
 			 *
 			 * @returns {String} Raw value passed during color object creation.
 			 */
@@ -607,10 +596,10 @@
 			 */
 			hslRegExp: /(hsl[a]?)\(([.,\d\s%]*)\)/i,
 
-			/** Color list based on [W3.org](https://www.w3.org/TR/css-color-4/#named-colors).
+			/**
+			 * Color list based on [W3 named colors list](https://www.w3.org/TR/css-color-4/#named-colors).
 			 *
 			 * @static
-			 * @member CKEDITOR.tools.color
 			 * @property {Object}
 			 */
 			namedColors: {
@@ -770,11 +759,11 @@
 	CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE = 255;
 
 	/**
-	 * Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
-	 * @member CKEDITOR.tools.style.parse
+	 * This list is deprecated, use {@link CKEDITOR.tools.color#namedColors} instead.
 	 *
+	 * @member CKEDITOR.tools.style.parse
 	 * @private
-	 * @deprecated
+	 * @deprecated 4.16.0
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
 
