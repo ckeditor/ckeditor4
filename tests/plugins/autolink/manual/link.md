@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.11.2, bug, 1824
+@bender-tags: 4.15.2, bug, 1824
 @bender-ckeditor-plugins: toolbar, wysiwygarea, autolink
 
 ## Expected
