@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, clipboard, basicstyles, about, stylescombo, format, link, image
 
-**Note**: this test is dedicated for OSes that does **NOT** support high contrast mode.
+**Note**: this test is dedicated for OSes that **DOES NOT** support high contrast mode. You can see if HC Mode is disabled based on test indicator (`HC is off`).
 
 1. Check the editor.
 
