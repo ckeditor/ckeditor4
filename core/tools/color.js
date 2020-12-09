@@ -408,7 +408,7 @@
 			 * @param {Number} max
 			 */
 			validateValueInRange: function( value, min, max ) {
-				value = Number.parseFloat( value );
+				value = parseFloat( value );
 				if ( isNaN( value ) || value < min || value > max ) {
 					return null;
 				}
