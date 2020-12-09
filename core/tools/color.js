@@ -409,7 +409,7 @@
 			 */
 			validateValueInRange: function( value, min, max ) {
 				value = Number.parseFloat( value );
-				if ( Number.isNaN( value ) || value < min || value > max ) {
+				if ( isNaN( value ) || value < min || value > max ) {
 					return null;
 				}
 
@@ -429,7 +429,7 @@
 				}
 				// [0, 100]
 				value = convertPercentValueToNumber( value );
-				if ( Number.isNaN( value ) || value < 0 || value > 100 ) {
+				if ( isNaN( value ) || value < 0 || value > 100 ) {
 					return null;
 				}
 				return value;
