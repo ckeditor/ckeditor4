@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>HC Detection test</title>
+</head>
+<body>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet</p>
+	</div>
+
+	<script>
+		( function() {
+			window.CKEDITOR_BASEPATH = '/apps/ckeditor/';
+
+			var request = new XMLHttpRequest();
+
+			request.responseType = 'text';
+			request.onreadystatechange = function() {
+				if ( request.readyState !== 4) {
+					return;
+				}
+
+				var script = document.createElement( 'script' );
+
+				script.textContent = request.responseText;
+
+				document.body.appendChild( script );
+
+				setTimeout( function() {
+					CKEDITOR.replace( 'editor', {
+						width: 600,
+						height: 400,
+						removePlugins: [ 'exportpdf', 'wsc', 'scayt' ]
+					} );
+				}, 500 );
+			};
+
+			request.open( 'GET', '/apps/ckeditor/ckeditor.js' );
+			request.send();
+		} )();
+	</script>
+</body>
+</html>

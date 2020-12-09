@@ -1,0 +1,31 @@
+<style>
+	#indicator {
+		border-radius: 5px;
+		display: inline-block;
+		padding: 0.5em;
+		border: 2px solid #000;
+	}
+	.on {
+		background: green;
+	}
+	.off {
+		background: red;
+	}
+</style>
+<p>
+	<span id="indicator"></span>
+</p>
+<div id="editor">
+	<p>Lorem ipsum dolor sit amet</p>
+</div>
+
+<script>( function() {
+	CKEDITOR.replace( 'editor' );
+
+	var indicator = CKEDITOR.document.getById( 'indicator' ),
+		state = CKEDITOR.env.hc ? 'on' : 'off'
+
+	indicator.addClass( state );
+	indicator.setText( 'HC is ' + state );
+} )();
+</script>

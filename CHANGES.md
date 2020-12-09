@@ -7,6 +7,7 @@ Fixed Issues:
 
 * [#4253](https://github.com/ckeditor/ckeditor4/issues/4253): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin throws an error during editor initialization with [fullpage](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-fullPage) enabled when there is no `body` tag in editor content.
 * [#4372](https://github.com/ckeditor/ckeditor4/issues/4372): Fixed: [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin changes editor's width when used with absolute [`config.width`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-width) value.
+* [#4379](https://github.com/ckeditor/ckeditor4/issues/4379): [Edge] Fixed: Incorrect detection of high contrast mode.
 
 ## CKEditor 4.15.1
 
