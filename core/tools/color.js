@@ -246,11 +246,20 @@
 				if ( colorCode.match( CKEDITOR.tools.color.hex6CharsRegExp ) || colorCode.match( CKEDITOR.tools.color.hex8CharsRegExp ) ) {
 					var parts = colorCode.split( '' );
 
+					var alpha = 1;
+
+					if ( parts[ 7 ] && parts[ 8 ] ) {
+						alpha = hexToValue( parts[ 7 ] + parts[ 8 ] );
+
+						alpha = ( alpha / CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
+						alpha = alpha < 1 && alpha > 0 ? alpha.toFixed( 1 ) : alpha;
+					}
+
 					return [
 						hexToValue( parts[ 1 ] + parts[ 2 ] ),
 						hexToValue( parts[ 3 ] + parts[ 4 ] ),
 						hexToValue( parts[ 5 ] + parts [ 6 ] ),
-						parts[ 7 ] && parts[ 8 ] ? hexToValue( parts[ 7 ] + parts[ 8 ] ) : 1
+						alpha
 					];
 				}
 
