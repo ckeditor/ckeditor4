@@ -66,9 +66,12 @@
 			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF00`) or default value.
 			 */
 			getHexWithAlpha: function() {
-				return this._.isValidColor ?
-					formatHexString( this._.red, this._.green, this._.blue, this._.alpha ) :
-					this._.defaultValue;
+				if ( !this._.isValidColor ) {
+					return this._.defaultValue;
+				}
+
+				var alpha = Math.round( this._.alpha * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
+				return formatHexString( this._.red, this._.green, this._.blue, alpha ) ;
 			},
 
 			/**
