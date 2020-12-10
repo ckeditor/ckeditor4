@@ -407,44 +407,40 @@
 			 * @returns {Array} Array of hsl values.
 			 */
 			rgbToHsl: function( red, green, blue ) {
-				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
+				// Based on https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach.
 				var r = red / CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE,
 					g = green / CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE,
-					b = blue / CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE;
+					b = blue / CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE,
+					maxValue = Math.max( r, g, b ),
+					minValue = Math.min( r, g, b ),
+					chroma = maxValue - minValue;
 
-				var Max = Math.max( r, g, b ),
-					min = Math.min( r, g, b ),
-					Chroma = Max - min;
+				var hueFactor = 0;
+				switch ( maxValue ) {
+					case r:
+						hueFactor = ( ( g - b ) / chroma ) % 6;
+						break;
+					case g:
+						hueFactor = ( ( b - r ) / chroma ) + 2;
+						break;
+					case b:
+						hueFactor = ( ( r - g ) / chroma ) + 4;
+						break;
+				}
 
-				var calculateHueFactor = function() {
-					switch ( Max ) {
-						case r:
-							return ( ( g - b ) / Chroma ) % 6;
-						case g:
-							return ( ( b - r ) / Chroma ) + 2;
-						case b:
-							return ( ( r - g ) / Chroma ) + 4;
-					}
-				};
-
-				var hFactor = calculateHueFactor();
-				var hue = Chroma === 0 ? 0 : 60 * hFactor;
-
-				var light = ( Max + min ) / 2;
-
-				var saturation = 1;
-				if ( light === 1 || light === 0 ) {
+				var hue = chroma === 0 ? 0 : 60 * hueFactor,
+					lightness = ( maxValue + minValue ) / 2,
 					saturation = 0;
-				} else {
-					saturation = Chroma / ( 1 - Math.abs( ( 2 * light ) - 1 ) );
+
+				if ( lightness !== 1 && lightness !== 0 ) {
+					saturation = chroma / ( 1 - Math.abs( ( 2 * lightness ) - 1 ) );
 				}
 
 				hue = Math.round( hue );
 				saturation = Math.round( saturation ) * 100;
-				light = light * 100;
+				lightness = lightness * 100;
 
-				var hsl = [ hue, saturation, light ];
-				return hsl;
+				return [ hue, saturation, lightness ];
 			},
 
 			/**
@@ -457,7 +453,7 @@
 			 * @returns {Array} Array of decimal rgb values.
 			 */
 			hslToRgb: function( hue, saturation, lightness ) {
-				//Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
+				// Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB.
 				var calculateValueFromConst = function( fixValue ) {
 					var k = ( fixValue + ( hue / 30 ) ) % 12,
 						a = saturation * Math.min( lightness, 1 - lightness );
@@ -469,8 +465,7 @@
 					return Math.round( normalizedValue * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
 				};
 
-				var rgb = [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
-				return rgb;
+				return [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
 			}
 		},
 		statics: {
