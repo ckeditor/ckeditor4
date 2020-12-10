@@ -804,7 +804,16 @@
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
 
-	// TODO
+	/**
+	 * Converts string into Number.
+	 * If value is percent, then percent from max value is calculated.
+	 * Other cases tries to convert to integer Number.
+	 * If conversions fail, then original value is returned.
+	 *
+	 * @param {String} value String to convert (e.g. `'100%'` or `'20'`).
+	 * @param {Number} max Max value which is based for percent calculation.
+	 * @returns {Number/String} Converted value or original value.
+	 */
 	function tryToConvertToValidIntegerValue( value, max ) {
 		if ( isPercentValue( value ) ) {
 			value = Math.round( max * ( parseFloat( value ) / 100 ) );
