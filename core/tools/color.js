@@ -208,7 +208,7 @@
 					return;
 				}
 
-				colorCode = colorCode.trim();
+				colorCode = CKEDITOR.tools.trim( colorCode );
 
 				// Check if named color was passed and get its HEX representation.
 				var hexFromNamedColor = this._.matchStringToNamedColor( colorCode );
