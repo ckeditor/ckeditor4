@@ -53,11 +53,13 @@
 			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF`) or default value.
 			 */
 			getHex: function() {
+				if ( !this._.isValidColor ) {
+					return this._.defaultValue;
+				}
+
 				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
-				return this._.isValidColor ?
-					formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] ) :
-					this._.defaultValue;
+				return formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] );
 			},
 
 			/**
@@ -80,11 +82,13 @@
 			 * @returns {String/*} RGB color representation (e.g. `rgb(255,255,255)`) or default value.
 			 */
 			getRgb: function() {
+				if ( !this._.isValidColor ) {
+					return this._.defaultValue;
+				}
+
 				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
-				return this._.isValidColor ?
-					formatRgbString( 'rgb', color[ 0 ], color[ 1 ], color[ 2 ]  ) :
-					this._.defaultValue;
+				return formatRgbString( 'rgb', color[ 0 ], color[ 1 ], color[ 2 ]  );
 			},
 
 			/**
@@ -93,9 +97,11 @@
 			 * @returns {String/*} RGBA color representation (e.g. `rgba(255,255,255,0)`) or default value.
 			 */
 			getRgba: function() {
-				return this._.isValidColor ?
-					formatRgbString( 'rgba', this._.red, this._.green, this._.blue, this._.alpha ) :
-					this._.defaultValue;
+				if ( !this._.isValidColor ) {
+					return this._.defaultValue;
+				}
+
+				return formatRgbString( 'rgba', this._.red, this._.green, this._.blue, this._.alpha );
 			},
 
 			/**
@@ -105,14 +111,14 @@
 			 *
 			 */
 			getHsl: function() {
-				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
-
-				if ( this._.isValidColor ) {
-					var hsl = this._.rgbToHsl( color[ 0 ], color[ 1 ], color[ 2 ] );
-					return formatHslString( 'hsl', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
-				} else {
+				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
+
+				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha ),
+					hsl = this._.rgbToHsl( color[ 0 ], color[ 1 ], color[ 2 ] );
+
+				return formatHslString( 'hsl', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
 			},
 
 			/**
@@ -121,11 +127,13 @@
 			 * @returns {String/*} HSLA color representation (e.g. `hsla(360, 100%, 50%, 0)`) or default value.
 			 */
 			getHsla: function() {
+				if ( !this._.isValidColor ) {
+					return this._.defaultValue;
+				}
+
 				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
 
-				return this._.isValidColor ?
-					formatHslString( 'hsla', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ], this._.alpha ) :
-					this._.defaultValue;
+				return formatHslString( 'hsla', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ], this._.alpha );
 			},
 
 			/**
