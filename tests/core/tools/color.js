@@ -98,7 +98,9 @@
 
 		'test color from 8-HEX returns valid RGBA (alpha 0.5)': colorTools.testColorConversion( '#FF00FF88', 'rgba(255,0,255,0.5)', 'getRgba' ),
 
-		'test color from valid hsl string returns 8-HEX': colorTools.testColorConversion( 'hsl( 195, 1, 0.5 )', '#00BFFFFF', 'getHexWithAlpha' )
+		'test color from valid hsl string returns 8-HEX': colorTools.testColorConversion( 'hsl( 195, 1, 0.5 )', '#00BFFFFF', 'getHexWithAlpha' ),
+
+		'test color from valid RGB with percent returns valid RGB': colorTools.testColorConversion( 'rgb(20.5%,0,255)', 'rgb(52,0,255)', 'getRgb' )
 	} );
 
 } )();
