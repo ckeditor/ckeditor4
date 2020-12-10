@@ -345,19 +345,16 @@
 			},
 
 			/**
-			 * TODO
+			 * Convert 3-characters hexadecimal color format to 6-characters one.
 			 *
-			 * @param {Number} red
-			 * @param {Number} green
-			 * @param {Number} blue
-			 * @param {Number} alpha
-			 * @returns {Boolean}
+			 * @private
+			 * @param {String} hex3ColorCode 3-characters hexadecimal color, e.g. `#F0F`.
+			 * @returns {String} 6-characters hexadecimal color e.g. `#FF00FF`.
 			 */
-			areColorChannelsValid: function( red, green, blue, alpha ) {
-				return isValueWithinRange( red, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
-					isValueWithinRange( green, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
-					isValueWithinRange( blue, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
-					isValueWithinRange( alpha, 0, CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
+			hex3ToHex6: function( hex3ColorCode ) {
+				var parts = hex3ColorCode.split( '' );
+
+				return '#' + parts[ 1 ] + parts[ 1 ] + parts[ 2 ] + parts[ 2 ] + parts[ 3 ] + parts[ 3 ];
 			},
 
 			/**
@@ -385,16 +382,44 @@
 			},
 
 			/**
-			 * Convert 3-characters hexadecimal color format to 6-characters one.
+			 * TODO
+			 *
+			 * @param {Number} red
+			 * @param {Number} green
+			 * @param {Number} blue
+			 * @param {Number} alpha
+			 * @returns {Boolean}
+			 */
+			areColorChannelsValid: function( red, green, blue, alpha ) {
+				return isValueWithinRange( red, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
+					isValueWithinRange( green, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
+					isValueWithinRange( blue, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
+					isValueWithinRange( alpha, 0, CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
+			},
+
+			/**
+			 * Convert hsl values into rgb.
 			 *
 			 * @private
-			 * @param {String} hex3ColorCode 3-characters hexadecimal color, e.g. `#F0F`.
-			 * @returns {String} 6-characters hexadecimal color e.g. `#FF00FF`.
+			 * @param {Number} hue
+			 * @param {Number} saturation
+			 * @param {Number} lightness
+			 * @returns {Array} Array of decimal rgb values.
 			 */
-			hex3ToHex6: function( hex3ColorCode ) {
-				var parts = hex3ColorCode.split( '' );
+			hslToRgb: function( hue, saturation, lightness ) {
+				// Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB.
+				var calculateValueFromConst = function( fixValue ) {
+					var k = ( fixValue + ( hue / 30 ) ) % 12,
+						a = saturation * Math.min( lightness, 1 - lightness );
 
-				return '#' + parts[ 1 ] + parts[ 1 ] + parts[ 2 ] + parts[ 2 ] + parts[ 3 ] + parts[ 3 ];
+					var min = Math.min( k - 3, 9 - k, 1 ),
+						max = Math.max( -1, min ),
+						normalizedValue = lightness - ( a * max );
+
+					return Math.round( normalizedValue * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
+				};
+
+				return [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
 			},
 
 			/**
@@ -441,33 +466,9 @@
 				lightness = lightness * 100;
 
 				return [ hue, saturation, lightness ];
-			},
-
-			/**
-			 * Convert hsl values into rgb.
-			 *
-			 * @private
-			 * @param {Number} hue
-			 * @param {Number} saturation
-			 * @param {Number} lightness
-			 * @returns {Array} Array of decimal rgb values.
-			 */
-			hslToRgb: function( hue, saturation, lightness ) {
-				// Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB.
-				var calculateValueFromConst = function( fixValue ) {
-					var k = ( fixValue + ( hue / 30 ) ) % 12,
-						a = saturation * Math.min( lightness, 1 - lightness );
-
-					var min = Math.min( k - 3, 9 - k, 1 ),
-						max = Math.max( -1, min ),
-						normalizedValue = lightness - ( a * max );
-
-					return Math.round( normalizedValue * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
-				};
-
-				return [ calculateValueFromConst( 0 ), calculateValueFromConst( 8 ), calculateValueFromConst( 4 ) ];
 			}
 		},
+
 		statics: {
 			/**
 			 * Regular expression to match three characters long hexadecimal color value.
@@ -674,7 +675,6 @@
 		}
 	} );
 
-
 	CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE = 255;
 
 	CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE = 1;
@@ -728,7 +728,6 @@
 
 		return value;
 	}
-
 
 	// Validate if given value is string type and ends with `%` character.
 	// @param {*} value any value.
