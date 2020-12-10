@@ -73,6 +73,7 @@
 				}
 
 				var alpha = Math.round( this._.alpha * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
+
 				return formatHexString( this._.red, this._.green, this._.blue, alpha ) ;
 			},
 
@@ -248,237 +249,139 @@
 			 *
 			 * @private
 			 * @param {String} colorCode HEX color representation.
+			 * @returns {Array/null}
 			 */
 			extractColorChannelsFromHex: function( colorCode ) {
 				if ( colorCode.match( CKEDITOR.tools.color.hex3CharsRegExp ) ) {
 					colorCode = this._.hex3ToHex6( colorCode );
 				}
 
-				if ( colorCode.match( CKEDITOR.tools.color.hex6CharsRegExp ) || colorCode.match( CKEDITOR.tools.color.hex8CharsRegExp ) ) {
-					var parts = colorCode.split( '' );
-
-					var alpha = 1;
-
-					if ( parts[ 7 ] && parts[ 8 ] ) {
-						alpha = hexToValue( parts[ 7 ] + parts[ 8 ] );
-
-						alpha = ( alpha / CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
-						alpha = alpha < 1 && alpha > 0 ? alpha.toFixed( 1 ) : alpha;
-					}
-
-					return [
-						hexToValue( parts[ 1 ] + parts[ 2 ] ),
-						hexToValue( parts[ 3 ] + parts[ 4 ] ),
-						hexToValue( parts[ 5 ] + parts [ 6 ] ),
-						alpha
-					];
+				if ( !colorCode.match( CKEDITOR.tools.color.hex6CharsRegExp ) && !colorCode.match( CKEDITOR.tools.color.hex8CharsRegExp ) ) {
+					return null;
 				}
 
-				return null;
+				var parts = colorCode.split( '' ),
+					alpha = 1;
+
+				if ( parts[ 7 ] && parts[ 8 ] ) {
+					alpha = hexToNumber( parts[ 7 ] + parts[ 8 ] );
+					alpha = alpha / CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE;
+					alpha = Number( alpha.toFixed( 1 ) );
+				}
+
+				return [
+					hexToNumber( parts[ 1 ] + parts[ 2 ] ),
+					hexToNumber( parts[ 3 ] + parts[ 4 ] ),
+					hexToNumber( parts[ 5 ] + parts [ 6 ] ),
+					alpha
+				];
 			},
 
 			/**
-			 * Extracts RGBA channels from given RGBA string.
+			 * Extracts RGBA channels from given RGB or RGBA string.
 			 *
 			 * @private
 			 * @param {String} colorCode RGB or RGBA color representation.
+			 * @returns {Array/null}
 			 */
 			extractColorChannelsFromRgba: function( colorCode ) {
-				var rgbMatch =  this._.extractDigitsFromPattern( colorCode, CKEDITOR.tools.color.rgbRegExp, this._.validateRgbValues );
-				return rgbMatch;
-			},
+				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.rgbRegExp );
 
-			/**
-			 * Validate given array as RGBA values.
-			 * Returns array with valid channel values or nulls.
-			 *
-			 * @param {Array} values
-			 * @returns {Array}
-			 */
-			validateRgbValues: function( values ) {
-				var red = this._.validateRgbChannelValue( values[ 0 ] );
-				var green = this._.validateRgbChannelValue( values[ 1 ] );
-				var blue = this._.validateRgbChannelValue( values[ 2 ] );
-				var alpha = this._.validateAlphaValue( values[ 3 ] );
-
-				var rgb = [ red, green, blue, alpha ];
-
-				return rgb;
-			},
-
-			/**
-			 * Validate given value as alpha value.
-			 *
-			 * Ranged [0.0, 1.0] or [0, 100]%
-			 *
-			 * @param {String} value
-			 */
-			validateAlphaValue: function( value ) {
-				var alpha = 1;
-				if ( value !== undefined ) {
-					alpha = this._.isValidPercentOrNormalizedPercent( value );
+				if ( !channels ) {
+					return null;
 				}
 
-				return alpha;
-			},
+				var red,
+					green,
+					blue,
+					alpha = 1;
 
-			/**
-			 * Validate given value if it's proper RGB channel value
-			 *
-			 * Ranged [0, 255] or [0, 100]%
-			 *
-			 * @param {String} value Channel value
-			 */
-			validateRgbChannelValue: function( value ) {
-				var percentValue = null,
-					rangedValue = null;
+				if ( channels.length === 4 || channels.length === 3 ) {
+					red = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
+					green = tryToConvertToValidIntegerValue( channels[ 1 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
+					blue = tryToConvertToValidIntegerValue( channels[ 2 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
 
-				if ( isPercentValue( value ) ) {
-					percentValue = this._.validatePercent( value );
-					if ( percentValue !== null ) {
-						percentValue = CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE * ( percentValue / 100 );
+					if ( colorCode.indexOf( 'rgba' ) !== -1 ) {
+						alpha = tryToConvertToValidFloatValue( channels[ 3 ], CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
 					}
-				} else {
-					rangedValue = this._.validateValueInRange( value, 0, 255 );
 				}
 
-				return percentValue || rangedValue;
+				return this._.areColorChannelsValid( red, green, blue, alpha ) ? [ red, green, blue, alpha ] : null;
 			},
 
 			/**
-			 * Extract RGBA channels from given HSLA string.
+			 * Extract RGBA channels from given HSL or HSLA string.
 			 *
 			 * @private
 			 * @param {String} colorCode HSL or HSLA color representation.
-			 */
-			extractColorChannelsFromHsla: function( colorCode ) {
-				var hslaMatch =  this._.extractDigitsFromPattern( colorCode, CKEDITOR.tools.color.hslRegExp, this._.validateHslValues );
-
-				if ( hslaMatch ) {
-					var rgb = this._.hslToRgb( hslaMatch[ 0 ], hslaMatch[ 1 ], hslaMatch[ 2 ] );
-					if ( hslaMatch[ 3 ] !== undefined ) {
-						rgb.push( hslaMatch[ 3 ] );
-					}
-					return rgb;
-				}
-
-				return null;
-			},
-
-			/**
-			 * Validate if given values are proper as HSLA values.
-			 *
-			 * Hue: [0, 360]
-			 * Saturation: [0.0, 1.0] or [0, 100]%
-			 * Lightness: [0.0, 1.0] or [0, 100]%
-			 *
-			 * @param {Array} values
 			 * @returns {Array/null}
 			 */
-			validateHslValues: function( values ) {
-				var hue = this._.validateValueInRange( values[ 0 ], 0, 360 );
-				var saturation = this._.isValidPercentOrNormalizedPercent( values[ 1 ] );
-				var lightness = this._.isValidPercentOrNormalizedPercent( values[ 2 ] );
-				var alpha = this._.validateAlphaValue( values[ 3 ] );
+			extractColorChannelsFromHsla: function( colorCode ) {
+				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.hslRegExp );
 
-				var hsl = [ hue, saturation, lightness, alpha ];
+				if ( !channels ) {
+					return null;
+				}
 
-				return hsl;
-			},
+				var rgba = [],
+					alpha = 1;
 
-			/**
-			 * Validate if value is percent or normalize percent
-			 *
-			 * @private
-			 * @param {String} value
-			 */
-			isValidPercentOrNormalizedPercent: function( value ) {
-				var percentValue = null,
-					rangedValue = null;
+				if ( channels.length === 4 || channels.length === 3 ) {
+					var hue = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_HUE_CHANNEL_VALUE ),
+						saturation = tryToConvertToValidFloatValue( channels[ 1 ], CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE ),
+						lightness = tryToConvertToValidFloatValue( channels[ 2 ], CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE );
 
-				if ( isPercentValue( value ) ) {
-					percentValue = this._.validatePercent( value );
-					if ( percentValue !== null ) {
-						percentValue /= 100;
+					var rgb = this._.hslToRgb( hue, saturation, lightness );
+
+					if ( colorCode.indexOf( 'hsla' ) !== -1 ) {
+						alpha = tryToConvertToValidFloatValue( channels[ 3 ], CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
 					}
-				} else {
-					rangedValue = this._.validateValueInRange( value, 0.0, 1.0 );
+
+					rgba = rgb;
+					rgba.push( alpha );
 				}
 
-				return percentValue || rangedValue;
+				return this._.areColorChannelsValid( rgba[ 0 ], rgba[ 1 ], rgba[ 2 ], rgba[ 3 ] ) ? rgba : null;
 			},
 
 			/**
-			 * Validate if value is Number in given range.
+			 * TODO
 			 *
-			 * @param {String} value
-			 * @param {Number} min
-			 * @param {Number} max
+			 * @param {Number} red
+			 * @param {Number} green
+			 * @param {Number} blue
+			 * @param {Number} alpha
+			 * @returns {Boolean}
 			 */
-			validateValueInRange: function( value, min, max ) {
-				value = parseFloat( value );
-				if ( isNaN( value ) || value < min || value > max ) {
-					return null;
-				}
-
-				return value;
+			areColorChannelsValid: function( red, green, blue, alpha ) {
+				return isValueWithinRange( red, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
+					isValueWithinRange( green, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
+					isValueWithinRange( blue, 0, CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ) &&
+					isValueWithinRange( alpha, 0, CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
 			},
 
 			/**
-			 * Validate if given string is percent value in [0, 100] range.
-			 *
-			 * @private
-			 * @param {String} value
-			 * @returns {Number/null}
-			 */
-			validatePercent: function( value ) {
-				if ( !isPercentValue( value ) ) {
-					return null;
-				}
-				// [0, 100]
-				value = convertPercentValueToNumber( value );
-				if ( isNaN( value ) || value < 0 || value > 100 ) {
-					return null;
-				}
-				return value;
-			},
-
-			/**
-			 * Validate values extracted based on given regular expression pattern.
+			 * TODO
 			 *
 			 * @private
 			 * @param {String} value String tested with pattern.
 			 * @param {RegExp} regExp Regular expression pattern.
-			 * @param {Function} validationStrategy Function to test values after extract from pattern.
 			 * @returns {Array/null} Array with extracted values or null if values doesn't pass validation.
 			 */
-			extractDigitsFromPattern: function( value, regExp, validationStrategy ) {
+			extractColorChannelsByPattern: function( value, regExp ) {
 				var match = value.match( regExp );
+
 				if ( !match ) {
 					return null;
 				}
 
-				var prefix = match[ 1 ];
 				var values = match[ 2 ].split( ',' );
 
 				values = CKEDITOR.tools.array.map( values, function( value ) {
-					return value.trim();
+					return CKEDITOR.tools.trim( value );
 				} );
 
-				var shouldIncludeAlpha = prefix.slice( -1 ) === 'a';
-				var hasValidAmountOfValues = shouldIncludeAlpha ? values.length === 4 : values.length === 3;
-
-				if ( !hasValidAmountOfValues ) {
-					return null;
-				}
-
-				var numbers = validationStrategy.call( this, values );
-
-				if ( numbers.indexOf( null ) > -1 ) {
-					return null;
-				} else {
-					return numbers;
-				}
+				return values;
 			},
 
 			/**
@@ -776,7 +679,14 @@
 		}
 	} );
 
+
 	CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE = 255;
+
+	CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE = 1;
+
+	CKEDITOR.tools.color.MAX_HUE_CHANNEL_VALUE = 360;
+
+	CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE = 1;
 
 	/**
 	 * This list is deprecated, use {@link CKEDITOR.tools.color#namedColors} instead.
@@ -802,40 +712,71 @@
 		} );
 	}
 
+	// TODO
+	function tryToConvertToValidIntegerValue( value, max ) {
+		if ( isPercentValue( value ) ) {
+			value = Math.round( max * ( parseFloat( value ) / 100 ) );
+		} else if ( isIntegerValue( value ) ) {
+			value = parseInt( value, 10 );
+		}
+
+		return value;
+	}
+
+	// TODO
+	function tryToConvertToValidFloatValue( value, max ) {
+		if ( isPercentValue( value ) ) {
+			value = max * ( parseFloat( value ) / 100 );
+		} else if ( isFloatValue( value ) ) {
+			value = parseFloat( value );
+		}
+
+		return value;
+	}
+
+
 	// Validate if given value is string type and ends with `%` character.
 	// @param {*} value any value.
 	// @returns {Boolean}
 	function isPercentValue( value ) {
-		return typeof value === 'string' && value.slice( -1 ) === '%';
+		return typeof value === 'string' && value.match( /^((\d*\.\d+)|(\d+))%{1}$/gm );
 	}
 
-	// Remove `%` character and convert value to Number.
-	// @param {String} value Percent value (e.g. `100%`)
-	// @returns {Number} value as a Number.
-	function convertPercentValueToNumber( value ) {
-		return Number( value.slice( 0, -1 ) );
+	// TODO
+	function isIntegerValue( value ) {
+		return typeof value === 'string' && value.match( /^\d+$/gm );
+	}
+
+	// TODO
+	function isFloatValue( value ) {
+		return typeof value === 'string' && value.match( /^\d?\.\d+/gm );
+	}
+
+	// TODO
+	function isValueWithinRange( value, min, max ) {
+		return !( isNaN( value ) || value < min || value > max );
 	}
 
 	// Convert given value as hexadecimal based.
 	// @param {*} value value to convert.
 	// @returns {String} hexadecimal value.
-	function valueToHex( value ) {
+	function numberToHex( value ) {
 		var hex = value.toString( 16 );
 
 		return hex.length == 1 ? '0' + hex : hex;
 	}
 
 	// Convert hexadecimal value to digit.
-	function hexToValue( hexValue ) {
+	function hexToNumber( hexValue ) {
 		return parseInt( hexValue, 16 );
 	}
 
 	//Format rgb to hex
 	function formatHexString( red, green, blue, alpha ) {
-		var hexColorCode = '#' + valueToHex( red ) + valueToHex( green ) + valueToHex( blue );
+		var hexColorCode = '#' + numberToHex( red ) + numberToHex( green ) + numberToHex( blue );
 
 		if ( alpha !== undefined ) {
-			hexColorCode += valueToHex( alpha );
+			hexColorCode += numberToHex( alpha );
 		}
 
 		return hexColorCode.toUpperCase();
