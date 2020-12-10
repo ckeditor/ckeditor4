@@ -57,9 +57,9 @@
 					return this._.defaultValue;
 				}
 
-				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
-				return formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] );
+				return this._.formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] );
 			},
 
 			/**
@@ -74,7 +74,7 @@
 
 				var alpha = Math.round( this._.alpha * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
 
-				return formatHexString( this._.red, this._.green, this._.blue, alpha ) ;
+				return this._.formatHexString( this._.red, this._.green, this._.blue, alpha ) ;
 			},
 
 			/**
@@ -87,9 +87,9 @@
 					return this._.defaultValue;
 				}
 
-				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 
-				return formatRgbString( 'rgb', color[ 0 ], color[ 1 ], color[ 2 ]  );
+				return this._.formatRgbString( 'rgb', color[ 0 ], color[ 1 ], color[ 2 ]  );
 			},
 
 			/**
@@ -102,7 +102,7 @@
 					return this._.defaultValue;
 				}
 
-				return formatRgbString( 'rgba', this._.red, this._.green, this._.blue, this._.alpha );
+				return this._.formatRgbString( 'rgba', this._.red, this._.green, this._.blue, this._.alpha );
 			},
 
 			/**
@@ -116,10 +116,10 @@
 					return this._.defaultValue;
 				}
 
-				var color = blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha ),
+				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha ),
 					hsl = this._.rgbToHsl( color[ 0 ], color[ 1 ], color[ 2 ] );
 
-				return formatHslString( 'hsl', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
+				return this._.formatHslString( 'hsl', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
 			},
 
 			/**
@@ -134,7 +134,7 @@
 
 				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
 
-				return formatHslString( 'hsla', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ], this._.alpha );
+				return this._.formatHslString( 'hsla', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ], this._.alpha );
 			},
 
 			/**
@@ -195,6 +195,86 @@
 			 * @property {Number}
 			 */
 			alpha: 1,
+
+			/**
+			 * Blends alpha into RGB color channels. Assumes that background is white.
+			 *
+			 * @private
+			 * @param {Number} red Red channel value.
+			 * @param {Number} green Green channel value.
+			 * @param {Number} blue Blue channel value.
+			 * @param {Number} alpha Alpha channel value.
+			 * @returns {Array} Array containing RGB channels with alpha mixed.
+			 */
+			blendAlphaColor: function( red, green, blue, alpha ) {
+				// Based on https://en.wikipedia.org/wiki/Alpha_compositing.
+				return CKEDITOR.tools.array.map( [ red, green, blue ], function( color ) {
+					return Math.round( CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE - alpha * ( CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE - color ) );
+				} );
+			},
+
+			/**
+			 * Return color channels formatted as hexadecimal color code preceded by '#'.
+			 *
+			 * @private
+			 * @param {Number} red Red channel value.
+			 * @param {Number} green Green channel value.
+			 * @param {Number} blue Blue channel value.
+			 * @param {Number} [alpha] Optional alpha channel value.
+			 * @returns {String} Formatted color value (e.g. `#FF00FF` or with alpha `#FF00FF00`).
+			 */
+			formatHexString: function( red, green, blue, alpha ) {
+				var hexColorCode = '#' + numberToHex( red ) + numberToHex( green ) + numberToHex( blue );
+
+				if ( alpha !== undefined ) {
+					hexColorCode += numberToHex( alpha );
+				}
+
+				return hexColorCode.toUpperCase();
+			},
+
+			/**
+			 * Return color channels formatted as rgb or rgba color code preceded by given prefix.
+			 *
+			 * @private
+			 * @param {String} rgbPrefix `'rgb'` | `'rgba'`. Color code prefix.
+			 * @param {Number} red Red channel value.
+			 * @param {Number} green Green channel value.
+			 * @param {Number} blue Blue channel value.
+			 * @param {Number} [alpha] Optional alpha channel value. Expected with `'rgba'` prefix value.
+			 * @returns {String} Formatted color value (e.g. `rgb(255,255,255)` or with alpha `rgba(255,255,255,1)`)
+			 */
+			formatRgbString: function( rgbPrefix, red, green, blue, alpha ) {
+				var rgba = [ red, green, blue ];
+
+				if ( alpha !== undefined ) {
+					rgba.push( alpha );
+				}
+
+				return rgbPrefix + '(' + rgba.join( ',' ) + ')';
+			},
+
+			/**
+			 * Return color channels formatted as hsl or hsla color code preceded by given prefix.
+			 *
+			 * @private
+			 * @param {String} hslPrefix `'hsl'` || `'hsla'`. Color code prefix.
+			 * @param {Number} hue Hue channel value.
+			 * @param {Number} saturation Saturation channel value.
+			 * @param {Number} lightness Lightness channel value.
+			 * @param {Number} [alpha] Optional alpha channel value. Expected with `'hsla'` prefix value.
+			 * @returns {String} Formatted color value (e.g. `hsl(360,50%,50%)` or `hsla(360,50%,50%,1)`).
+			 */
+			formatHslString: function( hslPrefix, hue, saturation, lightness, alpha ) {
+				var alphaString = alpha !== undefined ? ',' + alpha : '';
+
+				return hslPrefix + '(' +
+				hue + ',' +
+				saturation + '%,' +
+				lightness + '%' +
+				alphaString +
+				')';
+			},
 
 			/**
 			 * Parses color string trying to match it to any supported format and extract RGBA channels.
@@ -724,21 +804,6 @@
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
 
-	// Blends alpha into RGB color channels. Assumes that background is white.
-	//
-	// @private
-	// @param {Number} red Red channel value.
-	// @param {Number} green Green channel value.
-	// @param {Number} blue Blue channel value.
-	// @param {Number} alpha Alpha channel value.
-	// @returns {Array} Array containing RGB channels with alpha mixed.
-	function blendAlphaColor( red, green, blue, alpha ) {
-		// Based on https://en.wikipedia.org/wiki/Alpha_compositing.
-		return CKEDITOR.tools.array.map( [ red, green, blue ], function( color ) {
-			return Math.round( CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE - alpha * ( CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE - color ) );
-		} );
-	}
-
 	// TODO
 	function tryToConvertToValidIntegerValue( value, max ) {
 		if ( isPercentValue( value ) ) {
@@ -795,53 +860,6 @@
 	// Convert hexadecimal value to digit.
 	function hexToNumber( hexValue ) {
 		return parseInt( hexValue, 16 );
-	}
-
-	//Format rgb to hex
-	function formatHexString( red, green, blue, alpha ) {
-		var hexColorCode = '#' + numberToHex( red ) + numberToHex( green ) + numberToHex( blue );
-
-		if ( alpha !== undefined ) {
-			hexColorCode += numberToHex( alpha );
-		}
-
-		return hexColorCode.toUpperCase();
-	}
-
-	// Convert color values into formatted rgb or rgba color code.
-	// @param {*} rgbPrefix
-	// @param {*} red
-	// @param {*} green
-	// @param {*} blue
-	// @param {*} alpha
-	// @returns {String} Formatted color value (e.g. `rgb(255,255,255)`)
-	function formatRgbString( rgbPrefix, red, green, blue, alpha ) {
-		var rgba = [ red, green, blue ];
-
-		if ( alpha !== undefined ) {
-			rgba.push( alpha );
-		}
-
-		return rgbPrefix + '(' + rgba.join( ',' ) + ')';
-	}
-
-	// Convert color values into formatted hsl or hsla color code.
-	// @private
-	// @param {String} hslPrefix Prefix for color value. Expected `hsl` or `hsla`.
-	// @param {*} hue
-	// @param {*} saturation
-	// @param {*} lightness
-	// @param {*} alpha
-	// @returns {String} Formatted color value (e.g. `hsl(360, 50%, 50%)`)
-	function formatHslString( hslPrefix, hue, saturation, lightness, alpha ) {
-		var alphaString = alpha !== undefined ? ',' + alpha : '';
-
-		return hslPrefix + '(' +
-		hue + ',' +
-		saturation + '%,' +
-		lightness + '%' +
-		alphaString +
-		')';
 	}
 
 } )();
