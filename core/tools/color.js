@@ -471,6 +471,46 @@
 
 		statics: {
 			/**
+			 * The maximum value of rgb channel.
+			 *
+			 * @private
+			 * @static
+			 * @readonly
+			 * @property {Number}
+			 */
+			MAX_RGB_CHANNEL_VALUE: 255,
+
+			/**
+			 * The maximum value of alpha channel.
+			 *
+			 * @private
+			 * @static
+			 * @readonly
+			 * @property {Number}
+			 */
+			MAX_ALPHA_CHANNEL_VALUE: 1,
+
+			/**
+			 * The maximum value of hue in hsl color format.
+			 *
+			 * @private
+			 * @static
+			 * @readonly
+			 * @property {Number}
+			 */
+			MAX_HUE_CHANNEL_VALUE: 360,
+
+			/**
+			 * The maximum value of saturation and lightness in hsl color format.
+			 *
+			 * @private
+			 * @static
+			 * @readonly
+			 * @property {Number}
+			 */
+			MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE: 1,
+
+			/**
 			 * Regular expression to match three characters long hexadecimal color value.
 			 *
 			 * @private
@@ -674,14 +714,6 @@
 			}
 		}
 	} );
-
-	CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE = 255;
-
-	CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE = 1;
-
-	CKEDITOR.tools.color.MAX_HUE_CHANNEL_VALUE = 360;
-
-	CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE = 1;
 
 	/**
 	 * This list is deprecated, use {@link CKEDITOR.tools.color#namedColors} instead.
