@@ -36,6 +36,8 @@
 
 		'test color from rgba with outranged alpha percent value returns default value': colorTools.testColorConversion( 'rgba( 120, 120, 120, 101% )', 'default', 'getHex', 'default' ),
 
+		'test color from invalid hsl with four values returns default value': colorTools.testColorConversion( 'hsl( 40, 40%, 100%, 1 )', 'default', 'getHex', 'default' ),
+
 		'test color from outranged percent hsl value returns default value': colorTools.testColorConversion( 'hsl( 361, 101%, 101% )', 'default', 'getHex', 'default' ),
 
 		'test color from outranged normalized hsl value returns default value': colorTools.testColorConversion( 'hsl( 361, 1.1, 1.1 )', 'default', 'getHex', 'default' ),
@@ -61,6 +63,8 @@
 		'test color from 8-HEX string color name returns same 8-HEX (max alpha)': colorTools.testColorConversion( '#112233FF', '#112233FF', 'getHexWithAlpha' ),
 
 		'test color from valid string color name returns 6-HEX': colorTools.testColorConversion( 'red', '#FF0000', 'getHex' ),
+
+		'test color from invalid rgb with four values returns default value': colorTools.testColorConversion( 'rgb( 40, 40, 150, 1 )', 'default', 'getHex', 'default' ),
 
 		'test color from valid rgb string returns 6-HEX': colorTools.testColorConversion( 'rgb( 40, 40, 150 )', '#282896', 'getHex' ),
 
