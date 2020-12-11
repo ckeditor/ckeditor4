@@ -2146,6 +2146,26 @@
 				return CKEDITOR.tools.array.map( array1, function( value, index ) {
 					return [ value, array2[ index ] ];
 				} );
+			},
+
+			/**
+			 * Removes duplicates from the array.
+			 *
+			 * ```js
+			 * var array = CKEDITOR.tools.array.unique( [ 1, 1, 2, 3, 2 ] );
+			 * console.log( array );
+			 * // Logs: [ 1, 2, 3 ]
+			 * ```
+			 *
+			 * @since 4.16.0
+			 * @member CKEDITOR.tools.array
+			 * @param {Array} array Array from which duplicates should be removed.
+			 * @returns {Array} The copy of the input array without duplicates.
+			 */
+			unique: function( array ) {
+				return this.filter( array, function( item, index ) {
+					return index === CKEDITOR.tools.array.indexOf( array, item );
+				} );
 			}
 		},
 
