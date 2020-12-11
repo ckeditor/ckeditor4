@@ -883,7 +883,7 @@
 	// @param {Number} max The maximum value in the range
 	// @returns {Boolean}
 	function isValueWithinRange( value, min, max ) {
-		return !( isNaN( value ) || value < min || value > max );
+		return !isNaN( value ) && value >= min && value <= max;
 	}
 
 	// Convert given value as hexadecimal based.
