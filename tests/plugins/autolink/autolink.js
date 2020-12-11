@@ -41,9 +41,7 @@
 	bender.test( {
 
 		setUp: function() {
-			if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
 		},
 
 		'test URL link with HTML tags': function() {

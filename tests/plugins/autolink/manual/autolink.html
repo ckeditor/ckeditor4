@@ -27,9 +27,7 @@ input[type=text] { width: 450px }
 	CKEDITOR.replace( 'editor1', {
 		on: {
 			pluginsLoaded: function() {
-				if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
-					bender.ignore();
-				}
+				bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
 			}
 		}
 	} );
