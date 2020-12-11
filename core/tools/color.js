@@ -804,16 +804,14 @@
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
 
-	/**
-	 * Converts string into Number.
-	 * If value is percent, then percent from max value is calculated.
-	 * Other cases tries to convert to integer Number.
-	 * If conversions fail, then original value is returned.
-	 *
-	 * @param {String} value String to convert (e.g. `'100%'` or `'20'`).
-	 * @param {Number} max Max value which is based for percent calculation.
-	 * @returns {Number/String} Converted value or original value.
-	 */
+	// Converts string into Number.
+	// If value is percent, then percentage of max value is calculated.
+	// Other cases tries to convert to integer.
+	// If conversions fail, then original value is returned.
+	//
+	// @param {String} value String to convert (e.g. '100%' or '20`).
+	// @param {Number} max If value is percent, then percentage of max is calculated.
+	// @returns {Number/String} Converted value or original value.
 	function tryToConvertToValidIntegerValue( value, max ) {
 		if ( isPercentValue( value ) ) {
 			value = Math.round( max * ( parseFloat( value ) / 100 ) );
@@ -824,7 +822,14 @@
 		return value;
 	}
 
-	// TODO
+	// Converts string into Float.
+	// If value is percent, then percentage of max value is calculated.
+	// Other cases tries to convert to float.
+	// If conversions fail, then original value is returned.
+	//
+	// @param {String} value String to convert (e.g. '100%' or '0.5' or '.5').
+	// @param {Number} max If value is percent, then percentage of max is calculated.
+	// @returns {Number/String} Converted value or original value.
 	function tryToConvertToValidFloatValue( value, max ) {
 		if ( isPercentValue( value ) ) {
 			value = max * ( parseFloat( value ) / 100 );
@@ -835,38 +840,57 @@
 		return value;
 	}
 
-	// Validate if given value is string type and ends with `%` character.
-	// @param {*} value any value.
+	// Validate if given value is string type, has valid float or integer digit and ends with `%` character.
+	// Valid values examples: '1.2%', '.5%', '50%'
+	//
+	// @param {*} value Any value to validate.
 	// @returns {Boolean}
 	function isPercentValue( value ) {
 		return typeof value === 'string' && value.match( /^((\d*\.\d+)|(\d+))%{1}$/gm );
 	}
 
-	// TODO
+	// Validate if given value is string type and match any digit.
+	//
+	// @param {*} value Any value to validate.
+	// @returns {Boolean}
 	function isIntegerValue( value ) {
 		return typeof value === 'string' && value.match( /^\d+$/gm );
 	}
 
-	// TODO
+	// Validate if given value is string type and has valid float number.
+	// Valid values examples: '1.2', '.5'
+	//
+	// @param {*} value Any value to validate.
+	// @returns {Boolean}
 	function isFloatValue( value ) {
 		return typeof value === 'string' && value.match( /^\d?\.\d+/gm );
 	}
 
-	// TODO
+	// Validate if value is convertible to number or is a number.
+	// Validate if value is in range [min, max] exclusive.
+	// @param {Number/String} value Number or string convertible to number.
+	//
+	// @param {Number} min The minimum value in the range.
+	// @param {Number} max The maximum value in the range
+	// @returns {Boolean}
 	function isValueWithinRange( value, min, max ) {
 		return !( isNaN( value ) || value < min || value > max );
 	}
 
 	// Convert given value as hexadecimal based.
-	// @param {*} value value to convert.
-	// @returns {String} hexadecimal value.
+	//
+	// @param {*} value Value to convert.
+	// @returns {String} Hexadecimal value.
 	function numberToHex( value ) {
 		var hex = value.toString( 16 );
 
 		return hex.length == 1 ? '0' + hex : hex;
 	}
 
-	// Convert hexadecimal value to digit.
+	// Convert hexadecimal value to integer.
+	//
+	// @param {String} hexValue Value to convert.
+	// @returns {Number}
 	function hexToNumber( hexValue ) {
 		return parseInt( hexValue, 16 );
 	}
