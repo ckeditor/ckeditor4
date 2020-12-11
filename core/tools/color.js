@@ -468,6 +468,7 @@
 			 *
 			 * For alpha channel range is: (0 - {@link CKEDITOR.tools.color#MAX_ALPHA_CHANNEL_VALUE}) inclusive.
 			 *
+			 * @private
 			 * @param {Number} red Red channel value.
 			 * @param {Number} green Green channel value.
 			 * @param {Number} blue Blue channel value.
