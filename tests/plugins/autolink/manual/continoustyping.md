@@ -5,10 +5,10 @@
 1. Focus the editor.
 1. Type `http://example.com example`.
 
-## Expected
+**Expected**
 
-Typed link text is turned into an anchor. The rest of the text i.e. `example` is preserved as a plain text.
+* Typed link text is turned into an anchor. The rest of the text i.e. `example` is preserved as a plain text.
 
-## Unexpected
+**Unexpected**
 
-Whole typed text is turned into an anchor.
+* The whole typed text is turned into an anchor.

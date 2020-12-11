@@ -5,12 +5,12 @@
 1. Focus the editor.
 1. Type `http://example.com example http://example.com`.
 
-## Expected
+**Expected**
 
 * Links are turned into anchors.
 * Typed text structure is preserved.
 
-## Unexpected
+**Unexpected**
 
 * Links are not turned into anchors.
 * Typed text structure is modified e.g. `http://example.com ehttp://example.com`

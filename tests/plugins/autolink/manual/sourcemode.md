@@ -6,10 +6,10 @@
 1. Go to source mode.
 1. Focus editor and press <kbd>Enter</kbd>.
 
-## Expected
+**Expected**
 
-Nothing is logged in console.
+* Nothing is logged in the console.
 
-## Unexpected
+**Unexpected**
 
-Console throws an error.
+* The console throws an error.
