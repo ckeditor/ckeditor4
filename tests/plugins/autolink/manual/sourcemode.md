@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.11.3, bug, 2756
-@bender-ckeditor-plugins: autolink,link,sourcearea,wysiwygarea
+@bender-ckeditor-plugins: autolink, sourcearea, wysiwygarea
 
 1. Open browser console.
 1. Go to source mode.
