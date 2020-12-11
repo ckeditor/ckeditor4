@@ -371,19 +371,23 @@
 					return null;
 				}
 
-				var red,
-					green,
-					blue,
+				var isColorDeclaredWithAlpha = colorCode.indexOf( 'rgba' ) === 0;
+
+				if ( isColorDeclaredWithAlpha && channels.length !== 4 ) {
+					return null;
+				}
+
+				if ( !isColorDeclaredWithAlpha && channels.length !== 3 ) {
+					return null;
+				}
+
+				var red = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ),
+					green = tryToConvertToValidIntegerValue( channels[ 1 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ),
+					blue = tryToConvertToValidIntegerValue( channels[ 2 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ),
 					alpha = 1;
 
-				if ( channels.length === 4 || channels.length === 3 ) {
-					red = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
-					green = tryToConvertToValidIntegerValue( channels[ 1 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
-					blue = tryToConvertToValidIntegerValue( channels[ 2 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
-
-					if ( colorCode.indexOf( 'rgba' ) !== -1 ) {
-						alpha = tryToConvertToValidFloatValue( channels[ 3 ], CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
-					}
+				if ( isColorDeclaredWithAlpha ) {
+					alpha = tryToConvertToValidFloatValue( channels[ 3 ], CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
 				}
 
 				return this._.areColorChannelsValid( red, green, blue, alpha ) ? [ red, green, blue, alpha ] : null;
@@ -403,23 +407,28 @@
 					return null;
 				}
 
-				var rgba = [],
+				var isColorDeclaredWithAlpha = colorCode.indexOf( 'hsla' ) === 0;
+
+				if ( isColorDeclaredWithAlpha && channels.length !== 4 ) {
+					return null;
+				}
+
+				if ( !isColorDeclaredWithAlpha && channels.length !== 3 ) {
+					return null;
+				}
+
+				var hue = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_HUE_CHANNEL_VALUE ),
+					saturation = tryToConvertToValidFloatValue( channels[ 1 ], CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE ),
+					lightness = tryToConvertToValidFloatValue( channels[ 2 ], CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE ),
 					alpha = 1;
 
-				if ( channels.length === 4 || channels.length === 3 ) {
-					var hue = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_HUE_CHANNEL_VALUE ),
-						saturation = tryToConvertToValidFloatValue( channels[ 1 ], CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE ),
-						lightness = tryToConvertToValidFloatValue( channels[ 2 ], CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE );
+				var rgba = this._.hslToRgb( hue, saturation, lightness );
 
-					var rgb = this._.hslToRgb( hue, saturation, lightness );
-
-					if ( colorCode.indexOf( 'hsla' ) !== -1 ) {
-						alpha = tryToConvertToValidFloatValue( channels[ 3 ], CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
-					}
-
-					rgba = rgb;
-					rgba.push( alpha );
+				if ( isColorDeclaredWithAlpha ) {
+					alpha = tryToConvertToValidFloatValue( channels[ 3 ], CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
 				}
+
+				rgba.push( alpha );
 
 				return this._.areColorChannelsValid( rgba[ 0 ], rgba[ 1 ], rgba[ 2 ], rgba[ 3 ] ) ? rgba : null;
 			},
