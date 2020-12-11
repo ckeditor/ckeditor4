@@ -9,6 +9,10 @@
 	CKEDITOR.plugins.add( 'autolink', {
 		requires: 'clipboard,textmatch,link',
 
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
+		},
+
 		init: function( editor ) {
 
 			// (#2208)
@@ -119,10 +123,6 @@
 				return query.match( editor.config.autolink_urlRegex ) ||
 					query.match( editor.config.autolink_emailRegex );
 			}
-		},
-
-		isSupportedEnvironment: function() {
-			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
 		}
 	} );
 
