@@ -38,11 +38,6 @@
 				}
 			} );
 
-			// IE has its own link completion and we don't want to interfere with it.
-			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-				return;
-			}
-
 			// (#3156)
 			editor.on( 'key', function( evt ) {
 				if ( editor.mode !== 'wysiwyg' || CKEDITOR.tools.indexOf( editor.config.autolink_commitKeystrokes, evt.data.keyCode ) == -1 ) {
