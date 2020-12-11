@@ -6,8 +6,6 @@
 ( function() {
 	'use strict';
 
-	var doubleQuoteRegex = /"/g;
-
 	CKEDITOR.plugins.add( 'autolink', {
 		requires: 'clipboard,textmatch,link',
 
@@ -78,7 +76,7 @@
 
 			function getHtmlToInsert( text ) {
 				var link = new CKEDITOR.dom.element( 'a' ),
-					value = text.replace( doubleQuoteRegex, '%22' );
+					value = text.replace( /"/g, '%22' );
 
 				value = value.match( CKEDITOR.config.autolink_urlRegex ) ? value : 'mailto:' + value;
 
