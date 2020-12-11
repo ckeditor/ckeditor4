@@ -37,7 +37,7 @@
 		 *
 		 * @constructor
 		 * @param {String} colorCode
-		 * @param {*} defaultValue Value which will be returned by any getter if passed color is not valid.
+		 * @param {*} defaultValue Value which will be returned by any getter if passed color code is not valid.
 		 */
 		$: function( colorCode, defaultValue ) {
 			this._.initialColorCode = colorCode;
@@ -108,7 +108,7 @@
 			/**
 			 * Get HSL color representation.
 			 *
-			 * @returns {String/*} HSL color representation (e.g. `hsl(360, 100%, 50%)`) or default value.
+			 * @returns {String/*} HSL color representation (e.g. `hsl(360,100%,50%)`) or default value.
 			 *
 			 */
 			getHsl: function() {
@@ -125,7 +125,7 @@
 			/**
 			 * Get HSLA color representation.
 			 *
-			 * @returns {String/*} HSLA color representation (e.g. `hsla(360, 100%, 50%, 0)`) or default value.
+			 * @returns {String/*} HSLA color representation (e.g. `hsla(360,100%,50%,0)`) or default value.
 			 */
 			getHsla: function() {
 				if ( !this._.isValidColor ) {
@@ -165,7 +165,7 @@
 			isValidColor: true,
 
 			/**
-			 * Red channel value. Ranges in 0-255.
+			 * Red channel value. Range in 0-255 inclusive.
 			 *
 			 * @private
 			 * @property {Number}
@@ -173,7 +173,7 @@
 			red: 0,
 
 			/**
-			 * Green channel value. Ranges in 0-255.
+			 * Green channel value. Range in 0-255 inclusive.
 			 *
 			 * @private
 			 * @property {Number}
@@ -181,7 +181,7 @@
 			green: 0,
 
 			/**
-			 * Blue channel value. Ranges in 0-255.
+			 * Blue channel value. Range in 0-255 inclusive.
 			 *
 			 * @private
 			 * @property {Number}
@@ -189,7 +189,7 @@
 			blue: 0,
 
 			/**
-			 * Alpha channel value. Ranges in 0-1.
+			 * Alpha channel value. Range in 0-1 inclusive.
 			 *
 			 * @private
 			 * @property {Number}
@@ -237,7 +237,7 @@
 			 * Return color channels formatted as rgb or rgba color code preceded by given prefix.
 			 *
 			 * @private
-			 * @param {String} rgbPrefix `'rgb'` | `'rgba'`. Color code prefix.
+			 * @param {String} rgbPrefix Color code prefix: `'rgb'` | `'rgba'`.
 			 * @param {Number} red Red channel value.
 			 * @param {Number} green Green channel value.
 			 * @param {Number} blue Blue channel value.
@@ -258,7 +258,7 @@
 			 * Return color channels formatted as hsl or hsla color code preceded by given prefix.
 			 *
 			 * @private
-			 * @param {String} hslPrefix `'hsl'` || `'hsla'`. Color code prefix.
+			 * @param {String} hslPrefix Color code prefix: `'hsl'` | `'hsla'`.
 			 * @param {Number} hue Hue channel value.
 			 * @param {Number} saturation Saturation channel value.
 			 * @param {Number} lightness Lightness channel value.
@@ -277,7 +277,7 @@
 			},
 
 			/**
-			 * Parses color string trying to match it to any supported format and extract RGBA channels.
+			 * Parses color code string trying to match it to any supported format and extract RGBA channels.
 			 *
 			 * @private
 			 * @param {String} colorCode Color to parse.
@@ -314,7 +314,7 @@
 			},
 
 			/**
-			 * Get hexadecimal color value based on color name.
+			 * Get hexadecimal color value from {@link CKEDITOR.tools.color#namedColors} based on provided color name.
 			 *
 			 * @private
 			 * @param {String} colorName color name, e.g. `red`.
@@ -438,12 +438,12 @@
 			},
 
 			/**
-			 * TODO
+			 * Extract color channels values based on provided regular expression.
 			 *
 			 * @private
 			 * @param {String} value String tested with pattern.
 			 * @param {RegExp} regExp Regular expression pattern.
-			 * @returns {Array/null} Array with extracted values or null if values doesn't pass validation.
+			 * @returns {Array/null} Array with extracted values or null if value doesn't match regular expression.
 			 */
 			extractColorChannelsByPattern: function( value, regExp ) {
 				var match = value.match( regExp );
@@ -462,12 +462,16 @@
 			},
 
 			/**
-			 * TODO
+			 * Validate whether red, green, blue and alpha color channels are within range.
 			 *
-			 * @param {Number} red
-			 * @param {Number} green
-			 * @param {Number} blue
-			 * @param {Number} alpha
+			 * For red, green and blue channels range is: (0 - {@link CKEDITOR.tools.color#MAX_RGB_CHANNEL_VALUE}) inclusive.
+			 *
+			 * For alpha channel range is: (0 - {@link CKEDITOR.tools.color#MAX_ALPHA_CHANNEL_VALUE}) inclusive.
+			 *
+			 * @param {Number} red Red channel value.
+			 * @param {Number} green Green channel value.
+			 * @param {Number} blue Blue channel value.
+			 * @param {Number} alpha Alpha channel value.
 			 * @returns {Boolean}
 			 */
 			areColorChannelsValid: function( red, green, blue, alpha ) {
@@ -591,7 +595,7 @@
 			MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE: 1,
 
 			/**
-			 * Regular expression to match three characters long hexadecimal color value.
+			 * Regular expression to match hash ('#') followed by three characters long hexadecimal color value.
 			 *
 			 * @private
 			 * @static
@@ -600,7 +604,7 @@
 			hex3CharsRegExp: /#([0-9a-f]{3}$)/gim,
 
 			/**
-			 * Regular expression to match six characters long hexadecimal color value.
+			 * Regular expression to match hash ('#') followed by six characters long hexadecimal color value.
 			 *
 			 * @private
 			 * @static
@@ -609,7 +613,7 @@
 			hex6CharsRegExp: /#([0-9a-f]{6}$)/gim,
 
 			/**
-			 * Regular expression to match eight characters long hexadecimal color value.
+			 * Regular expression to match hash ('#') followed by eight characters long hexadecimal color value.
 			 *
 			 * @private
 			 * @static
@@ -618,7 +622,9 @@
 			hex8CharsRegExp: /#([0-9a-f]{8}$)/gim,
 
 			/**
-			 * Regular expression to extract numbers from rgba color value.
+			 * Regular expression to extract numbers from rgb or rgba color value.
+			 * Allowed prefix is `'rgb'` or `'rgba'`.
+			 * After prefix are values in parentheses. Only dots, coma, digit and percent sign are allowed.
 			 *
 			 * @private
 			 * @static
@@ -628,6 +634,8 @@
 
 			/**
 			 * Regular expression to match potentially valid hsl / hsla color value.
+			 * Allowed prefix is `'hsl'` or `'hsla'`.
+			 * After prefix are values in parentheses. Only dots, coma, digit and percent sign are allowed.
 			 *
 			 * @private
 			 * @static
@@ -867,7 +875,7 @@
 	}
 
 	// Validate if value is convertible to number or is a number.
-	// Validate if value is in range [min, max] exclusive.
+	// Validate if value is within range min-max inclusive.
 	// @param {Number/String} value Number or string convertible to number.
 	//
 	// @param {Number} min The minimum value in the range.
