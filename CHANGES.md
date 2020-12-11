@@ -4,8 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.15.2
 
 Fixed Issues:
-
-* [#1824](https://github.com/ckeditor/ckeditor-dev/issues/1824): Fixed: [`Autolink`](https://ckeditor.com/cke4/addon/autolink) plugin doesn't work without [`Link`](https://ckeditor.com/cke4/addon/link) plugin.
+* [#1824](https://github.com/ckeditor/ckeditor4/issues/1824): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin doesn't work without [Link](https://ckeditor.com/cke4/addon/link) plugin.
 * [#4253](https://github.com/ckeditor/ckeditor4/issues/4253): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin throws an error during editor initialization with [fullpage](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-fullPage) enabled when there is no `body` tag in editor content.
 * [#4372](https://github.com/ckeditor/ckeditor4/issues/4372): Fixed: [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin changes editor's width when used with absolute [`config.width`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-width) value.
 * [#4379](https://github.com/ckeditor/ckeditor4/issues/4379): [Edge] Fixed: Incorrect detection of [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
