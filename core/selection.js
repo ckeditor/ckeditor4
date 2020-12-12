@@ -611,18 +611,27 @@
 				return;
 			}
 
+			function isDeleteAction() {
+				return ( keystroke === 8 || keystroke === 46 );
+			}
+
+			function isEmptyElement( element ) {
+				var text = ( element.$.textContent === undefined ? element.$.innerText : element.$.textContent );
+				return text === '';
+			}
+
 			var next = range[ keystroke < 38 ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
 			//added if case to allow removal of empty paragraphs, see incident #1572
 				startElement = sel.getStartElement();
-				if ( startElement.getName() === 'p' && isDeleteAction( keystroke ) && isEmptyElement( startElement ) ) {
+				if ( startElement.getName() === 'p' && isDeleteAction() && isEmptyElement( startElement ) ) {
 					startElement.remove();
+				} else {
+					editor.getSelection().fake( next );
+					evt.data.preventDefault();
+					evt.cancel();
 				}
-
-				editor.getSelection().fake( next );
-				evt.data.preventDefault();
-				evt.cancel();
 			}
 		};
 	}
