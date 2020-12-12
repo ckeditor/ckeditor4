@@ -592,18 +592,35 @@
 
 			var sel = editor.getSelection(),
 				ranges = sel.getRanges(),
-				range = ranges[ 0 ];
+				range = ranges[ 0 ],
+				startElement;
 
 			// Handle only single range and it has to be collapsed.
-			if ( ranges.length != 1 || !range.collapsed )
+			if ( !sel.isCollapsed() ) {
 				return;
+			}
+
+			function isDeleteAction() {
+				return ( keystroke === 8 || keystroke === 46 );
+			}
+
+			function isEmptyElement( element ) {
+				var text = ( element.$.textContent === undefined ? element.$.innerText : element.$.textContent );
+				return text === '';
+			}
 
 			var next = range[ keystroke < 38 ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
-				editor.getSelection().fake( next );
-				evt.data.preventDefault();
-				evt.cancel();
+			//added if case to allow removal of empty paragraphs, see incident #1572
+				startElement = sel.getStartElement();
+				if ( startElement.getName() === 'p' && isDeleteAction() && isEmptyElement( startElement ) ) {
+					startElement.remove();
+				} else {
+					editor.getSelection().fake( next );
+					evt.data.preventDefault();
+					evt.cancel();
+				}
 			}
 		};
 	}
