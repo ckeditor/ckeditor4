@@ -300,7 +300,7 @@
 				state: stateName,
 				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
 				title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
-				ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
+				ariaShortcut: shortcut ? ' ' + editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
 				titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: typeof this.hasArrow === 'string' && this.hasArrow || ( this.hasArrow ? 'true' : 'false' ),
 				keydownFn: keydownFn,

@@ -243,6 +243,7 @@ a.cke_button_disabled:active
 .cke_hc .cke_button_label
 {
 	padding: 0;
+	padding-left: 3px;
 	display: inline-block;
 	font-size: 12px;
 }

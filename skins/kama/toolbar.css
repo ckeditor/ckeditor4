@@ -217,6 +217,7 @@ a.cke_button_off:active
 .cke_hc .cke_button_label
 {
 	padding: 0;
+	padding-left: 3px;
 	display: inline-block;
 }
 
