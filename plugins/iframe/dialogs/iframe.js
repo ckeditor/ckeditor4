@@ -26,17 +26,16 @@
 	function commitValue( iframeNode ) {
 		var isRemove = this.getValue() === '',
 			isCheckbox = this instanceof CKEDITOR.ui.dialog.checkbox,
-			value = this.getValue();
-		if ( isRemove )
+			value = this.getValue(),
+			removeTabindexAttribute = this.id === 'tabindex' && !checkboxValues[ this.id ][ value ];
+
+		if ( isRemove || removeTabindexAttribute ) {
 			iframeNode.removeAttribute( this.att || this.id );
-		else if ( isCheckbox ) {
-			if ( this.id === 'tabindex' && !checkboxValues[this.id][value] )
-				iframeNode.removeAttribute( this.id );
-			else
-				iframeNode.setAttribute( this.id, checkboxValues[this.id][value] );
-		}
-		else
+		} else if ( isCheckbox ) {
+			iframeNode.setAttribute( this.id, checkboxValues[ this.id ][ value ] );
+		} else {
 			iframeNode.setAttribute( this.att || this.id, value );
+		}
 	}
 
 	CKEDITOR.dialog.add( 'iframe', function( editor ) {
