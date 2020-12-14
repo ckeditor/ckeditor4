@@ -1012,9 +1012,10 @@
 		},
 
 		/**
-		 * Finds and converts `rgb(x,x,x)` color definition to hexadecimal notation.
+		 * Finds and converts `rgb(x,x,x)` color definition into a given string to hexadecimal notation.
 		 *
-		 * **Note**: This method is deprecated, instead use {@link CKEDITOR.tools.color} to create color instance and
+		 * **Note**: For handling RGB string only (not within text) it is recommended
+		 * to use {@link CKEDITOR.tools.color} to create color instance and
 		 * {@link CKEDITOR.tools.color#getHex} method to get its hexadecimal representation:
 		 *
 		 * ```javascript
@@ -1022,7 +1023,6 @@
 		 * console.log( color.getHex() ); // #FFFFFF
 		 * ```
 		 *
-		 * @deprecated 4.16.0
 		 * @param {String} styleText The style data (or just a string containing RGB colors) to be converted.
 		 * @returns {String} The style data with RGB colors converted to hexadecimal equivalents.
 		 */
@@ -1041,7 +1041,7 @@
 		 *
 		 * **Note**: This method is deprecated, instead use {@link CKEDITOR.tools.color} to create color and
 		 * {@link CKEDITOR.tools.color#getHex} method to get its hexadecimal representation. Since it returns
-		 * uppercase string use `toLowerCase()` to get lowercase representation:
+		 * uppercase string, use `toLowerCase()` to get lowercase representation:
 		 *
 		 * ```javascript
 		 * var color = new CKEDITOR.tools.color( '#FFF' ); // Create color instance.
@@ -1066,9 +1066,9 @@
 		/**
 		 * Validates color string correctness. Works for:
 		 *
-		 * * hexadecimal notation;
-		 * * RGB or RGBA notation;
-		 * * HSL or HSLA notation;
+		 * * hexadecimal notation,
+		 * * RGB or RGBA notation,
+		 * * HSL or HSLA notation,
 		 * * HTML color name.
 		 *
 		 * **Note:** This method is deprecated, instead use use {@link CKEDITOR.tools.color}

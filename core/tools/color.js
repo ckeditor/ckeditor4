@@ -18,7 +18,7 @@
 	 * * RGB and RGBA formats.
 	 * * HSL and HSLA formats.
 	 *
-	 * It can be used to validate and convert color between above formats:
+	 * It can be used to validate and convert color between above formats.
 	 *
 	 * ```javascript
 	 * var color = new CKEDITOR.tools.color( 'rgb( 225, 225, 225 )' );
@@ -48,7 +48,7 @@
 
 		proto: {
 			/**
-			 * Get hexadecimal color representation.
+			 * Gets hexadecimal color representation.
 			 *
 			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF`) or default value.
 			 */
@@ -63,7 +63,7 @@
 			},
 
 			/**
-			 * Get hexadecimal color representation with separate alpha channel.
+			 * Gets hexadecimal color representation with separate alpha channel.
 			 *
 			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF00`) or default value.
 			 */
@@ -78,7 +78,7 @@
 			},
 
 			/**
-			 * Get RGB color representation.
+			 * Gets RGB color representation.
 			 *
 			 * @returns {String/*} RGB color representation (e.g. `rgb(255,255,255)`) or default value.
 			 */
@@ -93,7 +93,7 @@
 			},
 
 			/**
-			 * Get RGBA color representation.
+			 * Gets RGBA color representation.
 			 *
 			 * @returns {String/*} RGBA color representation (e.g. `rgba(255,255,255,0)`) or default value.
 			 */
@@ -106,7 +106,7 @@
 			},
 
 			/**
-			 * Get HSL color representation.
+			 * Gets HSL color representation.
 			 *
 			 * @returns {String/*} HSL color representation (e.g. `hsl(360,100%,50%)`) or default value.
 			 *
@@ -123,7 +123,7 @@
 			},
 
 			/**
-			 * Get HSLA color representation.
+			 * Gets HSLA color representation.
 			 *
 			 * @returns {String/*} HSLA color representation (e.g. `hsla(360,100%,50%,0)`) or default value.
 			 */
@@ -138,7 +138,7 @@
 			},
 
 			/**
-			 * Get raw value passed to the constructor during color object creation.
+			 * Gets raw value passed to the constructor during color object creation.
 			 *
 			 * @returns {String} Raw value passed during color object creation.
 			 */
@@ -149,7 +149,7 @@
 
 		_: {
 			/**
-			 * Initial color code provided to create object.
+			 * Initial color code provided to object constructor.
 			 *
 			 * @private
 			 * @property {String}
@@ -165,7 +165,7 @@
 			isValidColor: true,
 
 			/**
-			 * Red channel value. Range in 0-255 inclusive.
+			 * Red channel value. Ranges between 0-255 (inclusive).
 			 *
 			 * @private
 			 * @property {Number}
@@ -173,7 +173,7 @@
 			red: 0,
 
 			/**
-			 * Green channel value. Range in 0-255 inclusive.
+			 * Green channel value. Ranges between 0-255 (inclusive).
 			 *
 			 * @private
 			 * @property {Number}
@@ -181,7 +181,7 @@
 			green: 0,
 
 			/**
-			 * Blue channel value. Range in 0-255 inclusive.
+			 * Blue channel value. Ranges between 0-255 (inclusive).
 			 *
 			 * @private
 			 * @property {Number}
@@ -189,7 +189,7 @@
 			blue: 0,
 
 			/**
-			 * Alpha channel value. Range in 0-1 inclusive.
+			 * Alpha channel value. Ranges between 0-1 (inclusive).
 			 *
 			 * @private
 			 * @property {Number}
@@ -214,7 +214,7 @@
 			},
 
 			/**
-			 * Return color channels formatted as hexadecimal color code preceded by '#'.
+			 * Returns color channels formatted as hexadecimal color code preceded by '#'.
 			 *
 			 * @private
 			 * @param {Number} red Red channel value.
@@ -234,15 +234,15 @@
 			},
 
 			/**
-			 * Return color channels formatted as rgb or rgba color code preceded by given prefix.
+			 * Returns color channels formatted as RGB or RGBA color code preceded by given prefix.
 			 *
 			 * @private
-			 * @param {String} rgbPrefix Color code prefix: `'rgb'` | `'rgba'`.
+			 * @param {String} rgbPrefix Color code prefix: `rgb` or `rgba`.
 			 * @param {Number} red Red channel value.
 			 * @param {Number} green Green channel value.
 			 * @param {Number} blue Blue channel value.
-			 * @param {Number} [alpha] Optional alpha channel value. Expected with `'rgba'` prefix value.
-			 * @returns {String} Formatted color value (e.g. `rgb(255,255,255)` or with alpha `rgba(255,255,255,1)`)
+			 * @param {Number} [alpha] Optional alpha channel value. Should be used with `rgba` prefix only to create valid color value.
+			 * @returns {String} Formatted color value (e.g. `rgb(255,255,255)` or with alpha `rgba(255,255,255,1)`).
 			 */
 			formatRgbString: function( rgbPrefix, red, green, blue, alpha ) {
 				var rgba = [ red, green, blue ];
@@ -255,25 +255,25 @@
 			},
 
 			/**
-			 * Return color channels formatted as hsl or hsla color code preceded by given prefix.
+			 * Returns color channels formatted as HSL or HSLA color code preceded by given prefix.
 			 *
 			 * @private
-			 * @param {String} hslPrefix Color code prefix: `'hsl'` | `'hsla'`.
+			 * @param {String} hslPrefix Color code prefix: `hsl` or `hsla`.
 			 * @param {Number} hue Hue channel value.
 			 * @param {Number} saturation Saturation channel value.
 			 * @param {Number} lightness Lightness channel value.
-			 * @param {Number} [alpha] Optional alpha channel value. Expected with `'hsla'` prefix value.
+			 * @param {Number} [alpha] Optional alpha channel value. Should be used with `hsla` prefix only to create valid color value.
 			 * @returns {String} Formatted color value (e.g. `hsl(360,50%,50%)` or `hsla(360,50%,50%,1)`).
 			 */
 			formatHslString: function( hslPrefix, hue, saturation, lightness, alpha ) {
 				var alphaString = alpha !== undefined ? ',' + alpha : '';
 
 				return hslPrefix + '(' +
-				hue + ',' +
-				saturation + '%,' +
-				lightness + '%' +
-				alphaString +
-				')';
+					hue + ',' +
+					saturation + '%,' +
+					lightness + '%' +
+					alphaString +
+					')';
 			},
 
 			/**
@@ -394,7 +394,7 @@
 			},
 
 			/**
-			 * Extract RGBA channels from given HSL or HSLA string.
+			 * Extracts RGBA channels from given HSL or HSLA string.
 			 *
 			 * @private
 			 * @param {String} colorCode HSL or HSLA color representation.
@@ -434,7 +434,7 @@
 			},
 
 			/**
-			 * Convert 3-characters hexadecimal color format to 6-characters one.
+			 * Converts 3-characters hexadecimal color format to 6-characters one.
 			 *
 			 * @private
 			 * @param {String} hex3ColorCode 3-characters hexadecimal color, e.g. `#F0F`.
@@ -447,7 +447,7 @@
 			},
 
 			/**
-			 * Extract color channels values based on provided regular expression.
+			 * Extracts color channels values based on provided regular expression.
 			 *
 			 * @private
 			 * @param {String} value String tested with pattern.
@@ -471,11 +471,11 @@
 			},
 
 			/**
-			 * Validate whether red, green, blue and alpha color channels are within range.
+			 * Validates whether red, green, blue and alpha color channels are within required range.
 			 *
-			 * For red, green and blue channels range is: (0 - {@link CKEDITOR.tools.color#MAX_RGB_CHANNEL_VALUE}) inclusive.
+			 * For red, green and blue channels range is 0 to {@link CKEDITOR.tools.color#MAX_RGB_CHANNEL_VALUE} inclusive.
 			 *
-			 * For alpha channel range is: (0 - {@link CKEDITOR.tools.color#MAX_ALPHA_CHANNEL_VALUE}) inclusive.
+			 * For alpha channel range is 0 to {@link CKEDITOR.tools.color#MAX_ALPHA_CHANNEL_VALUE} inclusive.
 			 *
 			 * @private
 			 * @param {Number} red Red channel value.
@@ -492,13 +492,13 @@
 			},
 
 			/**
-			 * Convert hsl values into rgb.
+			 * Converts HSL color channel values into RGB ones.
 			 *
 			 * @private
 			 * @param {Number} hue
 			 * @param {Number} saturation
 			 * @param {Number} lightness
-			 * @returns {Array} Array of decimal rgb values.
+			 * @returns {Array} Array of decimal RGB values.
 			 */
 			hslToRgb: function( hue, saturation, lightness ) {
 				// Based on https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB.
@@ -517,13 +517,13 @@
 			},
 
 			/**
-			 * Convert rgb color values to hsl color values.
+			 * Converts RGB color channel values to HSL ones.
 			 *
 			 * @private
 			 * @param {Number} red Number of red channel.
 			 * @param {Number} green Number of green channel.
 			 * @param {Number} blue Number of blue channel.
-			 * @returns {Array} Array of hsl values.
+			 * @returns {Array} Array of HSL values.
 			 */
 			rgbToHsl: function( red, green, blue ) {
 				// Based on https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach.
@@ -565,7 +565,7 @@
 
 		statics: {
 			/**
-			 * The maximum value of rgb channel.
+			 * The maximum value of RGB channel.
 			 *
 			 * @private
 			 * @static
@@ -585,7 +585,7 @@
 			MAX_ALPHA_CHANNEL_VALUE: 1,
 
 			/**
-			 * The maximum value of hue in hsl color format.
+			 * The maximum value of hue in HSL color format.
 			 *
 			 * @private
 			 * @static
@@ -595,7 +595,7 @@
 			MAX_HUE_CHANNEL_VALUE: 360,
 
 			/**
-			 * The maximum value of saturation and lightness in hsl color format.
+			 * The maximum value of saturation and lightness in HSL color format.
 			 *
 			 * @private
 			 * @static
@@ -605,7 +605,7 @@
 			MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE: 1,
 
 			/**
-			 * Regular expression to match hash ('#') followed by three characters long hexadecimal color value.
+			 * Regular expression to match hash (`#`) followed by three characters long hexadecimal color value.
 			 *
 			 * @private
 			 * @static
@@ -614,7 +614,7 @@
 			hex3CharsRegExp: /#([0-9a-f]{3}$)/gim,
 
 			/**
-			 * Regular expression to match hash ('#') followed by six characters long hexadecimal color value.
+			 * Regular expression to match hash (`#`) followed by six characters long hexadecimal color value.
 			 *
 			 * @private
 			 * @static
@@ -623,7 +623,7 @@
 			hex6CharsRegExp: /#([0-9a-f]{6}$)/gim,
 
 			/**
-			 * Regular expression to match hash ('#') followed by eight characters long hexadecimal color value.
+			 * Regular expression to match hash (`#`) followed by eight characters long hexadecimal color value.
 			 *
 			 * @private
 			 * @static
@@ -632,8 +632,9 @@
 			hex8CharsRegExp: /#([0-9a-f]{8}$)/gim,
 
 			/**
-			 * Regular expression to extract numbers from rgb or rgba color value.
-			 * Allowed prefix is `'rgb'` or `'rgba'`.
+			 * Regular expression to extract numbers from RGB or RGBA color value.
+			 *
+			 * Allowed prefix is `rgb` or `rgba`.
 			 * After prefix are values in parentheses. Only dots, coma, digit and percent sign are allowed.
 			 *
 			 * @private
@@ -643,8 +644,9 @@
 			rgbRegExp: /(rgb[a]?)\(([.,\d\s%]*)\)/i,
 
 			/**
-			 * Regular expression to match potentially valid hsl / hsla color value.
-			 * Allowed prefix is `'hsl'` or `'hsla'`.
+			 * Regular expression to match potentially valid HSL / HSLA color value.
+			 *
+			 * Allowed prefix is `hsl` or `hsla`.
 			 * After prefix are values in parentheses. Only dots, coma, digit and percent sign are allowed.
 			 *
 			 * @private
@@ -822,12 +824,12 @@
 	 */
 	CKEDITOR.tools.style.parse._colors = CKEDITOR.tools.color.namedColors;
 
-	// Converts string into Number.
-	// If value is percent, then percentage of max value is calculated.
-	// Other cases tries to convert to integer.
-	// If conversions fail, then original value is returned.
+	// Tries to convert given string into integer value if it is a percentage
+	// value (e.g. `99%`) or string containing digits only (e.g. `12345`).
 	//
-	// @param {String} value String to convert (e.g. '100%' or '20`).
+	// If given string represents percentage then it is converted to absolute value based on given `max` value.
+	//
+	// @param {String} value String to be converted (e.g. `100%` or `20`).
 	// @param {Number} max If value is percent, then percentage of max is calculated.
 	// @returns {Number/String} Converted value or original value.
 	function tryToConvertToValidIntegerValue( value, max ) {
@@ -840,12 +842,12 @@
 		return value;
 	}
 
-	// Converts string into Float.
-	// If value is percent, then percentage of max value is calculated.
-	// Other cases tries to convert to float.
-	// If conversions fail, then original value is returned.
+	// Tries to convert given string into float value if it is a percentage
+	// value (e.g. `99%`) or string containing digits and dot only.
 	//
-	// @param {String} value String to convert (e.g. '100%' or '0.5' or '.5').
+	// If given string represents percentage then it is converted to absolute value based on given `max` value.
+	//
+	// @param {String} value String to be converted (e.g. `100%`, `0.5` or `.5`).
 	// @param {Number} max If value is percent, then percentage of max is calculated.
 	// @returns {Number/String} Converted value or original value.
 	function tryToConvertToValidFloatValue( value, max ) {
@@ -858,36 +860,34 @@
 		return value;
 	}
 
-	// Validate if given value is string type, has valid float or integer digit and ends with `%` character.
-	// Valid values examples: '1.2%', '.5%', '50%'
+	// Validates if given value is a string representing valid float or integer value
+	// ending with `%` character (e.g. `1.2%`, `.5%` or `50%`).
 	//
-	// @param {*} value Any value to validate.
+	// @param {*} value Any value to be validated.
 	// @returns {Boolean}
 	function isPercentValue( value ) {
 		return typeof value === 'string' && value.match( /^((\d*\.\d+)|(\d+))%{1}$/gm );
 	}
 
-	// Validate if given value is string type and match any digit.
+	// Validates if given value is a string representing integer value.
 	//
-	// @param {*} value Any value to validate.
+	// @param {*} value Any value to be validated.
 	// @returns {Boolean}
 	function isIntegerValue( value ) {
 		return typeof value === 'string' && value.match( /^\d+$/gm );
 	}
 
-	// Validate if given value is string type and has valid float number.
-	// Valid values examples: '1.2', '.5'
+	// Validates if given value is a string representing float value.
 	//
-	// @param {*} value Any value to validate.
+	// @param {*} value Any value to be validated.
 	// @returns {Boolean}
 	function isFloatValue( value ) {
 		return typeof value === 'string' && value.match( /^\d?\.\d+/gm );
 	}
 
-	// Validate if value is convertible to number or is a number.
-	// Validate if value is within range min-max inclusive.
-	// @param {Number/String} value Number or string convertible to number.
+	// Validates if given value is a number (or number-like) within given range (inclusive).
 	//
+	// @param {*} value Any value to be validated.
 	// @param {Number} min The minimum value in the range.
 	// @param {Number} max The maximum value in the range
 	// @returns {Boolean}
@@ -895,7 +895,7 @@
 		return !isNaN( value ) && value >= min && value <= max;
 	}
 
-	// Convert given value as hexadecimal based.
+	// Converts given 10-based value to hexadecimal one.
 	//
 	// @param {*} value Value to convert.
 	// @returns {String} Hexadecimal value.
@@ -905,7 +905,7 @@
 		return hex.length == 1 ? '0' + hex : hex;
 	}
 
-	// Convert hexadecimal value to integer.
+	// Convert hexadecimal value to 10-based one.
 	//
 	// @param {String} hexValue Value to convert.
 	// @returns {Number}
