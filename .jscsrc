@@ -21,6 +21,7 @@
 	"disallowSpacesInFunction": {
 		"beforeOpeningRoundBrace": true
 	},
+	"requireSpacesInsideBrackets": true,
 	"disallowSpacesInCallExpression": true,
 	"requireBlocksOnNewline": true,
 	"requireSpacesInsideObjectBrackets": "all",
