@@ -82,7 +82,8 @@ bender.test( {
 
 	// (#4388)
 	'test disabling iframe from tabindex': function() {
-		var bot = this.editorBot, editor = this.editor;
+		var bot = this.editorBot,
+			editor = this.editor;
 
 		bot.setHtmlWithSelection( editor.dataProcessor.toHtml( '[<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" width="100%"></iframe>]' ) );
 
@@ -97,7 +98,8 @@ bender.test( {
 
 	// (#4388)
 	'test adding iframe back to tabindex': function() {
-		var bot = this.editorBot, editor = this.editor;
+		var bot = this.editorBot,
+			editor = this.editor;
 
 		bot.setHtmlWithSelection( editor.dataProcessor.toHtml( '[<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" tabindex="-1" width="100%"></iframe>]' ) );
 
