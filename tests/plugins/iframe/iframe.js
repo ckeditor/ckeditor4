@@ -86,7 +86,7 @@ bender.test( {
 		bot.setHtmlWithSelection( editor.dataProcessor.toHtml( '[<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" width="100%"></iframe>]' ) );
 
 		bot.dialog( 'iframe', function( dialog ) {
-			dialog.setValueOf( 'info', 'tabindex', '-1' );
+			dialog.setValueOf( 'info', 'tabindex', true );
 
 			dialog.getButton( 'ok' ).click();
 
