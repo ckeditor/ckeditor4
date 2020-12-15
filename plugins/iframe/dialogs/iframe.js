@@ -24,17 +24,16 @@
 	}
 
 	function commitValue( iframeNode ) {
-		var isRemove = this.getValue() === '',
+		var value = this.getValue(),
+			attributeName = this.att || this.id,
 			isCheckbox = this instanceof CKEDITOR.ui.dialog.checkbox,
-			value = this.getValue(),
-			removeTabindexAttribute = this.id === 'tabindex' && !checkboxValues[ this.id ][ value ];
+			attributeValue = isCheckbox ? checkboxValues[ this.id ][ value ] : value,
+			isRemove = value === '' || ( attributeName === 'tabindex' && value === false );
 
-		if ( isRemove || removeTabindexAttribute ) {
-			iframeNode.removeAttribute( this.att || this.id );
-		} else if ( isCheckbox ) {
-			iframeNode.setAttribute( this.id, checkboxValues[ this.id ][ value ] );
+		if ( isRemove ) {
+			iframeNode.removeAttribute( attributeName );
 		} else {
-			iframeNode.setAttribute( this.att || this.id, value );
+			iframeNode.setAttribute( attributeName, attributeValue );
 		}
 	}
 
