@@ -234,15 +234,14 @@
 		},
 
 		// (#4394)
-		'test load async binary': function() {
+		'test load image async as binary gets ArrayBuffer object': function() {
 			setTimeout( function() {
 				CKEDITOR.ajax.loadBinary( '../../_assets/test_icon.png', callback );
 			}, 0 );
 			wait();
-
 			function callback( data ) {
 				resume( function() {
-					assert.areSame( new ArrayBuffer(), data, 'The loaded data doesn\'t match' );
+					assert.areSame( ArrayBuffer, data.constructor , 'The loaded data doesn\'t match' );
 				} );
 			}
 		}
