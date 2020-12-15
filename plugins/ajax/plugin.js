@@ -193,9 +193,43 @@
 			loadXml: function( url, callback ) {
 				return load( url, callback, 'xml' );
 			},
+			/**
+			 * Loads data from a URL as text.
+			 *
+			 *		// Load text synchronously.
+			 *		var text = CKEDITOR.ajax.loadText( 'somedata.txt' );
+			 *		alert( text );
+			 *
+			 *		// Load text asynchronously.
+			 *		var data = CKEDITOR.ajax.loadText( 'somedata.txt', function( textData ) {
+			 *			alert( textData );
+			 *		} );
+			 * @param {String} url The URL from which the data is loaded.
+			 * @param {Function} [callback] A callback function to be called on
+			 * data load. If not provided, the data will be loaded synchronously.
+			 * @returns {String} String storing the loaded data. For asynchronous requests, an
+			 * empty string. For invalid requests, `null`.
+			 */
 			loadText: function( url, callback ) {
 				return load( url, callback, 'text' );
 			},
+			/**
+			 * Loads data from a URL as binary data: typed array.
+			 *
+			 *		// Load data synchronously.
+			 *		var binaryData = CKEDITOR.ajax.loadBinary( 'somedata.png' );
+			 *		alert( binaryData );
+			 *
+			 *		// Load data asynchronously.
+			 *		var data = CKEDITOR.ajax.loadBinary( 'somedata.png', function( binaryData ) {
+			 *			alert( binaryData );
+			 *		} );
+			 * @param {String} url The URL from which the data is loaded.
+			 * @param {Function} [callback] A callback function to be called on
+			 * data load. If not provided, the data will be loaded synchronously.
+			 * @returns {ArrayBuffer} ArrayBuffer storing the loaded data. For asynchronous requests, an
+			 * empty string. For invalid requests, `null`.
+			 */
 			loadBinary: function( url, callback ) {
 				return load( url, callback, 'arraybuffer' );
 			}
