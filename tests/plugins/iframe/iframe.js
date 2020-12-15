@@ -80,6 +80,7 @@ bender.test( {
 		} );
 	},
 
+	// (#4388)
 	'test disabling iframe from tabindex': function() {
 		var bot = this.editorBot, editor = this.editor;
 
@@ -94,6 +95,7 @@ bender.test( {
 		} );
 	},
 
+	// (#4388)
 	'test adding iframe back to tabindex': function() {
 		var bot = this.editorBot, editor = this.editor;
 
