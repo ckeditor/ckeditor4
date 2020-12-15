@@ -314,7 +314,7 @@
 			},
 
 			/**
-			 * Get hexadecimal color value from {@link CKEDITOR.tools.color#namedColors} based on provided color name.
+			 * Returns hexadecimal color value from {@link CKEDITOR.tools.color#namedColors} based on provided color name.
 			 *
 			 * @private
 			 * @param {String} colorName color name, e.g. `red`.
@@ -474,7 +474,6 @@
 			 * Validates whether red, green, blue and alpha color channels are within required range.
 			 *
 			 * For red, green and blue channels range is 0 to {@link CKEDITOR.tools.color#MAX_RGB_CHANNEL_VALUE} inclusive.
-			 *
 			 * For alpha channel range is 0 to {@link CKEDITOR.tools.color#MAX_ALPHA_CHANNEL_VALUE} inclusive.
 			 *
 			 * @private
@@ -632,7 +631,7 @@
 			hex8CharsRegExp: /#([0-9a-f]{8}$)/gim,
 
 			/**
-			 * Regular expression to extract numbers from RGB or RGBA color value.
+			 * Regular expression to extract numbers from RGB and RGBA color value.
 			 *
 			 * Allowed prefix is `rgb` or `rgba`.
 			 * After prefix are values in parentheses. Only dots, coma, digit and percent sign are allowed.
@@ -644,7 +643,7 @@
 			rgbRegExp: /(rgb[a]?)\(([.,\d\s%]*)\)/i,
 
 			/**
-			 * Regular expression to match potentially valid HSL / HSLA color value.
+			 * Regular expression to extract numbers from HSL and HSLA color value.
 			 *
 			 * Allowed prefix is `hsl` or `hsla`.
 			 * After prefix are values in parentheses. Only dots, coma, digit and percent sign are allowed.
