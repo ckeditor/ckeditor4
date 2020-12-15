@@ -192,6 +192,12 @@
 			 */
 			loadXml: function( url, callback ) {
 				return load( url, callback, 'xml' );
+			},
+			loadText: function( url, callback ) {
+				return load( url, callback, 'text' );
+			},
+			loadBinary: function( url, callback ) {
+				return load( url, callback, 'arraybuffer' );
 			}
 		};
 	} )();

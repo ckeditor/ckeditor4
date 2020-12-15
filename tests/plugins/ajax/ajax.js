@@ -231,6 +231,20 @@
 					assert.areSame( 'Sample Text', data, 'The loaded data doesn\'t match' );
 				} );
 			}
+		},
+
+		// (#4394)
+		'test load async binary': function() {
+			setTimeout( function() {
+				CKEDITOR.ajax.loadBinary( '../../_assets/test_icon.png', callback );
+			}, 0 );
+			wait();
+
+			function callback( data ) {
+				resume( function() {
+					assert.areSame( new ArrayBuffer(), data, 'The loaded data doesn\'t match' );
+				} );
+			}
 		}
 	} );
 } )();
