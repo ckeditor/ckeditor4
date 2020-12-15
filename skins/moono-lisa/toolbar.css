@@ -385,7 +385,6 @@ a.cke_button_disabled .cke_button_arrow
 .cke_hc .cke_button_label
 {
 	padding: 0;
-	padding-left: 3px;
 	display: inline-block;
 	font-size: 12px;
 }
@@ -519,4 +518,3 @@ a.cke_toolbox_collapser
 	border: 0;
 	margin-top: 0;
 }
-.cke_button_label
