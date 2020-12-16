@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'bg', {
 	noUrl: 'Моля въведете URL за iFrame',
 	scrolling: 'Активира прелистване',
 	title: 'IFrame настройки',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

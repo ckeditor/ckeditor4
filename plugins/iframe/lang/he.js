@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'he', {
 	noUrl: 'יש להכניס כתובת לחלון.',
 	scrolling: 'אפשר פסי גלילה',
 	title: 'מאפייני חלון פנימי (iframe)',
-	toolbar: 'חלון פנימי (iframe)'
+	toolbar: 'חלון פנימי (iframe)',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

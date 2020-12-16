@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'gu', {
 	noUrl: 'iframe URL ટાઈપ્ કરો',
 	scrolling: 'સ્ક્રોલબાર ચાલુ કરવા',
 	title: 'IFrame વિકલ્પો',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

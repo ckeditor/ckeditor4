@@ -6,3 +6,4 @@ noUrl = Error message displayed to the user if one attempts to close the IFrame 
 scrolling = Label for the Enable scrollbars option of the IFrame dialog window.
 title = Label for the IFrame dialog window.
 toolbar = Toolbar button tooltip for the IFrame feature.
+tabindex = Label for the Remove from tabindex option of the IFrame dialog window.
