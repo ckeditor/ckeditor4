@@ -122,7 +122,7 @@
 
 		return {
 			/**
-			 * Loads data from a URL as plain text.
+			 * Loads data from a given URL.
 			 *
 			 *		// Load data synchronously.
 			 *		var data = CKEDITOR.ajax.load( 'somedata.txt' );
@@ -135,12 +135,11 @@
 			 *
 			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
-			 * data load. If not provided, the data will be loaded
-			 * synchronously. Please notice that only text data might be loaded synchronously.
+			 * data load. If not provided, the data will be loaded synchronously.
 			 * @param {String} [responseType='text'] Defines type of returned data.
-			 * Currently supports: `text`, `xml`, `arraybuffer`. This parameter was added in 4.16.0.
-			 * @returns {String/null} The loaded data. For asynchronous requests, an
-			 * empty string. For invalid requests, `null`.
+			 * Currently supports: `text`, `xml`, `arraybuffer`. This parameter was introduced in `4.16.0`.
+			 * @returns {String/null} The loaded data for synchronous request. For asynchronous requests -
+			 * empty string. For invalid requests - `null`.
 			 */
 			load: function( url, callback, responseType ) {
 				responseType = responseType || 'text';
@@ -173,7 +172,7 @@
 			},
 
 			/**
-			 * Loads data from a URL as XML.
+			 * Loads data from a given URL as XML.
 			 *
 			 *		// Load XML synchronously.
 			 *		var xml = CKEDITOR.ajax.loadXml( 'somedata.xml' );
@@ -187,14 +186,15 @@
 			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded synchronously.
-			 * @returns {CKEDITOR.xml} An XML object storing the loaded data. For asynchronous requests, an
-			 * empty string. For invalid requests, `null`.
+			 * @returns {CKEDITOR.xml} An XML object storing the loaded data for synchronous
+			 * request. For asynchronous requests - empty string. For invalid requests - `null`.
 			 */
 			loadXml: function( url, callback ) {
 				return load( url, callback, 'xml' );
 			},
+
 			/**
-			 * Loads data from a URL as text.
+			 * Loads data from a given URL as text.
 			 *
 			 *		// Load text synchronously.
 			 *		var text = CKEDITOR.ajax.loadText( 'somedata.txt' );
@@ -204,17 +204,19 @@
 			 *		var data = CKEDITOR.ajax.loadText( 'somedata.txt', function( textData ) {
 			 *			alert( textData );
 			 *		} );
+			 *
 			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded synchronously.
-			 * @returns {String} String storing the loaded data. For asynchronous requests, an
-			 * empty string. For invalid requests, `null`.
+			 * @returns {String} String storing the loaded data for synchronous
+			 * request. For asynchronous requests - empty string. For invalid requests - `null`.
 			 */
 			loadText: function( url, callback ) {
 				return load( url, callback, 'text' );
 			},
+
 			/**
-			 * Loads data from a URL as binary data: typed array.
+			 * Loads data from a given URL as binary data.
 			 *
 			 *		// Load data synchronously.
 			 *		var binaryData = CKEDITOR.ajax.loadBinary( 'somedata.png' );
@@ -224,11 +226,12 @@
 			 *		var data = CKEDITOR.ajax.loadBinary( 'somedata.png', function( binaryData ) {
 			 *			alert( binaryData );
 			 *		} );
+			 *
 			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded synchronously.
-			 * @returns {ArrayBuffer} ArrayBuffer storing the loaded data. For asynchronous requests, an
-			 * empty string. For invalid requests, `null`.
+			 * @returns {ArrayBuffer} ArrayBuffer storing the loaded data for synchronous
+			 * request. For asynchronous requests - empty string. For invalid requests - `null`.
 			 */
 			loadBinary: function( url, callback ) {
 				return load( url, callback, 'arraybuffer' );
