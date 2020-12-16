@@ -26,7 +26,7 @@
 		init: function( editor ) {
 			var pluginName = 'iframe',
 				lang = editor.lang.iframe,
-				allowed = 'iframe[align,longdesc,frameborder,height,name,scrolling,src,title,width]';
+				allowed = 'iframe[align,longdesc,tabindex,frameborder,height,name,scrolling,src,title,width]';
 
 			if ( editor.plugins.dialogadvtab )
 				allowed += ';iframe' + editor.plugins.dialogadvtab.allowedContent( { id: 1, classes: 1, styles: 1 } );

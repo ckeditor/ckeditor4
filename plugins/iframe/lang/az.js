@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'az', {
 	noUrl: 'Çərçivənin ünvanı daxil edin',
 	scrolling: 'Şürüşdürmələri əlavə et',
 	title: 'İFRAME elementinin alətləri',
-	toolbar: 'İFRAME'
+	toolbar: 'İFRAME',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

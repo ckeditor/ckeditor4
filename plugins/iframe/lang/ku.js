@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'ku', {
 	noUrl: 'تکایه ناونیشانی بەستەر بنووسه بۆ چووارچێوه',
 	scrolling: 'چالاککردنی هاتووچۆپێکردن',
 	title: 'دیالۆگی چووارچێوه',
-	toolbar: 'چووارچێوه'
+	toolbar: 'چووارچێوه',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

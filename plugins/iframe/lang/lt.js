@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'lt', {
 	noUrl: 'Nurodykite iframe nuorodą',
 	scrolling: 'Įjungti slankiklius',
 	title: 'IFrame nustatymai',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

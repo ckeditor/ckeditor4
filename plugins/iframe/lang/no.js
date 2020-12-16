@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'no', {
 	noUrl: 'Vennligst skriv inn URL for iframe',
 	scrolling: 'Aktiver scrollefelt',
 	title: 'Egenskaper for IFrame',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'tr', {
 	noUrl: 'Lütfen IFrame köprü (URL) bağlantısını yazın',
 	scrolling: 'Kaydırma çubuklarını aktif et',
 	title: 'IFrame Özellikleri',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

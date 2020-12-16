@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'km', {
 	noUrl: 'សូម​បញ្ចូល URL របស់ iframe',
 	scrolling: 'ប្រើ​របារ​រំកិល',
 	title: 'លក្ខណៈ​សម្បត្តិ IFrame',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

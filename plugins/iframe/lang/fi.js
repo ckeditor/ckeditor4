@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'fi', {
 	noUrl: 'Anna IFrame-kehykselle lähdeosoite (src)',
 	scrolling: 'Näytä vierityspalkit',
 	title: 'IFrame-kehyksen ominaisuudet',
-	toolbar: 'IFrame-kehys'
+	toolbar: 'IFrame-kehys',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

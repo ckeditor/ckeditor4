@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'pl', {
 	noUrl: 'Podaj adres URL elementu IFrame',
 	scrolling: 'Włącz paski przewijania',
 	title: 'Właściwości elementu IFrame',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );
