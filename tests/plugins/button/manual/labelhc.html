@@ -1,0 +1,12 @@
+<div id="editor">
+	Foo Bar
+</div>
+
+<script>
+	CKEDITOR.on( 'instanceCreated', function( evt ) {
+		CKEDITOR.env.hc = true;
+		CKEDITOR.env.cssClass += ' cke_hc';
+	} );
+
+	CKEDITOR.replace( 'editor' );
+</script>
