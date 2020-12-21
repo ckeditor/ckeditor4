@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#2208](https://github.com/ckeditor/ckeditor4/issues/2208): [IE] Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin duplicated with native browser implementation.
+* [#2208](https://github.com/ckeditor/ckeditor4/issues/2208): [IE] Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin duplicates the native browser implementation.
 * [#1824](https://github.com/ckeditor/ckeditor4/issues/1824): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin does not work without [Link](https://ckeditor.com/cke4/addon/link) plugin.
 * [#4253](https://github.com/ckeditor/ckeditor4/issues/4253): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin throws an error during editor initialization with [fullpage](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-fullPage) enabled when there is no `body` tag in editor content.
 * [#4372](https://github.com/ckeditor/ckeditor4/issues/4372): Fixed: [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin changes editor's width when used with absolute [`config.width`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-width) value.

@@ -39,7 +39,6 @@
 	};
 
 	bender.test( {
-
 		setUp: function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
 		},
