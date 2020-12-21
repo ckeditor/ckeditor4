@@ -4,8 +4,8 @@
 
 **Note**: This test force High Constrast Mode
 
-1. Examine toolbar buttons.
+1. Examine the toolbar buttons.
 
 **Expected** There should be space between button name and keyboard shortcut.
 
-**Unexpected** Shortcut description is glued to button name.
+**Unexpected** Shortcut description fallowed button name without space.
