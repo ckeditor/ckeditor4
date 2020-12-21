@@ -1,10 +1,7 @@
 <div id="editor"></div>
 
 <script>
-
-	if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
 
 	CKEDITOR.replace( 'editor' );
 </script>

@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autolink,clipboard,link */
+/* bender-ckeditor-plugins: autolink,clipboard */
 
 ( function() {
 
@@ -8,20 +8,17 @@
 	bender.editors = {
 		classic: {
 			config: {
-				removePlugins: 'link',
 				allowedContent: true
 			}
 		},
 		enterkey: {
 			config: {
-				removePlugins: 'link',
 				extraPlugins: 'enterkey',
 				allowedContent: true
 			}
 		},
 		customCommitKeystrokes: {
 			config: {
-				removePlugins: 'link',
 				allowedContent: true,
 				autolink_commitKeystrokes: [
 					37, // ArrowLeft
@@ -52,9 +49,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
 		},
 
 		// (#1815)

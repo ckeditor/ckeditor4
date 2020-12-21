@@ -20,10 +20,7 @@ input[type=text] { width: 450px }
 	<p>Foo bar.</p>
 </textarea>
 <script>
-	// IE has its own link completion.
-	if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
 
 	CKEDITOR.replace('editor', {
 		autolink_urlRegex: /^https:\/\/foobar.com$/,

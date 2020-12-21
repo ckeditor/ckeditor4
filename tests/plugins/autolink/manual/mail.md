@@ -1,10 +1,9 @@
 @bender-ui: collapsed
 @bender-tags: 4.10.0, feature, 1761
-@bender-ckeditor-plugins: toolbar, wysiwygarea, link, autolink
+@bender-ckeditor-plugins: toolbar, wysiwygarea, autolink
 
-## Test Scenario
+1. Paste each email to the editor without trailing spaces.
 
-Paste each email to the editor and check whether it's turned into a link.
+**Expected** Pasted email turns into a link.
 
-
-Make sure you copy the emails without trailing spaces.
+**Unexpected** Pasted email remains a plain text.
