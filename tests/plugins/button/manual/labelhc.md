@@ -1,11 +1,11 @@
 @bender-tags: 4.15.2, 4422, bug, editor, button,
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, clipboard
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, clipboard, format, stylescombo
 
-**Note**: This test force High Constrast Mode
+**Note**: This test forces editor into High Contrast Mode.
 
-1. Examine the toolbar buttons.
+1. Examine toolbar buttons.
 
-**Expected** There should be space between button name and keyboard shortcut.
+**Expected**: There should be space between button name and keyboard shortcut.
 
-**Unexpected** Shortcut description fallowed button name without space.
+**Unexpected**: Button keyboard shortcut description is glued to button name (no space in-between).
