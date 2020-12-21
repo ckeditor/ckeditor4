@@ -82,6 +82,7 @@
 				link.setText( text );
 				link.setAttribute( 'href', value );
 
+				// (#1824)
 				var linkData = CKEDITOR.plugins.link.parseLinkAttributes( editor, link ),
 					attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, linkData );
 
