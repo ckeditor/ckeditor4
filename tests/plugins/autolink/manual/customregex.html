@@ -20,13 +20,10 @@ input[type=text] { width: 450px }
 	<p>Foo bar.</p>
 </textarea>
 <script>
+	bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
+
 	CKEDITOR.replace('editor', {
 		autolink_urlRegex: /^https:\/\/foobar.com$/,
-		autolink_emailRegex: /^foo@foobar\.com$/,
-		on: {
-			pluginsLoaded: function() {
-				bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
-			}
-		}
+		autolink_emailRegex: /^foo@foobar\.com$/
 	} );
 </script>
