@@ -182,7 +182,7 @@
 			wait();
 		},
 
-		// (#1134)
+		// (#1134) (#4394)
 		'test load async arraybuffer': function() {
 			if ( typeof Blob !== 'function' || typeof Uint8Array !== 'function' || typeof URL !== 'function' ) {
 				assert.ignore();
@@ -198,7 +198,7 @@
 			}
 
 			setTimeout( function() {
-				CKEDITOR.ajax.load( blobUrl, cb, 'arraybuffer' );
+				CKEDITOR.ajax.loadBinary( blobUrl, cb );
 			}, 0 );
 			wait();
 		},
@@ -206,7 +206,7 @@
 		// (#1134)
 		'test load async xml': function() {
 			setTimeout( function() {
-				CKEDITOR.ajax.load( '../../_assets/sample.xml', callback, 'xml' );
+				CKEDITOR.ajax.loadXml( '../../_assets/sample.xml', callback );
 			}, 0 );
 			wait();
 
@@ -219,10 +219,10 @@
 			}
 		},
 
-		// (#1134)
+		// (#1134) (#4394)
 		'test load async text': function() {
 			setTimeout( function() {
-				CKEDITOR.ajax.load( '../../_assets/sample.txt', callback, 'text' );
+				CKEDITOR.ajax.loadText( '../../_assets/sample.txt', callback );
 			}, 0 );
 			wait();
 
