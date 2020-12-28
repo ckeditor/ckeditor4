@@ -1497,7 +1497,19 @@
 			if ( this._.cache.nativeSel !== undefined )
 				return this._.cache.nativeSel;
 
-			return ( this._.cache.nativeSel = isMSSelection ? this.document.$.selection : this.document.getWindow().$.getSelection() );
+			var s = null;
+			if ( isMSSelection ) {
+				s = this.document.$.selection;
+			} else {
+				var nativeObj = this.document.getWindow().$;
+				if ( nativeObj ) {
+					s = nativeObj.getSelection();
+				}
+			}
+
+			this._.cache.nativeSel = s;
+
+			return s;
 		},
 
 		/**
