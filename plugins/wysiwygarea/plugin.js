@@ -47,9 +47,8 @@
 
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
-				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
-				if ( useOnloadEvent )
-					iframe.on( 'load', onLoad );
+				// var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
+				iframe.on( 'load', onLoad );
 
 				var frameLabel = editor.title,
 					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
@@ -82,13 +81,13 @@
 				} );
 
 				// Execute onLoad manually for all non IE||Gecko browsers.
-				!useOnloadEvent && onLoad();
+				// !useOnloadEvent && onLoad();
 
 				editor.fire( 'ariaWidget', iframe );
 
 				function onLoad( evt ) {
-					evt && evt.removeListener();
 
+					// evt && evt.removeListener();
 					if ( editor.isDestroyed() || editor.isDetached() ) {
 						return;
 					}
