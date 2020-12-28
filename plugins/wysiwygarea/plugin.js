@@ -91,9 +91,10 @@
 					if ( editor.isDestroyed() || editor.isDetached() ) {
 						return;
 					}
+					var editorData = editor.getData( false );
 
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-					editor.setData( editor.getData( 1 ), callback );
+					editor.setData( editorData, callback );
 				}
 			} );
 		}
