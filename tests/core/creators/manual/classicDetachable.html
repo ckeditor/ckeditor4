@@ -1,0 +1,31 @@
+<div id="editor">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+<div id="fakedId"></div>
+<button id="toggleButton">Toggle show</button>
+
+<script>
+	var editorElement = document.getElementById("editor");
+
+	var textArea = document.createElement("textarea");
+
+	editorElement.appendChild(textArea);
+
+	var e = CKEDITOR.replace( textArea );
+	e.setData("ole!");
+
+	var t = false;
+	var btn = CKEDITOR.document.getById("toggleButton");
+
+	btn.on( 'click', function() {
+		if(t){
+			document.getElementById("fakedId").appendChild(editorElement);
+		}
+		else {
+			editorElement.parentNode.removeChild(editorElement);
+		}
+		t = !t;
+	} );
+
+
+</script>
