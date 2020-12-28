@@ -51,9 +51,18 @@
 
 	// Maintain the map of smiley-to-description.
 	// jscs:disable maximumLineLength
-	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
+	if (CKEDITOR.config.smiley_textual_descriptions.length == CKEDITOR.config.smiley_descriptions.length) {
+		var smileyMap = {};
+
+		CKEDITOR.config.smiley_descriptions.forEach((item, index) => {
+			smileyMap[item] = CKEDITOR.config.smiley_textual_descriptions[index];
+		})
+	} else {
+		var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' };
+	}
+
 	// jscs:enable maximumLineLength
-		smileyReverseMap = {},
+	var smileyReverseMap = {},
 		smileyRegExp = [];
 
 	// Build regexp for the list of smiley text.

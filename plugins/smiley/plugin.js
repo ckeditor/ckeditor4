@@ -96,3 +96,18 @@ CKEDITOR.config.smiley_descriptions = [
  * @cfg {Number} [smiley_columns=8]
  * @member CKEDITOR.config
  */
+
+/**
+ * The smiley code which should be used for each smiley when using bbcode plugin. Each entry in this array list
+ * must match its relative pair in the {@link CKEDITOR.config#smiley_descriptions}
+ * setting.
+ *
+ *		config.smiley_columns = 6;
+ *
+ * @since 3.15.2
+ * @cfg]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.smiley_textual_descriptions = [
+	':)', ':(', ';)', ':D', ':P', ':*)', ':-o', ':|',  '>:(', 'o:)',  '8-)',  '>:-)',  ';(', ':-*'
+];
