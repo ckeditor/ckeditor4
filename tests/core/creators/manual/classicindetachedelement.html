@@ -1,0 +1,15 @@
+<div id="editor">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<script>
+	var editorElement = document.getElementById("editor");
+
+	var textArea = document.createElement("textarea");
+
+	editorElement.appendChild(textArea);
+
+	var removedEditor = editorElement.parentNode.removeChild(editorElement);
+
+	CKEDITOR.replace( textArea );
+</script>
