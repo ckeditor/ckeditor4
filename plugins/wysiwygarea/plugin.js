@@ -49,7 +49,7 @@
 				// Do not use it on WebKit as it'll break the browser-back navigation.
 				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
 
-				console.log( 'bind with onload' );
+				// console.log( 'bind with onload' );
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
@@ -61,7 +61,7 @@
 				editor.fire( 'ariaWidget', iframe );
 
 				function onLoad( evt ) {
-					console.log( 'ONE TIME onLoad iframe content' );
+					// console.log( 'ONE TIME onLoad iframe content' );
 					evt && evt.removeListener();
 					if ( editor.isDestroyed() || editor.isDetached() ) {
 						return;
@@ -71,7 +71,7 @@
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editorData, callback );
 
-					console.log( 'onload data set' );
+					// console.log( 'onload data set' );
 					setTimeout( function() {
 
 						iframe.on( 'load', eachOnLoad );
@@ -83,7 +83,7 @@
 					setAttributes();
 
 
-					console.log( 'each onload' );
+					// console.log( 'each onload' );
 					if ( editor.isDestroyed() || editor.isDetached() ) {
 						return;
 					}
@@ -93,7 +93,7 @@
 					// var editorSnap = editor.getSnapshot();
 
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-					editor.setData( editorDataF );
+					editor.setData( editorDataF, {noSnapshot: true} );
 				}
 
 				function setAttributes() {
@@ -117,7 +117,7 @@
 
 					// Remove the ARIA description.
 					editor.on( 'beforeModeUnload', function( evt ) {
-						console.log( 'beforeModeUnload' );
+						// console.log( 'beforeModeUnload' );
 						evt.removeListener();
 						if ( desc )
 							desc.remove();
