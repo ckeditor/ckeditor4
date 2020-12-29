@@ -47,54 +47,86 @@
 
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
-				// var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
-				iframe.on( 'load', onLoad );
+				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
 
-				var frameLabel = editor.title,
-					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+				console.log( 'bind with onload' );
+				if ( useOnloadEvent )
+					iframe.on( 'load', onLoad );
 
-				if ( frameLabel ) {
-					if ( CKEDITOR.env.ie && helpLabel )
-						frameLabel += ', ' + helpLabel;
-
-					iframe.setAttribute( 'title', frameLabel );
-				}
-
-				if ( helpLabel ) {
-					var labelId = CKEDITOR.tools.getNextId(),
-						desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + helpLabel + '</span>' );
-
-					contentSpace.append( desc, 1 );
-					iframe.setAttribute( 'aria-describedby', labelId );
-				}
-
-				// Remove the ARIA description.
-				editor.on( 'beforeModeUnload', function( evt ) {
-					evt.removeListener();
-					if ( desc )
-						desc.remove();
-				} );
-
-				iframe.setAttributes( {
-					tabIndex: editor.tabIndex,
-					allowTransparency: 'true'
-				} );
+				setAttributes();
 
 				// Execute onLoad manually for all non IE||Gecko browsers.
-				// !useOnloadEvent && onLoad();
+				!useOnloadEvent && onLoad();
 
 				editor.fire( 'ariaWidget', iframe );
 
 				function onLoad( evt ) {
-
-					// evt && evt.removeListener();
+					console.log( 'ONE TIME onLoad iframe content' );
+					evt && evt.removeListener();
 					if ( editor.isDestroyed() || editor.isDetached() ) {
 						return;
 					}
-					var editorData = editor.getData( false );
+					var editorData = editor.getData( 1 );
 
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editorData, callback );
+
+					console.log( 'onload data set' );
+					setTimeout( function() {
+
+						iframe.on( 'load', eachOnLoad );
+					}, 990 );
+					// editor.loadSnapshot(editorData);
+				}
+
+				function eachOnLoad( evt ) {
+					setAttributes();
+
+
+					console.log( 'each onload' );
+					if ( editor.isDestroyed() || editor.isDetached() ) {
+						return;
+					}
+					// debugger;
+					var editorDataF = editor.getData( false );
+					// var editorDataT = editor.getData( true );
+					// var editorSnap = editor.getSnapshot();
+
+					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
+					editor.setData( editorDataF );
+				}
+
+				function setAttributes() {
+					var frameLabel = editor.title,
+					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+
+					if ( frameLabel ) {
+						if ( CKEDITOR.env.ie && helpLabel )
+							frameLabel += ', ' + helpLabel;
+
+						iframe.setAttribute( 'title', frameLabel );
+					}
+
+					if ( helpLabel ) {
+						var labelId = CKEDITOR.tools.getNextId(),
+							desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + helpLabel + '</span>' );
+
+						contentSpace.append( desc, 1 );
+						iframe.setAttribute( 'aria-describedby', labelId );
+					}
+
+					// Remove the ARIA description.
+					editor.on( 'beforeModeUnload', function( evt ) {
+						console.log( 'beforeModeUnload' );
+						evt.removeListener();
+						if ( desc )
+							desc.remove();
+					} );
+
+					iframe.setAttributes( {
+						tabIndex: editor.tabIndex,
+						allowTransparency: 'true'
+					} );
 				}
 			} );
 		}
