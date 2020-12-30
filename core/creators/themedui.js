@@ -170,13 +170,14 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * @param {String} [newMode] If not specified, the {@link CKEDITOR.config#startupMode} will be used.
 	 * @param {Function} [callback] Optional callback function which is invoked once the mode switch has succeeded.
 	 */
-	CKEDITOR.editor.prototype.setMode = function( newMode, callback ) {
+	CKEDITOR.editor.prototype.setMode = function( newMode, callback, force ) {
 		var editor = this;
 
 		var modes = this._.modes;
 
 		// Mode loading quickly fails.
-		if ( newMode == editor.mode || !modes || !modes[ newMode ] )
+		console.log( '***' + editor.name + '***', 'setMode', force );
+		if ( ( newMode == editor.mode && !force ) || !modes || !modes[ newMode ] )
 			return;
 
 		editor.fire( 'beforeSetMode', newMode );

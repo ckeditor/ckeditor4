@@ -1,6 +1,6 @@
 @bender-tags: 4.15.3, bug, 4390
 @bender-ui: collapsed
-@bender-ckeditor-plugins: toolbar, wysiwygarea, sourcearea
+@bender-ckeditor-plugins: toolbar, wysiwygarea, sourcearea, undo, clipboard, basicstyles, elementspath
 
 1. Use toggle button to detach and attach editor back.
 

@@ -121,12 +121,13 @@ CKEDITOR.ui.prototype = {
 	 * @returns {CKEDITOR.dom.element} The element that represents the space.
 	 */
 	space: function( name ) {
-		if ( !CKEDITOR.document ) {
+		var elem = CKEDITOR.document.getById( this.spaceId( name ) );
+		if ( elem === null ) {
+			// console.log( `space ${name} in container` );
 			var idSelector = '#' + this.spaceId( name );
 			return this.editor.container.findOne( idSelector );
-		} else {
-			return CKEDITOR.document.getById( this.spaceId( name ) );
 		}
+		return elem;
 	},
 
 	/**
