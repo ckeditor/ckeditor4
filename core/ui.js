@@ -122,7 +122,7 @@ CKEDITOR.ui.prototype = {
 	 */
 	space: function( name ) {
 		var elem = CKEDITOR.document.getById( this.spaceId( name ) );
-		if ( elem === null ) {
+		if ( elem === null && this.editor.container ) {
 			// console.log( `space ${name} in container` );
 			var idSelector = '#' + this.spaceId( name );
 			return this.editor.container.findOne( idSelector );

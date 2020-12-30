@@ -75,10 +75,9 @@
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editorData, callback );
 
-					setTimeout( function() {
-
+					CKEDITOR.tools.setTimeout( function() {
 						iframe.on( 'load', eachOnLoad );
-					}, 990 );
+					}, 200 );
 				}
 
 				function eachOnLoad( evt ) {
