@@ -176,7 +176,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var modes = this._.modes;
 
 		// Mode loading quickly fails.
-		console.log( '***' + editor.name + '***', 'setMode', force );
 		if ( ( newMode == editor.mode && !force ) || !modes || !modes[ newMode ] )
 			return;
 

@@ -49,7 +49,6 @@
 				// Do not use it on WebKit as it'll break the browser-back navigation.
 				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
 
-				// console.log( 'bind with onload' );
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
@@ -61,58 +60,29 @@
 				editor.fire( 'ariaWidget', iframe );
 
 				function onLoad( evt ) {
-					console.log( editor.name, 'ONE TIME onLoad iframe content' );
 					evt && evt.removeListener();
 
 					if ( editor.isDetached() ) {
-						setTimeout( function() {
-							console.log( 'binded while detached!' );
-
-							// editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document ) );
-							iframe.on( 'load', function( evt ) {
-								evt && evt.removeListener();
-								console.log( editor.name, ':::', 'editable created' );
-								editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-							} );
-							iframe.on( 'load', eachOnLoad );
-						}, 990 );
+						iframe.on( 'load', onLoad );
 					}
 
 					if ( editor.isDestroyed() || editor.isDetached() ) {
-						console.log( '***' + editor.name + '***', 'detached or destroyed', editor.isDestroyed(), editor.isDetached() );
-
 						return;
 					}
+
 					var editorData = editor.getData( 1 );
 
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editorData, callback );
 
-					// console.log( 'onload data set' );
 					setTimeout( function() {
 
 						iframe.on( 'load', eachOnLoad );
 					}, 990 );
-					// editor.loadSnapshot(editorData);
 				}
 
 				function eachOnLoad( evt ) {
-
-					console.log( '*** each onload' );
 					editor.setMode( 'wysiwyg', function() {}, true );
-					// setAttributes();
-
-
-					// if ( editor.isDestroyed() || editor.isDetached() ) {
-					// 	return;
-					// }
-					// // debugger;
-					// var editorDataF = editor.getData( false );
-					// // var editorDataT = editor.getData( true );
-					// // var editorSnap = editor.getSnapshot();
-
-					// editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-					// editor.setData( editorDataF, { noSnapshot: true } );
 				}
 
 				function setAttributes() {
