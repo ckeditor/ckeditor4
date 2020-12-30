@@ -25,6 +25,8 @@
 	editorElement.appendChild(textArea);
 	editorElement1.appendChild(textArea1);
 
+	editorElement1.parentNode.removeChild(editorElement1);
+
 	var e = CKEDITOR.replace( textArea, {
 		on: {
 			instanceReady:function(evt){
@@ -43,7 +45,6 @@
 	} );
 	e1.setData("I'm detached at the begining");
 
-	editorElement1.parentNode.removeChild(editorElement1);
 
 
 

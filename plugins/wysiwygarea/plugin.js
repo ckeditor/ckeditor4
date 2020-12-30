@@ -50,7 +50,7 @@
 				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
 
 				if ( useOnloadEvent )
-					iframe.on( 'load', onLoad );
+					iframe.on( 'load', onLoad, iframe, null, 1 );
 
 				setAttributes();
 
@@ -63,7 +63,8 @@
 					evt && evt.removeListener();
 
 					if ( editor.isDetached() ) {
-						iframe.on( 'load', onLoad );
+						// Attach again - to wait for attach and load to DOM
+						iframe.on( 'load', onLoad, iframe, null, 1 );
 					}
 
 					if ( editor.isDestroyed() || editor.isDetached() ) {
@@ -75,15 +76,16 @@
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editorData, callback );
 
+					// Attach to `load` but to not call immediately: delay with setTimeout
+					// Seems jQuery adapter tests pass thanks of it...
 					CKEDITOR.tools.setTimeout( function() {
-						iframe.on( 'load', eachOnLoad );
-					}, 200 );
+						iframe.on( 'load', eachOnLoad, iframe, null, 2 );
+					}, 900 );
 				}
 
 				function eachOnLoad( evt ) {
-					editor.setMode( 'wysiwyg', function() {
-						evt && evt.removeListener();
-					}, true );
+					evt && evt.removeListener();
+					editor.setMode( 'wysiwyg', function() {}, true );
 				}
 
 				function setAttributes() {
