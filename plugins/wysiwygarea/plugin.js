@@ -81,7 +81,9 @@
 				}
 
 				function eachOnLoad( evt ) {
-					editor.setMode( 'wysiwyg', function() {}, true );
+					editor.setMode( 'wysiwyg', function() {
+						evt && evt.removeListener();
+					}, true );
 				}
 
 				function setAttributes() {
