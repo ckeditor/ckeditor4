@@ -1,0 +1,82 @@
+<button id="toggleButton1">Toggle show 1</button>
+<button id="toggleButton2">Toggle show 2</button>
+
+<div>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet.</p>
+	</div>
+	<div id="editor1">
+		<p>Lorem ipsum dolor sit amet 1.</p>
+	</div>
+</div>
+
+
+<div id="fakedId"></div>
+<div id="fakedId1"></div>
+
+
+<script>
+	var editorElement = document.getElementById("editor");
+	var editorElement1 = document.getElementById("editor1");
+
+	var textArea = document.createElement("textarea");
+	var textArea1 = document.createElement("textarea1");
+
+	editorElement.appendChild(textArea);
+	editorElement1.appendChild(textArea1);
+
+	editorElement1.parentNode.removeChild(editorElement1);
+
+	var e = CKEDITOR.replace( textArea, {
+
+		on: {
+			instanceReady:function(evt){
+				console.log('editor e');
+			}
+		}
+	});
+	e.setData("ole!");
+
+	var e1 = CKEDITOR.replace( textArea1, {
+		preventDetached: true,
+		detachedCreation: function (editor) {
+			console.log(editor);
+		},
+		on: {
+			instanceReady: function(evt) {
+				console.log(evt);
+			}
+		}
+	} );
+	// e1.setData("I'm detached at the begining");
+
+
+
+
+	var btn = CKEDITOR.document.getById("toggleButton1");
+	var btn2 = CKEDITOR.document.getById("toggleButton2");
+
+	var t = false;
+	btn.on( 'click', function() {
+		if(t){
+			document.getElementById("fakedId").appendChild(editorElement);
+		}
+		else {
+			editorElement.parentNode.removeChild(editorElement);
+		}
+		t = !t;
+	} );
+
+	var t1 = true;
+	btn2.on( 'click', function() {
+		if(t1){
+			document.getElementById("fakedId1").appendChild(editorElement1);
+		}
+		else {
+			editorElement1.parentNode.removeChild(editorElement1);
+		}
+		t1 = !t1;
+	} );
+
+
+</script>

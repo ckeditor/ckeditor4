@@ -343,6 +343,25 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return null;
 		}
 
+		if (config.preventDetached && element.isDetached()) {
+			//runchecker
+			var id = setInterval(function() {
+				console.log('cheking:', element.isDetached());
+				if(!element.isDetached()) {
+					var editor = createInstance(element, config, data, mode);
+					config.detachedCreation(editor);
+
+					stopChecking();
+				}
+			}, 1000);
+
+			function stopChecking() {
+				clearInterval(id);
+			}
+
+			return null;
+		}
+
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, mode );
 
