@@ -343,22 +343,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return null;
 		}
 
-		if (config.preventDetached && element.isDetached()) {
-			//runchecker
-			var id = setInterval(function() {
-				console.log('cheking:', element.isDetached());
-				if(!element.isDetached()) {
-					var editor = createInstance(element, config, data, mode);
-					config.detachedCreation(editor);
-
-					stopChecking();
-				}
-			}, 1000);
-
-			function stopChecking() {
-				clearInterval(id);
-			}
-
+		if ( delayCreation( element, config, data, mode ) ) {
 			return null;
 		}
 
@@ -401,6 +386,20 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		editor.on( 'destroy', destroy );
 		return editor;
+	}
+
+	function delayCreation( element, config, data, mode ) {
+		if ( config.delayDetached && element.isDetached() ) {
+			var intervalId = setInterval( function() {
+				if ( !element.isDetached() ) {
+					createInstance( element, config, data, mode );
+
+					clearInterval( intervalId );
+				}
+			}, 1000 );
+
+			return true;
+		}
 	}
 
 	function destroy() {
