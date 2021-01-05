@@ -389,6 +389,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 	}
 
 	function delayCreation( element, config, data, mode ) {
+		var delay = parseFloat( ( config && config.delay ) );
+		delay = isNaN( delay ) ? 50 : delay;
+
 		if ( config && config.delayDetached && element.isDetached() ) {
 			var intervalId = setInterval( function() {
 				if ( !element.isDetached() ) {
@@ -396,7 +399,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 					createInstance( element, config, data, mode );
 				}
-			}, 1000 );
+			}, delay );
 
 			return true;
 		}
