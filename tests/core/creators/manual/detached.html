@@ -6,21 +6,13 @@
 	</div>
 </div>
 
-
-<div id="fakedId1"></div>
-
-
 <script>
-	var editorElement = document.getElementById("editor1");
+	var editorElement = document.getElementById("editor1"),
+		editorParent = editorElement.parentNode;
 
-	var textArea = document.createElement("textarea");
+	editorParent.removeChild(editorElement);
 
-	editorElement.appendChild(textArea);
-
-	editorElement.parentNode.removeChild(editorElement);
-
-
-	CKEDITOR.replace( textArea, {
+	CKEDITOR.replace( editorElement, {
 		delayDetached: true,
 		on: {
 			instanceReady: function(evt) {
@@ -32,7 +24,7 @@
 	var button = CKEDITOR.document.getById("attachButton");
 
 	button.on( 'click', function() {
-		document.getElementById("fakedId1").appendChild(editorElement);
+		editorParent.appendChild(editorElement);
 	} );
 
 
