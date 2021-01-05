@@ -392,9 +392,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( config && config.delayDetached && element.isDetached() ) {
 			var intervalId = setInterval( function() {
 				if ( !element.isDetached() ) {
-					createInstance( element, config, data, mode );
-
 					clearInterval( intervalId );
+
+					createInstance( element, config, data, mode );
 				}
 			}, 1000 );
 
