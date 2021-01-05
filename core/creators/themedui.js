@@ -388,26 +388,29 @@ CKEDITOR.replaceClass = 'ckeditor';
 		return editor;
 	}
 
-	/**
-	 * Delay editor creation until given element will be attached to DOM.
-	 *
-	 * Require `config.delayDetached` to be `true`.
-	 *
-	 * ```js
-	 *	CKEDITOR.replace( editorElement2, {
-	 *		delayDetached: true,
-	 *		delay: 50,
-	 *		registerCallback:RegisterCallback
-	 *		}
-	 *	} );
-	 * ```
-	 *
-	 * @param {Object/String} element The DOM element, its ID, or name.
-	 * @param {Object} [config] The specific configuration to apply to this
-	 * editor instance. Configuration set here will override the global CKEditor settings.
-	 * (see {@link CKEDITOR.config}).
-	 * @param {String} [data] Initial value for the instance.
-	 */
+	// Delay editor creation if given element is detached from DOM.
+	//
+	// Require `config.delayDetached` to be `true`.
+	//
+	// If `config.registerCallback` is declared as function, it will be invoked with single argument:
+	// function, that should be called to create editor.
+	//
+	// Otherwise: periodically (with `setInterval`) run check if element is attached to DOM and create editor automatically.
+	//
+	// ```js
+	//	CKEDITOR.replace( detachedEditorElement, {
+	//		delayDetached: true,
+	//		delay: 50,
+	//		registerCallback:RegisterCallback
+	//		}
+	//	} );
+	// ```
+	//
+	// @param {CKEDITOR.element} element The DOM element.
+	// @param {Object} [config] The specific configuration to apply to this
+	// editor instance. Configuration set here will override the global CKEditor settings.
+	// @param {String} [data] Initial value for the instance.
+	// @param {Number} mode CKEditor mode.
 	function delayCreationOnDetachedElement( element, config, data, mode ) {
 		if ( !config || !config.delayDetached || !element.isDetached() ) {
 			return false;
