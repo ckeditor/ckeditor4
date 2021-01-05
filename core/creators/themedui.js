@@ -343,7 +343,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return null;
 		}
 
-		if ( delayCreation( element, config, data, mode ) ) {
+		if ( delayCreationOnDetachedElement( element, config, data, mode ) ) {
 			return null;
 		}
 
@@ -388,12 +388,32 @@ CKEDITOR.replaceClass = 'ckeditor';
 		return editor;
 	}
 
-	function delayCreation( element, config, data, mode ) {
+	/**
+	 * Delay editor creation until given element will be attached to DOM.
+	 *
+	 * Require `config.delayDetached` to be `true`.
+	 *
+	 * ```js
+	 *	CKEDITOR.replace( editorElement2, {
+	 *		delayDetached: true,
+	 *		delay: 50,
+	 *		registerCallback:RegisterCallback
+	 *		}
+	 *	} );
+	 * ```
+	 *
+	 * @param {Object/String} element The DOM element, its ID, or name.
+	 * @param {Object} [config] The specific configuration to apply to this
+	 * editor instance. Configuration set here will override the global CKEditor settings.
+	 * (see {@link CKEDITOR.config}).
+	 * @param {String} [data] Initial value for the instance.
+	 */
+	function delayCreationOnDetachedElement( element, config, data, mode ) {
 		if ( !config || !config.delayDetached || !element.isDetached() ) {
 			return false;
 		}
 
-		var callback = function ( func ){
+		var callback = function( func ) {
 			func();
 		};
 
@@ -411,10 +431,14 @@ CKEDITOR.replaceClass = 'ckeditor';
 		};
 
 		var registerPayload = function() {
-			createInstance( element, config, data, mode );
+			if ( !element.isDetached() ) {
+				createInstance( element, config, data, mode );
+			} else {
+				// Element still not ready!
+			}
 		};
 
-		if( config.registerCallback ) {
+		if ( config.registerCallback ) {
 			if ( typeof config.registerCallback !== 'function' ) {
 				CKEDITOR.error( 'config-invalid-callback', { callback: config.registerCallback } );
 			} else {
