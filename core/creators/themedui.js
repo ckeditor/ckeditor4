@@ -389,33 +389,41 @@ CKEDITOR.replaceClass = 'ckeditor';
 	}
 
 	function delayCreation( element, config, data, mode ) {
-		if ( !config || ( !config.delayDetached ) || !element.isDetached() ) {
+		if ( !config || !config.delayDetached || !element.isDetached() ) {
 			return false;
 		}
 
-		if( config.registerCallback ) {
-			if ( typeof config.registerCallback !== 'function' ) {
-				console.log( 'throw some error' );
-			}
+		var callback = function ( func ){
+			func();
+		};
 
-			config.registerCallback(
-				function() {
+		var payload = function() {
+			var delay = parseFloat( config.delay );
+			delay = isNaN( delay ) ? 50 : delay;
+
+			var intervalId = setInterval( function() {
+				if ( !element.isDetached() ) {
+					clearInterval( intervalId );
+
 					createInstance( element, config, data, mode );
 				}
-			);
-			return true;
+			}, delay );
+		};
+
+		var registerPayload = function() {
+			createInstance( element, config, data, mode );
+		};
+
+		if( config.registerCallback ) {
+			if ( typeof config.registerCallback !== 'function' ) {
+				CKEDITOR.error( 'config-invalid-callback', { callback: config.registerCallback } );
+			} else {
+				payload = registerPayload;
+				callback = config.registerCallback;
+			}
 		}
 
-		var delay = parseFloat( config.delay );
-		delay = isNaN( delay ) ? 50 : delay;
-
-		var intervalId = setInterval( function() {
-			if ( !element.isDetached() ) {
-				clearInterval( intervalId );
-
-				createInstance( element, config, data, mode );
-			}
-		}, delay );
+		callback( payload );
 
 		return true;
 	}
