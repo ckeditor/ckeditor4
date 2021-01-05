@@ -6,6 +6,13 @@
 	</div>
 </div>
 
+<button id="attachButton2">Attach second editor to parent</button>
+<div>
+	<div id="editor2">
+		<p>Lorem ipsum dolor sit amet 2.</p>
+	</div>
+</div>
+
 <script>
 	var editorElement = document.getElementById("editor1"),
 		editorParent = editorElement.parentNode;
@@ -27,5 +34,36 @@
 		editorParent.appendChild(editorElement);
 	} );
 
+	//
+	// SECOND EDITOR WITH CALLBACK
+	//
+	var editorElement2 = document.getElementById("editor2"),
+		editorParent2 = editorElement2.parentNode;
+
+	editorParent2.removeChild(editorElement2);
+
+	var editorCreationCallback = null;
+
+	CKEDITOR.replace( editorElement2, {
+		delayDetached: true,
+		delay: 50,
+		registerCallback:RegisterCallback,
+		on: {
+			instanceReady: function(evt) {
+				this.setData("Editor created from config callback");
+			}
+		}
+	} );
+
+	var button2 = CKEDITOR.document.getById("attachButton2");
+
+	button2.on( 'click', function() {
+		editorParent2.appendChild(editorElement2);
+		editorCreationCallback();
+	} );
+
+	function RegisterCallback(editorCreationFunc) {
+		editorCreationCallback = editorCreationFunc;
+	}
 
 </script>

@@ -389,22 +389,35 @@ CKEDITOR.replaceClass = 'ckeditor';
 	}
 
 	function delayCreation( element, config, data, mode ) {
-		var delay = parseFloat( ( config && config.delay ) );
-		delay = isNaN( delay ) ? 50 : delay;
+		if ( !config || ( !config.delayDetached ) || !element.isDetached() ) {
+			return false;
+		}
 
-		if ( config && config.delayDetached && element.isDetached() ) {
-			var intervalId = setInterval( function() {
-				if ( !element.isDetached() ) {
-					clearInterval( intervalId );
+		if( config.registerCallback ) {
+			if ( typeof config.registerCallback !== 'function' ) {
+				console.log( 'throw some error' );
+			}
 
+			config.registerCallback(
+				function() {
 					createInstance( element, config, data, mode );
 				}
-			}, delay );
-
+			);
 			return true;
 		}
 
-		return false;
+		var delay = parseFloat( config.delay );
+		delay = isNaN( delay ) ? 50 : delay;
+
+		var intervalId = setInterval( function() {
+			if ( !element.isDetached() ) {
+				clearInterval( intervalId );
+
+				createInstance( element, config, data, mode );
+			}
+		}, delay );
+
+		return true;
 	}
 
 	function destroy() {
