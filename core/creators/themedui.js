@@ -441,7 +441,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		if ( config.registerCallback ) {
 			if ( typeof config.registerCallback !== 'function' ) {
-				CKEDITOR.error( 'config-invalid-callback', { callback: config.registerCallback } );
+				CKEDITOR.error( 'invalid-callback', { callback: config.registerCallback } );
 			} else {
 				payload = registerPayload;
 				callback = config.registerCallback;
@@ -670,8 +670,9 @@ CKEDITOR.config.delayDetachedFrequency = 50;
  *			func();
  *		};
  *
- * 		// Save creation callback.
- * 		// Call resumeEditorCreation whenever you choose.
+ *		// Possible use:
+ *		// Save creation callback.
+ *		// Call resumeEditorCreation whenever you choose.
  *		config.registerCallback = function ( createEditor ) {
  *			resumeEditorCreation = createEditor;
  *		};
