@@ -400,7 +400,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	// ```js
 	//	CKEDITOR.replace( detachedEditorElement, {
 	//		delayDetached: true,
-	//		delay: 50,
+	//		delayDetachedFrequency: 50,
 	//		registerCallback:RegisterCallback
 	//		}
 	//	} );
@@ -416,13 +416,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return false;
 		}
 
-		var callback = function( func ) {
-			func();
-		};
+		var callback = CKEDITOR.config.registerCallback;
 
 		var payload = function() {
 			var delay = parseFloat( config.delay );
-			delay = isNaN( delay ) ? 50 : delay;
+			delay = isNaN( delay ) ? CKEDITOR.config.delayDetachedFrequency : delay;
 
 			var intervalId = setInterval( function() {
 				if ( !element.isDetached() ) {
@@ -640,3 +638,47 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * @param {String} data.space The name of the {@link CKEDITOR.ui#space space} for which the event is fired.
  * @param {String} data.html HTML string which will be included in the given space.
  */
+
+/**
+ * Allow delay editor creation if target element is detached from DOM.
+ *
+ *		config.delayDetached = true;
+ *
+ * @cfg {Boolean} [delayDetached=false]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.delayDetached = false;
+
+/**
+ * Verifying frequency (ms) to use with default {@link CKEDITOR.config#registerCallback callback}.
+ *
+ * Used to set `setInterval` which checks whenever element is attached to DOM again.
+ *
+ *		config.delayDetachedFrequency = 1000;
+ *
+ * @cfg {Number} [delayDetachedFrequency=50]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.delayDetachedFrequency = 50;
+
+/**
+ * Function with single argument. As argument is passed another function that continues editor creation.
+ * Allows to store create function and invoke it when it is convenient instead of periodically invoke element verifying.
+ *
+ *		// Default value.
+ *		config.registerCallback = function ( func ) {
+ *			func();
+ *		};
+ *
+ * 		// Save creation callback.
+ * 		// Call resumeEditorCreation whenever you choose.
+ *		config.registerCallback = function ( createEditor ) {
+ *			resumeEditorCreation = createEditor;
+ *		};
+ *
+ * @cfg {Function} [registerCallback=see example]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.registerCallback = function( func ) {
+	func();
+};
