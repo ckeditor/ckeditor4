@@ -578,17 +578,28 @@
 		};
 	} )();
 
-	// Handle left, right, delete and backspace keystrokes next to non-editable elements
-	// by faking selection on them.
+	// Handle left, right keystrokes next to non-editable elements
+	// by faking selection on them. Delete and backspace keystrokes can
+	// delete empty paragraphs between the widgets.
 	function getOnKeyDownListener( editor ) {
 		var keystrokes = { 37: 1, 39: 1, 8: 1, 46: 1 };
+
+		function isDeleteAction( keystroke ) {
+			return ( keystroke === 8 || keystroke === 46 );
+		}
+
+		function isEmptyElement( element ) {
+			var text = ( element.$.textContent === undefined ? element.$.innerText : element.$.textContent );
+			return text === '';
+		}
 
 		return function( evt ) {
 			var keystroke = evt.data.getKeystroke();
 
 			// Handle only left/right/del/bspace keys.
-			if ( !keystrokes[ keystroke ] )
+			if ( !keystrokes[ keystroke ] ) {
 				return;
+			}
 
 			var sel = editor.getSelection(),
 				ranges = sel.getRanges(),
@@ -600,21 +611,12 @@
 				return;
 			}
 
-			function isDeleteAction() {
-				return ( keystroke === 8 || keystroke === 46 );
-			}
-
-			function isEmptyElement( element ) {
-				var text = ( element.$.textContent === undefined ? element.$.innerText : element.$.textContent );
-				return text === '';
-			}
-
 			var next = range[ keystroke < 38 ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
 			//added if case to allow removal of empty paragraphs, see incident #1572
 				startElement = sel.getStartElement();
-				if ( startElement.getName() === 'p' && isDeleteAction() && isEmptyElement( startElement ) ) {
+				if ( startElement.getName() === 'p' && isDeleteAction( keystroke ) && isEmptyElement( startElement ) ) {
 					startElement.remove();
 				} else {
 					editor.getSelection().fake( next );
