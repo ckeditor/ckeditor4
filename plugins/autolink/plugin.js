@@ -150,7 +150,7 @@
 	 * @since 4.11.0
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.autolink_urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/i;
+	CKEDITOR.config.autolink_urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]\.?)+(\/[^\s]*)?[^\s\.,]$/i;
 	// Regex by Imme Emosol.
 
 	/**
