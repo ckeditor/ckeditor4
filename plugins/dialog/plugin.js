@@ -1028,7 +1028,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		foreach: function( fn ) {
 			for ( var i in this._.contents ) {
 				for ( var j in this._.contents[ i ] ) {
-					fn.call( this, this._.contents[i][j] );
+					fn.call( this, this._.contents[ i ][ j ] );
 				}
 			}
 
@@ -2691,7 +2691,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 							html.push( '<td class="', className, '" role="presentation" ' );
 							if ( widths ) {
 								if ( widths[ i ] ) {
-									styles.push( 'width:' + cssLength( widths[i] ) );
+									styles.push( 'width:' + cssLength( widths[ i ] ) );
 								}
 							} else {
 								styles.push( 'width:' + Math.floor( 100 / childHtmlList.length ) + '%' );
