@@ -3169,7 +3169,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			numberRegex = /^\d*(?:\.\d+)?$/,
 			htmlLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|\%)?)?$/,
 			cssLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|em|ex|in|cm|mm|pt|pc|\%)?)?$/i,
-			inlineStylePropertyRegex = /^[\w-]+\s*:\s*[^:;]+$/;
+			inlineStylePropertyRegex = /^(--|-?([a-zA-Z_]|\\))(\\|[a-zA-Z0-9-_])*\s*?:\s*?[^:;]+$/;
 
 		/**
 		 * {@link CKEDITOR.dialog Dialog} `OR` logical value indicates the
