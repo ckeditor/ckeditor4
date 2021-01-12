@@ -618,11 +618,11 @@
 				startElement = sel.getStartElement();
 				if ( startElement.getName() === 'p' && isDeleteAction( keystroke ) && isEmptyElement( startElement ) ) {
 					startElement.remove();
-				} else {
-					editor.getSelection().fake( next );
-					evt.data.preventDefault();
-					evt.cancel();
 				}
+
+				editor.getSelection().fake( next );
+				evt.data.preventDefault();
+				evt.cancel();
 			}
 		};
 	}
