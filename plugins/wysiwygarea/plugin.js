@@ -115,6 +115,7 @@
 					// editor.fire( 'contentDom' );
 					console.log( '***' );
 					console.log( newEditable.getDocument().getWindow() );
+					editor.editable( newEditable, true );
 					console.log( editor.editable().getDocument().getWindow() );
 					// editor.getSelection();
 					// newEditable.on( 'contentDom', function( params ) {
