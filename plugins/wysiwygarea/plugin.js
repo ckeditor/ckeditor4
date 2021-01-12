@@ -93,9 +93,62 @@
 						return;
 					}
 
+					console.log( 'plugin create new wysiwyg' );
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
+					console.log( 'plugin call setData()' );
 					editor.setData( editor.getData( 1 ), callback );
 				}
+
+				iframe.on( 'load', function( evt ) {
+					// Prevent immediately call!
+					if ( !arguments.callee.called ) {
+						arguments.callee.called = true;
+						return;
+					}
+					console.log( 'backup on load' );
+					var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
+					console.log( 'new editable', newEditable );
+					console.log( 'set new editable' );
+					// editor.mode = '';
+					// editor.editable( undefined );
+					// editor.editable( newEditable );
+					// editor.fire( 'contentDom' );
+					console.log( '***' );
+					console.log( newEditable.getDocument().getWindow() );
+					console.log( editor.editable().getDocument().getWindow() );
+					// editor.getSelection();
+					// newEditable.on( 'contentDom', function( params ) {
+					// 	console.log( 'WTF WITH DOM?!' );
+					// } )
+					console.log( 'set random data on another load' );
+					editor.setData( 'sad', function( params ) {
+						// editor.mode = 'wysiwyg';
+					} );
+					// editor.mode = 'wysiwyg';
+					// editor.setData( editor.getData( 1 ), callback );
+					// evt && evt.removeListener();
+					// iframe.remove();
+
+					// editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
+					// editor.setData( editor.getData( 1 ), callback );
+
+					// editor.setMode( 'wysiwyg', function() {}, true );
+					// DUP( );
+					// var newIframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
+					// newIframe.setStyles( { width: '100%', height: '100%' } );
+					// newIframe.addClass( 'cke_wysiwyg_frame' ).addClass( 'cke_reset' );
+
+					// var newContentSpace = editor.ui.space( 'contents' );
+					// newContentSpace.append( iframe );
+
+
+
+					// // console.log( 'heja' );
+					// // editor.editable().detach();
+					// // console.log( arguments );
+					// editor.editable( new framedWysiwyg( editor, newIframe.$.contentWindow.document.body ) );
+
+				} );
 			} );
 		}
 	} );
@@ -124,9 +177,11 @@
 	};
 
 	function onDomReady( win ) {
+		console.log( 'on dom ready' );
 		var editor = this.editor;
 
 		if ( !editor || editor.isDetached() ) {
+			console.log( 'editor is detached or there is no editor' );
 			return;
 		}
 
@@ -159,7 +214,7 @@
 		this.$ = body;
 
 		doc = new CKEDITOR.dom.document( doc );
-
+		console.log( 'on dom ready before this.setup() call' );
 		this.setup();
 		this.fixInitialSelection();
 
@@ -319,11 +374,13 @@
 
 	framedWysiwyg = CKEDITOR.tools.createClass( {
 		$: function() {
+			console.log( 'wysiwyg constructor' );
 			this.base.apply( this, arguments );
 
 			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( function( win ) {
 				// Avoid opening design mode in a frame window thread,
 				// which will cause host page scrolling.(https://dev.ckeditor.com/ticket/4397)
+				console.log( '%c setTimeout for onDomReady', 'background: #000' );
 				CKEDITOR.tools.setTimeout( onDomReady, 0, this, win );
 			}, this );
 
@@ -335,7 +392,7 @@
 		proto: {
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
-
+				console.log( 'setData, isSnapshot', isSnapshot );
 				if ( isSnapshot ) {
 					this.setHtml( data );
 					this.fixInitialSelection();
