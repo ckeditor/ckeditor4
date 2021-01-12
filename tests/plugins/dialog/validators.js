@@ -38,6 +38,11 @@ bender.test( {
 		assert.isTrue( this.inlineStyleValidator() );
 	},
 
+	'test valid styles validates to true (edge case #1)': function() {
+		setupValueGetter( '\\9: bar;', this );
+		assert.isTrue( this.inlineStyleValidator() );
+	},
+
 	'test invalid styles returns error message': function() {
 		setupValueGetter( 'test', this );
 		assert.areEqual( this.inlineStyleValidator(), 'Invalid inline styles!' );
@@ -50,6 +55,26 @@ bender.test( {
 
 	'test valid styles but with duplicated : returns error message': function() {
 		setupValueGetter( 'height:: 10px;', this );
+		assert.areEqual( this.inlineStyleValidator(), 'Invalid inline styles!' );
+	},
+
+	'test invalid styles returns error message (edge case #1)': function() {
+		setupValueGetter( '-: foo;', this );
+		assert.areEqual( this.inlineStyleValidator(), 'Invalid inline styles!' );
+	},
+
+	'test invalid styles returns error message (edge case #2)': function() {
+		setupValueGetter( '9: bar;', this );
+		assert.areEqual( this.inlineStyleValidator(), 'Invalid inline styles!' );
+	},
+
+	'test invalid styles returns error message (edge case #3)': function() {
+		setupValueGetter( 'foo: ;', this );
+		assert.areEqual( this.inlineStyleValidator(), 'Invalid inline styles!' );
+	},
+
+	'test invalid styles returns error message (edge case #4)': function() {
+		setupValueGetter( 'foo: ', this );
 		assert.areEqual( this.inlineStyleValidator(), 'Invalid inline styles!' );
 	}
 } );
