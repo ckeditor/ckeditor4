@@ -701,7 +701,7 @@
         case 'url':
           var protocol = data.url && data.url.protocol !== undefined
             ? data.url.protocol
-            : 'http://',
+            : 'https://',
             url = (data.url && CKEDITOR.tools.trim(data.url.url)) || '';
 
           set['data-cke-saved-href'] = url.indexOf('/') === 0
