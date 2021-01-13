@@ -105,7 +105,7 @@
 						var cacheData = editor.getData( false );
 
 						// Remove current editable, but preserve iframe
-						editor.editable().flag = true;
+						editor.editable().saveIframe = true;
 						editor.editable( 0 );
 
 						var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
@@ -543,7 +543,7 @@
 			},
 
 			detach: function() {
-				if ( this.flag ) {
+				if ( this.saveIframe ) {
 					return;
 				}
 				var editor = this.editor,
