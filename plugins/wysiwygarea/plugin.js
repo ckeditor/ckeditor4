@@ -97,27 +97,25 @@
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					console.log( 'plugin call setData()' );
 					editor.setData( editor.getData( 1 ), callback );
+
+					iframe.on( 'load', function( evt ) {
+						if ( iframe.$.preventOnload ) {
+							iframe.$.preventOnload = false;
+							return;
+						}
+
+						var cacheData = editor.getData( false );
+
+						// Remove current editable, but preserve iframe
+						editor.editable().flag = true;
+						editor.editable( 0 );
+
+						var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
+						editor.editable( newEditable );
+						editor.setData( cacheData, callback );
+					} );
 				}
 
-				iframe.on( 'load', function( evt ) {
-					// Prevent immediately call!
-					if ( !arguments.callee.called ) {
-						arguments.callee.called = true;
-						return;
-					}
-					console.log( '%c backup on load', 'color: black; background: yellow' );
-					console.log( ' FIRST iframe content window', iframe );
-
-					var cacheData = editor.getData( false );
-
-					// Remove current editable, but preserve iframe
-					editor.editable().flag = true;
-					editor.editable( 0 );
-
-					var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
-					editor.editable( newEditable );
-					editor.setData( cacheData, callback );
-				} );
 			} );
 		}
 	} );
@@ -498,6 +496,10 @@
 					editor.fire( 'contentDomUnload' );
 
 					var doc = this.getDocument();
+
+					//prevent iframe onload event, since it recreate new editable, and try to setData...
+					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
+					iframe.$.preventOnload = true;
 
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
