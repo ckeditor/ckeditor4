@@ -391,6 +391,7 @@
 		base: CKEDITOR.editable,
 
 		proto: {
+			flag: false,
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 				console.log( 'setData, isSnapshot', isSnapshot );
@@ -580,6 +581,9 @@
 			},
 
 			detach: function() {
+				if ( this.flag ) {
+					return;
+				}
 				var editor = this.editor,
 					doc = editor.document,
 					iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),

@@ -1301,12 +1301,12 @@
 	 * DOM element to become the editable or a {@link CKEDITOR.editable} object.
 	 * @returns {CKEDITOR.dom.element/null} The editor's editable element, or `null` if not available.
 	 */
-	CKEDITOR.editor.prototype.editable = function( element, force ) {
+	CKEDITOR.editor.prototype.editable = function( element ) {
 		var editable = this._.editable;
 
 		// This editor has already associated with
 		// an editable element, silently fails.
-		if ( editable && element && !force ) {
+		if ( editable && element ) {
 			console.log( '%c ### ### editable silent fail', 'background: pink' );
 			return 0;
 		}
