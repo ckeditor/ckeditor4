@@ -93,9 +93,7 @@
 						return;
 					}
 
-					console.log( 'plugin create new wysiwyg' );
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-					console.log( 'plugin call setData()' );
 					editor.setData( editor.getData( 1 ), callback );
 
 					iframe.on( 'load', function( evt ) {
@@ -144,11 +142,9 @@
 	};
 
 	function onDomReady( win ) {
-		console.log( 'on dom ready' );
 		var editor = this.editor;
 
 		if ( !editor || editor.isDetached() ) {
-			console.log( 'editor is detached or there is no editor' );
 			return;
 		}
 
@@ -181,7 +177,6 @@
 		this.$ = body;
 
 		doc = new CKEDITOR.dom.document( doc );
-		console.log( 'on dom ready before this.setup() call' );
 		this.setup();
 		this.fixInitialSelection();
 
@@ -341,13 +336,11 @@
 
 	framedWysiwyg = CKEDITOR.tools.createClass( {
 		$: function() {
-			console.log( 'wysiwyg constructor' );
 			this.base.apply( this, arguments );
 
 			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( function( win ) {
 				// Avoid opening design mode in a frame window thread,
 				// which will cause host page scrolling.(https://dev.ckeditor.com/ticket/4397)
-				console.log( '%c setTimeout for onDomReady', 'background: #000' );
 				CKEDITOR.tools.setTimeout( onDomReady, 0, this, win );
 			}, this );
 
@@ -360,7 +353,6 @@
 			flag: false,
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
-				console.log( 'setData, isSnapshot', isSnapshot );
 				if ( isSnapshot ) {
 					this.setHtml( data );
 					this.fixInitialSelection();
