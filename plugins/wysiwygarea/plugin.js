@@ -105,50 +105,18 @@
 						arguments.callee.called = true;
 						return;
 					}
-					console.log( 'backup on load' );
+					console.log( '%c backup on load', 'color: black; background: yellow' );
+					console.log( ' FIRST iframe content window', iframe );
+
+					var cacheData = editor.getData( false );
+
+					// Remove current editable, but preserve iframe
+					editor.editable().flag = true;
+					editor.editable( 0 );
+
 					var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
-					console.log( 'new editable', newEditable );
-					console.log( 'set new editable' );
-					// editor.mode = '';
-					// editor.editable( undefined );
-					// editor.editable( newEditable );
-					// editor.fire( 'contentDom' );
-					console.log( '***' );
-					console.log( newEditable.getDocument().getWindow() );
-					editor.editable( newEditable, true );
-					console.log( editor.editable().getDocument().getWindow() );
-					// editor.getSelection();
-					// newEditable.on( 'contentDom', function( params ) {
-					// 	console.log( 'WTF WITH DOM?!' );
-					// } )
-					console.log( 'set random data on another load' );
-					editor.setData( 'sad', function( params ) {
-						// editor.mode = 'wysiwyg';
-					} );
-					// editor.mode = 'wysiwyg';
-					// editor.setData( editor.getData( 1 ), callback );
-					// evt && evt.removeListener();
-					// iframe.remove();
-
-					// editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-					// editor.setData( editor.getData( 1 ), callback );
-
-					// editor.setMode( 'wysiwyg', function() {}, true );
-					// DUP( );
-					// var newIframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
-					// newIframe.setStyles( { width: '100%', height: '100%' } );
-					// newIframe.addClass( 'cke_wysiwyg_frame' ).addClass( 'cke_reset' );
-
-					// var newContentSpace = editor.ui.space( 'contents' );
-					// newContentSpace.append( iframe );
-
-
-
-					// // console.log( 'heja' );
-					// // editor.editable().detach();
-					// // console.log( arguments );
-					// editor.editable( new framedWysiwyg( editor, newIframe.$.contentWindow.document.body ) );
-
+					editor.editable( newEditable );
+					editor.setData( cacheData, callback );
 				} );
 			} );
 		}
