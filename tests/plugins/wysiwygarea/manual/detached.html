@@ -1,4 +1,5 @@
 <button id="toggleButton1">Toggle show 1</button>
+<button id="setButton">Set data</button>
 
 <div>
 	<div id="editor">
@@ -29,6 +30,11 @@
 	e.setData("<p>ole!</p>");
 
 	var btn = CKEDITOR.document.getById("toggleButton1");
+	var setBtn = CKEDITOR.document.getById("setButton");
+
+	setBtn.on ('click', function() {
+		e.setData('any any any');
+	});
 
 	var t = false;
 	btn.on( 'click', function() {
