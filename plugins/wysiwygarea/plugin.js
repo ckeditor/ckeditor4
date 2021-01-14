@@ -95,59 +95,59 @@
 							}
 
 							editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-							console.log( 'set data from plugin' );
+							// console.log( 'set data from plugin' );
 							editor.setData( editor.getData( 1 ), callback );
-							console.warn( 'onloadFromSetData = FALSE' , 'post first onload' );
+							// console.warn( 'onloadFromSetData = FALSE' , 'post first onload' );
 							iframe.$.onloadFromSetData = false;
 							iframe.$.guard = true;
-						}
-						iframe.on( 'load', function( evt ) {
-							if ( iframe.$.guard ) {
-								iframe.$.guard = false;
-								return;
-							}
-							// console.warn( 'second onload' );
-							// console.log( 'guard', iframe.$.guard );
-							// return;
-							if ( iframe.$.onloadFromSetData ) {
-								// console.log( 'onload from setData' );
-								// console.log( 'onloadFromSetData = FALSE', 'prevent onload' );
+							iframe.on( 'load', function( evt ) {
+								if ( iframe.$.guard ) {
+									iframe.$.guard = false;
+									return;
+								}
+								// console.warn( 'second onload' );
+								// console.log( 'guard', iframe.$.guard );
+								// return;
+								if ( iframe.$.onloadFromSetData ) {
+									// console.log( 'onload from setData' );
+									// console.log( 'onloadFromSetData = FALSE', 'prevent onload' );
+									iframe.$.onloadFromSetData = false;
+									return;
+								}
+								// evt && evt.removeListener();
+								// console.warn( 'editable data', iframe.$.contentWindow.document.body );
+								// debugger;
+								// var iframeBody = new CKEDITOR.dom.element( iframe.$.contentWindow.document.body );
+
+								// console.log( iframe.$.contentWindow.document.body );
+
+
+								// console.log( iframeBody.hasClass( 'cke_editable' ) );
+
+	//SPRAWDZ CZY BODY MA POPRAWNE KLASY
+	//JEŻELI NIE MA< TO ZNACZY ZE IFRAME FAKTYCZNIE SIE PRZEŁADOWAŁ
+
+								// console.warn( '%c second onload', 'background: yellow; color: black;' );
+								// console.log( 'backup onload + prevent?', iframe.$.onloadFromSetData );
+
+								// if ( iframe.$.onloadFromSetData ) {
+								// 	iframe.$.onloadFromSetData = false;
+								// 	return;
+								// }
+
+								var cacheData = editor.getData( false );
+
+								// Remove current editable, but preserve iframe
+								editor.editable().saveIframe = true;
+								editor.editable( 0 );
+
+								var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
+								editor.editable( newEditable );
+								editor.setData( cacheData, callback );
+								// console.log( 'onloadFromSetData = FALSE', 'post second onload' );
 								iframe.$.onloadFromSetData = false;
-								return;
-							}
-							// evt && evt.removeListener();
-							// console.warn( 'editable data', iframe.$.contentWindow.document.body );
-							// debugger;
-							// var iframeBody = new CKEDITOR.dom.element( iframe.$.contentWindow.document.body );
-
-							// console.log( iframe.$.contentWindow.document.body );
-
-
-							// console.log( iframeBody.hasClass( 'cke_editable' ) );
-
-//SPRAWDZ CZY BODY MA POPRAWNE KLASY
-//JEŻELI NIE MA< TO ZNACZY ZE IFRAME FAKTYCZNIE SIE PRZEŁADOWAŁ
-
-							console.warn( '%c second onload', 'background: yellow; color: black;' );
-							// console.log( 'backup onload + prevent?', iframe.$.onloadFromSetData );
-
-							// if ( iframe.$.onloadFromSetData ) {
-							// 	iframe.$.onloadFromSetData = false;
-							// 	return;
-							// }
-
-							var cacheData = editor.getData( false );
-
-							// Remove current editable, but preserve iframe
-							editor.editable().saveIframe = true;
-							editor.editable( 0 );
-
-							var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
-							editor.editable( newEditable );
-							editor.setData( cacheData, callback );
-							// console.log( 'onloadFromSetData = FALSE', 'post second onload' );
-							iframe.$.onloadFromSetData = false;
-						} );
+							} );
+						}
 
 					} );
 		}
@@ -531,11 +531,11 @@
 
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
 					// if ( !CKEDITOR.env.gecko && !CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-					console.log( 'onloadFromSetData = TRUE' );
+					// console.log( 'onloadFromSetData = TRUE' );
 					iframe.$.onloadFromSetData = true;
 					// }
 
-					console.warn( 'SetData in plugin' );
+					// console.warn( 'SetData in plugin' );
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
 					try {
@@ -587,10 +587,10 @@
 
 			detach: function() {
 				if ( this.saveIframe ) {
-					console.log( 'save iframe' );
+					// console.log( 'save iframe' );
 					return;
 				}
-				console.log( 'detach!!!' );
+				// console.log( 'detach!!!' );
 				var editor = this.editor,
 					doc = editor.document,
 					iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
