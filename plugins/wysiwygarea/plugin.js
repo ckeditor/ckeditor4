@@ -491,7 +491,10 @@
 
 					//prevent iframe onload event, since it recreate new editable, and try to setData...
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
-					iframe.$.preventOnload = true;
+
+					if ( !CKEDITOR.env.gecko ) {
+						iframe.$.preventOnload = true;
+					}
 
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
