@@ -492,7 +492,7 @@
 					//prevent iframe onload event, since it recreate new editable, and try to setData...
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
 
-					if ( !CKEDITOR.env.gecko ) {
+					if ( !CKEDITOR.env.gecko || !CKEDITOR.env.ie ) {
 						iframe.$.preventOnload = true;
 					}
 
