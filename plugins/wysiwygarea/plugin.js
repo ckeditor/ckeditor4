@@ -21,100 +21,135 @@
 			}
 
 			editor.addMode( 'wysiwyg', function( callback ) {
-				var src = 'document.open();' +
-					// In IE, the document domain must be set any time we call document.open().
-					( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
-					'document.close();';
+						var src = 'document.open();' +
+							// In IE, the document domain must be set any time we call document.open().
+							( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
+							'document.close();';
 
 				// With IE, the custom domain has to be taken care at first,
 				// for other browers, the 'src' attribute should be left empty to
 				// trigger iframe's 'load' event.
 				// Microsoft Edge throws "Permission Denied" if treated like an IE (https://dev.ckeditor.com/ticket/13441).
-				if ( CKEDITOR.env.air ) {
-					src = 'javascript:void(0)'; // jshint ignore:line
-				} else if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-					src = 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'; // jshint ignore:line
-				} else {
-					src = '';
-				}
+						if ( CKEDITOR.env.air ) {
+							src = 'javascript:void(0)'; // jshint ignore:line
+						} else if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+							src = 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'; // jshint ignore:line
+						} else {
+							src = '';
+						}
 
-				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
-				iframe.setStyles( { width: '100%', height: '100%' } );
-				iframe.addClass( 'cke_wysiwyg_frame' ).addClass( 'cke_reset' );
+						var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
+						iframe.setStyles( { width: '100%', height: '100%' } );
+						iframe.addClass( 'cke_wysiwyg_frame' ).addClass( 'cke_reset' );
 
-				var contentSpace = editor.ui.space( 'contents' );
-				contentSpace.append( iframe );
+						var contentSpace = editor.ui.space( 'contents' );
+						contentSpace.append( iframe );
 
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
-				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
-				if ( useOnloadEvent )
-					iframe.on( 'load', onLoad );
+						var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
+						if ( useOnloadEvent )
+							iframe.on( 'load', onLoad );
 
-				var frameLabel = editor.title,
-					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+						var frameLabel = editor.title,
+							helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
 
-				if ( frameLabel ) {
-					if ( CKEDITOR.env.ie && helpLabel )
-						frameLabel += ', ' + helpLabel;
+						if ( frameLabel ) {
+							if ( CKEDITOR.env.ie && helpLabel )
+								frameLabel += ', ' + helpLabel;
 
-					iframe.setAttribute( 'title', frameLabel );
-				}
-
-				if ( helpLabel ) {
-					var labelId = CKEDITOR.tools.getNextId(),
-						desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + helpLabel + '</span>' );
-
-					contentSpace.append( desc, 1 );
-					iframe.setAttribute( 'aria-describedby', labelId );
-				}
-
-				// Remove the ARIA description.
-				editor.on( 'beforeModeUnload', function( evt ) {
-					evt.removeListener();
-					if ( desc )
-						desc.remove();
-				} );
-
-				iframe.setAttributes( {
-					tabIndex: editor.tabIndex,
-					allowTransparency: 'true'
-				} );
-
-				// Execute onLoad manually for all non IE||Gecko browsers.
-				!useOnloadEvent && onLoad();
-
-				editor.fire( 'ariaWidget', iframe );
-
-				function onLoad( evt ) {
-					evt && evt.removeListener();
-
-					if ( editor.isDestroyed() || editor.isDetached() ) {
-						return;
-					}
-
-					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-					editor.setData( editor.getData( 1 ), callback );
-
-					iframe.on( 'load', function( evt ) {
-						if ( iframe.$.preventOnload ) {
-							iframe.$.preventOnload = false;
-							return;
+							iframe.setAttribute( 'title', frameLabel );
 						}
 
-						var cacheData = editor.getData( false );
+						if ( helpLabel ) {
+							var labelId = CKEDITOR.tools.getNextId(),
+								desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + helpLabel + '</span>' );
 
-						// Remove current editable, but preserve iframe
-						editor.editable().saveIframe = true;
-						editor.editable( 0 );
+							contentSpace.append( desc, 1 );
+							iframe.setAttribute( 'aria-describedby', labelId );
+						}
 
-						var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
-						editor.editable( newEditable );
-						editor.setData( cacheData, callback );
+				// Remove the ARIA description.
+						editor.on( 'beforeModeUnload', function( evt ) {
+							evt.removeListener();
+							if ( desc )
+								desc.remove();
+						} );
+
+						iframe.setAttributes( {
+							tabIndex: editor.tabIndex,
+							allowTransparency: 'true'
+						} );
+
+				// Execute onLoad manually for all non IE||Gecko browsers.
+						!useOnloadEvent && onLoad();
+
+						editor.fire( 'ariaWidget', iframe );
+
+						function onLoad( evt ) {
+
+							evt && evt.removeListener();
+
+							if ( editor.isDestroyed() || editor.isDetached() ) {
+								return;
+							}
+
+							editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
+							console.log( 'set data from plugin' );
+							editor.setData( editor.getData( 1 ), callback );
+							console.warn( 'onloadFromSetData = FALSE' , 'post first onload' );
+							iframe.$.onloadFromSetData = false;
+							iframe.$.guard = true;
+						}
+						iframe.on( 'load', function( evt ) {
+							if ( iframe.$.guard ) {
+								iframe.$.guard = false;
+								return;
+							}
+							// console.warn( 'second onload' );
+							// console.log( 'guard', iframe.$.guard );
+							// return;
+							if ( iframe.$.onloadFromSetData ) {
+								// console.log( 'onload from setData' );
+								// console.log( 'onloadFromSetData = FALSE', 'prevent onload' );
+								iframe.$.onloadFromSetData = false;
+								return;
+							}
+							// evt && evt.removeListener();
+							// console.warn( 'editable data', iframe.$.contentWindow.document.body );
+							// debugger;
+							// var iframeBody = new CKEDITOR.dom.element( iframe.$.contentWindow.document.body );
+
+							// console.log( iframe.$.contentWindow.document.body );
+
+
+							// console.log( iframeBody.hasClass( 'cke_editable' ) );
+
+//SPRAWDZ CZY BODY MA POPRAWNE KLASY
+//JEŻELI NIE MA< TO ZNACZY ZE IFRAME FAKTYCZNIE SIE PRZEŁADOWAŁ
+
+							console.warn( '%c second onload', 'background: yellow; color: black;' );
+							// console.log( 'backup onload + prevent?', iframe.$.onloadFromSetData );
+
+							// if ( iframe.$.onloadFromSetData ) {
+							// 	iframe.$.onloadFromSetData = false;
+							// 	return;
+							// }
+
+							var cacheData = editor.getData( false );
+
+							// Remove current editable, but preserve iframe
+							editor.editable().saveIframe = true;
+							editor.editable( 0 );
+
+							var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
+							editor.editable( newEditable );
+							editor.setData( cacheData, callback );
+							// console.log( 'onloadFromSetData = FALSE', 'post second onload' );
+							iframe.$.onloadFromSetData = false;
+						} );
+
 					} );
-				}
-
-			} );
 		}
 	} );
 
@@ -352,8 +387,10 @@
 		proto: {
 			flag: false,
 			setData: function( data, isSnapshot ) {
+				// console.log( 'Set data in plugin' );
 				var editor = this.editor;
 				if ( isSnapshot ) {
+					// console.log( 'isSnapshot', isSnapshot );
 					this.setHtml( data );
 					this.fixInitialSelection();
 
@@ -490,12 +527,15 @@
 					var doc = this.getDocument();
 
 					//prevent iframe onload event, since it recreate new editable, and try to setData...
+					// console.log( CKEDITOR.env.ie, CKEDITOR.env.edge );
+
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
+					// if ( !CKEDITOR.env.gecko && !CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					console.log( 'onloadFromSetData = TRUE' );
+					iframe.$.onloadFromSetData = true;
+					// }
 
-					if ( !CKEDITOR.env.gecko || !CKEDITOR.env.ie ) {
-						iframe.$.preventOnload = true;
-					}
-
+					console.warn( 'SetData in plugin' );
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
 					try {
@@ -547,8 +587,10 @@
 
 			detach: function() {
 				if ( this.saveIframe ) {
+					console.log( 'save iframe' );
 					return;
 				}
+				console.log( 'detach!!!' );
 				var editor = this.editor,
 					doc = editor.document,
 					iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
