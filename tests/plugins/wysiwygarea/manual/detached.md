@@ -1,11 +1,23 @@
-@bender-tags: 4.6.1, bug, trac11064, widgetselection
+@bender-tags: 4.16.0, bug, 4462, wysiwygarea
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,widgetselection,elementspath,undo
+@bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
 
 1. Open dev console
-1. Click toggle button twice. To hide and show editor.
+2. Click "Toggle" button twice. To hide and show editor.
 
-	**Expected:** Editor loaded with same content.
+	**Expected:** Editor shows with same data. Content is editable. Elementspath (at the bottom is updated).
 
-	**Unexpected:** Editor data is lost, area is not editable.
+	**Unexpected:** Editor data is lost, content area is not editable.
+
+3. Write some text in editor.
+
+4. Repeat step 2.
+
+5. Click "Set data" button.
+
+6. Repeat step 2.
+
+7. Write some additional text.
+
+8. Repeat step 2.
