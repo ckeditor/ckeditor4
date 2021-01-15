@@ -141,7 +141,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 			// Catch Edge `Permission denied` error which occurs randomly. Since the error is quite
 			// random, catching allows to continue the code execution and cleanup (#3419).
 			} catch ( error ) {
-				if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
+				if ( ( !CKEDITOR.env.edge && !CKEDITOR.env.ie ) || error.number !== -2146828218 ) {
 					throw( error );
 				}
 			}
