@@ -97,7 +97,10 @@
 							editor.setData( editor.getData( 1 ), callback );
 
 							iframe.$.onloadFromSetData = false;
-							iframe.$.guard = true;
+							if ( !CKEDITOR.env.gecko ) {
+								iframe.$.guard = true;
+							}
+
 							iframe.on( 'load', function( evt ) {
 								if ( iframe.$.guard ) {
 									iframe.$.guard = false;
