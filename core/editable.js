@@ -1307,7 +1307,6 @@
 		// This editor has already associated with
 		// an editable element, silently fails.
 		if ( editable && element ) {
-			console.log( '%c ### ### editable silent fail', 'background: pink' );
 			return 0;
 		}
 
