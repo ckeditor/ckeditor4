@@ -14,6 +14,12 @@ Fixed Issues:
 
 * [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Fixed: No images are imported from Microsoft Word when content pasted by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin if there is at least one image in unsupported format.
 * [#1134](https://github.com/ckeditor/ckeditor4/issues/1134): [Safari] Fixed: [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) does not embed images.
+* [#2208](https://github.com/ckeditor/ckeditor4/issues/2208): [IE] Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin duplicates the native browser implementation.
+* [#1824](https://github.com/ckeditor/ckeditor4/issues/1824): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin should require [Link](https://ckeditor.com/cke4/addon/link) plugin.
+* [#4253](https://github.com/ckeditor/ckeditor4/issues/4253): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin throws an error during editor initialization with [fullpage](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-fullPage) enabled when there is no `body` tag in editor content.
+* [#4372](https://github.com/ckeditor/ckeditor4/issues/4372): Fixed: [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin changes editor's width when used with absolute [`config.width`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-width) value.
+* [#4379](https://github.com/ckeditor/ckeditor4/issues/4379): [Edge] Fixed: Incorrect detection of [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
+* [#4422](https://github.com/ckeditor/ckeditor4/issues/4422): Fixed: Missing space between button name and keyboard shortcut inside button label in [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
 
 API Changes:
 
@@ -21,17 +27,6 @@ API Changes:
 * [#4297](https://github.com/ckeditor/ckeditor4/issues/4297): All [`CKEDITOR.plugins.pastetools.filters`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters.html) are now available under [`CKEDITOR.pasteTools`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-pasteTools) alias.
 * [#4358](https://github.com/ckeditor/ckeditor4/issues/4358): Introduced [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html) class which adds colors validation and methods for converting colors between various formats: named colors, HEX, RGB, RGBA, HSL and HSLA.
 * [#4394](https://github.com/ckeditor/ckeditor4/issues/4394): Introduced [`CKEDITOR.ajax`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html) specialized loading methods for loading binary ([`CKEDITOR.ajax.loadBinary()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html#method-loadBinary)) and text ([`CKEDITOR.ajax.loadText()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html#method-loadText)) data.
-
-## CKEditor 4.15.2
-
-Fixed Issues:
-
-* [#2208](https://github.com/ckeditor/ckeditor4/issues/2208): [IE] Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin duplicates the native browser implementation.
-* [#1824](https://github.com/ckeditor/ckeditor4/issues/1824): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin should require [Link](https://ckeditor.com/cke4/addon/link) plugin.
-* [#4253](https://github.com/ckeditor/ckeditor4/issues/4253): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin throws an error during editor initialization with [fullpage](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-fullPage) enabled when there is no `body` tag in editor content.
-* [#4372](https://github.com/ckeditor/ckeditor4/issues/4372): Fixed: [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin changes editor's width when used with absolute [`config.width`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-width) value.
-* [#4379](https://github.com/ckeditor/ckeditor4/issues/4379): [Edge] Fixed: Incorrect detection of [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
-* [#4422](https://github.com/ckeditor/ckeditor4/issues/4422): Fixed: Missing space between button name and keyboard shortcut inside button label in [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
 
 ## CKEditor 4.15.1
 
