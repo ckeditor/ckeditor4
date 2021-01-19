@@ -1,4 +1,4 @@
-@bender-tags: feature, 4.15.2, 4379
+@bender-tags: feature, 4.16.0, 4379
 @bender-ui: collapsed
 
 1. Run the test with disableb high contrast mode in your OS.

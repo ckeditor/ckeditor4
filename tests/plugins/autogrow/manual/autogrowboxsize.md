@@ -1,4 +1,4 @@
-@bender-tags: 4.15.2, bug, 4372
+@bender-tags: 4.16.0, bug, 4372
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, autogrow, basicstyles, toolbar, resize
 
