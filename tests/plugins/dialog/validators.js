@@ -6,6 +6,11 @@ bender.test( {
 		this.inlineStyleValidator = CKEDITOR.dialog.validate.inlineStyle( 'Invalid inline styles!' );
 	},
 
+	tearDown: function() {
+		this.inlineStyleValidator = null;
+		this.getValue = null;
+	},
+
 	'test empty styles validates to true': function() {
 		setupValueGetter( '', this );
 		assert.isTrue( this.inlineStyleValidator() );
