@@ -1,0 +1,11 @@
+<iframe id="editorframe" frameborder="0" width="100%" height="410"></iframe>
+
+<script>
+	( function() {
+		if ( CKEDITOR.version === '%VERSION%' || !CKEDITOR.env.webkit ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.document.getById( 'editorframe' ).setAttribute( 'src', '%BASE_PATH%core/ckeditor/manual/_assets/hctest.html' );
+	} )();
+</script>

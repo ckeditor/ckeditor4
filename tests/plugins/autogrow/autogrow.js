@@ -9,12 +9,37 @@
 	bender.editor = {};
 
 	bender.test( {
-		// (#4286)
-		'test autogrow': function() {
+		setUp: function() {
 			if ( bender.env.ie && bender.env.version < 9 ) {
 				assert.ignore();
 			}
-
+		},
+		// (#4372)
+		'test autogrow for editor width 200%': function() {
+			autogrowTools.testEditorSizeWithContent( '200%' );
+		},
+		// (#4372)
+		'test autogrow for editor width 20em': function() {
+			autogrowTools.testEditorSizeWithContent( '20em' );
+		},
+		// (#4372)
+		'test autogrow for editor width 200px': function() {
+			autogrowTools.testEditorSizeWithContent( '200px' );
+		},
+		// (#4372)
+		'test autogrow for editor width 200': function() {
+			autogrowTools.testEditorSizeWithContent( 200 );
+		},
+		// (#4372)
+		'test autogrow for editor width 0': function() {
+			autogrowTools.testEditorSizeWithContent( 0 );
+		},
+		// (#4372)
+		'test autogrow for editor width auto': function() {
+			autogrowTools.testEditorSizeWithContent( 'auto' );
+		},
+		// (#4286)
+		'test autogrow': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				initialEditorSize = autogrowTools.getEditorSize( editor );

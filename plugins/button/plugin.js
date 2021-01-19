@@ -42,7 +42,7 @@
 
 	template += '>&nbsp;</span>' +
 		'<span id="{id}_label" class="cke_button_label cke_button__{name}_label" aria-hidden="false">{label}</span>' +
-		'<span id="{id}_description" class="cke_button_label" aria-hidden="false">{ariaShortcut}</span>' +
+		'<span id="{id}_description" class="cke_button_label" aria-hidden="false">{ariaShortcutSpace}{ariaShortcut}</span>' +
 		'{arrowHtml}' +
 		'</a>';
 
@@ -300,6 +300,7 @@
 				state: stateName,
 				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
 				title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
+				ariaShortcutSpace: shortcut ? '&nbsp;' : '',
 				ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
 				titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: typeof this.hasArrow === 'string' && this.hasArrow || ( this.hasArrow ? 'true' : 'false' ),

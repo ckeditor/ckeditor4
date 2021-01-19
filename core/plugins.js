@@ -11,6 +11,8 @@
 /**
  * Manages plugins registration and loading.
  *
+ * **Note** This object is an instance of {@link CKEDITOR.resourceManager}.
+ *
  * @class
  * @extends CKEDITOR.resourceManager
  * @singleton

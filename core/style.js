@@ -1888,6 +1888,8 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 /**
  * Manages styles registration and loading. See also {@link CKEDITOR.config#stylesSet}.
  *
+ * **Note** This object is an instance of {@link CKEDITOR.resourceManager}.
+ *
  *		// The set of styles for the <b>Styles</b> drop-down list.
  *		CKEDITOR.stylesSet.add( 'default', [
  *			// Block Styles
