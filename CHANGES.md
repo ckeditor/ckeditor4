@@ -8,7 +8,7 @@ New Features:
 * [#4388](https://github.com/ckeditor/ckeditor4/issues/4388): Added the option to remove an iframe created with the [IFrame Dialog](https://ckeditor.com/cke4/addon/iframe) plugin from the sequential keyboard navigation using the `tabindex` attribute. Thanks to [Timo Kirkkala](https://github.com/kirkkala)!
 * [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin on paste, additionally showing descriptive error messages.
 * [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin on paste, additionally showing descriptive error messages.
-* [#3582](https://github.com/ckeditor/ckeditor4/issues/3582): Introduced smart positioning of the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel used by the [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins. The panel will now be additionally positioned related to browser viewport to be always fully visible.
+* [#3582](https://github.com/ckeditor/ckeditor4/issues/3582): Introduced smart positioning of the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel used by the [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins. The panel will now be additionally positioned related to the browser viewport to be always fully visible.
 
 Fixed Issues:
 
