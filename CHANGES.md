@@ -5,27 +5,27 @@
 
 New Features:
 
-* [#4388](https://github.com/ckeditor/ckeditor4/issues/4388): Added the option to remove an iframe created with the [IFrame Dialog](https://ckeditor.com/cke4/addon/iframe) plugin from the sequential keyboard navigation using the `tabindex` attribute. Thanks to [Timo Kirkkala](https://github.com/kirkkala)!
 * [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin on paste, additionally showing descriptive error messages.
 * [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin on paste, additionally showing descriptive error messages.
 * [#3582](https://github.com/ckeditor/ckeditor4/issues/3582): Introduced smart positioning of the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel used by the [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins. The panel will now be additionally positioned related to the browser viewport to be always fully visible.
+* [#4388](https://github.com/ckeditor/ckeditor4/issues/4388): Added the option to remove an iframe created with the [IFrame Dialog](https://ckeditor.com/cke4/addon/iframe) plugin from the sequential keyboard navigation using the `tabindex` attribute. Thanks to [Timo Kirkkala](https://github.com/kirkkala)!
 
 Fixed Issues:
 
-* [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Fixed: No images are imported from Microsoft Word when the content is pasted via the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin if there is at least one image of unsupported format.
 * [#1134](https://github.com/ckeditor/ckeditor4/issues/1134): [Safari] Fixed: [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) does not embed images.
+* [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Fixed: No images are imported from Microsoft Word when the content is pasted via the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin if there is at least one image of unsupported format.
+* [#4379](https://github.com/ckeditor/ckeditor4/issues/4379): [Edge] Fixed: Incorrect detection of the [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
+* [#4422](https://github.com/ckeditor/ckeditor4/issues/4422): Fixed: Missing space between the button name and the keyboard shortcut inside the button label in the [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
 * [#2208](https://github.com/ckeditor/ckeditor4/issues/2208): [IE] Fixed: The [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin duplicates the native browser implementation.
 * [#1824](https://github.com/ckeditor/ckeditor4/issues/1824): Fixed: The [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin should require the [Link](https://ckeditor.com/cke4/addon/link) plugin.
 * [#4253](https://github.com/ckeditor/ckeditor4/issues/4253): Fixed: The [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin throws an error during the editor initialization with [`config.fullPage`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-fullPage) enabled when there is no `<body>` tag in the editor content.
 * [#4372](https://github.com/ckeditor/ckeditor4/issues/4372): Fixed: The [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin changes the editor's width when used with an absolute [`config.width`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-width) value.
-* [#4379](https://github.com/ckeditor/ckeditor4/issues/4379): [Edge] Fixed: Incorrect detection of the [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
-* [#4422](https://github.com/ckeditor/ckeditor4/issues/4422): Fixed: Missing space between the button name and the keyboard shortcut inside the button label in the [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
 
 API Changes:
 
+* [#4358](https://github.com/ckeditor/ckeditor4/issues/4358): Introduced the [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html) class which adds colors validation and methods for converting colors between various formats: named colors, HEX, RGB, RGBA, HSL and HSLA.
 * [#3782](https://github.com/ckeditor/ckeditor4/issues/3782): Moved the [`CKEDITOR.plugins.pastetools.filters.word.images`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters_word_images.html) filters to the [`CKEDITOR.plugins.pastetools.filters.image`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters_image.html) namespace.
 * [#4297](https://github.com/ckeditor/ckeditor4/issues/4297): All [`CKEDITOR.plugins.pastetools.filters`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters.html) are now available under the [`CKEDITOR.pasteTools`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-pasteTools) alias.
-* [#4358](https://github.com/ckeditor/ckeditor4/issues/4358): Introduced the [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html) class which adds colors validation and methods for converting colors between various formats: named colors, HEX, RGB, RGBA, HSL and HSLA.
 * [#4394](https://github.com/ckeditor/ckeditor4/issues/4394): Introduced [`CKEDITOR.ajax`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html) specialized loading methods for loading binary ([`CKEDITOR.ajax.loadBinary()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html#method-loadBinary)) and text ([`CKEDITOR.ajax.loadText()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html#method-loadText)) data.
 
 ## CKEditor 4.15.1
