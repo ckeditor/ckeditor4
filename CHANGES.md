@@ -7,11 +7,11 @@ CKEditor 4 Changelog
 
 * Fixed ReDoS vulnerability in the [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin.
 
-	Issue summary: It was possible to execute a ReDoS-type attack inside CKEditor 4 by persuading a victim to paste a specially crafted URL-like text into the editor and press `enter` or `space`.
+	Issue summary: It was possible to execute a ReDoS-type attack inside CKEditor 4 by persuading a victim to paste a specially crafted URL-like text into the editor and press <kbd>Enter</kbd> or <kbd>Space</kbd>.
 
 * Fixed ReDoS vulnerability in the [Advanced Tab for Dialogs](https://ckeditor.com/cke4/addon/dialogadvtab) plugin.
 
-	Issue summary: It was possible to execute a ReDoS-type attack inside CKEditor 4 by persuading a victim to paste a specially crafted text into the `Styles` dialog .
+	Issue summary: It was possible to execute a ReDoS-type attack inside CKEditor 4 by persuading a victim to paste a specially crafted text into the Styles dialog.
 
 **An upgrade is highly recommended!**
 
