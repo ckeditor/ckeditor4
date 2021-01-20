@@ -19,7 +19,7 @@ Fixed Issues:
 * [#4253](https://github.com/ckeditor/ckeditor4/issues/4253): Fixed: The [Editor Placeholder](https://ckeditor.com/cke4/addon/editorplaceholder) plugin throws an error during the editor initialization with [`config.fullPage`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-fullPage) enabled when there is no `<body>` tag in the editor content.
 * [#4372](https://github.com/ckeditor/ckeditor4/issues/4372): Fixed: The [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin changes the editor's width when used with an absolute [`config.width`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-width) value.
 * [#4379](https://github.com/ckeditor/ckeditor4/issues/4379): [Edge] Fixed: Incorrect detection of the [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
-* [#4422](https://github.com/ckeditor/ckeditor4/issues/4422): Fixed: Missing space between a button name and a keyboard shortcut inside button label in the  [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
+* [#4422](https://github.com/ckeditor/ckeditor4/issues/4422): Fixed: Missing space between the button name and the keyboard shortcut inside the button label in the [high contrast mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_a11y.html#high-contrast-mode).
 
 API Changes:
 
