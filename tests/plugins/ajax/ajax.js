@@ -102,27 +102,6 @@
 			assert.isNull( data );
 		},
 
-		test_loadXml_async: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) {
-				assert.ignore();
-			}
-
-			var callback = function( data ) {
-				resume( function() {
-					assert.isInstanceOf( CKEDITOR.xml, data );
-					assert.isNotNull( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (null)' );
-					assert.isNotUndefined( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (undefined)' );
-				} );
-			};
-
-			// Defer loading file, because in some cases on IE7 it's done synchronously, so resume() is called before wait().
-			setTimeout( function() {
-				CKEDITOR.ajax.loadXml( '../../_assets/sample.xml', callback );
-			} );
-
-			wait();
-		},
-
 		test_loadXml_async_404: function() {
 			var callback = function( data ) {
 				resume( function() {
@@ -205,6 +184,10 @@
 
 		// (#1134)
 		'test load async xml': function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) {
+				assert.ignore();
+			}
+
 			setTimeout( function() {
 				CKEDITOR.ajax.loadXml( '../../_assets/sample.xml', callback );
 			}, 0 );
