@@ -85,6 +85,12 @@ bender.test( {
 	},
 
 	'test getWidgetDefinition is used by the plugin': function() {
+		// Autolink plugin is disabled in IE to avoid feature duplication,
+		// which causes the test to fail (#4500).
+		if ( CKEDITOR.env.ie ) {
+			assert.ignore();
+		}
+
 		var editor = this.editor,
 			mock = sinon.stub( CKEDITOR.plugins.autoEmbed, 'getWidgetDefinition' ).returns( editor.widgets.registered.embedSemantic );
 
