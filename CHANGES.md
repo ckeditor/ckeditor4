@@ -40,6 +40,10 @@ API Changes:
 * [#4297](https://github.com/ckeditor/ckeditor4/issues/4297): All [`CKEDITOR.plugins.pastetools.filters`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters.html) are now available under the [`CKEDITOR.pasteTools`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-pasteTools) alias.
 * [#4394](https://github.com/ckeditor/ckeditor4/issues/4394): Introduced [`CKEDITOR.ajax`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html) specialized loading methods for loading binary ([`CKEDITOR.ajax.loadBinary()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html#method-loadBinary)) and text ([`CKEDITOR.ajax.loadText()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ajax.html#method-loadText)) data.
 
+Other Changes:
+
+* The [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) (WSC) plugin is now disabled by default in [Standard and Full presets](https://ckeditor.com/cke4/presets). It can be enabled via [`extraPlugins`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-extraPlugins) configuration option.
+
 ## CKEditor 4.15.1
 
 **Security Updates:**
