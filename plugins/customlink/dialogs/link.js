@@ -354,10 +354,11 @@
                       },
                       setup: function(data) {
                         this.allowOnChange = false;
+                        var fileNameLinkElement = document.getElementById('file-name-link');
                         if (data.url) {
                           this.setValue(data.url.url);
-                        } else {
-                          $('#file-name-link')[0].value = '';
+                        } else if (fileNameLinkElement) {
+                          fileNameLinkElement.value = '';
                         }
                         this.allowOnChange = true;
                       },
@@ -405,9 +406,13 @@
               id: 'upload',
               label: 'Upload',
               onChange: function(event) {
-                $('#file-name-link')[0].value = event.data.value
+                var fileNameLinkElement = document.getElementById('file-name-link');
+
+                if (fileNameLinkElement) {
+                  fileNameLinkElement.value = event.data.value
                   .split('\\')
                   .pop();
+                }
 
                 CKEDITOR.dialog
                   .getCurrent()

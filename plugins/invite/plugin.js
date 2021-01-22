@@ -12,7 +12,11 @@ CKEDITOR.plugins.add( 'invite',
 				// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.commandDefinition.html#exec
 				exec : function( editor )
 				{
-					$("#preview").trigger('click');
+					var previewElement = document.getElementById('preview');
+
+					if (previewElement) {
+						previewElement.click();
+					}
 				}
 			});
 		// Create a toolbar button that executes the plugin command.

@@ -1,6 +1,20 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.4
+
+Fixes:
+
+- [#5](https://github.com/interviewstreet/ckeditor-dev/pull/5): Fixed: Plugins wouldn't work because jQuery was not available
+  - removed the use of jQuery from plugins
+  - Sentry
+    - https://sentry.io/share/issue/78e1efe4a7b74fd8a755eca3a6362673/
+    - https://sentry.io/share/issue/2b9b479e683e4c2fba86887958b10c00/
+    - https://sentry.io/share/issue/3f9c8646f59b4855ba0d6b183657fffe/
+  - Jira tickets
+    - [HRWS-1881](https://hackerrank.atlassian.net/browse/HRWS-1881)
+    - [HRWS-1899](https://hackerrank.atlassian.net/browse/HRWS-1899)
+
 ## CKEditor 4.11.4
 
 Fixed Issues:

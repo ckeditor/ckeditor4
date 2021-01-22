@@ -139,8 +139,10 @@ CKEDITOR.dialog.add('image2', function(editor) {
   // dimensions lock is adjusted.
   function onChangeSrc() {
     var value = this.getValue();
-    if (value == '') {
-      $('#file-name-image')[0].value = '';
+    var fileNameLinkElement = document.getElementById('file-name-link');
+
+    if (value == '' && fileNameLinkElement) {
+      fileNameLinkElement.value = '';
     }
     toggleDimensions(false);
 
@@ -475,10 +477,14 @@ CKEDITOR.dialog.add('image2', function(editor) {
             },
             onChange: function(event) {
               var input = this.getInputElement();
+              var fileNameLinkElement = document.getElementById('file-name-link');
+
               if (input.$.files[0].type.match(/^image\/.*/)) { // check if valid image type
-                $('#file-name-image')[0].value = event.data.value
+                if (fileNameLinkElement) {
+                  fileNameLinkElement.value = event.data.value
                   .split('\\')
                   .pop();
+                }
                 CKEDITOR.dialog
                   .getCurrent()
                   .getContentElement('info', 'uploadButton')
