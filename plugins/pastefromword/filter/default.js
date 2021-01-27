@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -1521,82 +1521,6 @@
 	List = plug.lists;
 
 	/**
-	 * Namespace containing a set of image helper methods.
-	 *
-	 * @private
-	 * @since 4.13.0
-	 * @member CKEDITOR.plugins.pastetools.filters.word
-	 */
-	plug.images = {
-		/**
-		 * Parses RTF content to find embedded images. Please be aware that this method should only return `png` and `jpeg` images.
-		 *
-		 * @private
-		 * @since 4.13.0
-		 * @param {String} rtfContent RTF content to be checked for images.
-		 * @returns {Object[]} An array of images found in the `rtfContent`.
-		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
-		 * @returns {String} return.type A string representing the image type. Allowed values: 'image/png', 'image/jpeg'.
-		 * @member CKEDITOR.plugins.pastetools.filters.word.images
-		 */
-		extractFromRtf: function( rtfContent ) {
-			var ret = [],
-				rePictureHeader = /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
-				rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
-				wholeImages,
-				imageType;
-
-			wholeImages = rtfContent.match( rePicture );
-			if ( !wholeImages ) {
-				return ret;
-			}
-
-			for ( var i = 0; i < wholeImages.length; i++ ) {
-				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
-					if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
-						imageType = 'image/png';
-					} else if ( wholeImages[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
-						imageType = 'image/jpeg';
-					} else {
-						continue;
-					}
-
-					ret.push( {
-						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
-						type: imageType
-					} );
-				}
-			}
-
-			return ret;
-		},
-
-		/**
-		 * Extracts an array of `src`` attributes in `<img>` tags from the given HTML. `<img>` tags belonging to VML shapes are removed.
-		 *
-		 *		CKEDITOR.plugins.pastefromword.images.extractTagsFromHtml( html );
-		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
-		 *
-		 * @private
-		 * @since 4.13.0
-		 * @param {String} html A string representing HTML code.
-		 * @returns {String[]} An array of strings representing the `src` attribute of the `<img>` tags found in `html`.
-		 * @member CKEDITOR.plugins.pastetools.filters.word.images
-		 */
-		extractTagsFromHtml: function( html ) {
-			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
-				ret = [],
-				item;
-
-			while ( item = regexp.exec( html ) ) {
-				ret.push( item[ 1 ] );
-			}
-
-			return ret;
-		}
-	};
-
-	/**
 	 * Namespace containing methods used to process the pasted content using heuristics.
 	 *
 	 * @private
@@ -1901,8 +1825,39 @@
 	 * @property {Object} images
 	 * @private
 	 * @deprecated 4.13.0
+	 * @removed 4.16.0
 	 * @since 4.8.0
 	 * @member CKEDITOR.plugins.pastefromword
+	 */
+
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters.image}.
+	 *
+	 * @property {Object} images
+	 * @private
+	 * @removed 4.16.0
+	 * @since 4.13.0
+	 * @member CKEDITOR.plugins.pastetools.filters.word
+	 */
+
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters.image#extractFromRtf}.
+	 *
+	 * @property {Function} extractFromRtf
+	 * @private
+	 * @removed 4.16.0
+	 * @since 4.13.0
+	 * @member CKEDITOR.plugins.pastetools.filters.word.images
+	 */
+
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters.image#extractTagsFromHtml}.
+	 *
+	 * @property {Function} extractTagsFromHtml
+	 * @private
+	 * @removed 4.16.0
+	 * @since 4.13.0
+	 * @member CKEDITOR.plugins.pastetools.filters.word.images
 	 */
 
 	/**
@@ -1924,6 +1879,8 @@
 	 * @since 4.6.0
 	 * @member CKEDITOR.plugins.pastefromword
 	 */
+
+
 
 	/**
 	 * See {@link #pasteTools_removeFontStyles}.

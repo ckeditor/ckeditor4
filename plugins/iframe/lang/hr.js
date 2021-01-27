@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'hr', {
@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'hr', {
 	noUrl: 'Unesite URL IFrame-a',
 	scrolling: 'Omogući trake za skrolanje',
 	title: 'IFrame svojstva',
-	toolbar: 'IFrame'
+	toolbar: 'IFrame',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

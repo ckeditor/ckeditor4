@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'vi', {
@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'vi', {
 	noUrl: 'Vui lòng nhập địa chỉ iframe',
 	scrolling: 'Kích hoạt thanh cuộn',
 	title: 'Thuộc tính iframe',
-	toolbar: 'Iframe'
+	toolbar: 'Iframe',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

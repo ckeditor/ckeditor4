@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'es-mx', {
@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'es-mx', {
 	noUrl: 'Ingresa la URL del iframe',
 	scrolling: 'Habilitar la barra de desplazamiento',
 	title: 'Propiedades del IFrame',
-	toolbar: 'Iframe'
+	toolbar: 'Iframe',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

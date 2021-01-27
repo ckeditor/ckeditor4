@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'da', {
@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'da', {
 	noUrl: 'Venligst indsæt URL på iframen',
 	scrolling: 'Aktiver scrollbars',
 	title: 'Iframe egenskaber',
-	toolbar: 'Iframe'
+	toolbar: 'Iframe',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

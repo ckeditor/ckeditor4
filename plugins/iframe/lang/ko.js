@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'ko', {
@@ -7,5 +7,6 @@ CKEDITOR.plugins.setLang( 'iframe', 'ko', {
 	noUrl: '아이프레임 주소(URL)를 입력해주세요.',
 	scrolling: '스크롤바 사용',
 	title: '아이프레임 속성',
-	toolbar: '아이프레임'
+	toolbar: '아이프레임',
+	tabindex: 'Remove from tabindex' // MISSING
 } );

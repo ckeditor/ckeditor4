@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -50,7 +50,7 @@
 		} );
 
 	CKEDITOR.plugins.add( 'pastetools', {
-		requires: 'clipboard',
+		requires: [ 'clipboard', 'ajax' ],
 		beforeInit: function( editor ) {
 			editor.pasteTools = new PasteTools();
 
@@ -281,5 +281,13 @@
 		return toLoad.length === 0;
 	}
 
-	CKEDITOR.pasteFilters = {};
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters}.
+	 *
+	 * @property {Object} pasteFilters
+	 * @private
+	 * @since 4.13.0
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.pasteFilters = CKEDITOR.plugins.pastetools.filters;
 } )();

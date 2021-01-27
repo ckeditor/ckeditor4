@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -8,7 +8,8 @@
 	// http://www.w3.org/TR/REC-html40/present/frames.html#h-16.5
 	var checkboxValues = {
 		scrolling: { 'true': 'yes', 'false': 'no' },
-		frameborder: { 'true': '1', 'false': '0' }
+		frameborder: { 'true': '1', 'false': '0' },
+		tabindex: { 'true': '-1', 'false': false }
 	};
 
 	function loadValue( iframeNode ) {
@@ -23,15 +24,17 @@
 	}
 
 	function commitValue( iframeNode ) {
-		var isRemove = this.getValue() === '',
+		var value = this.getValue(),
+			attributeName = this.att || this.id,
 			isCheckbox = this instanceof CKEDITOR.ui.dialog.checkbox,
-			value = this.getValue();
-		if ( isRemove )
-			iframeNode.removeAttribute( this.att || this.id );
-		else if ( isCheckbox )
-			iframeNode.setAttribute( this.id, checkboxValues[ this.id ][ value ] );
-		else
-			iframeNode.setAttribute( this.att || this.id, value );
+			attributeValue = isCheckbox ? checkboxValues[ this.id ][ value ] : value,
+			isRemove = value === '' || ( attributeName === 'tabindex' && value === false );
+
+		if ( isRemove ) {
+			iframeNode.removeAttribute( attributeName );
+		} else {
+			iframeNode.setAttribute( attributeName, attributeValue );
+		}
 	}
 
 	CKEDITOR.dialog.add( 'iframe', function( editor ) {
@@ -163,7 +166,7 @@
 				},
 				{
 					type: 'hbox',
-					widths: [ '50%', '50%' ],
+					widths: [ '33%', '33%', '33%' ],
 					children: [ {
 						id: 'scrolling',
 						type: 'checkbox',
@@ -177,6 +180,14 @@
 						type: 'checkbox',
 						requiredContent: 'iframe[frameborder]',
 						label: iframeLang.border,
+						setup: loadValue,
+						commit: commitValue
+					},
+					{
+						id: 'tabindex',
+						type: 'checkbox',
+						requiredContent: 'iframe[tabindex]',
+						label: iframeLang.tabindex,
 						setup: loadValue,
 						commit: commitValue
 					} ]

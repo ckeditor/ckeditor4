@@ -18,6 +18,12 @@ bender.editor = {
 
 bender.test( {
 	'test notifications showed when embedding is finished correctly': function() {
+		// Autolink plugin is disabled in IE to avoid feature duplication,
+		// which causes the test to fail (#4500).
+		if ( CKEDITOR.env.ie ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBot,
 			editor = bot.editor,
 			pastedText = 'https://foo.bar/notifiacation/finish/correct',
@@ -46,6 +52,12 @@ bender.test( {
 	},
 
 	'test notifications showed when embedding is finished with error': function() {
+		// Autolink plugin is disabled in IE to avoid feature duplication,
+		// which causes the test to fail (#4500).
+		if ( CKEDITOR.env.ie ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBot,
 			editor = bot.editor,
 			pastedText = 'https://foo.bar/notifiacation/finish/error',

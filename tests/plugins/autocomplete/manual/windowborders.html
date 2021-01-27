@@ -1,0 +1,120 @@
+<style>
+	body {
+		margin: 0;
+		padding-left: 350px;
+		position: static;
+	}
+
+	.wrapper {
+		position: absolute;
+	}
+
+	.wrapper.horizontal > div:not(:last-of-type) {
+		margin-right: 15px;
+	}
+
+	.wrapper.vertical > div:not(:last-of-type) {
+		margin-bottom: 15px;
+	}
+
+	.wrapper.horizontal {
+		display: inline-flex;
+	}
+
+	.wrapper.vertical {
+		flex-direction: column;
+	}
+
+	.wrapper.left {
+		left: 0;
+	}
+
+	.wrapper.right {
+		right: 0;
+	}
+
+	.wrapper.bottom {
+		bottom: 0;
+	}
+
+	.inline {
+		width: 300px;
+		height: 194px;
+	}
+</style>
+
+<div>
+	<p>Select mode</p>
+	<button type="button" id="left-button">Left</button>
+	<button type="button" id="right-button">Right</button>
+	<button type="button" id="bottom-button">Bottom</button>
+
+	<button type="button" id="reset-button">Reset</button>
+</div>
+
+<div class="wrapper" id="wrapper">
+	<div id="classic">
+		<h3>Classic editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+	</div>
+
+	<div id="divarea">
+		<h3>Divarea editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+	</div>
+
+	<div id="inline" class="inline" contenteditable="true">
+		<p style="padding-top: 40px;">Fake toolbar</p>
+		<h3>Inline editor</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, veritatis.</p>
+	</div>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var wrapper = CKEDITOR.document.getById( 'wrapper' ),
+		leftButton = CKEDITOR.document.getById( 'left-button' ),
+		rightButton = CKEDITOR.document.getById( 'right-button' ),
+		bottomButton = CKEDITOR.document.getById( 'bottom-button' ),
+		resetButton = CKEDITOR.document.getById( 'reset-button' );
+
+	leftButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper vertical left' );
+	} );
+
+	rightButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper vertical right' );
+	} );
+
+	bottomButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper horizontal bottom' );
+	} );
+
+	resetButton.on( 'click', function() {
+		wrapper.setAttribute( 'class', 'wrapper' );
+	} );
+
+	var config = {
+		width: 300,
+		height: 180,
+		language: 'en',
+		extraAllowedContent: 'h3; p{padding*}',
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
+			}
+		}
+	};
+
+	CKEDITOR.replace( 'classic', config );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( { extraPlugins: 'divarea' }, config ) );
+	CKEDITOR.inline( 'inline', config );
+</script>

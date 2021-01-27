@@ -1,0 +1,19 @@
+<div id="editor"></div>
+<div>
+	<a href="#">First link</a>
+
+	<div id="content"></div>
+
+	<a href="#">Second link</a>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		language: 'en',
+		on: {
+			change: function() {
+				CKEDITOR.document.findOne( '#content' ).setHtml( this.getData() );
+			}
+		}
+	} );
+</script>

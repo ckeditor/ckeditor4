@@ -1,0 +1,36 @@
+<div id="classic">
+	<h3>Classic editor</h3>
+	<h3>Classic editor</h3>
+	<h3>Classic editor</h3>
+	<h3>Classic editor</h3>
+	<h3>Classic editor</h3>
+	<h3>Classic editor</h3>
+	<h3>Classic editor</h3>
+</div>
+<div style="height: 2000px; width: 300px; background-color: antiquewhite;"></div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var config = {
+		extraPlugins: 'resize',
+		width: 300,
+		height: 300,
+		language: 'en',
+		extraAllowedContent: 'h3; p{padding*}',
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
+			}
+		}
+	};
+
+	CKEDITOR.replace( 'classic', config );
+</script>

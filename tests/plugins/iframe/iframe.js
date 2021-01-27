@@ -78,5 +78,37 @@ bender.test( {
 				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
 			} );
 		} );
+	},
+
+	// (#4388)
+	'test disabling iframe from tabindex': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setHtmlWithSelection( editor.dataProcessor.toHtml( '[<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" width="100%"></iframe>]' ) );
+
+		bot.dialog( 'iframe', function( dialog ) {
+			dialog.setValueOf( 'info', 'tabindex', true );
+
+			dialog.getButton( 'ok' ).click();
+
+			assert.areEqual( '<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" tabindex="-1" width="100%"></iframe>', bot.getData( true ) );
+		} );
+	},
+
+	// (#4388)
+	'test adding iframe back to tabindex': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setHtmlWithSelection( editor.dataProcessor.toHtml( '[<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" tabindex="-1" width="100%"></iframe>]' ) );
+
+		bot.dialog( 'iframe', function( dialog ) {
+			dialog.setValueOf( 'info', 'tabindex', false );
+
+			dialog.getButton( 'ok' ).click();
+
+			assert.areEqual( '<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" width="100%"></iframe>', bot.getData( true ) );
+		} );
 	}
 } );

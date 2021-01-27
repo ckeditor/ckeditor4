@@ -1,6 +1,6 @@
 /* global ActiveXObject */
 /**
- * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -51,21 +51,25 @@
 			return ( xhr.readyState == 4 && ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status == 304 || xhr.status === 0 || xhr.status == 1223 ) );
 		}
 
-		function getResponseText( xhr ) {
-			if ( checkStatus( xhr ) )
-				return xhr.responseText;
-			return null;
-		}
-
-		function getResponseXml( xhr ) {
-			if ( checkStatus( xhr ) ) {
-				var xml = xhr.responseXML;
-				return new CKEDITOR.xml( xml && xml.firstChild ? xml : xhr.responseText );
+		function getResponse( xhr, type ) {
+			if ( !checkStatus( xhr ) ) {
+				return null;
 			}
-			return null;
+
+			switch ( type ) {
+				case 'text':
+					return xhr.responseText;
+				case 'xml':
+					var xml = xhr.responseXML;
+					return new CKEDITOR.xml( xml && xml.firstChild ? xml : xhr.responseText );
+				case 'arraybuffer':
+					return xhr.response;
+				default:
+					return null;
+			}
 		}
 
-		function load( url, callback, getResponseFn ) {
+		function load( url, callback, responseType ) {
 			var async = !!callback;
 
 			var xhr = createXMLHttpRequest();
@@ -73,13 +77,17 @@
 			if ( !xhr )
 				return null;
 
+			if ( async && responseType !== 'text' && responseType !== 'xml' ) {
+				xhr.responseType = responseType;
+			}
+
 			xhr.open( 'GET', url, async );
 
 			if ( async ) {
 				// TODO: perform leak checks on this closure.
 				xhr.onreadystatechange = function() {
 					if ( xhr.readyState == 4 ) {
-						callback( getResponseFn( xhr ) );
+						callback( getResponse( xhr, responseType ) );
 						xhr = null;
 					}
 				};
@@ -87,10 +95,10 @@
 
 			xhr.send( null );
 
-			return async ? '' : getResponseFn( xhr );
+			return async ? '' : getResponse( xhr, responseType );
 		}
 
-		function post( url, data, contentType, callback, getResponseFn ) {
+		function post( url, data, contentType, callback, responseType ) {
 			var xhr = createXMLHttpRequest();
 
 			if ( !xhr )
@@ -101,7 +109,7 @@
 			xhr.onreadystatechange = function() {
 				if ( xhr.readyState == 4 ) {
 					if ( callback ) {
-						callback( getResponseFn( xhr ) );
+						callback( getResponse( xhr, responseType ) );
 					}
 					xhr = null;
 				}
@@ -114,7 +122,7 @@
 
 		return {
 			/**
-			 * Loads data from a URL as plain text.
+			 * Loads data from a given URL.
 			 *
 			 *		// Load data synchronously.
 			 *		var data = CKEDITOR.ajax.load( 'somedata.txt' );
@@ -127,13 +135,16 @@
 			 *
 			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
-			 * data load. If not provided, the data will be loaded
-			 * synchronously.
-			 * @returns {String} The loaded data. For asynchronous requests, an
-			 * empty string. For invalid requests, `null`.
+			 * data load. If not provided, the data will be loaded synchronously.
+			 * @param {String} [responseType='text'] Defines type of returned data.
+			 * Currently supports: `text`, `xml`, `arraybuffer`. This parameter was introduced in `4.16.0`.
+			 * @returns {String/null} The loaded data for synchronous request. For asynchronous requests -
+			 * empty string. For invalid requests - `null`.
 			 */
-			load: function( url, callback ) {
-				return load( url, callback, getResponseText );
+			load: function( url, callback, responseType ) {
+				responseType = responseType || 'text';
+
+				return load( url, callback, responseType );
 			},
 
 			/**
@@ -149,7 +160,7 @@
 			 *			console.log( data );
 			 *		} );
 			 *
-			 * @since 4.4.0
+			 * @since 4.4
 			 * @param {String} url The URL of the request.
 			 * @param {String/Object/Array} data Data passed to `XMLHttpRequest#send`.
 			 * @param {String} [contentType='application/x-www-form-urlencoded; charset=UTF-8'] The value of the `Content-type` header.
@@ -157,11 +168,11 @@
 			 * depending on the `status` of the request.
 			 */
 			post: function( url, data, contentType, callback ) {
-				return post( url, data, contentType, callback, getResponseText );
+				return post( url, data, contentType, callback, 'text' );
 			},
 
 			/**
-			 * Loads data from a URL as XML.
+			 * Loads data from a given URL as XML.
 			 *
 			 *		// Load XML synchronously.
 			 *		var xml = CKEDITOR.ajax.loadXml( 'somedata.xml' );
@@ -175,13 +186,56 @@
 			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded synchronously.
-			 * @returns {CKEDITOR.xml} An XML object storing the loaded data. For asynchronous requests, an
-			 * empty string. For invalid requests, `null`.
+			 * @returns {CKEDITOR.xml} An XML object storing the loaded data for synchronous
+			 * request. For asynchronous requests - empty string. For invalid requests - `null`.
 			 */
 			loadXml: function( url, callback ) {
-				return load( url, callback, getResponseXml );
+				return load( url, callback, 'xml' );
+			},
+
+			/**
+			 * Loads data from a given URL as text.
+			 *
+			 *		// Load text synchronously.
+			 *		var text = CKEDITOR.ajax.loadText( 'somedata.txt' );
+			 *		alert( text );
+			 *
+			 *		// Load text asynchronously.
+			 *		var data = CKEDITOR.ajax.loadText( 'somedata.txt', function( textData ) {
+			 *			alert( textData );
+			 *		} );
+			 *
+			 * @param {String} url The URL from which the data is loaded.
+			 * @param {Function} [callback] A callback function to be called on
+			 * data load. If not provided, the data will be loaded synchronously.
+			 * @returns {String} String storing the loaded data for synchronous
+			 * request. For asynchronous requests - empty string. For invalid requests - `null`.
+			 */
+			loadText: function( url, callback ) {
+				return load( url, callback, 'text' );
+			},
+
+			/**
+			 * Loads data from a given URL as binary data.
+			 *
+			 *		// Load data synchronously.
+			 *		var binaryData = CKEDITOR.ajax.loadBinary( 'somedata.png' );
+			 *		alert( binaryData );
+			 *
+			 *		// Load data asynchronously.
+			 *		var data = CKEDITOR.ajax.loadBinary( 'somedata.png', function( binaryData ) {
+			 *			alert( binaryData );
+			 *		} );
+			 *
+			 * @param {String} url The URL from which the data is loaded.
+			 * @param {Function} [callback] A callback function to be called on
+			 * data load. If not provided, the data will be loaded synchronously.
+			 * @returns {ArrayBuffer} ArrayBuffer storing the loaded data for synchronous
+			 * request. For asynchronous requests - empty string. For invalid requests - `null`.
+			 */
+			loadBinary: function( url, callback ) {
+				return load( url, callback, 'arraybuffer' );
 			}
 		};
 	} )();
-
 } )();

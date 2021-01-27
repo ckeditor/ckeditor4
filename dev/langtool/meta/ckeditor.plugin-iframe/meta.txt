@@ -1,4 +1,4 @@
-# Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 border = Label for the Show frame borders option of the IFrame dialog window.
@@ -6,3 +6,4 @@ noUrl = Error message displayed to the user if one attempts to close the IFrame 
 scrolling = Label for the Enable scrollbars option of the IFrame dialog window.
 title = Label for the IFrame dialog window.
 toolbar = Toolbar button tooltip for the IFrame feature.
+tabindex = Label for the Remove from tabindex option of the IFrame dialog window.

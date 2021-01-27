@@ -102,27 +102,6 @@
 			assert.isNull( data );
 		},
 
-		test_loadXml_async: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) {
-				assert.ignore();
-			}
-
-			var callback = function( data ) {
-				resume( function() {
-					assert.isInstanceOf( CKEDITOR.xml, data );
-					assert.isNotNull( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (null)' );
-					assert.isNotUndefined( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (undefined)' );
-				} );
-			};
-
-			// Defer loading file, because in some cases on IE7 it's done synchronously, so resume() is called before wait().
-			setTimeout( function() {
-				CKEDITOR.ajax.loadXml( '../../_assets/sample.xml', callback );
-			} );
-
-			wait();
-		},
-
 		test_loadXml_async_404: function() {
 			var callback = function( data ) {
 				resume( function() {
@@ -180,6 +159,61 @@
 			} );
 
 			wait();
+		},
+
+		// (#1134) (#4394)
+		'test load async arraybuffer': function() {
+			if ( typeof Blob !== 'function' || typeof Uint8Array !== 'function' || typeof URL !== 'function' ) {
+				assert.ignore();
+			}
+			var testData = [ '0', '1', '2', '3' ];
+			var blobUrl = URL.createObjectURL( new Blob( new Uint8Array( testData ) ) );
+
+			function cb( data ) {
+				resume( function() {
+					// Test data are saved as char codes in buffer. That's why, result is compared to 48-51.
+					arrayAssert.itemsAreSame( [ 48, 49, 50, 51 ], new Uint8Array( data ), 'Data in buffer are not equivalent to stored values.' );
+				} );
+			}
+
+			setTimeout( function() {
+				CKEDITOR.ajax.loadBinary( blobUrl, cb );
+			}, 0 );
+			wait();
+		},
+
+		// (#1134)
+		'test load async xml': function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) {
+				assert.ignore();
+			}
+
+			setTimeout( function() {
+				CKEDITOR.ajax.loadXml( '../../_assets/sample.xml', callback );
+			}, 0 );
+			wait();
+
+			function callback( data ) {
+				resume( function() {
+					assert.isInstanceOf( CKEDITOR.xml, data );
+					assert.isNotNull( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (null)' );
+					assert.isNotUndefined( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (undefined)' );
+				} );
+			}
+		},
+
+		// (#1134) (#4394)
+		'test load async text': function() {
+			setTimeout( function() {
+				CKEDITOR.ajax.loadText( '../../_assets/sample.txt', callback );
+			}, 0 );
+			wait();
+
+			function callback( data ) {
+				resume( function() {
+					assert.areSame( 'Sample Text', data, 'The loaded data doesn\'t match' );
+				} );
+			}
 		}
 	} );
 } )();

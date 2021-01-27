@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -26,7 +26,7 @@
 		init: function( editor ) {
 			var pluginName = 'iframe',
 				lang = editor.lang.iframe,
-				allowed = 'iframe[align,longdesc,frameborder,height,name,scrolling,src,title,width]';
+				allowed = 'iframe[align,longdesc,tabindex,frameborder,height,name,scrolling,src,title,width]';
 
 			if ( editor.plugins.dialogadvtab )
 				allowed += ';iframe' + editor.plugins.dialogadvtab.allowedContent( { id: 1, classes: 1, styles: 1 } );
