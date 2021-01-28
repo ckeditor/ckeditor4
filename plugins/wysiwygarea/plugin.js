@@ -10,7 +10,9 @@
 
 ( function() {
 	var framedWysiwyg;
-
+	function debug( a1,a2,a3,a4,a5 ) {
+		//console.log( a1,a2,a3,a4,a5 );
+	}
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		init: function( editor ) {
 			if ( editor.config.fullPage ) {
@@ -87,6 +89,7 @@
 						editor.fire( 'ariaWidget', iframe );
 
 						function onLoad( evt ) {
+							debug( 'first onload' );
 							evt && evt.removeListener();
 
 							if ( editor.isDestroyed() || editor.isDetached() ) {
@@ -96,20 +99,32 @@
 							editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 							editor.setData( editor.getData( 1 ), callback );
 
+							debug( 'second guard set as false 1', 'end of first onload' );
 							iframe.$.onloadFromSetData = false;
-							if ( !CKEDITOR.env.gecko ) {
+							debug( CKEDITOR.env.edge, CKEDITOR.env.ie, CKEDITOR.env.version );
+							debug( CKEDITOR.env.webkit, CKEDITOR.env.gecko, CKEDITOR.env.chrome, CKEDITOR.env.safari );
+
+							if ( !CKEDITOR.env.gecko && !( CKEDITOR.env.ie && CKEDITOR.env.version >= 10 ) ) {
 								iframe.$.guard = true;
+							}
+							else {
+								debug( 'GUARD not set' );
 							}
 
 							iframe.on( 'load', function( evt ) {
+								debug( '...' );
 								if ( iframe.$.guard ) {
 									iframe.$.guard = false;
+									debug( 'guard stop' );
 									return;
 								}
 								if ( iframe.$.onloadFromSetData ) {
 									iframe.$.onloadFromSetData = false;
+									debug( 'guard setData stop' );
 									return;
 								}
+
+								debug( 'second onload executed' );
 
 								var cacheData = editor.getData( false );
 
@@ -120,6 +135,7 @@
 								var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
 								editor.editable( newEditable );
 								editor.setData( cacheData, callback );
+								debug( 'second guard set as false 2', 'end of second onload' );
 								iframe.$.onloadFromSetData = false;
 							} );
 						}
@@ -502,6 +518,7 @@
 					//prevent iframe onload event, since it recreate new editable, and try to setData...
 
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
+					debug( 'second guard set as true', 'setData in PLUGIN' );
 					iframe.$.onloadFromSetData = true;
 
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
