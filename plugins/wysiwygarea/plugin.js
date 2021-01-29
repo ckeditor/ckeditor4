@@ -104,20 +104,18 @@
 							debug( CKEDITOR.env.edge, CKEDITOR.env.ie, CKEDITOR.env.version );
 							debug( CKEDITOR.env.webkit, CKEDITOR.env.gecko, CKEDITOR.env.chrome, CKEDITOR.env.safari );
 
-							if ( !CKEDITOR.env.gecko && !( CKEDITOR.env.ie && CKEDITOR.env.version >= 10 ) ) {
-								iframe.$.guard = true;
-							}
-							else {
-								debug( 'GUARD not set' );
-							}
+							editor.on( 'mode', backupOnLoad, { iframe: iframe, editor: editor, callback: callback } );
+						}
 
+						function backupOnLoad( evt ) {
+							evt && evt.removeListener();
+							var iframe = this.iframe;
+							var editor = this.editor;
+							var callback = this.callback;
+
+							debug( 'editor instance ready in plugin', 'attach onload!' );
 							iframe.on( 'load', function( evt ) {
 								debug( '...' );
-								if ( iframe.$.guard ) {
-									iframe.$.guard = false;
-									debug( 'guard stop' );
-									return;
-								}
 								if ( iframe.$.onloadFromSetData ) {
 									iframe.$.onloadFromSetData = false;
 									debug( 'guard setData stop' );
@@ -134,6 +132,10 @@
 
 								var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
 								editor.editable( newEditable );
+								if ( CKEDITOR.env.ie ) {
+									// Prevents permission denied
+									editor.focus();
+								}
 								editor.setData( cacheData, callback );
 								debug( 'second guard set as false 2', 'end of second onload' );
 								iframe.$.onloadFromSetData = false;
