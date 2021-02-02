@@ -22,6 +22,25 @@
 				return;
 			}
 
+			editor.on( 'instanceReady', function() {
+				var contents = editor.container.findOne( '.cke_contents'),
+					height = contents.getClientSize().height,
+					sidebar = new CKEDITOR.dom.element( 'div' );
+
+				sidebar.setStyles( {
+					width: '100px',
+					height: height + 'px',
+					backgroundColor: 'grey',
+					float: 'left'
+				} );
+
+				sidebar.insertBefore( contents );
+
+				editor.on( 'resize', function() {
+					sidebar.setStyle( 'height', contents.getClientSize().height + 'px' );
+				} );
+			} );
+
 			editor.addCommand( 'showLineNumbering', {
 				exec: function( editor ) {
 
@@ -31,13 +50,13 @@
 				canUndo: false
 			} );
 
-			if ( editor.ui.addButton ) {
-				editor.ui.addButton( 'LineNumbering', {
-					label: editor.lang.linenumbering.toolbar,
-					command: 'showLineNumbering',
-					toolbar: 'document,30'
-				} );
-			}
+			// if ( editor.ui.addButton ) {
+			// 	editor.ui.addButton( 'LineNumbering', {
+			// 		label: editor.lang.linenumbering.toolbar,
+			// 		command: 'showLineNumbering',
+			// 		toolbar: 'document,30'
+			// 	} );
+			// }
 
 		},
 
