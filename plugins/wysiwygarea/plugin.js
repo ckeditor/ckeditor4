@@ -193,6 +193,7 @@
 		this.$ = body;
 
 		doc = new CKEDITOR.dom.document( doc );
+
 		this.setup();
 		this.fixInitialSelection();
 
@@ -366,9 +367,10 @@
 		base: CKEDITOR.editable,
 
 		proto: {
-			flag: false,
+			saveIframe: false,
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
+
 				if ( isSnapshot ) {
 					this.setHtml( data );
 					this.fixInitialSelection();
@@ -505,8 +507,8 @@
 
 					var doc = this.getDocument();
 
-					//prevent iframe onload event, since it recreate new editable, and try to setData...
-
+					// Prevents iframe onload event
+					// Onload invokes SetData, so it leads to infinite loop
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
 					iframe.$.onloadFromSetData = true;
 
