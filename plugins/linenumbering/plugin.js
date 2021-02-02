@@ -23,36 +23,49 @@
 			}
 
 			editor.on( 'instanceReady', function() {
-				var contents = editor.container.findOne( '.cke_contents'),
-					height = contents.getClientSize().height;
-
 				var sidebarClass = CKEDITOR.tools.createClass( {
 					$: function() {
 						this.$ = new CKEDITOR.dom.element( 'div' );
 						this.$.addClass( 'cke_sidebar' );
+						this.editorContents = editor.container.findOne( '.cke_contents');
 
-
-						this.$.setStyles( {
-							width: '80px',
-							height: height + 'px',
-							backgroundColor: 'grey',
-							float: 'left'
-						} );
+						this.setInitialStyles();
 					},
 
 					proto: {
 						getElement: function() {
 							return this.$;
 						},
+
+						setInitialStyles: function() {
+							this.getElement().setStyles( {
+								width: '80px',
+								height: this.getHeight() + 'px',
+								backgroundColor: 'grey',
+								float: 'left'
+							} );
+						},
+
+						updateHeight: function() {
+							this.getElement().setStyle( 'height', this.getHeight() + 'px' );
+						},
+
+						getHeight: function() {
+							return this.editorContents.getClientSize().height;
+						},
+
+						attach: function() {
+							this.getElement().insertBefore( this.editorContents );
+						}
 					}
 				} );
 
 				var sidebarInstance = new sidebarClass();
 
-				sidebarInstance.getElement().insertBefore( contents );
+				sidebarInstance.attach();
 
 				editor.on( 'resize', function() {
-					sidebarInstance.getElement().setStyle( 'height', contents.getClientSize().height + 'px' );
+					sidebarInstance.updateHeight();
 				} );
 			} );
 
