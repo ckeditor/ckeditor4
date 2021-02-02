@@ -10,6 +10,7 @@
 
 ( function() {
 	var framedWysiwyg;
+
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		init: function( editor ) {
 			if ( editor.config.fullPage ) {
@@ -21,9 +22,9 @@
 
 			editor.addMode( 'wysiwyg', function( callback ) {
 				var src = 'document.open();' +
-						// In IE, the document domain must be set any time we call document.open().
-						( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
-						'document.close();';
+					// In IE, the document domain must be set any time we call document.open().
+					( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
+					'document.close();';
 
 				// With IE, the custom domain has to be taken care at first,
 				// for other browers, the 'src' attribute should be left empty to
