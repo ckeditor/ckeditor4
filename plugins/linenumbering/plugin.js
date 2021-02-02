@@ -24,20 +24,35 @@
 
 			editor.on( 'instanceReady', function() {
 				var contents = editor.container.findOne( '.cke_contents'),
-					height = contents.getClientSize().height,
-					sidebar = new CKEDITOR.dom.element( 'div' );
+					height = contents.getClientSize().height;
 
-				sidebar.setStyles( {
-					width: '100px',
-					height: height + 'px',
-					backgroundColor: 'grey',
-					float: 'left'
+				var sidebarClass = CKEDITOR.tools.createClass( {
+					$: function() {
+						this.$ = new CKEDITOR.dom.element( 'div' );
+						this.$.addClass( 'cke_sidebar' );
+
+
+						this.$.setStyles( {
+							width: '80px',
+							height: height + 'px',
+							backgroundColor: 'grey',
+							float: 'left'
+						} );
+					},
+
+					proto: {
+						getElement: function() {
+							return this.$;
+						},
+					}
 				} );
 
-				sidebar.insertBefore( contents );
+				var sidebarInstance = new sidebarClass();
+
+				sidebarInstance.getElement().insertBefore( contents );
 
 				editor.on( 'resize', function() {
-					sidebar.setStyle( 'height', contents.getClientSize().height + 'px' );
+					sidebarInstance.getElement().setStyle( 'height', contents.getClientSize().height + 'px' );
 				} );
 			} );
 
