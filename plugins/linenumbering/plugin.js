@@ -43,7 +43,7 @@
 
 						setInitialStyles: function() {
 							this.getElement().setStyles( {
-								width: '80px',
+								width: '40px',
 								height: this.getHeight() + 'px',
 								backgroundColor: '#f8f8f8',
 								float: 'left'

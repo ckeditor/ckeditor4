@@ -8,6 +8,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	// %REMOVE_START%
+	config.height = 400;
+
 	config.plugins =
 		'about,' +
 		'a11yhelp,' +
@@ -39,6 +41,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'indentblock,' +
 		'justify,' +
 		'language,' +
+		'linenumbering,' +
 		'link,' +
 		'list,' +
 		'liststyle,' +
