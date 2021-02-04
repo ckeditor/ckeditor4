@@ -9,7 +9,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'linenumbering', {
-		lang: 'en',
+		// lang: 'en',
 		icons: 'linenumbering', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -25,11 +25,15 @@
 			editor.on( 'instanceReady', function() {
 				var sidebarClass = CKEDITOR.tools.createClass( {
 					$: function() {
-						this.$ = new CKEDITOR.dom.element( 'div' );
-						this.$.addClass( 'cke_sidebar' );
+						this.$ = CKEDITOR.dom.element.createFromHtml( '<iframe scrolling="no" class="cke_reset cke_wysiwyg_frame"></iframe>' );
 						this.editorContents = editor.container.findOne( '.cke_contents');
 
 						this.setInitialStyles();
+						this.attach();
+						this.setResizer();
+						this.findParagraphs();
+						this.renderNumbering();
+						this.setupListeners();
 					},
 
 					proto: {
@@ -41,7 +45,7 @@
 							this.getElement().setStyles( {
 								width: '80px',
 								height: this.getHeight() + 'px',
-								backgroundColor: 'grey',
+								backgroundColor: '#f8f8f8',
 								float: 'left'
 							} );
 						},
@@ -56,17 +60,64 @@
 
 						attach: function() {
 							this.getElement().insertBefore( this.editorContents );
+						},
+
+						setResizer: function() {
+							editor.on( 'resize', function() {
+								sidebarInstance.updateHeight();
+							} );
+						},
+
+						setupListeners: function() {
+							editor.on( 'change', function() {
+								this.findParagraphs()
+								this.renderNumbering();
+							}, this );
+
+							editor.editable().getDocument().on( 'scroll', function() {
+								this.getElement().$.contentWindow.scrollTo( 0, editor.editable().getWindow().$.scrollY );
+							}, this );
+						},
+
+						findParagraphs: function() {
+							var list = editor.editable().find( 'p' ).toArray();
+							this.paragraphs = [];
+
+							CKEDITOR.tools.array.forEach( list, function( item ) {
+								this.paragraphs.push( {
+									element: item,
+									position: item.getDocumentPosition().y
+								} );
+							}, this );
+						},
+
+						renderNumbering: function() {
+							var lineCounter = 1;
+
+							this.getElement().getFrameDocument().getBody().setHtml( '' );
+
+							CKEDITOR.tools.array.forEach( this.paragraphs, function( p ) {
+								var paragraph = new CKEDITOR.dom.element( 'p' );
+
+								paragraph.setHtml( lineCounter );
+								lineCounter++;
+
+								paragraph.setStyles( {
+									'font-family': 'Arial',
+									'font-size': '13px',
+									'line-height': '1.6',
+									'margin-top': 0,
+									'position': 'absolute',
+									'top': p.position + 'px'
+								} );
+
+								this.getElement().getFrameDocument().getBody().append( paragraph );
+							}, this );
 						}
 					}
 				} );
 
 				var sidebarInstance = new sidebarClass();
-
-				sidebarInstance.attach();
-
-				editor.on( 'resize', function() {
-					sidebarInstance.updateHeight();
-				} );
 			} );
 
 			editor.addCommand( 'showLineNumbering', {
