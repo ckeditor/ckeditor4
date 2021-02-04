@@ -23,7 +23,7 @@
 			}
 
 			editor.on( 'instanceReady', function() {
-				var sidebarClass = CKEDITOR.tools.createClass( {
+				var Sidebar = CKEDITOR.tools.createClass( {
 					$: function() {
 						this.$ = CKEDITOR.dom.element.createFromHtml( '<iframe scrolling="no" class="cke_reset cke_wysiwyg_frame"></iframe>' );
 						this.editorContents = editor.container.findOne( '.cke_contents');
@@ -117,37 +117,8 @@
 					}
 				} );
 
-				var sidebarInstance = new sidebarClass();
+				var sidebarInstance = new Sidebar();
 			} );
-
-			editor.addCommand( 'showLineNumbering', {
-				exec: function( editor ) {
-
-				},
-				modes: { wysiwyg: 1 },
-				readOnly: 1,
-				canUndo: false
-			} );
-
-			// if ( editor.ui.addButton ) {
-			// 	editor.ui.addButton( 'LineNumbering', {
-			// 		label: editor.lang.linenumbering.toolbar,
-			// 		command: 'showLineNumbering',
-			// 		toolbar: 'document,30'
-			// 	} );
-			// }
-
-		},
-
+		}
 	} );
-
-	/**
-	 * Line Numbering plugin namespace exposing helpers used by the plugin.
-	 *
-	 * @class CKEDITOR.plugins.linenumbering
-	 * @singleton
-	 */
-	CKEDITOR.plugins.linenumbering = {
-
-	};
 } )();
