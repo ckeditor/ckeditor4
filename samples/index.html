@@ -137,7 +137,9 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	</div>
 </footer>
 <script>
-	CKEDITOR.addCss( 'html { counter-reset: line } .cke_editable { margin-left: 30px; } .cke_editable p:before { counter-increment: line; content: counter( line ); position: absolute; left: 10px; color: red; };' );
+	CKEDITOR.addCss(
+		'html { counter-reset: line }.cke_editable { margin-left: 30px; } .cke_editable p:before { counter-increment: line; content: counter( line ); position: absolute; left: 10px; color: red; };'
+	);
 	initSample();
 </script>
 
