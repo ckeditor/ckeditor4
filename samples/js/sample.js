@@ -30,7 +30,139 @@ var initSample = ( function() {
 
 		// Depending on the wysiwygarea plugin availability initialize classic or inline editor.
 		if ( wysiwygareaAvailable ) {
-			CKEDITOR.replace( 'editor' );
+			var PLACEHOLDERS = [{
+				id: 1,
+				name: 'address',
+				title: 'Address',
+				description: 'Customer Support correspondence address.'
+			  },
+			  {
+				id: 2,
+				name: 'assignee',
+				title: 'Assignee Name',
+				description: 'Ticket assignee name.'
+			  },
+			  {
+				id: 3,
+				name: 'deadline',
+				title: 'Deadline Time',
+				description: 'Utmost time to which technician should handle the issue.'
+			  },
+			  {
+				id: 4,
+				name: 'department',
+				title: 'Department Name',
+				description: 'Department name responsible for servicing this ticket.'
+			  },
+			  {
+				id: 5,
+				name: 'caseid',
+				title: 'Case ID',
+				description: 'Unique case number used to distinguish tickets.'
+			  },
+			  {
+				id: 6,
+				name: 'casename',
+				title: 'Case Name',
+				description: 'Name of the ticket provided by the user.'
+			  },
+			  {
+				id: 7,
+				name: 'contact',
+				title: 'Contact E-mail',
+				description: 'Customer Support contact e-mail address.'
+			  },
+			  {
+				id: 8,
+				name: 'customer',
+				title: 'Customer Name',
+				description: 'Receipent of your response.'
+			  },
+			  {
+				id: 9,
+				name: 'hotline',
+				title: 'Hotline Number',
+				description: 'Customer Support Hotline number.'
+			  },
+			  {
+				id: 10,
+				name: 'technician',
+				title: 'Technician Name',
+				description: 'Technician which will handle this ticket.'
+			  }
+			];
+
+			CKEDITOR.addCss('span > .cke_placeholder { background-color: #ffeec2; }');
+
+			CKEDITOR.replace('editor', {
+			  extraPlugins: 'autocomplete,textmatch,toolbar,wysiwygarea,basicstyles,link,undo,placeholder',
+			//   toolbar: [{
+			// 	  name: 'document',
+			// 	  items: ['Undo', 'Redo']
+			// 	},
+			// 	{
+			// 	  name: 'basicstyles',
+			// 	  items: ['Bold', 'Italic']
+			// 	},
+			// 	{
+			// 	  name: 'links',
+			// 	  items: ['Link', 'Unlink']
+			// 	}
+			//   ],
+			  on: {
+				instanceReady: function(evt) {
+				//   var itemTemplate = '<li data-id="{id}">' +
+				// 	'<div><strong class="item-title">{title}</strong></div>' +
+				// 	'<div><i>{description}</i></div>' +
+				// 	'</li>',
+				var outputTemplate = '[[{title}]]<span>&nbsp;</span>';
+
+				var autocomplete = new CKEDITOR.plugins.autocomplete(evt.editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: dataCallback,
+					// itemTemplate: itemTemplate,
+					outputTemplate: outputTemplate
+				  });
+
+				  // Override default getHtmlToInsert to enable rich content output.
+				  autocomplete.getHtmlToInsert = function(item) {
+					return this.outputTemplate.output(item);
+				  }
+				}
+			  }
+			});
+
+			function textTestCallback(range) {
+			  if (!range.collapsed) {
+				return null;
+			  }
+
+			  return CKEDITOR.plugins.textMatch.match(range, matchCallback);
+			}
+
+			function matchCallback(text, offset) {
+			  var pattern = /\[{2}([A-z]|\])*$/,
+				match = text.slice(0, offset)
+				.match(pattern);
+
+			  if (!match) {
+				return null;
+			  }
+
+			  return {
+				start: match.index,
+				end: offset
+			  };
+			}
+
+			function dataCallback(matchInfo, callback) {
+			  var data = PLACEHOLDERS.filter(function(item) {
+				var itemName = '[[' + item.name + ']]';
+				return itemName.indexOf(matchInfo.query.toLowerCase()) == 0;
+			  });
+
+			  callback(data);
+			}
 		} else {
 			editorElement.setAttribute( 'contenteditable', 'true' );
 			CKEDITOR.inline( 'editor' );
