@@ -593,6 +593,10 @@
 			return text === '';
 		}
 
+		function isEmptyBlock( block ) {
+			return block.isBlockBoundary() && isEmptyElement( block );
+		}
+
 		return function( evt ) {
 			var keystroke = evt.data.getKeystroke();
 
@@ -616,8 +620,9 @@
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
 			//added if case to allow removal of empty paragraphs, see incident #1572
 				startElement = sel.getStartElement();
-				if ( startElement.getName() === 'p' && isDeleteAction( keystroke ) && isEmptyElement( startElement ) ) {
+				if ( isEmptyBlock( startElement ) && isDeleteAction( keystroke ) ) {
 					startElement.remove();
+					editor.fire( 'saveSnapshot' );//saves an undo restore point
 				}
 
 				editor.getSelection().fake( next );
