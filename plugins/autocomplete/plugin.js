@@ -609,7 +609,7 @@
 		 * @readonly
 		 * @property {CKEDITOR.template}
 		 */
-		this.itemTemplate = new CKEDITOR.template( '<li data-id="{id}">{name}</li>' );
+		this.itemTemplate = new CKEDITOR.template( '<li id="ac-i-{id}" data-id="{id}" role="option">{name}</li>' );
 
 		/**
 		 * The editor instance.
@@ -663,7 +663,7 @@
 		append: function() {
 			this.document = CKEDITOR.document;
 			this.element = this.createElement();
-
+// this.editor.editable().append(this.element);
 			this.document.getBody().append( this.element );
 		},
 
@@ -717,6 +717,9 @@
 		 */
 		close: function() {
 			this.element.removeClass( 'cke_autocomplete_opened' );
+			this.editor.editable().setAttributes( {
+				'aria-expanded': 'false'
+			} );
 		},
 
 		/**
@@ -727,6 +730,18 @@
 		 */
 		createElement: function() {
 			var el = new CKEDITOR.dom.element( 'ul', this.document );
+			el.setAttributes( {
+				'role': 'listbox',
+				'aria-label': 'autocomp list',
+				'id': 'ac-listbox-list'
+			} );
+			this.editor.editable().setAttributes( {
+				'role': 'combobox',
+				'aria-autocomplete': 'list',
+				'aria-expanded': 'false',
+				'aria-controls': 'ac-listbox-list',
+				'aria-activedescendant': ''
+			} );
 
 			el.addClass( 'cke_autocomplete_panel' );
 			// Below float panels and context menu, but above maximized editor (-5).
@@ -818,6 +833,9 @@
 		 */
 		open: function() {
 			this.element.addClass( 'cke_autocomplete_opened' );
+			this.editor.editable().setAttributes( {
+				'aria-expanded': 'true'
+			} );
 		},
 
 		/**
@@ -829,12 +847,20 @@
 		selectItem: function( itemId ) {
 			if ( this.selectedItemId != null ) {
 				this.getItemById( this.selectedItemId ).removeClass( 'cke_autocomplete_selected' );
+				this.getItemById( this.selectedItemId ).removeAttribute( 'aria-selected' );
+
 			}
 
 			var itemElement = this.getItemById( itemId );
 			itemElement.addClass( 'cke_autocomplete_selected' );
-			this.selectedItemId = itemId;
+			itemElement.setAttributes({
+				'aria-selected': 'true'
+			});
 
+			this.editor.editable().setAttribute( 'aria-activedescendant', 'ac-i-' + itemId );
+
+			this.selectedItemId = itemId;
+			itemElement.focus();
 			this.scrollElementTo( itemElement );
 		},
 
