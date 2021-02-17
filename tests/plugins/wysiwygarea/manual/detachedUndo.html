@@ -1,0 +1,28 @@
+<button id="toggleButton">Toggle</button>
+
+<div id="editorContainer">
+	<div id="editor"></div>
+</div>
+
+<script>
+	var editorElement = document.getElementById( 'editor' ),
+		editorContainer = document.getElementById( 'editorContainer' ),
+		editorContainerParent = editorContainer.parentNode;
+
+	var editor = CKEDITOR.replace( editorElement );
+
+	var toggleButton = CKEDITOR.document.getById( 'toggleButton' );
+
+	var editorDetached = false;
+	toggleButton.on( 'click', function() {
+		if( editorDetached ){
+			editorContainerParent.appendChild( editorContainer );
+		} else {
+			editorContainerParent.removeChild( editorContainer );
+		}
+
+		editorDetached = !editorDetached;
+	} );
+
+</script>
+
