@@ -1,45 +1,36 @@
-<button id="toggleButton1">Toggle</button>
+<button id="toggleButton">Toggle</button>
 <button id="setButton">Set data</button>
 
-<div>
+<div id="editorContainer">
 	<div id="editor">
 		<p>Lorem ipsum dolor sit amet.</p>
 	</div>
 </div>
 
-<div id="fakedId"></div>
-
 <script>
-	var editorElement = document.getElementById("editor");
+	var editorElement = document.getElementById( 'editor' ),
+		editorContainer = document.getElementById( 'editorContainer' ),
+		editorContainerParent = editorContainer.parentNode;
 
-	var textArea = document.createElement("textarea");
+	var editor = CKEDITOR.replace( editorElement );
+	editor.setData( '<p>ole!</p>' );
 
-	editorElement.appendChild(textArea);
+	var toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
+		setButton = CKEDITOR.document.getById( 'setButton' );
 
-
-	var e = CKEDITOR.replace( textArea, {
-		on: {
-			instanceReady:function(evt){}
-		}
-	});
-	e.setData("<p>ole!</p>");
-
-	var btn = CKEDITOR.document.getById("toggleButton1");
-	var setBtn = CKEDITOR.document.getById("setButton");
-
-	setBtn.on ('click', function() {
-		e.setData('any any any');
+	setButton.on ( 'click', function() {
+		editor.setData( 'any any any' );
 	});
 
-	var t = false;
-	btn.on( 'click', function() {
-		if(t){
-			document.getElementById("fakedId").appendChild(editorElement);
+	var editorDetached = false;
+	toggleButton.on( 'click', function() {
+		if( editorDetached ){
+			editorContainerParent.appendChild( editorContainer );
+		} else {
+			editorContainerParent.removeChild( editorContainer );
 		}
-		else {
-			editorElement.parentNode.removeChild(editorElement);
-		}
-		t = !t;
+
+		editorDetached = !editorDetached;
 	} );
 
 </script>
