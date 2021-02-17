@@ -103,9 +103,9 @@
 
 				function backupOnLoad( evt ) {
 					evt && evt.removeListener();
-					var iframe = this.iframe;
-					var editor = this.editor;
-					var callback = this.callback;
+					var iframe = this.iframe,
+						editor = this.editor,
+						callback = this.callback;
 
 					iframe.on( 'load', function( evt ) {
 						if ( iframe.$.onloadFromSetData ) {
