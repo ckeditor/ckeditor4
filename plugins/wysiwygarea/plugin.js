@@ -101,6 +101,7 @@
 					editor.on( 'mode', backupOnLoad, { iframe: iframe, editor: editor, callback: callback } );
 				}
 
+				// (#4462)
 				function backupOnLoad( evt ) {
 					evt && evt.removeListener();
 					var iframe = this.iframe,
@@ -115,7 +116,7 @@
 
 						var cacheData = editor.getData( false );
 
-						// Remove current editable, but preserve iframe
+						// Remove current editable, but preserve iframe.
 						editor.editable().saveIframe = true;
 						editor.editable( null );
 
@@ -123,7 +124,7 @@
 						editor.editable( newEditable );
 
 						if ( CKEDITOR.env.ie ) {
-							// Prevents IE permission denied error
+							// Prevents IE permission denied error.
 							editor.focus();
 						}
 						editor.setData( cacheData, callback );
@@ -507,8 +508,8 @@
 
 					var doc = this.getDocument();
 
-					// Prevents iframe onload event
-					// Onload invokes SetData, so it leads to infinite loop
+					// Prevents iframe onload event.
+					// Onload invokes SetData, so it leads to infinite loop.
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
 					iframe.$.onloadFromSetData = true;
 
