@@ -10,7 +10,7 @@
 
 		image2Setup =  (
 		'<figure class="image">' +
-		'<img alt="alternative text" width="100" height="50" src="_assets/bar.png" />' +
+		'<img alt="alternative text" src="_assets/bar.png" />' +
 		'<figcaption>I&#39;m a description</figcaption>' +
 		'</figure>'
 	),
@@ -22,78 +22,66 @@
 	bender.test( {
 
 		// (#1572)
-		'test press delete to remove an empty block between two widgets': testFactory(
-			{
-				input: image2Setup + createBlock( '&nbsp' ) + codeSnippetSetup,
-				result: image2Setup + codeSnippetSetup,
-				keyCode: deleteKey,
-				config: {
-					allowedContent: true
-				},
-				assertion:	assertBlockDeleted
-			}
-		),
+		'test press del to remove an empty block between two widgets': testFactory( {
+			input: image2Setup + createBlock( '&nbsp' ) + codeSnippetSetup,
+			result: image2Setup + codeSnippetSetup,
+			keyCode: deleteKey,
+			config: {
+				allowedContent: true
+			},
+			assertion:	assertBlockDeleted
+		} ),
 
 		// (#1572)
-		'test press backspace to remove an empty block between two widgets': testFactory(
-			{
-				input: image2Setup + createBlock( '&nbsp' ) + codeSnippetSetup,
-				result: image2Setup + codeSnippetSetup,
-				keyCode: backspace,
-				config: {
-					allowedContent: true
-				},
-				assertion: assertBlockDeleted
-			}
-		),
+		'test press backspace to remove an empty block between two widgets': testFactory( {
+			input: image2Setup + createBlock( '&nbsp' ) + codeSnippetSetup,
+			result: image2Setup + codeSnippetSetup,
+			keyCode: backspace,
+			config: {
+				allowedContent: true
+			},
+			assertion: assertBlockDeleted
+		} ),
 
 		// (#1572)
-		'test press right arrow must not remove a block between two widgets': testFactory(
-			{
-				input: image2Setup + createBlock( '&nbsp' ) + codeSnippetSetup,
-				keyCode: rightArrow,
-				config: {
-					allowedContent: true
-				},
-				assertion: assertNothingHasChanged
-			}
-		),
+		'test press right arrow must not remove a block between two widgets': testFactory( {
+			input: image2Setup + createBlock( '&nbsp' ) + codeSnippetSetup,
+			keyCode: rightArrow,
+			config: {
+				allowedContent: true
+			},
+			assertion: assertNothingHasChanged
+		} ),
 
 		// (#1572)
-		'test press left arrow must not remove a block between two widgets': testFactory(
-			{
-				input: image2Setup + createBlock( '&nbsp' ) + codeSnippetSetup,
-				keyCode: leftArrow,
-				config: {
-					allowedContent: true
-				},
-				assertion: assertNothingHasChanged
-			}
-		),
+		'test press left arrow must not remove a block between two widgets': testFactory( {
+			input: image2Setup + createBlock( '&nbsp' ) + codeSnippetSetup,
+			keyCode: leftArrow,
+			config: {
+				allowedContent: true
+			},
+			assertion: assertNothingHasChanged
+		} ),
 
 		// (#1572)
-		'test press delete must not remove a not empty block between two widgets': testFactory(
-			{
-				input: image2Setup + createBlock( 'Not empty' ) + codeSnippetSetup,
-				keyCode: deleteKey,
-				config: {
-					allowedContent: true
-				},
-				assertion: assertBlockNotDeleted
-			}
-		),
+		'test press del must not remove a not empty block between two widgets': testFactory( {
+			input: image2Setup + createBlock( 'Not empty' ) + codeSnippetSetup,
+			keyCode: deleteKey,
+			config: {
+				allowedContent: true
+			},
+			assertion: assertBlockNotDeleted
+		} ),
 
 		// (#1572)
-		'test press backspace must not remove a not empty block between two widgets': testFactory(
-			{
-				input: image2Setup + createBlock( 'Not empty' ) + codeSnippetSetup,
-				keyCode: backspace,
-				config: {
-					allowedContent: true
-				},
-				assertion: assertBlockNotDeleted
-			}
-		)
+		'test press backspace must not remove a not empty block between two widgets': testFactory( {
+			input: image2Setup + createBlock( 'Not empty' ) + codeSnippetSetup,
+			keyCode: backspace,
+			config: {
+				allowedContent: true
+			},
+			assertion: assertBlockNotDeleted
+		} ),
 	} );
 
 	function testFactory( params ) {
