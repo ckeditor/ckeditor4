@@ -102,6 +102,7 @@
 				}
 
 				// (#4462)
+				// Additional permanent onLoad.
 				function backupOnLoad( evt ) {
 					evt && evt.removeListener();
 					var iframe = this.iframe,
@@ -508,7 +509,7 @@
 
 					var doc = this.getDocument();
 
-					// Prevents iframe onload event.
+					// (#4462) Prevents iframe backup onload event.
 					// Onload invokes SetData, so it leads to infinite loop.
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
 					iframe.$.onloadFromSetData = true;
