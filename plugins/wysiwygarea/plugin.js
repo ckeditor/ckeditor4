@@ -117,7 +117,7 @@
 
 						// Remove current editable, but preserve iframe
 						editor.editable().saveIframe = true;
-						editor.editable( 0 );
+						editor.editable( null );
 
 						var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
 						editor.editable( newEditable );
