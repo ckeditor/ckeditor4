@@ -93,7 +93,7 @@
 						return;
 					}
 
-					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
+					editor.editable( new framedWysiwyg( editor, iframe.getFrameDocument().getBody() ) );
 					editor.setData( editor.getData( 1 ), callback );
 
 					iframe.$.onloadFromSetData = false;
@@ -121,7 +121,7 @@
 						editor.editable().saveIframe = true;
 						editor.editable( null );
 
-						var newEditable = new framedWysiwyg( editor, iframe.$.contentWindow.document.body );
+						var newEditable = new framedWysiwyg( editor, iframe.getFrameDocument().getBody() );
 						editor.editable( newEditable );
 
 						if ( CKEDITOR.env.ie ) {
