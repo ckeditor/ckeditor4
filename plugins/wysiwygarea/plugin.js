@@ -98,11 +98,11 @@
 
 					iframe.$.onloadFromSetData = false;
 
-					editor.on( 'mode', backupOnLoad, { iframe: iframe, editor: editor, callback: callback } );
+					editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
 				}
 
 				// Additional permanent onLoad (#4462).
-				function backupOnLoad( evt ) {
+				function attachIframeReloader( evt ) {
 					evt && evt.removeListener();
 					var iframe = this.iframe,
 						editor = this.editor,
