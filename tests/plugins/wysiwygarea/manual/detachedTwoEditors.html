@@ -1,0 +1,42 @@
+<button id="toggleButton">Toggle</button>
+<button id="setButton">Set data</button>
+
+<div id="editorContainer">
+	<p>Detachable editor</p>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet.</p>
+	</div>
+</div>
+<p>Static editor</p>
+<div id="editorTwo">
+	<p>I won't be hidden!</p>
+</div>
+
+<script>
+	var editorElement = document.getElementById( 'editor' ),
+		editorContainer = document.getElementById( 'editorContainer' ),
+		editorContainerParent = editorContainer.parentNode,
+		editor = CKEDITOR.replace( editorElement ),
+		editorTwo = CKEDITOR.replace( 'editorTwo' ),
+		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
+		setButton = CKEDITOR.document.getById( 'setButton' ),
+		editorDetached = false;
+
+	editor.setData( '<p>ole!</p>' );
+
+	setButton.on( 'click', function() {
+		editor.setData( 'any any any' );
+	} );
+
+	toggleButton.on( 'click', function() {
+		if ( editorDetached ) {
+			editorContainerParent.appendChild( editorContainer );
+		} else {
+			editorContainerParent.removeChild( editorContainer );
+		}
+
+		editorDetached = !editorDetached;
+	} );
+
+</script>
+
