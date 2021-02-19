@@ -3461,6 +3461,19 @@
 		}
 	} );
 
+	function insertParagraphAndSaveSnapshot( widget, where ) {
+		var p = new CKEDITOR.dom.element( 'p' );
+
+		p.appendBogus();
+
+		if ( where === 'below' ) {
+			widget.wrapper.$.parentNode.insertBefore( p.$, widget.wrapper.$.nextSibling );
+		} else {
+			p.insertBefore( widget.wrapper );
+		}
+		widget.editor.fire( 'saveSnapshot' );
+	}
+
 	function copyWidgets( editor, isCut ) {
 		var focused = editor.widgets.focused,
 			isWholeSelection,
@@ -3602,8 +3615,14 @@
 		widget.on( 'key', function( evt ) {
 			var keyCode = evt.data.keyCode;
 
-			// ENTER.
-			if ( keyCode == 13 ) {
+				// SHIFT + UP.
+			if ( keyCode == CKEDITOR.SHIFT + 38 ) {
+				insertParagraphAndSaveSnapshot( widget, 'above' );
+				// SHIFT + DOWN.
+			} else if ( keyCode == CKEDITOR.SHIFT + 40 ) {
+				insertParagraphAndSaveSnapshot( widget, 'below' );
+				// ENTER.
+			} else if ( keyCode == 13 ) {
 				widget.edit();
 				// CTRL+C or CTRL+X.
 			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
