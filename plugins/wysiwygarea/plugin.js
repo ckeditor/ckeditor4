@@ -96,7 +96,7 @@
 					editor.editable( new framedWysiwyg( editor, iframe.getFrameDocument().getBody() ) );
 					editor.setData( editor.getData( 1 ), callback );
 
-					iframe.$.onloadFromSetData = false;
+					shouldRecreateEditable( iframe, false );
 
 					editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
 				}
@@ -109,8 +109,8 @@
 						callback = this.callback;
 
 					iframe.on( 'load', function() {
-						if ( iframe.$.onloadFromSetData ) {
-							iframe.$.onloadFromSetData = false;
+						if ( shouldRecreateEditable( iframe ) ) {
+							shouldRecreateEditable( iframe, false );
 							return;
 						}
 
@@ -128,7 +128,7 @@
 							editor.focus();
 						}
 						editor.setData( cacheData, callback );
-						iframe.$.onloadFromSetData = false;
+						shouldRecreateEditable( iframe, false );
 					} );
 				}
 			} );
@@ -511,7 +511,7 @@
 					// Prevent backup onLoad event.
 					// onload invokes SetData() method, so it leads to infinite loop (#4462).
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
-					iframe.$.onloadFromSetData = true;
+					shouldRecreateEditable( iframe, true );
 
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
@@ -668,6 +668,15 @@
 
 		return css.join( '\n' );
 	}
+
+	function shouldRecreateEditable( iframe, shouldRecreate ) {
+		if ( arguments.length === 1 ) {
+			return iframe.$.onloadFromSetData;
+		}
+
+		iframe.$.onloadFromSetData = shouldRecreate;
+	}
+
 } )();
 
 /**
