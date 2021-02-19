@@ -101,15 +101,14 @@
 					editor.on( 'mode', backupOnLoad, { iframe: iframe, editor: editor, callback: callback } );
 				}
 
-				// (#4462)
-				// Additional permanent onLoad.
+				// Additional permanent onLoad (#4462).
 				function backupOnLoad( evt ) {
 					evt && evt.removeListener();
 					var iframe = this.iframe,
 						editor = this.editor,
 						callback = this.callback;
 
-					iframe.on( 'load', function( evt ) {
+					iframe.on( 'load', function() {
 						if ( iframe.$.onloadFromSetData ) {
 							iframe.$.onloadFromSetData = false;
 							return;
@@ -509,8 +508,8 @@
 
 					var doc = this.getDocument();
 
-					// (#4462) Prevents iframe backup onload event.
-					// Onload invokes SetData, so it leads to infinite loop.
+					// Prevent backup onLoad event.
+					// onload invokes SetData() method, so it leads to infinite loop (#4462).
 					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
 					iframe.$.onloadFromSetData = true;
 
