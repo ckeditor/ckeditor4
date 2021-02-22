@@ -1,0 +1,38 @@
+<button id="toggleButton">Toggle</button>
+<button id="setButton">Set data</button>
+
+<div id="editorContainer">
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet.</p>
+	</div>
+</div>
+
+<script>
+	var editorElement = document.getElementById( 'editor' ),
+		editorContainer = document.getElementById( 'editorContainer' ),
+		editorContainerParent = editorContainer.parentNode,
+		editor = CKEDITOR.replace( editorElement, {
+      		mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
+		} ),
+		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
+		setButton = CKEDITOR.document.getById( 'setButton' ),
+		editorDetached = false;
+
+	editor.setData( '<p>ole!</p>' );
+
+	setButton.on( 'click', function() {
+		editor.setData( 'any any any' );
+	} );
+
+	toggleButton.on( 'click', function() {
+		if ( editorDetached ) {
+			editorContainerParent.appendChild( editorContainer );
+		} else {
+			editorContainerParent.removeChild( editorContainer );
+		}
+
+		editorDetached = !editorDetached;
+	} );
+
+</script>
+
