@@ -2,8 +2,8 @@
 @bender-tags: 4.16.0, bug, 1572
 @bender-ckeditor-plugins: wysiwygarea,toolbar,widget,undo,basicstyles,sourcearea,codesnippet,image2
 
-1. Place the caret in the empty paragraph **before** widgets.
-1. Hit the <kbd>delete</kbd> key.
+1. Place the caret in the empty paragraph between the two widgets.
+1. Hit the <kbd>backspace</kbd> key.
 
   **Expected:**
 
@@ -13,9 +13,8 @@
 
   **Unexpected:** The empty paragraph was not removed.
 
-1. Press `undo` button.
-1. Place the caret in the empty paragraph **after** widgets.
-1. Hit the <kbd>backspace</kbd> key.
+1. Press the `undo` button.
+1. Hit the <kbd>delete</kbd> key.
 
   **Expected:**
 

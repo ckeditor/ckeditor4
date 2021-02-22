@@ -578,24 +578,10 @@
 		};
 	} )();
 
-	// Handle left, right keystrokes next to non-editable elements
-	// by faking selection on them. Delete and backspace keystrokes can
-	// delete empty paragraphs between the widgets.
+	// Handle left and right keystrokes next to non-editable elements by faking selection on them.
+	// Delete and backspace keystrokes can delete empty paragraphs between the widgets (#1572).
 	function getOnKeyDownListener( editor ) {
 		var keystrokes = { 37: 1, 39: 1, 8: 1, 46: 1 };
-
-		function isDeleteAction( keystroke ) {
-			return ( keystroke === 8 || keystroke === 46 );
-		}
-
-		function isEmptyElement( element ) {
-			var text = ( element.$.textContent === undefined ? element.$.innerText : element.$.textContent );
-			return text === '';
-		}
-
-		function isEmptyBlock( block ) {
-			return block.isBlockBoundary() && isEmptyElement( block );
-		}
 
 		return function( evt ) {
 			var keystroke = evt.data.getKeystroke();
@@ -618,11 +604,15 @@
 			var next = range[ keystroke < 38 ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
-			//added if case to allow removal of empty paragraphs, see incident #1572
+
+				// Allow removal of empty paragraphs (#1572).
 				startElement = sel.getStartElement();
+
 				if ( isEmptyBlock( startElement ) && isDeleteAction( keystroke ) ) {
 					startElement.remove();
-					editor.fire( 'saveSnapshot' );//saves an undo restore point
+
+					// Save an undo restore point.
+					editor.fire( 'saveSnapshot' );
 				}
 
 				editor.getSelection().fake( next );
@@ -630,6 +620,20 @@
 				evt.cancel();
 			}
 		};
+
+		function isDeleteAction( keystroke ) {
+			return ( keystroke === 8 || keystroke === 46 );
+		}
+
+		function isEmptyElement( element ) {
+			var text = element.$.textContent === undefined ? element.$.innerText : element.$.textContent;
+
+			return text === '';
+		}
+
+		function isEmptyBlock( block ) {
+			return block.isBlockBoundary() && isEmptyElement( block );
+		}
 	}
 
 	// If fake selection should be applied this function will return instance of
