@@ -16,8 +16,30 @@
 
 	bender.test( {
 		// (#1572)
-		'test press del to remove an empty block between two widgets': testFactory( {
-			input: image2Fixture + createBlock( '&nbsp' ) + codeSnippetFixture,
+		'test press del to remove an empty paragraph block between two widgets': testFactory( {
+			input: image2Fixture + createBlock( '&nbsp', 'p' ) + codeSnippetFixture,
+			result: image2Fixture + codeSnippetFixture,
+			keyCode: deleteKey,
+			config: {
+				allowedContent: true
+			},
+			assertion: assertBlockDeleted
+		} ),
+
+		// (#1572)
+		'test press del to remove an empty heading block between two widgets': testFactory( {
+			input: image2Fixture + createBlock( '&nbsp', 'h2' ) + codeSnippetFixture,
+			result: image2Fixture + codeSnippetFixture,
+			keyCode: deleteKey,
+			config: {
+				allowedContent: true
+			},
+			assertion: assertBlockDeleted
+		} ),
+
+		// (#1572)
+		'test press del to remove an empty div block between two widgets': testFactory( {
+			input: image2Fixture + createBlock( '&nbsp', 'div' ) + codeSnippetFixture,
 			result: image2Fixture + codeSnippetFixture,
 			keyCode: deleteKey,
 			config: {
@@ -109,10 +131,9 @@
 	}
 
 	function createBlock( fillerText, blockTag ) {
-		var blockElements = [ 'p', 'h1', 'div', 'header', 'nav', 'section' ],
-			block;
+		var block;
 
-		blockTag = blockTag ? blockTag : blockElements[ Math.floor( Math.random() * blockElements.length ) ];
+		blockTag = blockTag ? blockTag : 'p';
 		block = new CKEDITOR.dom.element( blockTag );
 		block.setAttribute( 'id', 'block' );
 		block.setHtml( fillerText );
