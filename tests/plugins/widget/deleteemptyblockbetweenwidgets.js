@@ -150,7 +150,7 @@
 	}
 
 	function assertNothingHasChanged( editor, result ) {
-		assert.areSame( result, editor.getData(), 'The empty block between the two widgets should not be removed.' );
+		assert.beautified.html( result, editor.getData(), 'The empty block between the two widgets should not be removed.' );
 	}
 
 	function assertBlockNotDeleted( editor ) {
