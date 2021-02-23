@@ -6,9 +6,9 @@
 
 1. Open dev console
 
-2. Click "Toggle" button twice. To hide and show editor.
+2. Use each available plugin and toggle editor in random moments.
 
-	**Expected:** Editor shows with same data. Content is editable. Elementspath (at the bottom is updated).
+	**Expected:** Editor shows with same data. Content is editable.
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
