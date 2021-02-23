@@ -27,7 +27,7 @@
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
-7. Write some additional text.
+7. Switch to "Source mode". Write some additional text. Back from "Source mode".
 
 8. Repeat step 2.
 

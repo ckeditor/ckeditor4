@@ -1,6 +1,6 @@
 @bender-tags: 4.17.0, bug, 4462
 @bender-ui: collapsed
-@bender-ckeditor-plugins: toolbar,link,format,sourcearea,undo,floatingspace,sourcedialog
+@bender-ckeditor-plugins: toolbar,link,format,undo,floatingspace,sourcedialog
 
 
 1. Open dev console
