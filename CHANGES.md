@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.16.1
 
+Fixed Issues:
+
+* [#4433](https://github.com/ckeditor/ckeditor4/issues/4433): Fixed: Paragraph before or after a [widget](https://ckeditor.com/cke4/addon/widget) can not be removed. Thanks to [bunglegrind](https://github.com/bunglegrind)!
+
 ## CKEditor 4.16
 
 **Security Updates:**
