@@ -9,7 +9,7 @@
 			bender.editorBot.create( {
 				startupData: startupData
 			}, function( bot ) {
-				var editorContainer	= bot.editor.container,
+				var editorContainer = bot.editor.container,
 					editorContainerParent = editorContainer.getParent();
 
 				editorContainer.remove();
