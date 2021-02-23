@@ -1,4 +1,4 @@
-/* bender-tags: 4.17.0, bug, 4462, wysiwygarea */
+/* bender-tags: 4.17.0, bug, 4462 wysiwygarea */
 /* bender-ckeditor-plugins: basicstyles,toolbar */
 
 ( function() {
