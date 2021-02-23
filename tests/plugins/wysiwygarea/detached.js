@@ -11,12 +11,20 @@
 			}, function( bot ) {
 				var editorContainer	= bot.editor.container,
 					editorContainerParent = editorContainer.getParent();
-					
-				editorContainer.remove();
-				editorContainerParent.append(editorContainer);
 
-				var editorData = bot.editor.editable().getHtml();
-				assert.areSame( startupData, editorData );
+				editorContainer.remove();
+				editorContainerParent.append( editorContainer );
+
+				var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' );
+
+				CKEDITOR.tools.setTimeout( function() {
+					resume( function() {
+						var editorData = iframeElement.getFrameDocument().getBody().getHtml();
+						assert.areSame( startupData, editorData );
+					} );
+				}, 500 );
+
+				wait();
 			} );
 		}
 	} );
