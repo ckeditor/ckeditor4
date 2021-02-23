@@ -7,15 +7,13 @@
 <script>
 	var editorElement = document.getElementById( 'editor' ),
 		editorContainer = document.getElementById( 'editorContainer' ),
-		editorContainerParent = editorContainer.parentNode;
+		editorContainerParent = editorContainer.parentNode,
+		editor = CKEDITOR.replace( editorElement ),
+		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
+		editorDetached = false;
 
-	var editor = CKEDITOR.replace( editorElement );
-
-	var toggleButton = CKEDITOR.document.getById( 'toggleButton' );
-
-	var editorDetached = false;
 	toggleButton.on( 'click', function() {
-		if( editorDetached ){
+		if ( editorDetached ) {
 			editorContainerParent.appendChild( editorContainer );
 		} else {
 			editorContainerParent.removeChild( editorContainer );
@@ -23,6 +21,4 @@
 
 		editorDetached = !editorDetached;
 	} );
-
 </script>
-
