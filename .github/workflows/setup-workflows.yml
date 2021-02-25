@@ -2,7 +2,13 @@ name: Setup and update common workflows
 
 on:
   schedule:
-  - cron: "0 2 * * *"
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      config:
+        description: 'Config'
+        required: false
+        default: ''
 
 jobs:
   update:
@@ -14,6 +20,50 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_WORKFLOWS_TOKEN }}
+
+      - name: Read config
+        run: |
+          CONFIG='{}'
+          if [[ ! -z '${{ github.event.inputs.config }}' ]]; then
+            CONFIG='${{ github.event.inputs.config }}'
+          elif [[ -f "./.github/workflows-config.json" ]]; then
+            CONFIG=$( jq -c .setupWorkflows './.github/workflows-config.json' )
+          fi
+          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
+          echo "Workflow config: $CONFIG"
+
+      - name: Process config
+        run: |
+          AS_PR=$(echo '${{ env.CONFIG }}' | jq -r ".pushAsPullRequest")
+          if [[ "$AS_PR" == "true" ]]; then
+            echo "AS_PR=1" >> $GITHUB_ENV
+          else
+            echo "AS_PR=0" >> $GITHUB_ENV
+          fi
+          BRANCH_SOURCE=$(git rev-parse --abbrev-ref HEAD)
+          if [[ "$AS_PR" == "true" ]]; then
+            BRANCH_SOURCE="t/setup-workflows-update_$BRANCH_SOURCE"
+          fi
+          echo "BRANCH_SOURCE=$BRANCH_SOURCE" >> $GITHUB_ENV
+
+      - name: Check if update branch already exists
+        if: env.AS_PR == 1
+        run: |
+          if [[ $(git ls-remote --heads | grep ${{ env.BRANCH_SOURCE }} | wc -c) -ne 0 ]]; then
+            echo "SHOULD_CANCEL=1" >> $GITHUB_ENV
+          fi
+
+      - name: Cancel build if update branch already exists
+        if: env.SHOULD_CANCEL == 1
+        # https://github.com/marketplace/actions/cancel-this-build
+        uses: andymckay/cancel-action@0.2
+
+      - name: Wait for cancellation
+        if: env.SHOULD_CANCEL == 1
+        # https://github.com/marketplace/actions/wait-sleep
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '60s'
 
       - name: Checkout common workflows repository
         # https://github.com/marketplace/actions/checkout
@@ -27,16 +77,21 @@ jobs:
         run: |
           mkdir -p .github/workflows
 
-      - name: Copy workflow files
+      - name: Synchronize workflow files
         run: |
           rsync -a --include='*/' --include='*.yml' --exclude='*' ./ckeditor4-workflows-common/workflows/ ./.github/workflows/
-          if [[ $(git status --porcelain) ]]; then
+          if [[ $(git status ./.github/workflows/ --porcelain) ]]; then
               echo "HAS_CHANGES=1" >> $GITHUB_ENV
           fi
 
       - name: Cleanup common workflows artifacts
         run: |
           rm -rf ckeditor4-workflows-common
+
+      - name: Checkout PR branch
+        if: env.HAS_CHANGES == 1
+        run: |
+          git checkout -b "t/${{ env.BRANCH_SOURCE }}"
 
       - name: Add changes
         if: env.HAS_CHANGES == 1
@@ -52,4 +107,16 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GH_WORKFLOWS_TOKEN }}
-          branch: ${{ github.ref }}
+          branch: ${{ env.BRANCH_SOURCE }}
+
+      - name: Create PR
+        if: env.AS_PR == 1
+        # https://github.com/marketplace/actions/github-pull-request-action
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: "${{ env.BRANCH_SOURCE }}"
+          destination_branch: "${{ github.ref }}"
+          pr_title: "Update 'setup-workflows' workflow"
+          pr_body: "Update 'setup-workflows' workflow."
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
