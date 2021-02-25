@@ -43,7 +43,7 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 		insertAfter: '右方插入行',
 		deleteColumn: '刪除行'
 	},
-	columns: '行',
+	columns: '列',
 	deleteTable: '刪除表格',
 	headers: '頁首',
 	headersBoth: '同時',
@@ -65,7 +65,7 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 		insertAfter: '下方插入列',
 		deleteRow: '刪除列'
 	},
-	rows: '列',
+	rows: '行',
 	summary: '總結',
 	title: '表格屬性',
 	toolbar: '表格',
