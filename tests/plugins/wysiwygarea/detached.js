@@ -3,7 +3,7 @@
 
 ( function() {
 	bender.test( {
-		'Reattached editor contains same data': function() {
+		'Test reattached editor contains same data': function() {
 			var startupData = '<p>CKEditor4</p>';
 
 			bender.editorBot.create( {
