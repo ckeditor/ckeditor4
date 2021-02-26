@@ -114,13 +114,14 @@
 							return;
 						}
 
-						var cacheData = editor.getData( false );
+						var cacheData = editor.getData( false ),
+							newEditable;
 
 						// Remove current editable, but preserve iframe.
 						editor.editable().saveIframe = true;
 						editor.editable( null );
 
-						var newEditable = new framedWysiwyg( editor, iframe.getFrameDocument().getBody() );
+						newEditable = new framedWysiwyg( editor, iframe.getFrameDocument().getBody() );
 						editor.editable( newEditable );
 
 						if ( CKEDITOR.env.ie ) {
@@ -566,6 +567,7 @@
 				if ( this.saveIframe ) {
 					return;
 				}
+
 				var editor = this.editor,
 					doc = editor.document,
 					iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
