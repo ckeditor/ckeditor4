@@ -1,4 +1,4 @@
-@bender-tags: 4.17.0, bug, 4462, divarea
+@bender-tags: 4.17.0, bug, 4462
 @bender-ui: collapsed
 @bender-ckeditor-plugins: divarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
