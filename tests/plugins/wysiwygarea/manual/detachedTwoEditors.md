@@ -2,10 +2,9 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
+**Note:** Open dev console to track eventual errors.
 
-1. Open dev console
-
-2. Click "Toggle" button twice. To hide and show the second editor.
+1. Click "Toggle" button twice. To hide and show the second editor.
 
 	**Expected:** Editor shows with same data. Content is editable. Elementspath (at the bottom is updated).
 

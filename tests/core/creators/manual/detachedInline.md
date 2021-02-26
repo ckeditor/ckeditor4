@@ -3,35 +3,34 @@
 @bender-ckeditor-plugins: toolbar,link,format,undo,floatingspace,sourcedialog
 
 
-1. Open dev console
+**Note:** Open dev console to track eventual errors.
 
-2. Click "Toggle" button twice. To hide and show editor.
-
-	**Expected:** Editor shows with same data. Content is editable.
-
-	**Unexpected:** Editor data is lost, content area is not editable.
-
-3. Write some text in editor.
-
-4. Repeat step 2.
+1. Click "Toggle" button twice. To hide and show editor.
 
 	**Expected:** Editor shows with same data. Content is editable.
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
-5. Click "Set data" button.
+2. Write some text in editor.
 
-6. Repeat step 2.
-
-	**Expected:** Editor shows with same data. Content is editable.
-
-	**Unexpected:** Editor data is lost, content area is not editable.
-
-7. Write some additional text.
-
-8. Repeat step 2.
+3. Repeat step 2.
 
 	**Expected:** Editor shows with same data. Content is editable.
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
+4. Click "Set data" button.
+
+5. Repeat step 2.
+
+	**Expected:** Editor shows with same data. Content is editable.
+
+	**Unexpected:** Editor data is lost, content area is not editable.
+
+6. Write some additional text.
+
+7. Repeat step 2.
+
+	**Expected:** Editor shows with same data. Content is editable.
+
+	**Unexpected:** Editor data is lost, content area is not editable.
