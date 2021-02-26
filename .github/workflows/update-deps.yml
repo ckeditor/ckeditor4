@@ -1,0 +1,103 @@
+name: Update NPM dependencies
+
+on:
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+    inputs:
+      config:
+        description: 'Config'
+        required: false
+        default: ''
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        deps: [production, dev-only]
+
+    steps:
+      - name: Setup node
+        # https://github.com/marketplace/actions/setup-node-js-environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Checkout default branch
+        # https://github.com/marketplace/actions/checkout
+        uses: actions/checkout@v2
+
+      - name: Read config
+        run: |
+          CONFIG='{}'
+          if [[ ! -z '${{ github.event.inputs.config }}' ]]; then
+            CONFIG='${{ github.event.inputs.config }}'
+          elif [[ -f "./.github/workflows-config.json" ]]; then
+            CONFIG=$( jq -c .updateDeps './.github/workflows-config.json' )
+          fi
+          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
+          echo "Workflow config: $CONFIG"
+
+      - name: Check env variables
+        run: |
+          if [[ -z "${{ secrets.GH_BOT_USERNAME }}" ]]; then
+            echo "Expected 'GH_BOT_USERNAME' secret variable to be set."
+            exit 1
+          fi
+          if [[ -z "${{ secrets.GH_BOT_EMAIL }}" ]]; then
+            echo "Expected 'GH_BOT_EMAIL' secret variable to be set."
+            exit 1
+          fi
+          BRANCH_TARGET=$(echo '${{ env.CONFIG }}' | jq -r ".targetBranch")
+          if [[ -z "$BRANCH_TARGET" || "$BRANCH_TARGET" == "null" ]]; then
+            # Since 'Fetch changes' step fetches default branch, we just get branch name (which will be default one).
+            BRANCH_TARGET=$(git rev-parse --abbrev-ref HEAD)
+          fi
+          echo "BRANCH_TARGET=$BRANCH_TARGET" >> $GITHUB_ENV
+
+      - name: Check if update branch already exists
+        run: |
+          echo "BRANCH_UPDATE=deps-update_${{ env.BRANCH_TARGET }}_${{ matrix.deps }}" >> $GITHUB_ENV
+          if [[ $(git ls-remote --heads | grep deps-update_${{ env.BRANCH_TARGET }}_${{ matrix.deps }} | wc -c) -ne 0 ]]; then
+            echo "BRANCH_UPDATE=0" >> $GITHUB_ENV
+          fi
+
+      - name: Update NPM dependencies
+        if: env.BRANCH_UPDATE != 0
+        run: |
+          npm i
+          npm install -g npm-check
+          git checkout -b ${{ env.BRANCH_UPDATE }}
+          npm-check -y --${{ matrix.deps }}
+
+      - name: Add changes
+        if: env.BRANCH_UPDATE != 0
+        run: |
+          if [[ $(git diff origin/${{ env.BRANCH_TARGET }} | wc -c) -ne 0 ]]; then
+            git config --local user.email "${{ secrets.GH_BOT_EMAIL }}"
+            git config --local user.name "${{ secrets.GH_BOT_USERNAME }}"
+            git add package*.json
+            git commit -m "Update NPM ${{ matrix.deps }} dependencies."
+            echo "HAS_CHANGES=1" >> $GITHUB_ENV
+          fi
+
+      - name: Push changes
+        if: env.HAS_CHANGES == 1
+        # https://github.com/marketplace/actions/github-push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.BRANCH_UPDATE }}
+
+      - name: Create PR
+        if: env.HAS_CHANGES == 1
+        # https://github.com/marketplace/actions/github-pull-request-action
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: "${{ env.BRANCH_UPDATE }}"
+          destination_branch: "${{ env.BRANCH_TARGET }}"
+          pr_title: "Update NPM ${{ matrix.deps }} dependencies"
+          pr_body: "Updated NPM ${{ matrix.deps }} dependencies."
+          github_token: ${{ secrets.GITHUB_TOKEN }}
