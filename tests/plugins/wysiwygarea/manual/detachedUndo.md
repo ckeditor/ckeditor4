@@ -9,6 +9,6 @@
 
 3. Click Toggle button twice to detach and reattach editor.
 
-**Expected** There are two undo steps.
+**Expected:** There are two undo steps.
 
-**Unexpected** Number of undo steps is different than two.
+**Unexpected:** Number of undo steps is different than two.
