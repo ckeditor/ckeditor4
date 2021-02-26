@@ -10,17 +10,16 @@
 				startupData: startupData
 			}, function( bot ) {
 				var editorContainer = bot.editor.container,
-					editorContainerParent = editorContainer.getParent();
+					editorContainerParent = editorContainer.getParent(),
+					iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' );
 
 				editorContainer.remove();
 				editorContainerParent.append( editorContainer );
 
-				var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' );
-
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
 						var editorData = iframeElement.getFrameDocument().getBody().getHtml();
-						assert.areSame( startupData, editorData );
+						assert.beautified.html( startupData, editorData );
 					} );
 				}, 500 );
 
