@@ -4,7 +4,7 @@
 
 **Note:** Open dev console to track eventual errors.
 
-1. Click "Toggle" button twice. To hide and show the second editor.
+1. Reattach editor with double click on "Toggle" button.
 
 	**Expected:**
 

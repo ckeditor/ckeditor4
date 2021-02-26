@@ -9,4 +9,4 @@
 
 	**Expected:** Editor shows with same data. Content is editable.
 
-	**Unexpected:** Editor data is lost, content area is not editable.
+	**Unexpected:** Editor data is lost. Content area is not editable.

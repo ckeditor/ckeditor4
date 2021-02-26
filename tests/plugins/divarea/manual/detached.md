@@ -4,52 +4,60 @@
 
 **Note:** Open dev console to track eventual errors.
 
-1. Click "Toggle" button twice. To hide and show editor.
+1. Reattach editor with double click on "Toggle" button.
 
-	**Expected:**
+	**Expected:** Editor shows with the same data.
 
-	* Editor shows with same data.
-	* Content is editable.
-	* Elementspath (at the bottom is updated).
+	**Unexpected:** Editor data is lost.
 
-	**Unexpected:** Editor data is lost, content area is not editable.
+2. Click inside the content editing area.
 
-2. Write some text in editor.
+	**Expected:** Content is editable. Elementspath (bottom bar) updates.
 
-3. Repeat step 2.
+	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
 
-	**Expected:**
+3. Write any text in editor.
 
-	* Editor shows with same data.
-	* Content is editable.
-	* Elementspath (at the bottom is updated).
+4. Reattach editor with double click on "Toggle" button.
 
-	**Unexpected:** Editor data is lost, content area is not editable.
+	**Expected:** Editor shows with the same data.
 
-4. Click "Set data" button.
+	**Unexpected:** Editor data is lost.
 
-5. Repeat step 2.
+5. Click inside the content editing area.
 
-	**Expected:**
+	**Expected:** Content is editable. Elementspath (bottom bar) updates.
 
-	* Editor shows with same data.
-	* Content is editable.
-	* Elementspath (at the bottom is updated).
+	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
 
-	**Unexpected:** Editor data is lost, content area is not editable.
+6. Click "Set data" button.
 
-6. Switch to "Source mode".
+7. Reattach editor with double click on "Toggle" button.
 
-7. Write some additional text.
+	**Expected:** Editor shows with the same data.
 
-8. Switch back from "Source mode".
+	**Unexpected:** Editor data is lost.
 
-9. Repeat step 2.
+8. Click inside the content editing area.
 
-	**Expected:**
+	**Expected:** Content is editable. Elementspath (bottom bar) updates.
 
-	* Editor shows with same data.
-	* Content is editable.
-	* Elementspath (at the bottom is updated).
+	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
 
-	**Unexpected:** Editor data is lost, content area is not editable.
+9. Switch to "Source mode".
+
+10. Write some additional text.
+
+11. Switch back from "Source mode".
+
+10. Reattach editor with double click on "Toggle" button.
+
+	**Expected:** Editor shows with the same data.
+
+	**Unexpected:** Editor data is lost.
+
+11. Click inside the content editing area.
+
+	**Expected:** Content is editable. Elementspath (bottom bar) updates.
+
+	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.

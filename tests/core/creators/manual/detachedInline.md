@@ -5,32 +5,32 @@
 
 **Note:** Open dev console to track eventual errors.
 
-1. Click "Toggle" button twice. To hide and show editor.
+1. Reattach editor with double click on "Toggle" button.
 
-	**Expected:** Editor shows with same data. Content is editable.
+	**Expected:** Editor shows with the same data. Content is editable.
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
 2. Write some text in editor.
 
-3. Repeat step 2.
+3. Repeat step 1.
 
-	**Expected:** Editor shows with same data. Content is editable.
+	**Expected:** Editor shows with the same data. Content is editable.
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
 4. Click "Set data" button.
 
-5. Repeat step 2.
+5. Repeat step 1.
 
-	**Expected:** Editor shows with same data. Content is editable.
+	**Expected:** Editor shows with the same data. Content is editable.
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
 6. Write some additional text.
 
-7. Repeat step 2.
+7. Repeat step 1.
 
-	**Expected:** Editor shows with same data. Content is editable.
+	**Expected:** Editor shows with the same data. Content is editable.
 
 	**Unexpected:** Editor data is lost, content area is not editable.
