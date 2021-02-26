@@ -6,6 +6,10 @@
 
 1. Click "Toggle" button twice. To hide and show the second editor.
 
-	**Expected:** Editor shows with same data. Content is editable. Elementspath (at the bottom is updated).
+	**Expected:**
+
+	* Editor shows with same data.
+	* Content is editable.
+	* Elementspath (at the bottom is updated).
 
 	**Unexpected:** Editor data is lost, content area is not editable.

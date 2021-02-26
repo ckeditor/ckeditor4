@@ -6,7 +6,11 @@
 
 1. Click "Toggle" button twice. To hide and show editor.
 
-	**Expected:** Editor shows with same data. Content is editable. Elementspath (at the bottom is updated).
+	**Expected:**
+
+	* Editor shows with same data.
+	* Content is editable.
+	* Elementspath (at the bottom is updated).
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
@@ -14,7 +18,11 @@
 
 3. Repeat step 2.
 
-	**Expected:** Editor shows with same data. Content is editable. Elementspath (at the bottom is updated).
+	**Expected:**
+
+	* Editor shows with same data.
+	* Content is editable.
+	* Elementspath (at the bottom is updated).
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
@@ -22,7 +30,11 @@
 
 5. Repeat step 2.
 
-	**Expected:** Editor shows with same data. Content is editable. Elementspath (at the bottom is updated).
+	**Expected:**
+
+	* Editor shows with same data.
+	* Content is editable.
+	* Elementspath (at the bottom is updated).
 
 	**Unexpected:** Editor data is lost, content area is not editable.
 
@@ -30,6 +42,10 @@
 
 7. Repeat step 2.
 
-	**Expected:** Editor shows with same data. Content is editable. Elementspath (at the bottom is updated).
+	**Expected:**
+
+	* Editor shows with same data.
+	* Content is editable.
+	* Elementspath (at the bottom is updated).
 
 	**Unexpected:** Editor data is lost, content area is not editable.
