@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor, 4.17.0, bug, 4461*/
 /* bender-ckeditor-plugins: wysiwygarea */
 
 ( function() {
@@ -21,8 +21,8 @@
 		},
 
 		'Test delay editor creation until target element attach to DOM': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor2' );
-			var editorParent = editorElement.getParent();
+			var editorElement = CKEDITOR.document.getById( 'editor2' ),
+				editorParent = editorElement.getParent();
 
 			editorElement.remove();
 
@@ -37,7 +37,7 @@
 				}
 			} );
 
-			setTimeout( function() {
+			CKEDITOR.tools.setTimeout( function() {
 				editorParent.append( editorElement );
 			}, 250 );
 
@@ -45,12 +45,11 @@
 		},
 
 		'Test editor creation from provided callback': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor3' );
-			var editorParent = editorElement.getParent();
+			var editorElement = CKEDITOR.document.getById( 'editor3' ),
+				editorParent = editorElement.getParent(),
+				editorCreationCallback = null;
 
 			editorElement.remove();
-
-			var editorCreationCallback = null;
 
 			CKEDITOR.replace( editorElement, {
 				delayDetached: true,
@@ -68,7 +67,7 @@
 				editorCreationCallback = editorCreationFunc;
 			}
 
-			setTimeout( function() {
+			CKEDITOR.tools.setTimeout( function() {
 				editorParent.append( editorElement );
 				editorCreationCallback();
 			}, 250 );
