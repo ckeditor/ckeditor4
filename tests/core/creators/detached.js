@@ -8,21 +8,7 @@
 		editorElement: null,
 		editorParent: null,
 
-		setUp: function() {
-			// this.editorElement = CKEDITOR.document.getById( 'editor1' );
-			// this.editorParent = this.editorElement.getParent();
-
-			// this.editorElement.remove();
-		},
-
-		tearDown: function() {
-			// if( this.editorElement.isDetached()) {
-			// 	this.editorParent.append(this.editorElement);
-			// }
-
-		},
-
-		'delay editor creation if target element is detached': function() {
+		'Test delay editor creation if target element is detached': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor1' );
 
 			editorElement.remove();
@@ -34,7 +20,7 @@
 			assert.isNull( editor );
 		},
 
-		'delay editor creation until target element attach to DOM': function () {
+		'Test delay editor creation until target element attach to DOM': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor2' );
 			var editorParent = editorElement.getParent();
 
@@ -43,23 +29,22 @@
 			CKEDITOR.replace( editorElement, {
 				delayDetached: true,
 				on: {
-					instanceReady: function( evt ) {
-						resume(function () {
+					instanceReady: function() {
+						resume( function() {
 							assert.pass();
-						});
+						} );
 					}
 				}
 			} );
 
-			setTimeout(function () {
+			setTimeout( function() {
 				editorParent.append( editorElement );
-			}, 250);
-
+			}, 250 );
 
 			wait();
 		},
 
-		'gives creation time to provided callback': function() {
+		'Test editor creation from provided callback': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor3' );
 			var editorParent = editorElement.getParent();
 
@@ -71,27 +56,27 @@
 				delayDetached: true,
 				registerCallback: RegisterCallback,
 				on: {
-					instanceReady: function( evt ) {
-						resume(function () {
+					instanceReady: function() {
+						resume( function() {
 							assert.pass();
-						});
+						} );
 					}
 				}
 			} );
 
-			function RegisterCallback(editorCreationFunc) {
+			function RegisterCallback( editorCreationFunc ) {
 				editorCreationCallback = editorCreationFunc;
 			}
 
-			setTimeout(function () {
+			setTimeout( function() {
 				editorParent.append( editorElement );
 				editorCreationCallback();
-			}, 250);
+			}, 250 );
 
 
 			wait();
 		}
 	};
 
-	bender.test ( tests );
+	bender.test( tests );
 }() );
