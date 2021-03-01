@@ -657,11 +657,6 @@ CKEDITOR.config.delayDetachedFrequency = 50;
  * Function with single argument. As argument is passed another function that continues editor creation.
  * Allows to store create function and invoke it when it is convenient instead of periodically invoke element verifying.
  *
- *		// Default value.
- *		config.registerCallback = function ( func ) {
- *			func();
- *		};
- *
  *		// Possible use:
  *		// Save creation callback.
  *		// Call resumeEditorCreation whenever you choose.
@@ -669,7 +664,7 @@ CKEDITOR.config.delayDetachedFrequency = 50;
  *			resumeEditorCreation = createEditor;
  *		};
  *
- * @cfg {Function} [registerCallback=see example]
+ * @cfg {Function} [registerCallback = function ( createEditor ){ resumeEditorCreation = createEditor; }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.registerCallback = function( callback ) {
