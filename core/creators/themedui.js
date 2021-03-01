@@ -660,7 +660,7 @@ CKEDITOR.config.delayDetachedFrequency = 50;
  *		// Possible use:
  *		// Save creation callback.
  *		// Call resumeEditorCreation whenever you choose.
- *		config.registerCallback = function ( createEditor ) {
+ *		config.registerCallback = function( createEditor ) {
  *			resumeEditorCreation = createEditor;
  *		};
  *
