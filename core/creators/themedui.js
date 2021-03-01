@@ -416,9 +416,16 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return false;
 		}
 
-		var callback = CKEDITOR.config.registerCallback;
+		if ( !config.registerCallback ) {
+			CKEDITOR.config.registerCallback( payload );
+			return true;
+		}
 
-		var payload = function() {
+		config.registerCallback( registerPayload );
+
+		return true;
+
+		function payload() {
 			var delay = parseFloat( config.delay );
 			delay = isNaN( delay ) ? CKEDITOR.config.delayDetachedFrequency : delay;
 
@@ -429,28 +436,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 					createInstance( element, config, data, mode );
 				}
 			}, delay );
-		};
+		}
 
-		var registerPayload = function() {
+		function registerPayload() {
 			if ( !element.isDetached() ) {
 				createInstance( element, config, data, mode );
 			} else {
 				// Element still not ready!
 			}
-		};
-
-		if ( config.registerCallback ) {
-			if ( typeof config.registerCallback !== 'function' ) {
-				CKEDITOR.error( 'invalid-callback', { callback: config.registerCallback } );
-			} else {
-				payload = registerPayload;
-				callback = config.registerCallback;
-			}
 		}
-
-		callback( payload );
-
-		return true;
 	}
 
 	function destroy() {
