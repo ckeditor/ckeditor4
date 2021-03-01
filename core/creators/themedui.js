@@ -672,6 +672,6 @@ CKEDITOR.config.delayDetachedFrequency = 50;
  * @cfg {Function} [registerCallback=see example]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.registerCallback = function( func ) {
-	func();
+CKEDITOR.config.registerCallback = function( callback ) {
+	callback();
 };
