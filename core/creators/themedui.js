@@ -410,7 +410,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	// @param {Object} [config] The specific configuration to apply to this
 	// editor instance. Configuration set here will override the global CKEditor settings.
 	// @param {String} [data] Initial value for the instance.
-	// @param {Number} mode CKEditor mode.
+	// @param {String} mode CKEditor mode.
 	function delayCreationOnDetachedElement( element, config, data, mode ) {
 		if ( !config || !config.delayDetached || !element.isDetached() ) {
 			return false;
