@@ -441,8 +441,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		function registerPayload() {
 			if ( !element.isDetached() ) {
 				createInstance( element, config, data, mode );
-			} else {
-				// Element still not ready!
 			}
 		}
 	}
