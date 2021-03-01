@@ -14,55 +14,52 @@
 </div>
 
 <script>
-	var editorElement = document.getElementById("editor1"),
+	var editorElement = document.getElementById( 'editor1' ),
+		attachButton = CKEDITOR.document.getById( 'attachButton' ),
 		editorParent = editorElement.parentNode;
 
-	editorParent.removeChild(editorElement);
+	editorParent.removeChild( editorElement );
 
 	CKEDITOR.replace( editorElement, {
 		delayDetached: true,
 		on: {
-			instanceReady: function(evt) {
-				this.setData("Editor created");
+			instanceReady: function() {
+				this.setData( 'Editor created' );
 			}
 		}
 	} );
 
-	var button = CKEDITOR.document.getById("attachButton");
-
-	button.on( 'click', function() {
-		editorParent.appendChild(editorElement);
+	attachButton.on( 'click', function() {
+		editorParent.appendChild( editorElement );
 	} );
 
 	//
 	// SECOND EDITOR WITH CALLBACK
 	//
-	var editorElement2 = document.getElementById("editor2"),
-		editorParent2 = editorElement2.parentNode;
+	var secondEditor = document.getElementById( 'editor2' ),
+		secondAttachButton = CKEDITOR.document.getById( 'attachButton2' ),
+		secondEditorParent = secondEditor.parentNode,
+		editorCreationCallback = null;
 
-	editorParent2.removeChild(editorElement2);
+	secondEditorParent.removeChild( secondEditor );
 
-	var editorCreationCallback = null;
-
-	CKEDITOR.replace( editorElement2, {
+	CKEDITOR.replace( secondEditor, {
 		delayDetached: true,
 		delayDetachedFrequency: 50,
-		registerCallback:RegisterCallback,
+		registerCallback: RegisterCallback,
 		on: {
-			instanceReady: function(evt) {
-				this.setData("Editor created from config callback");
+			instanceReady: function() {
+				this.setData( 'Editor created from config callback' );
 			}
 		}
 	} );
 
-	var button2 = CKEDITOR.document.getById("attachButton2");
-
-	button2.on( 'click', function() {
-		editorParent2.appendChild(editorElement2);
+	secondAttachButton.on( 'click', function() {
+		secondEditorParent.appendChild( secondEditor );
 		editorCreationCallback();
 	} );
 
-	function RegisterCallback(editorCreationFunc) {
+	function RegisterCallback( editorCreationFunc ) {
 		editorCreationCallback = editorCreationFunc;
 	}
 
