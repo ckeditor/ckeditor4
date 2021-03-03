@@ -5,7 +5,7 @@
 
 **Note:** Open dev console to track eventual errors.
 
-1. Use each available plugin and toggle editor in random moments.
+1. Use each available plugin and use toggle button to detach and reattach editor in random moments.
 
 	**Expected:** Editor shows with same data. Content is editable.
 
