@@ -11,14 +11,10 @@
 	var editorElement = document.getElementById( 'editor' ),
 		editorContainer = document.getElementById( 'editorContainer' ),
 		editorContainerParent = editorContainer.parentNode,
-		editor = CKEDITOR.replace( editorElement, {
-			extraPlugins: 'divarea'
-		} ),
+		editor = CKEDITOR.replace( editorElement ),
 		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
 		setButton = CKEDITOR.document.getById( 'setButton' ),
 		editorDetached = false;
-
-	editor.setData( '<p>ole!</p>' );
 
 	setButton.on( 'click', function() {
 		editor.setData( 'any any any' );
