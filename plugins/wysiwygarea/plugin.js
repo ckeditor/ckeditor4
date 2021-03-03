@@ -673,10 +673,10 @@
 
 	function shouldRecreateEditable( iframe, shouldRecreate ) {
 		if ( arguments.length === 1 ) {
-			return iframe.$.onloadFromSetData;
+			return iframe.$.shouldRecreate;
 		}
 
-		iframe.$.onloadFromSetData = shouldRecreate;
+		iframe.$.shouldRecreate = shouldRecreate;
 	}
 
 } )();
