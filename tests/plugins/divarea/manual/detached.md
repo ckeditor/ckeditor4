@@ -48,15 +48,27 @@
 
 10. Write some additional text.
 
-11. Switch back from "Source mode".
-
-10. Reattach editor with double click on "Toggle" button.
+11. Reattach editor with double click on "Toggle" button.
 
 	**Expected:** Editor shows with the same data.
 
 	**Unexpected:** Editor data is lost.
 
-11. Click inside the content editing area.
+12. Click inside the content editing area.
+
+	**Expected:** Content is editable. Elementspath (bottom bar) updates.
+
+	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
+
+13. Switch back from "Source mode".
+
+14. Reattach editor with double click on "Toggle" button.
+
+	**Expected:** Editor shows with the same data.
+
+	**Unexpected:** Editor data is lost.
+
+15. Click inside the content editing area.
 
 	**Expected:** Content is editable. Elementspath (bottom bar) updates.
 
