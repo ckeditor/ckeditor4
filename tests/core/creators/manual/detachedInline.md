@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: toolbar,link,format,undo,floatingspace,sourcedialog
 
 
-**Note:** Open dev console to track eventual errors.
+**Note:** Open dev console to track possible errors.
 
 1. Reattach editor with double click on "Toggle" button.
 

@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
-**Note:** Open dev console to track eventual errors.
+**Note:** Open dev console to track possible errors.
 
 1. Reattach editor with double click on "Toggle" button.
 
