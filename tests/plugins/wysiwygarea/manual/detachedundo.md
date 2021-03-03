@@ -3,12 +3,10 @@
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
 
-1. Type anything in the editor.
+1. Change text formatting. For example to 'Heading 1'.
 
-2. Change text formatting. For example to 'Heading 1'.
+2. Reattach editor with double click on "Toggle" button.
 
-3. Reattach editor with double click on "Toggle" button.
+**Expected:** There is one undo step.
 
-**Expected:** There are two undo steps.
-
-**Unexpected:** Number of undo steps is different than two.
+**Unexpected:** Number of undo steps is different than one.
