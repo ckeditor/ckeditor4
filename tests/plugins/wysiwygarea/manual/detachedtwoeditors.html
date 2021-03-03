@@ -1,15 +1,14 @@
 <button id="toggleButton">Toggle</button>
-<button id="setButton">Set data</button>
 
 <p>Static editor</p>
 <div id="editorTwo">
-	<p>Initial text. Exactly the same.</p>
+	<p>I'll stay here forever.</p>
 </div>
 
 <div id="editorContainer">
 	<p>Detachable editor</p>
 	<div id="editor">
-		<p>Initial text. Exactly the same.</p>
+		<p>I'll disappear soon...</p>
 	</div>
 </div>
 
@@ -21,12 +20,7 @@
 		editor = CKEDITOR.replace( editorElement ),
 		editorTwo = CKEDITOR.replace( 'editorTwo' ),
 		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
-		setButton = CKEDITOR.document.getById( 'setButton' ),
 		editorDetached = false;
-
-	setButton.on( 'click', function() {
-		editor.setData( 'any any any' );
-	} );
 
 	toggleButton.on( 'click', function() {
 		if ( editorDetached ) {
