@@ -416,6 +416,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return false;
 		}
 
+		CKEDITOR.warn( 'Editor creation will be delayed. We will keep trying every ' + config.delay + 'ms until target element will be reattached to DOM.' );
+
 		if ( !config.registerCallback ) {
 			CKEDITOR.config.registerCallback( payload );
 			return true;
@@ -433,6 +435,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 				if ( !element.isDetached() ) {
 					clearInterval( intervalId );
 
+					CKEDITOR.warn( 'Editor instance will be created now. Target element is attached to DOM.' );
 					createInstance( element, config, data, mode );
 				}
 			}, delay );
