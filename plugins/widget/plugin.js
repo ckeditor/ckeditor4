@@ -3461,17 +3461,26 @@
 		}
 	} );
 
-	function insertParagraphAndSaveSnapshot( widget, where ) {
+	function insertParagraphAndSaveSnapshot( widget, position ) {
 		var p = new CKEDITOR.dom.element( 'p' );
 
 		p.appendBogus();
 
-		if ( where === 'below' ) {
-			widget.wrapper.$.parentNode.insertBefore( p.$, widget.wrapper.$.nextSibling );
+		if ( position === 'after' ) {
+			p.insertAfter( widget.wrapper );
 		} else {
 			p.insertBefore( widget.wrapper );
 		}
 		widget.editor.fire( 'saveSnapshot' );
+
+		select( p );
+
+		function select( element ) {
+			var newRange = widget.editor.createRange();
+
+			newRange.setStart( element, 0 );
+			widget.editor.getSelection().selectRanges( [ newRange ] );
+		}
 	}
 
 	function copyWidgets( editor, isCut ) {
@@ -3587,6 +3596,9 @@
 	}
 
 	function setupWidget( widget, widgetDef ) {
+		var keystrokeInsertParagraphBefore = widget.editor.config.widget_keystrokeInsertParagraphBefore || CKEDITOR.SHIFT + CKEDITOR.ALT + 13,
+			keystrokeInsertParagraphAfter = widget.editor.config.widget_keystrokeInsertParagraphAfter || CKEDITOR.SHIFT + 13;
+
 		setupWrapper( widget );
 		setupParts( widget );
 		setupEditables( widget );
@@ -3615,21 +3627,21 @@
 		widget.on( 'key', function( evt ) {
 			var keyCode = evt.data.keyCode;
 
-				// SHIFT + UP.
-			if ( keyCode == CKEDITOR.SHIFT + 38 ) {
-				insertParagraphAndSaveSnapshot( widget, 'above' );
-				// SHIFT + DOWN.
-			} else if ( keyCode == CKEDITOR.SHIFT + 40 ) {
-				insertParagraphAndSaveSnapshot( widget, 'below' );
-				// ENTER.
+			// Insert a new paragraph before the widget.
+			if ( keyCode == keystrokeInsertParagraphBefore ) {
+				insertParagraphAndSaveSnapshot( widget, 'before' );
+			// Insert a new paragraph after the widget.
+			} else if ( keyCode == keystrokeInsertParagraphAfter ) {
+				insertParagraphAndSaveSnapshot( widget, 'after' );
+			// ENTER.
 			} else if ( keyCode == 13 ) {
 				widget.edit();
-				// CTRL+C or CTRL+X.
+			// CTRL+C or CTRL+X.
 			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
 				copyWidgets( widget.editor, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
-				// Pass chosen keystrokes to other plugins or default fake sel handlers.
-				// Pass all CTRL/ALT keystrokes.
+			// Pass chosen keystrokes to other plugins or default fake sel handlers.
+			// Pass all CTRL/ALT keystrokes.
 			} else if ( keyCode in keystrokesNotBlockedByWidget ||
 				( CKEDITOR.CTRL & keyCode ) ||
 				( CKEDITOR.ALT & keyCode ) ) {

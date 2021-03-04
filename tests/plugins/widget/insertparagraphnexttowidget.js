@@ -7,6 +7,7 @@
 ( function() {
 	var upArrow = 38,
 		downArrow = 40,
+		enter = 13,
 		getWidgetById = widgetTestsTools.getWidgetById,
 		image2Fixture =  (
 			'<figure id="w1" class="image">' +
@@ -16,15 +17,16 @@
 		),
 		codeSnippetFixture = (
 			'<pre><code class="language-javascript">//Hello another world!</code></pre>'
-		);
+		),
+		bogusParagraph = '<p>&nbsp;</p>';
 
 	bender.test( {
 
 		// (#4467)
-		'test press shift + up must insert a paragraph above a widget': testFactory( {
+		'test press shift + alt + enter must insert a paragraph before a widget': testFactory( {
 			input: image2Fixture + codeSnippetFixture,
-			result: image2Fixture + codeSnippetFixture,
-			keyCode: CKEDITOR.SHIFT + upArrow,
+			result: bogusParagraph + image2Fixture + codeSnippetFixture,
+			keyCode: CKEDITOR.SHIFT + CKEDITOR.ALT + enter,
 			config: {
 				allowedContent: true
 			},
@@ -32,12 +34,36 @@
 		} ),
 
 		// (#4467)
-		'test press shift + down must insert a paragraph below a widget': testFactory( {
+		'test press shift + enter must insert a paragraph after a widget': testFactory( {
 			input: image2Fixture + codeSnippetFixture,
-			result: image2Fixture + codeSnippetFixture,
-			keyCode: CKEDITOR.SHIFT + downArrow,
+			result: image2Fixture + bogusParagraph + codeSnippetFixture,
+			keyCode: CKEDITOR.SHIFT + enter,
 			config: {
 				allowedContent: true
+			},
+			assertion: assertAParagraphIsInserted
+		} ),
+
+		// (#4467)
+		'test custom key shift + down must insert a paragraph after a widget': testFactory( {
+			input: image2Fixture + codeSnippetFixture,
+			result: image2Fixture + bogusParagraph + codeSnippetFixture,
+			keyCode: CKEDITOR.SHIFT + downArrow,
+			config: {
+				allowedContent: true,
+				widget_keystrokeInsertParagraphAfter: CKEDITOR.SHIFT + downArrow
+			},
+			assertion: assertAParagraphIsInserted
+		} ),
+
+		// (#4467)
+		'test custom key shift + up must insert a paragraph before a widget': testFactory( {
+			input: image2Fixture + codeSnippetFixture,
+			result: bogusParagraph + image2Fixture + codeSnippetFixture,
+			keyCode: CKEDITOR.SHIFT + upArrow,
+			config: {
+				allowedContent: true,
+				widget_keystrokeInsertParagraphBefore: CKEDITOR.SHIFT + upArrow
 			},
 			assertion: assertAParagraphIsInserted
 		} )
@@ -75,10 +101,10 @@
 		widget.focus();
 	}
 
-	function assertAParagraphIsInserted( editor ) {
+	function assertAParagraphIsInserted( editor, result ) {
 		var snapshots = editor.undoManager.snapshots;
 
-		assert.areSame( 1, editor.document.getElementsByTag( 'p' ).count(), 'A paragraph should be inserted' );
+		assert.beautified.html( result, editor.getData(), 'A paragraph should be inserted' );
 		assert.areSame( 2, snapshots.length, 'Two undo snapshots should be created at this point.' );
 		assert.isFalse( snapshots[ 0 ].equalsContent( snapshots[ 1 ] ), 'The snapshots should be different.' );
 	}
