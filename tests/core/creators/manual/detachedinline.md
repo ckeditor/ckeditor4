@@ -1,9 +1,8 @@
-@bender-tags: 4.17.0, bug, 4462
+@bender-tags: 4.17.0, feature, 4462
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar,link,format,undo,floatingspace,sourcedialog
 
-
-**Note:** Open dev console to track possible errors.
+**Note:** Open dev console to track possible errors. If any occurs, test failed.
 
 1. Reattach editor with double click on "Toggle" button.
 

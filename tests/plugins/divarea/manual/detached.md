@@ -1,8 +1,8 @@
-@bender-tags: 4.17.0, bug, 4462
+@bender-tags: 4.17.0, feature, 4462
 @bender-ui: collapsed
 @bender-ckeditor-plugins: divarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
-**Note:** Open dev console to track possible errors.
+**Note:** Open dev console to track possible errors. If any occurs, test failed.
 
 1. Reattach editor with double click on "Toggle" button.
 
@@ -12,7 +12,7 @@
 
 2. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) updates.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
 
 	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
 
@@ -26,7 +26,7 @@
 
 5. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) updates.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
 
 	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
 
@@ -40,7 +40,7 @@
 
 8. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) updates.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
 
 	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
 
@@ -56,7 +56,7 @@
 
 12. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) updates.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
 
 	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
 
@@ -70,6 +70,6 @@
 
 15. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) updates.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
 
 	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.

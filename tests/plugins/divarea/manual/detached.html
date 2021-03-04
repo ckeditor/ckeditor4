@@ -8,10 +8,9 @@
 </div>
 
 <script>
-	var editorElement = document.getElementById( 'editor' ),
-		editorContainer = document.getElementById( 'editorContainer' ),
+	var editorContainer = document.getElementById( 'editorContainer' ),
 		editorContainerParent = editorContainer.parentNode,
-		editor = CKEDITOR.replace( editorElement ),
+		editor = CKEDITOR.replace( 'editor' ),
 		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
 		setButton = CKEDITOR.document.getById( 'setButton' ),
 		editorDetached = false;
@@ -29,6 +28,4 @@
 
 		editorDetached = !editorDetached;
 	} );
-
 </script>
-

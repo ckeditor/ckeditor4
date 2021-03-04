@@ -1,26 +1,25 @@
 <button id="toggleButton">Toggle</button>
 
-<p>Static editor</p>
-<div id="editorTwo">
+<h2>Static editor</h2>
+<div id="staticEditor">
 	<p>I'll stay here forever.</p>
 </div>
 
 <div id="editorContainer">
-	<p>Detachable editor</p>
-	<div id="editor">
+	<h2>Detachable editor</h2>
+	<div id="detachableEditor">
 		<p>I'll disappear soon...</p>
 	</div>
 </div>
 
-
 <script>
-	var editorElement = document.getElementById( 'editor' ),
-		editorContainer = document.getElementById( 'editorContainer' ),
+	var editorContainer = document.getElementById( 'editorContainer' ),
 		editorContainerParent = editorContainer.parentNode,
-		editor = CKEDITOR.replace( editorElement ),
-		editorTwo = CKEDITOR.replace( 'editorTwo' ),
 		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
 		editorDetached = false;
+
+	CKEDITOR.replace( 'staticEditor' );
+	CKEDITOR.replace( 'detachableEditor' );
 
 	toggleButton.on( 'click', function() {
 		if ( editorDetached ) {
@@ -31,6 +30,5 @@
 
 		editorDetached = !editorDetached;
 	} );
-
 </script>
 

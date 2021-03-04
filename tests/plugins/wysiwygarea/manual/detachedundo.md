@@ -1,9 +1,10 @@
-@bender-tags: 4.17.0, bug, 4462
+@bender-tags: 4.17.0, feature, 4462
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
+**Note:** Open dev console to track possible errors. If any occurs, test failed.
 
-1. Change text formatting. For example to 'Heading 1'.
+1. Change text formatting to 'Heading 1'.
 
 2. Reattach editor with double click on "Toggle" button.
 

@@ -5,12 +5,12 @@
 </div>
 
 <script>
-	var editorElement = document.getElementById( 'editor' ),
-		editorContainer = document.getElementById( 'editorContainer' ),
+	var editorContainer = document.getElementById( 'editorContainer' ),
 		editorContainerParent = editorContainer.parentNode,
-		editor = CKEDITOR.replace( editorElement ),
 		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
 		editorDetached = false;
+
+	CKEDITOR.replace( 'editor' );
 
 	toggleButton.on( 'click', function() {
 		if ( editorDetached ) {

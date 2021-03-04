@@ -1,9 +1,11 @@
-/* bender-tags: 4.17.0, bug, 4462 */
+/* bender-tags: editor, 4462 */
 /* bender-ckeditor-plugins: basicstyles,toolbar */
 
 ( function() {
+	'use strict';
+
 	bender.test( {
-		'test reattached editor contains same data': function() {
+		'test reattached editor contains the same data': function() {
 			var startupData = '<p>CKEditor4</p>';
 
 			bender.editorBot.create( {

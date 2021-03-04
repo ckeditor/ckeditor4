@@ -103,10 +103,11 @@
 
 				// Additional permanent onLoad (#4462).
 				function attachIframeReloader( evt ) {
-					evt && evt.removeListener();
 					var iframe = this.iframe,
 						editor = this.editor,
 						callback = this.callback;
+
+					evt && evt.removeListener();
 
 					iframe.on( 'load', function() {
 						if ( shouldRecreateEditable( iframe ) ) {
@@ -124,10 +125,11 @@
 						newEditable = new framedWysiwyg( editor, iframe.getFrameDocument().getBody() );
 						editor.editable( newEditable );
 
+						// Prevents IE "Permission denied" error.
 						if ( CKEDITOR.env.ie ) {
-							// Prevents IE permission denied error.
 							editor.focus();
 						}
+
 						editor.setData( cacheData, callback );
 						shouldRecreateEditable( iframe, false );
 					} );
@@ -370,6 +372,7 @@
 
 		proto: {
 			saveIframe: false,
+
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 
@@ -507,11 +510,11 @@
 
 					editor.fire( 'contentDomUnload' );
 
-					var doc = this.getDocument();
+					var doc = this.getDocument(),
+						iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
 
 					// Prevent backup onLoad event.
-					// onload invokes SetData() method, so it leads to infinite loop (#4462).
-					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' );
+					// onLoad invokes setData() method, so it leads to infinite loop (#4462).
 					shouldRecreateEditable( iframe, true );
 
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),

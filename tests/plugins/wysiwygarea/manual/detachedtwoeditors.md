@@ -1,8 +1,8 @@
-@bender-tags: 4.17.0, bug, 4462
+@bender-tags: 4.17.0, feature, 4462
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
-**Note:** Open dev console to track possible errors.
+**Note:** Open dev console to track possible errors. If any occurs, test failed.
 
 1. Bold the entire text in "Static editor".
 
@@ -14,14 +14,14 @@
 
   **Expected:**
 
-  * "Detachable editor" shows with its own underlined text.
+  * "Detachable editor" shows up with its own underlined text.
   * "Detachable editor" has its own undo history.
   * "Detachable editor" is editable.
-  * Elementspath (at the bottom is updated).
+  * Elementspath (bottom bar) is filled.
 
   **Unexpected:**
 
   * Editor data is lost.
   * Content area is not editable.
   * "Detachable editor" has the same data as "Static editor".
-  * "Detachable editor" undo steps leads to the same results as in "Static editor".
+  * "Detachable editor" undo steps lead to the same results as in "Static editor".
