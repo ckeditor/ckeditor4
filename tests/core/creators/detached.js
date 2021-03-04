@@ -47,7 +47,7 @@
 		'Test editor creation from provided callback': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor3' ),
 				editorParent = editorElement.getParent(),
-				editorCreationCallback = null;
+				editorCreationCallback;
 
 			editorElement.remove();
 
