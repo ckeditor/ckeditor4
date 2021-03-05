@@ -14,7 +14,7 @@
 			editorElement.remove();
 
 			var editor = CKEDITOR.replace( this.editorElement, {
-				delayDetached: true
+				delayIfDetached: true
 			} );
 
 			assert.isNull( editor );
@@ -27,7 +27,7 @@
 			editorElement.remove();
 
 			CKEDITOR.replace( editorElement, {
-				delayDetached: true,
+				delayIfDetached: true,
 				on: {
 					instanceReady: function() {
 						resume( function() {
@@ -52,7 +52,7 @@
 			editorElement.remove();
 
 			CKEDITOR.replace( editorElement, {
-				delayDetached: true,
+				delayIfDetached: true,
 				registerCallback: RegisterCallback,
 				on: {
 					instanceReady: function() {

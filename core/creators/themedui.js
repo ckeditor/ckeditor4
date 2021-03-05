@@ -343,7 +343,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return null;
 		}
 
-		if ( delayCreationOnDetachedElement( element, config, data, mode ) ) {
+		if ( delayCreationOnDetachedElement( element, mode, config, data ) ) {
 			return null;
 		}
 
@@ -390,18 +390,18 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 	// Delay editor creation if given element is detached from DOM.
 	//
-	// Require `config.delayDetached` to be `true`.
+	// Require `config.delayIfDetached` to be `true`.
 	//
-	// If `config.registerCallback` is declared as function, it will be invoked with single argument:
+	// If `config.delayIfDetached_callback` is declared as function, it will be invoked with single argument:
 	// function, that should be called to create editor.
 	//
 	// Otherwise: periodically (with `setInterval`) run check if element is attached to DOM and create editor automatically.
 	//
 	// ```js
 	//	CKEDITOR.replace( detachedEditorElement, {
-	//		delayDetached: true,
-	//		delayDetachedFrequency: 50,
-	//		registerCallback:RegisterCallback
+	//		delayIfDetached: true,
+	//		delayIfDetached_interval: 50,
+	//		delayIfDetached_callback:RegisterCallback
 	//		}
 	//	} );
 	// ```
@@ -412,18 +412,16 @@ CKEDITOR.replaceClass = 'ckeditor';
 	// editor instance. Configuration set here will override the global CKEditor settings.
 	// @param {String} [data] Initial value for the instance.
 	function delayCreationOnDetachedElement( element, mode, config, data ) {
-		if ( !config || !config.delayDetached || !element.isDetached() ) {
+		if ( !config || !config.delayIfDetached || !element.isDetached() ) {
 			return false;
 		}
 
-		CKEDITOR.warn( 'Editor creation will be delayed. We will keep trying every ' + config.delay + 'ms until target element will be reattached to DOM.' );
-
-		if ( !config.registerCallback ) {
-			CKEDITOR.config.registerCallback( intervalyAttemptInstanceCreation );
+		if ( !config.delayIfDetached_callback ) {
+			CKEDITOR.config.delayIfDetached_callback( intervalyAttemptInstanceCreation );
 			return true;
 		}
 
-		config.registerCallback( function() {
+		config.delayIfDetached_callback( function() {
 			createInstance( element, config, data, mode );
 		} );
 
@@ -431,7 +429,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		function intervalyAttemptInstanceCreation() {
 			var delay = parseFloat( config.delay );
-			delay = isNaN( delay ) ? CKEDITOR.config.delayDetachedFrequency : delay;
+			delay = isNaN( delay ) ? CKEDITOR.config.delayIfDetached_interval : delay;
+
+			CKEDITOR.warn( 'Editor creation will be delayed. We will keep trying every ' + delay + 'ms until target element will be reattached to DOM.' );
 
 			var intervalId = setInterval( function() {
 				if ( !element.isDetached() ) {
@@ -633,24 +633,24 @@ CKEDITOR.config.startupMode = 'wysiwyg';
 /**
  * Allow delay editor creation if target element is detached from DOM.
  *
- *		config.delayDetached = true;
+ *		config.delayIfDetached = true;
  *
- * @cfg {Boolean} [delayDetached=false]
+ * @cfg {Boolean} [delayIfDetached=false]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.delayDetached = false;
+CKEDITOR.config.delayIfDetached = false;
 
 /**
- * Verifying frequency (ms) to use with default {@link CKEDITOR.config#registerCallback callback}.
+ * Verifying frequency (ms) to use with default {@link CKEDITOR.config#egisterCallback callback}.
  *
  * Used to set `setInterval` which checks whenever element is attached to DOM again.
  *
- *		config.delayDetachedFrequency = 1000;
+ *		config.delayIfDetached_interval = 1000;
  *
- * @cfg {Number} [delayDetachedFrequency=50]
+ * @cfg {Number} [delayIfDetached_interval=50]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.delayDetachedFrequency = 50;
+CKEDITOR.config.delayIfDetached_interval = 50;
 
 /**
  * Function with single argument. As argument is passed another function that continues editor creation.
@@ -659,13 +659,15 @@ CKEDITOR.config.delayDetachedFrequency = 50;
  *		// Possible use:
  *		// Save creation callback.
  *		// Call resumeEditorCreation whenever you choose.
- *		config.registerCallback = function( createEditor ) {
+ *		var resumeEditorCreation;
+ *
+ *		config.delayIfDetached_callback = function( createEditor ) {
  *			resumeEditorCreation = createEditor;
  *		};
  *
- * @cfg {Function} [registerCallback = function( createEditor ){ resumeEditorCreation = createEditor; }]
+ * @cfg {Function} [delayIfDetached_callback = function( createEditor ){ resumeEditorCreation = createEditor; }]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.registerCallback = function( callback ) {
-	callback();
+CKEDITOR.config.delayIfDetached_callback = function( createEditorFunction ) {
+	createEditorFunction();
 };
