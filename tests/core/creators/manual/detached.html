@@ -21,12 +21,7 @@
 	editorParent.removeChild( editorElement );
 
 	CKEDITOR.replace( editorElement, {
-		delayIfDetached: true,
-		on: {
-			instanceReady: function() {
-				this.setData( 'Editor created' );
-			}
-		}
+		delayIfDetached: true
 	} );
 
 	attachButton.on( 'click', function() {
@@ -46,12 +41,7 @@
 	CKEDITOR.replace( secondEditor, {
 		delayIfDetached: true,
 		delayIfDetached_interval: 50,
-		registerCallback: RegisterCallback,
-		on: {
-			instanceReady: function() {
-				this.setData( 'Editor created from config callback' );
-			}
-		}
+		registerCallback: RegisterCallback
 	} );
 
 	secondAttachButton.on( 'click', function() {
