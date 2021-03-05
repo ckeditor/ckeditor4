@@ -407,11 +407,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 	// ```
 	//
 	// @param {CKEDITOR.element} element The DOM element.
+	// @param {String} mode CKEditor mode.
 	// @param {Object} [config] The specific configuration to apply to this
 	// editor instance. Configuration set here will override the global CKEditor settings.
 	// @param {String} [data] Initial value for the instance.
-	// @param {String} mode CKEditor mode.
-	function delayCreationOnDetachedElement( element, config, data, mode ) {
+	function delayCreationOnDetachedElement( element, mode, config, data ) {
 		if ( !config || !config.delayDetached || !element.isDetached() ) {
 			return false;
 		}
@@ -419,7 +419,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		CKEDITOR.warn( 'Editor creation will be delayed. We will keep trying every ' + config.delay + 'ms until target element will be reattached to DOM.' );
 
 		if ( !config.registerCallback ) {
-			CKEDITOR.config.registerCallback( payload );
+			CKEDITOR.config.registerCallback( intervalyAttemptInstanceCreation );
 			return true;
 		}
 
@@ -429,7 +429,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		return true;
 
-		function payload() {
+		function intervalyAttemptInstanceCreation() {
 			var delay = parseFloat( config.delay );
 			delay = isNaN( delay ) ? CKEDITOR.config.delayDetachedFrequency : delay;
 
