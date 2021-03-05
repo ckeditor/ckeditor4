@@ -21,7 +21,7 @@
 	editorParent.removeChild( editorElement );
 
 	CKEDITOR.replace( editorElement, {
-		delayDetached: true,
+		delayIfDetached: true,
 		on: {
 			instanceReady: function() {
 				this.setData( 'Editor created' );
@@ -44,8 +44,8 @@
 	secondEditorParent.removeChild( secondEditor );
 
 	CKEDITOR.replace( secondEditor, {
-		delayDetached: true,
-		delayDetachedFrequency: 50,
+		delayIfDetached: true,
+		delayIfDetached_interval: 50,
 		registerCallback: RegisterCallback,
 		on: {
 			instanceReady: function() {
