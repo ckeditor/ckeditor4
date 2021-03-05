@@ -5,15 +5,10 @@
 	'use strict';
 
 	var tests = {
-		editorElement: null,
-		editorParent: null,
-
 		'test delay editor creation if target element is detached': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor1' );
+			var editorElement = CKEDITOR.document.getById( 'editor1' ).remove();
 
-			editorElement.remove();
-
-			var editor = CKEDITOR.replace( this.editorElement, {
+			var editor = CKEDITOR.replace( editorElement, {
 				delayIfDetached: true
 			} );
 
@@ -53,7 +48,7 @@
 
 			CKEDITOR.replace( editorElement, {
 				delayIfDetached: true,
-				registerCallback: RegisterCallback,
+				delayIfDetached_callback: registerCallback,
 				on: {
 					instanceReady: function() {
 						resume( function() {
@@ -63,7 +58,7 @@
 				}
 			} );
 
-			function RegisterCallback( editorCreationFunc ) {
+			function registerCallback( editorCreationFunc ) {
 				editorCreationCallback = editorCreationFunc;
 			}
 
