@@ -67,6 +67,32 @@
 				editorCreationCallback();
 			}, 250 );
 
+			wait();
+		},
+
+		'test editor delay creation invokes CKEDITOR.warn': function() {
+			var stubbedWarn = sinon.stub( CKEDITOR, 'warn' ),
+				editorElement = CKEDITOR.document.getById( 'editor4' ),
+				editorParent = editorElement.getParent();
+				// editorCreationCallback;
+
+			editorElement.remove();
+
+			CKEDITOR.replace( editorElement, {
+				delayIfDetached: true,
+				on: {
+					instanceReady: function() {
+						resume( function() {
+							assert.isTrue( stubbedWarn.calledTwice );
+							stubbedWarn.restore();
+						} );
+					}
+				}
+			} );
+
+			CKEDITOR.tools.setTimeout( function() {
+				editorParent.append( editorElement );
+			}, 250 );
 
 			wait();
 		}
