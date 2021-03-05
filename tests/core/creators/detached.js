@@ -8,7 +8,7 @@
 		editorElement: null,
 		editorParent: null,
 
-		'Test delay editor creation if target element is detached': function() {
+		'test delay editor creation if target element is detached': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor1' );
 
 			editorElement.remove();
@@ -20,7 +20,7 @@
 			assert.isNull( editor );
 		},
 
-		'Test delay editor creation until target element attach to DOM': function() {
+		'test delay editor creation until target element attach to DOM': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor2' ),
 				editorParent = editorElement.getParent();
 
@@ -44,7 +44,7 @@
 			wait();
 		},
 
-		'Test editor creation from provided callback': function() {
+		'test editor creation from provided callback': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor3' ),
 				editorParent = editorElement.getParent(),
 				editorCreationCallback;
