@@ -3,7 +3,6 @@
 
 ( function() {
 	'use strict';
-
 	var tests = {
 		'test delay editor creation if target element is detached': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor1' ).remove();
@@ -21,6 +20,16 @@
 			var editor = CKEDITOR.replace( editorElement, {
 				delayIfDetached: true,
 				delayIfDetached_callback: function() {}
+			} );
+
+			assert.isNotNull( editor );
+		},
+
+		'test editor is created immediately on not detached element with delayIfDetached config set as false': function() {
+			var editorElement = CKEDITOR.document.getById( 'editor6' );
+
+			var editor = CKEDITOR.replace( editorElement, {
+				delayIfDetached: false
 			} );
 
 			assert.isNotNull( editor );
