@@ -35,6 +35,14 @@
 			assert.isNotNull( editor );
 		},
 
+		'test editor without config is created immediately on not detached element': function() {
+			var editorElement = CKEDITOR.document.getById( 'editor7' );
+
+			var editor = CKEDITOR.replace( editorElement );
+
+			assert.isNotNull( editor );
+		},
+
 		'test delay editor creation until target element attach to DOM': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor2' ),
 				editorParent = editorElement.getParent();
