@@ -1,0 +1,23 @@
+<button id="attachButton">Attach editor to parent</button>
+
+<div>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet.</p>
+	</div>
+</div>
+
+<script>
+	var editorElement = document.getElementById( 'editor' ),
+		attachButton = CKEDITOR.document.getById( 'attachButton' ),
+		editorParent = editorElement.parentNode;
+
+	editorParent.removeChild( editorElement );
+
+	CKEDITOR.replace( editorElement, {
+		delayIfDetached: true
+	} );
+
+	attachButton.on( 'click', function() {
+		editorParent.appendChild( editorElement );
+	} );
+</script>

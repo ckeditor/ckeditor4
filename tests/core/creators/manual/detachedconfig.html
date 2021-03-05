@@ -1,0 +1,32 @@
+<button id="attachButton">Attach editor to parent</button>
+
+<div>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet.</p>
+	</div>
+</div>
+
+<script>
+	var editor = document.getElementById( 'editor' ),
+		secondAttachButton = CKEDITOR.document.getById( 'attachButton' ),
+		secondEditorParent = editor.parentNode,
+		editorCreationCallback;
+
+	secondEditorParent.removeChild( editor );
+
+	CKEDITOR.replace( editor, {
+		delayIfDetached: true,
+		delayIfDetached_interval: 50,
+		registerCallback: registerCallback
+	} );
+
+	secondAttachButton.on( 'click', function() {
+		secondEditorParent.appendChild( editor );
+		editorCreationCallback();
+	} );
+
+	function registerCallback( editorCreationFunc ) {
+		editorCreationCallback = editorCreationFunc;
+	}
+
+</script>
