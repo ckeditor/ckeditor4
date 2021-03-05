@@ -423,7 +423,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return true;
 		}
 
-		config.registerCallback( registerPayload );
+		config.registerCallback( function() {
+			createInstance( element, config, data, mode );
+		} );
 
 		return true;
 
@@ -439,12 +441,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 					createInstance( element, config, data, mode );
 				}
 			}, delay );
-		}
-
-		function registerPayload() {
-			if ( !element.isDetached() ) {
-				createInstance( element, config, data, mode );
-			}
 		}
 	}
 
