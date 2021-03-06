@@ -122,6 +122,27 @@
 			}, 250 );
 
 			wait();
+		},
+
+		'test editor interval attempts to create if target element is detached': function() {
+			var editorElement = CKEDITOR.document.getById( 'editor8' ),
+				spyIsDetached = sinon.spy( editorElement, 'isDetached' );
+
+			editorElement.remove();
+
+			CKEDITOR.replace( editorElement, {
+				delayIfDetached: true,
+				delayIfDetached_interval: 50
+			} );
+
+			CKEDITOR.tools.setTimeout( function() {
+				resume( function() {
+					assert.isTrue( spyIsDetached.callCount > 5 );
+					spyIsDetached.restore();
+				} );
+			}, 3000 );
+
+			wait();
 		}
 	};
 

@@ -16,8 +16,7 @@
 
 	CKEDITOR.replace( editor, {
 		delayIfDetached: true,
-		delayIfDetached_interval: 50,
-		registerCallback: registerCallback
+		delayIfDetached_callback: registerCallback
 	} );
 
 	secondAttachButton.on( 'click', function() {
