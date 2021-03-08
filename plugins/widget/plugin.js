@@ -3607,8 +3607,8 @@
 	}
 
 	function setupWidget( widget, widgetDef ) {
-		var keystrokeInsertLineBefore = widget.editor.config.widget_keystrokeInsertLineBefore || CKEDITOR.SHIFT + CKEDITOR.ALT + 13,
-			keystrokeInsertLineAfter = widget.editor.config.widget_keystrokeInsertLineAfter || CKEDITOR.SHIFT + 13;
+		var keystrokeInsertLineBefore = widget.editor.config.widget_keystrokeInsertLineBefore,
+			keystrokeInsertLineAfter = widget.editor.config.widget_keystrokeInsertLineAfter;
 
 		setupWrapper( widget );
 		setupParts( widget );
@@ -4898,3 +4898,27 @@
  *
  * @property {String} pathName
  */
+
+/**
+ * Defines the keyboard shortcut for inserting a line before selected widget. Default combination
+ * is `Shift+Alt+Enter`. New element tag is based on {@link CKEDITOR.config#enterMode} option.
+ *
+ *		config.widget_keystrokeInsertLineBefore = 'CKEDITOR.SHIFT + 38'; // Shift + Arrow Up
+ *
+ * @since 4.16.1
+ * @cfg {Number} [widget_keystrokeInsertLineBefore=CKEDITOR.SHIFT+CKEDITOR.ALT+13]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.widget_keystrokeInsertLineBefore = CKEDITOR.SHIFT + CKEDITOR.ALT + 13;
+
+/**
+ * Defines the keyboard shortcut for inserting a line after selected widget. Default combination
+ * is `Shift+Enter`. New element tag is based on {@link CKEDITOR.config#enterMode} option.
+ *
+ *		config.widget_keystrokeInsertLineAfter = 'CKEDITOR.SHIFT + 40'; // Shift + Arrow Down
+ *
+ * @since 4.16.1
+ * @cfg {Number} [widget_keystrokeInsertLineAfter=CKEDITOR.SHIFT+13]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.widget_keystrokeInsertLineAfter = CKEDITOR.SHIFT + 13;
