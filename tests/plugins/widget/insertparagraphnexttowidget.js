@@ -53,7 +53,7 @@
 			keyCode: CKEDITOR.SHIFT + downArrow,
 			config: {
 				allowedContent: true,
-				widget_keystrokeInsertParagraphAfter: CKEDITOR.SHIFT + downArrow
+				widget_keystrokeInsertLineAfter: CKEDITOR.SHIFT + downArrow
 			},
 			assertion: assertAParagraphIsInserted
 		} ),
@@ -65,7 +65,7 @@
 			keyCode: CKEDITOR.SHIFT + upArrow,
 			config: {
 				allowedContent: true,
-				widget_keystrokeInsertParagraphBefore: CKEDITOR.SHIFT + upArrow
+				widget_keystrokeInsertLineBefore: CKEDITOR.SHIFT + upArrow
 			},
 			assertion: assertAParagraphIsInserted
 		} ),

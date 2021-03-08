@@ -3607,8 +3607,8 @@
 	}
 
 	function setupWidget( widget, widgetDef ) {
-		var keystrokeInsertParagraphBefore = widget.editor.config.widget_keystrokeInsertParagraphBefore || CKEDITOR.SHIFT + CKEDITOR.ALT + 13,
-			keystrokeInsertParagraphAfter = widget.editor.config.widget_keystrokeInsertParagraphAfter || CKEDITOR.SHIFT + 13;
+		var keystrokeInsertLineBefore = widget.editor.config.widget_keystrokeInsertLineBefore || CKEDITOR.SHIFT + CKEDITOR.ALT + 13,
+			keystrokeInsertLineAfter = widget.editor.config.widget_keystrokeInsertLineAfter || CKEDITOR.SHIFT + 13;
 
 		setupWrapper( widget );
 		setupParts( widget );
@@ -3638,13 +3638,13 @@
 		widget.on( 'key', function( evt ) {
 			var keyCode = evt.data.keyCode;
 
-			// Insert a new paragraph before the widget.
-			if ( keyCode == keystrokeInsertParagraphBefore ) {
+			// Insert a new paragraph before the widget (#4467).
+			if ( keyCode == keystrokeInsertLineBefore ) {
 				insertParagraph( widget, 'before' );
 				widget.editor.fire( 'saveSnapshot' );
 			}
-			// Insert a new paragraph after the widget.
-			else if ( keyCode == keystrokeInsertParagraphAfter ) {
+			// Insert a new paragraph after the widget (#4467).
+			else if ( keyCode == keystrokeInsertLineAfter ) {
 				insertParagraph( widget, 'after' );
 				widget.editor.fire( 'saveSnapshot' );
 			}
