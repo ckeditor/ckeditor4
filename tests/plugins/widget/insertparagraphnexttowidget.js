@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: wysiwygarea,toolbar,forms,widget,codesnippet,image2,undo,basicstyles,entities */
+/* bender-ckeditor-plugins: wysiwygarea,toolbar,widget,codesnippet,image2,undo,basicstyles,entities,sourcearea */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
 
@@ -18,7 +18,9 @@
 		codeSnippetFixture = (
 			'<pre><code class="language-javascript">//Hello another world!</code></pre>'
 		),
-		bogusParagraph = '<p>&nbsp;</p>';
+		bogusParagraph = '<p>&nbsp;</p>',
+		bogusBr = '<br />',
+		bogusDiv = '<div>&nbsp;</div>';
 
 	bender.test( {
 
@@ -66,8 +68,32 @@
 				widget_keystrokeInsertParagraphBefore: CKEDITOR.SHIFT + upArrow
 			},
 			assertion: assertAParagraphIsInserted
-		} )
+		} ),
 
+		// (#4467)
+		'test press shift + enter with ckeditor.enter_br inserts <br> element after a widget': testFactory( {
+			input: image2Fixture + 'Hello!',
+			result: image2Fixture + bogusBr + 'Hello!',
+			keyCode: CKEDITOR.SHIFT + enter,
+			config: {
+				allowedContent: true,
+				enterMode: CKEDITOR.ENTER_BR,
+				height: 500
+			},
+			assertion: assertAParagraphIsInserted
+		} ),
+
+		// (#4467)
+		'test press shift + enter with ckeditor.enter_div inserts <div> element after a widget': testFactory( {
+			input: image2Fixture + codeSnippetFixture,
+			result: image2Fixture + bogusDiv + codeSnippetFixture,
+			keyCode: CKEDITOR.SHIFT + enter,
+			config: {
+				allowedContent: true,
+				enterMode: CKEDITOR.ENTER_DIV
+			},
+			assertion: assertAParagraphIsInserted
+		} )
 	} );
 
 	function testFactory( params ) {
@@ -90,9 +116,7 @@
 
 				assertion( editor, result );
 			} );
-
 		};
-
 	}
 
 	function selectWidget( editor ) {

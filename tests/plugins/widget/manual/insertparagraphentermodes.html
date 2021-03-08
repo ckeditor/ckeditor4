@@ -1,0 +1,29 @@
+<h3>ENTER_BR Editor</h3>
+<div id="editor1">
+	<figure class="image">
+		<img alt="Lena" width="100" height="100" src="../../../_assets/lena.jpg" />
+		<figcaption>Caption</figcaption>
+	</figure>
+	<p>Hello, world!</p>
+</div>
+
+<h3>ENTER_DIV Editor</h3>
+<div id="editor2">
+	<figure class="image">
+		<img alt="Lena" width="100" height="100" src="../../../_assets/lena.jpg" />
+		<figcaption>Caption</figcaption>
+	</figure>
+	<p>Hello, world!</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		height: 300,
+		enterMode: CKEDITOR.ENTER_BR
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		height: 300,
+		enterMode: CKEDITOR.ENTER_DIV
+	} );
+</script>

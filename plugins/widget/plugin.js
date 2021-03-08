@@ -3462,17 +3462,29 @@
 	} );
 
 	function insertParagraph( widget, position ) {
-		var p = new CKEDITOR.dom.element( 'p' );
+		var elementTag = decodeEnterMode( widget.editor.config.enterMode ),
+			newElement = new CKEDITOR.dom.element( elementTag );
 
-		p.appendBogus();
+		newElement.appendBogus();
 
 		if ( position === 'after' ) {
-			p.insertAfter( widget.wrapper );
+			newElement.insertAfter( widget.wrapper );
 		} else {
-			p.insertBefore( widget.wrapper );
+			newElement.insertBefore( widget.wrapper );
 		}
 
-		select( p );
+		select( newElement );
+
+		function decodeEnterMode( option ) {
+			if ( option == CKEDITOR.ENTER_BR ) {
+				return 'br';
+			} else if ( option == CKEDITOR.ENTER_DIV ) {
+				return 'div';
+			}
+
+			// Default option - CKEDITOR.ENTER_P.
+			return 'p';
+		}
 
 		function select( element ) {
 			var newRange = widget.editor.createRange();
