@@ -6,29 +6,27 @@
 
 Test should be performed with browser dev tools opened.
 
-### Scenario 1: `INSERT PARAGRAPH BEFORE A WIDGET`
-
 1. Focus the widget.
-2. Press `SHIFT + ALT + ENTER`.
+1. Press `SHIFT + ALT + ENTER`.
 
-**Expected:**
+  **Expected:**
 
-* A paragraph should appear before the widget.
-* No errors must occur. No visible characters are deleted (use source mode to verify).
-* Selection is moved into the newly created paragraph.
-* There is an undo step created.
+  * A paragraph should appear before the widget.
+  * No errors occured.
+  * Selection is moved into the newly created paragraph.
+  * There is an undo step created.
 
- **Unexpected:** No paragraphs are inserted before the widget.
-### Scenario 2: `INSERT PARAGRAPH AFTER A WIDGET`
+  **Unexpected:** No paragraphs are inserted before the widget.
 
-1. Focus the widget.
-2. Press `SHIFT + ENTER`.
+1. Press undo button.
+1. Make sure widget is focused.
+1. Press `SHIFT + ENTER`.
 
-**Expected:**
+  **Expected:**
 
-* A paragraph should appear after the widget.
-* No errors must occur. No visible characters are deleted (use source mode to verify).
-* Selection is moved into the newly created paragraph.
-* There is an undo step created.
+  * A paragraph should appear after the widget.
+  * No errors occured.
+  * Selection is moved into the newly created paragraph.
+  * There is an undo step created.
 
- **Unexpected:** No paragraphs are inserted after the widget.
+  **Unexpected:** No paragraphs are inserted after the widget.
