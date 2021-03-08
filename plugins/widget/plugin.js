@@ -3461,7 +3461,7 @@
 		}
 	} );
 
-	function insertParagraph( widget, position ) {
+	function insertLine( widget, position ) {
 		var elementTag = decodeEnterMode( widget.editor.config.enterMode ),
 			newElement = new CKEDITOR.dom.element( elementTag );
 
@@ -3640,12 +3640,12 @@
 
 			// Insert a new paragraph before the widget (#4467).
 			if ( keyCode == keystrokeInsertLineBefore ) {
-				insertParagraph( widget, 'before' );
+				insertLine( widget, 'before' );
 				widget.editor.fire( 'saveSnapshot' );
 			}
 			// Insert a new paragraph after the widget (#4467).
 			else if ( keyCode == keystrokeInsertLineAfter ) {
-				insertParagraph( widget, 'after' );
+				insertLine( widget, 'after' );
 				widget.editor.fire( 'saveSnapshot' );
 			}
 			// ENTER.
