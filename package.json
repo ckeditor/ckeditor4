@@ -12,18 +12,18 @@
 		"cksource-samples-framework": "^1.0.1",
 		"grunt": "^1.0.1",
 		"grunt-contrib-concat": "^1.0.0",
-		"grunt-contrib-imagemin": "^2.0.1",
-		"grunt-contrib-jshint": "^1.0.0",
-		"grunt-contrib-less": "^2.0.0",
+		"grunt-contrib-imagemin": "^4.0.0",
+		"grunt-contrib-jshint": "^3.0.0",
+		"grunt-contrib-less": "^3.0.0",
 		"grunt-contrib-watch": "^1.0.0",
 		"grunt-githooks": "^0.6.0",
 		"grunt-jscs": "^3.0.1",
 		"grunt-jsduck": "^1.0.1",
-		"less": "^3.8.0",
+		"less": "^4.1.1",
 		"lesshat": "^4.1.0",
-		"replace-in-file": "^6.1.0",
+		"replace-in-file": "^6.2.0",
 		"shelljs": "^0.8.2",
-		"uglify-js": "^3.12.0"
+		"uglify-js": "^3.13.0"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
