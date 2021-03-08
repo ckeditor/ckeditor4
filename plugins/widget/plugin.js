@@ -3461,7 +3461,7 @@
 		}
 	} );
 
-	function insertParagraphAndSaveSnapshot( widget, position ) {
+	function insertParagraph( widget, position ) {
 		var p = new CKEDITOR.dom.element( 'p' );
 
 		p.appendBogus();
@@ -3471,7 +3471,6 @@
 		} else {
 			p.insertBefore( widget.wrapper );
 		}
-		widget.editor.fire( 'saveSnapshot' );
 
 		select( p );
 
@@ -3629,20 +3628,26 @@
 
 			// Insert a new paragraph before the widget.
 			if ( keyCode == keystrokeInsertParagraphBefore ) {
-				insertParagraphAndSaveSnapshot( widget, 'before' );
+				insertParagraph( widget, 'before' );
+				widget.editor.fire( 'saveSnapshot' );
+			}
 			// Insert a new paragraph after the widget.
-			} else if ( keyCode == keystrokeInsertParagraphAfter ) {
-				insertParagraphAndSaveSnapshot( widget, 'after' );
+			else if ( keyCode == keystrokeInsertParagraphAfter ) {
+				insertParagraph( widget, 'after' );
+				widget.editor.fire( 'saveSnapshot' );
+			}
 			// ENTER.
-			} else if ( keyCode == 13 ) {
+			else if ( keyCode == 13 ) {
 				widget.edit();
+			}
 			// CTRL+C or CTRL+X.
-			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
+			else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
 				copyWidgets( widget.editor, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
-			// Pass chosen keystrokes to other plugins or default fake sel handlers.
+			}
 			// Pass all CTRL/ALT keystrokes.
-			} else if ( keyCode in keystrokesNotBlockedByWidget ||
+			// Pass chosen keystrokes to other plugins or default fake sel handlers.
+			else if ( keyCode in keystrokesNotBlockedByWidget ||
 				( CKEDITOR.CTRL & keyCode ) ||
 				( CKEDITOR.ALT & keyCode ) ) {
 				return;
