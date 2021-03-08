@@ -96,7 +96,7 @@
 					editor.editable( new framedWysiwyg( editor, iframe.getFrameDocument().getBody() ) );
 					editor.setData( editor.getData( 1 ), callback );
 
-					shouldRecreateEditable( iframe, false );
+					shouldRecreateEditable( iframe, true );
 
 					editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
 				}
@@ -110,8 +110,8 @@
 					evt && evt.removeListener();
 
 					iframe.on( 'load', function() {
-						if ( shouldRecreateEditable( iframe ) ) {
-							shouldRecreateEditable( iframe, false );
+						if ( !shouldRecreateEditable( iframe ) ) {
+							shouldRecreateEditable( iframe, true );
 							return;
 						}
 
@@ -131,7 +131,7 @@
 						}
 
 						editor.setData( cacheData, callback );
-						shouldRecreateEditable( iframe, false );
+						shouldRecreateEditable( iframe, true );
 					} );
 				}
 			} );
@@ -515,7 +515,7 @@
 
 					// Prevent backup onLoad event.
 					// onLoad invokes setData() method, so it leads to infinite loop (#4462).
-					shouldRecreateEditable( iframe, true );
+					shouldRecreateEditable( iframe, false );
 
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
