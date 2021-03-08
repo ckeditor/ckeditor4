@@ -2,6 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: widget, wysiwygarea, toolbar, sourcearea, image2, contextmenu, undo, elementspath
 
+**Note:** Skip the test for the first editor on **IE8** due to [#4563](https://github.com/ckeditor/ckeditor4/issues/4563).
+
 1. Focus the widget in the first editor.
 1. Press <kbd>SHIFT + ENTER</kbd>.
 1. Check the elements path (at the bottom of editor).

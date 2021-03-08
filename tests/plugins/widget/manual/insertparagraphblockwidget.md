@@ -32,11 +32,12 @@ Test should be performed with browser dev tools opened.
   **Unexpected:** Any of the above conditions is false.
 
 1. Press <kbd>SHIFT + ENTER</kbd> again.
+1. Switch to source mode.
 
   **Expected:**
 
-  Soft break (`<br>`) was inserted (check in source code).
+  `<br>` element was inserted.
 
   **Unexpected:**
 
-  A paragraph was added or nothing happened.
+  `<p>` element was added or nothing happened.
