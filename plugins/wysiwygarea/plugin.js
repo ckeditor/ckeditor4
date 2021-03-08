@@ -130,6 +130,7 @@
 							editor.focus();
 						}
 
+						editor.status = 'recreating';
 						editor.setData( cacheData, callback );
 						shouldRecreateEditable( iframe, true );
 					} );
