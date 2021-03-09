@@ -343,6 +343,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return null;
 		}
 
+		// (#4461)
 		if ( delayCreationOnDetachedElement( element, mode, config, data ) ) {
 			return null;
 		}
