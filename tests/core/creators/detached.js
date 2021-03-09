@@ -1,44 +1,40 @@
-/* bender-tags: editor, 4.17.0, feature, 4461*/
+/* bender-tags: editor, feature, 4461*/
 /* bender-ckeditor-plugins: wysiwygarea */
 
 ( function() {
 	'use strict';
 	var tests = {
 		'test delay editor creation if target element is detached': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor1' ).remove();
-
-			var editor = CKEDITOR.replace( editorElement, {
-				delayIfDetached: true
-			} );
+			var editorElement = CKEDITOR.document.getById( 'editor1' ).remove(),
+				editor = CKEDITOR.replace( editorElement, {
+					delayIfDetached: true
+				} );
 
 			assert.isNull( editor );
 		},
 
 		'test editor is created immediately on not detached element even with delay config': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor5' );
-
-			var editor = CKEDITOR.replace( editorElement, {
-				delayIfDetached: true,
-				delayIfDetached_callback: function() {}
-			} );
+			var editorElement = CKEDITOR.document.getById( 'editor5' ),
+				editor = CKEDITOR.replace( editorElement, {
+					delayIfDetached: true,
+					delayIfDetached_callback: function() {}
+				} );
 
 			assert.isNotNull( editor );
 		},
 
 		'test editor is created immediately on not detached element with delayIfDetached config set as false': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor6' );
-
-			var editor = CKEDITOR.replace( editorElement, {
-				delayIfDetached: false
-			} );
+			var editorElement = CKEDITOR.document.getById( 'editor6' ),
+				editor = CKEDITOR.replace( editorElement, {
+					delayIfDetached: false
+				} );
 
 			assert.isNotNull( editor );
 		},
 
 		'test editor without config is created immediately on not detached element': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor7' );
-
-			var editor = CKEDITOR.replace( editorElement );
+			var editorElement = CKEDITOR.document.getById( 'editor7' ),
+				editor = CKEDITOR.replace( editorElement );
 
 			assert.isNotNull( editor );
 		},
