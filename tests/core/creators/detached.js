@@ -14,7 +14,7 @@
 		},
 
 		'test editor is created immediately on not detached element even with delay config': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor5' ),
+			var editorElement = CKEDITOR.document.getById( 'editor2' ),
 				editor = CKEDITOR.replace( editorElement, {
 					delayIfDetached: true,
 					delayIfDetached_callback: function() {}
@@ -24,7 +24,7 @@
 		},
 
 		'test editor is created immediately on not detached element with delayIfDetached config set as false': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor6' ),
+			var editorElement = CKEDITOR.document.getById( 'editor3' ),
 				editor = CKEDITOR.replace( editorElement, {
 					delayIfDetached: false
 				} );
@@ -33,14 +33,14 @@
 		},
 
 		'test editor without config is created immediately on not detached element': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor7' ),
+			var editorElement = CKEDITOR.document.getById( 'editor4' ),
 				editor = CKEDITOR.replace( editorElement );
 
 			assert.isNotNull( editor );
 		},
 
 		'test delay editor creation until target element attach to DOM': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor2' ),
+			var editorElement = CKEDITOR.document.getById( 'editor5' ),
 				editorParent = editorElement.getParent();
 
 			editorElement.remove();
@@ -64,7 +64,7 @@
 		},
 
 		'test editor creation from provided callback': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor3' ),
+			var editorElement = CKEDITOR.document.getById( 'editor6' ),
 				editorParent = editorElement.getParent(),
 				editorCreationCallback;
 
@@ -96,7 +96,7 @@
 
 		'test editor delay creation invokes CKEDITOR.warn': function() {
 			var stubbedWarn = sinon.stub( CKEDITOR, 'warn' ),
-				editorElement = CKEDITOR.document.getById( 'editor4' ),
+				editorElement = CKEDITOR.document.getById( 'editor7' ),
 				editorParent = editorElement.getParent();
 
 			editorElement.remove();
