@@ -146,7 +146,7 @@
 					spyIsDetached.restore();
 
 				} );
-			}, 100 );
+			}, 200 );
 
 			wait();
 		}
