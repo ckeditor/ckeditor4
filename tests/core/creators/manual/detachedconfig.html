@@ -8,19 +8,19 @@
 
 <script>
 	var editor = document.getElementById( 'editor' ),
-		secondAttachButton = CKEDITOR.document.getById( 'attachButton' ),
-		secondEditorParent = editor.parentNode,
+		attachButton = CKEDITOR.document.getById( 'attachButton' ),
+		editorParent = editor.parentNode,
 		editorCreationCallback;
 
-	secondEditorParent.removeChild( editor );
+	editorParent.removeChild( editor );
 
 	CKEDITOR.replace( editor, {
 		delayIfDetached: true,
 		delayIfDetached_callback: registerCallback
 	} );
 
-	secondAttachButton.on( 'click', function() {
-		secondEditorParent.appendChild( editor );
+	attachButton.on( 'click', function() {
+		editorParent.appendChild( editor );
 		editorCreationCallback();
 	} );
 
