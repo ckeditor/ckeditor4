@@ -417,32 +417,27 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return false;
 		}
 
-		if ( !config.delayIfDetached_callback ) {
-			CKEDITOR.config.delayIfDetached_callback( intervalyAttemptInstanceCreation );
+		if ( config.delayIfDetached_callback ) {
+			config.delayIfDetached_callback( function() {
+				createInstance( element, config, data, mode );
+			} );
+
 			return true;
 		}
 
-		config.delayIfDetached_callback( function() {
-			createInstance( element, config, data, mode );
-		} );
+		var interval = config.delayIfDetached_interval === undefined ? CKEDITOR.config.delayIfDetached_interval : config.delayIfDetached_interval;
+
+		CKEDITOR.warn( 'Editor creation will be delayed. We will keep trying every ' + interval + 'ms until target element will be reattached to DOM.' );
+
+		var intervalId = setInterval( function() {
+			if ( !element.isDetached() ) {
+				clearInterval( intervalId );
+				CKEDITOR.warn( 'Editor instance will be created now. Target element is attached to DOM.' );
+				createInstance( element, config, data, mode );
+			}
+		}, interval );
 
 		return true;
-
-		function intervalyAttemptInstanceCreation() {
-			var delay = parseFloat( config.delay );
-			delay = isNaN( delay ) ? CKEDITOR.config.delayIfDetached_interval : delay;
-
-			CKEDITOR.warn( 'Editor creation will be delayed. We will keep trying every ' + delay + 'ms until target element will be reattached to DOM.' );
-
-			var intervalId = setInterval( function() {
-				if ( !element.isDetached() ) {
-					clearInterval( intervalId );
-
-					CKEDITOR.warn( 'Editor instance will be created now. Target element is attached to DOM.' );
-					createInstance( element, config, data, mode );
-				}
-			}, delay );
-		}
 	}
 
 	function destroy() {
