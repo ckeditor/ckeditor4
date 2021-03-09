@@ -32,12 +32,18 @@
 		},
 
 		'test delay editor creation if target element is detached': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor4' ).remove(),
-				editor = CKEDITOR.replace( editorElement, {
-					delayIfDetached: true
-				} );
+			var editorElement = CKEDITOR.document.getById( 'editor4' ),
+				editorParent = editorElement.getParent();
+
+			editorElement.remove();
+
+			var editor = CKEDITOR.replace( editorElement, {
+				delayIfDetached: true
+			} );
 
 			assert.isNull( editor );
+
+			editorParent.append( editorElement );
 		},
 
 		'test delay editor creation until target element attach to DOM': function() {
@@ -123,6 +129,7 @@
 
 		'test editor interval attempts to create if target element is detached': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor8' ),
+				editorElementParent = editorElement.getParent(),
 				spyIsDetached = sinon.spy( editorElement, 'isDetached' );
 
 			editorElement.remove();
@@ -134,10 +141,12 @@
 
 			CKEDITOR.tools.setTimeout( function() {
 				resume( function() {
-					assert.isTrue( spyIsDetached.callCount > 5 );
+					editorElementParent.append( editorElement );
+					assert.isTrue( spyIsDetached.callCount > 2 );
 					spyIsDetached.restore();
+
 				} );
-			}, 3000 );
+			}, 100 );
 
 			wait();
 		}
