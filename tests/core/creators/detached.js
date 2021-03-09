@@ -4,17 +4,9 @@
 ( function() {
 	'use strict';
 	var tests = {
-		'test delay editor creation if target element is detached': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor1' ).remove(),
-				editor = CKEDITOR.replace( editorElement, {
-					delayIfDetached: true
-				} );
-
-			assert.isNull( editor );
-		},
 
 		'test editor is created immediately on not detached element even with delay config': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor2' ),
+			var editorElement = CKEDITOR.document.getById( 'editor1' ),
 				editor = CKEDITOR.replace( editorElement, {
 					delayIfDetached: true,
 					delayIfDetached_callback: function() {}
@@ -24,7 +16,7 @@
 		},
 
 		'test editor is created immediately on not detached element with delayIfDetached config set as false': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor3' ),
+			var editorElement = CKEDITOR.document.getById( 'editor2' ),
 				editor = CKEDITOR.replace( editorElement, {
 					delayIfDetached: false
 				} );
@@ -33,10 +25,19 @@
 		},
 
 		'test editor without config is created immediately on not detached element': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor4' ),
+			var editorElement = CKEDITOR.document.getById( 'editor3' ),
 				editor = CKEDITOR.replace( editorElement );
 
 			assert.isNotNull( editor );
+		},
+
+		'test delay editor creation if target element is detached': function() {
+			var editorElement = CKEDITOR.document.getById( 'editor4' ).remove(),
+				editor = CKEDITOR.replace( editorElement, {
+					delayIfDetached: true
+				} );
+
+			assert.isNull( editor );
 		},
 
 		'test delay editor creation until target element attach to DOM': function() {
