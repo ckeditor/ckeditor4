@@ -637,9 +637,9 @@ CKEDITOR.config.startupMode = 'wysiwyg';
 CKEDITOR.config.delayIfDetached = false;
 
 /**
- * Verifying frequency (ms) to use with default {@link CKEDITOR.config#egisterCallback callback}.
+ * The amount of time, in milliseconds between checks whenever editors target element is attached to DOM.
  *
- * Used to set `setInterval` which checks whenever element is attached to DOM again.
+ * It won't be used if {@link CKEDITOR.config#delayIfDetached_callback delayIfDetached_callback} is set.
  *
  *		config.delayIfDetached_interval = 1000;
  *
@@ -651,6 +651,7 @@ CKEDITOR.config.delayIfDetached_interval = 50;
 /**
  * Function with single argument. As argument is passed another function that continues editor creation.
  * Allows to store create function and invoke it when it is convenient instead of periodically invoke element verifying.
+ * If passed, editor won't run the default interval checks with {@link CKEDITOR.config#delayIfDetached_interval interval time}.
  *
  *		// Possible use:
  *		// Save creation callback.
