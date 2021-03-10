@@ -110,7 +110,7 @@ jobs:
           branch: ${{ env.BRANCH_SOURCE }}
 
       - name: Create PR
-        if: env.AS_PR == 1
+        if: env.HAS_CHANGES == 1 && env.AS_PR == 1
         # https://github.com/marketplace/actions/github-pull-request-action
         uses: repo-sync/pull-request@v2
         with:
