@@ -427,12 +427,16 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		var interval = config.delayIfDetached_interval === undefined ? CKEDITOR.config.delayIfDetached_interval : config.delayIfDetached_interval;
 
-		CKEDITOR.warn( 'Editor creation will be delayed. We will keep trying every ' + interval + 'ms until target element will be reattached to DOM.' );
+		CKEDITOR.warn( 'editor-delayed-creation', {
+			interval: interval
+		} );
 
 		var intervalId = setInterval( function() {
 			if ( !element.isDetached() ) {
 				clearInterval( intervalId );
-				CKEDITOR.warn( 'Editor instance will be created now. Target element is attached to DOM.' );
+
+				CKEDITOR.warn( 'editor-delayed-creation-success' );
+
 				createInstance( element, config, data, mode );
 			}
 		}, interval );
