@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.17
 
+New Features:
+
+* [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Inserting content next to block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation is now possible. Thanks to [bunglegrind](https://github.com/bunglegrind)!
+
 ## CKEditor 4.16
 
 **Security Updates:**
