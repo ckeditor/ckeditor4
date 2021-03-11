@@ -4905,7 +4905,7 @@
  *
  *		config.widget_keystrokeInsertLineBefore = 'CKEDITOR.SHIFT + 38'; // Shift + Arrow Up
  *
- * @since 4.16.1
+ * @since 4.17.0
  * @cfg {Number} [widget_keystrokeInsertLineBefore=CKEDITOR.SHIFT+CKEDITOR.ALT+13]
  * @member CKEDITOR.config
  */
@@ -4917,7 +4917,7 @@ CKEDITOR.config.widget_keystrokeInsertLineBefore = CKEDITOR.SHIFT + CKEDITOR.ALT
  *
  *		config.widget_keystrokeInsertLineAfter = 'CKEDITOR.SHIFT + 40'; // Shift + Arrow Down
  *
- * @since 4.16.1
+ * @since 4.17.0
  * @cfg {Number} [widget_keystrokeInsertLineAfter=CKEDITOR.SHIFT+13]
  * @member CKEDITOR.config
  */
