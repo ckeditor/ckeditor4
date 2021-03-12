@@ -2,7 +2,7 @@ name: Update NPM dependencies
 
 on:
   schedule:
-    - cron: "0 5 * * 1"
+    - cron: "0 5 1,15 * *"
   workflow_dispatch:
     inputs:
       config:
