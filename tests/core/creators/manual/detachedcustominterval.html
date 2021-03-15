@@ -1,0 +1,26 @@
+<button id="startButton">Start Test</button>
+
+<div>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet.</p>
+	</div>
+</div>
+
+<script>
+	var editorElement = document.getElementById( 'editor' ),
+		startButton = CKEDITOR.document.getById( 'startButton' ),
+		editorParent = editorElement.parentNode;
+
+	startButton.on( 'click', function () {
+		editorParent.removeChild( editorElement );
+
+		CKEDITOR.tools.setTimeout( function() {
+			editorParent.appendChild( editorElement );
+		}, 50 );
+
+		CKEDITOR.replace( editorElement, {
+			delayIfDetached: true,
+			delayIfDetached_interval: 5000
+		} );
+	} );
+</script>
