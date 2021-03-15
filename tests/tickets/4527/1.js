@@ -7,7 +7,6 @@
 	bender.editor = {
 		editorName: 'editor1',
 		startupData: '',
-		name: document.title,
 		config: {
 			forceSimpleAmpersand: true,
 			mailProtection: 'encode'
