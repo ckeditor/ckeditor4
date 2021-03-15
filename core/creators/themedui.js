@@ -659,12 +659,14 @@ CKEDITOR.config.delayIfDetached_interval = 50;
  *
  *		// Possible use:
  *		// Save creation callback.
- *		// Call resumeEditorCreation whenever you choose.
  *		var resumeEditorCreation;
  *
  *		config.delayIfDetached_callback = function( createEditor ) {
  *			resumeEditorCreation = createEditor;
  *		};
+ *
+ *		Create editor calling `resumeEditorCreation()` whenever you choose (e.g. on button click).
+ *		resumeEditorCreation();
  *
  * @cfg {Function} [delayIfDetached_callback = function( createEditor ){ resumeEditorCreation = createEditor; }]
  * @member CKEDITOR.config
