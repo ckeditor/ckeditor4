@@ -1,10 +1,10 @@
-/* bender-tags: editor, feature, 4461*/
+/* bender-tags: editor, feature, 4461 */
 /* bender-ckeditor-plugins: wysiwygarea */
 
 ( function() {
 	'use strict';
-	var tests = {
 
+	var tests = {
 		'test editor is created immediately on not detached element even with delay config': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor1' ),
 				editor = CKEDITOR.replace( editorElement, {
@@ -144,7 +144,6 @@
 					editorElementParent.append( editorElement );
 					assert.isTrue( spyIsDetached.callCount > 2 );
 					spyIsDetached.restore();
-
 				} );
 			}, 200 );
 
