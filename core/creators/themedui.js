@@ -635,6 +635,7 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  *
  *		config.delayIfDetached = true;
  *
+ * @since 4.17.0
  * @cfg {Boolean} [delayIfDetached=false]
  * @member CKEDITOR.config
  */
@@ -647,6 +648,7 @@ CKEDITOR.config.delayIfDetached = false;
  *
  *		config.delayIfDetached_interval = 1000;
  *
+ * @since 4.17.0
  * @cfg {Number} [delayIfDetached_interval=50]
  * @member CKEDITOR.config
  */
@@ -668,6 +670,7 @@ CKEDITOR.config.delayIfDetached_interval = 50;
  *		Create editor calling `resumeEditorCreation()` whenever you choose (e.g. on button click).
  *		resumeEditorCreation();
  *
+ * @since 4.17.0
  * @cfg {Function} [delayIfDetached_callback = function( createEditor ){ resumeEditorCreation = createEditor; }]
  * @member CKEDITOR.config
  */
