@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, wysiwygarea, sourcearea, undo, clipboard, basicstyles, elementspath
 
-1. Click button to attach editor to DOM element.
+1. Click button to attach editor to DOM element and invoke config callback to finish editor creation.
 
 **Expected**
   * Editor is created.
