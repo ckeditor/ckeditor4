@@ -102,7 +102,8 @@
 		},
 
 		'test editor delay creation invokes CKEDITOR.warn': function() {
-			var stubbedWarn = sinon.stub( CKEDITOR, 'warn' ),
+			// var stubbedWarn = sinon.stub( CKEDITOR, 'warn' ),
+			var spyWarn = sinon.spy( CKEDITOR, 'warn' ),
 				editorElement = CKEDITOR.document.getById( 'editor7' ),
 				editorParent = editorElement.getParent();
 
@@ -113,8 +114,9 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.isTrue( stubbedWarn.calledTwice, 'CKEDITOR.warn should be called two times.' );
-							stubbedWarn.restore();
+							assert.isTrue( spyWarn.callCount === 2, 'Call count is equal to: /' + spyWarn.callCount + '/' );
+							// assert.isTrue( stubbedWarn.calledTwice, 'CKEDITOR.warn should be called two times. But was ' + stubbedWarn. );
+							// stubbedWarn.restore();
 						} );
 					}
 				}
