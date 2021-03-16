@@ -102,8 +102,7 @@
 		},
 
 		'test editor delay creation invokes CKEDITOR.warn': function() {
-			// var stubbedWarn = sinon.stub( CKEDITOR, 'warn' ),
-			var spyWarn = sinon.spy( CKEDITOR, 'warn' ),
+			var spyWarn = sinon.spy(),
 				editorElement = CKEDITOR.document.getById( 'editor7' ),
 				editorParent = editorElement.getParent();
 			
@@ -113,14 +112,16 @@
 			
 			editorElement.remove();
 
+			CKEDITOR.on( 'log', spyWarn );
+
 			CKEDITOR.replace( editorElement, {
 				delayIfDetached: true,
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.isTrue( spyWarn.callCount === 2, 'Call count is equal to: /' + spyWarn.callCount + '/' );
-							// assert.isTrue( stubbedWarn.calledTwice, 'CKEDITOR.warn should be called two times. But was ' + stubbedWarn. );
-							// stubbedWarn.restore();
+							assert.areEqual( 'editor-delayed-creation', spyWarn.firstCall.args[ 0 ].data.errorCode );
+							assert.areEqual( 'editor-delayed-creation-success', spyWarn.secondCall.args[ 0 ].data.errorCode );
+							CKEDITOR.removeListener( 'log', spyWarn );
 						} );
 					}
 				}
