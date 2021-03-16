@@ -12,7 +12,7 @@
 					delayIfDetached_callback: function() {}
 				} );
 
-			assert.isNotNull( editor );
+			assert.isNotNull( editor, 'Editor should be created immediately on not detached element even with config enabling delay.' );
 		},
 
 		'test editor is created immediately on not detached element with delayIfDetached config set as false': function() {
@@ -21,14 +21,14 @@
 					delayIfDetached: false
 				} );
 
-			assert.isNotNull( editor );
+			assert.isNotNull( editor, 'Editor should be created immediately on not detached element with config disabling delay.' );
 		},
 
 		'test editor without config is created immediately on not detached element': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor3' ),
 				editor = CKEDITOR.replace( editorElement );
 
-			assert.isNotNull( editor );
+			assert.isNotNull( editor, 'Editor should be created immediately without custom config.' );
 		},
 
 		'test delay editor creation if target element is detached': function() {
@@ -41,7 +41,7 @@
 				delayIfDetached: true
 			} );
 
-			assert.isNull( editor );
+			assert.isNull( editor, 'Editor should not be created on detached element with config allowing delay.' );
 
 			editorParent.append( editorElement );
 		},
@@ -57,7 +57,7 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.pass();
+							assert.pass( 'Editor was created.' );
 						} );
 					}
 				}
@@ -83,7 +83,7 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.pass();
+							assert.pass( 'Editor was created from custom callback.' );
 						} );
 					}
 				}
@@ -113,7 +113,7 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.isTrue( stubbedWarn.calledTwice );
+							assert.isTrue( stubbedWarn.calledTwice, 'CKEDITOR.warn should be called two times.' );
 							stubbedWarn.restore();
 						} );
 					}
@@ -142,7 +142,7 @@
 			CKEDITOR.tools.setTimeout( function() {
 				resume( function() {
 					editorElementParent.append( editorElement );
-					assert.isTrue( spyIsDetached.callCount > 2 );
+					assert.isTrue( spyIsDetached.callCount > 2, 'There should be at least 3 calls of isDetached().' );
 					spyIsDetached.restore();
 				} );
 			}, 200 );
