@@ -402,13 +402,13 @@ CKEDITOR.replaceClass = 'ckeditor';
 	//	CKEDITOR.replace( detachedEditorElement, {
 	//		delayIfDetached: true,
 	//		delayIfDetached_interval: 50,
-	//		delayIfDetached_callback:RegisterCallback
+	//		delayIfDetached_callback: registerCallback
 	//		}
 	//	} );
 	// ```
 	//
 	// @param {CKEDITOR.element} element The DOM element.
-	// @param {String} mode CKEditor mode.
+	// @param {String} mode CKEditor mode (source/wysiwyg).
 	// @param {Object} [config] The specific configuration to apply to this
 	// editor instance. Configuration set here will override the global CKEditor settings.
 	// @param {String} [data] Initial value for the instance.
