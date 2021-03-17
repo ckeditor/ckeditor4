@@ -105,11 +105,7 @@
 			var spyWarn = sinon.spy(),
 				editorElement = CKEDITOR.document.getById( 'editor7' ),
 				editorParent = editorElement.getParent();
-			
-			CKEDITOR.on( 'log', function( event ) {
-				console.log( event.data.errorCode );
-			} );
-			
+
 			editorElement.remove();
 
 			CKEDITOR.on( 'log', spyWarn );
