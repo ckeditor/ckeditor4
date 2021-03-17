@@ -1,4 +1,5 @@
 <button id="startButton">Start Test</button>
+<span id="testTimer"></span>
 
 <div>
 	<div id="editor">
@@ -9,9 +10,25 @@
 <script>
 	var editorElement = document.getElementById( 'editor' ),
 		startButton = CKEDITOR.document.getById( 'startButton' ),
-		editorParent = editorElement.parentNode;
+		timerElement = CKEDITOR.document.getById( 'testTimer' ),
+		editorParent = editorElement.parentNode,
+		waitTime = 5000,
+		timerInterval = 50,
+		timerIntervalToken;
 
-	startButton.on( 'click', function () {
+	startButton.on( 'click', function ( evt ) {
+		evt && evt.removeListener();
+
+		timerIntervalToken = setInterval( function() {
+			waitTime -= timerInterval;
+			if ( waitTime <= 0 ) {
+				waitTime = 0;
+				clearInterval( timerIntervalToken );
+			}
+
+			timerElement.setText( waitTime + 'ms');
+		}, timerInterval );
+
 		editorParent.removeChild( editorElement );
 
 		CKEDITOR.tools.setTimeout( function() {
@@ -20,7 +37,7 @@
 
 		CKEDITOR.replace( editorElement, {
 			delayIfDetached: true,
-			delayIfDetached_interval: 5000
+			delayIfDetached_interval: waitTime
 		} );
 	} );
 </script>
