@@ -12,7 +12,7 @@
 					delayIfDetached_callback: function() {}
 				} );
 
-			assert.isNotNull( editor, 'Editor should be created immediately on not detached element even with config enabling delay.' );
+			assert.isNotNull( editor, 'Editor should be created immediately on not detached element, even if config allows a delay.' );
 		},
 
 		'test editor is created immediately on not detached element with delayIfDetached config set as false': function() {
@@ -21,14 +21,14 @@
 					delayIfDetached: false
 				} );
 
-			assert.isNotNull( editor, 'Editor should be created immediately on not detached element with config disabling delay.' );
+			assert.isNotNull( editor, 'Editor should be created immediately on not detached element, despite config delay option.' );
 		},
 
 		'test editor without config is created immediately on not detached element': function() {
 			var editorElement = CKEDITOR.document.getById( 'editor3' ),
 				editor = CKEDITOR.replace( editorElement );
 
-			assert.isNotNull( editor, 'Editor should be created immediately without custom config.' );
+			assert.isNotNull( editor, 'Editor should be created immediately with default config options.' );
 		},
 
 		'test delay editor creation if target element is detached': function() {
@@ -41,7 +41,7 @@
 				delayIfDetached: true
 			} );
 
-			assert.isNull( editor, 'Editor should not be created on detached element with config allowing delay.' );
+			assert.isNull( editor, 'Editor should not be created on detached element, if config allows a delay.' );
 
 			editorParent.append( editorElement );
 		},
@@ -115,8 +115,8 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.areEqual( 'editor-delayed-creation', spyWarn.firstCall.args[ 0 ].data.errorCode );
-							assert.areEqual( 'editor-delayed-creation-success', spyWarn.secondCall.args[ 0 ].data.errorCode );
+							assert.areEqual( 'editor-delayed-creation', spyWarn.firstCall.args[ 0 ].data.errorCode, 'First editor warn should be about creation delay' );
+							assert.areEqual( 'editor-delayed-creation-success', spyWarn.secondCall.args[ 0 ].data.errorCode, 'Second editor warn should be about success editor creation' );
 							CKEDITOR.removeListener( 'log', spyWarn );
 						} );
 					}
@@ -145,7 +145,7 @@
 			CKEDITOR.tools.setTimeout( function() {
 				resume( function() {
 					editorElementParent.append( editorElement );
-					assert.isTrue( spyIsDetached.callCount > 2, 'There should be at least 3 calls of isDetached().' );
+					assert.isTrue( spyIsDetached.callCount > 2, 'There should be at least three calls of isDetached().' );
 					spyIsDetached.restore();
 				} );
 			}, 200 );
