@@ -5,7 +5,7 @@
 
 **Note:** Open dev console to track possible errors. If any occurs, test failed.
 
-1. Use each available plugin and use toggle button to detach and reattach editor in random moments.
+1. Use each available plugin and use toggle button to detach and reattach editor in random moments. Observe especially the behaviour of `undo` plugin.
 
 	**Expected:** Editor shows with same data. Content is editable.
 
