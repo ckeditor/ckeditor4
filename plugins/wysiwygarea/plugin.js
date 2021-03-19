@@ -119,7 +119,7 @@
 							newEditable;
 
 						// Remove current editable, but preserve iframe.
-						editor.editable().saveIframe = true;
+						editor.editable().preserveIframe = true;
 						editor.editable( null );
 
 						newEditable = new framedWysiwyg( editor, iframe.getFrameDocument().getBody() );
@@ -372,7 +372,7 @@
 		base: CKEDITOR.editable,
 
 		proto: {
-			saveIframe: false,
+			preserveIframe: false,
 
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
@@ -568,7 +568,7 @@
 			},
 
 			detach: function() {
-				if ( this.saveIframe ) {
+				if ( this.preserveIframe ) {
 					return;
 				}
 

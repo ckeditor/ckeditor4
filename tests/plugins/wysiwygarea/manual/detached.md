@@ -54,11 +54,11 @@
 
 	**Unexpected:** Editor data is lost.
 
-12. Click inside the content editing area.
+12. Click inside the source area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
+	**Expected:** Source code is editable.
 
-	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
+	**Unexpected:** Source code is not editable.
 
 13. Switch back from "Source mode".
 
@@ -72,4 +72,4 @@
 
 	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
 
-	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty
+	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.

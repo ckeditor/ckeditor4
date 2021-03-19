@@ -8,6 +8,6 @@
 
 2. Reattach editor with double click on "Toggle" button.
 
-**Expected:** There is one undo step.
+**Expected:** There is exactly one undo step.
 
 **Unexpected:** Number of undo steps is different than one.
