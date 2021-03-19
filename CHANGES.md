@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 New Features:
 
 * [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Inserting content next to block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation is now possible. Thanks to [bunglegrind](https://github.com/bunglegrind)!
+* [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): [Classic editor](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_framed.html) functions and state are restored after reattaching the editor element to DOM.
 
 ## CKEditor 4.16
 
