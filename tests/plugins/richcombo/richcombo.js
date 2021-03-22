@@ -96,7 +96,7 @@ bender.test( {
 			comboBtnSelector = '#cke_' + combo.id,
 			comboBtn = CKEDITOR.document.findOne( comboBtnSelector + ' .cke_combo_button' ),
 			comboBtnNameElementId = comboBtnSelector.substr( 1 ) + '_label',
-			comboBtnValueElementId = comboBtnSelector.substr( 1 ) + '_text',
+			comboBtnValueElementId = comboBtnSelector.substr( 1 ) + '_value_label',
 			expectedLabelledByValue = comboBtnNameElementId + ' ' + comboBtnValueElementId;
 
 		combo.createPanel( editor );
