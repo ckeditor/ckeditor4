@@ -20,7 +20,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
 			' hidefocus="true"' +
 			' role="button"' +
-			' aria-labelledby="{id}_label {id}_text"' +
+			' aria-labelledby="{id}_label {id}_value_label"' +
 			' aria-haspopup="listbox"',
 		specialClickHandler = '';
 
@@ -45,6 +45,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);"' +
 		' onclick="' + specialClickHandler + 'CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 			'<span id="{id}_text" class="cke_combo_text cke_combo_inlinelabel">{label}</span>' +
+			'<span id="{id}_value_label" class="cke_combo_label"></span>' +
 			'<span class="cke_combo_open">' +
 				'<span class="cke_combo_arrow">' +
 				// BLACK DOWN-POINTING TRIANGLE
@@ -317,6 +318,14 @@ CKEDITOR.plugins.add( 'richcombo', {
 					}
 
 					textElement.setText( typeof text != 'undefined' ? text : value );
+				}
+
+				var valueLabel = typeof text != 'undefined' ? text : value,
+					valueLabelElement = this.document.getById( 'cke_' + this.id + '_value_label' ),
+					isEqualToName = valueLabel === this.label;
+
+				if ( valueLabelElement && !isEqualToName ) {
+					valueLabelElement.setText( valueLabel );
 				}
 			},
 
