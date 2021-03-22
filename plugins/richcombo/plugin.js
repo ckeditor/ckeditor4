@@ -20,7 +20,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
 			' hidefocus="true"' +
 			' role="button"' +
-			' aria-labelledby="{id}_label"' +
+			' aria-labelledby="{id}_label {id}_text"' +
 			' aria-haspopup="listbox"',
 		specialClickHandler = '';
 
