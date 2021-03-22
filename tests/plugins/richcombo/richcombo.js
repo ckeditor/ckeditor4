@@ -89,6 +89,21 @@ bender.test( {
 		} );
 	},
 
+	// (#4493)
+	'test richcombo aria-labelledby attribute points to both name and the value of the combobox': function() {
+		var editor = this.editor,
+			combo = editor.ui.get( 'custom_combo' ),
+			comboBtnSelector = '#cke_' + combo.id,
+			comboBtn = CKEDITOR.document.findOne( comboBtnSelector + ' .cke_combo_button' ),
+			comboBtnNameElementId = comboBtnSelector.substr( 1 ) + '_label',
+			comboBtnValueElementId = comboBtnSelector.substr( 1 ) + '_text',
+			expectedLabelledByValue = comboBtnNameElementId + ' ' + comboBtnValueElementId;
+
+		combo.createPanel( editor );
+
+		assert.areEqual( expectedLabelledByValue, comboBtn.getAttribute( 'aria-labelledby' ), 'Aria-labelledby attribute should point to both elements with the combo name and value.' );
+	},
+
 	// (#1477)
 	'test destroy removes combo listeners': function() {
 		var combo = this.editor.ui.get( 'custom_combo' ),
