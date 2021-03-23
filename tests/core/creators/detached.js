@@ -101,7 +101,7 @@
 			wait();
 		},
 
-		'test editor delay creation invokes CKEDITOR.warn': function() {
+		'test editor default delay creation invokes CKEDITOR.warn': function() {
 			var spyWarn = sinon.spy(),
 				editorElement = CKEDITOR.document.getById( 'editor7' ),
 				editorParent = editorElement.getParent();
@@ -115,8 +115,16 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.areEqual( 'editor-delayed-creation', spyWarn.firstCall.args[ 0 ].data.errorCode, 'First editor warn should be about creation delay' );
-							assert.areEqual( 'editor-delayed-creation-success', spyWarn.secondCall.args[ 0 ].data.errorCode, 'Second editor warn should be about success editor creation' );
+							var firstCallData = spyWarn.firstCall.args[ 0 ].data,
+								secondCallData = spyWarn.secondCall.args[ 0 ].data,
+								expectedMode = 'interval - ' + CKEDITOR.config.delayIfDetached_interval + ' ms';
+
+							assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with interval.' );
+							assert.areEqual( expectedMode , firstCallData.additionalData.mode, 'First editor warn mode should be interval with time.' );
+
+							assert.areEqual( 'editor-delayed-creation-success', secondCallData.errorCode, 'Second editor warn should be about success editor creation with interval.' );
+							assert.areEqual( expectedMode, secondCallData.additionalData.mode, 'Second editor warn mode should be interval with time.' );
+
 							CKEDITOR.removeListener( 'log', spyWarn );
 						} );
 					}
@@ -130,8 +138,52 @@
 			wait();
 		},
 
+		'test editor delay creation with callback invokes CKEDITOR.warn': function() {
+			var spyWarn = sinon.spy(),
+				editorElement = CKEDITOR.document.getById( 'editor8' ),
+				editorParent = editorElement.getParent(),
+				resumeEditorCreation;
+
+			editorElement.remove();
+
+			CKEDITOR.on( 'log', spyWarn );
+
+			function delayedCallback( createEditorFunction ) {
+				resumeEditorCreation = createEditorFunction;
+			}
+
+			CKEDITOR.replace( editorElement, {
+				delayIfDetached: true,
+				delayIfDetached_callback: delayedCallback,
+				on: {
+					instanceReady: function() {
+						resume( function() {
+							var firstCallData = spyWarn.firstCall.args[ 0 ].data,
+								secondCallData = spyWarn.secondCall.args[ 0 ].data;
+
+							assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with callback.' );
+							assert.areEqual( 'callback' , firstCallData.additionalData.mode, 'First editor warn mode should be \'callback\'.' );
+
+							assert.areEqual( 'editor-delayed-creation-success', secondCallData.errorCode, 'Second editor warn should be about success editor creation with callback.' );
+							assert.areEqual( 'callback', secondCallData.additionalData.mode, 'Second editor warn mode should be \'callback\'.' );
+
+							CKEDITOR.removeListener( 'log', spyWarn );
+						} );
+					}
+				}
+			} );
+
+			CKEDITOR.tools.setTimeout( function() {
+				editorParent.append( editorElement );
+
+				resumeEditorCreation();
+			}, 250 );
+
+			wait();
+		},
+
 		'test editor interval attempts to create if target element is detached': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor8' ),
+			var editorElement = CKEDITOR.document.getById( 'editor9' ),
 				editorElementParent = editorElement.getParent(),
 				spyIsDetached = sinon.spy( editorElement, 'isDetached' );
 
