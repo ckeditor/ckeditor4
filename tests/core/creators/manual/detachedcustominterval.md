@@ -8,7 +8,9 @@
 **Expected**
   * Editor is created.
   * Editor data is editable.
+  * Editor contains initial data.
 
 **Unexpected**
   * Editor isn't created.
   * Editor data is empty.
+  * Editor contains initial data.
