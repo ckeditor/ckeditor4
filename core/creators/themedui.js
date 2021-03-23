@@ -418,6 +418,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 
 		if ( config.delayIfDetached_callback ) {
+			CKEDITOR.warn( 'editor-delayed-creation', {
+				mode: 'callback'
+			} );
+
 			config.delayIfDetached_callback( function() {
 				createInstance( element, config, data, mode );
 			} );
@@ -428,7 +432,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var interval = config.delayIfDetached_interval === undefined ? CKEDITOR.config.delayIfDetached_interval : config.delayIfDetached_interval;
 
 		CKEDITOR.warn( 'editor-delayed-creation', {
-			interval: interval
+			mode: 'interval - ' + interval + 'ms'
 		} );
 
 		var intervalId = setInterval( function() {
