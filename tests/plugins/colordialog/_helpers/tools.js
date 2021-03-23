@@ -15,15 +15,44 @@ function assertColor( editor, inputColor, outputColor ) {
 	wait();
 }
 
+function assertSettingAndGettingColor( editor, options ) {
+	var toolbarButton = editor.ui.get( options.button );
+
+	bender.tools.setHtmlWithSelection( editor, '<p>Whenever [something] happens.</p>' );
+
+	editor.once( 'dialogShow', function( evt ) {
+		resume( function() {
+			var dialog = evt.data;
+
+			dialog.setValueOf( 'picker', 'selectedColor', options.inputColor );
+			dialog.getButton( 'ok' ).click();
+
+			assertValueFromDialog( editor, options );
+		} );
+	} );
+
+	toolbarButton.click( editor );
+	openColorDialog( toolbarButton );
+}
+
 function openDialogManually( editor, expectedColor, html, button ) {
-	var toolbarButton = editor.ui.get( button );
 	bender.tools.setHtmlWithSelection( editor, html );
+	assertValueFromDialog( editor, {
+		button: button,
+		expectedColor: expectedColor
+	} );
+}
+
+function assertValueFromDialog( editor, options ) {
+	var toolbarButton = editor.ui.get( options.button );
+
 	editor.once( 'dialogShow', function( evt ) {
 		resume( function() {
 			var dialog = evt.data,
 				selectedColor = dialog.getValueOf( 'picker', 'selectedColor' );
+
 			dialog.getButton( 'ok' ).click();
-			assert.areSame( expectedColor, selectedColor );
+			assert.areSame( options.expectedColor, selectedColor );
 		} );
 	} );
 

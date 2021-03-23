@@ -1,7 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: colordialog,wysiwygarea,toolbar,colorbutton */
 /* bender-include: _helpers/tools.js */
-/* global assertColor, openDialogManually */
+/* global assertColor, assertSettingAndGettingColor, openDialogManually */
 
 ( function() {
 	'use strict';
@@ -66,8 +66,34 @@
 		// (#2639)
 		'test background color of mixed selection': function() {
 			openDialogManually( this.editor, '', '<h1>[<span style="background-color:#0000ff">Foo</span>bar]</h1>', 'BGColor' );
-		}
+		},
 
+		// (#4351)
+		'test converting RGBA to hex color': function() {
+			assertSettingAndGettingColor( this.editor, {
+				inputColor: 'rgba(100,200,50,.4)',
+				expectedColor: '#C1E9AD',
+				button: 'TextColor'
+			} );
+		},
+
+		// (#4351)
+		'test converting HSL to hex color': function() {
+			assertSettingAndGettingColor( this.editor, {
+				inputColor: 'hsl(150,50%,52%)',
+				expectedColor: '#47C285',
+				button: 'TextColor'
+			} );
+		},
+
+		// (#4351)
+		'test converting HSLA to hex color': function() {
+			assertSettingAndGettingColor( this.editor, {
+				inputColor: 'hsla(150,50%,52%,0.2)',
+				expectedColor: '#DAF3E7',
+				button: 'TextColor'
+			} );
+		}
 	} );
 
 } )();
