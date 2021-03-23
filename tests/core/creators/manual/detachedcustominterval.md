@@ -6,7 +6,7 @@
 2. Click the button to start the test.
 
 **Expected**
-  * There is CKEDITOR warning message ('editor-delayed-creation') with 'interval - 3000 ms' mode.
+  * There is CKEDITOR 'editor-delayed-creation' warning with 'interval - 3000 ms' mode.
 
 **Unexpected**
   * There is no CKEDITOR 'editor-delayed-creation' warning in the console.
@@ -14,7 +14,7 @@
 3. Wait three seconds for editor creation.
 
 **Expected**
-  * There is CKEDITOR warning message ('editor-delayed-creation-success') with 'interval - 3000 ms' mode.
+  * There is CKEDITOR 'editor-delayed-creation-success' warning with 'interval - 3000 ms' mode.
   * Editor is created.
   * Editor data is editable.
   * Editor contains initial data.
