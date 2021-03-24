@@ -6,7 +6,7 @@
 2. Click the button to start the test.
 
 **Expected**
-  * `editor-delayed-creation` warning with `{ method: interval - 3000 ms }` object showed in the console. **On IE8-9 you'll get `[object Object]` instead.**
+  * `editor-delayed-creation` warning with `{ method: interval - 3000 ms }` object showed in the console. **On IE8-11 you'll get `[object Object]` instead.**
 
 **Unexpected**
   * No `editor-delayed-creation` warning in the console.
@@ -14,7 +14,7 @@
 3. Wait three seconds for editor creation.
 
 **Expected**
-  * `editor-delayed-creation-success` warning with `{ method: interval - 3000 ms }` object showed in the console. **On IE8-9 you'll get `[object Object]` instead.**
+  * `editor-delayed-creation-success` warning with `{ method: interval - 3000 ms }` object showed in the console. **On IE8-11 you'll get `[object Object]` instead.**
   * Editor is created.
   * Editor contains initial data.
   * Editor data is editable.
