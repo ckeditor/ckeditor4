@@ -21,7 +21,7 @@
 
   **Expected:**
 
-  * Screen reader announces `Styles <selected value>`.
+  * Screen reader announces `<selected value>, Styles`.
 
   **Unexpected:**
 
