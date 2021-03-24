@@ -3,23 +3,24 @@
 @bender-ckeditor-plugins: toolbar, wysiwygarea, sourcearea, undo, clipboard, basicstyles, elementspath
 
 1. Open developer console.
+2. Click `Try to create editor` button.
 
 **Expected**
-  * There is CKEDITOR 'editor-delayed-creation' warning with 'callback' mode.
+  * `editor-delayed-creation` warning with `{ method: callback }` object showed up in the console. **On IE8-9 you'll get `[object Object]` instead.**
 
 **Unexpected**
-  * There is no CKEDITOR 'editor-delayed-creation' warning in the console.
+  * No `editor-delayed-creation` warning in the console.
 
-2. Click button to attach editor to DOM element and invoke config callback to finish editor creation.
+3. Click second button to attach editor to DOM element and invoke config callback to finish editor creation.
 
 **Expected**
-  * There is CKEDITOR 'editor-delayed-creation-success' warning with 'callback' mode.
+  * `editor-delayed-creation-success` warning with `{ method: callback }` object showed up in the console. **On IE8-9 you'll get `[object Object]` instead.**
   * Editor is created.
-  * Editor data is editable.
   * Editor contains initial data.
+  * Editor data is editable.
 
 **Unexpected**
-  * There is no CKEDITOR 'editor-delayed-creation-success' warning in the console.
+  * No `editor-delayed-creation-success` warning in the console.
   * Editor isn't created.
   * Editor data is empty.
   * Editor data is not editable.

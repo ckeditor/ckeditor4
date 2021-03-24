@@ -1,3 +1,4 @@
+<button id="startButton">Try to create editor</button>
 <button id="attachButton">Invoke config callback to finish editor creation</button>
 
 <div>
@@ -9,23 +10,25 @@
 <script>
 	var editor = document.getElementById( 'editor' ),
 		attachButton = CKEDITOR.document.getById( 'attachButton' ),
+		startButton = CKEDITOR.document.getById( 'startButton' ),
 		editorParent = editor.parentNode,
 		editorCreationCallback;
 
 	editorParent.removeChild( editor );
-
-	CKEDITOR.replace( editor, {
-		delayIfDetached: true,
-		delayIfDetached_callback: registerCallback
-	} );
 
 	attachButton.on( 'click', function() {
 		editorParent.appendChild( editor );
 		editorCreationCallback();
 	} );
 
+	startButton.on( 'click', function() {
+		CKEDITOR.replace( editor, {
+			delayIfDetached: true,
+			delayIfDetached_callback: registerCallback
+		} );
+	} );
+
 	function registerCallback( editorCreationFunc ) {
 		editorCreationCallback = editorCreationFunc;
 	}
-
 </script>

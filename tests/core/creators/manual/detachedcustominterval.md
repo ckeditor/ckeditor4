@@ -6,21 +6,21 @@
 2. Click the button to start the test.
 
 **Expected**
-  * There is CKEDITOR 'editor-delayed-creation' warning with 'interval - 3000 ms' mode.
+  * `editor-delayed-creation` warning with `{ method: interval - 3000 ms }` object showed in the console. **On IE8-9 you'll get `[object Object]` instead.**
 
 **Unexpected**
-  * There is no CKEDITOR 'editor-delayed-creation' warning in the console.
+  * No `editor-delayed-creation` warning in the console.
 
 3. Wait three seconds for editor creation.
 
 **Expected**
-  * There is CKEDITOR 'editor-delayed-creation-success' warning with 'interval - 3000 ms' mode.
+  * `editor-delayed-creation-success` warning with `{ method: interval - 3000 ms }` object showed in the console. **On IE8-9 you'll get `[object Object]` instead.**
   * Editor is created.
-  * Editor data is editable.
   * Editor contains initial data.
+  * Editor data is editable.
 
 **Unexpected**
-  * There is no CKEDITOR 'editor-delayed-creation-success' warning in the console.
+  * No `editor-delayed-creation-success` warning in the console.
   * Editor isn't created.
   * Editor data is empty.
-  * Editor contains initial data.
+  * Editor data is not editable.
