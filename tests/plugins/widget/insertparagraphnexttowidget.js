@@ -23,6 +23,12 @@
 		bogusDiv = '<div>&nbsp;</div>';
 
 	bender.test( {
+		_should: {
+			ignore: {
+				// #4563
+				'test press shift + enter with ckeditor.enter_br inserts <br> element after a widget': bender.env.ie && bender.env.version == '8'
+			}
+		},
 
 		// (#4467)
 		'test press shift + alt + enter must insert a paragraph before a widget': testFactory( {
