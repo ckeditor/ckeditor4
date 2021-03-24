@@ -401,9 +401,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	// ```js
 	//	CKEDITOR.replace( detachedEditorElement, {
 	//		delayIfDetached: true,
-	//		delayIfDetached_interval: 50,
 	//		delayIfDetached_callback: registerCallback
-	//		}
 	//	} );
 	// ```
 	//
