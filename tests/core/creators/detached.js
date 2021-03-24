@@ -117,13 +117,13 @@
 						resume( function() {
 							var firstCallData = spyWarn.firstCall.args[ 0 ].data,
 								secondCallData = spyWarn.secondCall.args[ 0 ].data,
-								expectedMode = 'interval - ' + CKEDITOR.config.delayIfDetached_interval + ' ms';
+								expectedMethod = 'interval - ' + CKEDITOR.config.delayIfDetached_interval + ' ms';
 
 							assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with interval.' );
-							assert.areEqual( expectedMode , firstCallData.additionalData.mode, 'First editor warn mode should be interval with time.' );
+							assert.areEqual( expectedMethod , firstCallData.additionalData.method, 'First editor warn method should be interval with time.' );
 
 							assert.areEqual( 'editor-delayed-creation-success', secondCallData.errorCode, 'Second editor warn should be about success editor creation with interval.' );
-							assert.areEqual( expectedMode, secondCallData.additionalData.mode, 'Second editor warn mode should be interval with time.' );
+							assert.areEqual( expectedMethod, secondCallData.additionalData.method, 'Second editor warn method should be interval with time.' );
 
 							CKEDITOR.removeListener( 'log', spyWarn );
 						} );
@@ -162,10 +162,10 @@
 								secondCallData = spyWarn.secondCall.args[ 0 ].data;
 
 							assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with callback.' );
-							assert.areEqual( 'callback' , firstCallData.additionalData.mode, 'First editor warn mode should be \'callback\'.' );
+							assert.areEqual( 'callback' , firstCallData.additionalData.method, 'First editor warn method should be \'callback\'.' );
 
 							assert.areEqual( 'editor-delayed-creation-success', secondCallData.errorCode, 'Second editor warn should be about success editor creation with callback.' );
-							assert.areEqual( 'callback', secondCallData.additionalData.mode, 'Second editor warn mode should be \'callback\'.' );
+							assert.areEqual( 'callback', secondCallData.additionalData.method, 'Second editor warn method should be \'callback\'.' );
 
 							CKEDITOR.removeListener( 'log', spyWarn );
 						} );

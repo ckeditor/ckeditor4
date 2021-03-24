@@ -419,14 +419,14 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		if ( config.delayIfDetached_callback ) {
 			CKEDITOR.warn( 'editor-delayed-creation', {
-				mode: 'callback'
+				method: 'callback'
 			} );
 
 			config.delayIfDetached_callback( function() {
 				createInstance( element, config, data, mode );
 
 				CKEDITOR.warn( 'editor-delayed-creation-success', {
-					mode: 'callback'
+					method: 'callback'
 				} );
 			} );
 
@@ -436,7 +436,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var interval = config.delayIfDetached_interval === undefined ? CKEDITOR.config.delayIfDetached_interval : config.delayIfDetached_interval;
 
 		CKEDITOR.warn( 'editor-delayed-creation', {
-			mode: 'interval - ' + interval + ' ms'
+			method: 'interval - ' + interval + ' ms'
 		} );
 
 		var intervalId = setInterval( function() {
@@ -446,7 +446,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 				createInstance( element, config, data, mode );
 
 				CKEDITOR.warn( 'editor-delayed-creation-success', {
-					mode: 'interval - ' + interval + ' ms'
+					method: 'interval - ' + interval + ' ms'
 				} );
 			}
 		}, interval );
