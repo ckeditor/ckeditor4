@@ -423,10 +423,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 			} );
 
 			config.delayIfDetached_callback( function() {
+				createInstance( element, config, data, mode );
+
 				CKEDITOR.warn( 'editor-delayed-creation-success', {
 					mode: 'callback'
 				} );
-				createInstance( element, config, data, mode );
 			} );
 
 			return true;
@@ -442,11 +443,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 			if ( !element.isDetached() ) {
 				clearInterval( intervalId );
 
+				createInstance( element, config, data, mode );
+
 				CKEDITOR.warn( 'editor-delayed-creation-success', {
 					mode: 'interval - ' + interval + ' ms'
 				} );
-
-				createInstance( element, config, data, mode );
 			}
 		}, interval );
 
