@@ -129,7 +129,7 @@ bender.test( {
 			expectedLabel = 'ONE, ' + initialLabel;
 
 		combo.createPanel( editor );
-		combo.setValue( 'one' );
+		combo.setValue( 'one', 'ONE' );
 
 		assert.areEqual( expectedLabel, comboBtnLabel.getHtml() );
 	},
