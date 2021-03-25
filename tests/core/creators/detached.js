@@ -4,55 +4,66 @@
 ( function() {
 	'use strict';
 
-	var tests = {
-		'test editor is created immediately on not detached element even with delay config': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor1' ),
-				editor = CKEDITOR.replace( editorElement, {
+	var tests = {},
+		editorIdCounter = 1;
+
+	function test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config( method, editorId ) {
+		return function() {
+			var editorElement = CKEDITOR.document.getById( editorId ),
+				editor = CKEDITOR[ method ]( editorElement, {
 					delayIfDetached: true,
 					delayIfDetached_callback: function() {}
 				} );
 
 			assert.isNotNull( editor, 'Editor should be created immediately on not detached element, even if config allows a delay.' );
-		},
+		};
+	}
 
-		'test editor is created immediately on not detached element with delayIfDetached config set as false': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor2' ),
-				editor = CKEDITOR.replace( editorElement, {
+	function test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false( method, editorId ) {
+		return function() {
+			var editorElement = CKEDITOR.document.getById( editorId ),
+				editor = CKEDITOR[ method ]( editorElement, {
 					delayIfDetached: false
 				} );
 
 			assert.isNotNull( editor, 'Editor should be created immediately on not detached element, despite config delay option.' );
-		},
+		};
+	}
 
-		'test editor without config is created immediately on not detached element': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor3' ),
-				editor = CKEDITOR.replace( editorElement );
+	function test_editor_without_config_is_created_immediately_on_not_detached_element( method, editorId ) {
+		return function() {
+			var editorElement = CKEDITOR.document.getById( editorId ),
+				editor = CKEDITOR[ method ]( editorElement );
 
 			assert.isNotNull( editor, 'Editor should be created immediately with default config options.' );
-		},
+		};
+	}
 
-		'test delay editor creation if target element is detached': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor4' ),
-				editorParent = editorElement.getParent();
+	function test_delay_editor_creation_if_target_element_is_detached( method, editorId ) {
+		return function() {
+			var editorElement = CKEDITOR.document.getById( editorId ),
+			editorParent = editorElement.getParent();
 
 			editorElement.remove();
 
-			var editor = CKEDITOR.replace( editorElement, {
+			var editor = CKEDITOR[ method ]( editorElement, {
 				delayIfDetached: true
 			} );
 
 			assert.isNull( editor, 'Editor should not be created on detached element, if config allows a delay.' );
 
 			editorParent.append( editorElement );
-		},
+		};
+	}
 
-		'test delay editor creation until target element attach to DOM': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor5' ),
+	function test_delay_editor_creation_until_target_element_attach_to_DOM( method, editorId ) {
+		return function() {
+			var editorElement = CKEDITOR.document.getById( editorId ),
 				editorParent = editorElement.getParent();
 
 			editorElement.remove();
 
-			CKEDITOR.replace( editorElement, {
+			CKEDITOR[ method ]( editorElement, {
 				delayIfDetached: true,
 				on: {
 					instanceReady: function() {
@@ -68,16 +79,18 @@
 			}, 250 );
 
 			wait();
-		},
+		};
+	}
 
-		'test editor creation from provided callback': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor6' ),
+	function test_editor_creation_from_provided_callback( method, editorId ) {
+		return function() {
+			var editorElement = CKEDITOR.document.getById( editorId ),
 				editorParent = editorElement.getParent(),
 				editorCreationCallback;
 
 			editorElement.remove();
 
-			CKEDITOR.replace( editorElement, {
+			CKEDITOR[ method ]( editorElement, {
 				delayIfDetached: true,
 				delayIfDetached_callback: registerCallback,
 				on: {
@@ -99,18 +112,20 @@
 			}, 250 );
 
 			wait();
-		},
+		};
+	}
 
-		'test editor default delay creation invokes CKEDITOR.warn': function() {
+	function test_editor_default_delay_creation_invokes_CKEDITOR_warn( method, editorId ) {
+		return function() {
 			var spyWarn = sinon.spy(),
-				editorElement = CKEDITOR.document.getById( 'editor7' ),
+				editorElement = CKEDITOR.document.getById( editorId ),
 				editorParent = editorElement.getParent();
 
 			editorElement.remove();
 
 			CKEDITOR.on( 'log', spyWarn );
 
-			CKEDITOR.replace( editorElement, {
+			CKEDITOR[ method ]( editorElement, {
 				delayIfDetached: true,
 				on: {
 					instanceReady: function() {
@@ -136,11 +151,13 @@
 			}, 250 );
 
 			wait();
-		},
+		};
+	}
 
-		'test editor delay creation with callback invokes CKEDITOR.warn': function() {
+	function test_editor_delay_creation_with_callback_invokes_CKEDITOR_warn( method, editorId ) {
+		return function() {
 			var spyWarn = sinon.spy(),
-				editorElement = CKEDITOR.document.getById( 'editor8' ),
+				editorElement = CKEDITOR.document.getById( editorId ),
 				editorParent = editorElement.getParent(),
 				resumeEditorCreation;
 
@@ -152,7 +169,7 @@
 				resumeEditorCreation = createEditorFunction;
 			}
 
-			CKEDITOR.replace( editorElement, {
+			CKEDITOR[ method ]( editorElement, {
 				delayIfDetached: true,
 				delayIfDetached_callback: delayedCallback,
 				on: {
@@ -180,16 +197,18 @@
 			}, 250 );
 
 			wait();
-		},
+		};
+	}
 
-		'test editor interval attempts to create if target element is detached': function() {
-			var editorElement = CKEDITOR.document.getById( 'editor9' ),
-				editorElementParent = editorElement.getParent(),
-				spyIsDetached = sinon.spy( editorElement, 'isDetached' );
+	function test_editor_interval_attempts_to_create_if_target_element_is_detached( method, editorId ) {
+		return function() {
+			var editorElement = CKEDITOR.document.getById( editorId ),
+			editorElementParent = editorElement.getParent(),
+			spyIsDetached = sinon.spy( editorElement, 'isDetached' );
 
 			editorElement.remove();
 
-			CKEDITOR.replace( editorElement, {
+			CKEDITOR[ method ]( editorElement, {
 				delayIfDetached: true,
 				delayIfDetached_interval: 50
 			} );
@@ -203,8 +222,49 @@
 			}, 200 );
 
 			wait();
-		}
-	};
+		};
+	}
+
+	createTest( test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config, 'replace' );
+	createTest( test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config, 'inline' );
+
+	createTest( test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false, 'replace' );
+	createTest( test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false, 'inline' );
+
+	createTest( test_editor_without_config_is_created_immediately_on_not_detached_element, 'replace' );
+	createTest( test_editor_without_config_is_created_immediately_on_not_detached_element, 'inline' );
+
+	createTest( test_delay_editor_creation_if_target_element_is_detached, 'replace' );
+	createTest( test_delay_editor_creation_if_target_element_is_detached, 'inline' );
+
+	createTest( test_delay_editor_creation_until_target_element_attach_to_DOM, 'replace' );
+	createTest( test_delay_editor_creation_until_target_element_attach_to_DOM, 'inline' );
+
+	createTest( test_editor_creation_from_provided_callback, 'replace' );
+	createTest( test_editor_creation_from_provided_callback, 'inline' );
+
+	createTest( test_editor_default_delay_creation_invokes_CKEDITOR_warn, 'replace' );
+	createTest( test_editor_default_delay_creation_invokes_CKEDITOR_warn, 'inline' );
+
+	createTest( test_editor_delay_creation_with_callback_invokes_CKEDITOR_warn, 'replace' );
+	createTest( test_editor_delay_creation_with_callback_invokes_CKEDITOR_warn, 'inline' );
+
+	createTest( test_editor_interval_attempts_to_create_if_target_element_is_detached, 'replace' );
+	createTest( test_editor_interval_attempts_to_create_if_target_element_is_detached, 'inline' );
+
+	function createTest( testFunction, method ) {
+		var testCaseName =  testFunction.name.replace( /_/, ' ' ) + ' ' + method;
+		var	editorId = 'editor' + editorIdCounter++;
+
+		createHtmlForEditor( editorId );
+
+		tests[ testCaseName ] = testFunction( method, editorId );
+	}
+
+	function createHtmlForEditor( editorId ) {
+		var editorSlot = CKEDITOR.dom.element.createFromHtml( '<div><div id="' + editorId + '"><p>Content!!</p></div></div>' );
+		CKEDITOR.document.getBody().append( editorSlot );
+	}
 
 	bender.test( tests );
 }() );
