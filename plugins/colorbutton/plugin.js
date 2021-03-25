@@ -804,11 +804,14 @@
 	 */
 	function normalizeColor( color ) {
 		var alphaRegex = /^(rgb|hsl)a\(/g,
+			transparentRegex = /^rgba\((\s*0\s*,?){4}\)$/g,
 			isAlphaColor = alphaRegex.test( color ),
+			// Browsers tend to represent transparent color as rgba(0, 0, 0, 0), so we need to filter out this value.
+			isTransparentColor = transparentRegex.test( color ),
 			colorInstance;
 
 		// For colors with alpha channel we need to use CKEDITOR.tools.color normalization (#4351).
-		if ( isAlphaColor ) {
+		if ( isAlphaColor && !isTransparentColor ) {
 			colorInstance = new CKEDITOR.tools.color( color );
 
 			return CKEDITOR.tools.normalizeHex( colorInstance.getHex() || '' ).replace( /#/g, '' );
