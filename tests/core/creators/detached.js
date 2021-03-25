@@ -19,8 +19,6 @@
 		inlineSpy.restore();
 	};
 
-	// bender.test(tests);
-
 	tests[ 'test CKEDITOR replaceAll dont create editor instances because cant find detached textareas' ] = function() {
 		var tas = document.getElementsByTagName( 'textarea' ),
 			replaceSpy = sinon.spy( CKEDITOR, 'replace' );
@@ -44,7 +42,7 @@
 					delayIfDetached_callback: function() {}
 				} );
 
-			assert.isNotNull( editor, 'Editor should be created immediately on not detached element, even if config allows a delay.' );
+			assert.isNotNull( editor, 'Editor should be created immediately on not detached element, even if config allows a delay.' + ' Method: ' + method );
 		};
 	}
 
@@ -55,7 +53,7 @@
 					delayIfDetached: false
 				} );
 
-			assert.isNotNull( editor, 'Editor should be created immediately on not detached element, despite config delay option.' );
+			assert.isNotNull( editor, 'Editor should be created immediately on not detached element, despite config delay option.' + ' Method: ' + method );
 		};
 	}
 
@@ -64,7 +62,7 @@
 			var editorElement = CKEDITOR.document.getById( editorId ),
 				editor = CKEDITOR[ method ]( editorElement );
 
-			assert.isNotNull( editor, 'Editor should be created immediately with default config options.' );
+			assert.isNotNull( editor, 'Editor should be created immediately with default config options.' + ' Method: ' + method );
 		};
 	}
 
@@ -79,7 +77,7 @@
 				delayIfDetached: true
 			} );
 
-			assert.isNull( editor, 'Editor should not be created on detached element, if config allows a delay.' );
+			assert.isNull( editor, 'Editor should not be created on detached element, if config allows a delay.' + ' Method: ' + method );
 
 			editorParent.append( editorElement );
 		};
@@ -97,7 +95,7 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.pass( 'Editor was created.' );
+							assert.pass( 'Editor was created.' + ' Method: ' + method );
 						} );
 					}
 				}
@@ -125,7 +123,7 @@
 				on: {
 					instanceReady: function() {
 						resume( function() {
-							assert.pass( 'Editor was created from custom callback.' );
+							assert.pass( 'Editor was created from custom callback.' + ' Method: ' + method );
 						} );
 					}
 				}
@@ -163,11 +161,11 @@
 								secondCallData = spyWarn.secondCall.args[ 0 ].data,
 								expectedMethod = 'interval - ' + CKEDITOR.config.delayIfDetached_interval + ' ms';
 
-							assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with interval.' );
-							assert.areEqual( expectedMethod , firstCallData.additionalData.method, 'First editor warn method should be interval with time.' );
+							assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with interval.' + ' Method: ' + method );
+							assert.areEqual( expectedMethod , firstCallData.additionalData.method, 'First editor warn method should be interval with time.' + ' Method: ' + method );
 
-							assert.areEqual( 'editor-delayed-creation-success', secondCallData.errorCode, 'Second editor warn should be about success editor creation with interval.' );
-							assert.areEqual( expectedMethod, secondCallData.additionalData.method, 'Second editor warn method should be interval with time.' );
+							assert.areEqual( 'editor-delayed-creation-success', secondCallData.errorCode, 'Second editor warn should be about success editor creation with interval.' + ' Method: ' + method );
+							assert.areEqual( expectedMethod, secondCallData.additionalData.method, 'Second editor warn method should be interval with time.' + ' Method: ' + method );
 
 							CKEDITOR.removeListener( 'log', spyWarn );
 						} );
@@ -207,11 +205,11 @@
 							var firstCallData = spyWarn.firstCall.args[ 0 ].data,
 								secondCallData = spyWarn.secondCall.args[ 0 ].data;
 
-							assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with callback.' );
-							assert.areEqual( 'callback' , firstCallData.additionalData.method, 'First editor warn method should be \'callback\'.' );
+							assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with callback.' + ' Method: ' + method );
+							assert.areEqual( 'callback' , firstCallData.additionalData.method, 'First editor warn method should be \'callback\'.' + ' Method: ' + method );
 
-							assert.areEqual( 'editor-delayed-creation-success', secondCallData.errorCode, 'Second editor warn should be about success editor creation with callback.' );
-							assert.areEqual( 'callback', secondCallData.additionalData.method, 'Second editor warn method should be \'callback\'.' );
+							assert.areEqual( 'editor-delayed-creation-success', secondCallData.errorCode, 'Second editor warn should be about success editor creation with callback.' + ' Method: ' + method );
+							assert.areEqual( 'callback', secondCallData.additionalData.method, 'Second editor warn method should be \'callback\'.' + ' Method: ' + method );
 
 							CKEDITOR.removeListener( 'log', spyWarn );
 						} );
@@ -245,7 +243,7 @@
 			CKEDITOR.tools.setTimeout( function() {
 				resume( function() {
 					editorElementParent.append( editorElement );
-					assert.isTrue( spyIsDetached.callCount > 2, 'There should be at least three calls of isDetached().' );
+					assert.isTrue( spyIsDetached.callCount > 2, 'There should be at least three calls of isDetached().' + ' Method: ' + method );
 					spyIsDetached.restore();
 				} );
 			}, 200 );
