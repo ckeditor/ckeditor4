@@ -3,5 +3,10 @@
 </div>
 
 <script>
+	// IE8 doesn't set incorrect values.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor' );
 </script>

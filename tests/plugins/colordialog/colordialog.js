@@ -70,6 +70,11 @@
 
 		// (#4351)
 		'test converting RGBA to hex color': function() {
+			// IE8 doesn't set unsupported values.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+
 			assertSettingAndGettingColor( this.editor, {
 				inputColor: 'rgba(100,200,50,.4)',
 				expectedColor: '#c1e9ad',
@@ -79,6 +84,11 @@
 
 		// (#4351)
 		'test converting HSL to hex color': function() {
+			// IE8 doesn't set unsupported values.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+
 			assertSettingAndGettingColor( this.editor, {
 				inputColor: 'hsl(150,50%,52%)',
 				expectedColor: '#47c285',
@@ -88,6 +98,11 @@
 
 		// (#4351)
 		'test converting HSLA to hex color': function() {
+			// IE8 doesn't set unsupported values.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+
 			assertSettingAndGettingColor( this.editor, {
 				inputColor: 'hsla(150,50%,52%,0.2)',
 				expectedColor: '#daf3e7',
