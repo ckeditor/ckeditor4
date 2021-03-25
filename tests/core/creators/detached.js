@@ -253,7 +253,7 @@
 	createTest( test_editor_interval_attempts_to_create_if_target_element_is_detached, 'inline' );
 
 	function createTest( testFunction, method ) {
-		var testCaseName =  testFunction.name.replace( /_/, ' ' ) + ' ' + method;
+		var testCaseName =  testFunction.name.replace( /_/g, ' ' ) + ' ' + method;
 		var	editorId = 'editor' + editorIdCounter++;
 
 		createHtmlForEditor( editorId );
