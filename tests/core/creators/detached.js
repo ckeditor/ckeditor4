@@ -7,6 +7,35 @@
 	var tests = {},
 		editorIdCounter = 1;
 
+
+	tests[ 'test CKEDITOR inlineAll dont create editor instances because cant find detached elements' ] = function() {
+		var inlineSpy = sinon.spy( CKEDITOR, 'inline' );
+
+		CKEDITOR.document.getById( 'inlineEditable' ).remove();
+		CKEDITOR.inlineAll();
+
+		assert.areEqual( 0, inlineSpy.callCount, 'There should be not CKEDITOR.inline calls.' );
+
+		inlineSpy.restore();
+	};
+
+	// bender.test(tests);
+
+	tests[ 'test CKEDITOR replaceAll dont create editor instances because cant find detached textareas' ] = function() {
+		var tas = document.getElementsByTagName( 'textarea' ),
+			replaceSpy = sinon.spy( CKEDITOR, 'replace' );
+
+		for ( var index = 0; index < tas.length; index++ ) {
+			tas[ index ].remove();
+		}
+
+		CKEDITOR.replaceAll();
+
+		assert.areEqual( 0, replaceSpy.callCount, 'There should be no CKEDITOR.replace calls.' );
+
+		replaceSpy.restore();
+	};
+
 	function test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config( method, editorId ) {
 		return function() {
 			var editorElement = CKEDITOR.document.getById( editorId ),
@@ -225,40 +254,47 @@
 		};
 	}
 
-	createTest( test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config, 'replace' );
-	createTest( test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config, 'inline' );
+	createTest( test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config );
+	createTest( test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config );
 
-	createTest( test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false, 'replace' );
-	createTest( test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false, 'inline' );
+	createTest( test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false );
+	createTest( test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false );
 
-	createTest( test_editor_without_config_is_created_immediately_on_not_detached_element, 'replace' );
-	createTest( test_editor_without_config_is_created_immediately_on_not_detached_element, 'inline' );
+	createTest( test_editor_without_config_is_created_immediately_on_not_detached_element );
+	createTest( test_editor_without_config_is_created_immediately_on_not_detached_element );
 
-	createTest( test_delay_editor_creation_if_target_element_is_detached, 'replace' );
-	createTest( test_delay_editor_creation_if_target_element_is_detached, 'inline' );
+	createTest( test_delay_editor_creation_if_target_element_is_detached );
+	createTest( test_delay_editor_creation_if_target_element_is_detached );
 
-	createTest( test_delay_editor_creation_until_target_element_attach_to_DOM, 'replace' );
-	createTest( test_delay_editor_creation_until_target_element_attach_to_DOM, 'inline' );
+	createTest( test_delay_editor_creation_until_target_element_attach_to_DOM );
+	createTest( test_delay_editor_creation_until_target_element_attach_to_DOM );
 
-	createTest( test_editor_creation_from_provided_callback, 'replace' );
-	createTest( test_editor_creation_from_provided_callback, 'inline' );
+	createTest( test_editor_creation_from_provided_callback );
+	createTest( test_editor_creation_from_provided_callback );
 
-	createTest( test_editor_default_delay_creation_invokes_CKEDITOR_warn, 'replace' );
-	createTest( test_editor_default_delay_creation_invokes_CKEDITOR_warn, 'inline' );
+	createTest( test_editor_default_delay_creation_invokes_CKEDITOR_warn );
+	createTest( test_editor_default_delay_creation_invokes_CKEDITOR_warn );
 
-	createTest( test_editor_delay_creation_with_callback_invokes_CKEDITOR_warn, 'replace' );
-	createTest( test_editor_delay_creation_with_callback_invokes_CKEDITOR_warn, 'inline' );
+	createTest( test_editor_delay_creation_with_callback_invokes_CKEDITOR_warn );
+	createTest( test_editor_delay_creation_with_callback_invokes_CKEDITOR_warn );
 
-	createTest( test_editor_interval_attempts_to_create_if_target_element_is_detached, 'replace' );
-	createTest( test_editor_interval_attempts_to_create_if_target_element_is_detached, 'inline' );
+	createTest( test_editor_interval_attempts_to_create_if_target_element_is_detached );
 
-	function createTest( testFunction, method ) {
-		var testCaseName =  testFunction.name.replace( /_/g, ' ' ) + ' ' + method;
-		var	editorId = 'editor' + editorIdCounter++;
+	function createTest( testFunction ) {
+		var methods = [ 'replace', 'inline', 'appendTo' ],
+			method;
 
-		createHtmlForEditor( editorId );
+		for ( var index = 0; index < methods.length; index++ ) {
+			method = methods[ index ];
 
-		tests[ testCaseName ] = testFunction( method, editorId );
+			var testCaseName =  testFunction.name.replace( /_/g, ' ' ) + ' ' + method;
+
+			var	editorId = 'editor' + editorIdCounter++;
+
+			createHtmlForEditor( editorId );
+
+			tests[ testCaseName ] = testFunction( method, editorId );
+		}
 	}
 
 	function createHtmlForEditor( editorId ) {
