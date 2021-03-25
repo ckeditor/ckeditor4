@@ -470,19 +470,6 @@
 					}
 				}
 			}
-
-			/*
-			* Converts a CSS color value to an easily comparable form.
-			*
-			* @private
-			* @member CKEDITOR.plugins.colorbutton
-			* @param {String} color
-			* @returns {String}
-			*/
-			function normalizeColor( color ) {
-				// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
-				return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
-			}
 		}
 	} );
 	ColorBox = CKEDITOR.tools.createClass( {
@@ -750,7 +737,7 @@
 			},
 
 			normalizeColor: function( color ) {
-				return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
+				return normalizeColor( color );
 			}
 		},
 
@@ -806,6 +793,19 @@
 			}
 		}
 	} );
+
+	/*
+	 * Converts a CSS color value to an easily comparable form.
+	 *
+	 * @private
+	 * @member CKEDITOR.plugins.colorbutton
+	 * @param {String} color
+	 * @returns {String}
+	 */
+	function normalizeColor( color ) {
+		// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
+		return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
+	}
 } )();
 
 /**
