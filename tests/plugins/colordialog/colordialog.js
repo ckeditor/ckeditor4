@@ -72,7 +72,7 @@
 		'test converting RGBA to hex color': function() {
 			assertSettingAndGettingColor( this.editor, {
 				inputColor: 'rgba(100,200,50,.4)',
-				expectedColor: '#C1E9AD',
+				expectedColor: '#c1e9ad',
 				button: 'TextColor'
 			} );
 		},
@@ -81,7 +81,7 @@
 		'test converting HSL to hex color': function() {
 			assertSettingAndGettingColor( this.editor, {
 				inputColor: 'hsl(150,50%,52%)',
-				expectedColor: '#47C285',
+				expectedColor: '#47c285',
 				button: 'TextColor'
 			} );
 		},
@@ -90,7 +90,7 @@
 		'test converting HSLA to hex color': function() {
 			assertSettingAndGettingColor( this.editor, {
 				inputColor: 'hsla(150,50%,52%,0.2)',
-				expectedColor: '#DAF3E7',
+				expectedColor: '#daf3e7',
 				button: 'TextColor'
 			} );
 		}
