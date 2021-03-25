@@ -11,12 +11,12 @@
 
 	## Expected
 
-	* The value is equal to `#DAF3E7`.
+	* The value is equal to `#daf3e7`.
 
 	## Unexpected
 
 	* The value is equal to `#rgba(71, 194, 133, 0.2)`.
 7. Repeat the whole procedure for following values (input → expected output):
 
-	* `hsl(150,50%,52%)` → `#47C28`,
-	* `rgba(100,200,50,.4)` → `#C1E9AD`.
+	* `hsl(150,50%,52%)` → `#47c285`,
+	* `rgba(100,200,50,.4)` → `#c1e9ad`.
