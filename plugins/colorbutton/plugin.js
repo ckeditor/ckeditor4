@@ -803,6 +803,17 @@
 	 * @returns {String}
 	 */
 	function normalizeColor( color ) {
+		var alphaRegex = /^(rgb|hsl)a\(/g,
+			isAlphaColor = alphaRegex.test( color ),
+			colorInstance;
+
+		// For colors with alpha channel we need to use CKEDITOR.tools.color normalization (#4351).
+		if ( isAlphaColor ) {
+			colorInstance = new CKEDITOR.tools.color( color );
+
+			return CKEDITOR.tools.normalizeHex( colorInstance.getHex() || '' ).replace( /#/g, '' );
+		}
+
 		// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
 		return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
 	}
