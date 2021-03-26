@@ -107,7 +107,7 @@ bender.test( {
 	},
 
 	// (#4493)
-	'test richcombo initial label': function() {
+	'test richcombo label elements contains initial label by default': function() {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo' ),
 			comboBtnSelector = '#cke_' + combo.id,
@@ -120,7 +120,7 @@ bender.test( {
 	},
 
 	// (#4493)
-	'test richcombo label after selecting some option': function() {
+	'test richcombo label element contains text from selected option': function() {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo_with_options' ),
 			comboBtnSelector = '#cke_' + combo.id,
@@ -135,7 +135,7 @@ bender.test( {
 	},
 
 	// (#4493)
-	'test richcombo label after returning to defaul value': function() {
+	'test richcombo label element contains initial label after richcombo returns to default value': function() {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo_with_options' ),
 			comboBtnSelector = '#cke_' + combo.id,
