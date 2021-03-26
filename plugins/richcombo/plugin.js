@@ -318,6 +318,21 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					textElement.setText( typeof text != 'undefined' ? text : value );
 				}
+
+				var newLabel = createLabel( typeof text != 'undefined' ? text : value, this.label ),
+					labelElement = this.document.getById( 'cke_' + this.id + '_label' );
+
+				if ( labelElement ) {
+					labelElement.setText( newLabel );
+				}
+
+				function createLabel( newLabel, initialLabel ) {
+					if ( newLabel === initialLabel ) {
+						return newLabel;
+					}
+
+					return newLabel + ', ' + initialLabel;
+				}
 			},
 
 			getValue: function() {
