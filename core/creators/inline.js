@@ -35,14 +35,14 @@
 			return null;
 		}
 
-		var textarea = element.is( 'textarea' ) ? element : null,
-			editorData = textarea ? textarea.getValue() : element.getHtml();
-
+		// (#4461)
 		if ( delayCreationOnDetachedElement( element, instanceConfig ) ) {
 			return null;
 		}
 
-		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE );
+		var textarea = element.is( 'textarea' ) ? element : null,
+			editorData = textarea ? textarea.getValue() : element.getHtml(),
+			editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE );
 
 		if ( textarea ) {
 			editor.setData( editorData, null, true );
