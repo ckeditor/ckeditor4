@@ -1648,6 +1648,83 @@
 
 		return element;
 	};
+
+	/**
+	 * Delay editor creation if given element is detached from DOM.
+	 *
+	 * Requires `config.delayIfDetached` to be equal to `true`.
+	 *
+	 * If `config.delayIfDetached_callback` is declared as function, it will be invoked with a single argument:
+	 * function, that should be called to create editor.
+	 *
+	 * Otherwise, periodically (with `setInterval()`) check if element is reattached to DOM and if so, then create editor automatically.
+	 *
+	 * ```js
+	 *	CKEDITOR.inline( detachedEditorElement, {
+	 *		delayIfDetached: true,
+	 *		delayIfDetached_callback: registerCallback
+	 *	} );
+	 * ```
+	 *
+	 * ```js
+	 *	CKEDITOR.replace( detachedEditorElement, {
+	 *		delayIfDetached: true,
+	 *		delayIfDetached_callback: registerCallback
+	 *	} );
+	 * ```
+	 *
+	 * @private
+	 * @since 4.17.0
+	 * @static
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.element} element The DOM element.
+	 * @param {Object} config The specific configuration to apply to the editor instance. Configuration set here will override the global CKEditor settings.
+	 * @param {Function} createEditorCallback Function which creates editor.
+	 * @returns {Boolean} True if creation was delayed.
+	 */
+	CKEDITOR.editor._delayCreationOnDetachedElement = function( element, config, createEditorCallback ) {
+		if ( !config || !config.delayIfDetached || !element.isDetached() ) {
+			return false;
+		}
+
+		if ( config.delayIfDetached_callback ) {
+			CKEDITOR.warn( 'editor-delayed-creation', {
+				method: 'callback'
+			} );
+
+			config.delayIfDetached_callback( function() {
+				createEditorCallback();
+
+				CKEDITOR.warn( 'editor-delayed-creation-success', {
+					method: 'callback'
+				} );
+			} );
+
+			return true;
+		}
+
+		var interval = config.delayIfDetached_interval === undefined ? CKEDITOR.config.delayIfDetached_interval : config.delayIfDetached_interval,
+			intervalId;
+
+		CKEDITOR.warn( 'editor-delayed-creation', {
+			method: 'interval - ' + interval + ' ms'
+		} );
+
+		intervalId = setInterval( function() {
+			if ( !element.isDetached() ) {
+				clearInterval( intervalId );
+
+				createEditorCallback();
+
+				CKEDITOR.warn( 'editor-delayed-creation-success', {
+					method: 'interval - ' + interval + ' ms'
+				} );
+			}
+		}, interval );
+
+		return true;
+	};
+
 } )();
 
 /**
@@ -2228,3 +2305,53 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @event contentDomInvalidated
  * @param {CKEDITOR.editor} editor This editor instance.
  */
+
+/**
+ * Allow delayed editor creation (either with callback or intervals) if target element is detached from DOM.
+ *
+ *		config.delayIfDetached = true;
+ *
+ * @since 4.17.0
+ * @cfg {Boolean} [delayIfDetached=false]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.delayIfDetached = false;
+
+/**
+ * Function with single argument. As argument is passed another function that continues editor creation.
+ * Allows to store the editor creation function and invoke it whenever it is convenient instead of periodically
+ * check if element is reattached to DOM.
+ *
+ * If this option is defined, editor will not run the default
+ * {@link CKEDITOR.config#delayIfDetached_interval interval checks}.
+ *
+ *		// Store the reference to the editor creation function.
+ *		var resumeEditorCreation;
+ *
+ *		config.delayIfDetached_callback = function( createEditor ) {
+ *			resumeEditorCreation = createEditor;
+ *		};
+ *
+ *		// Create editor calling `resumeEditorCreation()` whenever you choose (e.g. on button click).
+ *		resumeEditorCreation();
+ *
+ * @since 4.17.0
+ * @cfg {Function} [delayIfDetached_callback = function( createEditor ){ resumeEditorCreation = createEditor; }]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.delayIfDetached_callback = function( createEditorFunction ) {
+	createEditorFunction();
+};
+
+/**
+ * The amount of time (in miliseconds) between consecutive checks whether editor's target element is reattached to DOM.
+ *
+ * It will not be used if {@link CKEDITOR.config#delayIfDetached_callback delayIfDetached_callback} is set.
+ *
+ *		config.delayIfDetached_interval = 2000; // Try to create editor every 2 seconds.
+ *
+ * @since 4.17.0
+ * @cfg {Number} [delayIfDetached_interval=50]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.delayIfDetached_interval = 50;

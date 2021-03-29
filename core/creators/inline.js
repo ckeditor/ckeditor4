@@ -36,7 +36,9 @@
 		}
 
 		// (#4461)
-		if ( delayCreationOnDetachedElement( element, instanceConfig ) ) {
+		if ( CKEDITOR.editor._delayCreationOnDetachedElement( element, instanceConfig, function() {
+				CKEDITOR.inline( element, instanceConfig );
+			} ) ) {
 			return null;
 		}
 
@@ -163,67 +165,6 @@
 		!CKEDITOR.disableAutoInline && CKEDITOR.inlineAll();
 	} );
 
-	// Delay editor creation if given element is detached from DOM.
-	//
-	// Requires `config.delayIfDetached` to be equal to `true`.
-	//
-	// If `config.delayIfDetached_callback` is declared as function, it will be invoked with a single argument:
-	// function, that should be called to create editor.
-	//
-	// Otherwise, periodically (with `setInterval()`) check if element is reattached to DOM and if so, then create editor automatically.
-	//
-	// ```js
-	//	CKEDITOR.inline( detachedEditorElement, {
-	//		delayIfDetached: true,
-	//		delayIfDetached_callback: registerCallback
-	//	} );
-	// ```
-	//
-	// @param {CKEDITOR.element} element The DOM element.
-	// @param {Object} [config] The specific configuration to apply to this
-	// editor instance. Configuration set here will override the global CKEditor settings.
-	function delayCreationOnDetachedElement( element, config ) {
-		if ( !config || !config.delayIfDetached || !element.isDetached() ) {
-			return false;
-		}
-
-		if ( config.delayIfDetached_callback ) {
-			CKEDITOR.warn( 'editor-delayed-creation', {
-				method: 'callback'
-			} );
-
-			config.delayIfDetached_callback( function() {
-				CKEDITOR.inline( element, config );
-
-				CKEDITOR.warn( 'editor-delayed-creation-success', {
-					method: 'callback'
-				} );
-			} );
-
-			return true;
-		}
-
-		var interval = config.delayIfDetached_interval === undefined ? CKEDITOR.config.delayIfDetached_interval : config.delayIfDetached_interval,
-			intervalId;
-
-		CKEDITOR.warn( 'editor-delayed-creation', {
-			method: 'interval - ' + interval + ' ms'
-		} );
-
-		intervalId = setInterval( function() {
-			if ( !element.isDetached() ) {
-				clearInterval( intervalId );
-
-				CKEDITOR.inline( element, config );
-
-				CKEDITOR.warn( 'editor-delayed-creation-success', {
-					method: 'interval - ' + interval + ' ms'
-				} );
-			}
-		}, interval );
-
-		return true;
-	}
 } )();
 
 /**
