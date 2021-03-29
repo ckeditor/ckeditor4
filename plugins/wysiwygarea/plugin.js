@@ -109,7 +109,17 @@
 
 					evt && evt.removeListener();
 
+					iframe.getFrameDocument().getWindow().on( 'unload', function() {
+						iframe.setCustomData( 'hiddenBefore', true );
+					} );
+
 					iframe.on( 'load', function() {
+						if ( !iframe.getCustomData( 'hiddenBefore' ) ) {
+							return;
+						}
+
+						iframe.setCustomData( 'hiddenBefore', false );
+
 						if ( !shouldRecreateEditable( iframe ) ) {
 							shouldRecreateEditable( iframe, true );
 							return;
@@ -133,6 +143,11 @@
 						editor.status = 'recreating';
 						editor.setData( cacheData, callback );
 						shouldRecreateEditable( iframe, true );
+
+						iframe.getFrameDocument().getWindow().on( 'unload', function() {
+							iframe.setCustomData( 'hiddenBefore', true );
+
+						} );
 					} );
 				}
 			} );
