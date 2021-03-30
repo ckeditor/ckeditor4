@@ -336,6 +336,10 @@
 					colorCode = this._.hex3ToHex6( colorCode );
 				}
 
+				if ( colorCode.match( CKEDITOR.tools.color.hex4CharsRegExp ) ) {
+					colorCode = this._.hex4ToHex8( colorCode );
+				}
+
 				if ( !colorCode.match( CKEDITOR.tools.color.hex6CharsRegExp ) && !colorCode.match( CKEDITOR.tools.color.hex8CharsRegExp ) ) {
 					return null;
 				}
@@ -444,6 +448,19 @@
 				var parts = hex3ColorCode.split( '' );
 
 				return '#' + parts[ 1 ] + parts[ 1 ] + parts[ 2 ] + parts[ 2 ] + parts[ 3 ] + parts[ 3 ];
+			},
+
+			/**
+			 * Converts 4-characters hexadecimal color format to 8-characters one.
+			 *
+			 * @private
+			 * @param {String} hex4ColorCode 4-characters hexadecimal color, e.g. `#F0F0`.
+			 * @returns {String} 8-characters hexadecimal color e.g. `#FF00FF00`.
+			 */
+			 hex4ToHex8: function( hex4ColorCode ) {
+				var hex6 = this._.hex3ToHex6( hex4ColorCode.substr( 0, 4 ) );
+
+				return hex6 + CKEDITOR.tools.repeat( hex4ColorCode[ 4 ], 2 );
 			},
 
 			/**
@@ -611,6 +628,15 @@
 			 * @property {RegExp}
 			 */
 			hex3CharsRegExp: /#([0-9a-f]{3}$)/gim,
+
+			/**
+			 * Regular expression to match hash (`#`) followed by four characters long hexadecimal color value.
+			 *
+			 * @private
+			 * @static
+			 * @property {RegExp}
+			 */
+			 hex4CharsRegExp: /#([0-9a-f]{4}$)/gim,
 
 			/**
 			 * Regular expression to match hash (`#`) followed by six characters long hexadecimal color value.
