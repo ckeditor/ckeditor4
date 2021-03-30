@@ -10,12 +10,12 @@
 	var tests = detachedTests.appendTests( 'replace',
 	{
 		'test CKEDITOR replaceAll dont create editor instances because cant find detached textareas': function() {
-			var tas = document.getElementsByTagName( 'textarea' ),
+			var textareas = document.getElementsByTagName( 'textarea' ),
 				replaceSpy = sinon.spy( CKEDITOR, 'replace' );
 
-			for ( var index = 0; index < tas.length; index++ ) {
-				tas[ index ].remove();
-			}
+			CKEDITOR.tools.array.forEach( textareas, function( textareaElem ) {
+				textareaElem.remove();
+			} );
 
 			CKEDITOR.replaceAll();
 
