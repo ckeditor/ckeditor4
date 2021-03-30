@@ -9,19 +9,31 @@
 
 	var tests = detachedTests.appendTests( 'inline',
 	{
-		'test CKEDITOR inlineAll dont create editor instances because cant find detached elements': function() {
-			var inlineSpy = sinon.spy( CKEDITOR, 'inline' );
+		'test CKEDITOR inlineAll dont call editor constructor': function() {
+			var inlineSpy = sinon.spy( CKEDITOR, 'editor' ),
+				editableParent = CKEDITOR.document.getById( 'inlineEditableParent' );
 
-			CKEDITOR.document.getById( 'inlineEditable' ).remove();
+			editableParent.remove();
+			CKEDITOR.on( 'inline', bindToInline, null, null, 0 );
+
 			CKEDITOR.inlineAll();
 
-			assert.areEqual( 0, inlineSpy.callCount, 'There should be not CKEDITOR.inline calls.' );
+			assert.areEqual( 0, inlineSpy.callCount, 'There should be not CKEDITOR.editor constructor calls.' );
 
 			inlineSpy.restore();
+			CKEDITOR.removeListener( 'inline' , bindToInline );
 		}
 
 	} );
 
 	bender.test( tests );
+
+	function bindToInline( evt ) {
+		evt && evt.removeListener();
+
+		evt.data.config = {
+			delayIfDetached: true
+		};
+	}
 
 }() );
