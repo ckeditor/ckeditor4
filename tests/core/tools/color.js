@@ -104,7 +104,19 @@
 
 		'test color from valid HSL string returns 8-HEX': colorTools.testColorConversion( 'hsl( 195, 1, 0.5 )', '#00BFFFFF', 'getHexWithAlpha' ),
 
-		'test color from valid RGB with percent returns valid RGB': colorTools.testColorConversion( 'rgb(20.5%,0,255)', 'rgb(52,0,255)', 'getRgb' )
+		'test color from valid RGB with percent returns valid RGB': colorTools.testColorConversion( 'rgb(20.5%,0,255)', 'rgb(52,0,255)', 'getRgb' ),
+
+		// (#4583)
+		'test color from 4-HEX returns valid 6-HEX': colorTools.testColorConversion( '#F0F0', '#FFFFFF', 'getHex' ),
+
+		// (#4583)
+		'test color from 4-HEX returns valid 8-HEX': colorTools.testColorConversion( '#F0F0', '#FF00FF00', 'getHexWithAlpha' ),
+
+		// (#4583)
+		'test color from 4-HEX returns valid RGBA': colorTools.testColorConversion( '#F0F0', 'rgba(255,0,255,0)', 'getRgba' ),
+
+		// (#4583)
+		'test color from 4-HEX returns valid HSLA': colorTools.testColorConversion( '#F0F0','hsla(-60,100%,50%,0)', 'getHsla' )
 	} );
 
 } )();
