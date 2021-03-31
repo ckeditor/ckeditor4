@@ -109,37 +109,16 @@
 
 					evt && evt.removeListener();
 
-					// iframe.getFrameDocument().getWindow().$.addEventListener( 'unload', function() {
-					// 	console.log('page hide');
-					// 	iframe.setCustomData( 'hiddenBefore', true );
-					// } );
-
 					iframe.on( 'load', function() {
-						// console.group( 'load' );
-						// console.log( 'hiddenBefore', iframe.getCustomData( 'hiddenBefore' ) );
-
 						if ( !iframe.getCustomData( 'hiddenBefore' ) ) {
-							// console.log( 'hidden blocked' );
-							// console.groupEnd();
 							return;
 						}
 
 						if ( CKEDITOR.env.ie && !shouldRecreateEditable( iframe ) ) {
-							// console.log( 'recreate blocked' );
 							shouldRecreateEditable( iframe, true );
-							// console.groupEnd();
 							return;
 						}
-						// if ( !shouldRecreateEditable( iframe ) ) {
-						// 	shouldRecreateEditable( iframe, true );
-						// 	console.log('recreate blocked');
-						// 	console.groupEnd();
-						// 	console.log(evt);
-						// 	// iframe.fire('load')
-						// 	// evt.sender.$.dispatchEvent(evt);
-						// 	return;
-						// }
-						// console.log('sethidden before as false');
+
 						iframe.setCustomData( 'hiddenBefore', false );
 
 						var cacheData = editor.getData( false ),
@@ -152,27 +131,8 @@
 						newEditable = new framedWysiwyg( editor, iframe.getFrameDocument().getBody() );
 						editor.editable( newEditable );
 
-						// Prevents IE "Permission denied" error.
-						if ( CKEDITOR.env.ie ) {
-							editor.focus();
-						}
-
 						editor.status = 'recreating';
-						// console.log('before set data');
 						editor.setData( cacheData, callback );
-						// console.log('after set data');
-						// shouldRecreateEditable( iframe, true );
-
-						// iframe.getFrameDocument().getWindow().on( 'unload', function() {
-						// 	console.log('page hide');
-						// 	iframe.setCustomData( 'hiddenBefore', true );
-
-						// } );
-						// iframe.getFrameDocument().getWindow().on('unload', function() {
-						// 		console.log( 'unload from recreated' );
-						// 	});
-						// console.log('fully recreated');
-						// console.groupEnd();
 					} );
 				}
 			} );
@@ -415,7 +375,6 @@
 			preserveIframe: false,
 
 			setData: function( data, isSnapshot ) {
-				// console.log( 'setData wysiwyg', { d: data }, isSnapshot );
 				var editor = this.editor;
 
 				if ( isSnapshot ) {
@@ -563,14 +522,11 @@
 					// defer it thanks to the async nature of this method.
 					try {
 						doc.write( data );
-						// console.log('doc write without errors');
 						var iframeWindow = iframe.getFrameDocument().getWindow();
 						iframeWindow.$.addEventListener( 'unload', function() {
-							// console.log( 'unload from set data doc write' );
 							iframe.setCustomData( 'hiddenBefore', true );
 						} );
 					} catch ( e ) {
-						// console.log( 'catch doc.write()');
 						setTimeout( function() {
 							doc.write( data );
 						}, 0 );
