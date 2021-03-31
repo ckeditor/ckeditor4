@@ -399,19 +399,11 @@
 			extractColorChannelsFromHsla: function( colorCode ) {
 				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.hslRegExp );
 
-				if ( !channels ) {
+				if ( !channels || channels.length < 3 || channels.length > 4 ) {
 					return null;
 				}
 
-				var isColorDeclaredWithAlpha = colorCode.indexOf( 'hsla' ) === 0;
-
-				if ( isColorDeclaredWithAlpha && channels.length !== 4 ) {
-					return null;
-				}
-
-				if ( !isColorDeclaredWithAlpha && channels.length !== 3 ) {
-					return null;
-				}
+				var isColorDeclaredWithAlpha = channels.length === 4;
 
 				var hue = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_HUE_CHANNEL_VALUE ),
 					saturation = tryToConvertToValidFloatValue( channels[ 1 ], CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE ),
