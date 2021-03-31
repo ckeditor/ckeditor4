@@ -119,6 +119,24 @@
 
 		// (#4583)
 		'test HSL values are treated like HSLA values': colorTools.testColorConversion( 'hsl( 195, 100%, 50%, 0 )', 'hsla(195,100%,50%,0)', 'getHsla' ),
+
+		// (#4583)
+		'test RGB value with new syntax (no commas)': colorTools.testColorConversion( 'rgb( 255 0 255 )', 'rgb(255,0,255)', 'getRgb' ),
+
+		// (#4583)
+		'test RGB value with alpha (number) and new syntax (no commas)': colorTools.testColorConversion( 'rgb( 255 0 255 / 0.1 )', 'rgba(255,0,255,0.1)', 'getRgba' ),
+
+		// (#4583)
+		'test RGB value with alpha (percentage) and new syntax (no commas)': colorTools.testColorConversion( 'rgb( 255 0 255 / 10% )', 'rgba(255,0,255,0.1)', 'getRgba' ),
+
+		// (#4583)
+		'test RGBA value with new syntax (no commas)': colorTools.testColorConversion( 'rgba( 255 0 255 )', 'rgb(255,0,255)', 'getRgb' ),
+
+		// (#4583)
+		'test RGBA value with alpha (number) and new syntax (no commas)': colorTools.testColorConversion( 'rgba( 255 0 255 / 0.1 )', 'rgba(255,0,255,0.1)', 'getRgba' ),
+
+		// (#4583)
+		'test RGBA value with alpha (percentage) and new syntax (no commas)': colorTools.testColorConversion( 'rgba( 255 0 255 / 10% )', 'rgba(255,0,255,0.1)', 'getRgba' ),
 	} );
 
 } )();
