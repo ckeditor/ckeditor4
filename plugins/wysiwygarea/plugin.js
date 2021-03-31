@@ -96,7 +96,7 @@
 					editor.editable( new framedWysiwyg( editor, iframe.getFrameDocument().getBody() ) );
 					editor.setData( editor.getData( 1 ), callback );
 
-					// shouldRecreateEditable( iframe, true );
+					CKEDITOR.env.ie && shouldRecreateEditable( iframe, true );
 
 					editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
 				}
@@ -116,6 +116,7 @@
 
 					iframe.on( 'load', function() {
 						// console.group( 'load' );
+						// console.log( 'hiddenBefore', iframe.getCustomData( 'hiddenBefore' ) );
 
 						if ( !iframe.getCustomData( 'hiddenBefore' ) ) {
 							// console.log( 'hidden blocked' );
@@ -123,17 +124,23 @@
 							return;
 						}
 
-						iframe.setCustomData( 'hiddenBefore', false );
-
+						if ( CKEDITOR.env.ie && !shouldRecreateEditable( iframe ) ) {
+							// console.log( 'recreate blocked' );
+							shouldRecreateEditable( iframe, true );
+							// console.groupEnd();
+							return;
+						}
 						// if ( !shouldRecreateEditable( iframe ) ) {
 						// 	shouldRecreateEditable( iframe, true );
 						// 	console.log('recreate blocked');
-						// console.groupEnd();
+						// 	console.groupEnd();
 						// 	console.log(evt);
 						// 	// iframe.fire('load')
 						// 	// evt.sender.$.dispatchEvent(evt);
 						// 	return;
 						// }
+						// console.log('sethidden before as false');
+						iframe.setCustomData( 'hiddenBefore', false );
 
 						var cacheData = editor.getData( false ),
 							newEditable;
@@ -151,7 +158,9 @@
 						}
 
 						editor.status = 'recreating';
+						// console.log('before set data');
 						editor.setData( cacheData, callback );
+						// console.log('after set data');
 						// shouldRecreateEditable( iframe, true );
 
 						// iframe.getFrameDocument().getWindow().on( 'unload', function() {
@@ -406,7 +415,7 @@
 			preserveIframe: false,
 
 			setData: function( data, isSnapshot ) {
-				// console.log( 'setData wysiwyg', { data }, isSnapshot );
+				// console.log( 'setData wysiwyg', { d: data }, isSnapshot );
 				var editor = this.editor;
 
 				if ( isSnapshot ) {
@@ -548,21 +557,20 @@
 
 					// Prevent backup onLoad event.
 					// onLoad invokes setData() method, so it leads to infinite loop (#4462).
-					// shouldRecreateEditable( iframe, false );
+					CKEDITOR.env.ie && shouldRecreateEditable( iframe, false );
 
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
 					try {
 						doc.write( data );
-						// console.log( 'doc write without errors' );
+						// console.log('doc write without errors');
 						var iframeWindow = iframe.getFrameDocument().getWindow();
 						iframeWindow.$.addEventListener( 'unload', function() {
 							// console.log( 'unload from set data doc write' );
 							iframe.setCustomData( 'hiddenBefore', true );
-							// shouldRecreateEditable(iframe, true);
 						} );
 					} catch ( e ) {
-						// console.log( 'catch doc.write()' );
+						// console.log( 'catch doc.write()');
 						setTimeout( function() {
 							doc.write( data );
 						}, 0 );
@@ -715,13 +723,13 @@
 		return css.join( '\n' );
 	}
 
-	// function shouldRecreateEditable( iframe, shouldRecreate ) {
-	// 	if ( arguments.length === 1 ) {
-	// 		return iframe.$.shouldRecreate;
-	// 	}
+	function shouldRecreateEditable( iframe, shouldRecreate ) {
+		if ( arguments.length === 1 ) {
+			return iframe.$.shouldRecreate;
+		}
 
-	// 	iframe.$.shouldRecreate = shouldRecreate;
-	// }
+		iframe.$.shouldRecreate = shouldRecreate;
+	}
 
 } )();
 
