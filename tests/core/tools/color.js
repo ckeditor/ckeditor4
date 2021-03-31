@@ -161,6 +161,18 @@
 		// (#4583)
 		// The expected value is incorrect due to #4597.
 		'test HSLA value with alpha (percentage) and new syntax (no commas)': colorTools.testColorConversion( 'hsla( 200 50% 10% / 10% )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+
+		// (#4583)
+		'test treating 6-HEX-like value as 6-HEX value': colorTools.testColorConversion( 'FF0000', '#FF0000', 'getHex' ),
+
+		// (#4583)
+		'test treating 3-HEX-like value as 3-HEX value': colorTools.testColorConversion( 'F00', '#FF0000', 'getHex' ),
+
+		// (#4583)
+		'test treating 8-HEX-like value as 8-HEX value': colorTools.testColorConversion( 'FF0000FF', '#FF0000FF', 'getHexWithAlpha' ),
+
+		// (#4583)
+		'test treating 4-HEX-like value as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' )
 	} );
 
 } )();
