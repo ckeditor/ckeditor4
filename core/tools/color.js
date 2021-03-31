@@ -462,11 +462,25 @@
 					return null;
 				}
 
-				var values = match[ 2 ].split( ',' );
+				var separator = match[ 1 ].indexOf( ',' ) === -1 ? /\s/ : ',',
+					values = match[ 1 ].split( separator );
 
-				values = CKEDITOR.tools.array.map( values, function( value ) {
-					return CKEDITOR.tools.trim( value );
-				} );
+				values = CKEDITOR.tools.array.reduce( values, function( trimmedValues, value ) {
+					var trimmedValue = CKEDITOR.tools.trim( value );
+
+					if ( trimmedValue.length === 0 ) {
+						return trimmedValues;
+					}
+
+					return trimmedValues.concat( [ trimmedValue ] );
+				}, [] );
+
+				// There was alpha channel in the new syntax ( / <number>%?)
+				if ( match[ 2 ] ) {
+					var alpha = CKEDITOR.tools.trim( match[ 2 ].replace( '/', '' ) );
+
+					values.push( alpha );
+				}
 
 				return values;
 			},
@@ -650,7 +664,7 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			rgbRegExp: /(rgb[a]?)\(([.,\d\s%]*)\)/i,
+			rgbRegExp: /rgba?\(([.,\d\s%]*)(\s*\/\s*[\d.%]+)?\s*\)/i,
 
 			/**
 			 * Regular expression to extract numbers from HSL and HSLA color value.
