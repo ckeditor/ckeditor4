@@ -676,7 +676,7 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			hslRegExp: /(hsl[a]?)\(([.,\d\s%]*)\)/i,
+			hslRegExp: /hsla?\(([.,\d\s%]*)(\s*\/\s*[\d.%]+)?\s*\)/i,
 
 			/**
 			 * Color list based on [W3 named colors list](https://www.w3.org/TR/css-color-4/#named-colors).
