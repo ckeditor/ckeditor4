@@ -332,6 +332,11 @@
 			 * @returns {Array/null}
 			 */
 			extractColorChannelsFromHex: function( colorCode ) {
+				// We also like to support hex-like values (so hexes without hash at the beginning).
+				if ( colorCode.indexOf( '#' ) === -1 ) {
+					colorCode = '#' + colorCode;
+				}
+
 				if ( colorCode.match( CKEDITOR.tools.color.hex3CharsRegExp ) ) {
 					colorCode = this._.hex3ToHex6( colorCode );
 				}
