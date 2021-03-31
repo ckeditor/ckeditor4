@@ -64,8 +64,6 @@
 
 		'test color from valid string color name returns 6-HEX': colorTools.testColorConversion( 'red', '#FF0000', 'getHex' ),
 
-		'test color from invalid RGB with four values returns default value': colorTools.testColorConversion( 'rgb( 40, 40, 150, 1 )', 'default', 'getHex', 'default' ),
-
 		'test color from valid RGB string returns 6-HEX': colorTools.testColorConversion( 'rgb( 40, 40, 150 )', '#282896', 'getHex' ),
 
 		'test color from valid RGB string returns 6-HEX (max value)': colorTools.testColorConversion( 'rgb( 255, 40, 150 )', '#FF2896', 'getHex' ),
@@ -116,7 +114,10 @@
 		'test color from 4-HEX returns valid RGBA': colorTools.testColorConversion( '#F0F0', 'rgba(255,0,255,0)', 'getRgba' ),
 
 		// (#4583)
-		'test color from 4-HEX returns valid HSLA': colorTools.testColorConversion( '#F0F0','hsla(-60,100%,50%,0)', 'getHsla' )
+		'test color from 4-HEX returns valid HSLA': colorTools.testColorConversion( '#F0F0','hsla(-60,100%,50%,0)', 'getHsla' ),
+
+		// (#4583)
+		'test RGB values are treated like RGBA values': colorTools.testColorConversion( 'rgb( 255, 0, 255, 0)', 'rgba(255,0,255,0)', 'getRgba' )
 	} );
 
 } )();
