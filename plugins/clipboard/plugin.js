@@ -197,9 +197,9 @@
 					return false;
 				}
 				
-				var types = dataTransfer.getTypes();
-				var isFileOnly = types.length === 1 && types[ 0 ] === 'Files';
-				var containsFile = dataTransfer.getFilesCount() === 1;
+				var types = dataTransfer.getTypes(), 
+				    isFileOnly = types.length === 1 && types[ 0 ] === 'Files',
+				    containsFile = dataTransfer.getFilesCount() === 1;
 
 				if (types.length == 0 && containsFile) {
 					return true;
