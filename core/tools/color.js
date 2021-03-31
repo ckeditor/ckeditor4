@@ -441,7 +441,7 @@
 			 * @param {String} hex4ColorCode 4-characters hexadecimal color, e.g. `#F0F0`.
 			 * @returns {String} 8-characters hexadecimal color e.g. `#FF00FF00`.
 			 */
-			 hex4ToHex8: function( hex4ColorCode ) {
+			hex4ToHex8: function( hex4ColorCode ) {
 				var hex6 = this._.hex3ToHex6( hex4ColorCode.substr( 0, 4 ) );
 
 				return hex6 + CKEDITOR.tools.repeat( hex4ColorCode[ 4 ], 2 );
@@ -634,7 +634,7 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			 hex4CharsRegExp: /#([0-9a-f]{4}$)/gim,
+			hex4CharsRegExp: /#([0-9a-f]{4}$)/gim,
 
 			/**
 			 * Regular expression to match hash (`#`) followed by six characters long hexadecimal color value.
