@@ -96,7 +96,7 @@
 					editor.editable( new framedWysiwyg( editor, iframe.getFrameDocument().getBody() ) );
 					editor.setData( editor.getData( 1 ), callback );
 
-					shouldRecreateEditable( iframe, true );
+					// shouldRecreateEditable( iframe, true );
 
 					editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
 				}
@@ -109,21 +109,31 @@
 
 					evt && evt.removeListener();
 
-					iframe.getFrameDocument().getWindow().on( 'unload', function() {
-						iframe.setCustomData( 'hiddenBefore', true );
-					} );
+					// iframe.getFrameDocument().getWindow().$.addEventListener( 'unload', function() {
+					// 	console.log('page hide');
+					// 	iframe.setCustomData( 'hiddenBefore', true );
+					// } );
 
 					iframe.on( 'load', function() {
+						// console.group( 'load' );
+
 						if ( !iframe.getCustomData( 'hiddenBefore' ) ) {
+							// console.log( 'hidden blocked' );
+							// console.groupEnd();
 							return;
 						}
 
 						iframe.setCustomData( 'hiddenBefore', false );
 
-						if ( !shouldRecreateEditable( iframe ) ) {
-							shouldRecreateEditable( iframe, true );
-							return;
-						}
+						// if ( !shouldRecreateEditable( iframe ) ) {
+						// 	shouldRecreateEditable( iframe, true );
+						// 	console.log('recreate blocked');
+						// console.groupEnd();
+						// 	console.log(evt);
+						// 	// iframe.fire('load')
+						// 	// evt.sender.$.dispatchEvent(evt);
+						// 	return;
+						// }
 
 						var cacheData = editor.getData( false ),
 							newEditable;
@@ -142,12 +152,18 @@
 
 						editor.status = 'recreating';
 						editor.setData( cacheData, callback );
-						shouldRecreateEditable( iframe, true );
+						// shouldRecreateEditable( iframe, true );
 
-						iframe.getFrameDocument().getWindow().on( 'unload', function() {
-							iframe.setCustomData( 'hiddenBefore', true );
+						// iframe.getFrameDocument().getWindow().on( 'unload', function() {
+						// 	console.log('page hide');
+						// 	iframe.setCustomData( 'hiddenBefore', true );
 
-						} );
+						// } );
+						// iframe.getFrameDocument().getWindow().on('unload', function() {
+						// 		console.log( 'unload from recreated' );
+						// 	});
+						// console.log('fully recreated');
+						// console.groupEnd();
 					} );
 				}
 			} );
@@ -390,6 +406,7 @@
 			preserveIframe: false,
 
 			setData: function( data, isSnapshot ) {
+				// console.log( 'setData wysiwyg', { data }, isSnapshot );
 				var editor = this.editor;
 
 				if ( isSnapshot ) {
@@ -531,13 +548,21 @@
 
 					// Prevent backup onLoad event.
 					// onLoad invokes setData() method, so it leads to infinite loop (#4462).
-					shouldRecreateEditable( iframe, false );
+					// shouldRecreateEditable( iframe, false );
 
 					// Work around Firefox bug - error prune when called from XUL (https://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
 					try {
 						doc.write( data );
+						// console.log( 'doc write without errors' );
+						var iframeWindow = iframe.getFrameDocument().getWindow();
+						iframeWindow.$.addEventListener( 'unload', function() {
+							// console.log( 'unload from set data doc write' );
+							iframe.setCustomData( 'hiddenBefore', true );
+							// shouldRecreateEditable(iframe, true);
+						} );
 					} catch ( e ) {
+						// console.log( 'catch doc.write()' );
 						setTimeout( function() {
 							doc.write( data );
 						}, 0 );
@@ -690,13 +715,13 @@
 		return css.join( '\n' );
 	}
 
-	function shouldRecreateEditable( iframe, shouldRecreate ) {
-		if ( arguments.length === 1 ) {
-			return iframe.$.shouldRecreate;
-		}
+	// function shouldRecreateEditable( iframe, shouldRecreate ) {
+	// 	if ( arguments.length === 1 ) {
+	// 		return iframe.$.shouldRecreate;
+	// 	}
 
-		iframe.$.shouldRecreate = shouldRecreate;
-	}
+	// 	iframe.$.shouldRecreate = shouldRecreate;
+	// }
 
 } )();
 
