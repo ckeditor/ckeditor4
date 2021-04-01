@@ -1,69 +1,114 @@
-/* exported assertColor, openDialogManually */
+/* exported colorTools */
 
-function assertColor( editor, inputColor, outputColor ) {
-	editor.once( 'dialogShow', function( evt ) {
-		var dialog = evt.data;
-		dialog.setValueOf( 'picker', 'selectedColor', inputColor );
-		dialog.getButton( 'ok' ).click();
-	} );
-
-	editor.getColorFromDialog( function( color ) {
-		resume( function() {
-			assert.areSame( outputColor, color );
-		} );
-	} );
-	wait();
-}
-
-function assertSettingAndGettingColor( editor, options ) {
-	var toolbarButton = editor.ui.get( options.button );
-
-	bender.tools.setHtmlWithSelection( editor, '<p>Whenever [something] happens.</p>' );
-
-	editor.once( 'dialogShow', function( evt ) {
-		resume( function() {
+( function() {
+	function assertColor( editor, inputColor, outputColor ) {
+		editor.once( 'dialogShow', function( evt ) {
 			var dialog = evt.data;
 
-			dialog.setValueOf( 'picker', 'selectedColor', options.inputColor );
-			dialog.getButton( 'ok' ).click();
-
-			assertValueFromDialog( editor, options );
+			setColorInDialog( dialog, inputColor );
+			confirmDialog( dialog );
 		} );
-	} );
 
-	toolbarButton.click( editor );
-	openColorDialog( toolbarButton );
-}
+		assertGetColorFromDialog( editor, outputColor );
+	}
 
-function openDialogManually( editor, expectedColor, html, button ) {
-	bender.tools.setHtmlWithSelection( editor, html );
-	assertValueFromDialog( editor, {
-		button: button,
-		expectedColor: expectedColor
-	} );
-}
-
-function assertValueFromDialog( editor, options ) {
-	var toolbarButton = editor.ui.get( options.button );
-
-	editor.once( 'dialogShow', function( evt ) {
-		resume( function() {
-			var dialog = evt.data,
-				selectedColor = dialog.getValueOf( 'picker', 'selectedColor' );
-
-			dialog.getButton( 'ok' ).click();
-			assert.areSame( options.expectedColor, selectedColor );
+	function assertGetColorFromDialog( editor, expectedColor ) {
+		editor.getColorFromDialog( function( color ) {
+			resume( function() {
+				assert.areSame( expectedColor, color );
+			} );
 		} );
-	} );
+		wait();
+	}
 
-	toolbarButton.click( editor );
-	openColorDialog( toolbarButton );
-}
+	function assertSettingAndGettingColor( editor, options ) {
+		bender.tools.setHtmlWithSelection( editor, '<p>Whenever [something] happens.</p>' );
 
-function openColorDialog( button ) {
-	setTimeout( function() {
-		button._.panel.getBlock( button._.id ).element.findOne( '.cke_colormore' ).$.click();
-	}, 0 );
-	wait();
-}
+		editor.once( 'dialogShow', function( evt ) {
+			resume( function() {
+				var dialog = evt.data;
+
+				setColorInDialog( dialog, options.inputColor );
+				confirmDialog( dialog );
+
+				assertValueFromDialog( editor, options );
+			} );
+		} );
+
+		openColorPanel( editor, options );
+		openColorDialog( editor, options );
+	}
+
+	function openDialogManually( editor, expectedColor, html, button ) {
+		bender.tools.setHtmlWithSelection( editor, html );
+
+		assertValueFromDialog( editor, {
+			button: button,
+			expectedColor: expectedColor
+		} );
+	}
+
+	function assertValueFromDialog( editor, options ) {
+		editor.once( 'dialogShow', function( evt ) {
+			resume( function() {
+				var dialog = evt.data,
+					selectedColor = getColorFromDialog( dialog );
+
+				confirmDialog( dialog );
+
+				assert.areSame( options.expectedColor, selectedColor );
+			} );
+		} );
+
+		openColorPanel( editor, options );
+		openColorDialog( editor, options );
+	}
+
+	function openColorPanel( editor, options ) {
+		var toolbarButton = editor.ui.get( options.button );
+
+		toolbarButton.click( editor );
+	}
+
+	function openColorDialog( editor, options ) {
+		var toolbarButton = editor.ui.get( options.button );
+
+		setTimeout( function() {
+			toolbarButton._.panel.getBlock( toolbarButton._.id ).element.findOne( '.cke_colormore' ).$.click();
+		}, 0 );
+		wait();
+	}
+
+	function getColorFromDialog( dialog ) {
+		var selectedColor = dialog.getValueOf( 'picker', 'selectedColor' );
+
+		return selectedColor;
+	}
+
+	function setColorInDialog( dialog, inputColor ) {
+		dialog.setValueOf( 'picker', 'selectedColor', inputColor );
+	}
+
+	function confirmDialog( dialog ) {
+		dialog.getButton( 'ok' ).click();
+	}
+
+	function cancelDialog( dialog ) {
+		dialog.getButton( 'cancel' ).click();
+	}
+
+	window.colorTools = {
+		assertColor: assertColor,
+		assertSettingAndGettingColor: assertSettingAndGettingColor,
+		assertValueFromDialog: assertValueFromDialog,
+		assertGetColorFromDialog: assertGetColorFromDialog,
+		openColorPanel: openColorPanel,
+		openColorDialog: openColorDialog,
+		openDialogManually: openDialogManually,
+		confirmDialog: confirmDialog,
+		cancelDialog: cancelDialog,
+		getColorFromDialog: getColorFromDialog,
+		setColorInDialog: setColorInDialog
+	};
+}() );
 
