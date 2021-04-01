@@ -134,7 +134,7 @@
 						} );
 					} );
 
-					mutObserver.observe( CKEDITOR.document.$, { childList: true, subtree: true } );
+					mutObserver.observe( CKEDITOR.config.detachableParent, { childList: true, subtree: true } );
 				}
 
 				function attachIframeReloader( evt ) {
@@ -789,3 +789,14 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {CKEDITOR.dom.element} data The element being added.
  */
+
+/**
+ * Editor detachable parent. Native DOM object.
+ *
+ * Editor `wysiwygarea` iframe will be recreated whenever this element will be reattached to DOM.
+ *
+ * @since 4.17.0
+ * @cfg {Object} [detachableParent=CKEDITOR.document.$]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.detachableParent = CKEDITOR.document.$;
