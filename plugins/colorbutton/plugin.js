@@ -177,7 +177,7 @@
 						var colors = config.colorButton_colors.split( ',' ),
 							color = CKEDITOR.tools.array.find( colors, callback );
 
-						color = normalizeColor( color );
+						color = ColorBox.normalizeColor( color );
 
 						selectColor( panelBlock, color );
 						panelBlock._.markFirstDisplayed();
@@ -254,7 +254,7 @@
 									element = element.getParent();
 								}
 
-								currentColor = normalizeColor( element.getComputedStyle( cssProperty ) );
+								currentColor = ColorBox.normalizeColor( element.getComputedStyle( cssProperty ) );
 								finalColor = finalColor || currentColor;
 
 								if ( finalColor !== currentColor ) {
@@ -269,7 +269,7 @@
 								finalColor = '';
 							}
 							if ( type == 'fore' ) {
-								colorData.automaticTextColor = '#' + normalizeColor( automaticColor );
+								colorData.automaticTextColor = '#' + ColorBox.normalizeColor( automaticColor );
 							}
 							colorData.selectionColor = finalColor ? '#' + finalColor : '';
 
@@ -464,24 +464,11 @@
 				for ( var i = 0; i < items.count(); i++ ) {
 					var item = items.getItem( i );
 
-					if ( color && color == normalizeColor( item.getAttribute( 'data-value' ) ) ) {
+					if ( color && color == ColorBox.normalizeColor( item.getAttribute( 'data-value' ) ) ) {
 						item.setAttribute( 'aria-selected', true );
 						return;
 					}
 				}
-			}
-
-			/*
-			* Converts a CSS color value to an easily comparable form.
-			*
-			* @private
-			* @member CKEDITOR.plugins.colorbutton
-			* @param {String} color
-			* @returns {String}
-			*/
-			function normalizeColor( color ) {
-				// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
-				return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
 			}
 		}
 	} );
@@ -499,6 +486,39 @@
 		statics: {
 			colorNames: function( editor ) {
 				return editor.lang.colorbutton.colors;
+			},
+
+			/*
+			 * Converts a CSS color value to an easily comparable form.
+			 *
+			 * The function supports most of the color formats:
+			 *
+			 * * named colors (e.g. `yellow`),
+			 * * hex colors (e.g. `#FF0000` or `#F00`),
+			 * * RGB/RGBA colors (e.g. `rgb( 255, 0, 10)` or `rgba( 100, 20, 50, .5 )`),
+			 * * HSL/HSLA colors (e.g. `hsl( 100, 50%, 20%)` or `hsla( 100, 50%, 20%, 10%)`).
+			 *
+			 * @private
+			 * @param {String} color
+			 * @returns {String} Returns color in hex format, but without the hash at the beginning, e.g. `ff0000` for red.
+			 */
+			normalizeColor: function( color ) {
+				var alphaRegex = /^(rgb|hsl)a\(/g,
+					transparentRegex = /^rgba\((\s*0\s*,?){4}\)$/g,
+					isAlphaColor = alphaRegex.test( color ),
+					// Browsers tend to represent transparent color as rgba(0, 0, 0, 0), so we need to filter out this value.
+					isTransparentColor = transparentRegex.test( color ),
+					colorInstance;
+
+				// For colors with alpha channel we need to use CKEDITOR.tools.color normalization (#4351).
+				if ( isAlphaColor && !isTransparentColor ) {
+					colorInstance = new CKEDITOR.tools.color( color );
+
+					return CKEDITOR.tools.normalizeHex( colorInstance.getHex() || '' ).replace( /#/g, '' );
+				}
+
+				// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
+				return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
 			}
 		},
 
@@ -628,7 +648,7 @@
 			getHexCode: function( span, cssProperty, list ) {
 				var color = span.getStyle( cssProperty );
 
-				return color in list ? list[ color ].substr( 1 ) : this._.normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
+				return color in list ? list[ color ].substr( 1 ) : ColorBox.normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
 			},
 
 			sortByOccurrencesAscending: function( objectToParse, targetKeyName ) {
@@ -747,10 +767,6 @@
 				CKEDITOR.tools.array.forEach( this.rows, function( row ) {
 					this.container.append( row.getElement() );
 				}, this );
-			},
-
-			normalizeColor: function( color ) {
-				return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
 			}
 		},
 
