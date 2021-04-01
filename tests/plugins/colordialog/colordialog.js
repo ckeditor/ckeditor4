@@ -108,6 +108,22 @@
 				expectedColor: '#daf3e7',
 				button: 'TextColor'
 			} );
+		},
+
+		// (#4351)
+		// This particular value should be _broken_ until the whole flow is fixed in #4592.
+		// Otherwise automatic values in colorbutton become broken.
+		'test converting transparent value to hex color': function() {
+			// IE8 doesn't set unsupported values.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+
+			colorTools.assertSettingAndGettingColor( this.editor, {
+				inputColor: 'rgba(0,0,0,0)',
+				expectedColor: '#rgba(0, 0, 0, 0)',
+				button: 'TextColor'
+			} );
 		}
 	} );
 
