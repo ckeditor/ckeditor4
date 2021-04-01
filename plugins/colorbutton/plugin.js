@@ -797,10 +797,17 @@
 	/*
 	 * Converts a CSS color value to an easily comparable form.
 	 *
+	 * The function supports most of the color formats:
+	 *
+	 * * named colors (e.g. `yellow`),
+	 * * hex colors (e.g. `#FF0000` or `#F00`),
+	 * * RGB/RGBA colors (e.g. `rgb( 255, 0, 10)` or `rgba( 100, 20, 50, .5 )`),
+	 * * HSL/HSLA colors (e.g. `hsl( 100, 50%, 20%)` or `hsla( 100, 50%, 20%, 10%)`).
+	 *
 	 * @private
 	 * @member CKEDITOR.plugins.colorbutton
 	 * @param {String} color
-	 * @returns {String}
+	 * @returns {String} Returns color in hex format, but without the hash at the beginning, e.g. `ff0000` for red.
 	 */
 	function normalizeColor( color ) {
 		var alphaRegex = /^(rgb|hsl)a\(/g,
