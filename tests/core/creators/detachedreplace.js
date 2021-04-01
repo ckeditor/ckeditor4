@@ -7,14 +7,13 @@
 ( function() {
 	'use strict';
 
-	var tests = detachedTests.appendTests( 'replace',
-	{
-		'test CKEDITOR replaceAll dont create editor instances because cant find detached textareas': function() {
+	var tests = detachedTests.appendTests( 'replace', {
+		'test CKEDITOR.replaceAll() doesnt call the _delayCreationOnDetachedElement() function when elements are detached': function() {
 			var textareas = document.getElementsByTagName( 'textarea' ),
-				replaceSpy = sinon.spy( CKEDITOR, 'replace' );
+				replaceSpy = sinon.spy( CKEDITOR.editor, '_delayCreationOnDetachedElement' );
 
-			CKEDITOR.tools.array.forEach( textareas, function( textareaElem ) {
-				textareaElem.remove();
+			CKEDITOR.tools.array.forEach( textareas, function( textareaElement ) {
+				textareaElement.remove();
 			} );
 
 			CKEDITOR.replaceAll();
@@ -23,9 +22,7 @@
 
 			replaceSpy.restore();
 		}
-
 	} );
 
 	bender.test( tests );
-
 }() );

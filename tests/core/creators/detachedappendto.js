@@ -10,5 +10,4 @@
 	var tests = detachedTests.appendTests( 'appendTo', {} );
 
 	bender.test( tests );
-
 }() );
