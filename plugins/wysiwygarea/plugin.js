@@ -52,7 +52,9 @@
 					iframe.on( 'load', onLoad );
 
 				var frameLabel = editor.title,
-					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label,
+					recreateEditable = false,
+					mutObserver;
 
 				if ( frameLabel ) {
 					if ( CKEDITOR.env.ie && helpLabel )
@@ -72,8 +74,11 @@
 				// Remove the ARIA description.
 				editor.on( 'beforeModeUnload', function( evt ) {
 					evt.removeListener();
-					if ( desc )
+					if ( desc ) {
 						desc.remove();
+					}
+
+					mutObserver.disconnect();
 				} );
 
 				iframe.setAttributes( {
@@ -95,7 +100,69 @@
 
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editor.getData( 1 ), callback );
+
+					// (#4462)
+					editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
+					observeEditor();
 				}
+
+				function observeEditor() {
+					mutObserver = new MutationObserver( function( mutationsList ) {
+						CKEDITOR.tools.array.forEach( mutationsList, function( mutation ) {
+							if ( mutation.type !== 'childList' || mutation.addedNodes.length === 0 ) {
+								return;
+							}
+
+							var editorSelector = '#' + editor.element.getAttribute( 'id' ),
+								editorElement;
+
+							CKEDITOR.tools.array.forEach( mutation.addedNodes, function( node ) {
+								if ( !node.querySelector ) {
+									return;
+								}
+
+								editorElement = node.querySelector( editorSelector );
+
+								if ( editorElement ) {
+									if ( CKEDITOR.env.ie ) {
+										recreateEditable = true;
+									} else {
+										recreate();
+									}
+								}
+							} );
+						} );
+					} );
+
+					mutObserver.observe( CKEDITOR.document.$, { childList: true, subtree: true } );
+				}
+
+				function attachIframeReloader( evt ) {
+					evt && evt.removeListener();
+
+					iframe.on( 'load', function() {
+						if ( CKEDITOR.env.ie && recreateEditable ) {
+							recreateEditable = false;
+							recreate();
+						}
+					} );
+				}
+
+				function recreate() {
+					var cacheData = editor.getData( false ),
+						newEditable;
+
+					// Remove current editable, but preserve iframe.
+					editor.editable().preserveIframe = true;
+					editor.editable( null );
+
+					newEditable = new framedWysiwyg( editor, iframe.getFrameDocument().getBody() );
+					editor.editable( newEditable );
+
+					editor.status = 'recreating';
+					editor.setData( cacheData, callback );
+				}
+
 			} );
 		}
 	} );
@@ -333,6 +400,8 @@
 		base: CKEDITOR.editable,
 
 		proto: {
+			preserveIframe: false,
+
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 
@@ -522,6 +591,10 @@
 			},
 
 			detach: function() {
+				if ( this.preserveIframe ) {
+					return;
+				}
+
 				var editor = this.editor,
 					doc = editor.document,
 					iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
