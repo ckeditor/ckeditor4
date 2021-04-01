@@ -8,7 +8,19 @@
 
 	bender.editor = true;
 
+	var isIE8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
 	bender.test( {
+		_should: {
+			// IE8 doesn't set unsupported/incorrect values.
+			ignore: {
+				'test colordialog does not add hash to color value with 1 digit (incorrect css color value)': isIE8,
+				'test converting RGBA to hex color': isIE8,
+				'test converting HSL to hex color': isIE8,
+				'test converting HSLA to hex color': isIE8,
+				'test converting transparent value to hex color': isIE8
+			}
+		},
 
 		'test colordialog add hash to color\'s values with 6 hexadecimal digits': function() {
 			colorTools.assertColor( this.editor, '123456', '#123456' );
@@ -19,10 +31,6 @@
 		},
 
 		'test colordialog does not add hash to color value with 1 digit (incorrect css color value)': function() {
-			// IE8 doesn't set incorrect values.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
 			colorTools.assertColor( this.editor, '1', '1' );
 		},
 
@@ -70,11 +78,6 @@
 
 		// (#4351)
 		'test converting RGBA to hex color': function() {
-			// IE8 doesn't set unsupported values.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
-
 			colorTools.assertSettingAndGettingColor( this.editor, {
 				inputColor: 'rgba(100,200,50,.4)',
 				expectedColor: '#c1e9ad',
@@ -84,11 +87,6 @@
 
 		// (#4351)
 		'test converting HSL to hex color': function() {
-			// IE8 doesn't set unsupported values.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
-
 			colorTools.assertSettingAndGettingColor( this.editor, {
 				inputColor: 'hsl(150,50%,52%)',
 				expectedColor: '#47c285',
@@ -98,11 +96,6 @@
 
 		// (#4351)
 		'test converting HSLA to hex color': function() {
-			// IE8 doesn't set unsupported values.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
-
 			colorTools.assertSettingAndGettingColor( this.editor, {
 				inputColor: 'hsla(150,50%,52%,0.2)',
 				expectedColor: '#daf3e7',
@@ -114,11 +107,6 @@
 		// This particular value should be _broken_ until the whole flow is fixed in #4592.
 		// Otherwise automatic values in colorbutton become broken.
 		'test converting transparent value to hex color': function() {
-			// IE8 doesn't set unsupported values.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
-
 			colorTools.assertSettingAndGettingColor( this.editor, {
 				inputColor: 'rgba(0,0,0,0)',
 				expectedColor: '#rgba(0, 0, 0, 0)',
