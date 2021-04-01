@@ -1,6 +1,6 @@
 @bender-tags: bug, 4.16.1, 4351
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog
+@bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, sourcearea
 
 1. Select some text in the editor.
 2. Click "Text Color" button in the toolbar and choose "More Colors" option.
@@ -16,7 +16,8 @@
 	## Unexpected
 
 	* The value is equal to `#rgba(71, 194, 133, 0.2)`.
-7. Repeat the whole procedure for following values (input → expected output):
+7. Close dialog by clicking "Cancel".
+8. Switch to source mode and check if the color is still in the initially entered format.
+9. Repeat the whole procedure for following values (input → expected output):
 
-	* `hsl(150,50%,52%)` → `#47c285`,
 	* `rgba(100,200,50,.4)` → `#c1e9ad`.
