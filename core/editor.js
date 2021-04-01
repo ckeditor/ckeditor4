@@ -109,6 +109,7 @@
 		 *	* **unloaded**: The initial state &mdash; the editor instance was initialized,
 		 *	but its components (configuration, plugins, language files) are not loaded yet.
 		 *	* **loaded**: The editor components were loaded &mdash; see the {@link CKEDITOR.editor#loaded} event.
+		 *	* **recreating**: The editor editable area is recreating due to iframe reloading.
 		 *	* **ready**: The editor is fully initialized and ready &mdash; see the {@link CKEDITOR.editor#instanceReady} event.
 		 *	* **destroyed**: The editor was destroyed &mdash; see the {@link CKEDITOR.editor#method-destroy} method.
 		 *
