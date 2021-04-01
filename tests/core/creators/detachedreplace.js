@@ -9,13 +9,10 @@
 
 	var tests = detachedTests.appendTests( 'replace', {
 		'test CKEDITOR.replaceAll() doesnt call the _delayCreationOnDetachedElement() function when elements are detached': function() {
-			var textareas = document.getElementsByTagName( 'textarea' ),
+			var textarea = CKEDITOR.document.getById( 'ta1' ),
 				replaceSpy = sinon.spy( CKEDITOR.editor, '_delayCreationOnDetachedElement' );
 
-			CKEDITOR.tools.array.forEach( textareas, function( textareaElement ) {
-				textareaElement.remove();
-			} );
-
+			textarea.remove();
 			CKEDITOR.replaceAll();
 
 			assert.areEqual( 0, replaceSpy.callCount, 'There should be no CKEDITOR.replace calls.' );
