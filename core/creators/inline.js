@@ -36,9 +36,7 @@
 		}
 
 		// (#4461)
-		if ( CKEDITOR.editor._delayCreationOnDetachedElement( element, instanceConfig, function() {
-				CKEDITOR.inline( element, instanceConfig );
-			} ) ) {
+		if ( CKEDITOR.editor._delayCreationOnDetachedElement( element, instanceConfig, 'inline' ) ) {
 			return null;
 		}
 

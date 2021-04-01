@@ -1679,10 +1679,10 @@
 	 * @member CKEDITOR.editor
 	 * @param {CKEDITOR.element} element The DOM element.
 	 * @param {Object} config The specific configuration to apply to the editor instance. Configuration set here will override the global CKEditor settings.
-	 * @param {Function} createEditorCallback Function which creates editor.
+	 * @param {String} editorCreationMethod Creator function that should be used to initialise editor (inline/replace).
 	 * @returns {Boolean} True if creation was delayed.
 	 */
-	CKEDITOR.editor._delayCreationOnDetachedElement = function( element, config, createEditorCallback ) {
+	CKEDITOR.editor._delayCreationOnDetachedElement = function( element, config, editorCreationMethod ) {
 		if ( !config || !config.delayIfDetached || !element.isDetached() ) {
 			return false;
 		}
@@ -1693,7 +1693,7 @@
 			} );
 
 			config.delayIfDetached_callback( function() {
-				createEditorCallback();
+				CKEDITOR[ editorCreationMethod ]( element, config );
 
 				CKEDITOR.warn( 'editor-delayed-creation-success', {
 					method: 'callback'
@@ -1714,7 +1714,7 @@
 			if ( !element.isDetached() ) {
 				clearInterval( intervalId );
 
-				createEditorCallback();
+				CKEDITOR[ editorCreationMethod ]( element, config );
 
 				CKEDITOR.warn( 'editor-delayed-creation-success', {
 					method: 'interval - ' + interval + ' ms'

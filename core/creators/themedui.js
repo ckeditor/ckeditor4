@@ -344,9 +344,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 
 		// (#4461)
-		if ( CKEDITOR.editor._delayCreationOnDetachedElement( element, config, function() {
-				createInstance( element, config, data, mode );
-			} ) ) {
+		if ( CKEDITOR.editor._delayCreationOnDetachedElement( element, config, 'replace' ) ) {
 			return null;
 		}
 
