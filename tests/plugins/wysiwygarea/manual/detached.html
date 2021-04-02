@@ -8,6 +8,11 @@
 </div>
 
 <script>
+	// Ignore all IE versions below 11.
+	if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
 	var editorContainer = document.getElementById( 'editorContainer' ),
 		editorContainerParent = editorContainer.parentNode,
 		editor = CKEDITOR.replace( 'editor' ),

@@ -102,8 +102,15 @@
 					editor.setData( editor.getData( 1 ), callback );
 
 					// (#4462)
-					editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
-					observeEditor();
+					var isIE11 = CKEDITOR.env.ie && !CKEDITOR.env.edge && CKEDITOR.env.version === 11;
+					if ( isIE11 ) {
+						editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
+					}
+
+					// All non IE browsers or IE11.
+					if ( !( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || ( isIE11 ) ) {
+						observeEditor();
+					}
 				}
 
 				function observeEditor() {
@@ -141,7 +148,7 @@
 					evt && evt.removeListener();
 
 					iframe.on( 'load', function() {
-						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && recreateEditable ) {
+						if ( recreateEditable ) {
 							recreateEditable = false;
 							recreate();
 						}

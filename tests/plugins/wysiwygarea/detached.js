@@ -4,8 +4,17 @@
 ( function() {
 	'use strict';
 
+	function isSupportedEnvironment() {
+		// Ignore all IE versions below 11.
+		return !( CKEDITOR.env.ie && !CKEDITOR.env.edge && CKEDITOR.env.version < 11 );
+	}
+
 	bender.test( {
 		'test reattached editor contains the same data with observed default dom object': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var startupData = '<p>CKEditor4</p>';
 
 			bender.editorBot.create( {
@@ -32,6 +41,10 @@
 		},
 
 		'test reattached editor parent restores editor data with observed default dom object': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var startupData = '<p>CKEditor4</p>';
 
 			bender.editorBot.create( {
@@ -58,6 +71,10 @@
 		},
 
 		'test reattached editor restores editor data with editor parent observed': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var startupData = '<p>CKEditor4</p>',
 				detachableParent = CKEDITOR.document.getById( 'editorDetachableParent' );
 
@@ -87,6 +104,10 @@
 		},
 
 		'test reattached editor parent restores editor data with observed parent of detached element': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var startupData = '<p>CKEditor4</p>',
 				observedParent = CKEDITOR.document.getById( 'editorObservedParent1' );
 
@@ -203,6 +224,10 @@
 		},
 
 		'test reattached editor with iframe content contains the same data with observed default dom object': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var startupData = '<p>CKEditor4</p>';
 
 			bender.editorBot.create( {
