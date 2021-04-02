@@ -117,7 +117,7 @@
 			}
 		} );
 
-		bender.editors[ 'editor_' + index + '_allowed:' + array.join( ',' ) ] = {
+		bender.editors[ 'editor_' + index + '_allowed_' + array.join( '_' ) ] = {
 			config: {
 				allowedContent: bender.editors.editor.config.allowedContent,
 				extraAllowedContent: extraAllowedContent
