@@ -113,7 +113,7 @@
 								return;
 							}
 
-							var editorSelector = '#' + editor.element.getAttribute( 'id' ),
+							var editorSelector = '#' + editor.container.getId(),
 								editorElement;
 
 							CKEDITOR.tools.array.forEach( mutation.addedNodes, function( node ) {
@@ -121,7 +121,7 @@
 									return;
 								}
 
-								editorElement = node.querySelector( editorSelector );
+								editorElement = node.querySelector( editorSelector ) || node === editor.container.$;
 
 								if ( editorElement ) {
 									if ( CKEDITOR.env.ie ) {
@@ -134,7 +134,7 @@
 						} );
 					} );
 
-					mutObserver.observe( CKEDITOR.config.detachableParent, { childList: true, subtree: true } );
+					mutObserver.observe( editor.config.detachableParent, { childList: true, subtree: true } );
 				}
 
 				function attachIframeReloader( evt ) {
