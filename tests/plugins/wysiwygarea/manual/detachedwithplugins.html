@@ -4,7 +4,6 @@
 <div id="editorContainer">
 	<div id="editor">
 		<p>Lorem ipsum dolor sit amet.</p>
-		<iframe></iframe>
 	</div>
 </div>
 
@@ -16,8 +15,7 @@
 		editor = CKEDITOR.replace( 'editor', {
 			mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
 			embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
-			fullPage: true,
-			extraAllowedContent: 'iframe'
+			fullPage: true
 		} ),
 		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
 		setButton = CKEDITOR.document.getById( 'setButton' ),
