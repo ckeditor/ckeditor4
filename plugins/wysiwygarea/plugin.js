@@ -124,7 +124,7 @@
 								editorElement = node.querySelector( editorSelector ) || node === editor.container.$;
 
 								if ( editorElement ) {
-									if ( CKEDITOR.env.ie ) {
+									if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 										recreateEditable = true;
 									} else {
 										recreate();
@@ -141,7 +141,7 @@
 					evt && evt.removeListener();
 
 					iframe.on( 'load', function() {
-						if ( CKEDITOR.env.ie && recreateEditable ) {
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && recreateEditable ) {
 							recreateEditable = false;
 							recreate();
 						}
