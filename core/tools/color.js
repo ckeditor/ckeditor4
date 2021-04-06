@@ -480,7 +480,7 @@
 					return trimmedValues.concat( [ trimmedValue ] );
 				}, [] );
 
-				// There was alpha channel in the new syntax ( / <number>%?)
+				// There was alpha channel in the no-comma syntax ( / <number>%?).
 				if ( match[ 2 ] ) {
 					var alpha = CKEDITOR.tools.trim( match[ 2 ].replace( '/', '' ) );
 
