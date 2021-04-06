@@ -332,8 +332,17 @@
 			 * @returns {Array/null}
 			 */
 			extractColorChannelsFromHex: function( colorCode ) {
+				// We also like to support hex-like values (so hexes without hash at the beginning).
+				if ( colorCode.indexOf( '#' ) === -1 ) {
+					colorCode = '#' + colorCode;
+				}
+
 				if ( colorCode.match( CKEDITOR.tools.color.hex3CharsRegExp ) ) {
 					colorCode = this._.hex3ToHex6( colorCode );
+				}
+
+				if ( colorCode.match( CKEDITOR.tools.color.hex4CharsRegExp ) ) {
+					colorCode = this._.hex4ToHex8( colorCode );
 				}
 
 				if ( !colorCode.match( CKEDITOR.tools.color.hex6CharsRegExp ) && !colorCode.match( CKEDITOR.tools.color.hex8CharsRegExp ) ) {
@@ -367,19 +376,11 @@
 			extractColorChannelsFromRgba: function( colorCode ) {
 				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.rgbRegExp );
 
-				if ( !channels ) {
+				if ( !channels || channels.length < 3 || channels.length > 4 ) {
 					return null;
 				}
 
-				var isColorDeclaredWithAlpha = colorCode.indexOf( 'rgba' ) === 0;
-
-				if ( isColorDeclaredWithAlpha && channels.length !== 4 ) {
-					return null;
-				}
-
-				if ( !isColorDeclaredWithAlpha && channels.length !== 3 ) {
-					return null;
-				}
+				var isColorDeclaredWithAlpha = channels.length === 4;
 
 				var red = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ),
 					green = tryToConvertToValidIntegerValue( channels[ 1 ], CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ),
@@ -403,19 +404,11 @@
 			extractColorChannelsFromHsla: function( colorCode ) {
 				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.hslRegExp );
 
-				if ( !channels ) {
+				if ( !channels || channels.length < 3 || channels.length > 4 ) {
 					return null;
 				}
 
-				var isColorDeclaredWithAlpha = colorCode.indexOf( 'hsla' ) === 0;
-
-				if ( isColorDeclaredWithAlpha && channels.length !== 4 ) {
-					return null;
-				}
-
-				if ( !isColorDeclaredWithAlpha && channels.length !== 3 ) {
-					return null;
-				}
+				var isColorDeclaredWithAlpha = channels.length === 4;
 
 				var hue = tryToConvertToValidIntegerValue( channels[ 0 ], CKEDITOR.tools.color.MAX_HUE_CHANNEL_VALUE ),
 					saturation = tryToConvertToValidFloatValue( channels[ 1 ], CKEDITOR.tools.color.MAX_SATURATION_LIGHTNESS_CHANNEL_VALUE ),
@@ -447,6 +440,19 @@
 			},
 
 			/**
+			 * Converts 4-characters hexadecimal color format to 8-characters one.
+			 *
+			 * @private
+			 * @param {String} hex4ColorCode 4-characters hexadecimal color, e.g. `#F0F0`.
+			 * @returns {String} 8-characters hexadecimal color e.g. `#FF00FF00`.
+			 */
+			hex4ToHex8: function( hex4ColorCode ) {
+				var hex6 = this._.hex3ToHex6( hex4ColorCode.substr( 0, 4 ) );
+
+				return hex6 + CKEDITOR.tools.repeat( hex4ColorCode[ 4 ], 2 );
+			},
+
+			/**
 			 * Extracts color channels values based on provided regular expression.
 			 *
 			 * @private
@@ -461,11 +467,25 @@
 					return null;
 				}
 
-				var values = match[ 2 ].split( ',' );
+				var separator = match[ 1 ].indexOf( ',' ) === -1 ? /\s/ : ',',
+					values = match[ 1 ].split( separator );
 
-				values = CKEDITOR.tools.array.map( values, function( value ) {
-					return CKEDITOR.tools.trim( value );
-				} );
+				values = CKEDITOR.tools.array.reduce( values, function( trimmedValues, value ) {
+					var trimmedValue = CKEDITOR.tools.trim( value );
+
+					if ( trimmedValue.length === 0 ) {
+						return trimmedValues;
+					}
+
+					return trimmedValues.concat( [ trimmedValue ] );
+				}, [] );
+
+				// There was alpha channel in the no-comma syntax ( / <number>%?).
+				if ( match[ 2 ] ) {
+					var alpha = CKEDITOR.tools.trim( match[ 2 ].replace( '/', '' ) );
+
+					values.push( alpha );
+				}
 
 				return values;
 			},
@@ -613,6 +633,15 @@
 			hex3CharsRegExp: /#([0-9a-f]{3}$)/gim,
 
 			/**
+			 * Regular expression to match hash (`#`) followed by four characters long hexadecimal color value.
+			 *
+			 * @private
+			 * @static
+			 * @property {RegExp}
+			 */
+			hex4CharsRegExp: /#([0-9a-f]{4}$)/gim,
+
+			/**
 			 * Regular expression to match hash (`#`) followed by six characters long hexadecimal color value.
 			 *
 			 * @private
@@ -640,7 +669,7 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			rgbRegExp: /(rgb[a]?)\(([.,\d\s%]*)\)/i,
+			rgbRegExp: /rgba?\(([.,\d\s%]*)(\s*\/\s*[\d.%]+)?\s*\)/i,
 
 			/**
 			 * Regular expression to extract numbers from HSL and HSLA color value.
@@ -652,7 +681,7 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			hslRegExp: /(hsl[a]?)\(([.,\d\s%]*)\)/i,
+			hslRegExp: /hsla?\(([.,\d\s%]*)(\s*\/\s*[\d.%]+)?\s*\)/i,
 
 			/**
 			 * Color list based on [W3 named colors list](https://www.w3.org/TR/css-color-4/#named-colors).

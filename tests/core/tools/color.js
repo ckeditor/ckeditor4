@@ -6,6 +6,7 @@
 // 3-HEX -> hexadecimal color with only 3 characters value: #FFF
 // 6-HEX -> hexadecimal color with exactly 6 characters value: #FFFFFF
 // 8-HEX -> hexadecimal color with exactly 8 characters value: #FFFFFF00. Last two characters are for alpha
+// n-HEX-like -> n-HEX format without the hash at the beginning: FFF, FFF0, FFFFFF, FFFFFF00
 
 ( function() {
 	'use strict';
@@ -36,8 +37,6 @@
 
 		'test color from RGBA with outranged alpha percent value returns default value': colorTools.testColorConversion( 'rgba( 120, 120, 120, 101% )', 'default', 'getHex', 'default' ),
 
-		'test color from invalid HSL with four values returns default value': colorTools.testColorConversion( 'hsl( 40, 40%, 100%, 1 )', 'default', 'getHex', 'default' ),
-
 		'test color from outranged percent HSL value returns default value': colorTools.testColorConversion( 'hsl( 361, 101%, 101% )', 'default', 'getHex', 'default' ),
 
 		'test color from outranged normalized HSL value returns default value': colorTools.testColorConversion( 'hsl( 361, 1.1, 1.1 )', 'default', 'getHex', 'default' ),
@@ -63,8 +62,6 @@
 		'test color from 8-HEX string color name returns same 8-HEX (max alpha)': colorTools.testColorConversion( '#112233FF', '#112233FF', 'getHexWithAlpha' ),
 
 		'test color from valid string color name returns 6-HEX': colorTools.testColorConversion( 'red', '#FF0000', 'getHex' ),
-
-		'test color from invalid RGB with four values returns default value': colorTools.testColorConversion( 'rgb( 40, 40, 150, 1 )', 'default', 'getHex', 'default' ),
 
 		'test color from valid RGB string returns 6-HEX': colorTools.testColorConversion( 'rgb( 40, 40, 150 )', '#282896', 'getHex' ),
 
@@ -104,7 +101,79 @@
 
 		'test color from valid HSL string returns 8-HEX': colorTools.testColorConversion( 'hsl( 195, 1, 0.5 )', '#00BFFFFF', 'getHexWithAlpha' ),
 
-		'test color from valid RGB with percent returns valid RGB': colorTools.testColorConversion( 'rgb(20.5%,0,255)', 'rgb(52,0,255)', 'getRgb' )
+		'test color from valid RGB with percent returns valid RGB': colorTools.testColorConversion( 'rgb(20.5%,0,255)', 'rgb(52,0,255)', 'getRgb' ),
+
+		// (#4583)
+		'test color from 4-HEX returns valid 6-HEX': colorTools.testColorConversion( '#F0F0', '#FFFFFF', 'getHex' ),
+
+		// (#4583)
+		'test color from 4-HEX returns valid 8-HEX': colorTools.testColorConversion( '#F0F0', '#FF00FF00', 'getHexWithAlpha' ),
+
+		// (#4583)
+		'test color from 4-HEX returns valid RGBA': colorTools.testColorConversion( '#F0F0', 'rgba(255,0,255,0)', 'getRgba' ),
+
+		// (#4583)
+		'test color from 4-HEX returns valid HSLA': colorTools.testColorConversion( '#F0F0','hsla(-60,100%,50%,0)', 'getHsla' ),
+
+		// (#4583)
+		'test RGB values are treated like RGBA values': colorTools.testColorConversion( 'rgb( 255, 0, 255, 0)', 'rgba(255,0,255,0)', 'getRgba' ),
+
+		// (#4583)
+		'test HSL values are treated like HSLA values': colorTools.testColorConversion( 'hsl( 195, 100%, 50%, 0 )', 'hsla(195,100%,50%,0)', 'getHsla' ),
+
+		// (#4583)
+		'test RGB value with no-comma syntax': colorTools.testColorConversion( 'rgb( 255 0 255 )', 'rgb(255,0,255)', 'getRgb' ),
+
+		// (#4583)
+		'test RGB value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'rgb( 255 0 255 / 0.1 )', 'rgba(255,0,255,0.1)', 'getRgba' ),
+
+		// (#4583)
+		'test RGB value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'rgb( 255 0 255 / 10% )', 'rgba(255,0,255,0.1)', 'getRgba' ),
+
+		// (#4583)
+		'test RGBA value with no-comma syntax': colorTools.testColorConversion( 'rgba( 255 0 255 )', 'rgb(255,0,255)', 'getRgb' ),
+
+		// (#4583)
+		'test RGBA value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'rgba( 255 0 255 / 0.1 )', 'rgba(255,0,255,0.1)', 'getRgba' ),
+
+		// (#4583)
+		'test RGBA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'rgba( 255 0 255 / 10% )', 'rgba(255,0,255,0.1)', 'getRgba' ),
+
+		// (#4583)
+		// The expected value is incorrect due to #4597.
+		'test HSL value with no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% )', 'hsl(199,0%,10%)', 'getHsl' ),
+
+		// (#4583)
+		// The expected value is incorrect due to #4597.
+		'test HSL value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 0.1 )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+
+		// (#4583)
+		// The expected value is incorrect due to #4597.
+		'test HSL value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 10% )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+
+		// (#4583)
+		// The expected value is incorrect due to #4597.
+		'test HSLA value with no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% )', 'hsl(199,0%,10%)', 'getHsl' ),
+
+		// (#4583)
+		// The expected value is incorrect due to #4597.
+		'test HSLA value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 0.1 )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+
+		// (#4583)
+		// The expected value is incorrect due to #4597.
+		'test HSLA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 10% )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+
+		// (#4583)
+		'test 6-HEX-like value is treated as 6-HEX value': colorTools.testColorConversion( 'FF0000', '#FF0000', 'getHex' ),
+
+		// (#4583)
+		'test 3-HEX-like value is treated as 3-HEX value': colorTools.testColorConversion( 'F00', '#FF0000', 'getHex' ),
+
+		// (#4583)
+		'test 8-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'FF0000FF', '#FF0000FF', 'getHexWithAlpha' ),
+
+		// (#4583)
+		'test 4-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' )
 	} );
 
 } )();
