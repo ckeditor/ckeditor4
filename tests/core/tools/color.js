@@ -6,6 +6,7 @@
 // 3-HEX -> hexadecimal color with only 3 characters value: #FFF
 // 6-HEX -> hexadecimal color with exactly 6 characters value: #FFFFFF
 // 8-HEX -> hexadecimal color with exactly 8 characters value: #FFFFFF00. Last two characters are for alpha
+// n-HEX-like -> n-HEX format without the hash at the beginning: FFF, FFF0, FFFFFF, FFFFFF00
 
 ( function() {
 	'use strict';
@@ -163,16 +164,16 @@
 		'test HSLA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 10% )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
-		'test treating 6-HEX-like value as 6-HEX value': colorTools.testColorConversion( 'FF0000', '#FF0000', 'getHex' ),
+		'test 6-HEX-like value is treated as 6-HEX value': colorTools.testColorConversion( 'FF0000', '#FF0000', 'getHex' ),
 
 		// (#4583)
-		'test treating 3-HEX-like value as 3-HEX value': colorTools.testColorConversion( 'F00', '#FF0000', 'getHex' ),
+		'test 3-HEX-like value is treated as 3-HEX value': colorTools.testColorConversion( 'F00', '#FF0000', 'getHex' ),
 
 		// (#4583)
-		'test treating 8-HEX-like value as 8-HEX value': colorTools.testColorConversion( 'FF0000FF', '#FF0000FF', 'getHexWithAlpha' ),
+		'test 8-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'FF0000FF', '#FF0000FF', 'getHexWithAlpha' ),
 
 		// (#4583)
-		'test treating 4-HEX-like value as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' )
+		'test 4-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' )
 	} );
 
 } )();
