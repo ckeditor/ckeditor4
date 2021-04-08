@@ -834,10 +834,10 @@
 
 				bot.setData( initialHtml, function() {
 					var parentWidget = getWidgetById( editor, 'w1' ),
-						childWidget = getWidgetById( editor, 'w2' ),
 						evt = { data: bender.tools.mockDropEvent() },
 						widgetWasDestroyed = 0,
-						range = editor.createRange();
+						dropNotCancelled = 0,
+						range;
 
 					editor.focus();
 
@@ -845,12 +845,19 @@
 						widgetWasDestroyed += 1;
 					} );
 
+					editor.on( 'drop', function() {
+						dropNotCancelled += 1;
+					}, null, null, 999 );
+
 					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
 					evt.data.dataTransfer.setData( 'cke/widget-id', parentWidget.id );
+					parentWidget.focus();
 
-					range.setStart( childWidget.element.findOne( '.content' ).getChild( 0 ), 0 );
-					range.collapse( true );
-					evt.data.dropRange = range;
+					// It's safer to select widget and get selected range from selection
+					// than to create range manually, due to #4607.
+					range = editor.getSelection().getRanges()[ 0 ];
+
+					evt.data.testRange = range;
 
 					dragstart( editor, evt.data, parentWidget );
 
@@ -861,6 +868,7 @@
 					wait( function() {
 						assert.areSame( initialHtml, editor.getData(), 'Data should not be altered' );
 						assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+						assert.areSame( 0, dropNotCancelled, 'Drop event should be cancelled' );
 					}, 10 );
 				} );
 			} );

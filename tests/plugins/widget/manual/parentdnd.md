@@ -1,6 +1,6 @@
 @bender-tags: widget, bug, 4509, 4.16.1
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, table, undo, indent, justify, clipboard, floatingspace, basicstyles, codesnippet, link, elementspath, blockquote, format, htmlwriter, list, maximize
+@bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, table, undo, indent, justify, clipboard, floatingspace, basicstyles, codesnippet, link, elementspath, blockquote, format, htmlwriter, list, maximize, image
 
 1. Try to drag and drop the most outer widget into `[drop here]` area.
 
