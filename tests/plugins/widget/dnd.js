@@ -802,6 +802,68 @@
 					drop( editor, evt.data, range );
 				} );
 			} );
+		},
+
+		// (#4509)
+		'test drop - parent on child': function() {
+			bender.editorBot.create( {
+				name: 'testdropparentchild',
+				creator: 'replace',
+				config: {
+					allowedContent: true
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					initialHtml = '<div id="w1" data-widget="testnestedwidget">' +
+						'<div class="content">' +
+							'<div id="w2" data-widget="testnestedwidget">' +
+								'<div class="content">' +
+									'<p>x</p>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>';
+
+				editor.widgets.add( 'testnestedwidget', {
+					editables: {
+						content: {
+							selector: '.content'
+						}
+					}
+				} );
+
+				bot.setData( initialHtml, function() {
+					var parentWidget = getWidgetById( editor, 'w1' ),
+						childWidget = getWidgetById( editor, 'w2' ),
+						evt = { data: bender.tools.mockDropEvent() },
+						widgetWasDestroyed = 0,
+						range = editor.createRange();
+
+					editor.focus();
+
+					parentWidget.on( 'destroy', function() {
+						widgetWasDestroyed += 1;
+					} );
+
+					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+					evt.data.dataTransfer.setData( 'cke/widget-id', parentWidget.id );
+
+					range.setStart( childWidget.element.findOne( '.content' ).getChild( 0 ), 0 );
+					range.collapse( true );
+					evt.data.dropRange = range;
+
+					dragstart( editor, evt.data, parentWidget );
+
+					drop( editor, evt.data, range );
+
+					dragend( editor, evt.data, parentWidget );
+
+					wait( function() {
+						assert.areSame( initialHtml, editor.getData(), 'Data should not be altered' );
+						assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+					}, 10 );
+				} );
+			} );
 		}
 	} );
 } )();
