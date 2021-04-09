@@ -101,14 +101,15 @@
 					editor.editable( new framedWysiwyg( editor, iframe.getFrameDocument().getBody() ) );
 					editor.setData( editor.getData( 1 ), callback );
 
-					// (#4462)
-					var isIE11 = CKEDITOR.env.ie && !CKEDITOR.env.edge && CKEDITOR.env.version === 11;
-					if ( isIE11 ) {
-						editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
-					}
+					var isIE11 = CKEDITOR.env.ie && CKEDITOR.env.version === 11;
 
-					// All non IE browsers or IE11.
-					if ( !( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || ( isIE11 ) ) {
+					// (#4462)
+					// Skip IE's below version 11. They don't support MutationObserver.
+					if ( !CKEDITOR.env.ie || isIE11 ) {
+						if ( isIE11 ) {
+							editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
+						}
+
 						observeEditor();
 					}
 				}
@@ -140,7 +141,7 @@
 						return;
 					}
 
-					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
 						recreateEditable = true;
 					} else {
 						recreate();

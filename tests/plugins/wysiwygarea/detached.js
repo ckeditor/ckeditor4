@@ -5,8 +5,8 @@
 	'use strict';
 
 	function isSupportedEnvironment() {
-		// Ignore all IE versions below 11.
-		return !( CKEDITOR.env.ie && !CKEDITOR.env.edge && CKEDITOR.env.version < 11 );
+		// Skip IE's below version 11. They don't support MutationObserver.
+		return !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 );
 	}
 
 	var startupData = '<p>CKEditor4</p>';
