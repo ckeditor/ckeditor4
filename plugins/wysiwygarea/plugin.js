@@ -54,7 +54,7 @@
 				var frameLabel = editor.title,
 					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label,
 					recreateEditable = false,
-					mutObserver;
+					mutationObserver;
 
 				if ( frameLabel ) {
 					if ( CKEDITOR.env.ie && helpLabel )
@@ -78,7 +78,7 @@
 						desc.remove();
 					}
 
-					mutObserver.disconnect();
+					mutationObserver.disconnect();
 				} );
 
 				iframe.setAttributes( {
@@ -114,34 +114,37 @@
 				}
 
 				function observeEditor() {
-					mutObserver = new MutationObserver( function( mutationsList ) {
-						CKEDITOR.tools.array.forEach( mutationsList, function( mutation ) {
-							if ( mutation.type !== 'childList' || mutation.addedNodes.length === 0 ) {
-								return;
-							}
-
-							var editorSelector = '#' + editor.container.getId(),
-								editorElement;
-
-							CKEDITOR.tools.array.forEach( mutation.addedNodes, function( node ) {
-								if ( !node.querySelector ) {
-									return;
-								}
-
-								editorElement = node.querySelector( editorSelector ) || node === editor.container.$;
-
-								if ( editorElement ) {
-									if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-										recreateEditable = true;
-									} else {
-										recreate();
-									}
-								}
-							} );
-						} );
+					mutationObserver = new MutationObserver( function( mutationsList ) {
+						CKEDITOR.tools.array.forEach( mutationsList, verifyIfAddsNodesWithEditor );
 					} );
 
-					mutObserver.observe( editor.config.detachableParent, { childList: true, subtree: true } );
+					mutationObserver.observe( editor.config.detachableParent, { childList: true, subtree: true } );
+				}
+
+				function verifyIfAddsNodesWithEditor( mutation ) {
+					if ( mutation.type !== 'childList' || mutation.addedNodes.length === 0 ) {
+						return;
+					}
+
+					CKEDITOR.tools.array.forEach( mutation.addedNodes, checkIfAffectsEditor );
+				}
+
+				function checkIfAffectsEditor( node ) {
+					if ( !node.querySelector ) {
+						return;
+					}
+					var editorSelector = '#' + editor.container.getId(),
+						editorElement = node.querySelector( editorSelector ) || node === editor.container.$;
+
+					if ( !editorElement ) {
+						return;
+					}
+
+					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+						recreateEditable = true;
+					} else {
+						recreate();
+					}
 				}
 
 				function attachIframeReloader( evt ) {
