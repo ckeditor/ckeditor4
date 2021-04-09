@@ -17,7 +17,7 @@
   * "Detachable editor" shows up with its own underlined text.
   * "Detachable editor" has its own undo history.
   * "Detachable editor" is editable.
-  * Elementspath (bottom bar) is filled.
+  * Elementspath (bottom bar) is filled after focusing the editor.
 
   **Unexpected:**
 

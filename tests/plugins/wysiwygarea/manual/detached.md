@@ -12,9 +12,9 @@
 
 2. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled after focusing the editor.
 
-	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
+	**Unexpected:** Content is not editable. Elementspath (bottom bar) remains empty after focusing the editor.
 
 3. Write any text in editor.
 
@@ -26,9 +26,9 @@
 
 5. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled after focusing the editor.
 
-	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
+	**Unexpected:** Content is not editable. Elementspath (bottom bar) remains empty after focusing the editor.
 
 6. Click "Set data" button.
 
@@ -40,9 +40,9 @@
 
 8. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled after focusing the editor.
 
-	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
+	**Unexpected:** Content is not editable. Elementspath (bottom bar) remains empty after focusing the editor.
 
 9. Switch to "Source mode".
 
@@ -70,6 +70,6 @@
 
 15. Click inside the content editing area.
 
-	**Expected:** Content is editable. Elementspath (bottom bar) is filled.
+	**Expected:** Content is editable. Elementspath (bottom bar) is filled after focusing the editor.
 
-	**Unexpected:** Content is not editable. Elemetspath (bottom bar) remains empty.
+	**Unexpected:** Content is not editable. Elementspath (bottom bar) remains empty after focusing the editor.
