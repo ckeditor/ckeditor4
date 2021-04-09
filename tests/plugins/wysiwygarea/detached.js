@@ -223,7 +223,7 @@
 
 			bender.editorBot.create( {
 				startupData: startupData,
-				name: 'editor' + new Date().getTime(),
+				name: 'editor5',
 				config: {
 					extraAllowedContent: 'iframe'
 				}
