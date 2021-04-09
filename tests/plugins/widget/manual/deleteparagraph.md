@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.16.0, bug, 1572
+@bender-tags: 4.16.1, bug, 1572
 @bender-ckeditor-plugins: wysiwygarea,toolbar,widget,undo,basicstyles,sourcearea,codesnippet,image2
 
 1. Place the caret in the empty paragraph **before** widgets.
