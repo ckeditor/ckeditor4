@@ -803,7 +803,7 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  * Editor `wysiwygarea` iframe will be recreated whenever this element will be reattached to DOM.
  *
  * @since 4.17.0
- * @cfg {Object} [detachableParent=CKEDITOR.document.$]
+ * @cfg {HTMLElement} [detachableParent=CKEDITOR.document.$]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.detachableParent = CKEDITOR.document.$;
