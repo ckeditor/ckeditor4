@@ -9,13 +9,13 @@
 		return !( CKEDITOR.env.ie && !CKEDITOR.env.edge && CKEDITOR.env.version < 11 );
 	}
 
+	var startupData = '<p>CKEditor4</p>';
+
 	bender.test( {
 		'test reattached editor contains the same data with observed default dom object': function() {
 			if ( !isSupportedEnvironment() ) {
 				assert.ignore();
 			}
-
-			var startupData = '<p>CKEditor4</p>';
 
 			bender.editorBot.create( {
 				startupData: startupData,
@@ -45,8 +45,6 @@
 				assert.ignore();
 			}
 
-			var startupData = '<p>CKEditor4</p>';
-
 			bender.editorBot.create( {
 				startupData: startupData,
 				name: 'editor' + new Date().getTime()
@@ -75,8 +73,7 @@
 				assert.ignore();
 			}
 
-			var startupData = '<p>CKEditor4</p>',
-				detachableParent = CKEDITOR.document.getById( 'editorDetachableParent' );
+			var detachableParent = CKEDITOR.document.getById( 'editorDetachableParent' );
 
 			bender.editorBot.create( {
 				name: 'editor',
@@ -108,8 +105,7 @@
 				assert.ignore();
 			}
 
-			var startupData = '<p>CKEditor4</p>',
-				observedParent = CKEDITOR.document.getById( 'editorObservedParent1' );
+			var observedParent = CKEDITOR.document.getById( 'editorObservedParent1' );
 
 			bender.editorBot.create( {
 				name: 'editor1',
@@ -137,8 +133,7 @@
 		},
 
 		'test reattached editor makes editor data empty with observed invalid DOM object': function() {
-			var startupData = '<p>CKEditor4</p>',
-				invalidObserveTarget = CKEDITOR.document.getById( 'invalidObserveTarget' ).$;
+			var invalidObserveTarget = CKEDITOR.document.getById( 'invalidObserveTarget' ).$;
 
 			bender.editorBot.create( {
 				name: 'editor2',
@@ -167,8 +162,7 @@
 		},
 
 		'test reattached editor parent makes editor data empty with observed invalid DOM object': function() {
-			var startupData = '<p>CKEditor4</p>',
-				invalidObserveTarget = CKEDITOR.document.getById( 'invalidObserveTarget' ).$;
+			var invalidObserveTarget = CKEDITOR.document.getById( 'invalidObserveTarget' ).$;
 
 			bender.editorBot.create( {
 				name: 'editor3',
@@ -197,8 +191,7 @@
 		},
 
 		'test reattached editor parent makes editor data empty with observed detached parent element': function() {
-			var startupData = '<p>CKEditor4</p>',
-				invalidObserveTarget = CKEDITOR.document.getById( 'editorDetachableParent2' );
+			var invalidObserveTarget = CKEDITOR.document.getById( 'editorDetachableParent2' );
 
 			bender.editorBot.create( {
 				name: 'editor4',
@@ -227,8 +220,6 @@
 			if ( !isSupportedEnvironment() ) {
 				assert.ignore();
 			}
-
-			var startupData = '<p>CKEditor4</p>';
 
 			bender.editorBot.create( {
 				startupData: startupData,
