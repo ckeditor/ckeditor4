@@ -119,7 +119,7 @@
 						CKEDITOR.tools.array.forEach( mutationsList, verifyIfAddsNodesWithEditor );
 					} );
 
-					mutationObserver.observe( editor.config.detachableParent, { childList: true, subtree: true } );
+					mutationObserver.observe( editor.config.observableParent, { childList: true, subtree: true } );
 				}
 
 				function verifyIfAddsNodesWithEditor( mutation ) {
@@ -802,12 +802,31 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  */
 
 /**
- * Editor detachable parent. Native DOM object.
+ * Document observation starting point. Native DOM object.
  *
- * Editor `wysiwygarea` iframe will be recreated whenever this element will be reattached to DOM.
+ * To recreate editor `wysiwygarea` iframe after reattach editor to DOM:
+ *
+ * * make sure detachable element is placed any nested depth under observable element.
+ * * make sure editor is placed any nested depth under detachable element.
+ *
+ * See overview of HTML hierarchy below:
+ *
+ * ```
+ * <observable>
+ *   <detachable> <!-- Any nesting depth -->
+ *     <editor></editor> <!-- Any nesting depth -->
+ *   </detachable>
+ * </observable>
+ * ```
+ *
+ * By default, the entire document is observed.
+ *
+ * If you know exactly which element is detaching - choose its direct parent.
+ *
+ * Note, that if you choose element which is detaching. No changes will be detected.
  *
  * @since 4.17.0
- * @cfg {HTMLElement} [detachableParent=CKEDITOR.document.$]
+ * @cfg {HTMLElement} [observableParent=CKEDITOR.document.$]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.detachableParent = CKEDITOR.document.$;
+CKEDITOR.config.observableParent = CKEDITOR.document.$;

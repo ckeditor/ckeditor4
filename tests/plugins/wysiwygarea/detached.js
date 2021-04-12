@@ -73,19 +73,19 @@
 				assert.ignore();
 			}
 
-			var detachableParent = CKEDITOR.document.getById( 'editorDetachableParent' );
+			var observableParent = CKEDITOR.document.getById( 'editorDetachableParent' );
 
 			bender.editorBot.create( {
 				name: 'editor',
 				startupData: startupData,
 				config: {
-					detachableParent: detachableParent.$
+					observableParent: observableParent.$
 				}
 			}, function( bot ) {
 				var editorContainer = bot.editor.container;
 
 				editorContainer.remove();
-				detachableParent.append( editorContainer );
+				observableParent.append( editorContainer );
 
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
@@ -111,7 +111,7 @@
 				name: 'editor1',
 				startupData: startupData,
 				config: {
-					detachableParent: observedParent.$
+					observableParent: observedParent.$
 				}
 			}, function( bot ) {
 				var editorContainerParent = bot.editor.container;
@@ -139,7 +139,7 @@
 				name: 'editor2',
 				startupData: startupData,
 				config: {
-					detachableParent: invalidObserveTarget
+					observableParent: invalidObserveTarget
 				}
 			}, function( bot ) {
 				var editorContainer = bot.editor.container,
@@ -168,7 +168,7 @@
 				name: 'editor3',
 				startupData: startupData,
 				config: {
-					detachableParent: invalidObserveTarget
+					observableParent: invalidObserveTarget
 				}
 			}, function( bot ) {
 				var editorContainerParent = bot.editor.container.getParent(),
@@ -197,7 +197,7 @@
 				name: 'editor4',
 				startupData: startupData,
 				config: {
-					detachableParent: invalidObserveTarget.$
+					observableParent: invalidObserveTarget.$
 				}
 			}, function( bot ) {
 				invalidObserveTarget.remove() ;
