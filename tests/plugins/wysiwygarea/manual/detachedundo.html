@@ -5,8 +5,8 @@
 </div>
 
 <script>
-	// Ignore all IE versions below 11.
-	if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && CKEDITOR.env.version < 11 ) {
+	// Skip IE's below version 11. They don't support MutationObserver.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 		bender.ignore();
 	}
 
