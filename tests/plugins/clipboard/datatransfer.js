@@ -1271,5 +1271,51 @@ bender.test( {
 		nativeData.types = [];
 
 		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes() );
+	},
+
+	// (#4604)
+	'test isFileTransfer method detecting correctly file transfer': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.types.push( 'Files' );
+		nativeData.files.push( 'foo' );
+		nativeData.files.push( 'bar' );
+
+		assert.isTrue( dataTransfer.isFileTransfer() );
+	},
+
+	// (#4604)
+	'test isFileTransfer method detecting correctly non-file transfer': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<p>Foobar</p>' );
+
+		assert.isFalse( dataTransfer.isFileTransfer() );
+	},
+
+	// (#4604)
+	'test isFileTransfer method detecting correctly file + non-file transfer': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.types.push( 'Files' );
+		nativeData.files.push( 'foo' );
+		nativeData.setData( 'text/html', '<p>Foobar</p>' );
+
+		assert.isFalse( dataTransfer.isFileTransfer() );
 	}
 } );
