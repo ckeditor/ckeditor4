@@ -1336,5 +1336,22 @@ bender.test( {
 		nativeData.setData( 'text/html', '<p>Foobar</p>' );
 
 		assert.isFalse( dataTransfer.isFileTransfer() );
+	},
+
+	// (#4604)
+	'test isFileTransfer method detecting correctly file transfer with Firefox custom file type': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.types.push( 'application/x-moz-file' );
+		nativeData.types.push( 'Files' );
+		nativeData.files.push( 'foo' );
+		nativeData.files.push( 'bar' );
+
+		assert.isTrue( dataTransfer.isFileTransfer() );
 	}
 } );
