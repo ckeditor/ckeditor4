@@ -2341,6 +2341,7 @@
 			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/i,
 			fragmentRegExp: /\s*<!--StartFragment-->|<!--EndFragment-->\s*/g,
 
+			types: [],
 			data: {},
 			files: [],
 
@@ -2610,6 +2611,9 @@
 				if ( data ) {
 					that._.data[ type ] = data;
 				}
+
+				// Cache type itself (#4604).
+				that._.types.push( type );
 			}
 
 			// Copy data.
@@ -2733,6 +2737,10 @@
 		 * @returns {String[]}
 		 */
 		getTypes: function() {
+			if ( this._.types.length > 0 ) {
+				return this._.types;
+			}
+
 			if ( !this.$ || !this.$.types ) {
 				return [];
 			}
