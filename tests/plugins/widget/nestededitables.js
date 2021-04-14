@@ -1735,14 +1735,14 @@
 							'cke_widget_testdatafilter" data-cke-display-name="div" data-cke-widget-id="1" role="region" aria-label="Widget div">' +
 							'<div id="w2" data-widget="testdatafilter" data-cke-widget-keep-attr="1" class="cke_widget_element" data-cke-widget-data="%7B%22classes%22%3Anull%7D">' +
 								'<div class="foo cke_widget_editable" contenteditable="true" data-cke-widget-editable="foo" data-cke-enter-mode="1">' +
-									'<p><br></p>' +
+									'<p>Foo</p>' +
 								'</div>' +
 							'</div>' +
 							'<span class="cke_reset cke_widget_drag_handler_container" style="background:rgba(220,220,220,0.5);background-image:url(img);display:none;">' +
 								'<img class="cke_reset cke_widget_drag_handler" data-cke-widget-drag-handler="1" src="img" width="15" title="title" height="15" role="presentation">' +
 							'</span>' +
 						'</div>',
-						expectedHtml = '<div id="w2" data-widget="testdatafilter"><div class="foo"><p> </p></div></div>';
+						expectedHtml = '<div id="w2" data-widget="testdatafilter"><div class="foo"><p>Foo</p></div></div>';
 
 					nestedEditable.setData( widgetHtml );
 
