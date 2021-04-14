@@ -1652,22 +1652,15 @@
 	/**
 	 * Delay editor creation if given element is detached from DOM.
 	 *
-	 * Requires `config.delayIfDetached` to be equal to `true`.
+	 * Used only if `config.delayIfDetached` is set to `true`.
 	 *
-	 * If `config.delayIfDetached_callback` is declared as function, it will be invoked with a single argument:
-	 * function, that should be called to create editor.
+	 * If `config.delayIfDetached_callback` is declared, it will be invoked with a single argument:
+	 * callback, that should be called to create editor.
 	 *
 	 * Otherwise, periodically (with `setInterval()`) check if element is reattached to DOM and if so, then create editor automatically.
 	 *
 	 * ```js
 	 *	CKEDITOR.inline( detachedEditorElement, {
-	 *		delayIfDetached: true,
-	 *		delayIfDetached_callback: registerCallback
-	 *	} );
-	 * ```
-	 *
-	 * ```js
-	 *	CKEDITOR.replace( detachedEditorElement, {
 	 *		delayIfDetached: true,
 	 *		delayIfDetached_callback: registerCallback
 	 *	} );
@@ -2307,7 +2300,10 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Allow delayed editor creation (either with callback or intervals) if target element is detached from DOM.
+ * If set to `true`, editor will be only created when its root element is attached to DOM. In case the element is detached, the editor will wait for the element to be attached and initialize then.
+ *
+ * For more control over the entire process refer to {@link CKEDITOR.config#delayIfDetached_callback delayIfDetached_callback} and
+ * {@link CKEDITOR.config#delayIfDetached_interval delayIfDetached_interval} config options.
  *
  *		config.delayIfDetached = true;
  *
@@ -2318,9 +2314,13 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 CKEDITOR.config.delayIfDetached = false;
 
 /**
- * Function with single argument. As argument is passed another function that continues editor creation.
- * Allows to store the editor creation function and invoke it whenever it is convenient instead of periodically
- * check if element is reattached to DOM.
+ * Function which accepts a single `callback` argument. A `callback` argument is another function that triggers editor creation.
+ * This allows to store the editor creation function (`callback`) and invoke it whenever necessary instead of periodically
+ * check if element is reattached to DOM to improve perfomrance.s reattached to DOM.
+ *
+ * Used only if `config.delayIfDetached` is set to `true`.
+ *
+ * **Note**: This function (`callback`) should be called only if editor target element is reattached to DOM.
  *
  * If this option is defined, editor will not run the default
  * {@link CKEDITOR.config#delayIfDetached_interval interval checks}.
@@ -2345,6 +2345,8 @@ CKEDITOR.config.delayIfDetached_callback = function( createEditorFunction ) {
 
 /**
  * The amount of time (in miliseconds) between consecutive checks whether editor's target element is reattached to DOM.
+ *
+ * Used only if `config.delayIfDetached` is set to `true`.
  *
  * It will not be used if {@link CKEDITOR.config#delayIfDetached_callback delayIfDetached_callback} is set.
  *
