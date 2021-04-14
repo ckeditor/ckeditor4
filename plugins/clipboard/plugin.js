@@ -2685,6 +2685,18 @@
 		},
 
 		/**
+		 * Checks if the data transfer contains only files.
+		 *
+		 * @since 4.17.0
+		 * @returns {Boolean} `true` if the object contains only files.
+		 */
+		isFileTransfer: function() {
+			var types = this.getTypes();
+
+			return types.length === 1 && types[ 0 ].toLowerCase() === 'files';
+		},
+
+		/**
 		 * Checks if the data transfer contains any data.
 		 *
 		 * @returns {Boolean} `true` if the object contains no data.
