@@ -1252,5 +1252,24 @@ bender.test( {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		arrayAssert.itemsAreSame( [], dataTransfer.getTypes() );
+	},
+
+	// (#4604)
+	'test asynchronous getTypes': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			expectedTypes = [ 'hublabubla', 'cke4/custom' ];
+
+		nativeData.types = expectedTypes;
+		dataTransfer.cacheData();
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored types.
+		nativeData.types = [];
+
+		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes() );
 	}
 } );
