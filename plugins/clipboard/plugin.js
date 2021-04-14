@@ -2691,9 +2691,13 @@
 		 * @returns {Boolean} `true` if the object contains only files.
 		 */
 		isFileTransfer: function() {
-			var types = this.getTypes();
+			var types = this.getTypes(),
+				// Firefox uses application/x-moz-file type for dropped local files.
+				filteredTypes = CKEDITOR.tools.array.filter( types, function( type ) {
+					return type !== 'application/x-moz-file';
+				} );
 
-			return types.length === 1 && types[ 0 ].toLowerCase() === 'files';
+			return filteredTypes.length === 1 && filteredTypes[ 0 ].toLowerCase() === 'files';
 		},
 
 		/**
