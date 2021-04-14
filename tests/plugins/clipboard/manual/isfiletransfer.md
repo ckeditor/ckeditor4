@@ -8,7 +8,10 @@ Paste image from the clipboard into the editor.
 
 **Expected**: The message above the editor says "File pasted" on the green background.
 
-Note: test does _not_ require the image to be actually inserted into the editor.
+Notes:
+
+* Test does _not_ require the image to be actually inserted into the editor.
+* IEs could ignore pasting in such a case.
 
 ## Scenario 2:
 

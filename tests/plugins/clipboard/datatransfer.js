@@ -1255,7 +1255,7 @@ bender.test( {
 	},
 
 	// (#4604)
-	'test asynchronous getTypes': function() {
+	'test asynchronous getTypes (in browsers with custom types support)': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
 		}
@@ -1274,9 +1274,28 @@ bender.test( {
 	},
 
 	// (#4604)
+	'test asynchronous getTypes (in browsers without custom types support)': function() {
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			expectedTypes = [ 'Text', 'URL' ];
+
+		nativeData.setData( 'Text', 'Test' );
+		dataTransfer.cacheData();
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored types.
+		nativeData.types = [];
+
+		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes() );
+	},
+
+	// (#4604)
 	'test isFileTransfer method detecting correctly file transfer': function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-			assert.ignore();
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
 		}
 
 		var nativeData = bender.tools.mockNativeDataTransfer(),
@@ -1291,8 +1310,8 @@ bender.test( {
 
 	// (#4604)
 	'test isFileTransfer method detecting correctly non-file transfer': function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-			assert.ignore();
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
 		}
 
 		var nativeData = bender.tools.mockNativeDataTransfer(),
@@ -1305,8 +1324,8 @@ bender.test( {
 
 	// (#4604)
 	'test isFileTransfer method detecting correctly file + non-file transfer': function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-			assert.ignore();
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
 		}
 
 		var nativeData = bender.tools.mockNativeDataTransfer(),
