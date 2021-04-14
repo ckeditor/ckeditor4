@@ -8,7 +8,7 @@ Paste image from the clipboard into the editor.
 
 **Expected**: The message above the editor says "File pasted" on the green background.
 
-Note: image will be actually inserted into the editor only in Firefox!
+Note: test does _not_ require the image to be actually inserted into the editor.
 
 ## Scenario 2:
 
@@ -22,7 +22,7 @@ Drop image or some other file into the editor.
 
 **Expected**: The message above the editor says "File pasted" on the green background.
 
-Note: image will be actually inserted into the editor only in Firefox! File won't be inserted at all.
+Note: test does _not_ require the image nor file to be actually inserted into the editor.
 
 ## Scenario 4:
 
