@@ -814,9 +814,9 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					initialHtml = '<div id="w1" data-widget="testnestedwidget">' +
+					initialHtml = '<div data-widget="testnestedwidget" id="w1">' +
 						'<div class="content">' +
-							'<div id="w2" data-widget="testnestedwidget">' +
+							'<div data-widget="testnestedwidget" id="w2">' +
 								'<div class="content">' +
 									'<p>x</p>' +
 								'</div>' +
@@ -866,7 +866,7 @@
 					dragend( editor, evt.data, parentWidget );
 
 					wait( function() {
-						assert.areSame( initialHtml, editor.getData(), 'Data should not be altered' );
+						bender.assert.isInnerHtmlMatching( initialHtml, editor.getData(), null, 'Data should not be altered' );
 						assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
 						assert.areSame( 0, dropNotCancelled, 'Drop event should be cancelled' );
 					}, 10 );

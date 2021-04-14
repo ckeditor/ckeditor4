@@ -1742,11 +1742,11 @@
 								'<img class="cke_reset cke_widget_drag_handler" data-cke-widget-drag-handler="1" src="img" width="15" title="title" height="15" role="presentation">' +
 							'</span>' +
 						'</div>',
-						expectedHtml = '<div id="w2" data-widget="testdatafilter"><div class="foo"><p>Foo</p></div></div>';
+						expectedHtml = '<div data-widget="testdatafilter" id="w2"><div class="foo"><p>Foo</p></div></div>';
 
 					nestedEditable.setData( widgetHtml );
 
-					assert.areSame( expectedHtml, nestedEditable.getData(), 'Widget UI elements are filtered out' );
+					bender.assert.isInnerHtmlMatching( expectedHtml, nestedEditable.getData(), null, 'Widget UI elements are filtered out' );
 				} );
 			} );
 		}
