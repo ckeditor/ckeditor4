@@ -16,7 +16,7 @@
 	* There aren't any hover styles **during** the tap.
 	* There are hover style (e.g. background became darker) **after** releasing the finger.
 
-	Note: check if for both on and off buttons (e.g. by toggling "Bold").
+	Note: check it for both on and off buttons (e.g. by toggling "Bold").
 
 2. Check if taping on buttons activate their active state.
 
