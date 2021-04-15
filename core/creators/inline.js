@@ -123,7 +123,7 @@
 
 	/**
 	 * Calls the {@link CKEDITOR#inline `CKEDITOR.inline()`} method for all page elements with the `contenteditable` attribute set to
-	 * `true` that are allowed in the {@link `CKEDITOR.dtd#$editable`} object.
+	 * `true` that are allowed in the {@link CKEDITOR.dtd#$editable} object.
 	 */
 	CKEDITOR.inlineAll = function() {
 		var el,
