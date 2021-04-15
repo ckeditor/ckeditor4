@@ -36,7 +36,8 @@
 		}
 
 		// (#4461)
-		if ( CKEDITOR.editor._delayCreationOnDetachedElement( element, instanceConfig, 'inline' ) ) {
+		if ( CKEDITOR.editor.shouldDelayEditorCreation( element, instanceConfig ) ) {
+			CKEDITOR.editor.initializeDelayedEditorCreation( element, instanceConfig, 'inline' );
 			return null;
 		}
 

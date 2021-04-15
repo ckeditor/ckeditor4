@@ -1650,9 +1650,7 @@
 	};
 
 	/**
-	 * Delay editor creation if given element is detached from DOM.
-	 *
-	 * Used only if `config.delayIfDetached` is set to `true`.
+	 * Initialize delayed editor creation based on provided configuration.
 	 *
 	 * If `config.delayIfDetached_callback` is declared, it will be invoked with a single argument:
 	 * callback, that should be called to create editor.
@@ -1670,16 +1668,11 @@
 	 * @since 4.17.0
 	 * @static
 	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.element} element The DOM element on which editor should be initialised.
+	 * @param {CKEDITOR.element} element The DOM element on which editor should be initialized.
 	 * @param {Object} config The specific configuration to apply to the editor instance. Configuration set here will override the global CKEditor settings.
-	 * @param {String} editorCreationMethod Creator function that should be used to initialise editor (inline/replace).
-	 * @returns {Boolean} True if creation was delayed.
+	 * @param {String} editorCreationMethod Creator function that should be used to initialize editor (inline/replace).
 	 */
-	CKEDITOR.editor._delayCreationOnDetachedElement = function( element, config, editorCreationMethod ) {
-		if ( !config || !config.delayIfDetached || !element.isDetached() ) {
-			return false;
-		}
-
+	CKEDITOR.editor.initializeDelayedEditorCreation = function( element, config, editorCreationMethod ) {
 		if ( config.delayIfDetached_callback ) {
 			CKEDITOR.warn( 'editor-delayed-creation', {
 				method: 'callback'
@@ -1692,30 +1685,40 @@
 					method: 'callback'
 				} );
 			} );
+		} else {
+			var interval = config.delayIfDetached_interval === undefined ? CKEDITOR.config.delayIfDetached_interval : config.delayIfDetached_interval,
+				intervalId;
 
-			return true;
+			CKEDITOR.warn( 'editor-delayed-creation', {
+				method: 'interval - ' + interval + ' ms'
+			} );
+
+			intervalId = setInterval( function() {
+				if ( !element.isDetached() ) {
+					clearInterval( intervalId );
+
+					CKEDITOR[ editorCreationMethod ]( element, config );
+
+					CKEDITOR.warn( 'editor-delayed-creation-success', {
+						method: 'interval - ' + interval + ' ms'
+					} );
+				}
+			}, interval );
 		}
+	};
 
-		var interval = config.delayIfDetached_interval === undefined ? CKEDITOR.config.delayIfDetached_interval : config.delayIfDetached_interval,
-			intervalId;
-
-		CKEDITOR.warn( 'editor-delayed-creation', {
-			method: 'interval - ' + interval + ' ms'
-		} );
-
-		intervalId = setInterval( function() {
-			if ( !element.isDetached() ) {
-				clearInterval( intervalId );
-
-				CKEDITOR[ editorCreationMethod ]( element, config );
-
-				CKEDITOR.warn( 'editor-delayed-creation-success', {
-					method: 'interval - ' + interval + ' ms'
-				} );
-			}
-		}, interval );
-
-		return true;
+	/**
+	 * Verify whether editor creation could be delayed.
+	 *
+	 * @since 4.17.0
+	 * @static
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.element} element The DOM element on which editor should be initialized.
+	 * @param {Object} config The specific configuration.
+	 * @returns {Boolean} True if creation could delayed.
+	 */
+	CKEDITOR.editor.shouldDelayEditorCreation = function( element, config ) {
+		return config && config.delayIfDetached && element.isDetached();
 	};
 
 } )();
