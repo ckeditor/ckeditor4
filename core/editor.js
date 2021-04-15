@@ -1652,7 +1652,7 @@
 	/**
 	 * Initialize delayed editor creation based on provided configuration.
 	 *
-	 * If `config.delayIfDetached_callback` is declared, it will be invoked with a single argument:
+	 * If the `config.delayIfDetached_callback` function is declared, it will be invoked with a single argument:
 	 * callback, that should be called to create editor.
 	 *
 	 * Otherwise, periodically (with `setInterval()`) check if element is reattached to DOM and if so, then create editor automatically.
