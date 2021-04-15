@@ -197,7 +197,7 @@ a.cke_button_disabled:active
 }
 
 /* Disable hover styles on mobile devices (#4611). */
-@media screen and ( pointer: coarse ) {
+@media screen and ( hover: none ) {
 	a.cke_button_off:hover,
 	a.cke_button_disabled:hover
 	{

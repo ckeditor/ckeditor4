@@ -179,7 +179,7 @@ a.cke_button_expandable.cke_button_off:active
 }
 
 /* Disable hover styles on mobile devices (#4611). */
-@media screen and ( pointer: coarse ) {
+@media screen and ( hover: none ) {
 	a.cke_button_off:hover
 	{
 		background: transparent;

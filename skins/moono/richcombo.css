@@ -110,7 +110,7 @@ a.cke_combo_button
 }
 
 /* Disable hover styles on mobile devices (#4611). */
-@media screen and ( pointer: coarse ) {
+@media screen and ( hover: none ) {
 
 	.cke_combo_off a.cke_combo_button:hover
 	{
