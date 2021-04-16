@@ -389,6 +389,7 @@
 				// before hitting enter, so the same styles will be available in
 				// the new block.
 				var elementPath = splitInfo.elementPath;
+				var bogusHolder = newBlock;
 				if ( elementPath ) {
 					for ( var i = 0, len = elementPath.elements.length; i < len; i++ ) {
 						var element = elementPath.elements[ i ];
@@ -400,11 +401,14 @@
 							element = element.clone();
 							newBlock.moveChildren( element );
 							newBlock.append( element );
+							if (bogusHolder === newBlock) {
+								bogusHolder = element;
+							}
 						}
 					}
 				}
 
-				newBlock.appendBogus();
+				bogusHolder.appendBogus();
 
 				if ( !newBlock.getParent() )
 					range.insertNode( newBlock );

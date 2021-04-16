@@ -96,6 +96,25 @@
 			assert.areSame( '<p><b><i>foo</i></b></p><p><b><i>bar</i></b></p>', bot.getData( false, true ) );
 		},
 
+		// https://github.com/ckeditor/ckeditor4/issues/4626: Selecting an empty line after pressing enter twice loses the formatting
+		'test enter key twice then select empty line': function() {
+			// The bogus should be in the right place for empty lines, otherwise the selection will be
+			// outside the formatted range.
+			var bot = this.editorBots.editor,
+				editor = bot.editor,
+				editable = editor.editable();
+
+			bot.setHtmlWithSelection( '<p><b><i>foo^</i></b></p>' );
+			bot.execCommand( 'enter' );
+			bot.execCommand( 'enter' );
+
+			var selectionAtTheEndOfEmptyLine = new CKEDITOR.dom.range( editor.document );
+			selectionAtTheEndOfEmptyLine.moveToElementEditablePosition( editable.getChild(1), true );
+			editor.getSelection().selectRanges( [ selectionAtTheEndOfEmptyLine ] );
+			editor.insertText( 'bar' );
+			assert.areSame( '<p><b><i>foo</i></b></p><p><b><i>bar</i></b></p><p>&nbsp;</p>', bot.getData( false, true ) );
+		},
+
 		// https://dev.ckeditor.com/ticket/7946 TODO: Add editor doc quirks mode tests.
 		'test enter key key scrolls document': function() {
 			// On iPads, behavior of scrollTop, scrollHeight and clientHeight is a bit unexpected.
