@@ -1708,14 +1708,14 @@
 	};
 
 	/**
-	 * Verify whether editor creation could be delayed.
+	 * Whether editor creation should be delayed.
 	 *
 	 * @since 4.17.0
 	 * @static
 	 * @member CKEDITOR.editor
 	 * @param {CKEDITOR.element} element The DOM element on which editor should be initialized.
-	 * @param {Object} config The specific configuration.
-	 * @returns {Boolean} True if creation could delayed.
+	 * @param {Object} config Editor configuration.
+	 * @returns {Boolean} True if creation should be delayed.
 	 */
 	CKEDITOR.editor.shouldDelayEditorCreation = function( element, config ) {
 		return config && config.delayIfDetached && element.isDetached();
@@ -2319,7 +2319,7 @@ CKEDITOR.config.delayIfDetached = false;
 /**
  * Function which accepts a single `callback` argument. A `callback` argument is another function that triggers editor creation.
  * This allows to store the editor creation function (`callback`) and invoke it whenever necessary instead of periodically
- * check if element is reattached to DOM to improve perfomrance.s reattached to DOM.
+ * check if element is reattached to DOM to improve performance.
  *
  * Used only if `config.delayIfDetached` is set to `true`.
  *
@@ -2339,12 +2339,10 @@ CKEDITOR.config.delayIfDetached = false;
  *		resumeEditorCreation();
  *
  * @since 4.17.0
- * @cfg {Function} [delayIfDetached_callback = function( createEditor ){ resumeEditorCreation = createEditor; }]
+ * @cfg {Function} [delayIfDetached_callback = undefined]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.delayIfDetached_callback = function( createEditorFunction ) {
-	createEditorFunction();
-};
+CKEDITOR.config.delayIfDetached_callback = undefined;
 
 /**
  * The amount of time (in miliseconds) between consecutive checks whether editor's target element is reattached to DOM.
