@@ -17,7 +17,8 @@ jobs:
         close-pr-message: "There was no activity regarding this pull request in the last 14 days. We're closing it for now. Still, feel free to provide us with requested feedback so that we can reopen it."
         stale-issue-label: 'stale'
         stale-pr-label: 'stale'
-        exempt-issue-labels: 'status:confirmed'
+        exempt-issue-labels: 'status:confirmed,status:blocked'
+        exempt-pr-labels: 'status:blocked'
         close-issue-label: 'resolution:expired'
         close-pr-label: 'pr:frozen ❄'
         remove-stale-when-updated: true
