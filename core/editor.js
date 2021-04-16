@@ -1668,7 +1668,7 @@
 	 * @since 4.17.0
 	 * @static
 	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.element} element The DOM element on which editor should be initialized.
+	 * @param {CKEDITOR.dom.element} element The DOM element on which editor should be initialized.
 	 * @param {Object} config The specific configuration to apply to the editor instance. Configuration set here will override the global CKEditor settings.
 	 * @param {String} editorCreationMethod Creator function that should be used to initialize editor (inline/replace).
 	 */
@@ -1713,7 +1713,7 @@
 	 * @since 4.17.0
 	 * @static
 	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.element} element The DOM element on which editor should be initialized.
+	 * @param {CKEDITOR.dom.element} element The DOM element on which editor should be initialized.
 	 * @param {Object} config Editor configuration.
 	 * @returns {Boolean} True if creation should be delayed.
 	 */
