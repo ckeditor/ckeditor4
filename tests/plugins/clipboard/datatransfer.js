@@ -1274,6 +1274,25 @@ bender.test( {
 	},
 
 	// (#4604)
+	'test asynchronous getTypes in browsers with custom types support returns unnormalized Files type': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			expectedTypes = [ 'Files' ];
+
+		nativeData.types = expectedTypes;
+		dataTransfer.cacheData();
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored types.
+		nativeData.types = [];
+
+		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes(), 'The Files type was normalized to files' );
+	},
+
+	// (#4604)
 	'test asynchronous getTypes in browsers without custom types support returns original types': function() {
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
