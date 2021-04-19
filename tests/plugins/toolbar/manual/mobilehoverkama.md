@@ -44,7 +44,7 @@
 
 	### Expected result
 
-	Clicked button has active state (.e.g background became lighter).
+	Clicked button has active state (e.g background became lighter).
 
 	### Unexpected result
 
