@@ -20,7 +20,7 @@
 		on: {
 			paste: function( evt ) {
 				var message = CKEDITOR.document.getById( 'message' ),
-					isFileTransfer = evt.data.dataTransfer.isFileTransfer()
+					isFileTransfer = evt.data.dataTransfer.isFileTransfer();
 
 				message.removeAttribute( 'class' );
 				message.addClass( isFileTransfer ? 'ok' : 'not-ok' );
