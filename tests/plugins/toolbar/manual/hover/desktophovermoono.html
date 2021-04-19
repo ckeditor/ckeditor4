@@ -1,0 +1,19 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="iframe-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="div-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'iframe-editor', {
+		skin: 'moono'
+	} );
+	CKEDITOR.replace( 'div-editor', {
+		extraPlugins: 'divarea',
+		skin: 'moono'
+	} );
+</script>
