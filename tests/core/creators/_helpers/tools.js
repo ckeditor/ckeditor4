@@ -47,7 +47,7 @@ var detachedTests = ( function() {
 				editorParent.append( editorElement );
 			},
 
-			test_delay_editor_creation_until_target_element_attach_to_DOM: function() {
+			test_delay_editor_creation_with_default_interval_strategy_until_target_element_attach_to_DOM: function() {
 				var editorElement = CKEDITOR.document.getById( createHtmlForEditor() ),
 					editorParent = editorElement.getParent();
 

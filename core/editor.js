@@ -1718,7 +1718,28 @@
 	 * @returns {Boolean} True if creation should be delayed.
 	 */
 	CKEDITOR.editor.shouldDelayEditorCreation = function( element, config ) {
+		CKEDITOR.editor.mergeDelayedCreationConfigs( config );
 		return config && config.delayIfDetached && element.isDetached();
+	};
+
+	/**
+	 * Merge user provided options for delayed creation with {@link CKEDITOR.config default config}.
+	 *
+	 * User provided options are the prefered one.
+	 *
+	 * @since 4.17.0
+	 * @static
+	 * @member CKEDITOR.editor
+	 * @param {Object} userConfig Config provided by the user to create editor.
+	 */
+	CKEDITOR.editor.mergeDelayedCreationConfigs = function( userConfig ) {
+		if ( !userConfig ) {
+			return;
+		}
+
+		userConfig.delayIfDetached = typeof userConfig.delayIfDetached === 'boolean' ? userConfig.delayIfDetached : CKEDITOR.config.delayIfDetached;
+		userConfig.delayIfDetached_interval = isNaN( userConfig.delayIfDetached_interval ) ? CKEDITOR.config.delayIfDetached_interval : userConfig.delayIfDetached_interval;
+		userConfig.delayIfDetached_callback = userConfig.delayIfDetached_callback || CKEDITOR.config.delayIfDetached_callback;
 	};
 
 } )();
