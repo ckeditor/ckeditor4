@@ -2355,6 +2355,9 @@
 					return 'Text'; // IE support only Text and URL;
 				} else if ( type == 'url' ) {
 					return 'URL'; // IE support only Text and URL;
+				} else if ( type === 'files' ) {
+					// Do not normalize Files type (#4604).
+					return 'Files';
 				} else {
 					return type;
 				}
