@@ -4,31 +4,39 @@
 
 ## Scenario 1:
 
-Paste image from the clipboard into the editor.
+1. Paste image from the clipboard into the editor.
 
-**Expected**: The message above the editor says "File pasted" on the green background.
+	### Expected:
+
+	* The message above the editor says "File pasted" on the green background.
 
 Notes:
-
 * Test does _not_ require the image to be actually inserted into the editor.
 * IEs could ignore pasting in such a case.
 
 ## Scenario 2:
 
-Paste non-file content (e.g. text) into the editor.
+1. Paste non-file content (e.g. text) into the editor.
 
-**Expected**: The message above the editor says "Non-file pasted" on the red background.
+	### Expected:
+
+	* The message above the editor says "Non-file pasted" on the red background.
 
 ## Scenario 3:
 
-Drop image or some other file into the editor.
+1. Drop image or some other file into the editor.
 
-**Expected**: The message above the editor says "File pasted" on the green background.
+	### Expected:
 
-Note: test does _not_ require the image nor file to be actually inserted into the editor.
+	* The message above the editor says "File pasted" on the green background.
+
+Notes:
+* Test does _not_ require the image nor file to be actually inserted into the editor.
 
 ## Scenario 4:
 
-Drop non-file content (e.g. text) into the editor.
+1. Drop non-file content (e.g. text) into the editor.
 
-**Expected**: The message above the editor says "Non-file pasted" on the red background.
+	### Expected:
+
+	* The message above the editor says "Non-file pasted" on the red background.
