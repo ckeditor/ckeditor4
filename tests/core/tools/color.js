@@ -189,7 +189,7 @@
 		'test converting HSLA (123, 50%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 50%, 50%, .5 )', 'hsla(123,50%,50%,0.5)', 'getHsla' ),
 
 		// (#4596)
-		'test converting HSL (123, 0%, 50%) to HSL value returns the original value': colorTools.testColorConversion( 'hsl( 123, 0%, 50% )', 'hsla(123,0%,50%)', 'getHsl' ),
+		'test converting HSL (123, 0%, 50%) to HSL value returns the original value': colorTools.testColorConversion( 'hsl( 123, 0%, 50% )', 'hsl(123,0%,50%)', 'getHsl' ),
 
 		// (#4596)
 		'test converting HSL (123, 0%, 50%) to HSLA value returns the original value with 1 opacity': colorTools.testColorConversion( 'hsl( 123, 0%, 50% )', 'hsla(123,0%,50%,1)', 'getHsla' ),
