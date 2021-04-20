@@ -576,7 +576,7 @@
 
 				hue = Math.round( hue );
 				saturation = Math.round( saturation * 100 );
-				lightness = lightness * 100;
+				lightness = Math.round( lightness * 100 );
 
 				return [ hue, saturation, lightness ];
 			}
