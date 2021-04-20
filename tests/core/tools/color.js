@@ -169,29 +169,29 @@
 		// (#4583)
 		'test 4-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' ),
 
-		// (#4596)
+		// (#4597)
 		'test converting RGB (64, 115, 38) produces HSL value with correct saturation value (100, 50%, 30%)': colorTools.testColorConversion( 'rgb( 64, 115, 38 )', 'hsl(100,50%,30%)', 'getHsl' ),
 
-		// (#4596)
+		// (#4597)
 		'test converting RGBA (64, 115, 38, .4) produces HSLA value with correct saturation value (100, 50%, 30%, 0.4)': colorTools.testColorConversion( 'rgb( 64, 115, 38, .4 )',
 			'hsla(100,50%,30%,0.4)', 'getHsla' ),
 
 		// (#4096)
 		'test converting HSL (123, 50%, 50%) to HSL value returns the original value': colorTools.testColorConversion( 'hsl( 123, 50%, 50% )', 'hsl(123,50%,50%)', 'getHsl' ),
 
-		// (#4596)
+		// (#4597)
 		'test converting HSLA (123, 50%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 50%, 50%, .5 )', 'hsla(123,50%,50%,0.5)', 'getHsla' ),
 
-		// (#4596)
+		// (#4597)
 		'test converting HSL (123, 0%, 50%) to HSL value returns the original value': colorTools.testColorConversion( 'hsl( 123, 0%, 50% )', 'hsl(123,0%,50%)', 'getHsl' ),
 
-		// (#4596)
+		// (#4597)
 		'test converting HSL (123, 0%, 50%) to HSLA value returns the original value with 1 opacity': colorTools.testColorConversion( 'hsl( 123, 0%, 50% )', 'hsla(123,0%,50%,1)', 'getHsla' ),
 
-		// (#4596)
+		// (#4597)
 		'test converting HSLA (123, 0%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 0%, 50%, 0.5 )', 'hsla(123,0%,50%,0.5)', 'getHsla' ),
 
-		// (#4596)
+		// (#4597)
 		'test saving data about color type, hue, saturation and ligthness for HSL color': function() {
 			var input = 'hsl( 100, 37%, 17% )',
 				color = new CKEDITOR.tools.color( input );
@@ -202,7 +202,7 @@
 			assert.areSame( 17, color._.lightness, 'Lightness data is saved' );
 		},
 
-		// (#4596)
+		// (#4597)
 		'test saving data about color type for RGB color': function() {
 			var input = 'rgb( 124, 54, 33 )',
 				color = new CKEDITOR.tools.color( input );
@@ -210,7 +210,7 @@
 			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is correctly set to RGB' );
 		},
 
-		// (#4596)
+		// (#4597)
 		'test saving data about color type for hex color': function() {
 			var input = '#FF00FF',
 				color = new CKEDITOR.tools.color( input );
