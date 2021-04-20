@@ -195,7 +195,34 @@
 		'test converting HSL (123, 0%, 50%) to HSLA value returns the original value with 1 opacity': colorTools.testColorConversion( 'hsl( 123, 0%, 50% )', 'hsla(123,0%,50%,1)', 'getHsla' ),
 
 		// (#4596)
-		'test converting HSLA (123, 0%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 0%, 50%, 0.5 )', 'hsla(123,0%,50%,0.5)', 'getHsla' )
+		'test converting HSLA (123, 0%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 0%, 50%, 0.5 )', 'hsla(123,0%,50%,0.5)', 'getHsla' ),
+
+		// (#4596)
+		'test saving data about color type, hue, saturation and ligthness for HSL color': function() {
+			var input = 'hsl( 100, 37%, 17% )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.areSame( CKEDITOR.tools.color.TYPE_HSL, color._.type, 'Color type is correctly set to HSL' );
+			assert.areSame( 100, color._.hue, 'Hue data is saved' );
+			assert.areSame( 0.37, color._.saturation, 'Saturation data is saved' );
+			assert.areSame( 0.17, color._.lightness, 'Lightness data is saved' );
+		},
+
+		// (#4596)
+		'test saving data about color type for RGB color': function() {
+			var input = 'rgb( 124, 54, 33 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is correctly set to RGB' );
+		},
+
+		// (#4596)
+		'test saving data about color type for hex color': function() {
+			var input = '#FF00FF',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is correctly set to RGB' );
+		}
 	} );
 
 } )();
