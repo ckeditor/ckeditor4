@@ -140,28 +140,22 @@
 		'test RGBA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'rgba( 255 0 255 / 10% )', 'rgba(255,0,255,0.1)', 'getRgba' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSL value with no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% )', 'hsl(199,0%,10%)', 'getHsl' ),
+		'test HSL value with no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% )', 'hsl(200,50%,10%)', 'getHsl' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSL value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 0.1 )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+		'test HSL value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 0.1 )', 'hsla(200,50%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSL value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 10% )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+		'test HSL value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 10% )', 'hsla(200,50%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSLA value with no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% )', 'hsl(199,0%,10%)', 'getHsl' ),
+		'test HSLA value with no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% )', 'hsl(200,50%,10%)', 'getHsl' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSLA value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 0.1 )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+		'test HSLA value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 0.1 )', 'hsla(200,50%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSLA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 10% )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+		'test HSLA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 10% )', 'hsla(200,50%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
 		'test 6-HEX-like value is treated as 6-HEX value': colorTools.testColorConversion( 'FF0000', '#FF0000', 'getHex' ),
