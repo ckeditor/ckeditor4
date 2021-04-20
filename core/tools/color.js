@@ -797,6 +797,12 @@
 			 * @static
 			 * @property {RegExp}
 			 */
+			// Some docs for the regex:
+			// * all values except opacity are in the first capturing group, the opacity is in the second (needed by extraction logic);
+			// therefore every subgroup is non-capturing (we need only two capturing groups at the end!)
+			// * (?:[.\d]+(?:deg)?) – gets the hue with optional deg unit
+			// * (?:\s*,?\s*[.\d]+%){2}) – gets the saturation and lightness as percents and with optional preceding comma
+			// * (?:(?:\s*\/\s*)|(?:\s*,\s*)) – gets the opacity separator (comma or slash)
 			hslRegExp: /hsla?\((\s*(?:[.\d]+(?:deg)?)(?:\s*,?\s*[.\d]+%){2})((?:(?:\s*\/\s*)|(?:\s*,\s*))[\d.]+%?)?\s*\)/i,
 
 			/**
