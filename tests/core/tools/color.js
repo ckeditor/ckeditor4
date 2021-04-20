@@ -71,7 +71,7 @@
 
 		'test color from percentage RGB value returns 6-HEX': colorTools.testColorConversion( 'rgb( 100%, 50%, 10% )', '#FF801A', 'getHex' ),
 
-		'test color from valid HSL string returns 6-HEX': colorTools.testColorConversion( 'hsl( 195, 1, 0.5 )', '#00BFFF', 'getHex' ),
+		'test color from valid HSL string returns 6-HEX': colorTools.testColorConversion( 'hsl( 195, 100%, 50% )', '#00BFFF', 'getHex' ),
 
 		'test color from percentage HSL string returns 6-HEX': colorTools.testColorConversion( 'hsl( 195, 100%, 50% )', '#00BFFF', 'getHex' ),
 
@@ -81,11 +81,11 @@
 
 		'test color from valid RGBA alpha 0 value returns 6-HEX': colorTools.testColorConversion( 'rgba( 123, 123, 123, 0)', '#FFFFFF', 'getHex' ),
 
-		'test color from valid HSLA alpha 1 value returns 6-HEX': colorTools.testColorConversion( 'hsla( 123, 0.5, 0.5, 1 )', '#40BF46', 'getHex' ),
+		'test color from valid HSLA alpha 1 value returns 6-HEX': colorTools.testColorConversion( 'hsla( 123, 50%, 50%, 1 )', '#40BF46', 'getHex' ),
 
-		'test color from valid HSLA alpha 0.5 value returns 6-HEX': colorTools.testColorConversion( 'hsla( 123, 0.5, 0.5, 0.5 )', '#A0DFA3', 'getHex' ),
+		'test color from valid HSLA alpha 0.5 value returns 6-HEX': colorTools.testColorConversion( 'hsla( 123, 50%, 50%, 0.5 )', '#A0DFA3', 'getHex' ),
 
-		'test color from valid HSLA alpha 0 value returns 6-HEX': colorTools.testColorConversion( 'hsla( 123, 0.5, 0.5, 0)', '#FFFFFF', 'getHex' ),
+		'test color from valid HSLA alpha 0 value returns 6-HEX': colorTools.testColorConversion( 'hsla( 123, 50%, 50%, 0)', '#FFFFFF', 'getHex' ),
 
 		'test color from 6-HEX returns valid RGB': colorTools.testColorConversion( '#FF00FF', 'rgb(255,0,255)', 'getRgb' ),
 
@@ -99,7 +99,7 @@
 
 		'test color from 8-HEX returns valid RGBA (alpha 0.5)': colorTools.testColorConversion( '#FF00FF88', 'rgba(255,0,255,0.5)', 'getRgba' ),
 
-		'test color from valid HSL string returns 8-HEX': colorTools.testColorConversion( 'hsl( 195, 1, 0.5 )', '#00BFFFFF', 'getHexWithAlpha' ),
+		'test color from valid HSL string returns 8-HEX': colorTools.testColorConversion( 'hsl( 195, 100%, 50% )', '#00BFFFFF', 'getHexWithAlpha' ),
 
 		'test color from valid RGB with percent returns valid RGB': colorTools.testColorConversion( 'rgb(20.5%,0,255)', 'rgb(52,0,255)', 'getRgb' ),
 
