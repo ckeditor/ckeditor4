@@ -179,12 +179,12 @@
 			isValidColor: true,
 
 			/**
-			 * Original color type..
+			 * Original color type.
 			 *
 			 * @private
 			 * @property {Number}
 			 */
-			originalType: 0,
+			type: 0,
 
 			/**
 			 * Hue value.
