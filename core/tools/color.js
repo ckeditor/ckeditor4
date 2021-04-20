@@ -175,7 +175,7 @@
 			/**
 			 * Hue value.
 			 *
-			 * Used in HSL colors.
+			 * Used in HSL colors. Ranges between 0-360 (inclusive).
 			 *
 			 * @private
 			 * @property {Number}
@@ -183,7 +183,7 @@
 			hue: 0,
 
 			/**
-			 * Saturation value. Ranges between 0-1 (inclusive).
+			 * Saturation value. Ranges between 0-100 (inclusive).
 			 *
 			 * Used in HSL colors.
 			 *
@@ -193,7 +193,7 @@
 			saturation: 0,
 
 			/**
-			 * Ligthness value. Ranges between 0-1 (inclusive).
+			 * Ligthness value. Ranges between 0-100 (inclusive).
 			 *
 			 * Used in HSL colors.
 			 *
@@ -484,8 +484,8 @@
 					blue: rgba[ 2 ],
 					alpha: rgba[ 3 ],
 					hue: hue,
-					saturation: saturation,
-					lightness: lightness
+					saturation: Math.round( saturation * 100 ),
+					lightness: Math.round( lightness * 100 )
 				};
 
 				return this._.areColorChannelsValid( rgba[ 0 ], rgba[ 1 ], rgba[ 2 ], rgba[ 3 ] ) ? result : null;

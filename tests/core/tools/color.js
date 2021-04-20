@@ -204,8 +204,8 @@
 
 			assert.areSame( CKEDITOR.tools.color.TYPE_HSL, color._.type, 'Color type is correctly set to HSL' );
 			assert.areSame( 100, color._.hue, 'Hue data is saved' );
-			assert.areSame( 0.37, color._.saturation, 'Saturation data is saved' );
-			assert.areSame( 0.17, color._.lightness, 'Lightness data is saved' );
+			assert.areSame( 37, color._.saturation, 'Saturation data is saved' );
+			assert.areSame( 17, color._.lightness, 'Lightness data is saved' );
 		},
 
 		// (#4596)
