@@ -112,12 +112,20 @@
 			 *
 			 */
 			getHsl: function() {
+				var isIntegerAlpha = this._.alpha === 0 || this._.alpha === 1,
+					hsl,
+					color;
+
 				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
 
-				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha ),
+				if ( this._.type === CKEDITOR.tools.color.TYPE_HSL && isIntegerAlpha ) {
+					hsl = [ this._.hue, this._.saturation, this._.lightness ];
+				} else {
+					color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 					hsl = this._.rgbToHsl( color[ 0 ], color[ 1 ], color[ 2 ] );
+				}
 
 				return this._.formatHslString( 'hsl', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
 			},
@@ -128,11 +136,17 @@
 			 * @returns {String/*} HSLA color representation (e.g. `hsla(360,100%,50%,0)`) or default value.
 			 */
 			getHsla: function() {
+				var hsl;
+
 				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
 
-				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
+				if ( this._.type === CKEDITOR.tools.color.TYPE_HSL ) {
+					hsl = [ this._.hue, this._.saturation, this._.lightness ];
+				} else {
+					hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
+				}
 
 				return this._.formatHslString( 'hsla', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ], this._.alpha );
 			},
