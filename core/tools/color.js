@@ -165,6 +165,44 @@
 			isValidColor: true,
 
 			/**
+			 * Original color type..
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			originalType: 0,
+
+			/**
+			 * Hue value.
+			 *
+			 * Used in HSL colors.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			hue: 0,
+
+			/**
+			 * Saturation value. Ranges between 0-1 (inclusive).
+			 *
+			 * Used in HSL colors.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			saturation: 0,
+
+			/**
+			 * Ligthness value. Ranges between 0-1 (inclusive).
+			 *
+			 * Used in HSL colors.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			lightness: 0,
+
+			/**
 			 * Red channel value. Ranges between 0-255 (inclusive).
 			 *
 			 * @private
@@ -307,10 +345,17 @@
 					return;
 				}
 
-				this._.red = colorChannels[ 0 ];
-				this._.green = colorChannels[ 1 ];
-				this._.blue = colorChannels[ 2 ];
-				this._.alpha = colorChannels[ 3 ];
+				this._.type = colorChannels.type;
+				this._.red = colorChannels.red;
+				this._.green = colorChannels.green;
+				this._.blue = colorChannels.blue;
+				this._.alpha = colorChannels.alpha;
+
+				if ( colorChannels.type === CKEDITOR.tools.color.TYPE_HSL ) {
+					this._.hue = colorChannels.hue;
+					this._.saturation = colorChannels.saturation;
+					this._.lightness = colorChannels.lightness;
+				}
 			},
 
 			/**
@@ -329,7 +374,7 @@
 			 *
 			 * @private
 			 * @param {String} colorCode HEX color representation.
-			 * @returns {Array/null}
+			 * @returns {Object/null}
 			 */
 			extractColorChannelsFromHex: function( colorCode ) {
 				// We also like to support hex-like values (so hexes without hash at the beginning).
@@ -358,12 +403,13 @@
 					alpha = Number( alpha.toFixed( 1 ) );
 				}
 
-				return [
-					hexToNumber( parts[ 1 ] + parts[ 2 ] ),
-					hexToNumber( parts[ 3 ] + parts[ 4 ] ),
-					hexToNumber( parts[ 5 ] + parts [ 6 ] ),
-					alpha
-				];
+				return {
+					type: CKEDITOR.tools.color.TYPE_RGB,
+					red: hexToNumber( parts[ 1 ] + parts[ 2 ] ),
+					green: hexToNumber( parts[ 3 ] + parts[ 4 ] ),
+					blue: hexToNumber( parts[ 5 ] + parts [ 6 ] ),
+					alpha: alpha
+				};
 			},
 
 			/**
@@ -371,7 +417,7 @@
 			 *
 			 * @private
 			 * @param {String} colorCode RGB or RGBA color representation.
-			 * @returns {Array/null}
+			 * @returns {Object/null}
 			 */
 			extractColorChannelsFromRgba: function( colorCode ) {
 				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.rgbRegExp );
@@ -391,7 +437,15 @@
 					alpha = tryToConvertToValidFloatValue( channels[ 3 ], CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
 				}
 
-				return this._.areColorChannelsValid( red, green, blue, alpha ) ? [ red, green, blue, alpha ] : null;
+				var result = {
+					type: CKEDITOR.tools.color.TYPE_RGB,
+					red: red,
+					green: green,
+					blue: blue,
+					alpha: alpha
+				};
+
+				return this._.areColorChannelsValid( red, green, blue, alpha ) ? result : null;
 			},
 
 			/**
@@ -399,7 +453,7 @@
 			 *
 			 * @private
 			 * @param {String} colorCode HSL or HSLA color representation.
-			 * @returns {Array/null}
+			 * @returns {Object/null}
 			 */
 			extractColorChannelsFromHsla: function( colorCode ) {
 				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.hslRegExp );
@@ -423,7 +477,18 @@
 
 				rgba.push( alpha );
 
-				return this._.areColorChannelsValid( rgba[ 0 ], rgba[ 1 ], rgba[ 2 ], rgba[ 3 ] ) ? rgba : null;
+				var result = {
+					type: CKEDITOR.tools.color.TYPE_HSL,
+					red: rgba[ 0 ],
+					green: rgba[ 1 ],
+					blue: rgba[ 2 ],
+					alpha: rgba[ 3 ],
+					hue: hue,
+					saturation: saturation,
+					lightness: lightness
+				};
+
+				return this._.areColorChannelsValid( rgba[ 0 ], rgba[ 1 ], rgba[ 2 ], rgba[ 3 ] ) ? result : null;
 			},
 
 			/**
@@ -583,6 +648,26 @@
 		},
 
 		statics: {
+			/**
+			 * Indicates that the color is in RGB format.
+			 *
+			 * @private
+			 * @static
+			 * @readonly
+			 * @property {Number}
+			 */
+			TYPE_RGB: 1,
+
+			/**
+			 * Indicates that the color is in HSL format.
+			 *
+			 * @private
+			 * @static
+			 * @readonly
+			 * @property {Number}
+			 */
+			TYPE_HSL: 2,
+
 			/**
 			 * The maximum value of RGB channel.
 			 *
