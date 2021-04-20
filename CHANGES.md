@@ -7,6 +7,14 @@ New Features:
 
 * [#4583](https://github.com/ckeditor/ckeditor4/issues/4583): Added support for new, comma-less color syntax to [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html).
 * [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Inserting content next to block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation is now possible. Thanks to [bunglegrind](https://github.com/bunglegrind)!
+## CKEditor 4.16.1
+
+Fixed Issues:
+
+* [#4493](https://github.com/ckeditor/ckeditor4/issues/4493): Fixed: [Rich Combo](https://ckeditor.com/cke4/addon/richcombo) label does not reflects the current value of the combobox.
+* [#1572](https://github.com/ckeditor/ckeditor4/issues/1572): Fixed: Paragraph before or after a [widget](https://ckeditor.com/cke4/addon/widget) can not be removed. Thanks to [bunglegrind](https://github.com/bunglegrind)!
+* [#4301](https://github.com/ckeditor/ckeditor4/issues/4301): Fixed: Pasted content is overwritten when pasted in initially empty editor with [`div` enter mode](https://ckeditor.com/docs/ckeditor4/latest/features/enterkey.html).
+* [#4351](https://github.com/ckeditor/ckeditor4/issues/4351): Fixed: Incorrect values for RGBA/HSLA colors in [Color Dialog](https://ckeditor.com/cke4/addon/colordialog).
 
 ## CKEditor 4.16
 

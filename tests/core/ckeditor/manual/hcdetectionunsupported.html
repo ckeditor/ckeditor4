@@ -19,13 +19,18 @@
 	<p>Lorem ipsum dolor sit amet</p>
 </div>
 
-<script>( function() {
-	CKEDITOR.replace( 'editor' );
+<script>
+	( function() {
+		if ( CKEDITOR.env.safari || CKEDITOR.env.chrome || CKEDITOR.env.mobile ) {
+			return bender.ignore();
+		}
 
-	var indicator = CKEDITOR.document.getById( 'indicator' ),
-		state = CKEDITOR.env.hc ? 'on' : 'off'
+		var indicator = CKEDITOR.document.getById( 'indicator' ),
+			state = CKEDITOR.env.hc ? 'on' : 'off'
 
-	indicator.addClass( state );
-	indicator.setText( 'HC is ' + state );
-} )();
+		indicator.addClass( state );
+		indicator.setText( 'HC is ' + state );
+
+		CKEDITOR.replace( 'editor' );
+	} )();
 </script>
