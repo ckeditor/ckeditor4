@@ -576,9 +576,9 @@
 					return trimmedValues.concat( [ trimmedValue ] );
 				}, [] );
 
-				// There was alpha channel in the no-comma syntax ( / <number>%?).
+				// There was alpha channel in the RGB no-comma syntax ( / <number>%?) or in HSL value.
 				if ( match[ 2 ] ) {
-					var alpha = CKEDITOR.tools.trim( match[ 2 ].replace( '/', '' ) );
+					var alpha = CKEDITOR.tools.trim( match[ 2 ].replace( /[\/,]/, '' ) );
 
 					values.push( alpha );
 				}
