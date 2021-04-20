@@ -979,7 +979,7 @@
 	function tryToConvertToValidIntegerValue( value, max ) {
 		if ( isPercentValue( value ) ) {
 			value = Math.round( max * ( parseFloat( value ) / 100 ) );
-		} else if ( isIntegerValue( value ) ) {
+		} else if ( isIntegerValue( value ) || isHueValue( value ) ) {
 			value = parseInt( value, 10 );
 		}
 
@@ -1019,6 +1019,14 @@
 	// @returns {Boolean}
 	function isIntegerValue( value ) {
 		return typeof value === 'string' && value.match( /^\d+$/gm );
+	}
+
+	// Validates if given value is a string representing hue value (integer or integer + 'deg' keyword).
+	//
+	// @param {*} value Any value to be validated.
+	// @returns {Boolean}
+	function isHueValue( value ) {
+		return typeof value === 'string' && value.match( /^\d+(?:deg)?$/gm );
 	}
 
 	// Validates if given value is a string representing float value.
