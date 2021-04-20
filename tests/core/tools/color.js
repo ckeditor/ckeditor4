@@ -253,6 +253,102 @@
 			assert.areSame( 0, color._.hue, 'Hue data is not saved.' );
 			assert.areSame( 0, color._.saturation, 'Saturation data is not saved.' );
 			assert.areSame( 0, color._.lightness, 'Lightness data is not saved.' );
+		},
+
+		// (#4596)
+		'test HSL value with saturation not in percents treated as invalid color': function() {
+			var input = 'hsl( 100, 50, 12% )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isFalse( color._.isValidColor, 'color is valid despite the incorrect format' );
+		},
+
+		// (#4596)
+		'test HSL value with lightness not in percents treated as invalid color': function() {
+			var input = 'hsl( 100, 50%, 12 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isFalse( color._.isValidColor, 'color is valid despite the incorrect format' );
+		},
+
+		// (#4596)
+		'test HSL value with saturation as fraction treated as invalid color': function() {
+			var input = 'hsl( 100, 0.5, 12% )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isFalse( color._.isValidColor, 'color is valid despite the incorrect format' );
+		},
+
+		// (#4596)
+		'test HSL value with ligthness as fraction treated as invalid color': function() {
+			var input = 'hsl( 100, 5%, 0.2 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isFalse( color._.isValidColor, 'color is valid despite the incorrect format' );
+		},
+
+		// (#4596)
+		'test HSLA value with saturation not in percents treated as invalid color': function() {
+			var input = 'hsla( 100, 50, 12%, 0.5 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isFalse( color._.isValidColor, 'color is valid despite the incorrect format' );
+		},
+
+		// (#4596)
+		'test HSLA value with lightness not in percents treated as invalid color': function() {
+			var input = 'hsla( 100, 50%, 12, .1 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isFalse( color._.isValidColor, 'color is valid despite the incorrect format' );
+		},
+
+		// (#4596)
+		'test HSLA value with saturation as fraction treated as invalid color': function() {
+			var input = 'hsla( 100, 0.5, 12%, .2 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isFalse( color._.isValidColor, 'color is valid despite the incorrect format' );
+		},
+
+		// (#4596)
+		'test HSLA value with ligthness as fraction treated as invalid color': function() {
+			var input = 'hsla( 100, 5%, 0.2, 0.45 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isFalse( color._.isValidColor, 'color is valid despite the incorrect format' );
+		},
+
+		// ($4596)
+		'test HSL value with hue in degrees is treated as valid color': function() {
+			var input = 'hsl( 100deg, 5%, 2% )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isTrue( color._.isValidColor, 'color is invalid despite the correct format' );
+		},
+
+		// ($4596)
+		'test HSLA value with hue in degrees is treated as valid color': function() {
+			var input = 'hsla( 100deg, 5%, 2%, 0.45 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isTrue( color._.isValidColor, 'color is invalid despite the correct format' );
+		},
+
+		// (#4596)
+		'test HSL in no-comma syntax with hue in degrees is treated as valid color': function() {
+			var input = 'hsl( 100deg 5% 2% / 0.45 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isTrue( color._.isValidColor, 'color is invalid despite the correct format' );
+		},
+
+		// (#4596)
+		'test HSLA with fractional percents in saturation and lightness is treated as valid color': function() {
+			var input = 'hsla( 100, 0.5%, .4%, .2 );',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.isTrue( color._.isValidColor, 'color is invalid despite the correct format'  );
 		}
 	} );
 
