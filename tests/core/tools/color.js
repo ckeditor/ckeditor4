@@ -173,7 +173,20 @@
 		'test 8-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'FF0000FF', '#FF0000FF', 'getHexWithAlpha' ),
 
 		// (#4583)
-		'test 4-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' )
+		'test 4-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' ),
+
+		// (#4596)
+		'test converting RGB (64, 115, 38) produces HSL value with correct saturation value (100, 50%, 30%)': colorTools.testColorConversion( 'rgb( 64, 115, 38 )', 'hsl(100,50%,30%)', 'getHsl' ),
+
+		// (#4596)
+		'test converting RGBA (64, 115, 38, .4) produces HSLA value with correct saturation value (100, 50%, 30%, 0.4)': colorTools.testColorConversion( 'rgb( 64, 115, 38, .4 )',
+			'hsla(100,50%,30%,0.4)', 'getHsla' ),
+
+		// (#4096)
+		'test converting HSL (123, 50%, 50%) to HSL value returns the original value': colorTools.testColorConversion( 'hsl( 123, 50%, 50% )', 'hsl(123,50%,50%)', 'getHsl' ),
+
+		// (#4596)
+		'test converting HSLA (123, 50%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 50%, 50%, .5 )', 'hsla(123,50%,50%,0.5)', 'getHsla' )
 	} );
 
 } )();
