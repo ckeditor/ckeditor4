@@ -1,0 +1,31 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="iframe-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="div-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<script>
+	( function() {
+		var pathRegex = /(android|ios|desktop)(?:button|richcombo)(moono|kama)?/i,
+			match = location.pathname.match( pathRegex ),
+			isMobile = match[ 1 ] !== 'desktop',
+			isIgnoredEnv = isMobile ? !bender.tools.env.mobile : bender.tools.env.mobile,
+			skin = match[ 2 ] ? match[ 2 ] : 'moono-lisa';
+
+		if ( isIgnoredEnv ) {
+			bender.ignore();
+		}
+
+		CKEDITOR.replace( 'iframe-editor', {
+			skin: skin
+		} );
+		CKEDITOR.replace( 'div-editor', {
+			extraPlugins: 'divarea',
+			skin: skin
+		} );
+	}() );
+</script>
