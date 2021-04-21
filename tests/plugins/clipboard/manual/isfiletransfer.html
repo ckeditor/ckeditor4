@@ -1,0 +1,31 @@
+<style>
+	.ok {
+		background: green;
+	}
+	.not-ok {
+		background: red;
+	}
+</style>
+<p id="message"></p>
+<div id="editor">
+	<p>Paste from clipboard here:</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10  ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			paste: function( evt ) {
+				var message = CKEDITOR.document.getById( 'message' ),
+					isFileTransfer = evt.data.dataTransfer.isFileTransfer();
+
+				message.removeAttribute( 'class' );
+				message.addClass( isFileTransfer ? 'ok' : 'not-ok' );
+				message.setText( isFileTransfer ? 'File pasted' : 'Non-file pasted' );
+			}
+		}
+	} );
+</script>

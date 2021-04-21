@@ -2341,6 +2341,7 @@
 			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/i,
 			fragmentRegExp: /\s*<!--StartFragment-->|<!--EndFragment-->\s*/g,
 
+			types: [],
 			data: {},
 			files: [],
 
@@ -2354,6 +2355,9 @@
 					return 'Text'; // IE support only Text and URL;
 				} else if ( type == 'url' ) {
 					return 'URL'; // IE support only Text and URL;
+				} else if ( type === 'files' ) {
+					// Do not normalize Files type (#4604).
+					return 'Files';
 				} else {
 					return type;
 				}
@@ -2610,6 +2614,9 @@
 				if ( data ) {
 					that._.data[ type ] = data;
 				}
+
+				// Cache type itself (#4604).
+				that._.types.push( type );
 			}
 
 			// Copy data.
@@ -2681,6 +2688,22 @@
 		},
 
 		/**
+		 * Checks if the data transfer contains only files.
+		 *
+		 * @since 4.17.0
+		 * @returns {Boolean} `true` if the object contains only files.
+		 */
+		isFileTransfer: function() {
+			var types = this.getTypes(),
+				// Firefox uses application/x-moz-file type for dropped local files.
+				filteredTypes = CKEDITOR.tools.array.filter( types, function( type ) {
+					return type !== 'application/x-moz-file';
+				} );
+
+			return filteredTypes.length === 1 && filteredTypes[ 0 ].toLowerCase() === 'files';
+		},
+
+		/**
 		 * Checks if the data transfer contains any data.
 		 *
 		 * @returns {Boolean} `true` if the object contains no data.
@@ -2733,6 +2756,10 @@
 		 * @returns {String[]}
 		 */
 		getTypes: function() {
+			if ( this._.types.length > 0 ) {
+				return this._.types;
+			}
+
 			if ( !this.$ || !this.$.types ) {
 				return [];
 			}

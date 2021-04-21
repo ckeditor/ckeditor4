@@ -1252,5 +1252,125 @@ bender.test( {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		arrayAssert.itemsAreSame( [], dataTransfer.getTypes() );
+	},
+
+	// (#4604)
+	'test asynchronous getTypes in browsers with custom types support returns original types': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			expectedTypes = [ 'hublabubla', 'cke4/custom' ];
+
+		nativeData.types = expectedTypes;
+		dataTransfer.cacheData();
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored types.
+		nativeData.types = [];
+
+		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes(), 'Incorrect types returned by getTypes()' );
+	},
+
+	// (#4604)
+	'test asynchronous getTypes in browsers with custom types support returns unnormalized Files type': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			expectedTypes = [ 'Files' ];
+
+		nativeData.types = expectedTypes;
+		dataTransfer.cacheData();
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored types.
+		nativeData.types = [];
+
+		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes(), 'The Files type was normalized to files' );
+	},
+
+	// (#4604)
+	'test asynchronous getTypes in browsers without custom types support returns original types': function() {
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			expectedTypes = [ 'Text', 'URL' ];
+
+		nativeData.setData( 'Text', 'Test' );
+		dataTransfer.cacheData();
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored types.
+		nativeData.types = [];
+
+		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes(), 'Incorrect types returned by getTypes()' );
+	},
+
+	// (#4604)
+	'test isFileTransfer method detecting file transfer for DataTransfer with files only': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.types.push( 'Files' );
+		nativeData.files.push( 'foo' );
+		nativeData.files.push( 'bar' );
+
+		assert.isTrue( dataTransfer.isFileTransfer(), 'isFileTransfer() incorrect result for file transfer' );
+	},
+
+	// (#4604)
+	'test isFileTransfer method not detecting file transfer for DataTransfer with text data': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<p>Foobar</p>' );
+
+		assert.isFalse( dataTransfer.isFileTransfer(), 'isFileTransfer() incorrect result for non-file transfer' );
+	},
+
+	// (#4604)
+	'test isFileTransfer method not detecting file transfer for DataTransfer with file and text data': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.types.push( 'Files' );
+		nativeData.files.push( 'foo' );
+		nativeData.setData( 'text/html', '<p>Foobar</p>' );
+
+		assert.isFalse( dataTransfer.isFileTransfer(), 'isFileTransfer() incorrect result for file + non-file transfer' );
+	},
+
+	// (#4604)
+	'test isFileTransfer method detecting file transfer for DataTransfer with files and Firefox custom file type set': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.types.push( 'application/x-moz-file' );
+		nativeData.types.push( 'Files' );
+		nativeData.files.push( 'foo' );
+		nativeData.files.push( 'bar' );
+
+		assert.isTrue( dataTransfer.isFileTransfer(), 'isFileTransfer() incorrect result for Firefox custom file type' );
 	}
 } );
