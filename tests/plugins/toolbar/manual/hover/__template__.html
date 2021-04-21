@@ -12,11 +12,10 @@
 	( function() {
 		var pathRegex = /(android|ios|desktop)(?:button|richcombo)(moono|kama)?/i,
 			match = location.pathname.match( pathRegex ),
-			isMobile = match[ 1 ] !== 'desktop',
-			isIgnoredEnv = isMobile ? !bender.tools.env.mobile : bender.tools.env.mobile,
+			expectedEnv = match[ 1 ],
 			skin = match[ 2 ] ? match[ 2 ] : 'moono-lisa';
 
-		if ( isIgnoredEnv ) {
+		if ( isIgnoredEnv( expectedEnv ) ) {
 			bender.ignore();
 		}
 
@@ -27,5 +26,22 @@
 			extraPlugins: 'divarea',
 			skin: skin
 		} );
+
+		// Slighly repeats logic from CKEDITOR.env, which could be
+		// unavailable upon test loading.
+		function isIgnoredEnv( expected ) {
+			var userAgent = navigator.userAgent.toLowerCase(),
+				isIOs = /(ipad|iphone|ipod)/.test( userAgent ),
+				isAndroid = userAgent.indexOf( 'android' ) > -1,
+				isDesktop = !isIOs && !isAndroid;
+
+			if ( expected === 'android' ) {
+				return !isAndroid;
+			} else if ( expected === 'ios' ) {
+				return !isIOs;
+			} else if ( expected === 'desktop' ) {
+				return !isDesktop;
+			}
+		}
 	}() );
 </script>
