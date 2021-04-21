@@ -802,6 +802,76 @@
 					drop( editor, evt.data, range );
 				} );
 			} );
+		},
+
+		// (#4509)
+		'test drop - parent on child': function() {
+			bender.editorBot.create( {
+				name: 'testdropparentchild',
+				creator: 'replace',
+				config: {
+					allowedContent: true
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					initialHtml = '<div data-widget="testnestedwidget" id="w1">' +
+						'<div class="content">' +
+							'<div data-widget="testnestedwidget" id="w2">' +
+								'<div class="content">' +
+									'<p>x</p>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>';
+
+				editor.widgets.add( 'testnestedwidget', {
+					editables: {
+						content: {
+							selector: '.content'
+						}
+					}
+				} );
+
+				bot.setData( initialHtml, function() {
+					var parentWidget = getWidgetById( editor, 'w1' ),
+						evt = { data: bender.tools.mockDropEvent() },
+						widgetWasDestroyed = 0,
+						dropNotCancelled = 0,
+						range;
+
+					editor.focus();
+
+					parentWidget.on( 'destroy', function() {
+						widgetWasDestroyed += 1;
+					} );
+
+					editor.on( 'drop', function() {
+						dropNotCancelled += 1;
+					}, null, null, 999 );
+
+					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+					evt.data.dataTransfer.setData( 'cke/widget-id', parentWidget.id );
+					parentWidget.focus();
+
+					// It's safer to select widget and get selected range from selection
+					// than to create range manually, due to #4607.
+					range = editor.getSelection().getRanges()[ 0 ];
+
+					evt.data.testRange = range;
+
+					dragstart( editor, evt.data, parentWidget );
+
+					drop( editor, evt.data, range );
+
+					dragend( editor, evt.data, parentWidget );
+
+					wait( function() {
+						bender.assert.isInnerHtmlMatching( initialHtml, editor.getData(), null, 'Data should not be altered' );
+						assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+						assert.areSame( 0, dropNotCancelled, 'Drop event should be cancelled' );
+					}, 10 );
+				} );
+			} );
 		}
 	} );
 } )();

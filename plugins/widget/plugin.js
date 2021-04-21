@@ -1928,13 +1928,8 @@
 			}
 			this._.initialSetData = false;
 
-			// Unescape protected content to prevent double escaping and corruption of content.
-			// This can be done by transforming the content to data format and then back to input HTML (#4060).
-			data = this.editor.dataProcessor.toDataFormat( data, {
-				context: this.getName(),
-				filter: this.filter,
-				enterMode: this.enterMode
-			} );
+			// Unescape protected content to prevent double escaping and corruption of content (#4060, #4509).
+			data = this.editor.dataProcessor.unprotectSource( data );
 			data = this.editor.dataProcessor.toHtml( data, {
 				context: this.getName(),
 				filter: this.filter,
@@ -2631,6 +2626,8 @@
 				id = dataTransfer.getData( 'cke/widget-id' ),
 				transferType = dataTransfer.getTransferType( editor ),
 				dragRange = editor.createRange(),
+				dropRange = evt.data.dropRange,
+				dropWidget = getWidgetFromRange( dropRange ),
 				sourceWidget;
 
 			// Disable cross-editor drag & drop for widgets - https://dev.ckeditor.com/ticket/13599.
@@ -2655,6 +2652,13 @@
 				return;
 			}
 
+			// Disable dropping into itself or nested widgets (#4509).
+			if ( isTheSameWidget( sourceWidget, dropWidget ) ) {
+				evt.cancel();
+
+				return;
+			}
+
 			dragRange.setStartBefore( sourceWidget.wrapper );
 			dragRange.setEndAfter( sourceWidget.wrapper );
 			evt.data.dragRange = dragRange;
@@ -2667,6 +2671,26 @@
 
 			evt.data.dataTransfer.setData( 'text/html', sourceWidget.getClipboardHtml() );
 			editor.widgets.destroy( sourceWidget, true );
+
+			// In case of dropping widget, the fake selection should be on the widget itself.
+			// Thanks to that we should always get widget from range's boundary nodes.
+			function getWidgetFromRange( range ) {
+				var startElement = range.getBoundaryNodes().startNode;
+
+				if ( startElement.type !== CKEDITOR.NODE_ELEMENT ) {
+					startElement = startElement.getParent();
+				}
+
+				return editor.widgets.getByElement( startElement );
+			}
+
+			function isTheSameWidget( widget1, widget2 ) {
+				if ( !widget1 || !widget2 ) {
+					return false;
+				}
+
+				return widget1.wrapper.equals( widget2.wrapper ) || widget1.wrapper.contains( widget2.wrapper );
+			}
 		} );
 
 		editor.on( 'contentDom', function() {

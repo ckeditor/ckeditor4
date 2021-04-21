@@ -9,6 +9,7 @@ Fixed Issues:
 * [#1572](https://github.com/ckeditor/ckeditor4/issues/1572): Fixed: Paragraph before or after a [widget](https://ckeditor.com/cke4/addon/widget) can not be removed. Thanks to [bunglegrind](https://github.com/bunglegrind)!
 * [#4301](https://github.com/ckeditor/ckeditor4/issues/4301): Fixed: Pasted content is overwritten when pasted in initially empty editor with [`div` enter mode](https://ckeditor.com/docs/ckeditor4/latest/features/enterkey.html).
 * [#4351](https://github.com/ckeditor/ckeditor4/issues/4351): Fixed: Incorrect values for RGBA/HSLA colors in [Color Dialog](https://ckeditor.com/cke4/addon/colordialog).
+* [#4509](https://github.com/ckeditor/ckeditor4/issues/4509): Fixed: Incorrect handling of drag & drop inside [widgets](https://ckeditor.com/cke4/addon/widget) and nested editables.
 
 ## CKEditor 4.16
 

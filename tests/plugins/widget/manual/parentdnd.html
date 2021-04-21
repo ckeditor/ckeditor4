@@ -1,0 +1,81 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+</head>
+<h2>Classic editor</h2>
+<div id="editor1">
+	<p>Hello, world!</p>
+
+	<div class="testwidget">
+		<div class="col1">
+			<p>x</p>
+		</div>
+
+		<div class="col2">
+			<div class="testwidget">
+				<div class="col1">
+					<p>x</p>
+				</div>
+
+				<div class="col2">
+					<p>[drop here]</p>
+				</div>
+			</div>
+			<p>x</p>
+		</div>
+	</div>
+</div>
+
+<h2>Inline editor</h2>
+<div id="editor2" contenteditable="true">
+	<p>Hello, world!</p>
+
+	<div class="testwidget">
+		<div class="col1">
+			<p>x</p>
+		</div>
+
+		<div class="col2">
+			<div class="testwidget">
+				<div class="col1">
+					<p>x</p>
+				</div>
+
+				<div class="col2">
+					<p>[drop here]</p>
+				</div>
+			</div>
+			<p>x</p>
+		</div>
+	</div>
+</div>
+<script>
+	CKEDITOR.addCss( '.testwidget {	border: 1px dashed #AAAAFF;	} .col1, .col2 { border: 1px dashed #AA9090; margin: 5px; }' );
+	CKEDITOR.plugins.add( 'doublecolumn', {
+		requires: 'widget',
+		button: 'doublecolumn',
+		init: function( editor ) {
+			editor.widgets.add( 'doublecolumn', {
+				button: 'doublecolumn',
+				template: '<div class="testwidget"><div class="col1"></div><div class="col2"></div></div>',
+				editables: {
+					col1: { selector: '.col1' },
+					col2: { selector: '.col2' }
+				},
+				upcast: function( element ) {
+					return element.hasClass( 'testwidget' );
+				}
+			} );
+		}
+	} );
+
+	CKEDITOR.replace( 'editor1', {
+		height: 400,
+		extraPlugins: 'doublecolumn',
+		allowedContent: true
+	} );
+
+	CKEDITOR.inline( 'editor2', {
+		extraPlugins: 'doublecolumn,sourcedialog',
+		allowedContent: true
+	} );
+</script>
