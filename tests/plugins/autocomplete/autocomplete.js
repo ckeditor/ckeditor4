@@ -64,6 +64,22 @@
 			ac.destroy();
 		},
 
+		// (#4617)
+		'test autocomplete adds correct ARIA attributes to the editor\'s editable': function() {
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition ),
+				viewElement = ac.view.element,
+				viewElementId = viewElement.getAttribute( 'id' );
+
+			assert.areSame( viewElementId, editable.getAttribute( 'aria-controls' ), 'Wrong value for [aria-controls] attribute' );
+			assert.areSame( 'list', editable.getAttribute( 'aria-autocomplete' ), 'Wrong value for [aria-autocomplete] attribute' );
+			assert.areSame( 'false', editable.getAttribute( 'aria-expanded' ), 'Wrong value for [aria-expanded] attribute' );
+			assert.areSame( '', editable.getAttribute( 'aria-activedescendant' ), 'Wrong value for [aria-activedescendant] attribute' );
+
+			ac.destroy();
+		},
+
 		'test autocomplete starts with the first item selected': function() {
 			var editor = this.editors.standard,
 				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
