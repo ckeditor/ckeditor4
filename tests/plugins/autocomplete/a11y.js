@@ -6,17 +6,18 @@
 
 	bender.editor = {};
 
-	var configDefinition = {
-		textTestCallback: textTestCallback,
-		dataCallback: dataCallback
-	};
+	var autoCompleteConfig = {
+			textTestCallback: textTestCallback,
+			dataCallback: dataCallback
+		},
+		ESC = 27;
 
 	bender.test( {
 		// (#4617)
 		'test autocomplete adds correct ARIA attributes to the editor\'s editable (divarea)': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				autoComplete = new CKEDITOR.plugins.autocomplete( editor, configDefinition ),
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 				viewElement = autoComplete.view.element,
 				viewElementId = viewElement.getAttribute( 'id' );
 
@@ -38,7 +39,7 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					editable = editor.editable(),
-					autoComplete = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
+					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 				assert.isFalse( editable.hasAttribute( 'aria-controls' ), 'The [aria-controls] attribute is present' );
 				assert.isFalse( editable.hasAttribute( 'aria-autocomplete' ), 'The [aria-autocomplete] attribute is present' );
@@ -48,6 +49,30 @@
 				autoComplete.destroy();
 			} );
 		},
+
+		// (#4617)
+		'test opening and closing autocomplete changes the value of [aria-expanded] attribute': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
+
+			this.editorBot.setHtmlWithSelection( '' );
+
+			assert.areSame( 'false', editable.getAttribute( 'aria-expanded' ),
+				'Wrong initial value for [aria-expanded] attribute' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			assert.areSame( 'true', editable.getAttribute( 'aria-expanded' ),
+				'Wrong value for [aria-expanded] attribute after opening autocomplete' );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ESC } ) );
+
+			assert.areSame( 'false', editable.getAttribute( 'aria-expanded' ),
+				'Wrong value for [aria-expanded] attribute after closing autocomplete' );
+
+			autoComplete.destroy();
+		}
 	} );
 
 	function textTestCallback( selectionRange ) {
@@ -57,5 +82,4 @@
 	function dataCallback( matchInfo, callback ) {
 		return callback( [ { id: 1, name: 'item1' }, { id: 2, name: 'item2' }, { id: 3, name: 'item3' } ] );
 	}
-
 } )();
