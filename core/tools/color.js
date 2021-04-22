@@ -181,15 +181,27 @@
 			/**
 			 * Original color type.
 			 *
+			 * Available types:
+			 *
+			 * ```
+			 * +------+---------------+---------------------------------------+
+			 * | Type | Integer value |                Constant               |
+			 * +------+---------------+---------------------------------------+
+			 * |  RGB |       1       | {@link CKEDITOR.tools.color.TYPE_RGB} |
+			 * +------+---------------+---------------------------------------+
+			 * |  HSL |       2       | {@link CKEDITOR.tools.color.TYPE_HSL} |
+			 * +------+---------------+---------------------------------------+
+			 * ```
+			 *
 			 * @private
 			 * @property {Number}
 			 */
 			type: 0,
 
 			/**
-			 * Hue value.
+			 * Hue value. Ranges between 0-360 (inclusive).
 			 *
-			 * Used in HSL colors. Ranges between 0-360 (inclusive).
+			 * Used in HSL colors.
 			 *
 			 * @private
 			 * @property {Number}
@@ -199,6 +211,8 @@
 			/**
 			 * Saturation value. Ranges between 0-100 (inclusive).
 			 *
+			 * The value of `0` means that the color will be a shade of gray.
+			 *
 			 * Used in HSL colors.
 			 *
 			 * @private
@@ -207,7 +221,10 @@
 			saturation: 0,
 
 			/**
-			 * Ligthness value. Ranges between 0-100 (inclusive).
+			 * Lightness value. Ranges between 0-100 (inclusive).
+			 *
+			 * The value of `0` means that the color will be black, while the value of `100`
+			 * means that it will be white.
 			 *
 			 * Used in HSL colors.
 			 *
