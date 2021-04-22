@@ -346,6 +346,10 @@
 			var editable = this.editor.editable(),
 				isActive = this.model.isActive;
 
+			if ( !editable.isInline() ) {
+				return;
+			}
+
 			editable.setAttribute( 'aria-expanded', isActive ? 'true' : 'false' );
 
 			if ( !isActive ) {
@@ -356,8 +360,25 @@
 		/**
 		 * @since 4.16.1
 		 */
+		updateAriaActiveDescendantAttribute: function( id ) {
+			var editable = this.editor.editable();
+
+			if ( !editable.isInline() ) {
+				return;
+			}
+
+			editable.setAttribute( 'aria-activedescendant', id );
+		},
+
+		/**
+		 * @since 4.16.1
+		 */
 		removeAriaAttributes: function() {
 			var editable = this.editor.editable();
+
+			if ( !editable.isInline() ) {
+				return;
+			}
 
 			editable.removeAttributes( [
 				'aria-controls',
@@ -584,7 +605,7 @@
 			this.model.setItem( itemId );
 			this.view.selectItem( itemId );
 
-			this.editor.editable().setAttribute( 'aria-activedescendant', selectedItem.getAttribute( 'id' ) );
+			this.updateAriaActiveDescendantAttribute( selectedItem.getAttribute( 'id' ) );
 		},
 
 		/**
