@@ -140,28 +140,22 @@
 		'test RGBA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'rgba( 255 0 255 / 10% )', 'rgba(255,0,255,0.1)', 'getRgba' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSL value with no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% )', 'hsl(199,0%,10%)', 'getHsl' ),
+		'test HSL value with no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% )', 'hsl(200,50%,10%)', 'getHsl' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSL value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 0.1 )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+		'test HSL value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 0.1 )', 'hsla(200,50%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSL value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 10% )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+		'test HSL value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsl( 200 50% 10% / 10% )', 'hsla(200,50%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSLA value with no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% )', 'hsl(199,0%,10%)', 'getHsl' ),
+		'test HSLA value with no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% )', 'hsl(200,50%,10%)', 'getHsl' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSLA value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 0.1 )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+		'test HSLA value with alpha (number) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 0.1 )', 'hsla(200,50%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
-		// The expected value is incorrect due to #4597.
-		'test HSLA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 10% )', 'hsla(199,0%,10%,0.1)', 'getHsla' ),
+		'test HSLA value with alpha (percentage) and no-comma syntax': colorTools.testColorConversion( 'hsla( 200 50% 10% / 10% )', 'hsla(200,50%,10%,0.1)', 'getHsla' ),
 
 		// (#4583)
 		'test 6-HEX-like value is treated as 6-HEX value': colorTools.testColorConversion( 'FF0000', '#FF0000', 'getHex' ),
@@ -173,7 +167,93 @@
 		'test 8-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'FF0000FF', '#FF0000FF', 'getHexWithAlpha' ),
 
 		// (#4583)
-		'test 4-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' )
+		'test 4-HEX-like value is treated as 8-HEX value': colorTools.testColorConversion( 'F00F', '#FF0000FF', 'getHexWithAlpha' ),
+
+		// (#4597)
+		'test converting RGB (64, 115, 38) produces HSL value with correct saturation value (100, 50%, 30%)': colorTools.testColorConversion( 'rgb( 64, 115, 38 )', 'hsl(100,50%,30%)', 'getHsl' ),
+
+		// (#4597)
+		'test converting RGBA (64, 115, 38, .4) produces HSLA value with correct saturation value (100, 50%, 30%, 0.4)': colorTools.testColorConversion( 'rgb( 64, 115, 38, .4 )',
+			'hsla(100,50%,30%,0.4)', 'getHsla' ),
+
+		// (#4096)
+		'test converting HSL (123, 50%, 50%) to HSL value returns the original value': colorTools.testColorConversion( 'hsl( 123, 50%, 50% )', 'hsl(123,50%,50%)', 'getHsl' ),
+
+		// (#4597)
+		'test converting HSLA (123, 50%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 50%, 50%, .5 )', 'hsla(123,50%,50%,0.5)', 'getHsla' ),
+
+		// (#4597)
+		'test converting HSL (123, 0%, 50%) to HSL value returns the original value': colorTools.testColorConversion( 'hsl( 123, 0%, 50% )', 'hsl(123,0%,50%)', 'getHsl' ),
+
+		// (#4597)
+		'test converting HSL (123, 0%, 50%) to HSLA value returns the original value with 1 opacity': colorTools.testColorConversion( 'hsl( 123, 0%, 50% )', 'hsla(123,0%,50%,1)', 'getHsla' ),
+
+		// (#4597)
+		'test converting HSLA (123, 0%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 0%, 50%, 0.5 )', 'hsla(123,0%,50%,0.5)', 'getHsla' ),
+
+		// (#4597)
+		'test saving data about color type and both RGB and HSL channels for HSL color': function() {
+			var input = 'hsl( 100, 37%, 17% )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.areSame( CKEDITOR.tools.color.TYPE_HSL, color._.type, 'Color type is not correctly set to HSL' );
+
+			assert.areSame( 38, color._.red, 'Red data is not saved.' );
+			assert.areSame( 59, color._.green, 'Green data is not saved.' );
+			assert.areSame( 27, color._.blue, 'Blue data is not saved.' );
+
+			assert.areSame( 100, color._.hue, 'Hue data is not saved.' );
+			assert.areSame( 37, color._.saturation, 'Saturation data is not saved.' );
+			assert.areSame( 17, color._.lightness, 'Lightness data is not saved.' );
+		},
+
+		// (#4597)
+		'test saving data about color type and RGB channels for RGB color': function() {
+			var input = 'rgb( 124, 54, 33 )',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is not correctly set to RGB.' );
+
+			assert.areSame( 124, color._.red, 'Red data is not saved' );
+			assert.areSame( 54, color._.green, 'Green data is not saved' );
+			assert.areSame( 33, color._.blue, 'Blue data is not saved' );
+
+			assert.areSame( 0, color._.hue, 'Hue data is not saved.' );
+			assert.areSame( 0, color._.saturation, 'Saturation data is not saved.' );
+			assert.areSame( 0, color._.lightness, 'Lightness data is not saved.' );
+		},
+
+		// (#4597)
+		'test saving data about color type and RGB channels for hex color': function() {
+			var input = '#FF00FF',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is not correctly set to RGB.' );
+
+			assert.areSame( 255, color._.red, 'Red data is not saved.' );
+			assert.areSame( 0, color._.green, 'Green data is not saved.' );
+			assert.areSame( 255, color._.blue, 'Blue data is not saved.' );
+
+			assert.areSame( 0, color._.hue, 'Hue data is not saved.' );
+			assert.areSame( 0, color._.saturation, 'Saturation data is not saved.' );
+			assert.areSame( 0, color._.lightness, 'Lightness data is not saved.' );
+		},
+
+		// (#4597)
+		'test saving data about color type and RGB channels for hex color without hash': function() {
+			var input = 'FF00FF',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is not correctly set to RGB.' );
+
+			assert.areSame( 255, color._.red, 'Red data is not saved.' );
+			assert.areSame( 0, color._.green, 'Green data is not saved.' );
+			assert.areSame( 255, color._.blue, 'Blue data is not saved.' );
+
+			assert.areSame( 0, color._.hue, 'Hue data is not saved.' );
+			assert.areSame( 0, color._.saturation, 'Saturation data is not saved.' );
+			assert.areSame( 0, color._.lightness, 'Lightness data is not saved.' );
+		}
 	} );
 
 } )();

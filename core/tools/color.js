@@ -112,12 +112,20 @@
 			 *
 			 */
 			getHsl: function() {
+				var isIntegerAlpha = this._.alpha === 0 || this._.alpha === 1,
+					hsl,
+					color;
+
 				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
 
-				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha ),
+				if ( this._.type === CKEDITOR.tools.color.TYPE_HSL && isIntegerAlpha ) {
+					hsl = [ this._.hue, this._.saturation, this._.lightness ];
+				} else {
+					color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
 					hsl = this._.rgbToHsl( color[ 0 ], color[ 1 ], color[ 2 ] );
+				}
 
 				return this._.formatHslString( 'hsl', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
 			},
@@ -128,11 +136,17 @@
 			 * @returns {String/*} HSLA color representation (e.g. `hsla(360,100%,50%,0)`) or default value.
 			 */
 			getHsla: function() {
+				var hsl;
+
 				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
 
-				var hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
+				if ( this._.type === CKEDITOR.tools.color.TYPE_HSL ) {
+					hsl = [ this._.hue, this._.saturation, this._.lightness ];
+				} else {
+					hsl = this._.rgbToHsl( this._.red, this._.green, this._.blue );
+				}
 
 				return this._.formatHslString( 'hsla', hsl[ 0 ], hsl[ 1 ], hsl[ 2 ], this._.alpha );
 			},
@@ -163,6 +177,61 @@
 			 * @property {Boolean}
 			 */
 			isValidColor: true,
+
+			/**
+			 * Original color type.
+			 *
+			 * Available types:
+			 *
+			 * ```
+			 * +------+---------------+---------------------------------------+
+			 * | Type | Integer value |                Constant               |
+			 * +------+---------------+---------------------------------------+
+			 * |  RGB |       1       | {@link CKEDITOR.tools.color.TYPE_RGB} |
+			 * +------+---------------+---------------------------------------+
+			 * |  HSL |       2       | {@link CKEDITOR.tools.color.TYPE_HSL} |
+			 * +------+---------------+---------------------------------------+
+			 * ```
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			type: 0,
+
+			/**
+			 * Hue value. Ranges between 0-360 (inclusive).
+			 *
+			 * Used in HSL colors.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			hue: 0,
+
+			/**
+			 * Saturation value. Ranges between 0-100 (inclusive).
+			 *
+			 * The value of `0` means that the color will be a shade of gray.
+			 *
+			 * Used in HSL colors.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			saturation: 0,
+
+			/**
+			 * Lightness value. Ranges between 0-100 (inclusive).
+			 *
+			 * The value of `0` means that the color will be black, while the value of `100`
+			 * means that it will be white.
+			 *
+			 * Used in HSL colors.
+			 *
+			 * @private
+			 * @property {Number}
+			 */
+			lightness: 0,
 
 			/**
 			 * Red channel value. Ranges between 0-255 (inclusive).
@@ -307,10 +376,17 @@
 					return;
 				}
 
-				this._.red = colorChannels[ 0 ];
-				this._.green = colorChannels[ 1 ];
-				this._.blue = colorChannels[ 2 ];
-				this._.alpha = colorChannels[ 3 ];
+				this._.type = colorChannels.type;
+				this._.red = colorChannels.red;
+				this._.green = colorChannels.green;
+				this._.blue = colorChannels.blue;
+				this._.alpha = colorChannels.alpha;
+
+				if ( colorChannels.type === CKEDITOR.tools.color.TYPE_HSL ) {
+					this._.hue = colorChannels.hue;
+					this._.saturation = colorChannels.saturation;
+					this._.lightness = colorChannels.lightness;
+				}
 			},
 
 			/**
@@ -329,7 +405,7 @@
 			 *
 			 * @private
 			 * @param {String} colorCode HEX color representation.
-			 * @returns {Array/null}
+			 * @returns {Object/null}
 			 */
 			extractColorChannelsFromHex: function( colorCode ) {
 				// We also like to support hex-like values (so hexes without hash at the beginning).
@@ -358,12 +434,13 @@
 					alpha = Number( alpha.toFixed( 1 ) );
 				}
 
-				return [
-					hexToNumber( parts[ 1 ] + parts[ 2 ] ),
-					hexToNumber( parts[ 3 ] + parts[ 4 ] ),
-					hexToNumber( parts[ 5 ] + parts [ 6 ] ),
-					alpha
-				];
+				return {
+					type: CKEDITOR.tools.color.TYPE_RGB,
+					red: hexToNumber( parts[ 1 ] + parts[ 2 ] ),
+					green: hexToNumber( parts[ 3 ] + parts[ 4 ] ),
+					blue: hexToNumber( parts[ 5 ] + parts [ 6 ] ),
+					alpha: alpha
+				};
 			},
 
 			/**
@@ -371,7 +448,7 @@
 			 *
 			 * @private
 			 * @param {String} colorCode RGB or RGBA color representation.
-			 * @returns {Array/null}
+			 * @returns {Object/null}
 			 */
 			extractColorChannelsFromRgba: function( colorCode ) {
 				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.rgbRegExp );
@@ -391,7 +468,15 @@
 					alpha = tryToConvertToValidFloatValue( channels[ 3 ], CKEDITOR.tools.color.MAX_ALPHA_CHANNEL_VALUE );
 				}
 
-				return this._.areColorChannelsValid( red, green, blue, alpha ) ? [ red, green, blue, alpha ] : null;
+				var result = {
+					type: CKEDITOR.tools.color.TYPE_RGB,
+					red: red,
+					green: green,
+					blue: blue,
+					alpha: alpha
+				};
+
+				return this._.areColorChannelsValid( red, green, blue, alpha ) ? result : null;
 			},
 
 			/**
@@ -399,7 +484,7 @@
 			 *
 			 * @private
 			 * @param {String} colorCode HSL or HSLA color representation.
-			 * @returns {Array/null}
+			 * @returns {Object/null}
 			 */
 			extractColorChannelsFromHsla: function( colorCode ) {
 				var channels =  this._.extractColorChannelsByPattern( colorCode, CKEDITOR.tools.color.hslRegExp );
@@ -423,7 +508,18 @@
 
 				rgba.push( alpha );
 
-				return this._.areColorChannelsValid( rgba[ 0 ], rgba[ 1 ], rgba[ 2 ], rgba[ 3 ] ) ? rgba : null;
+				var result = {
+					type: CKEDITOR.tools.color.TYPE_HSL,
+					red: rgba[ 0 ],
+					green: rgba[ 1 ],
+					blue: rgba[ 2 ],
+					alpha: rgba[ 3 ],
+					hue: hue,
+					saturation: Math.round( saturation * 100 ),
+					lightness: Math.round( lightness * 100 )
+				};
+
+				return this._.areColorChannelsValid( rgba[ 0 ], rgba[ 1 ], rgba[ 2 ], rgba[ 3 ] ) ? result : null;
 			},
 
 			/**
@@ -575,14 +671,34 @@
 				}
 
 				hue = Math.round( hue );
-				saturation = Math.round( saturation ) * 100;
-				lightness = lightness * 100;
+				saturation = Math.round( saturation * 100 );
+				lightness = Math.round( lightness * 100 );
 
 				return [ hue, saturation, lightness ];
 			}
 		},
 
 		statics: {
+			/**
+			 * Indicates that the color is in RGB format.
+			 *
+			 * @private
+			 * @static
+			 * @readonly
+			 * @property {Number}
+			 */
+			TYPE_RGB: 1,
+
+			/**
+			 * Indicates that the color is in HSL format.
+			 *
+			 * @private
+			 * @static
+			 * @readonly
+			 * @property {Number}
+			 */
+			TYPE_HSL: 2,
+
 			/**
 			 * The maximum value of RGB channel.
 			 *
