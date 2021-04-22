@@ -376,7 +376,7 @@
 		removeAriaAttributes: function() {
 			var editable = this.editor.editable();
 
-			if ( !editable.isInline() ) {
+			if ( !editable || !editable.isInline() ) {
 				return;
 			}
 
