@@ -72,6 +72,36 @@
 				'Wrong value for [aria-expanded] attribute after closing autocomplete' );
 
 			autoComplete.destroy();
+		},
+
+		// (#4617)
+		'test opening and closing autocomplete changes the value of [aria-activedescendant] attribute': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
+				attributeName = 'aria-activedescendant',
+				selectedItem,
+				selectedItemId;
+
+			this.editorBot.setHtmlWithSelection( '' );
+
+			assert.areSame( '', editable.getAttribute( attributeName ),
+				'Wrong initial value for [' + attributeName + '] attribute' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			selectedItem = autoComplete.view.getItemById( autoComplete.view.selectedItemId );
+			selectedItemId = selectedItem.getAttribute( 'id' );
+
+			assert.areSame( selectedItemId, editable.getAttribute( attributeName ),
+				'Wrong value for [' + attributeName + '] attribute after opening autocomplete' );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ESC } ) );
+
+			assert.areSame( '', editable.getAttribute( attributeName ),
+				'Wrong value for [' + attributeName + '] attribute after closing autocomplete' );
+
+			autoComplete.destroy();
 		}
 	} );
 
