@@ -105,7 +105,7 @@
 
 					// (#4462)
 					// Skip IE's below version 11. They don't support MutationObserver.
-					if ( !CKEDITOR.env.ie || isIE11 ) {
+					if ( CKEDITOR.env.ie && !isIE11 ) {
 						return;
 					}
 
