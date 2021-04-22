@@ -809,7 +809,7 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  * * make sure detachable element is placed any nested depth under observable element.
  * * make sure editor is placed any nested depth under detachable element.
  *
- * See overview of HTML hierarchy below:
+ * See overview of hierarchy below (HTML pseudocode):
  *
  * ```
  * <observable>
