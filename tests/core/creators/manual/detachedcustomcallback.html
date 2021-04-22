@@ -8,6 +8,10 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	var editor = document.getElementById( 'editor' ),
 		attachButton = CKEDITOR.document.getById( 'attachButton' ),
 		startButton = CKEDITOR.document.getById( 'startButton' ),
