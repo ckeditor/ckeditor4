@@ -106,12 +106,25 @@
 					// (#4462)
 					// Skip IE's below version 11. They don't support MutationObserver.
 					if ( !CKEDITOR.env.ie || isIE11 ) {
-						if ( isIE11 ) {
-							editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
-						}
-
-						observeEditor();
+						return;
 					}
+
+					if ( isIE11 ) {
+						editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
+					}
+
+					observeEditor();
+				}
+
+				function attachIframeReloader( evt ) {
+					evt && evt.removeListener();
+
+					iframe.on( 'load', function() {
+						if ( recreateEditable ) {
+							recreateEditable = false;
+							recreate();
+						}
+					} );
 				}
 
 				function observeEditor() {
@@ -134,6 +147,7 @@
 					if ( !node.querySelector ) {
 						return;
 					}
+
 					var editorSelector = '#' + editor.container.getId(),
 						editorElement = node.querySelector( editorSelector ) || node === editor.container.$;
 
@@ -146,17 +160,6 @@
 					} else {
 						recreate();
 					}
-				}
-
-				function attachIframeReloader( evt ) {
-					evt && evt.removeListener();
-
-					iframe.on( 'load', function() {
-						if ( recreateEditable ) {
-							recreateEditable = false;
-							recreate();
-						}
-					} );
 				}
 
 				function recreate() {
