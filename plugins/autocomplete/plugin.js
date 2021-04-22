@@ -278,6 +278,9 @@
 			this._listeners.push( this.view.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
+			// (#4617)
+			this._listeners.push( this.model.on( 'change-isActive', this.updateAriaAttributes, this ) );
+
 			// Update view position on viewport change.
 			// Note: CKEditor's event system has a limitation that one function
 			// cannot be used as listener for the same event more than once. Hence, wrapper functions.
@@ -319,6 +322,9 @@
 			}, this, null, 5 ) );
 		},
 
+		/**
+		 * @since 4.16.1
+		 */
 		addAriaAttributes: function() {
 			var editable = this.editor.editable(),
 				autocompleteId = this.view.element.getAttribute( 'id' );
@@ -331,6 +337,16 @@
 			editable.setAttribute( 'aria-activedescendant', '' );
 			editable.setAttribute( 'aria-autocomplete', 'list' );
 			editable.setAttribute( 'aria-expanded', 'false' );
+		},
+
+		/**
+		 * @since 4.16.1
+		 */
+		updateAriaAttributes: function() {
+			var editable = this.editor.editable(),
+				isActive = this.model.isActive;
+
+			editable.setAttribute( 'aria-expanded', isActive ? 'true' : 'false' );
 		},
 
 		/**
