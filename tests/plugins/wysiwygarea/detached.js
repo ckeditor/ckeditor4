@@ -27,14 +27,7 @@
 				editorContainer.remove();
 				editorContainerParent.append( editorContainer );
 
-				CKEDITOR.tools.setTimeout( function() {
-					resume( function() {
-						var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
-							editorData = iframeElement.getFrameDocument().getBody().getHtml();
-
-						assert.beautified.html( startupData, editorData, 'Reattached editor should have the same data. Observing default object.' );
-					} );
-				}, 500 );
+				timeoutAssert( bot, startupData, 'Reattached editor should have the same data. Observing default object.' );
 
 				wait();
 			} );
@@ -55,14 +48,7 @@
 				editorContainerParent.remove();
 				parentParent.append( editorContainerParent );
 
-				CKEDITOR.tools.setTimeout( function() {
-					resume( function() {
-						var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
-							editorData = iframeElement.getFrameDocument().getBody().getHtml();
-
-						assert.beautified.html( startupData, editorData, 'Reattached editor parent should restore editor data. Observing default object.' );
-					} );
-				}, 500 );
+				timeoutAssert( bot, startupData, 'Reattached editor parent should restore editor data. Observing default object.' );
 
 				wait();
 			} );
@@ -87,14 +73,7 @@
 				editorContainer.remove();
 				observableParent.append( editorContainer );
 
-				CKEDITOR.tools.setTimeout( function() {
-					resume( function() {
-						var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
-							editorData = iframeElement.getFrameDocument().getBody().getHtml();
-
-						assert.beautified.html( startupData, editorData, 'Reattached editor should restore data. Observing editor parent.' );
-					} );
-				}, 500 );
+				timeoutAssert( bot, startupData, 'Reattached editor should restore data. Observing editor parent.' );
 
 				wait();
 			} );
@@ -119,14 +98,7 @@
 				editorContainerParent.remove();
 				observedParent.append( editorContainerParent );
 
-				CKEDITOR.tools.setTimeout( function() {
-					resume( function() {
-						var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
-							editorData = iframeElement.getFrameDocument().getBody().getHtml();
-
-						assert.beautified.html( startupData, editorData, 'Reattached editor parent should restore data. Observing parent of detached element.' );
-					} );
-				}, 500 );
+				timeoutAssert( bot, startupData, 'Reattached editor parent should restore data. Observing parent of detached element.' );
 
 				wait();
 			} );
@@ -148,14 +120,7 @@
 				editorContainer.remove() ;
 				editorContainerParent.append( editorContainer );
 
-				CKEDITOR.tools.setTimeout( function() {
-					resume( function() {
-						var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
-							editorData = iframeElement.getFrameDocument().getBody().getHtml();
-
-						assert.areEqual( '', editorData, 'Reattached editor. Editor data should be empty. Observing invalid DOM object.' );
-					} );
-				}, 500 );
+				timeoutAssert( bot, '', 'Reattached editor. Editor data should be empty. Observing invalid DOM object.' );
 
 				wait();
 			} );
@@ -177,14 +142,7 @@
 				editorContainerParent.remove() ;
 				parentParent.append( editorContainerParent );
 
-				CKEDITOR.tools.setTimeout( function() {
-					resume( function() {
-						var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
-							editorData = iframeElement.getFrameDocument().getBody().getHtml();
-
-						assert.areEqual( '', editorData, 'Reattached editor parent. Editor data should be empty. Observing invalid DOM object.' );
-					} );
-				}, 500 );
+				timeoutAssert( bot, '', 'Reattached editor parent. Editor data should be empty. Observing invalid DOM object.' );
 
 				wait();
 			} );
@@ -203,14 +161,7 @@
 				invalidObserveTarget.remove() ;
 				CKEDITOR.document.getBody().append( invalidObserveTarget );
 
-				CKEDITOR.tools.setTimeout( function() {
-					resume( function() {
-						var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
-							editorData = iframeElement.getFrameDocument().getBody().getHtml();
-
-						assert.areEqual( '', editorData, 'Reattached editor parent. Editor data should be empty. Observing detached element.' );
-					} );
-				}, 500 );
+				timeoutAssert( bot, '', 'Reattached editor parent. Editor data should be empty. Observing detached element.' );
 
 				wait();
 			} );
@@ -234,18 +185,22 @@
 				editorContainer.remove();
 				editorContainerParent.append( editorContainer );
 
-				CKEDITOR.tools.setTimeout( function() {
-					resume( function() {
-						var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
-							editorData = iframeElement.getFrameDocument().getBody().getHtml();
-
-						assert.beautified.html( startupData, editorData, 'Reattached editor should have the same data with iframe. Observing default object.' );
-					} );
-				}, 500 );
+				timeoutAssert( bot, startupData, 'Reattached editor should have the same data with iframe. Observing default object.' );
 
 				wait();
 			} );
 		}
 
 	} );
+
+	function timeoutAssert( bot, expectedData, customMessage ) {
+		CKEDITOR.tools.setTimeout( function() {
+			resume( function() {
+				var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
+					editorData = iframeElement.getFrameDocument().getBody().getHtml();
+
+				assert.beautified.html( expectedData, editorData, customMessage );
+			} );
+		}, 200 );
+	}
 } )();
