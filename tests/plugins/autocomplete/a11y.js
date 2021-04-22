@@ -189,6 +189,22 @@
 				'Wrong value for [' + ARIA_ACTIVEDESCENDANT + '] attribute' );
 
 			autoComplete.destroy();
+		},
+
+		// (#4617)
+		'test destroying autocomplete removes unnecessary ARIA attributes': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
+
+			autoComplete.destroy();
+
+			assert.areSame( 'none', editable.getAttribute( 'aria-autocomplete' ),
+				'The [aria-autocomplete] attribute is not set to none' );
+			assert.isFalse( editable.hasAttribute( 'aria-expanded' ), 'The [aria-expanded] attribute is present' );
+			assert.isFalse( editable.hasAttribute( 'aria-controls' ), 'The [aria-controls] attribute is present' );
+			assert.isFalse( editable.hasAttribute( ARIA_ACTIVEDESCENDANT ),
+				'The [' + ARIA_ACTIVEDESCENDANT + '] attribute is present' );
 		}
 	} );
 

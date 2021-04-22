@@ -354,6 +354,21 @@
 		},
 
 		/**
+		 * @since 4.16.1
+		 */
+		removeAriaAttributes: function() {
+			var editable = this.editor.editable();
+
+			editable.removeAttributes( [
+				'aria-controls',
+				'aria-expanded',
+				'aria-activedescendant'
+			] );
+
+			editable.setAttribute( 'aria-autocomplete', 'none' );
+		},
+
+		/**
 		 * Closes the view and sets its {@link CKEDITOR.plugins.autocomplete.model#isActive state} to inactive.
 		 */
 		close: function() {
@@ -407,6 +422,7 @@
 			this._listeners = [];
 
 			this.view.element && this.view.element.remove();
+			this.removeAriaAttributes();
 		},
 
 		/**
