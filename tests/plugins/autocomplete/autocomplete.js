@@ -453,7 +453,7 @@
 					},
 					itemTemplate: '<li data-id="{id}"><strong>{name}</strong></li>'
 				} ),
-				expectedHtmlRegex = /<ul><li class="cke_autocomplete_selected" data-id="1" id="cke_[\d]+"><strong>anna<\/strong><\/li><\/ul>/,
+				expectedHtmlRegex = /<ul><li class="cke_autocomplete_selected" data-id="1" id="cke_[\d]+" role="option"><strong>anna<\/strong><\/li><\/ul>/,
 				actualHtml;
 
 			this.editorBots.standard.setHtmlWithSelection( '' );

@@ -812,6 +812,8 @@
 			el.addClass( 'cke_autocomplete_panel' );
 			// Below float panels and context menu, but above maximized editor (-5).
 			el.setStyle( 'z-index', this.editor.config.baseFloatZIndex - 3 );
+			// Add also appropriate role (#4617).
+			el.setAttribute( 'role', 'listbox' );
 
 			return el;
 		},
@@ -827,7 +829,9 @@
 				itemElement = CKEDITOR.dom.element.createFromHtml( this.itemTemplate.output( encodedItem ), this.document ),
 				id = CKEDITOR.tools.getNextId();
 
+			// Add attributes needed for a11y support (#4617).
 			itemElement.setAttribute( 'id', id );
+			itemElement.setAttribute( 'role', 'option' );
 
 			return itemElement;
 		},
