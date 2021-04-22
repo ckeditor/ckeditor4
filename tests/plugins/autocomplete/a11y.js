@@ -66,24 +66,57 @@
 		'test opening and closing autocomplete changes the value of [aria-expanded] attribute': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
+				attributeName = 'aria-expanded';
 
 			this.editorBot.setHtmlWithSelection( '' );
 
-			assert.areSame( 'false', editable.getAttribute( 'aria-expanded' ),
+			assert.areSame( 'false', editable.getAttribute( attributeName ),
 				'Wrong initial value for [aria-expanded] attribute' );
 
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			assert.areSame( 'true', editable.getAttribute( 'aria-expanded' ),
+			assert.areSame( 'true', editable.getAttribute( attributeName ),
 				'Wrong value for [aria-expanded] attribute after opening autocomplete' );
 
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ESC } ) );
 
-			assert.areSame( 'false', editable.getAttribute( 'aria-expanded' ),
+			assert.areSame( 'false', editable.getAttribute( attributeName ),
 				'Wrong value for [aria-expanded] attribute after closing autocomplete' );
 
 			autoComplete.destroy();
+		},
+
+		// (#4617)
+		'test opening and closing autocomplete does not add or change the value of [aria-expanded] attribute for iframe-based editor': function() {
+			bender.editorBot.create( {
+				name: 'wysiwygarea-toggling-aria-expanded',
+				config: {
+					plugins: 'autocomplete,wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					editable = editor.editable(),
+					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
+					attributeName = 'aria-expanded';
+
+				bot.setHtmlWithSelection( '' );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ESC } ) );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				autoComplete.destroy();
+			} );
 		},
 
 		// (#4617)
@@ -117,6 +150,38 @@
 		},
 
 		// (#4617)
+		'test opening and closing autocomplete does not add or change the value of [aria-activedescendant] attribute for iframe-based editor': function() {
+			bender.editorBot.create( {
+				name: 'wysiwygarea-toggling-' + ARIA_ACTIVEDESCENDANT,
+				config: {
+					plugins: 'autocomplete,wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					editable = editor.editable(),
+					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
+					attributeName = ARIA_ACTIVEDESCENDANT;
+
+				bot.setHtmlWithSelection( '' );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ESC } ) );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				autoComplete.destroy();
+			} );
+		},
+
+		// (#4617)
 		'test pressing Arrow Up key triggers [aria-activedescendant] attribute update to the selected item': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
@@ -140,6 +205,34 @@
 				'Wrong value for [' + attributeName + '] attribute after opening autocomplete' );
 
 			autoComplete.destroy();
+		},
+
+		// (#4617)
+		'test pressing Arrow Up key does not add or change the value of [aria-activedescendant] attribute in the iframe-based editor': function() {
+			bender.editorBot.create( {
+				name: 'wysiwygarea-arrow-up-' + ARIA_ACTIVEDESCENDANT,
+				config: {
+					plugins: 'autocomplete,wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					editable = editor.editable(),
+					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
+					attributeName = ARIA_ACTIVEDESCENDANT;
+
+				bot.setHtmlWithSelection( '' );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ARROW_UP } ) );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				autoComplete.destroy();
+			} );
 		},
 
 		// (#4617)
@@ -169,6 +262,34 @@
 		},
 
 		// (#4617)
+		'test pressing Arrow Down key does not add or change the value of [aria-activedescendant] attribute in the iframe-based editor': function() {
+			bender.editorBot.create( {
+				name: 'wysiwygarea-arrow-down-' + ARIA_ACTIVEDESCENDANT,
+				config: {
+					plugins: 'autocomplete,wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					editable = editor.editable(),
+					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
+					attributeName = ARIA_ACTIVEDESCENDANT;
+
+				bot.setHtmlWithSelection( '' );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ARROW_DOWN } ) );
+
+				assert.isFalse( editable.hasAttribute( attributeName ),
+					'The [' + attributeName + '] attribute is present' );
+
+				autoComplete.destroy();
+			} );
+		},
+
+		// (#4617)
 		'test mouseover triggers [aria-activedescendant] attribute update to the selected item': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
@@ -192,6 +313,34 @@
 		},
 
 		// (#4617)
+		'test mouseover does not add or update the value of [aria-activedescendant] attribute in the iframe-based editor': function() {
+			bender.editorBot.create( {
+				name: 'wysiwygarea-mouseover',
+				config: {
+					plugins: 'autocomplete,wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					editable = editor.editable(),
+					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
+					target;
+
+				bot.setHtmlWithSelection( '' );
+
+				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				target = autoComplete.view.element.getLast();
+
+				autoComplete.view.element.fire( 'mouseover', new CKEDITOR.dom.event( { target: target.$ } ) );
+
+				assert.isFalse( editable.hasAttribute( ARIA_ACTIVEDESCENDANT ),
+					'The [' + ARIA_ACTIVEDESCENDANT + '] attribute is present' );
+
+				autoComplete.destroy();
+			} );
+		},
+
+		// (#4617)
 		'test destroying autocomplete removes unnecessary ARIA attributes': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
@@ -205,6 +354,29 @@
 			assert.isFalse( editable.hasAttribute( 'aria-controls' ), 'The [aria-controls] attribute is present' );
 			assert.isFalse( editable.hasAttribute( ARIA_ACTIVEDESCENDANT ),
 				'The [' + ARIA_ACTIVEDESCENDANT + '] attribute is present' );
+		},
+
+		// (#4617)
+		'test destroying autocomplete does not add additional [aria-autocomplete] attribute for iframe-based editor': function() {
+			bender.editorBot.create( {
+				name: 'wysiwygarea-destroy',
+				config: {
+					plugins: 'autocomplete,wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					editable = editor.editable(),
+					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
+
+				autoComplete.destroy();
+
+				assert.isFalse( editable.hasAttribute( 'aria-autocomplete' ),
+					'The [aria-autocomplete] attribute is present' );
+				assert.isFalse( editable.hasAttribute( 'aria-expanded' ), 'The [aria-expanded] attribute is present' );
+				assert.isFalse( editable.hasAttribute( 'aria-controls' ), 'The [aria-controls] attribute is present' );
+				assert.isFalse( editable.hasAttribute( ARIA_ACTIVEDESCENDANT ),
+					'The [' + ARIA_ACTIVEDESCENDANT + '] attribute is present' );
+			} );
 		}
 	} );
 
