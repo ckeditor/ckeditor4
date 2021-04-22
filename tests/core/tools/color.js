@@ -192,30 +192,51 @@
 		'test converting HSLA (123, 0%, 50%, 0.5) to HSLA value returns the original value': colorTools.testColorConversion( 'hsla( 123, 0%, 50%, 0.5 )', 'hsla(123,0%,50%,0.5)', 'getHsla' ),
 
 		// (#4597)
-		'test saving data about color type, hue, saturation and ligthness for HSL color': function() {
+		'test saving data about color type and both RGB and HSLchannels for HSL color': function() {
 			var input = 'hsl( 100, 37%, 17% )',
 				color = new CKEDITOR.tools.color( input );
 
 			assert.areSame( CKEDITOR.tools.color.TYPE_HSL, color._.type, 'Color type is correctly set to HSL' );
+
+			assert.areSame( 38, color._.red, 'Red data is saved' );
+			assert.areSame( 59, color._.green, 'Green data is saved' );
+			assert.areSame( 27, color._.blue, 'Blue data is saved' );
+
 			assert.areSame( 100, color._.hue, 'Hue data is saved' );
 			assert.areSame( 37, color._.saturation, 'Saturation data is saved' );
 			assert.areSame( 17, color._.lightness, 'Lightness data is saved' );
 		},
 
 		// (#4597)
-		'test saving data about color type for RGB color': function() {
+		'test saving data about color type and RGB channels for RGB color': function() {
 			var input = 'rgb( 124, 54, 33 )',
 				color = new CKEDITOR.tools.color( input );
 
 			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is correctly set to RGB' );
+
+			assert.areSame( 124, color._.red, 'Red data is saved' );
+			assert.areSame( 54, color._.green, 'Green data is saved' );
+			assert.areSame( 33, color._.blue, 'Blue data is saved' );
+
+			assert.areSame( 0, color._.hue, 'Hue data is not saved' );
+			assert.areSame( 0, color._.saturation, 'Saturation data is not saved' );
+			assert.areSame( 0, color._.lightness, 'Lightness data is not saved' );
 		},
 
 		// (#4597)
-		'test saving data about color type for hex color': function() {
+		'test saving data about color type and RGB channels for hex color': function() {
 			var input = '#FF00FF',
 				color = new CKEDITOR.tools.color( input );
 
 			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is correctly set to RGB' );
+
+			assert.areSame( 255, color._.red, 'Red data is saved' );
+			assert.areSame( 0, color._.green, 'Green data is saved' );
+			assert.areSame( 255, color._.blue, 'Blue data is saved' );
+
+			assert.areSame( 0, color._.hue, 'Hue data is not saved' );
+			assert.areSame( 0, color._.saturation, 'Saturation data is not saved' );
+			assert.areSame( 0, color._.lightness, 'Lightness data is not saved' );
 		}
 	} );
 
