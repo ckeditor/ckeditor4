@@ -726,8 +726,11 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		createElement: function() {
-			var el = new CKEDITOR.dom.element( 'ul', this.document );
+			var el = new CKEDITOR.dom.element( 'ul', this.document ),
+				id = CKEDITOR.tools.getNextId();
 
+			// Id is needed to correctly bind autocomplete with the editable (#4617).
+			el.setAttribute( 'id', id );
 			el.addClass( 'cke_autocomplete_panel' );
 			// Below float panels and context menu, but above maximized editor (-5).
 			el.setStyle( 'z-index', this.editor.config.baseFloatZIndex - 3 );
@@ -742,8 +745,13 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		createItem: function( item ) {
-			var encodedItem = encodeItem( item );
-			return CKEDITOR.dom.element.createFromHtml( this.itemTemplate.output( encodedItem ), this.document );
+			var encodedItem = encodeItem( item ),
+				itemElement = CKEDITOR.dom.element.createFromHtml( this.itemTemplate.output( encodedItem ), this.document ),
+				id = CKEDITOR.tools.getNextId();
+
+			itemElement.setAttribute( 'id', id );
+
+			return itemElement;
 		},
 
 		/**
