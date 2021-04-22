@@ -347,6 +347,10 @@
 				isActive = this.model.isActive;
 
 			editable.setAttribute( 'aria-expanded', isActive ? 'true' : 'false' );
+
+			if ( !isActive ) {
+				editable.setAttribute( 'aria-activedescendant', '' );
+			}
 		},
 
 		/**
@@ -558,8 +562,13 @@
 		 * @private
 		 */
 		onSelectedItemId: function( evt ) {
-			this.model.setItem( evt.data );
-			this.view.selectItem( evt.data );
+			var itemId = evt.data,
+				selectedItem = this.view.getItemById( itemId );
+
+			this.model.setItem( itemId );
+			this.view.selectItem( itemId );
+
+			this.editor.editable().setAttribute( 'aria-activedescendant', selectedItem.getAttribute( 'id' ) );
 		},
 
 		/**
