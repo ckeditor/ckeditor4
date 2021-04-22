@@ -296,6 +296,7 @@
 			// Register keybindings if editor is already initialized.
 			if ( editable ) {
 				this.registerPanelNavigation();
+				this.addAriaAttributes();
 			}
 
 			// Note: CKEditor's event system has a limitation that one function
@@ -303,6 +304,7 @@
 			// (#4107)
 			editor.on( 'contentDom', function() {
 				this.registerPanelNavigation();
+				this.addAriaAttributes();
 			}, this );
 		},
 
@@ -315,6 +317,16 @@
 			this._listeners.push( editable.attachListener( editable, 'keydown', function( evt ) {
 				this.onKeyDown( evt );
 			}, this, null, 5 ) );
+		},
+
+		addAriaAttributes: function() {
+			var editable = this.editor.editable(),
+				autocompleteId = this.view.element.getAttribute( 'id' );
+
+			editable.setAttribute( 'aria-controls', autocompleteId );
+			editable.setAttribute( 'aria-activedescendant', '' );
+			editable.setAttribute( 'aria-autocomplete', 'list' );
+			editable.setAttribute( 'aria-expanded', 'false' );
 		},
 
 		/**
