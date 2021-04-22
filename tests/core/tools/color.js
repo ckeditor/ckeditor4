@@ -237,6 +237,22 @@
 			assert.areSame( 0, color._.hue, 'Hue data is not saved.' );
 			assert.areSame( 0, color._.saturation, 'Saturation data is not saved.' );
 			assert.areSame( 0, color._.lightness, 'Lightness data is not saved.' );
+		},
+
+		// (#4597)
+		'test saving data about color type and RGB channels for hex color without hash': function() {
+			var input = 'FF00FF',
+				color = new CKEDITOR.tools.color( input );
+
+			assert.areSame( CKEDITOR.tools.color.TYPE_RGB, color._.type, 'Color type is not correctly set to RGB.' );
+
+			assert.areSame( 255, color._.red, 'Red data is not saved.' );
+			assert.areSame( 0, color._.green, 'Green data is not saved.' );
+			assert.areSame( 255, color._.blue, 'Blue data is not saved.' );
+
+			assert.areSame( 0, color._.hue, 'Hue data is not saved.' );
+			assert.areSame( 0, color._.saturation, 'Saturation data is not saved.' );
+			assert.areSame( 0, color._.lightness, 'Lightness data is not saved.' );
 		}
 	} );
 
