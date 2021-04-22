@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autocomplete,divarea,sourcearea */
+/* bender-ckeditor-plugins: autocomplete,divarea */
 
 ( function() {
 	'use strict';
@@ -13,7 +13,7 @@
 
 	bender.test( {
 		// (#4617)
-		'test autocomplete adds correct ARIA attributes to the editor\'s editable': function() {
+		'test autocomplete adds correct ARIA attributes to the editor\'s editable (divarea)': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
 				autoComplete = new CKEDITOR.plugins.autocomplete( editor, configDefinition ),
@@ -26,7 +26,28 @@
 			assert.areSame( '', editable.getAttribute( 'aria-activedescendant' ), 'Wrong value for [aria-activedescendant] attribute' );
 
 			autoComplete.destroy();
-		}
+		},
+
+		// (#4617)
+		'test autocomplete does not add correct ARIA attributes to the editor\'s editable (wysiwygarea)': function() {
+			bender.editorBot.create( {
+				name: 'wysiwygarea',
+				config: {
+					plugins: 'autocomplete,wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					editable = editor.editable(),
+					autoComplete = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
+
+				assert.isFalse( editable.hasAttribute( 'aria-controls' ), 'The [aria-controls] attribute is present' );
+				assert.isFalse( editable.hasAttribute( 'aria-autocomplete' ), 'The [aria-autocomplete] attribute is present' );
+				assert.isFalse( editable.hasAttribute( 'aria-expanded' ), 'The [aria-expanded] attribute is present' );
+				assert.isFalse( editable.hasAttribute( 'aria-activedescendant' ), 'The [aria-activedescendant] attribute is present' );
+
+				autoComplete.destroy();
+			} );
+		},
 	} );
 
 	function textTestCallback( selectionRange ) {

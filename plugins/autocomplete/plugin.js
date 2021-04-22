@@ -323,6 +323,10 @@
 			var editable = this.editor.editable(),
 				autocompleteId = this.view.element.getAttribute( 'id' );
 
+			if ( !editable.isInline() ) {
+				return;
+			}
+
 			editable.setAttribute( 'aria-controls', autocompleteId );
 			editable.setAttribute( 'aria-activedescendant', '' );
 			editable.setAttribute( 'aria-autocomplete', 'list' );
