@@ -520,7 +520,7 @@
 							'var wasLoaded=0;' +	// It must be always set to 0 as it remains as a window property.
 							'function onload(){' +
 								'if(!wasLoaded)' +	// FF3.6 calls onload twice when editor.setData. Stop that.
-									'window.parent.CKEDITOR.tools.callFunction(' + this._.frameLoadedHandler + ',window);' +
+									'window.parent.CKEDITOR && window.parent.CKEDITOR.tools.callFunction(' + this._.frameLoadedHandler + ',window);' +
 								'wasLoaded=1;' +
 							'}' +
 							( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload, false );' ) +
