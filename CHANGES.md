@@ -5,6 +5,8 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#4461](https://github.com/ckeditor/ckeditor4/issues/4461): Introduced possibility to delay editor initialization while it is in detached DOM element.
+
 Fixed Issues:
 
 * [#4604](https://github.com/ckeditor/ckeditor4/issues/4604): Fixed: [`CKEDITOR.plugins.clipboard.dataTransfer#getTypes()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard_dataTransfer.html#method-getTypes) returns no types.
