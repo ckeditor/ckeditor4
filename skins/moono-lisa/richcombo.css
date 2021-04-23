@@ -113,12 +113,27 @@ a.cke_combo_button
 	outline: none;
 }
 
-
-
 .cke_combo_on a.cke_combo_button,
 .cke_combo_off a.cke_combo_button:active
 {
 	background: #fff;
+}
+
+/* Disable hover styles on mobile devices (#4611). */
+@media screen and ( hover: none ) {
+
+	.cke_combo_off a.cke_combo_button:hover
+	{
+		background: transparent;
+		border-color: transparent;
+	}
+
+	/* We need to restore :active styles. */
+	.cke_combo_off a.cke_combo_button:active
+	{
+		background: #fff;
+		border: 1px solid #bcbcbc;
+	}
 }
 
 .cke_rtl .cke_combo_on a.cke_combo_button,

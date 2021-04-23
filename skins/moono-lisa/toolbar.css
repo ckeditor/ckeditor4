@@ -178,6 +178,35 @@ a.cke_button_expandable.cke_button_off:active
 	padding: 1px 3px;
 }
 
+/* Disable hover styles on mobile devices (#4611). */
+@media screen and ( hover: none ) {
+	a.cke_button_off:hover
+	{
+		background: transparent;
+		border: 0;
+		padding: 4px 6px;
+	}
+
+	a.cke_button_expandable.cke_button_off:hover
+	{
+		padding: 4px 5px;
+	}
+
+	/* We need to restore :active styles. */
+	a.cke_button_off:active
+	{
+		background: #e5e5e5;
+		border: 1px #bcbcbc solid;
+		/* Compensate the border change */
+		padding: 3px 5px;
+	}
+
+	a.cke_button_expandable.cke_button_off:active
+	{
+		padding: 3px 4px;
+	}
+}
+
 
 /* Disabled Button states. */
 a.cke_button_disabled:hover,

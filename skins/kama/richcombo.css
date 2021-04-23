@@ -79,6 +79,23 @@ a.cke_combo_button
 	outline: none;
 }
 
+/* Disable hover styles on mobile devices (#4611). */
+@media screen and ( hover: none ) {
+
+	.cke_combo_off .cke_combo_button:hover
+	{
+		background: url(images/sprites.png) 0 -100px repeat-x;	/* For backwards compatibility. */
+		background: linear-gradient(to top, #fff, #d3d3d3 100px);
+	}
+
+	/* We need to restore :active styles. */
+	.cke_combo_off .cke_combo_button:active
+	{
+		background: #DFF1FF;
+		outline: none;
+	}
+}
+
 .cke_rtl .cke_combo_button
 {
 	float: right;
@@ -131,6 +148,21 @@ a.cke_combo_button
 .cke_combo_off .cke_combo_button:focus .cke_combo_inlinelabel
 {
 	opacity: 1;
+}
+
+/* Disable hover styles on mobile devices (#4611). */
+@media screen and ( hover: none ) {
+
+	.cke_combo_off .cke_combo_button:hover .cke_combo_inlinelabel
+	{
+		opacity: 0.70;
+	}
+
+	/* We need to restore :active styles. */
+	.cke_combo_off .cke_combo_button:active .cke_combo_inlinelabel
+	{
+		opacity: 1;
+	}
 }
 
 /* The handler which opens the panel of rich combo properties.

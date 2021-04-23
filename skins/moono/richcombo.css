@@ -109,6 +109,41 @@ a.cke_combo_button
 	box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
 }
 
+/* Disable hover styles on mobile devices (#4611). */
+@media screen and ( hover: none ) {
+
+	.cke_combo_off a.cke_combo_button:hover
+	{
+		background: #e4e4e4;
+		background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
+		filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
+
+		outline: none;
+	}
+
+	.cke_combo_on a.cke_combo_button:hover
+	{
+		box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
+	}
+
+	/* We need to restore :active styles. */
+	.cke_combo_off a.cke_combo_button:active
+	{
+		border: 1px solid #777;
+
+		box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
+
+		background: #b5b5b5;
+		background-image: linear-gradient(to bottom, #aaa, #cacaca);
+		filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#aaaaaa', endColorstr='#cacaca');
+	}
+
+	.cke_combo_on a.cke_combo_button:active
+	{
+		box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
+	}
+}
+
 .cke_rtl .cke_combo_button
 {
 	float: right;
