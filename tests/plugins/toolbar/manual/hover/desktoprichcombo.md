@@ -6,22 +6,22 @@
 
 1. Check if rich combos have hover styles (darker background).
 
-	### Expected result
+  ### Expected result
 
-	* There are hover styles.
+  * There are hover styles.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* There aren't hover styles.
+  * There aren't hover styles.
 
 2. Check if clicking on rich combos activate their toggled on state (lighter background).
 
-	### Expected result
+  ### Expected result
 
-	* Clicked combo has toggled on state.
+  * Clicked combo has toggled on state.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* Clicked combo does not have toggled on state.
+  * Clicked combo does not have toggled on state.
 
 3. Repeat the procedure for the second editor.

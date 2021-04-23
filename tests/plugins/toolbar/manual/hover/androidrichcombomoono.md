@@ -6,40 +6,40 @@
 
 1. Check if rich combos have hover styles (darker background) by long tapping on them and releasing the finger.
 
-	### Expected result
+  ### Expected result
 
-	* There are hover styles **during** the tap.
-	* There aren't any hover styles **after** releasing the finger.
+  * There are hover styles **during** the tap.
+  * There aren't any hover styles **after** releasing the finger.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* There aren't any hover styles **during** the tap.
-	* There are hover style **after** releasing the finger.
+  * There aren't any hover styles **during** the tap.
+  * There are hover style **after** releasing the finger.
 
 2. Check if taping on rich combos activate their toggle on state ("pressed in" combo).
 
-	### Expected result
+  ### Expected result
 
-	* Tapped rich combo has toggled on state.
+  * Tapped rich combo has toggled on state.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* Tapped rich combo does not have toggled on state.
+  * Tapped rich combo does not have toggled on state.
 
 3. Check if toggled on rich combos have hover styles (additional shadow, "deeper pressed in" combo) by long tapping on them and releasing the finger.
 
-	### Expected result
+  ### Expected result
 
-	* There are hover styles **during** the tap.
-	* There aren't any hover styles **after** releasing the finger.
+  * There are hover styles **during** the tap.
+  * There aren't any hover styles **after** releasing the finger.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* There aren't any hover styles **during** the tap.
-	* There are hover style **after** releasing the finger.
+  * There aren't any hover styles **during** the tap.
+  * There are hover style **after** releasing the finger.
 
-	### Notes
+  ### Notes
 
-	* Rich combo might close itself during the tap.
+  * Rich combo might close itself during the tap.
 
 4. Repeat the procedure for the second editor.

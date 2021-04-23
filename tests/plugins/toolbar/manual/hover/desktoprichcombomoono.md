@@ -6,32 +6,32 @@
 
 1. Check if rich combos have hover styles (darker background).
 
-	### Expected result
+  ### Expected result
 
-	* There are hover styles.
+  * There are hover styles.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* There aren't hover styles.
+  * There aren't hover styles.
 
 2. Check if clicking on rich combos activate their toggled on state ("pressed in" combo).
 
-	### Expected result
+  ### Expected result
 
-	* Clicked rich combo has toggled on state.
+  * Clicked rich combo has toggled on state.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* Clicked rich combo does not have toggled on state.
+  * Clicked rich combo does not have toggled on state.
 
 3. Check if toggled on rich combos have hover styles (additional shadow, "deeper pressed in" combo).
 
-	### Expected result
+  ### Expected result
 
-	* There are hover styles.
+  * There are hover styles.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* There aren't hover styles.
+  * There aren't hover styles.
 
 4. Repeat the procedure for the second editor.

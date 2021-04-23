@@ -6,24 +6,24 @@
 
 1. Check if buttons have hover styles (darker background) by long tapping on them and releasing the finger.
 
-	### Expected result
+  ### Expected result
 
-	* There aren't hover styles **during** the tap.
-	* Upon releasing finger, the hover styles "flashes" before the button gets into toggled on state.
+  * There aren't hover styles **during** the tap.
+  * Upon releasing finger, the hover styles "flashes" before the button gets into toggled on state.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* There are hover styles **during** the tap.
-	* Releasing the finger didn't cause the "flash" of hover styles.
+  * There are hover styles **during** the tap.
+  * Releasing the finger didn't cause the "flash" of hover styles.
 
 2. Check if the button is in its toggled on state (lighter background) after the tap.
 
-	### Expected result
+  ### Expected result
 
-	* Tapped button has toggled on state.
+  * Tapped button has toggled on state.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* Tapped button does not have toggled on state.
+  * Tapped button does not have toggled on state.
 
 3. Repeat the procedure for the second editor.

@@ -6,13 +6,13 @@
 
 1. Check if buttons have hover styles (light-blue background) by long tapping on them and releasing the finger.
 
-	### Expected result
+  ### Expected result
 
-	* There are hover styles **during** the tap.
-	* There aren't any hover styles **after** releasing the finger.
+  * There are hover styles **during** the tap.
+  * There aren't any hover styles **after** releasing the finger.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* There aren't any hover styles **during** the tap.
-	* There are hover style **after** releasing the finger.
+  * There aren't any hover styles **during** the tap.
+  * There are hover style **after** releasing the finger.
 3. Repeat the procedure for the second editor.

@@ -6,12 +6,12 @@
 
 1. Check if rich combos have hover styles (light-blue background).
 
-	### Expected result
+  ### Expected result
 
-	* There are hover styles.
+  * There are hover styles.
 
-	### Unexpected result
+  ### Unexpected result
 
-	* There aren't hover styles.
+  * There aren't hover styles.
 
 2. Repeat the procedure for the second editor.
