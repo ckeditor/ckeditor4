@@ -1,0 +1,49 @@
+<div id="message"></div>
+<button id="startButton">Try to create editor</button>
+<button id="attachButton">Invoke config callback to finish editor creation</button>
+<div>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet.</p>
+	</div>
+</div>
+
+<script>
+	if ( !bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var editor = document.getElementById( 'editor' ),
+		attachButton = CKEDITOR.document.getById( 'attachButton' ),
+		startButton = CKEDITOR.document.getById( 'startButton' ),
+		messageElement = CKEDITOR.document.getById( 'message' ),
+		editorParent = editor.parentNode,
+		editorCreationCallback;
+
+	editorParent.removeChild( editor );
+
+	startButton.on( 'click', function() {
+		CKEDITOR.replace( editor, {
+			delayIfDetached: true,
+			delayIfDetached_callback: registerCallback,
+			on: {
+				instanceReady: function() {
+					messageElement.setHtml( 'Editor is ready!' );
+				}
+			}
+		} );
+
+		messageElement.setHtml( 'Creation attempt finished. Callback is ready to use.' );
+	} );
+
+	attachButton.on( 'click', function() {
+		editorParent.appendChild( editor );
+
+		messageElement.setHtml( 'Editor attached to DOM' );
+
+		editorCreationCallback();
+	} );
+
+	function registerCallback( editorCreationFunc ) {
+		editorCreationCallback = editorCreationFunc;
+	}
+</script>

@@ -1,0 +1,47 @@
+<button id="startButton">Start Test</button>
+<span id="testTimer"></span>
+
+<div>
+	<div id="editor">
+		<p>Lorem ipsum dolor sit amet.</p>
+	</div>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var editorElement = document.getElementById( 'editor' ),
+		startButton = CKEDITOR.document.getById( 'startButton' ),
+		timerElement = CKEDITOR.document.getById( 'testTimer' ),
+		editorParent = editorElement.parentNode,
+		waitTime = 3000,
+		timerInterval = 50,
+		timerIntervalToken;
+
+	startButton.on( 'click', function ( evt ) {
+		evt && evt.removeListener();
+
+		timerIntervalToken = setInterval( function() {
+			waitTime -= timerInterval;
+			if ( waitTime <= 0 ) {
+				waitTime = 0;
+				clearInterval( timerIntervalToken );
+			}
+
+			timerElement.setText( waitTime + 'ms');
+		}, timerInterval );
+
+		editorParent.removeChild( editorElement );
+
+		CKEDITOR.tools.setTimeout( function() {
+			editorParent.appendChild( editorElement );
+		}, 50 );
+
+		CKEDITOR.replace( editorElement, {
+			delayIfDetached: true,
+			delayIfDetached_interval: waitTime
+		} );
+	} );
+</script>

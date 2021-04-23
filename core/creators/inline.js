@@ -35,11 +35,18 @@
 			return null;
 		}
 
-		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE ),
-			textarea = element.is( 'textarea' ) ? element : null;
+		// (#4461)
+		if ( CKEDITOR.editor.shouldDelayEditorCreation( element, instanceConfig ) ) {
+			CKEDITOR.editor.initializeDelayedEditorCreation( element, instanceConfig, 'inline' );
+			return null;
+		}
+
+		var textarea = element.is( 'textarea' ) ? element : null,
+			editorData = textarea ? textarea.getValue() : element.getHtml(),
+			editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE );
 
 		if ( textarea ) {
-			editor.setData( textarea.getValue(), null, true );
+			editor.setData( editorData, null, true );
 
 			//Change element from textarea to div
 			element = CKEDITOR.dom.element.createFromHtml(
@@ -63,7 +70,7 @@
 
 			// Initial editor data is simply loaded from the page element content to make
 			// data retrieval possible immediately after the editor creation.
-			editor.setData( element.getHtml(), null, true );
+			editor.setData( editorData, null, true );
 		}
 
 		// Once the editor is loaded, start the UI.
@@ -156,6 +163,7 @@
 	CKEDITOR.domReady( function() {
 		!CKEDITOR.disableAutoInline && CKEDITOR.inlineAll();
 	} );
+
 } )();
 
 /**

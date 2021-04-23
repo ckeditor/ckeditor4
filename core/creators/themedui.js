@@ -343,6 +343,12 @@ CKEDITOR.replaceClass = 'ckeditor';
 			return null;
 		}
 
+		// (#4461)
+		if ( CKEDITOR.editor.shouldDelayEditorCreation( element, config ) ) {
+			CKEDITOR.editor.initializeDelayedEditorCreation( element, config, 'replace' );
+			return null;
+		}
+
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, mode );
 
