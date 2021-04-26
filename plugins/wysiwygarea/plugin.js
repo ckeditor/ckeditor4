@@ -54,6 +54,7 @@
 				var frameLabel = editor.title,
 					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label,
 					recreateEditable = false,
+					isIE11 = CKEDITOR.env.ie && CKEDITOR.env.version === 11,
 					mutationObserver;
 
 				if ( frameLabel ) {
@@ -78,8 +79,11 @@
 						desc.remove();
 					}
 
-					mutationObserver.disconnect();
+					if ( !CKEDITOR.env.ie || isIE11 ) {
+						mutationObserver.disconnect();
+					}
 				} );
+
 
 				iframe.setAttributes( {
 					tabIndex: editor.tabIndex,
@@ -101,10 +105,7 @@
 					editor.editable( new framedWysiwyg( editor, iframe.getFrameDocument().getBody() ) );
 					editor.setData( editor.getData( 1 ), callback );
 
-					var isIE11 = CKEDITOR.env.ie && CKEDITOR.env.version === 11;
-
-					// (#4462)
-					// Skip IE's below version 11. They don't support MutationObserver.
+					// Skip IE's below version 11. They don't support MutationObserver (#4462).
 					if ( CKEDITOR.env.ie && !isIE11 ) {
 						return;
 					}
@@ -155,7 +156,7 @@
 						return;
 					}
 
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+					if ( isIE11 ) {
 						recreateEditable = true;
 					} else {
 						recreate();
