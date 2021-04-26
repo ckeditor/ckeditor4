@@ -104,11 +104,35 @@
 			} );
 		},
 
+		'test reattached editor with iframe content contains the same data with observed default dom object': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
+			bender.editorBot.create( {
+				startupData: startupData,
+				name: 'editor3',
+				config: {
+					extraAllowedContent: 'iframe'
+				}
+			}, function( bot ) {
+				var editorContainer = bot.editor.container,
+					editorContainerParent = editorContainer.getParent();
+
+				editorContainer.remove();
+				editorContainerParent.append( editorContainer );
+
+				timeoutAssert( bot, startupData, 'Reattached editor should have the same data with iframe. Observing default object.' );
+
+				wait();
+			} );
+		},
+
 		'test reattached editor makes editor data empty with observed invalid DOM object': function() {
 			var invalidObserveTarget = CKEDITOR.document.getById( 'invalidObserveTarget' ).$;
 
 			bender.editorBot.create( {
-				name: 'editor3',
+				name: 'editor4',
 				startupData: startupData,
 				config: {
 					observableParent: invalidObserveTarget
@@ -130,7 +154,7 @@
 			var invalidObserveTarget = CKEDITOR.document.getById( 'invalidObserveTarget' ).$;
 
 			bender.editorBot.create( {
-				name: 'editor4',
+				name: 'editor5',
 				startupData: startupData,
 				config: {
 					observableParent: invalidObserveTarget
@@ -152,7 +176,7 @@
 			var invalidObserveTarget = CKEDITOR.document.getById( 'editorDetachableParent2' );
 
 			bender.editorBot.create( {
-				name: 'editor5',
+				name: 'editor6',
 				startupData: startupData,
 				config: {
 					observableParent: invalidObserveTarget.$
@@ -162,30 +186,6 @@
 				CKEDITOR.document.getBody().append( invalidObserveTarget );
 
 				timeoutAssert( bot, '', 'Reattached editor parent. Editor data should be empty. Observing detached element.' );
-
-				wait();
-			} );
-		},
-
-		'test reattached editor with iframe content contains the same data with observed default dom object': function() {
-			if ( !isSupportedEnvironment() ) {
-				assert.ignore();
-			}
-
-			bender.editorBot.create( {
-				startupData: startupData,
-				name: 'editor6',
-				config: {
-					extraAllowedContent: 'iframe'
-				}
-			}, function( bot ) {
-				var editorContainer = bot.editor.container,
-					editorContainerParent = editorContainer.getParent();
-
-				editorContainer.remove();
-				editorContainerParent.append( editorContainer );
-
-				timeoutAssert( bot, startupData, 'Reattached editor should have the same data with iframe. Observing default object.' );
 
 				wait();
 			} );
