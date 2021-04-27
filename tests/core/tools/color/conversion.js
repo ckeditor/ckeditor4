@@ -74,7 +74,7 @@
 		'test color from 4-HEX returns valid RGBA': colorTools.testColorConversion( '#F0F0', 'rgba(255,0,255,0)', 'getRgba' ),
 
 		// (#4583)
-		'test color from 4-HEX returns valid HSLA': colorTools.testColorConversion( '#F0F0','hsla(-60,100%,50%,0)', 'getHsla' ),
+		'test color from 4-HEX returns valid HSLA': colorTools.testColorConversion( '#F0F0', 'hsla(-60,100%,50%,0)', 'getHsla' ),
 
 		// (#4597)
 		'test converting RGB (64, 115, 38) produces HSL value with correct saturation value (100, 50%, 30%)': colorTools.testColorConversion( 'rgb( 64, 115, 38 )', 'hsl(100,50%,30%)', 'getHsl' ),

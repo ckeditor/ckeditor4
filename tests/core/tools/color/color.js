@@ -129,7 +129,7 @@
 		},
 
 		// (#4596)
-		'test HSL value with ligthness as fraction treated as invalid color': function() {
+		'test HSL value with lightness as fraction treated as invalid color': function() {
 			var input = 'hsl( 100, 5%, 0.2 )',
 				color = new CKEDITOR.tools.color( input );
 
@@ -161,7 +161,7 @@
 		},
 
 		// (#4596)
-		'test HSLA value with ligthness as fraction treated as invalid color': function() {
+		'test HSLA value with lightness as fraction treated as invalid color': function() {
 			var input = 'hsla( 100, 5%, 0.2, 0.45 )',
 				color = new CKEDITOR.tools.color( input );
 
@@ -185,7 +185,7 @@
 		},
 
 		// (#4596)
-		'test HSL in no-comma syntax with hue in degrees is treated as valid color': function() {
+		'test HSLA in no-comma syntax with hue in degrees is treated as valid color': function() {
 			var input = 'hsl( 100deg 5% 2% / 0.45 )',
 				color = new CKEDITOR.tools.color( input );
 
