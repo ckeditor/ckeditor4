@@ -279,7 +279,7 @@
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// (#4617)
-			this._listeners.push( this.model.on( 'change-isActive', this.updateAriaAttributes, this ) );
+			this._listeners.push( this.model.on( 'change-isActive', this.updateAriaAttributesOnEditable, this ) );
 
 			// Update view position on viewport change.
 			// Note: CKEditor's event system has a limitation that one function
@@ -299,7 +299,7 @@
 			// Register keybindings if editor is already initialized.
 			if ( editable ) {
 				this.registerPanelNavigation();
-				this.addAriaAttributes();
+				this.addAriaAttributesToEditable();
 			}
 
 			// Note: CKEditor's event system has a limitation that one function
@@ -307,7 +307,7 @@
 			// (#4107)
 			editor.on( 'contentDom', function() {
 				this.registerPanelNavigation();
-				this.addAriaAttributes();
+				this.addAriaAttributesToEditable();
 			}, this );
 		},
 
@@ -325,7 +325,7 @@
 		/**
 		 * @since 4.16.1
 		 */
-		addAriaAttributes: function() {
+		addAriaAttributesToEditable: function() {
 			var editable = this.editor.editable(),
 				autocompleteId = this.view.element.getAttribute( 'id' );
 
@@ -342,7 +342,7 @@
 		/**
 		 * @since 4.16.1
 		 */
-		updateAriaAttributes: function() {
+		updateAriaAttributesOnEditable: function() {
 			var editable = this.editor.editable(),
 				isActive = this.model.isActive;
 
@@ -360,7 +360,7 @@
 		/**
 		 * @since 4.16.1
 		 */
-		updateAriaActiveDescendantAttribute: function( id ) {
+		updateAriaActiveDescendantAttributeOnEditable: function( id ) {
 			var editable = this.editor.editable();
 
 			if ( !editable.isInline() ) {
@@ -373,7 +373,7 @@
 		/**
 		 * @since 4.16.1
 		 */
-		removeAriaAttributes: function() {
+		removeAriaAttributesFromEditable: function() {
 			var editable = this.editor.editable();
 
 			if ( !editable || !editable.isInline() ) {
@@ -443,7 +443,7 @@
 			this._listeners = [];
 
 			this.view.element && this.view.element.remove();
-			this.removeAriaAttributes();
+			this.removeAriaAttributesFromEditable();
 		},
 
 		/**
@@ -605,7 +605,7 @@
 			this.model.setItem( itemId );
 			this.view.selectItem( itemId );
 
-			this.updateAriaActiveDescendantAttribute( selectedItem.getAttribute( 'id' ) );
+			this.updateAriaActiveDescendantAttributeOnEditable( selectedItem.getAttribute( 'id' ) );
 		},
 
 		/**
