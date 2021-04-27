@@ -123,7 +123,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 
 			retval = new CKEDITOR.dom.text( textEnd, doc );
 			this.$.deleteData( offset, this.$.data.length );
-			retval.insertAfter( this );
+
+			// How the new text nde based on split should be inserted?
+			// this.$.parentNode.appendChild( retval.$ ); Solves the initial issue but many tests fails.
+			// retval.insertAfter( this ); Tests are green but still results in the same issue as calling splitText().
 		} else {
 			retval = new CKEDITOR.dom.text( this.$.splitText( offset ), doc );
 		}
