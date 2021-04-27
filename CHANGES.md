@@ -11,6 +11,7 @@ Fixed Issues:
 
 * [#4604](https://github.com/ckeditor/ckeditor4/issues/4604): Fixed: [`CKEDITOR.plugins.clipboard.dataTransfer#getTypes()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard_dataTransfer.html#method-getTypes) returns no types.
 * [#4597](https://github.com/ckeditor/ckeditor4/issues/4597): Fixed: Incorrect color conversion for HSL/HSLA values in [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html).
+* [#4596](https://github.com/ckeditor/ckeditor4/issues/4596): Fixed: Incorrect handling of HSL/HSLA values in [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html).
 
 **API Changes:**
 

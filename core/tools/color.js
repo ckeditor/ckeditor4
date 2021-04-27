@@ -576,9 +576,9 @@
 					return trimmedValues.concat( [ trimmedValue ] );
 				}, [] );
 
-				// There was alpha channel in the no-comma syntax ( / <number>%?).
+				// There was alpha channel in the RGB no-comma syntax ( / <number>%?) or in HSL value.
 				if ( match[ 2 ] ) {
-					var alpha = CKEDITOR.tools.trim( match[ 2 ].replace( '/', '' ) );
+					var alpha = CKEDITOR.tools.trim( match[ 2 ].replace( /[\/,]/, '' ) );
 
 					values.push( alpha );
 				}
@@ -797,7 +797,13 @@
 			 * @static
 			 * @property {RegExp}
 			 */
-			hslRegExp: /hsla?\(([.,\d\s%]*)(\s*\/\s*[\d.%]+)?\s*\)/i,
+			// Some docs for the regex:
+			// * all values except opacity are in the first capturing group, the opacity is in the second (needed by extraction logic);
+			// therefore every subgroup is non-capturing (we need only two capturing groups at the end!)
+			// * (?:[.\d]+(?:deg)?) – gets the hue with optional deg unit
+			// * (?:\s*,?\s*[.\d]+%){2}) – gets the saturation and lightness as percents and with optional preceding comma
+			// * (?:(?:\s*\/\s*)|(?:\s*,\s*)) – gets the opacity separator (comma or slash)
+			hslRegExp: /hsla?\((\s*(?:[.\d]+(?:deg)?)(?:\s*,?\s*[.\d]+%){2})((?:(?:\s*\/\s*)|(?:\s*,\s*))[\d.]+%?)?\s*\)/i,
 
 			/**
 			 * Color list based on [W3 named colors list](https://www.w3.org/TR/css-color-4/#named-colors).
@@ -979,7 +985,7 @@
 	function tryToConvertToValidIntegerValue( value, max ) {
 		if ( isPercentValue( value ) ) {
 			value = Math.round( max * ( parseFloat( value ) / 100 ) );
-		} else if ( isIntegerValue( value ) ) {
+		} else if ( isIntegerValue( value ) || isHueValue( value ) ) {
 			value = parseInt( value, 10 );
 		}
 
@@ -1019,6 +1025,14 @@
 	// @returns {Boolean}
 	function isIntegerValue( value ) {
 		return typeof value === 'string' && value.match( /^\d+$/gm );
+	}
+
+	// Validates if given value is a string representing hue value (integer or integer + 'deg' keyword).
+	//
+	// @param {*} value Any value to be validated.
+	// @returns {Boolean}
+	function isHueValue( value ) {
+		return typeof value === 'string' && value.match( /^\d+(?:deg)?$/gm );
 	}
 
 	// Validates if given value is a string representing float value.
