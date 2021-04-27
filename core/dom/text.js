@@ -111,10 +111,22 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 		// Saved the children count and text length beforehand.
 		var parent = this.$.parentNode,
 			count = parent.childNodes.length,
-			length = this.getLength();
+			length = this.getLength(),
+			doc = this.getDocument(),
+			retval;
 
-		var doc = this.getDocument();
-		var retval = new CKEDITOR.dom.text( this.$.splitText( offset ), doc );
+		if ( CKEDITOR.env.webkit ) {
+			// Replace native split text with text removal + new text node insertion.
+			// This fixes an issue introduced in native Text.splitText() method in Chrome version 90 (#4628).
+			// See also https://bugs.chromium.org/p/chromium/issues/detail?id=1201161.
+			var textEnd = this.$.data.substring( offset );
+
+			retval = new CKEDITOR.dom.text( textEnd, doc );
+			this.$.deleteData( offset, this.$.data.length );
+			retval.insertAfter( this );
+		} else {
+			retval = new CKEDITOR.dom.text( this.$.splitText( offset ), doc );
+		}
 
 		if ( parent.childNodes.length == count ) {
 			// If the offset is after the last char, IE creates the text node
