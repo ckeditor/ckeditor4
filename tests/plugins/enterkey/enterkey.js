@@ -109,9 +109,11 @@
 			bot.execCommand( 'enter' );
 
 			var selectionAtTheEndOfEmptyLine = new CKEDITOR.dom.range( editor.document );
-			selectionAtTheEndOfEmptyLine.moveToElementEditablePosition( editable.getChild(1), true );
+
+			selectionAtTheEndOfEmptyLine.moveToElementEditablePosition( editable.getChild( 1 ), true );
 			editor.getSelection().selectRanges( [ selectionAtTheEndOfEmptyLine ] );
 			editor.insertText( 'bar' );
+
 			assert.areSame( '<p><b><i>foo</i></b></p><p><b><i>bar</i></b></p><p>&nbsp;</p>', bot.getData( false, true ) );
 		},
 

@@ -388,8 +388,8 @@
 				// Recreate the inline elements tree, which was available
 				// before hitting enter, so the same styles will be available in
 				// the new block.
-				var elementPath = splitInfo.elementPath;
-				var bogusHolder = newBlock;
+				var elementPath = splitInfo.elementPath,
+					bogusHolder = newBlock;
 				if ( elementPath ) {
 					for ( var i = 0, len = elementPath.elements.length; i < len; i++ ) {
 						var element = elementPath.elements[ i ];
@@ -401,7 +401,7 @@
 							element = element.clone();
 							newBlock.moveChildren( element );
 							newBlock.append( element );
-							if (bogusHolder === newBlock) {
+							if ( bogusHolder === newBlock ) {
 								bogusHolder = element;
 							}
 						}
