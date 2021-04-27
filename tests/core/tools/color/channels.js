@@ -2,6 +2,7 @@
 
 // Basic definitions
 // 3-HEX -> hexadecimal color with only 3 characters value: #FFF
+// 4-HEX -> hexadecimal color with exactly 4 characters value: #FFF0. Last character is for alpha
 // 6-HEX -> hexadecimal color with exactly 6 characters value: #FFFFFF
 // 8-HEX -> hexadecimal color with exactly 8 characters value: #FFFFFF00. Last two characters are for alpha
 // n-HEX-like -> n-HEX format without the hash at the beginning: FFF, FFF0, FFFFFF, FFFFFF00
