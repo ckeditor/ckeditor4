@@ -5,9 +5,11 @@
 
 **Note:** Open dev console to track possible errors. If any occurs, test failed.
 
+**Note:** Expected behaviour is affected by [issue](https://github.com/ckeditor/ckeditor4/issues/4644).
+
 1. Use 'Insert Media Embed' and put there any image address. For example google logo.
 2. Reattach editor with double click on "Toggle" button.
 
-	**Expected:** There is exactly one undo step.
+	**Expected:** There are exactly two undo steps.
 
-	**Unexpected:** There are two undo steps. The first one doesn't change content.
+	**Unexpected:** There is one undo step.

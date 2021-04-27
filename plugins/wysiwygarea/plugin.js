@@ -114,6 +114,10 @@
 						editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
 					}
 
+					editor.on( 'mode', function() {
+						editor.status = 'ready';
+					} );
+
 					observeEditor();
 				}
 
@@ -175,7 +179,7 @@
 					editor.editable( newEditable );
 
 					editor.status = 'recreating';
-					editor.setData( cacheData, callback );
+					editor.setData( cacheData, { callback:  callback, internal: false, fireSnapshot: false } );
 				}
 
 			} );
