@@ -296,7 +296,8 @@
 				e.data.preventDefault();
 			}, null, null, 9999 ) );
 
-			// Register keybindings if editor is already initialized.
+			// Register keybindings and add ARIA attributes to the editable right away
+			// if editor is already initialized.
 			if ( editable ) {
 				this.registerPanelNavigation();
 				this.addAriaAttributesToEditable();
