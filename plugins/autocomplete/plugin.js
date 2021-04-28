@@ -343,9 +343,9 @@
 		/**
 		 * @since 4.16.1
 		 */
-		updateAriaAttributesOnEditable: function() {
+		updateAriaAttributesOnEditable: function( evt ) {
 			var editable = this.editor.editable(),
-				isActive = this.model.isActive;
+				isActive = evt.data;
 
 			if ( !editable.isInline() ) {
 				return;
