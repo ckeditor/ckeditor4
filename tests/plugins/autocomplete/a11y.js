@@ -125,10 +125,12 @@
 				editable = editor.editable(),
 				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 				attributeName = ARIA_ACTIVEDESCENDANT,
+				ariaUpdateSpy = sinon.spy( autoComplete, 'updateAriaAttributesOnEditable' ),
 				selectedItem,
 				selectedItemId;
 
 			this.editorBot.setHtmlWithSelection( '' );
+
 
 			assert.areSame( '', editable.getAttribute( attributeName ),
 				'Wrong initial value for [' + attributeName + '] attribute' );
@@ -143,18 +145,13 @@
 
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ESC } ) );
 
-			setTimeout( function() {
-				resume( function() {
+			assert.isTrue( ariaUpdateSpy.calledWith( false ) );
+			ariaUpdateSpy.restore();
 
-					assert.areSame( '', editable.getAttribute( attributeName ),
-						'Wrong value for [' + attributeName + '] attribute after closing autocomplete' );
+			assert.areSame( '', editable.getAttribute( attributeName ),
+				'Wrong value for [' + attributeName + '] attribute after closing autocomplete' );
 
-					autoComplete.destroy();
-				} );
-
-			}, 1000 );
-
-			wait();
+			autoComplete.destroy();
 		},
 
 		// (#4617)
