@@ -143,10 +143,18 @@
 
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ESC } ) );
 
-			assert.areSame( '', editable.getAttribute( attributeName ),
-				'Wrong value for [' + attributeName + '] attribute after closing autocomplete' );
+			setTimeout( function() {
+				resume( function() {
 
-			autoComplete.destroy();
+					assert.areSame( '', editable.getAttribute( attributeName ),
+						'Wrong value for [' + attributeName + '] attribute after closing autocomplete' );
+
+					autoComplete.destroy();
+				} );
+
+			}, 1000 );
+
+			wait();
 		},
 
 		// (#4617)
