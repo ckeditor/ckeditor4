@@ -119,14 +119,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 			// Replace native split text with text removal + new text node insertion.
 			// This fixes an issue introduced in native Text.splitText() method in Chrome version 90 (#4628).
 			// See also https://bugs.chromium.org/p/chromium/issues/detail?id=1201161.
-			var textEnd = this.$.data.substring( offset );
+			var textStart = this.$.data.substring( 0, offset ),
+				textEnd = this.$.data.substring( offset ),
+				textStartNode = new CKEDITOR.dom.text( textStart, doc ),
+				textEndNode = new CKEDITOR.dom.text( textEnd, doc );
 
-			retval = new CKEDITOR.dom.text( textEnd, doc );
-			this.$.deleteData( offset, this.$.data.length );
+			retval = textEndNode;
 
-			// How the new text nde based on split should be inserted?
-			// this.$.parentNode.appendChild( retval.$ ); Solves the initial issue but many tests fails.
-			// retval.insertAfter( this ); Tests are green but still results in the same issue as calling splitText().
+			textStartNode.insertBefore( this );
+			textEndNode.insertBefore( this );
+			this.remove();
+			this.$ = textStartNode.$;
 		} else {
 			retval = new CKEDITOR.dom.text( this.$.splitText( offset ), doc );
 		}
