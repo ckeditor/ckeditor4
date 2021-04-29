@@ -11,6 +11,9 @@
 ( function() {
 	'use strict';
 
+	// Instead of false, we mark event cancellation with unique object (#4652).
+	var EVENT_CANCELED = {};
+
 	if ( !CKEDITOR.event ) {
 		/**
 		 * Creates an event class instance. This constructor is rarely used, being
@@ -165,7 +168,7 @@
 
 						var ret = listenerFunction.call( scopeObj, ev );
 
-						return ret === false ? false : ev.data;
+						return ret === false ? EVENT_CANCELED : ev.data;
 					}
 
 					function removeListener() {
@@ -310,7 +313,7 @@
 										retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
 									}
 
-									if ( retData === false )
+									if ( retData === EVENT_CANCELED )
 										canceled = 1;
 									else if ( typeof retData != 'undefined' )
 										data = retData;
