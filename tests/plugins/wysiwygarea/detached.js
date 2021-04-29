@@ -27,7 +27,7 @@
 				editorContainer.remove();
 				editorContainerParent.append( editorContainer );
 
-				timeoutAssert( bot, startupData, 'Reattached editor should have the same data. Observing default object.' );
+				assertReattachedData( bot, startupData, 'Reattached editor should have the same data. Observing default object.' );
 
 				wait();
 			} );
@@ -48,7 +48,7 @@
 				editorContainerParent.remove();
 				parentParent.append( editorContainerParent );
 
-				timeoutAssert( bot, startupData, 'Reattached editor parent should restore editor data. Observing default object.' );
+				assertReattachedData( bot, startupData, 'Reattached editor parent should restore editor data. Observing default object.' );
 
 				wait();
 			} );
@@ -73,7 +73,7 @@
 				editorContainer.remove();
 				observableParent.append( editorContainer );
 
-				timeoutAssert( bot, startupData, 'Reattached editor should restore data. Observing editor parent.' );
+				assertReattachedData( bot, startupData, 'Reattached editor should restore data. Observing editor parent.' );
 
 				wait();
 			} );
@@ -98,7 +98,7 @@
 				editorContainerParent.remove();
 				observedParent.append( editorContainerParent );
 
-				timeoutAssert( bot, startupData, 'Reattached editor parent should restore data. Observing parent of detached element.' );
+				assertReattachedData( bot, startupData, 'Reattached editor parent should restore data. Observing parent of detached element.' );
 
 				wait();
 			} );
@@ -122,7 +122,7 @@
 				editorContainer.remove();
 				editorContainerParent.append( editorContainer );
 
-				timeoutAssert( bot, startupData, 'Reattached editor should have the same data with iframe. Observing default object.' );
+				assertReattachedData( bot, startupData, 'Reattached editor should have the same data with iframe. Observing default object.' );
 
 				wait();
 			} );
@@ -144,7 +144,7 @@
 				editorContainer.remove() ;
 				editorContainerParent.append( editorContainer );
 
-				timeoutAssert( bot, '', 'Reattached editor. Editor data should be empty. Observing invalid DOM object.' );
+				assertReattachedData( bot, '', 'Reattached editor. Editor data should be empty. Observing invalid DOM object.' );
 
 				wait();
 			} );
@@ -166,7 +166,7 @@
 				editorContainerParent.remove() ;
 				parentParent.append( editorContainerParent );
 
-				timeoutAssert( bot, '', 'Reattached editor parent. Editor data should be empty. Observing invalid DOM object.' );
+				assertReattachedData( bot, '', 'Reattached editor parent. Editor data should be empty. Observing invalid DOM object.' );
 
 				wait();
 			} );
@@ -185,7 +185,7 @@
 				invalidObserveTarget.remove() ;
 				CKEDITOR.document.getBody().append( invalidObserveTarget );
 
-				timeoutAssert( bot, '', 'Reattached editor parent. Editor data should be empty. Observing detached element.' );
+				assertReattachedData( bot, '', 'Reattached editor parent. Editor data should be empty. Observing detached element.' );
 
 				wait();
 			} );
@@ -193,7 +193,7 @@
 
 	} );
 
-	function timeoutAssert( bot, expectedData, customMessage ) {
+	function assertReattachedData( bot, expectedData, customMessage ) {
 		CKEDITOR.tools.setTimeout( function() {
 			resume( function() {
 				var iframeElement = bot.editor.ui.space( 'contents' ).findOne( 'iframe' ),
