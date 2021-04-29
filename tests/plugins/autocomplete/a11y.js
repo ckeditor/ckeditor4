@@ -18,7 +18,7 @@
 		autoComplete;
 
 	bender.test( {
-		teardown: function() {
+		tearDown: function() {
 			autoComplete && autoComplete.destroy();
 		},
 
