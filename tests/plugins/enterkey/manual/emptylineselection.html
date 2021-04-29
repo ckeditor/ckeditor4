@@ -1,7 +1,21 @@
-<div id="editor">
+<pre>{ enterMode: CKEDITOR.ENTER_P }</pre>
+<div id="editorP">
 	<p><b><i>foo</i></b></p>
 </div>
 
+<pre>{ enterMode: CKEDITOR.ENTER_DIV }</pre>
+<div id="editorDiv">
+	<div><b><i>foo</i></b></div>
+</div>
+
+<pre>{ enterMode: CKEDITOR.ENTER_BR }</pre>
+<div id="editorBr">
+	<b><i>foo</i></b>
+</div>
+
+
 <script>
-	CKEDITOR.replace( 'editor' );
+	CKEDITOR.replace( 'editorP', { enterMode: CKEDITOR.ENTER_P } );
+	CKEDITOR.replace( 'editorDiv', { enterMode: CKEDITOR.ENTER_DIV } );
+	CKEDITOR.replace( 'editorBr', { enterMode: CKEDITOR.ENTER_BR } );
 </script>

@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, enterkey
 
-1. Place a cursor right after 'foo'
+1. Place a cursor right after 'foo' in either of the editors
 
 ```
 foo
@@ -11,7 +11,7 @@ foo
 
 2. Press `Enter` twice.
 
-3. Press `Left` key to move the cursor to the empty line
+3. Press `Left` key or `Up` key or `Backspace` to move the cursor to the empty line
 
 4. Type 'bar'
 
