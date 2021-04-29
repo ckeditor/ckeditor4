@@ -14,16 +14,24 @@
 		ARROW_UP = 38,
 		ARROW_DOWN = 40,
 		// I always mess up this name…
-		ARIA_ACTIVEDESCENDANT = 'aria-activedescendant';
+		ARIA_ACTIVEDESCENDANT = 'aria-activedescendant',
+		autoComplete;
 
 	bender.test( {
+		teardown: function() {
+			autoComplete && autoComplete.destroy();
+		},
+
 		// (#4617)
 		'test autocomplete adds correct ARIA attributes to the editor\'s editable (divarea)': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
-				viewElement = autoComplete.view.element,
-				viewElementId = viewElement.getAttribute( 'id' );
+				viewElement,
+				viewElementId;
+
+			autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
+			viewElement = autoComplete.view.element,
+			viewElementId = viewElement.getAttribute( 'id' );
 
 			assert.areSame( viewElementId, editable.getAttribute( 'aria-controls' ),
 				'Wrong value for [aria-controls] attribute' );
@@ -33,8 +41,6 @@
 				'Wrong value for [aria-expanded] attribute' );
 			assert.areSame( '', editable.getAttribute( ARIA_ACTIVEDESCENDANT ),
 				'Wrong value for [' + ARIA_ACTIVEDESCENDANT + '] attribute' );
-
-			autoComplete.destroy();
 		},
 
 		// (#4617)
@@ -46,8 +52,9 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					editable = editor.editable(),
-					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
+					editable = editor.editable();
+
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 				assert.isFalse( editable.hasAttribute( 'aria-controls' ),
 					'The [aria-controls] attribute is present' );
@@ -57,8 +64,6 @@
 					'The [aria-expanded] attribute is present' );
 				assert.isFalse( editable.hasAttribute( ARIA_ACTIVEDESCENDANT ),
 					'The [' + ARIA_ACTIVEDESCENDANT + '] attribute is present' );
-
-				autoComplete.destroy();
 			} );
 		},
 
@@ -66,8 +71,9 @@
 		'test opening and closing autocomplete changes the value of [aria-expanded] attribute': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 				attributeName = 'aria-expanded';
+
+			autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 			this.editorBot.setHtmlWithSelection( '' );
 
@@ -83,8 +89,6 @@
 
 			assert.areSame( 'false', editable.getAttribute( attributeName ),
 				'Wrong value for [aria-expanded] attribute after closing autocomplete' );
-
-			autoComplete.destroy();
 		},
 
 		// (#4617)
@@ -97,8 +101,9 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					editable = editor.editable(),
-					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 					attributeName = 'aria-expanded';
+
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 				bot.setHtmlWithSelection( '' );
 
@@ -114,8 +119,6 @@
 
 				assert.isFalse( editable.hasAttribute( attributeName ),
 					'The [' + attributeName + '] attribute is present' );
-
-				autoComplete.destroy();
 			} );
 		},
 
@@ -123,10 +126,11 @@
 		'test opening and closing autocomplete changes the value of [aria-activedescendant] attribute': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 				attributeName = ARIA_ACTIVEDESCENDANT,
 				selectedItem,
 				selectedItemId;
+
+			autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 			this.editorBot.setHtmlWithSelection( '' );
 
@@ -145,8 +149,6 @@
 
 			assert.areSame( '', editable.getAttribute( attributeName ),
 				'Wrong value for [' + attributeName + '] attribute after closing autocomplete' );
-
-			autoComplete.destroy();
 		},
 
 		// (#4617)
@@ -159,8 +161,9 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					editable = editor.editable(),
-					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 					attributeName = ARIA_ACTIVEDESCENDANT;
+
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 				bot.setHtmlWithSelection( '' );
 
@@ -176,8 +179,6 @@
 
 				assert.isFalse( editable.hasAttribute( attributeName ),
 					'The [' + attributeName + '] attribute is present' );
-
-				autoComplete.destroy();
 			} );
 		},
 
@@ -185,10 +186,11 @@
 		'test pressing Arrow Up key triggers [aria-activedescendant] attribute update to the selected item': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 				attributeName = ARIA_ACTIVEDESCENDANT,
 				selectedItem,
 				selectedItemId;
+
+			autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 			this.editorBot.setHtmlWithSelection( '' );
 
@@ -203,8 +205,6 @@
 
 			assert.areSame( selectedItemId, editable.getAttribute( attributeName ),
 				'Wrong value for [' + attributeName + '] attribute after opening autocomplete' );
-
-			autoComplete.destroy();
 		},
 
 		// (#4617)
@@ -217,8 +217,9 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					editable = editor.editable(),
-					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 					attributeName = ARIA_ACTIVEDESCENDANT;
+
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 				bot.setHtmlWithSelection( '' );
 
@@ -230,8 +231,6 @@
 
 				assert.isFalse( editable.hasAttribute( attributeName ),
 					'The [' + attributeName + '] attribute is present' );
-
-				autoComplete.destroy();
 			} );
 		},
 
@@ -239,10 +238,11 @@
 		'test pressing Arrow Down key triggers [aria-activedescendant] attribute update to the selected item': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 				attributeName = ARIA_ACTIVEDESCENDANT,
 				selectedItem,
 				selectedItemId;
+
+			autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 			this.editorBot.setHtmlWithSelection( '' );
 
@@ -257,8 +257,6 @@
 
 			assert.areSame( selectedItemId, editable.getAttribute( attributeName ),
 				'Wrong value for [' + attributeName + '] attribute after opening autocomplete' );
-
-			autoComplete.destroy();
 		},
 
 		// (#4617)
@@ -271,8 +269,9 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					editable = editor.editable(),
-					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 					attributeName = ARIA_ACTIVEDESCENDANT;
+
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 				bot.setHtmlWithSelection( '' );
 
@@ -284,8 +283,6 @@
 
 				assert.isFalse( editable.hasAttribute( attributeName ),
 					'The [' + attributeName + '] attribute is present' );
-
-				autoComplete.destroy();
 			} );
 		},
 
@@ -293,9 +290,10 @@
 		'test mouseover triggers [aria-activedescendant] attribute update to the selected item': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 				target,
 				targetId;
+
+			autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 			this.editorBot.setHtmlWithSelection( '' );
 
@@ -308,8 +306,6 @@
 
 			assert.areSame( targetId, editable.getAttribute( ARIA_ACTIVEDESCENDANT ),
 				'Wrong value for [' + ARIA_ACTIVEDESCENDANT + '] attribute' );
-
-			autoComplete.destroy();
 		},
 
 		// (#4617)
@@ -322,8 +318,9 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					editable = editor.editable(),
-					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig ),
 					target;
+
+				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 				bot.setHtmlWithSelection( '' );
 
@@ -335,8 +332,6 @@
 
 				assert.isFalse( editable.hasAttribute( ARIA_ACTIVEDESCENDANT ),
 					'The [' + ARIA_ACTIVEDESCENDANT + '] attribute is present' );
-
-				autoComplete.destroy();
 			} );
 		},
 
@@ -347,6 +342,7 @@
 				autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 			autoComplete.destroy();
+			autoComplete = null;
 
 			assert.areSame( 'none', editable.getAttribute( 'aria-autocomplete' ),
 				'The [aria-autocomplete] attribute is not set to none' );
@@ -369,6 +365,7 @@
 					autoComplete = new CKEDITOR.plugins.autocomplete( editor, autoCompleteConfig );
 
 				autoComplete.destroy();
+				autoComplete = null;
 
 				assert.isFalse( editable.hasAttribute( 'aria-autocomplete' ),
 					'The [aria-autocomplete] attribute is present' );
