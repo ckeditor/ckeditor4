@@ -179,7 +179,7 @@
 					editor.editable( newEditable );
 
 					editor.status = 'recreating';
-					editor.setData( cacheData, { callback:  callback, internal: false, fireSnapshot: false } );
+					editor.setData( cacheData, { callback:  callback, internal: false, noSnapshot: false } );
 				}
 
 			} );
