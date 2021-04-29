@@ -810,14 +810,15 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  */
 
 /**
- * Document observation starting point for mutation observer. Needed to detect if wysiwygarea editor is reattaching to DOM. Native DOM object.
+ * Document observation starting point for mutation observer. Needed to detect when classic, wysiwygarea
+ * editor reattaches to DOM to restore editor's previous state. Native DOM object.
  *
- * To recreate editor `wysiwygarea` iframe after reattach editor to DOM:
+ * To recreate editor `wysiwygarea` iframe after editor was reattached to DOM:
  *
- * * make sure detachable element is nested on any level under observable element.
- * * make sure editor is nested on any level under detachable element.
+ * * make sure **detachable element** is nested on any level under **observable element**;
+ * * make sure **editor** is nested on any level under **detachable element**.
  *
- * See overview of hierarchy below (HTML pseudocode):
+ * See the sample overview of hierarchy below (HTML pseudocode):
  *
  * ```
  * <observable>
@@ -831,9 +832,10 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  * </observable>
  * ```
  *
- * By default, the entire document is observed. However, if you know exactly which element is detaching, you can choose its direct parent to increase performance a little.
+ * By default, the entire document is observed. However, if you know exactly which element is detaching,
+ * you can choose its **direct parent** to increase performance a little.
  *
- * Note, that if you choose element which is detaching, no changes will be detected.
+ * Note, that if you choose element which is detaching, **no changes will be detected**.
  *
  * @since 4.17.0
  * @cfg {HTMLElement} [observableParent=CKEDITOR.document.$]
