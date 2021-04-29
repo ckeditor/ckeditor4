@@ -148,6 +148,8 @@
 				 * function, which can be used to remove the listener at any time.
 				 */
 				on: function( eventName, listenerFunction, scopeObj, listenerData, priority ) {
+					var me = this;
+
 					// Create the function to be fired for this listener.
 					function listenerFirer( editor, publisherData, stopFn, cancelFn ) {
 						var ev = {
@@ -183,8 +185,6 @@
 						// Default the priority, if needed.
 						if ( isNaN( priority ) )
 							priority = 10;
-
-						var me = this;
 
 						listenerFirer.fn = listenerFunction;
 						listenerFirer.priority = priority;
