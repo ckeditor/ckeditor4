@@ -2,6 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
+**Note:** This test contains a lot of steps, but it is important to check them together.
+
 **Note:** Open dev console to track possible errors. If any occurs, test failed.
 
 1. Reattach editor with double click on "Toggle" button.
