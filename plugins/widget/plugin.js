@@ -3465,7 +3465,10 @@
 		var elementTag = decodeEnterMode( widget.editor.config.enterMode ),
 			newElement = new CKEDITOR.dom.element( elementTag );
 
-		newElement.appendBogus();
+		// Avoid nesting <br> inside <br>.
+		if ( elementTag !== 'br' ) {
+			newElement.appendBogus();
+		}
 
 		if ( position === 'after' ) {
 			newElement.insertAfter( widget.wrapper );
