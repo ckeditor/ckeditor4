@@ -197,11 +197,7 @@
 					return false;
 				}
 
-				var types = dataTransfer.getTypes(),
-					isFileOnly = types.length === 1 && types[ 0 ] === 'Files',
-					containsFile = dataTransfer.getFilesCount() === 1;
-
-				return isFileOnly && containsFile;
+				return dataTransfer.isFileTransfer();
 			}
 
 			editor.on( 'paste', function( evt ) {
