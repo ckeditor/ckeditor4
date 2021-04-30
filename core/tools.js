@@ -1618,7 +1618,14 @@
 			if ( window.CSS && CSS.escape ) {
 				return CSS.escape( selector );
 			}
-			return cssEscapeForIE(selector);
+
+			// Simple leading digit escape.
+			if ( !isNaN( parseInt( selector.charAt( 0 ), 10 ) ) ) {
+				return '\\3' + selector.charAt( 0 ) + ' ' + selector.substring( 1, selector.length );
+			}
+
+			//escape colon
+			return selector.replace(/:/g, "\\:");
 		},
 
 		/**
