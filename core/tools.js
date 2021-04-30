@@ -1552,7 +1552,8 @@
 				return '\\3' + selector.charAt( 0 ) + ' ' + selector.substring( 1, selector.length );
 			}
 
-			return selector;
+			//escape colon
+			return selector.replace(/:/g, "\\:");
 		},
 
 		/**
