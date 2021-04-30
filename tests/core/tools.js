@@ -855,50 +855,12 @@
 			assert.areSame( escapedSelector, '\\30 ', 'only-one-number selector' );
 		},
 
-		// (#681)
-		'test escapeCss - escaped colon in the css selector': function() {
-			var selector = 'abc:def';
+		'test escapeCss - has-colon selector': function() {
+			var selector = 'abc:efg';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			// Check has-colon selector.
-			assert.areSame( escapedSelector, 'abc\\:def', 'has-colon selector' );
-		},
-
-		// (#681)
-		'test escapeCss - escaped dot in the css selector': function() {
-			var selector = 'abc.def';
-			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
-
-			// Check has-dot selector.
-			assert.areSame( escapedSelector, 'abc\\.def', 'has-dot selector' );
-		},
-
-		// (#681)
-		'test escapeCss - escaped null in the css selector': function() {
-			var selector = 'a\0';
-			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
-
-			// Check has-null selector.
-			assert.areSame( escapedSelector, 'a\uFFFD', 'has-null selector' );
-		},
-
-		// (#681)
-		'test escapeCss - escaped U+0001 to U+001F or U+007F in the css selector': function() {
-			var selector = '\x7F\x01\x02\x1E\x1F';
-			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
-
-			assert.areSame( escapedSelector, '\\7f \\1 \\2 \\1e \\1f ', 'has U+0001 to U+001F or U+007F in selector' );
-		},
-
-		// (#681)
-		'test escapeCss - escaped U+002D in the css selector': function() {
-			var selectorWithSecondCharIsNumber = '-1a';
-			var escapedSelectorWithSecondCharIsNumber = CKEDITOR.tools.escapeCss( selectorWithSecondCharIsNumber );
-			var selectorWithSecondCharIsNotNumber = '-a';
-			var escapedSelectorWithSecondCharNotNumber = CKEDITOR.tools.escapeCss( selectorWithSecondCharIsNotNumber );
-
-			assert.areSame( escapedSelectorWithSecondCharIsNumber, '-\\31 a', 'has U+002D in selector and second character and is in the range [0-9]' );
-			assert.areSame( escapedSelectorWithSecondCharNotNumber, '-a', 'has U+002D in selector and second character and is not in the range [0-9]' );
+			// Check starts-with-number selector.
+			assert.areSame( escapedSelector, 'abd\\:efg', 'has-colon selector' );
 		},
 
 		'test escapeCss - standard selector': function() {
