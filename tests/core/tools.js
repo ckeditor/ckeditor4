@@ -855,6 +855,14 @@
 			assert.areSame( escapedSelector, '\\30 ', 'only-one-number selector' );
 		},
 
+		'test escapeCss - has-colon selector': function() {
+			var selector = 'abc:efg';
+			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check starts-with-number selector.
+			assert.areSame( escapedSelector, 'abd\\:efg', 'has-colon selector' );
+		},
+
 		'test escapeCss - standard selector': function() {
 			var selector = 'aaa';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
