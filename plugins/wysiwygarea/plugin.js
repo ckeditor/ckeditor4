@@ -654,7 +654,7 @@
 			} catch ( e ) {}
 		} else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && editor.config.disableObjectResizing ) {
 			// It's possible to prevent resizing up to IE10.
-			blockResizeStart( editor );
+			blockResizeStart();
 		}
 
 		// Disables resizing by preventing default action on resizestart event.
