@@ -860,7 +860,7 @@
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
 			// Check starts-with-number selector.
-			assert.areSame( escapedSelector, 'abd\\:efg', 'has-colon selector' );
+			assert.areSame( escapedSelector, 'abc\\:efg', 'has-colon selector' );
 		},
 
 		'test escapeCss - standard selector': function() {
