@@ -859,7 +859,7 @@
 			var selector = 'abc:efg';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			// Check starts-with-number selector.
+			// Check has-colon selector.
 			assert.areSame( escapedSelector, 'abc\\:efg', 'has-colon selector' );
 		},
 
