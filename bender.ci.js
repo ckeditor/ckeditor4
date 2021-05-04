@@ -19,5 +19,6 @@ config.startBrowserOptions = {
 		options: [ '-headless' ]
 	}
 };
+config.captureTimeout = 60000;
 
 module.exports = config;
