@@ -5,7 +5,7 @@
 
 1. Press button.
 
-## Expected result
+### Expected result
 
 Two alerts ("1" and "2") are displayed.
 
