@@ -32,10 +32,7 @@ config.startBrowserOptions = {
 				'--enable-automation',
 				'--password-store=basic',
 				'--use-mock-keychain',
-				'--disable-gpu',
-				'--headless',
-				'--hide-scrollbars',
-				'--mute-audio'
+				'--disable-gpu'
 			]
 		]
 	},
