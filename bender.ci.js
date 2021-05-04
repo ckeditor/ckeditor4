@@ -7,7 +7,13 @@ config.startBrowser = process.env.BROWSER || 'Chrome';
 config.isTravis = true;
 config.startBrowserOptions = {
 	Chrome: {
-		options: [ '--headless', '--disable-gpu' ]
+		options: [
+			[
+				'--headless',
+				'--hide-scrollbars',
+				'--mute-audio'
+			]
+		]
 	},
 	Firefox: {
 		options: [ '-headless' ]
