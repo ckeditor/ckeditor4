@@ -197,7 +197,7 @@
 					return false;
 				}
 
-				return dataTransfer.isFileTransfer();
+				return dataTransfer.isFileTransfer() && dataTransfer.getFilesCount() === 1;
 			}
 
 			editor.on( 'paste', function( evt ) {
