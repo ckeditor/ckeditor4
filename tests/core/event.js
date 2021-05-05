@@ -481,5 +481,27 @@ bender.test(
 
 		testObject.fire( 'evt' );
 		assert.areSame( 1, evtCouter, 'After removeAllListeners.' );
+	},
+
+	// (#4652)
+	'test false is not treated as the event cancellation marker': function() {
+		var testObject = {},
+			counter = 0;
+
+		CKEDITOR.event.implementOn( testObject );
+
+		testObject.on( 'someEvent', function( ev ) {
+			assert.areSame( false, ev.data, 'data (1) is wrong' );
+			counter++;
+		} );
+
+		testObject.on( 'someEvent', function( ev ) {
+			assert.areSame( false, ev.data, 'data (2) is wrong' );
+			counter++;
+		} );
+
+		testObject.fire( 'someEvent', false );
+
+		assert.areSame( 2, counter, 'wrong number of calls' );
 	}
 } );

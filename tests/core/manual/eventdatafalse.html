@@ -1,0 +1,24 @@
+<p>
+	<button id="trigger">Click me!</button>
+</p>
+
+<script>
+	( function() {
+		var button = CKEDITOR.document.getById( 'trigger' ),
+			obj = {};
+
+		CKEDITOR.event.implementOn( obj );
+
+		obj.on( 'testEvent', function() {
+			alert( 1 );
+		} );
+
+		obj.on( 'testEvent', function() {
+			alert( 2 );
+		} );
+
+		button.on( 'click', function() {
+			obj.fire( 'testEvent', false );
+		} );
+	} )();
+</script>
