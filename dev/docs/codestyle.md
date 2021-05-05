@@ -1253,6 +1253,8 @@ But **NEVER** put more than one test suite into the same manual test file:
 
 Extract common logic instead using helper functions for HTML files or use `__template__.html` feature which will share the same HTML file among manual tests in the same folder. It's better to accept some small duplication than overrun manual testing due to high test complexity.
 
+In test scenarios indentation with tabs is preferred most of the time. However, to force bender to properly render nested lists, use spaces instead.
+
 ----------
 
 
