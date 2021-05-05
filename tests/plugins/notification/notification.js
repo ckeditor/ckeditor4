@@ -17,7 +17,7 @@ function assertNotification( expectedNotification, actualNotification ) {
 	assert.areSame( expectedNotification.message, actualNotification.message, 'Message should be the same.' );
 	assert.areSame( expectedNotification.type, actualNotification.type, 'Type should be the same.' );
 	assert.areSame( expectedNotification.duration, actualNotification.duration, 'Duration should be the same.' );
-	if ( actualNotification.type == 'progresss' ) {
+	if ( actualNotification.type == 'progress' ) {
 		assert.areSame( expectedNotification.progress, actualNotification.progress, 'Progress should be the same.' );
 	}
 	assertNotificationElement( expectedNotification, actualNotification.element );
