@@ -5,7 +5,7 @@
 
 **Note:** Open dev console to track possible errors. If any occurs, test failed.
 
-1. Use 'Insert Media Embed' and put there any image address. For example google logo.
+1. Use 'Insert Media Embed' and put there any image URL.
 2. Change editor mode to `source mode` two times.
 
 	**Expected:** The `wysiwyg mode` loads normally.
