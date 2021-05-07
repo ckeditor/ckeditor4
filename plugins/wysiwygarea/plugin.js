@@ -804,8 +804,8 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  */
 
 /**
- * Document observation starting point for mutation observer. Needed to detect when classic, wysiwygarea
- * editor reattaches to DOM to restore editor's previous state. Native DOM object.
+ * Native DOM element, a document observation starting point for mutation observer. Needed to detect when classic, wysiwygarea
+ * editor reattaches to DOM to restore editor's previous state.
  *
  * To recreate editor `wysiwygarea` iframe after editor was reattached to DOM:
  *
