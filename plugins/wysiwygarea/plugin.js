@@ -55,6 +55,7 @@
 					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label,
 					recreateEditable = false,
 					isIE11 = CKEDITOR.env.ie && CKEDITOR.env.version === 11,
+					isMutationObserverSupported = !!window.MutationObserver,
 					mutationObserver;
 
 				if ( frameLabel ) {
@@ -79,7 +80,7 @@
 						desc.remove();
 					}
 
-					if ( !CKEDITOR.env.ie || isIE11 ) {
+					if ( isMutationObserverSupported ) {
 						mutationObserver.disconnect();
 					}
 				} );
@@ -106,7 +107,7 @@
 					editor.setData( editor.getData( 1 ), callback );
 
 					// Skip IE's below version 11. They don't support MutationObserver (#4462).
-					if ( CKEDITOR.env.ie && !isIE11 ) {
+					if ( !isMutationObserverSupported ) {
 						return;
 					}
 
@@ -149,14 +150,7 @@
 				}
 
 				function checkIfAffectsEditor( node ) {
-					if ( !node.querySelector ) {
-						return;
-					}
-
-					var editorSelector = '#' + editor.container.getId(),
-						editorElement = node.querySelector( editorSelector ) || node === editor.container.$;
-
-					if ( !editorElement ) {
+					if ( !node.contains || !node.contains( editor.container.$ ) ) {
 						return;
 					}
 
