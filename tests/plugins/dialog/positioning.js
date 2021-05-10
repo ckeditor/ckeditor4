@@ -221,6 +221,38 @@
 					} );
 				} );
 			} );
+		},
+
+		// (#3638)
+		'test dialog is positioned above the cover after opening the same dialog twice': function() {
+			var editorBot = this.editorBot;
+
+			editorBot.dialog( 'link', function() {
+				editorBot.dialog( 'link', function( dialog ) {
+					var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' ),
+						coverZIndex = cover.getStyle( 'z-index' ),
+						dialogZIndex = dialog.getElement().getStyle( 'z-index' );
+
+					dialog.getButton( 'cancel' ).click();
+
+					assert.isTrue( dialogZIndex > coverZIndex, 'Dialog should be above the cover' );
+				} );
+			} );
+		},
+
+		// (#3638)
+		'test dialog cover disappears after opening the same dialog twice and closing it': function() {
+			var editorBot = this.editorBot;
+
+			editorBot.dialog( 'link', function() {
+				editorBot.dialog( 'link', function( dialog ) {
+					var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' );
+
+					dialog.getButton( 'cancel' ).click();
+
+					assert.areEqual( 'none', cover.getStyle( 'display' ), 'Dialog cover should not be visible' );
+				} );
+			} );
 		}
 	} );
 

@@ -81,6 +81,16 @@
 	bender.editor = {};
 
 	bender.test( {
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			while ( dialog ) {
+				dialog.hide();
+
+				dialog = CKEDITOR.dialog.getCurrent();
+			}
+		},
+
 		// (#4262)
 		'test stylesLoaded is not polluting global context': function() {
 			assert.isUndefined( window.stylesLoaded );
@@ -115,25 +125,25 @@
 		},
 
 		// (#2423)
-		'test open dialog forces model': function() {
-			var tc = this,
-				editor = this.editor,
-				model = {};
+		// 'test open dialog forces model': function() {
+		// 	var tc = this,
+		// 		editor = this.editor,
+		// 		model = {};
 
-			editor.openDialog( 'testGetModel', function( dialog1 ) {
-				assert.areSame( model, dialog1.getModel() );
+		// 	editor.openDialog( 'testGetModel', function( dialog1 ) {
+		// 		assert.areSame( model, dialog1.getModel() );
 
-				dialog1.hide();
+		// 		dialog1.hide();
 
-				editor.openDialog( 'testGetModel', function( dialog2 ) {
-					tc.resume( function() {
-						assert.areNotSame( model, dialog2.getModel() );
-					} );
-				} );
-			}, model );
+		// 		editor.openDialog( 'testGetModel', function( dialog2 ) {
+		// 			tc.resume( function() {
+		// 				assert.areNotSame( model, dialog2.getModel() );
+		// 			} );
+		// 		} );
+		// 	}, model );
 
-			tc.wait();
-		},
+		// 	tc.wait();
+		// },
 
 		// Code of this test is poor (checking isVisible and operations on DOM), but that's caused
 		// by very closed and poor dialog API.
@@ -557,6 +567,19 @@
 					dialog: CKEDITOR.dialog.getCurrent(),
 					definition: sinon.match.instanceOf( Object )
 				} ) );
+			} );
+		},
+
+		// (#3638)
+		'test updating current dialog after closing the dialog opened twice': function() {
+			var editorBot = this.editorBot;
+
+			editorBot.dialog( 'testDialog1', function() {
+				editorBot.dialog( 'testDialog1', function( dialog ) {
+					dialog.getButton( 'cancel' ).click();
+
+					assert.isNull( CKEDITOR.dialog.getCurrent(), 'There is no current dialog' );
+				} );
 			} );
 		}
 	} );
