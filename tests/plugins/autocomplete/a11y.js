@@ -18,6 +18,10 @@
 		autoComplete;
 
 	bender.test( {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+		},
+
 		tearDown: function() {
 			autoComplete && autoComplete.destroy();
 		},
