@@ -1,0 +1,21 @@
+<p>
+	<button id="trigger">Open dialogs</button>
+</p>
+<div id="editor">
+	<p>Hello there!</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function( evt ) {
+				var editor = evt.editor;
+
+				CKEDITOR.document.getById( 'trigger' ).on( 'click', function() {
+					editor.execCommand( 'link' );
+					editor.execCommand( 'link' );
+				} );
+			}
+		}
+	} );
+</script>
