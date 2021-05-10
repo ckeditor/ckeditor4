@@ -230,8 +230,8 @@
 			editorBot.dialog( 'link', function() {
 				editorBot.dialog( 'link', function( dialog ) {
 					var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' ),
-						coverZIndex = cover.getStyle( 'z-index' ),
-						dialogZIndex = dialog.getElement().getStyle( 'z-index' );
+						coverZIndex = parseInt( cover.getStyle( 'z-index' ), 10 ),
+						dialogZIndex = parseInt( dialog.getElement().getStyle( 'z-index' ), 10 );
 
 					dialog.getButton( 'cancel' ).click();
 
