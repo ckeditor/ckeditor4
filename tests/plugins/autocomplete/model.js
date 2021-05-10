@@ -150,7 +150,7 @@
 
 			model.setActive( false );
 
-			assert.areSame( 2, spy.callCount, 'Event change-isActive wasn't propagated with two callbacks.' );
+			assert.areSame( 2, spy.callCount, 'Event change-isActive was not propagated with two callbacks.' );
 		},
 
 		'test set query sync': function() {
