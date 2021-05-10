@@ -278,6 +278,9 @@
 			this._listeners.push( this.view.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
+			// (#4617)
+			this._listeners.push( this.model.on( 'change-isActive', this.updateAriaAttributesOnEditable, this ) );
+
 			// Update view position on viewport change.
 			// Note: CKEditor's event system has a limitation that one function
 			// cannot be used as listener for the same event more than once. Hence, wrapper functions.
@@ -293,9 +296,11 @@
 				e.data.preventDefault();
 			}, null, null, 9999 ) );
 
-			// Register keybindings if editor is already initialized.
+			// Register keybindings and add ARIA attributes to the editable right away
+			// if editor is already initialized.
 			if ( editable ) {
 				this.registerPanelNavigation();
+				this.addAriaAttributesToEditable();
 			}
 
 			// Note: CKEditor's event system has a limitation that one function
@@ -303,6 +308,7 @@
 			// (#4107)
 			editor.on( 'contentDom', function() {
 				this.registerPanelNavigation();
+				this.addAriaAttributesToEditable();
 			}, this );
 		},
 
@@ -315,6 +321,73 @@
 			this._listeners.push( editable.attachListener( editable, 'keydown', function( evt ) {
 				this.onKeyDown( evt );
 			}, this, null, 5 ) );
+		},
+
+		/**
+		 * @since 4.16.1
+		 */
+		addAriaAttributesToEditable: function() {
+			var editable = this.editor.editable(),
+				autocompleteId = this.view.element.getAttribute( 'id' );
+
+			if ( !editable.isInline() ) {
+				return;
+			}
+
+			editable.setAttribute( 'aria-controls', autocompleteId );
+			editable.setAttribute( 'aria-activedescendant', '' );
+			editable.setAttribute( 'aria-autocomplete', 'list' );
+			editable.setAttribute( 'aria-expanded', 'false' );
+		},
+
+		/**
+		 * @since 4.16.1
+		 */
+		updateAriaAttributesOnEditable: function( evt ) {
+			var editable = this.editor.editable(),
+				isActive = evt.data;
+
+			if ( !editable.isInline() ) {
+				return;
+			}
+
+			editable.setAttribute( 'aria-expanded', isActive ? 'true' : 'false' );
+
+			if ( !isActive ) {
+				editable.setAttribute( 'aria-activedescendant', '' );
+			}
+		},
+
+		/**
+		 * @since 4.16.1
+		 */
+		updateAriaActiveDescendantAttributeOnEditable: function( id ) {
+			var editable = this.editor.editable();
+
+			if ( !editable.isInline() ) {
+				return;
+			}
+
+			editable.setAttribute( 'aria-activedescendant', id );
+		},
+
+		/**
+		 * @since 4.16.1
+		 */
+		removeAriaAttributesFromEditable: function() {
+			var editable = this.editor.editable();
+
+			if ( !editable || !editable.isInline() ) {
+				return;
+			}
+
+			editable.removeAttributes( [
+				'aria-controls',
+				'aria-expanded',
+				'aria-activedescendant'
+			] );
+
+			editable.setAttribute( 'aria-autocomplete', 'none' );
 		},
 
 		/**
@@ -371,6 +444,7 @@
 			this._listeners = [];
 
 			this.view.element && this.view.element.remove();
+			this.removeAriaAttributesFromEditable();
 		},
 
 		/**
@@ -526,8 +600,13 @@
 		 * @private
 		 */
 		onSelectedItemId: function( evt ) {
-			this.model.setItem( evt.data );
-			this.view.selectItem( evt.data );
+			var itemId = evt.data,
+				selectedItem = this.view.getItemById( itemId );
+
+			this.model.setItem( itemId );
+			this.view.selectItem( itemId );
+
+			this.updateAriaActiveDescendantAttributeOnEditable( selectedItem.getAttribute( 'id' ) );
 		},
 
 		/**
@@ -726,11 +805,16 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		createElement: function() {
-			var el = new CKEDITOR.dom.element( 'ul', this.document );
+			var el = new CKEDITOR.dom.element( 'ul', this.document ),
+				id = CKEDITOR.tools.getNextId();
 
+			// Id is needed to correctly bind autocomplete with the editable (#4617).
+			el.setAttribute( 'id', id );
 			el.addClass( 'cke_autocomplete_panel' );
 			// Below float panels and context menu, but above maximized editor (-5).
 			el.setStyle( 'z-index', this.editor.config.baseFloatZIndex - 3 );
+			// Add also appropriate role (#4617).
+			el.setAttribute( 'role', 'listbox' );
 
 			return el;
 		},
@@ -742,8 +826,15 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		createItem: function( item ) {
-			var encodedItem = encodeItem( item );
-			return CKEDITOR.dom.element.createFromHtml( this.itemTemplate.output( encodedItem ), this.document );
+			var encodedItem = encodeItem( item ),
+				itemElement = CKEDITOR.dom.element.createFromHtml( this.itemTemplate.output( encodedItem ), this.document ),
+				id = CKEDITOR.tools.getNextId();
+
+			// Add attributes needed for a11y support (#4617).
+			itemElement.setAttribute( 'id', id );
+			itemElement.setAttribute( 'role', 'option' );
+
+			return itemElement;
 		},
 
 		/**
