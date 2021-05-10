@@ -13,8 +13,11 @@
 		},
 		tearDown: function() {
 			var dialog = CKEDITOR.dialog.getCurrent();
-			if ( dialog ) {
+
+			while ( dialog ) {
 				dialog.hide();
+
+				dialog = CKEDITOR.dialog.getCurrent();
 			}
 		},
 
@@ -219,7 +222,6 @@
 				} );
 			} );
 		}
-
 	} );
 
 	function mockWindowGetViewPaneSize( viewPaneSize ) {
