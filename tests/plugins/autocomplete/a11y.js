@@ -13,7 +13,7 @@
 		ESC = 27,
 		ARROW_UP = 38,
 		ARROW_DOWN = 40,
-		// I always mess up this name…
+		// Avoid attribute misspell in many places. Support IDE auto-complete.
 		ARIA_ACTIVEDESCENDANT = 'aria-activedescendant',
 		autoComplete;
 

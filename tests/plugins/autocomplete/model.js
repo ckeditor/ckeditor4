@@ -138,7 +138,7 @@
 		},
 
 		// (#4653)
-		'test change-isActive event is propagated correctly for setting autocomplete to inactive state': function() {
+		'test change-isActive event is propagated when model is deactivated with event.data set as false': function() {
 			var model = new CKEDITOR.plugins.autocomplete.model( dataCallback ),
 				spy = sinon.spy();
 
@@ -150,7 +150,7 @@
 
 			model.setActive( false );
 
-			assert.areSame( 2, spy.callCount );
+			assert.areSame( 2, spy.callCount, 'Event change-isActive wasn't propagated with two callbacks.' );
 		},
 
 		'test set query sync': function() {
