@@ -1,5 +1,5 @@
 /* bender-tags: editor, 4462 */
-/* bender-ckeditor-plugins: basicstyles,toolbar */
+/* bender-ckeditor-plugins: basicstyles,toolbar,undo */
 
 ( function() {
 	'use strict';
@@ -12,6 +12,63 @@
 	var startupData = '<p>CKEditor4</p>';
 
 	bender.test( {
+		'test reattached editor preserve undo step': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
+			bender.editorBot.create( {
+				startupData: startupData,
+				name: 'editor' + new Date().getTime()
+			}, function( bot ) {
+				var editorContainer = bot.editor.container,
+					editorContainerParent = editorContainer.getParent();
+
+				bot.execCommand( 'bold' );
+
+				editorContainer.remove();
+				editorContainerParent.append( editorContainer );
+
+				CKEDITOR.tools.setTimeout( function() {
+					resume( function() {
+						var undoCommand = bot.editor.getCommand( 'undo' );
+						assert.areSame( CKEDITOR.TRISTATE_OFF, undoCommand.state, 'Reattached editor should preserve undo step' );
+					} );
+				}, 200 );
+
+				wait();
+			} );
+		},
+
+		'test reattached editor preserve redo step': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
+			bender.editorBot.create( {
+				startupData: startupData,
+				name: 'editor' + new Date().getTime()
+			}, function( bot ) {
+				var editorContainer = bot.editor.container,
+					editorContainerParent = editorContainer.getParent();
+
+				bot.execCommand( 'bold' );
+				bot.execCommand( 'undo' );
+
+				editorContainer.remove();
+				editorContainerParent.append( editorContainer );
+
+				CKEDITOR.tools.setTimeout( function() {
+					resume( function() {
+						var redoCommand = bot.editor.getCommand( 'redo' );
+						assert.areSame( CKEDITOR.TRISTATE_OFF, redoCommand.state, 'Reattached editor should preserve redo step' );
+					} );
+				}, 200 );
+
+				wait();
+			} );
+		},
+
 		'test reattached editor contains the same data with observed default dom object': function() {
 			if ( !isSupportedEnvironment() ) {
 				assert.ignore();
