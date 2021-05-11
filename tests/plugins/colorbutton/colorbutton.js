@@ -193,7 +193,7 @@
 		'test background color items not draggable': testElementsNotDraggable( 'BGColor' ),
 
 		// (#4247)
-		'test panel should not have a scrollbar': function() {
+		'test panel should have styles that prevent scrollbar apperance': function() {
 			bender.editorBot.create( {
 				name: 'editorScrollbar',
 				config: {
