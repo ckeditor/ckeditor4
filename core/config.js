@@ -289,7 +289,8 @@ CKEDITOR.config = {
 	 * reflect the CSS used in the target pages where the content is to be
 	 * displayed.
 	 *
-	 * **Note:** This configuration value is ignored by {@glink guide/dev_inline inline editor}
+	 * **Note:** This configuration value is used only in {@glink guide/dev_framed `<iframe>`-based editor }
+	 * and ignored by {@glink guide/dev_inline inline editor}
 	 * as it uses the styles that come directly from the page that CKEditor is
 	 * rendered on. It is also ignored in the {@link #fullPage full page mode} in
 	 * which the developer has full control over the page HTML code.
