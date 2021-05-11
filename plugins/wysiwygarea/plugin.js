@@ -154,11 +154,11 @@
 						return;
 					}
 
-					if ( isIE11 ) {
-						recreateEditable = true;
-					} else {
+					if ( !isIE11 ) {
 						recreate();
+						return;
 					}
+					recreateEditable = true;
 				}
 
 				function recreate() {
