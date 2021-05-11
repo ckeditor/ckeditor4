@@ -192,7 +192,7 @@
 						// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 						block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
-						// First render of panel have a scrollbar, but it shouldn't (https://github.com/ckeditor/ckeditor4/issues/4247)
+						// First render of panel have a scrollbar, but it shouldn't (#4247).
 						block.element.getAscendant( { html: 1 } ).setStyle( 'overflow', 'hidden' );
 
 						CKEDITOR.ui.fire( 'ready', this );
