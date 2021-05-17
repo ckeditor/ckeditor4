@@ -892,7 +892,7 @@
 			var selectorWithSecondCharIsNotNumber = '-a';
 			var escapedSelectorWithSecondCharNotNumber = CKEDITOR.tools.escapeCss( selectorWithSecondCharIsNotNumber );
 
-			assert.areSame( escapedSelectorWithSecondCharIsNumber, '-\\30 a', 'has U+002D in selector and second character and is in the range [0-9]' );
+			assert.areSame( escapedSelectorWithSecondCharIsNumber, '-\\31 a', 'has U+002D in selector and second character and is in the range [0-9]' );
 			assert.areSame( escapedSelectorWithSecondCharNotNumber, '-a', 'has U+002D in selector and second character and is not in the range [0-9]' );
 		},
 
