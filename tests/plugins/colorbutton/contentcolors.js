@@ -131,7 +131,7 @@
 
 				firstColorBox = colorHistoryTools.findInPanel( '.cke_colorhistory_row .cke_colorbox', txtColorBtn );
 
-				assert.areEqual( 'E74C3C', firstColorBox.getAttribute( 'data-value' ), 'Order is incorrect.' );
+				assert.areEqual( '#E74C3C', firstColorBox.getAttribute( 'data-value' ), 'Order is incorrect.' );
 				assert.areEqual( '26', firstColorBox.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
 				assert.areEqual( '28', firstColorBox.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
 
@@ -160,11 +160,11 @@
 
 				firstColorBox = colorHistoryTools.findInPanel( '.cke_colorhistory_row .cke_colorbox', txtColorBtn );
 
-				assert.areEqual( '2ECC71', firstColorBox.getAttribute( 'data-value' ), 'Order is incorrect.' );
+				assert.areEqual( '#2ECC71', firstColorBox.getAttribute( 'data-value' ), 'Order is incorrect.' );
 				assert.areEqual( '26', firstColorBox.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
 				assert.areEqual( '29', firstColorBox.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
 
-				yellowColorBox = colorHistoryTools.findInPanel( '.cke_colorhistory_row [data-value="F1C40F"]', txtColorBtn );
+				yellowColorBox = colorHistoryTools.findInPanel( '.cke_colorhistory_row [data-value="#F1C40F"]', txtColorBtn );
 
 				assert.areEqual( 'Vivid Yellow', yellowColorBox.getAttribute( 'title' ), 'Color label is incorrect.' );
 				assert.areEqual( '28', yellowColorBox.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
