@@ -855,7 +855,7 @@
 			assert.areSame( escapedSelector, '\\30 ', 'only-one-number selector' );
 		},
 
-		'test escapeCss - has-colon selector': function() {
+		'test escapeCss - escaped colon in the css selector': function() {
 			var selector = 'abc:efg';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
