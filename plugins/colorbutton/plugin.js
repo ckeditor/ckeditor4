@@ -586,7 +586,7 @@
 
 			extractColorBox: function( colorCode ) {
 				var index = CKEDITOR.tools.getIndex( this.boxes, function( box ) {
-					return box.color === colorCode;
+					return box.color.getInitialValue() === colorCode;
 				} );
 
 				if ( index < 0 ) {
