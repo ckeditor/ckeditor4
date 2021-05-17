@@ -386,7 +386,8 @@
 						colorName = parts[ 0 ],
 						colorCode = parts[ 1 ] || colorName,
 						colorLabel = parts[ 1 ] ? colorName : undefined,
-						box = new ColorBox( editor, { color: colorCode, label: colorLabel }, clickFn );
+						color = new CKEDITOR.tools.color( colorCode, colorCode ),
+						box = new ColorBox( editor, { color: color, label: colorLabel }, clickFn );
 
 					box.setPositionIndex( startingPosition + i, total );
 					output.push( box.getHtml() );
@@ -477,11 +478,13 @@
 	} );
 	ColorBox = CKEDITOR.tools.createClass( {
 		$: function( editor, colorData, clickFn ) {
+			var initialValue = colorData.color.getInitialValue();
+
 			this.$ = new CKEDITOR.dom.element( 'td' );
 
-			this.color = CKEDITOR.tools._isValidColorFormat( colorData.color ) ? colorData.color : '';
+			this.color = colorData.color;
 			this.clickFn = clickFn;
-			this.label = colorData.label || ColorBox.colorNames( editor )[ this.color ] || this.color;
+			this.label = colorData.label || ColorBox.colorNames( editor )[ initialValue ] || initialValue;
 
 			this.setHtml();
 		},
@@ -535,16 +538,18 @@
 			},
 
 			setHtml: function() {
+				var colorStr = this.color.getInitialValue();
+
 				this.getElement().setHtml( '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 						' title="' + this.label + '"' +
 						' draggable="false"' +
 						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-						' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + this.color + '\',\'' + this.label +  '\', this);' +
+						' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + colorStr + '\',\'' + this.label +  '\', this);' +
 						' return false;"' +
-						' href="javascript:void(\'' + this.color + '\')"' +
-						' data-value="' + this.color + '"' +
+						' href="javascript:void(\'' + colorStr + '\')"' +
+						' data-value="' + colorStr + '"' +
 						' role="option">' +
-						'<span class="cke_colorbox" style="background-color:#' + this.color + '"></span>' +
+						'<span class="cke_colorbox" style="background-color:' + this.color.getHex() + '"></span>' +
 					'</a>' );
 			},
 
@@ -702,7 +707,9 @@
 			},
 
 			createAtBeginning: function( colorCode ) {
-				this._.moveToBeginning( new ColorBox( this.editor, { color: colorCode }, this.clickFn ) );
+				var color = new CKEDITOR.tools.color( colorCode, colorCode );
+
+				this._.moveToBeginning( new ColorBox( this.editor, { color: color }, this.clickFn ) );
 			},
 
 			addNewRow: function() {
