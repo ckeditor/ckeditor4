@@ -41,21 +41,21 @@
 		},
 		// this is the polyill for the CSS.escape for IE.
 		// https://github.com/mathiasbynens/CSS.escape/blob/master/css.escape.js
-		cssEscapeForIE = function(value) {
+		cssEscapeForIE = function( value ) {
 			var string = String(value);
 			var length = string.length;
 			var index = -1;
 			var codeUnit;
 			var result = '';
 			var firstCodeUnit = string.charCodeAt(0);
-			while (++index < length) {
+			while ( ++index < length ) {
 				codeUnit = string.charCodeAt(index);
 				// Note: there’s no need to special-case astral symbols, surrogate
 				// pairs, or lone surrogates.
 
 				// If the character is NULL (U+0000), then the REPLACEMENT CHARACTER
 				// (U+FFFD).
-				if (codeUnit == 0x0000) {
+				if ( codeUnit == 0x0000 ) {
 					result += '\uFFFD';
 					continue;
 				}
@@ -64,16 +64,16 @@
 					// If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
 					// U+007F, […]
 					(codeUnit >= 0x0001 && codeUnit <= 0x001F) || codeUnit == 0x007F ||
-					// If the character is the first character and is in the range [0-9]
-					// (U+0030 to U+0039), […]
-					(index == 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039) ||
-					// If the character is the second character and is in the range [0-9]
-					// (U+0030 to U+0039) and the first character is a `-` (U+002D), […]
-					(
-						index == 1 &&
-						codeUnit >= 0x0030 && codeUnit <= 0x0039 &&
-						firstCodeUnit == 0x002D
-					)
+						// If the character is the first character and is in the range [0-9]
+						// (U+0030 to U+0039), […]
+						(index == 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039) ||
+							// If the character is the second character and is in the range [0-9]
+							// (U+0030 to U+0039) and the first character is a `-` (U+002D), […]
+							(
+								index == 1 &&
+								codeUnit >= 0x0030 && codeUnit <= 0x0039 &&
+								firstCodeUnit == 0x002D
+							)
 				) {
 					// https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
 					result += '\\' + codeUnit.toString(16) + ' ';
@@ -111,7 +111,6 @@
 				// Otherwise, the escaped character.
 				// https://drafts.csswg.org/cssom/#escape-a-character
 				result += '\\' + string.charAt(index);
-
 			}
 			return result;
 		};
