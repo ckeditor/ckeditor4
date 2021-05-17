@@ -272,9 +272,9 @@
 								finalColor = '';
 							}
 							if ( type == 'fore' ) {
-								colorData.automaticTextColor = '#' + ColorBox.normalizeColor( automaticColor );
+								colorData.automaticTextColor = ColorBox.normalizeColor( automaticColor );
 							}
-							colorData.selectionColor = finalColor ? '#' + finalColor : '';
+							colorData.selectionColor = finalColor ? finalColor : '';
 
 							selectColor( panelBlock, finalColor );
 						}
@@ -509,22 +509,11 @@
 			 * @returns {String} Returns color in hex format, but without the hash at the beginning, e.g. `ff0000` for red.
 			 */
 			normalizeColor: function( color ) {
-				var alphaRegex = /^(rgb|hsl)a\(/g,
-					transparentRegex = /^rgba\((\s*0\s*,?){4}\)$/g,
-					isAlphaColor = alphaRegex.test( color ),
-					// Browsers tend to represent transparent color as rgba(0, 0, 0, 0), so we need to filter out this value.
-					isTransparentColor = transparentRegex.test( color ),
-					colorInstance;
-
-				// For colors with alpha channel we need to use CKEDITOR.tools.color normalization (#4351).
-				if ( isAlphaColor && !isTransparentColor ) {
-					colorInstance = new CKEDITOR.tools.color( color );
-
-					return CKEDITOR.tools.normalizeHex( colorInstance.getHex() || '' ).replace( /#/g, '' );
-				}
+				var colorInstance = new CKEDITOR.tools.color( color );
 
 				// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
-				return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
+				// It also covers other cases, like colors with alpha channel (#4351).
+				return CKEDITOR.tools.normalizeHex( colorInstance.getHex() || '' );
 			}
 		},
 
