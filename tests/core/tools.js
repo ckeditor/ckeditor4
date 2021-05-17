@@ -856,11 +856,19 @@
 		},
 
 		'test escapeCss - escaped colon in the css selector': function() {
-			var selector = 'abc:efg';
+			var selector = 'abc:def';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
 			// Check has-colon selector.
-			assert.areSame( escapedSelector, 'abc\\:efg', 'has-colon selector' );
+			assert.areSame( escapedSelector, 'abc\\:def', 'has-colon selector' );
+		},
+
+		'test escapeCss - escaped dot in the css selector': function() {
+			var selector = 'abc.def';
+			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check has-dot selector.
+			assert.areSame( escapedSelector, 'abc\\.def', 'has-dot selector' );
 		},
 
 		'test escapeCss - standard selector': function() {
