@@ -484,12 +484,19 @@
 
 			this.color = colorData.color;
 			this.clickFn = clickFn;
-			this.label = colorData.label || ColorBox.colorNames( editor )[ initialValue ] || initialValue;
+			this.label = colorData.label || ColorBox.getColorName( editor, this.color ) || initialValue;
 
 			this.setHtml();
 		},
 
 		statics: {
+			getColorName: function( editor, color ) {
+				var names = ColorBox.colorNames( editor ),
+					hex = color.getHex().replace( /^#/g, '' );
+
+				return names[ hex ];
+			},
+
 			colorNames: function( editor ) {
 				return editor.lang.colorbutton.colors;
 			},
