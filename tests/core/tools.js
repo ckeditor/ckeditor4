@@ -871,6 +871,31 @@
 			assert.areSame( escapedSelector, 'abc\\.def', 'has-dot selector' );
 		},
 
+		'test escapeCss - escaped null in the css selector': function() {
+			var selector = 'a\0';
+			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check has-null selector.
+			assert.areSame( escapedSelector, 'a\uFFFD', 'has-null selector' );
+		},
+
+		'test escapeCss - escaped U+0001 to U+001F or U+007F in the css selector': function() {
+			var selector = '\x7F\x01\x02\x1E\x1F';
+			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			assert.areSame( escapedSelector, '\\7f \\1 \\2 \\1e \\1f ', 'has U+0001 to U+001F or U+007F in selector' );
+		},
+
+		'test escapeCss - escaped U+002D in the css selector': function() {
+			var selectorWithSecondCharIsNumber = '-1a';
+			var escapedSelectorWithSecondCharIsNumber = CKEDITOR.tools.escapeCss( selectorWithSecondCharIsNumber );
+			var selectorWithSecondCharIsNotNumber = '-a';
+			var escapedSelectorWithSecondCharNotNumber = CKEDITOR.tools.escapeCss( selectorWithSecondCharIsNotNumber );
+
+			assert.areSame( escapedSelectorWithSecondCharIsNumber, '-\\30 a', 'has U+002D in selector and second character and is in the range [0-9]' );
+			assert.areSame( escapedSelectorWithSecondCharNotNumber, '-a', 'has U+002D in selector and second character and is not in the range [0-9]' );
+		},
+
 		'test escapeCss - standard selector': function() {
 			var selector = 'aaa';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
