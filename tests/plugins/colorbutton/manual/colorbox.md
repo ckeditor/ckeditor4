@@ -22,6 +22,6 @@ Do following steps for both text color button and background color button in bot
 	**Unexpected:** Color is not applied.
 5. Click button.
 
-	**Expected:** The applied color is rendered in the color history.
+	**Expected:** The applied color is rendered in the color history. The correct color box is selected.
 
-	**Unexpected:** The applied color is not rendered in the color history.
+	**Unexpected:** The applied color is not rendered in the color history. The correct color box is not selected.
