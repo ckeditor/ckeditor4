@@ -1,5 +1,7 @@
 /* bender-tags: editor, dialog */
 /* bender-ckeditor-plugins: dialog */
+/* bender-include: _helpers/tools.js */
+/* global dialogTools */
 
 ( function() {
 	'use strict';
@@ -81,15 +83,7 @@
 	bender.editor = {};
 
 	bender.test( {
-		tearDown: function() {
-			var dialog = CKEDITOR.dialog.getCurrent();
-
-			while ( dialog ) {
-				dialog.hide();
-
-				dialog = CKEDITOR.dialog.getCurrent();
-			}
-		},
+		tearDown: dialogTools.closeAllDialogs,
 
 		// (#4262)
 		'test stylesLoaded is not polluting global context': function() {

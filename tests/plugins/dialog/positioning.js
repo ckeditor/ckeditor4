@@ -1,5 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: dialog, link, toolbar, colorbutton, colordialog */
+/* bender-include: _helpers/tools.js */
+/* global dialogTools */
 
 ( function() {
 	'use strict';
@@ -11,15 +13,7 @@
 			// Make sure page is scrollable on vertical screens.
 			CKEDITOR.document.getBody().appendHtml( '<div style="height:4000px"></div>' );
 		},
-		tearDown: function() {
-			var dialog = CKEDITOR.dialog.getCurrent();
-
-			while ( dialog ) {
-				dialog.hide();
-
-				dialog = CKEDITOR.dialog.getCurrent();
-			}
-		},
+		tearDown: dialogTools.closeAllDialogs,
 
 		// (#2395).
 		'test body has hidden scrollbars when dialog is opened': function() {
