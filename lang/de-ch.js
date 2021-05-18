@@ -62,7 +62,7 @@ CKEDITOR.lang[ 'de-ch' ] = {
 		generalTab: 'Allgemein',
 		advancedTab: 'Erweitert',
 		validateNumberFailed: 'Dieser Wert ist keine Nummer.',
-		confirmNewPage: 'Alle nicht gespeicherten Änderungen gehen verlohren. Sind Sie sicher die neue Seite zu laden?',
+		confirmNewPage: 'Alle nicht gespeicherten Änderungen gehen verloren. Sind Sie sicher, die neue Seite zu laden?',
 		confirmCancel: 'Einige Optionen wurden geändert. Wollen Sie den Dialog dennoch schliessen?',
 		options: 'Optionen',
 		target: 'Zielseite',
@@ -83,7 +83,7 @@ CKEDITOR.lang[ 'de-ch' ] = {
 		justify: 'Blocksatz',
 		alignLeft: 'Linksbündig',
 		alignRight: 'Rechtsbündig',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Zentriert',
 		alignTop: 'Oben',
 		alignMiddle: 'Mitte',
 		alignBottom: 'Unten',
@@ -91,11 +91,11 @@ CKEDITOR.lang[ 'de-ch' ] = {
 		invalidValue: 'Ungültiger Wert.',
 		invalidHeight: 'Höhe muss eine Zahl sein.',
 		invalidWidth: 'Breite muss eine Zahl sein.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
-		invalidCssLength: 'Wert spezifiziert für "%1" Feld muss ein positiver numerischer Wert sein mit oder ohne korrekte CSS Messeinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
-		invalidHtmlLength: 'Wert spezifiziert für "%1" Feld muss ein positiver numerischer Wert sein mit oder ohne korrekte HTML Messeinheit (px oder %).',
-		invalidInlineStyle: 'Wert spezifiziert für inline Stilart muss enthalten ein oder mehr Tupels mit dem Format "Name : Wert" getrennt mit Semikolons.',
-		cssLengthTooltip: 'Gebe eine Zahl ein für ein Wert in pixels oder eine Zahl mit einer korrekten CSS Messeinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
+		invalidLength: 'Wert spezifiziert für "%1" Feld muss ein positiver numerischer Wert sein mit oder ohne korrekter HTML-Masseinheit (px oder %).',
+		invalidCssLength: 'Wert spezifiziert für "%1" Feld muss ein positiver numerischer Wert sein mit oder ohne korrekter CSS-Masseinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
+		invalidHtmlLength: 'Wert spezifiziert für "%1" Feld muss ein positiver numerischer Wert sein mit oder ohne korrekter HTML-Masseinheit (px oder %).',
+		invalidInlineStyle: 'Wert spezifiziert für inline Stilart muss enthalten ein oder mehr Wertepaare mit dem Format "Name : Wert" getrennt durch Semikolons.',
+		cssLengthTooltip: 'Geben Sie eine Zahl ein für ein Wert in Pixel oder eine Zahl mit einer korrekten CSS-Masseinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nicht verfügbar</span>',
@@ -107,40 +107,40 @@ CKEDITOR.lang[ 'de-ch' ] = {
 			16: 'Umschalt',
 			17: 'Strg',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Leertaste',
 			35: 'Ende',
 			36: 'Pos1',
 			46: 'Entfernen',
-			112: 'F1', // MISSING
-			113: 'F2', // MISSING
-			114: 'F3', // MISSING
-			115: 'F4', // MISSING
-			116: 'F5', // MISSING
-			117: 'F6', // MISSING
-			118: 'F7', // MISSING
-			119: 'F8', // MISSING
-			120: 'F9', // MISSING
-			121: 'F10', // MISSING
-			122: 'F11', // MISSING
-			123: 'F12', // MISSING
-			124: 'F13', // MISSING
-			125: 'F14', // MISSING
-			126: 'F15', // MISSING
-			127: 'F16', // MISSING
-			128: 'F17', // MISSING
-			129: 'F18', // MISSING
-			130: 'F19', // MISSING
-			131: 'F20', // MISSING
-			132: 'F21', // MISSING
-			133: 'F22', // MISSING
-			134: 'F23', // MISSING
-			135: 'F24', // MISSING
-			224: 'Command' // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Befehl'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut', // MISSING
+		keyboardShortcut: 'Tastaturkürzel',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Standard'
 	}
 };

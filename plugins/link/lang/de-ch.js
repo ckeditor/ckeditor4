@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'de-ch', {
 	anchorName: 'Nach Ankername',
 	charset: 'Verknüpfter Ressourcenzeichensatz',
 	cssClasses: 'Formatvorlagenklasse',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Herunterladen erzwingen',
+	displayText: 'Anzeigetext',
 	emailAddress: 'E-Mail-Adresse',
 	emailBody: 'Nachrichtentext',
 	emailSubject: 'Betreffzeile',
@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'de-ch', {
 	noAnchors: '(Keine Anker im Dokument vorhanden)',
 	noEmail: 'Bitte geben Sie E-Mail-Adresse an',
 	noUrl: 'Bitte geben Sie die Link-URL an',
-	noTel: 'Please type the phone number', // MISSING
+	noTel: 'Bitte geben Sie die Telefonnummer ein',
 	other: '<andere>',
-	phoneNumber: 'Phone number', // MISSING
+	phoneNumber: 'Telefonnummer',
 	popupDependent: 'Abhängig (Netscape)',
 	popupFeatures: 'Pop-up Fenstereigenschaften',
 	popupFullScreen: 'Vollbild (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'de-ch', {
 	toAnchor: 'Anker in dieser Seite',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Telefon',
 	toolbar: 'Link einfügen/editieren',
 	type: 'Link-Typ',
 	unlink: 'Link entfernen',

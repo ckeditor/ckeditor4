@@ -5,35 +5,35 @@
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'de-ch', {
 	title: 'Barrierefreiheitinformationen',
-	contents: 'Hilfeinhalt. Um den Dialog zu schliessen die Taste ESC drücken.',
+	contents: 'Hilfeinhalt. Um den Dialog zu schliessen, die Taste ESC drücken.',
 	legend: [
 		{
 		name: 'Allgemein',
 		items: [
 			{
 			name: 'Editorwerkzeugleiste',
-			legend: 'Drücken Sie ${toolbarFocus} auf der Symbolleiste. Gehen Sie zur nächsten oder vorherigen Symbolleistengruppe mit TAB und SHIFT+TAB. Gehen Sie zur nächsten oder vorherigen Symbolleiste auf die Schaltfläche mit dem RECHTS- oder LINKS-Pfeil. Drücken Sie die Leertaste oder Eingabetaste, um die Schaltfläche in der Symbolleiste aktivieren.'
+			legend: 'Drücken Sie ${toolbarFocus} auf der Symbolleiste. Gehen Sie zur nächsten oder vorherigen Symbolleistengruppe mit TAB und SHIFT+TAB. Gehen Sie zur nächsten oder vorherigen Symbolleiste auf die Schaltfläche mit dem RECHTS- oder LINKS-Pfeil. Drücken Sie die Leertaste oder Eingabetaste, um die Schaltfläche in der Symbolleiste zu aktivieren.'
 		},
 
 			{
 			name: 'Editordialog',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Drücken Sie innerhalb eines Dialogs TAB, um zum nächsten Element zu springen. Drücken Sie SHIFT+TAB, um zum vorigen Element zu springen, drücke ENTER um das Formular im Dialog abzusenden, drücken Sie ESC, um den Dialog zu schliessen. Hat der Dialog mehrere Tabs, dann können Sie durch ALT+F10 die Tab-Liste aufrufen or mittels TAB als Teil der Dialog-Tab-Reihenfolge. Ist die Tab-Liste fokussiert, kann mithilfe der Pfeiltasten (LINKS und RECHTS) zwischen den Tabs gewechselt werden.' 
 		},
 
 			{
 			name: 'Editor-Kontextmenü',
-			legend: 'Dürcken Sie ${contextMenu} oder die Anwendungstaste um das Kontextmenü zu öffnen. Man kann die Pfeiltasten zum Wechsel benutzen. Mit der Leertaste oder der Enter-Taste kann man den Menüpunkt aufrufen. Schliessen Sie das Kontextmenü mit der ESC-Taste.'
+			legend: 'Drücken Sie ${contextMenu} oder die Anwendungstaste, um das Kontextmenü zu öffnen. Man kann die Pfeiltasten zum Wechsel benutzen. Mit der Leertaste oder der Enter-Taste kann man den Menüpunkt aufrufen. Schliessen Sie das Kontextmenü mit der ESC-Taste.'
 		},
 
 			{
 			name: 'Editor-Listenbox',
-			legend: 'Innerhalb einer Listenbox kann man mit der TAB-Taste oder den Pfeilrunter-Taste den nächsten Menüeintrag wählen. Mit der SHIFT+TAB Tastenkombination oder der Pfeilhoch-Taste gelangt man zum vorherigen Menüpunkt. Mit der Leertaste oder Enter kann man den Menüpunkt auswählen. Drücken Sie ESC zum Verlassen des Menüs.'
+			legend: 'Innerhalb einer Listenbox kann man mit der TAB-Taste oder den Pfeil-runter-Taste den nächsten Menüeintrag wählen. Mit der SHIFT+TAB Tastenkombination oder der Pfeil-hoch-Taste gelangt man zum vorherigen Menüpunkt. Mit der Leertaste oder Enter kann man den Menüpunkt auswählen. Drücken Sie ESC zum Verlassen des Menüs.'
 		},
 
 			{
 			name: 'Editor-Elementpfadleiste',
-			legend: 'Drücken Sie ${elementsPathFocus} um sich durch die Pfadleiste zu bewegen. Um zum nächsten Element zu gelangen drücken Sie TAB oder die Pfeilrechts-Taste. Zum vorherigen Element gelangen Sie mit der SHIFT+TAB oder der Pfeillinks-Taste. Drücken Sie die Leertaste oder Enter um das Element auszuwählen.'
+			legend: 'Drücken Sie ${elementsPathFocus}, um sich durch die Pfadleiste zu bewegen. Um zum nächsten Element zu gelangen, drücken Sie TAB oder die Pfeil-rechts-Taste. Zum vorherigen Element gelangen Sie mit der SHIFT+TAB oder der Pfeil-links-Taste. Drücken Sie die Leertaste oder Enter, um das Element auszuwählen.'
 		}
 		]
 	},
@@ -69,21 +69,21 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de-ch', {
 			legend: 'Drücken Sie ${toolbarCollapse}'
 		},
 			{
-			name: 'Zugang bisheriger Fokussierung Raumbefehl ',
-			legend: 'Drücken Sie ${accessPreviousSpace}  auf den am nächsten nicht erreichbar Fokus-Abstand vor die Einfügemarke zugreifen: zwei benachbarte HR-Elemente. Wiederholen Sie die Tastenkombination um entfernte Fokusräume zu erreichen. '
+			name: 'Zugang zum letzten Fokus-Bereich',
+			legend: 'Drücken Sie ${accessPreviousSpace}, um zum nächsten unerreichbaren Fokus-Bereich vor der aktuellen Position zu gelangen.  Zum Beispiel: zwei benachbarte HR-Elemente. Wiederholen Sie die Tastenkombination, um weitere Fokus-Bereichen zu erreichen. '
 		},
 			{
-			name: 'Zugang nächster Schwerpunkt Raumbefehl ',
-			legend: 'Drücken Sie $ { accessNextSpace }, um den nächsten unerreichbar Fokus Leerzeichen nach dem Cursor zum Beispiel auf: zwei benachbarten HR Elemente. Wiederholen Sie die Tastenkombination zum fernen Fokus Bereiche zu erreichen. '
+			name: 'Zugang zum nächsten Fokus-Bereich',
+			legend: 'Drücken Sie $ { accessNextSpace }, um den nächsten unerreichbaren Fokusbereich vor der aktuellen Position zu gelangen. Zum Beispiel: zwei benachbarten HR Elemente. Wiederholen Sie die Tastenkombination, um weitere Fokus-Bereiche zu erreichen. '
 		},
 			{
 			name: 'Eingabehilfen',
 			legend: 'Drücken Sie ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Als Klartext einfügen',
+			legend: 'Drücken Sie ${pastetext}',
+			legendEdge: 'Drücken Sie ${pastetext} und anschliessend ${paste}'
 		}
 		]
 	}
@@ -137,7 +137,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de-ch', {
 	dash: 'Bindestrich',
 	period: 'Punkt',
 	forwardSlash: 'Schrägstrich',
-	graveAccent: 'Gravis',
+	graveAccent: 'Accent grave',
 	openBracket: 'Öffnende eckige Klammer',
 	backSlash: 'Rückwärtsgewandter Schrägstrich',
 	closeBracket: 'Schliessende eckige Klammer',

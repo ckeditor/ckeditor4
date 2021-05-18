@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'de-ch', {
 	scrolling: 'Rollbalken anzeigen',
 	title: 'IFrame-Eigenschaften',
 	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	tabindex: 'Aus Tab-Reihenfolge entfernen'
 } );

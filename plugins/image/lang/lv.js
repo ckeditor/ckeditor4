@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'image', 'lv', {
 	hSpace: 'Horizontālā telpa',
 	img2Button: 'Vai vēlaties pārveidot izvēlēto attēlu uz attēla pogas?',
 	infoTab: 'Informācija par attēlu',
-	linkTab: 'Hipersaite',
+	linkTab: 'Saite',
 	lockRatio: 'Nemainīga Augstuma/Platuma attiecība',
 	menu: 'Attēla īpašības',
 	resetSize: 'Atjaunot sākotnējo izmēru',

@@ -8,10 +8,10 @@ CKEDITOR.plugins.setLang( 'emoji', 'sv', {
 	navigationLabel: 'Groups navigation for emoji sections.', // MISSING
 	title: 'Emojilista',
 	groups: {
-		people: 'People', // MISSING
-		nature: 'Nature and animals', // MISSING
-		food: 'Food and drinks', // MISSING
-		travel: 'Travel and places', // MISSING
+		people: 'Människor',
+		nature: 'Natur och djur',
+		food: 'Mat och dryck',
+		travel: 'Resor och platser',
 		activities: 'Aktiviteter',
 		objects: 'Objekt',
 		symbols: 'Symboler',

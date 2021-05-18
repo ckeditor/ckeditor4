@@ -53,7 +53,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'copyformatting', {
-		lang: 'ar,az,bg,cs,da,de,el,en,en-au,eo,es-mx,et,eu,fa,fr,gl,hr,hu,it,ja,ko,ku,lv,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,uk,vi,zh,zh-cn',
+		lang: 'ar,az,bg,cs,da,de,de-ch,el,en,en-au,eo,es-mx,et,eu,fa,fr,gl,hr,hu,it,ja,ko,ku,lv,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,uk,vi,zh,zh-cn',
 		icons: 'copyformatting',
 		hidpi: true,
 

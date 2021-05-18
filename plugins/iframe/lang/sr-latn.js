@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'sr-latn', {
 	scrolling: 'Uključi pomerajuće trake',
 	title: 'IFrame podešavanje',
 	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	tabindex: 'Uklonite sa tabindeksa'
 } );

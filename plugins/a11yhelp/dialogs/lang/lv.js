@@ -61,7 +61,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'lv', {
 			legend: 'Nospiediet ${underline}'
 		},
 			{
-			name: 'Hipersaites komanda',
+			name: 'Saites komanda',
 			legend: 'Nospiediet ${link}'
 		},
 			{

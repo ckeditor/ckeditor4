@@ -63,7 +63,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		type: 'Tips',
 		typeText: 'Teksts',
 		typePass: 'Parole',
-		typeEmail: 'Epasts',
+		typeEmail: 'E-pasts',
 		typeSearch: 'Meklēt',
 		typeTel: 'Tālruņa numurs',
 		typeUrl: 'Adrese'

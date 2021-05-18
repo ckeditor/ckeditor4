@@ -541,7 +541,7 @@
 
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
-		lang: 'ar,az,bg,cs,da,de,en,en-au,et,fa,fr,gl,hr,hu,it,ku,lv,nb,nl,no,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,tt,uk,zh,zh-cn',
+		lang: 'ar,az,bg,cs,da,de,de-ch,en,en-au,et,fa,fr,gl,hr,hu,it,ku,lv,nb,nl,no,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,tt,uk,zh,zh-cn',
 		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright,easyimageupload', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 

@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'sv', {
 	scrolling: 'Aktivera rullningslister',
 	title: 'iFrame-egenskaper',
 	toolbar: 'iFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	tabindex: 'Ta bort från tabindex'
 } );
