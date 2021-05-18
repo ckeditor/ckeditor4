@@ -492,9 +492,21 @@
 		statics: {
 			getColorName: function( editor, color ) {
 				var names = ColorBox.colorNames( editor ),
-					hex = color.getHex().replace( /^#/g, '' );
+					hex = color.getHex().replace( /^#/g, '' ),
+					shortHex = getShortHex( hex );
 
-				return names[ hex ];
+				return names[ hex ] || names[ shortHex ];
+
+				function getShortHex( hex ) {
+					var isShortenableRegex = /([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3/i,
+						isShortenable = isShortenableRegex.test( hex );
+
+					if ( !isShortenable ) {
+						return null;
+					}
+
+					return hex[ 0 ] + hex[ 2 ] + hex[ 4 ];
+				}
 			},
 
 			colorNames: function( editor ) {
