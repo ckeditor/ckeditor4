@@ -906,7 +906,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this._.parentDialog = null;
 				showCover( this._.editor );
 			} else if ( CKEDITOR.dialog._.currentTop !== this ) {
-				// Do the magic with z-indexes only if the current dialog is not already visible (#3638).
+				// Reposition the new dialog only if the current dialog is not already on the top (#3638).
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
 
 				var parentElement = this._.parentDialog.getElement().getFirst();
