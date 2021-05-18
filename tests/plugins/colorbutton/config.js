@@ -21,6 +21,14 @@
 				language: 'en'
 			}
 		},
+		colorLabelsLongHex: {
+			creator: 'inline',
+			name: 'colorLabelsLongHex',
+			config: {
+				colorButton_colors: 'F00,FF0000,#f00,#ff0000',
+				language: 'en'
+			}
+		},
 		colorAttributes: {
 			creator: 'inline',
 			name: 'colorAttributes',
@@ -101,6 +109,24 @@
 			colorOptions = bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' );
 
 			CKEDITOR.tools.array.map( colorOptions.toArray(), function( el, index ) {
+				assert.areSame( expectedLabels[ index ], colorOptions.getItem( index ).getAttribute( 'title' ), 'Title for color at index ' + index );
+			} );
+		},
+
+		// (#4592)
+		'test config.colorButton_colors labels with long hex and hexes with #': function() {
+			var editor = this.editors.colorLabelsLongHex,
+				bgColorBtn = editor.ui.get( 'BGColor' ),
+				expectedLabels = [ 'Red', 'Red', 'Red', 'Red' ],
+				colorOptions;
+
+			// Editor needs a focus, otherwise IE/Edge throws permission error.
+			editor.focus();
+			bgColorBtn.click( editor );
+
+			colorOptions = bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' );
+
+			CKEDITOR.tools.array.forEach( colorOptions.toArray(), function( el, index ) {
 				assert.areSame( expectedLabels[ index ], colorOptions.getItem( index ).getAttribute( 'title' ), 'Title for color at index ' + index );
 			} );
 		},
