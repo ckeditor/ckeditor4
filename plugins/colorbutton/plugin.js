@@ -526,9 +526,11 @@
 
 			getAppliableColor: function( color ) {
 				var initialValue = color.getInitialValue(),
-					isHexLike = initialValue.toLowerCase() === color.getHex().toLowerCase().substr( 1 );
+					isHexLike = initialValue.toLowerCase() ===
+						color.getHex( initialValue.length === 3 ).toLowerCase().substr( 1 ),
+					isShortHexLike = isHexLike && initialValue.length === 3;
 
-				return isHexLike ? color.getHex() : initialValue;
+				return isHexLike ? color.getHex( isShortHexLike ) : initialValue;
 			}
 		},
 
