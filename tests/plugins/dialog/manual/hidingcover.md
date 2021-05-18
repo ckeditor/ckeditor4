@@ -7,8 +7,9 @@
 	**Expected:** Dialog is above the cover and you can interact with it.
 
 	**Unexpected:** Dialog is hidden under the cover.
+
 2. Close dialog.
 
-  **Expected:** Cover disappears and you can interact with the page and the editor.
+	**Expected:** Cover disappears and you can interact with the page and the editor.
 
-  **Unexpected:** Cover is stubborn and prevents access to the page and the editor.
+	**Unexpected:** Cover is stubborn and prevents access to the page and the editor.
