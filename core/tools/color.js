@@ -50,31 +50,39 @@
 			/**
 			 * Gets hexadecimal color representation.
 			 *
+			 * @param {Boolean} [shorten=false] If it's possible, shorten the returned hex to the 3-number format.
 			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF`) or default value.
 			 */
-			getHex: function() {
+			getHex: function( shorten ) {
 				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
 
-				var color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha );
+				var isShortenableRegex = /^#([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3$/i,
+					color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha ),
+					hex = this._.formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] ),
+					isShortenable = isShortenableRegex.test( hex );
 
-				return this._.formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] );
+				return shorten && isShortenable ? this._.shortenHex( hex ) : hex;
 			},
 
 			/**
 			 * Gets hexadecimal color representation with separate alpha channel.
 			 *
+			 * @param {Boolean} [shorten=false] If it's possible, shorten the returned hex to the 4-number format.
 			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF00`) or default value.
 			 */
-			getHexWithAlpha: function() {
+			getHexWithAlpha: function( shorten ) {
 				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
 
-				var alpha = Math.round( this._.alpha * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE );
+				var isShortenableRegex = /^#([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3([a-f0-9])\4$/i,
+					alpha = Math.round( this._.alpha * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ),
+					hex = this._.formatHexString( this._.red, this._.green, this._.blue, alpha ),
+					isShortenable = isShortenableRegex.test( hex );
 
-				return this._.formatHexString( this._.red, this._.green, this._.blue, alpha ) ;
+				return shorten && isShortenable ? this._.shortenHex( hex ) : hex;
 			},
 
 			/**
@@ -300,6 +308,24 @@
 				}
 
 				return hexColorCode.toUpperCase();
+			},
+
+			/**
+			 * Shorten provided hex to 3 or 4 numbers, depending on the input.
+			 *
+			 * @private
+			 * @param {String} hex 6- or 8-number hex (e.g. `#FFFF00` or `#DDCC00AA`).
+			 * @returns {String} Shorten hex (e.g. `#FF0` or `#DC0A`)
+			 */
+			shortenHex: function( hex ) {
+				var withAlpha = hex.length === 9,
+					shortHex = '#' + hex[ 1 ] + hex[ 3 ] + hex[ 5 ];
+
+				if ( withAlpha ) {
+					shortHex += hex[ 7 ];
+				}
+
+				return shortHex;
 			},
 
 			/**

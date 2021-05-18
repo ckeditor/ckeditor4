@@ -5,7 +5,7 @@ var colorTools = ( function() {
 		return function() {
 			var colorObj = new CKEDITOR.tools.color( inputColorCode, defaultValue );
 
-			var resultColorCode = colorObj[ getterMethod ]();
+			var resultColorCode = typeof getterMethod === 'function' ? getterMethod( colorObj ) : colorObj[ getterMethod ]();
 
 			assert.areSame( expectedColorCode, resultColorCode );
 		};
