@@ -311,7 +311,7 @@
 								}
 							}, null, colorData );
 						} else {
-							setColor( color && '#' + color, colorName, history );
+							setColor( color && color, colorName, history );
 						}
 
 						// The colors may be duplicated in both default palette and color history. If user reopens panel
