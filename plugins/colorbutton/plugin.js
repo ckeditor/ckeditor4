@@ -521,6 +521,13 @@
 				// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
 				// It also covers other cases, like colors with alpha channel (#4351).
 				return CKEDITOR.tools.normalizeHex( colorInstance.getHex() || '' );
+			},
+
+			getAppliableColor: function( color ) {
+				var initialValue = color.getInitialValue(),
+					isHexLike = initialValue.toLowerCase() === color.getHex().toLowerCase().substr( 1 );
+
+				return isHexLike ? color.getHex() : initialValue;
 			}
 		},
 
@@ -534,18 +541,19 @@
 			},
 
 			setHtml: function() {
-				var colorStr = this.color.getInitialValue();
+				var colorStr = this.color.getInitialValue(),
+					appliableColor = ColorBox.getAppliableColor( this.color );
 
 				this.getElement().setHtml( '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 						' title="' + this.label + '"' +
 						' draggable="false"' +
 						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-						' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + colorStr + '\',\'' + this.label +  '\', this);' +
+						' onclick="CKEDITOR.tools.callFunction(' + this.clickFn + ',\'' + appliableColor + '\',\'' + this.label +  '\', this);' +
 						' return false;"' +
 						' href="javascript:void(\'' + colorStr + '\')"' +
 						' data-value="' + colorStr + '"' +
 						' role="option">' +
-						'<span class="cke_colorbox" style="background-color:' + this.color.getHex() + '"></span>' +
+						'<span class="cke_colorbox" style="background-color:' + appliableColor + '"></span>' +
 					'</a>' );
 			},
 
