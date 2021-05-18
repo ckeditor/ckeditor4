@@ -229,7 +229,8 @@
 
 					dialog.getButton( 'cancel' ).click();
 
-					assert.isTrue( dialogZIndex > coverZIndex, 'Dialog should be above the cover' );
+					assert.isTrue( dialogZIndex > coverZIndex, 'Dialog should be above the cover (dialog z-index: ' +
+						dialogZIndex + ', cover z-index: ' + coverZIndex + ')' );
 				} );
 			} );
 		},
