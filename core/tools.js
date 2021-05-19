@@ -42,12 +42,12 @@
 		// this is the polyill for the CSS.escape for IE.
 		// https://github.com/mathiasbynens/CSS.escape/blob/master/css.escape.js
 		cssEscapeForIE = function( selector ) {
-			var stringifiedSelector = String(selector),
+			var stringifiedSelector = String( selector ),
 				selectorLength = stringifiedSelector.length,
 				index = -1,
 				codeUnit,
 				result = '',
-				firstCodeUnit = stringifiedSelector.charCodeAt(0),
+				firstCodeUnit = stringifiedSelector.charCodeAt( 0 ),
 				UTF16 = {
 					NULL: 0x0000,
 					START_OF_HEADING: 0x0001,
@@ -70,7 +70,7 @@
 			}
 
 			while ( ++index < selectorLength ) {
-				codeUnit = stringifiedSelector.charCodeAt(index);
+				codeUnit = stringifiedSelector.charCodeAt( index );
 
 				if ( codeUnit == UTF16.NULL ) {
 					result += '\uFFFD';
@@ -83,12 +83,12 @@
 							( index == 1 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) && firstCodeUnit == UTF16.HYPHEN_MINUS )
 				) {
 					// https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
-					result += '\\' + codeUnit.toString(16) + ' ';
+					result += '\\' + codeUnit.toString( 16 ) + ' ';
 					continue;
 				}
 
 				if ( index == 0 && selectorLength == 1 && codeUnit == UTF16.HYPHEN_MINUS ) {
-					result += '\\' + stringifiedSelector.charAt(index);
+					result += '\\' + stringifiedSelector.charAt( index );
 					continue;
 				}
 
@@ -101,13 +101,13 @@
 					isInRange( codeUnit, UTF16.SMALL_LETTER_A, UTF16.SMALL_LETTER_Z )
 				) {
 					// the character itself
-					result += stringifiedSelector.charAt(index);
+					result += stringifiedSelector.charAt( index );
 					continue;
 				}
 
 				// Otherwise, the escaped character.
 				// https://drafts.csswg.org/cssom/#escape-a-character
-				result += '\\' + stringifiedSelector.charAt(index);
+				result += '\\' + stringifiedSelector.charAt( index );
 			}
 			return result;
 		};
