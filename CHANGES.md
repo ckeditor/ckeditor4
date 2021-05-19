@@ -5,9 +5,9 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 * [#4617](https://github.com/ckeditor/ckeditor4/issues/4617): Fixed: [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) is not accessible in inline editors.
-* [#4493](https://github.com/ckeditor/ckeditor4/issues/4493): Fixed: [Rich Combo](https://ckeditor.com/cke4/addon/richcombo) label does not reflects the current value of the combobox.
-* [#1572](https://github.com/ckeditor/ckeditor4/issues/1572): Fixed: Paragraph before or after a [widget](https://ckeditor.com/cke4/addon/widget) can not be removed. Thanks to [bunglegrind](https://github.com/bunglegrind)!
-* [#4301](https://github.com/ckeditor/ckeditor4/issues/4301): Fixed: Pasted content is overwritten when pasted in initially empty editor with [`div` enter mode](https://ckeditor.com/docs/ckeditor4/latest/features/enterkey.html).
+* [#4493](https://github.com/ckeditor/ckeditor4/issues/4493): Fixed: The [drop-down](https://ckeditor.com/cke4/addon/richcombo) label does not reflect the current value of the drop-down.
+* [#1572](https://github.com/ckeditor/ckeditor4/issues/1572): Fixed: A paragraph before or after a [widget](https://ckeditor.com/cke4/addon/widget) cannot be removed. Thanks to [bunglegrind](https://github.com/bunglegrind)!
+* [#4301](https://github.com/ckeditor/ckeditor4/issues/4301): Fixed: Pasted content is overwritten when pasted in an initially empty editor with the [`div` Enter mode](https://ckeditor.com/docs/ckeditor4/latest/features/enterkey.html).
 * [#4351](https://github.com/ckeditor/ckeditor4/issues/4351): Fixed: Incorrect values for RGBA/HSLA colors in [Color Dialog](https://ckeditor.com/cke4/addon/colordialog).
 * [#4509](https://github.com/ckeditor/ckeditor4/issues/4509): Fixed: Incorrect handling of drag & drop inside [widgets](https://ckeditor.com/cke4/addon/widget) and nested editables.
 * [#4611](https://github.com/ckeditor/ckeditor4/issues/4611): [Android, iOS] Fixed: Incorrect hover styles for buttons in the toolbar on mobile devices.
