@@ -1,6 +1,11 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.16.2
+
+Fixed Issues:
+* [#3638](https://github.com/ckeditor/ckeditor4/issues/3638): Fixed: opening the same dialog twice causes it to become hidden under the dialog's page cover.
+
 ## CKEditor 4.16.1
 
 Fixed Issues:
