@@ -39,7 +39,7 @@
 				return namedEntities[ code ];
 			}
 		},
-		// this is the polyill for the CSS.escape for IE.
+		// This is the polyill for the CSS.escape for IE.
 		// https://github.com/mathiasbynens/CSS.escape/blob/master/css.escape.js
 		cssEscapeForIE = function( selector ) {
 			var stringifiedSelector = String( selector ),
@@ -64,7 +64,7 @@
 					SMALL_LETTER_Z: 0x007A
 				};
 
-			// helper function to check if value is in the range
+			// Helper function to check if value is in the range
 			function isInRange( value, min, max ) {
 				return value >= min && value <= max;
 			}
