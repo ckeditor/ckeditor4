@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 * [#3638](https://github.com/ckeditor/ckeditor4/issues/3638): Fixed: opening the same dialog twice causes it to become hidden under the dialog's page cover.
+* [#4247](https://github.com/ckeditor/ckeditor4/issues/4247): Fixed: [Color Button](https://ckeditor.com/cke4/addon/colorbutton)'s incorrect rendering on the first opening.
 
 ## CKEditor 4.16.1
 
