@@ -1709,6 +1709,46 @@
 				assert.isTrue( protectedRegex.test( editableContent ), 'Source is protected' );
 				assert.areSame( html, editor.getData(), 'Data is correctly unescaped' );
 			} );
+		},
+
+		// (#4509)
+		'test filtering out widget UI elements': function() {
+			bender.editorBot.create( {
+				name: 'testdatafilter',
+				creator: 'replace',
+				config: {
+					allowedContent: true
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.widgets.add( 'testdatafilter', {
+					editables: {
+						foo: '.foo'
+					}
+				} );
+
+				bot.setData( '<div id="w1" data-widget="testdatafilter"><div class="foo"></div></div>', function() {
+					var widget1 = getWidgetById( editor, 'w1' ),
+						nestedEditable = widget1.editables.foo,
+						widgetHtml = '<div tabindex="-1" contenteditable="false" data-cke-widget-wrapper="1" data-cke-filter="off" class="cke_widget_wrapper cke_widget_block' +
+							'cke_widget_testdatafilter" data-cke-display-name="div" data-cke-widget-id="1" role="region" aria-label="Widget div">' +
+							'<div id="w2" data-widget="testdatafilter" data-cke-widget-keep-attr="1" class="cke_widget_element" data-cke-widget-data="%7B%22classes%22%3Anull%7D">' +
+								'<div class="foo cke_widget_editable" contenteditable="true" data-cke-widget-editable="foo" data-cke-enter-mode="1">' +
+									'<p>Foo</p>' +
+								'</div>' +
+							'</div>' +
+							'<span class="cke_reset cke_widget_drag_handler_container" style="background:rgba(220,220,220,0.5);background-image:url(img);display:none;">' +
+								'<img class="cke_reset cke_widget_drag_handler" data-cke-widget-drag-handler="1" src="img" width="15" title="title" height="15" role="presentation">' +
+							'</span>' +
+						'</div>',
+						expectedHtml = '<div data-widget="testdatafilter" id="w2"><div class="foo"><p>Foo</p></div></div>';
+
+					nestedEditable.setData( widgetHtml );
+
+					bender.assert.isInnerHtmlMatching( expectedHtml, nestedEditable.getData(), null, 'Widget UI elements are filtered out' );
+				} );
+			} );
 		}
 	} );
 } )();

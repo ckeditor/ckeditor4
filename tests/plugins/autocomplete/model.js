@@ -137,6 +137,22 @@
 			assert.isTrue( spy.calledWith( 'change-isActive', true ) );
 		},
 
+		// (#4653)
+		'test change-isActive event is propagated when model is deactivated with event.data set as false': function() {
+			var model = new CKEDITOR.plugins.autocomplete.model( dataCallback ),
+				spy = sinon.spy();
+
+			model.on( 'change-isActive', spy );
+			// CKEditor 4 does not allow to bind the same listener more than once.
+			model.on( 'change-isActive', function() {
+				spy();
+			} );
+
+			model.setActive( false );
+
+			assert.areSame( 2, spy.callCount, 'Event change-isActive was not propagated with two callbacks.' );
+		},
+
 		'test set query sync': function() {
 			var expectedQuery = 'query',
 					expectedRange = 'range',

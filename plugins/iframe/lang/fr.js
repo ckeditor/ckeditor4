@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'fr', {
 	scrolling: 'Activer les barres de défilement',
 	title: 'Propriétés du cadre de contenu incorporé',
 	toolbar: 'Cadre de contenu incorporé',
-	tabindex: 'Remove from tabindex' // MISSING
+	tabindex: 'Supprimer de tabindex'
 } );

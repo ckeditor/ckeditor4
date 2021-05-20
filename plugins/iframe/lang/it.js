@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'it', {
 	scrolling: 'Abilita scrollbar',
 	title: 'Proprietà IFrame',
 	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	tabindex: 'Rimuovi da tabindex'
 } );

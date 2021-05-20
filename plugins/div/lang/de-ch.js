@@ -8,12 +8,12 @@ CKEDITOR.plugins.setLang( 'div', 'de-ch', {
 	cssClassInputLabel: 'Formatvorlagenklasse',
 	edit: 'Div bearbeiten',
 	inlineStyleInputLabel: 'Inline Stil',
-	langDirLTRLabel: 'Links nach Rechs (LTR)',
+	langDirLTRLabel: 'Links nach Rechts (LTR)',
 	langDirLabel: 'Sprachrichtung',
-	langDirRTLLabel: 'Rechs nach Links (RTL)',
+	langDirRTLLabel: 'Rechts nach Links (RTL)',
 	languageCodeInputLabel: 'Sprachcode',
 	remove: 'Div entfernen',
 	styleSelectLabel: 'Stil',
-	title: 'Div Container erzeugen',
-	toolbar: 'Div Container erzeugen'
+	title: 'Div-Container erzeugen',
+	toolbar: 'Div-Container erzeugen'
 } );

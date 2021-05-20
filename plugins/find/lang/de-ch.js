@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'find', 'de-ch', {
 	findWhat: 'Suche nach:',
 	matchCase: 'Gross-/Kleinschreibung beachten',
 	matchCyclic: 'Zyklische Suche',
-	matchWord: 'Nur ganze Worte suchen',
+	matchWord: 'Nur ganze Wörter suchen',
 	notFoundMsg: 'Der angegebene Text wurde nicht gefunden.',
 	replace: 'Ersetzen',
 	replaceAll: 'Alle ersetzen',

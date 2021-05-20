@@ -1,0 +1,47 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="iframe-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="div-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<script>
+	( function() {
+		var pathRegex = /(android|ios|desktop)(?:button|richcombo)(moono|kama)?/i,
+			match = location.pathname.match( pathRegex ),
+			expectedEnv = match[ 1 ],
+			skin = match[ 2 ] ? match[ 2 ] : 'moono-lisa';
+
+		if ( isIgnoredEnv( expectedEnv ) ) {
+			bender.ignore();
+		}
+
+		CKEDITOR.replace( 'iframe-editor', {
+			skin: skin
+		} );
+		CKEDITOR.replace( 'div-editor', {
+			extraPlugins: 'divarea',
+			skin: skin
+		} );
+
+		// Slighly repeats logic from CKEDITOR.env, which could be
+		// unavailable upon test loading.
+		function isIgnoredEnv( expected ) {
+			var userAgent = navigator.userAgent.toLowerCase(),
+				isIOs = /(ipad|iphone|ipod)/.test( userAgent ),
+				isAndroid = userAgent.indexOf( 'android' ) > -1,
+				isDesktop = !isIOs && !isAndroid;
+
+			if ( expected === 'android' ) {
+				return !isAndroid;
+			} else if ( expected === 'ios' ) {
+				return !isIOs;
+			} else if ( expected === 'desktop' ) {
+				return !isDesktop;
+			}
+		}
+	}() );
+</script>

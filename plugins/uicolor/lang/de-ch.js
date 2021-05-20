@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'de-ch', {
 	title: 'UI-Farbpipette',
-	options: 'Color Options', // MISSING
-	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	options: 'Farboptionen',
+	highlight: 'Hervorheben',
+	selected: 'Ausgewählte Farbe',
 	predefined: 'Vordefinierte Farbsätze',
 	config: 'Fügen Sie diese Zeichenfolge in die Datei config.js ein.'
 } );

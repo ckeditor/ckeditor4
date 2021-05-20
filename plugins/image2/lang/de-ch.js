@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'image2', 'de-ch', {
 	captioned: 'Bild mit Überschrift',
 	captionPlaceholder: 'Überschrift',
 	infoTab: 'Bildinfo',
-	lockRatio: 'Größenverhältnis beibehalten',
+	lockRatio: 'Grössenverhältnis beibehalten',
 	menu: 'Bildeigenschaften',
 	pathName: 'Bild',
 	pathNameCaption: 'Überschrift',
@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'de-ch', {
 	title: 'Bild-Eigenschaften',
 	uploadTab: 'Hochladen',
 	urlMissing: 'Bildquellen-URL fehlt.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Alternativer Text fehlt.'
 } );

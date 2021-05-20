@@ -303,6 +303,24 @@
 				context: context,
 				enterMode: enterMode || this.editor.enterMode
 			} ).dataValue;
+		},
+
+		/**
+		 * @since 4.16.1
+		 * @private
+		 * @param {String} data
+		 */
+		protectSource: function( data ) {
+			return protectSource( data, this.editor );
+		},
+
+		/**
+		 * @since 4.16.1
+		 * @private
+		 * @param {String} html
+		 */
+		unprotectSource: function( html ) {
+			return unprotectSource( html, this.editor );
 		}
 	};
 

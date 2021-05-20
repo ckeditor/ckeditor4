@@ -50,13 +50,13 @@ CKEDITOR.plugins.setLang( 'table', 'de-ch', {
 	headersColumn: 'Erste Spalte',
 	headersNone: 'Keine',
 	headersRow: 'Erste Zeile',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: 'Höheneinheit',
 	invalidBorder: 'Die Rahmenbreite muss eine Zahl sein.',
 	invalidCellPadding: 'Der Zellenabstand innen muss eine positive Zahl sein.',
 	invalidCellSpacing: 'Der Zellenabstand aussen muss eine positive Zahl sein.',
-	invalidCols: 'Die Anzahl der Spalten muß grösser als 0 sein..',
+	invalidCols: 'Die Anzahl der Spalten muss grösser als 0 sein..',
 	invalidHeight: 'Die Tabellenbreite muss eine Zahl sein.',
-	invalidRows: 'Die Anzahl der Zeilen muß grösser als 0 sein.',
+	invalidRows: 'Die Anzahl der Zeilen muss grösser als 0 sein.',
 	invalidWidth: 'Die Tabellenbreite muss eine Zahl sein.',
 	menu: 'Tabellen-Eigenschaften',
 	row: {
@@ -71,5 +71,5 @@ CKEDITOR.plugins.setLang( 'table', 'de-ch', {
 	toolbar: 'Tabelle',
 	widthPc: '%',
 	widthPx: 'Pixel',
-	widthUnit: 'Breite Einheit'
+	widthUnit: 'Breiteneinheit'
 } );

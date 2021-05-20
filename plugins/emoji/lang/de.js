@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'emoji', 'de', {
 		people: 'Personen',
 		nature: 'Natur und Tiere',
 		food: 'Essen und Getränke',
-		travel: 'Travel and places', // MISSING
+		travel: 'Reisen und Orte',
 		activities: 'Aktivitäten',
 		objects: 'Objekte',
 		symbols: 'Symbole',

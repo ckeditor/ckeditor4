@@ -452,14 +452,17 @@
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
 					itemTemplate: '<li data-id="{id}"><strong>{name}</strong></li>'
-				} );
+				} ),
+				expectedHtmlRegex = /<ul><li class="cke_autocomplete_selected" data-id="1" id="cke_[\d]+" role="option"><strong>anna<\/strong><\/li><\/ul>/,
+				actualHtml;
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			assert.beautified.html( '<ul><li class="cke_autocomplete_selected" data-id="1"><strong>anna</strong></li></ul>',
-				ac.view.element.getHtml() );
+			actualHtml = bender.tools.compatHtml( ac.view.element.getHtml(), false, true );
+
+			assert.isTrue( expectedHtmlRegex.test( actualHtml ), 'Incorrect autocomplete item HTML' );
 
 			ac.destroy();
 		},

@@ -195,13 +195,17 @@
 
 	function assertViewElement( editor, element ) {
 		var zIndex = editor.config.baseFloatZIndex - 3,
-			expectedHtml = '<ul class="cke_autocomplete_panel" style="z-index: ' + zIndex + ';"></ul>';
+			expectedHtmlRegex = new RegExp( '<ul class="cke_autocomplete_panel" id="cke_[\\d]+" role="listbox" style="z-index: ' + zIndex + ';"></ul>' ),
+			actualHtml = bender.tools.compatHtml( element.$.outerHTML, false, true );
 
-		assert.areEqual( expectedHtml, bender.tools.compatHtml( element.$.outerHTML, false, true ) );
+		assert.isTrue( expectedHtmlRegex.test( actualHtml ), 'The generated autocomplete HTML is incorrect' );
 	}
 
 	function assertItemElement( item, itemElement ) {
-		assert.areEqual( '<li data-id="' + item.id + '">' + item.name + '</li>', itemElement.$.outerHTML );
+		var expectedHtmlRegex = new RegExp( '<li data-id="' + item.id + '" id="cke_[\\d]+" role="option">' + item.name + '</li>' ),
+			actualHtml = bender.tools.compatHtml( itemElement.$.outerHTML, false, true );
+
+		assert.isTrue( expectedHtmlRegex.test( actualHtml ), 'The generated autocomplete item HTML is incorrect'  );
 	}
 
 	function getCaretRect( editor, caretPosition, offset ) {

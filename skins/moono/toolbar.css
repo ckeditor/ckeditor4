@@ -196,6 +196,37 @@ a.cke_button_disabled:active
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 }
 
+/* Disable hover styles on mobile devices (#4611). */
+@media screen and ( hover: none ) {
+	a.cke_button_off:hover,
+	a.cke_button_disabled:hover
+	{
+		box-shadow: none;
+		background: transparent;
+		filter: none;
+	}
+
+	a.cke_button_on:hover
+	{
+		box-shadow: 0 1px 5px rgba(0,0,0,.6) inset, 0 1px 0 rgba(0,0,0,.2);
+	}
+
+	/* We need to restore :active styles. */
+	a.cke_button_off:active,
+	a.cke_button_disabled:active
+	{
+		box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
+		background: #ccc;
+		background-image: linear-gradient(to bottom, #f2f2f2, #ccc);
+		filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
+	}
+
+	a.cke_button_on:active
+	{
+		box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
+	}
+}
+
 /* The icon which is a visual representation of the button. */
 .cke_button_icon
 {
