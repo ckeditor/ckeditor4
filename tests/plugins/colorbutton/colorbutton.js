@@ -190,7 +190,29 @@
 		'test text color items not draggable': testElementsNotDraggable( 'TextColor' ),
 
 		// (#2430)
-		'test background color items not draggable': testElementsNotDraggable( 'BGColor' )
+		'test background color items not draggable': testElementsNotDraggable( 'BGColor' ),
+
+		// (#4247)
+		'test panel should have styles that prevent scrollbar apperance': function() {
+			bender.editorBot.create( {
+				name: 'editorScrollbar',
+				config: {
+					colorButton_colors: 'text-red/F00,text-blue/00F',
+					language: 'pl'
+				}
+			},
+			function( bot ) {
+				var editor = bot.editor,
+					bgColorBtn = editor.ui.get( 'TextColor' ),
+					textColorBtn = editor.ui.get( 'BGColor' );
+
+				bgColorBtn.click( editor );
+				assert.areEqual( bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.getAscendant( { html: 1 } ).getStyle( 'overflow' ), 'hidden' );
+
+				textColorBtn.click( editor );
+				assert.areEqual( textColorBtn._.panel.getBlock( textColorBtn._.id ).element.getAscendant( { html: 1 } ).getStyle( 'overflow' ), 'hidden' );
+			} );
+		}
 	} );
 
 	function testAutomaticColor( isBackgroundColor ) {
