@@ -1,5 +1,5 @@
-@bender-tags: 4.16.1, bug, 4247
-@bender-ui: collapsed 
+@bender-tags: 4.16.2, bug, 4247
+@bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, sourcearea
 
 1. Click **Text Color** button.
