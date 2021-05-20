@@ -146,38 +146,38 @@
 
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
-			// Convert image file (if present) to base64 string for Firefox. Do it as the first
-			// step as the conversion is asynchronous and should hold all further paste processing.
-			if ( CKEDITOR.env.gecko ) {
+			// Convert image file (if present) to base64 string for modern browsers except IE (#4612).
+            // Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
+			if ( !CKEDITOR.env.ie ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
-					latestId;
+				latestId;
 
 				editor.on( 'paste', function( evt ) {
 					var dataObj = evt.data,
-						data = dataObj.dataValue,
-						dataTransfer = dataObj.dataTransfer;
+					data = dataObj.dataValue,
+					dataTransfer = dataObj.dataTransfer;
 
-					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
+				// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					if ( !data && dataObj.method == 'paste' && isFileData( dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
 
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
 							var fileReader = new FileReader();
 
-							// Convert image file to img tag with base64 image.
+						// Convert image file to img tag with base64 image.
 							fileReader.addEventListener( 'load', function() {
-								evt.data.dataValue = '<img src="' + fileReader.result + '" />';
-								editor.fire( 'paste', evt.data );
+							evt.data.dataValue = '<img src="' + fileReader.result + '" />';
+							editor.fire( 'paste', evt.data );
 							}, false );
 
-							// Proceed with normal flow if reading file was aborted.
+						// Proceed with normal flow if reading file was aborted.
 							fileReader.addEventListener( 'abort', function() {
-								editor.fire( 'paste', evt.data );
+							editor.fire( 'paste', evt.data );
 							}, false );
 
-							// Proceed with normal flow if reading file failed.
+						// Proceed with normal flow if reading file failed.
 							fileReader.addEventListener( 'error', function() {
-								editor.fire( 'paste', evt.data );
+							editor.fire( 'paste', evt.data );
 							}, false );
 
 							fileReader.readAsDataURL( file );
