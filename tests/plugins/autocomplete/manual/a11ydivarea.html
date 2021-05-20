@@ -5,6 +5,10 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	
 	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 
 	CKEDITOR.replace( 'editor1', {
