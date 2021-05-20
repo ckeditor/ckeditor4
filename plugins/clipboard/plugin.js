@@ -147,7 +147,7 @@
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			// Convert image file (if present) to base64 string for modern browsers except IE (#4612).
-            // Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
+			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			if ( !CKEDITOR.env.ie ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 				latestId;
@@ -166,18 +166,18 @@
 
 						// Convert image file to img tag with base64 image.
 							fileReader.addEventListener( 'load', function() {
-							evt.data.dataValue = '<img src="' + fileReader.result + '" />';
-							editor.fire( 'paste', evt.data );
+								evt.data.dataValue = '<img src="' + fileReader.result + '" />';
+								editor.fire( 'paste', evt.data );
 							}, false );
 
 						// Proceed with normal flow if reading file was aborted.
 							fileReader.addEventListener( 'abort', function() {
-							editor.fire( 'paste', evt.data );
+								editor.fire( 'paste', evt.data );
 							}, false );
 
 						// Proceed with normal flow if reading file failed.
 							fileReader.addEventListener( 'error', function() {
-							editor.fire( 'paste', evt.data );
+								editor.fire( 'paste', evt.data );
 							}, false );
 
 							fileReader.readAsDataURL( file );
