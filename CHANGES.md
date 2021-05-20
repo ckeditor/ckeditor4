@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 * [#3638](https://github.com/ckeditor/ckeditor4/issues/3638): Fixed: Opening the same dialog twice causes it to become hidden under the dialog's page cover.
 * [#4247](https://github.com/ckeditor/ckeditor4/issues/4247): Fixed: [Color Button](https://ckeditor.com/cke4/addon/colorbutton)'s incorrect rendering on the first opening.
+* [#681](https://github.com/ckeditor/ckeditor4/issues/681): [IE] Fixed: Incorrect escape css for element id.
 
 ## CKEditor 4.16.1
 
@@ -18,7 +19,6 @@ Fixed Issues:
 * [#4509](https://github.com/ckeditor/ckeditor4/issues/4509): Fixed: Incorrect handling of drag & drop inside [widgets](https://ckeditor.com/cke4/addon/widget) and nested editables.
 * [#4611](https://github.com/ckeditor/ckeditor4/issues/4611): [Android, iOS] Fixed: Incorrect hover styles for buttons in the toolbar on mobile devices.
 * [#4652](https://github.com/ckeditor/ckeditor4/issues/4652): Fixed: [Event data](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_eventInfo.html) set to `false` is treated as an event cancelation.
-* [#681](https://github.com/ckeditor/ckeditor4/issues/681): [IE] Fixed: Incorrect escape css for element id.
 
 ## CKEditor 4.16
 
