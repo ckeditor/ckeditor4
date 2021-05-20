@@ -150,12 +150,12 @@
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			if ( !CKEDITOR.env.ie ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
-				latestId;
+					latestId;
 
 				editor.on( 'paste', function( evt ) {
 					var dataObj = evt.data,
-					data = dataObj.dataValue,
-					dataTransfer = dataObj.dataTransfer;
+						data = dataObj.dataValue,
+						dataTransfer = dataObj.dataTransfer;
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					if ( !data && dataObj.method == 'paste' && isFileData( dataTransfer ) ) {
