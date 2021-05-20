@@ -1,4 +1,4 @@
-@bender-tags: 4.16.1, bug, 681
+@bender-tags: 4.16.2, bug, 681
 
 1. Select the table cell in IE and open developer console.
 
