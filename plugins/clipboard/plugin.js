@@ -148,7 +148,7 @@
 
 			// Convert image file (if present) to base64 string for modern browsers except IE (#4612).
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
-			if ( !CKEDITOR.env.ie ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 					latestId;
 
