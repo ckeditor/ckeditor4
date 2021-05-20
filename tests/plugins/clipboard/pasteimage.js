@@ -82,7 +82,8 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.ie ) {
+			// (#4612).
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				assert.ignore();
 			}
 			FileReader.setFileMockType();
