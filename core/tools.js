@@ -39,7 +39,7 @@
 				return namedEntities[ code ];
 			}
 		},
-		// This is the polyill for the CSS.escape for IE.
+		// This is the polyill for the CSS.escape for IE. (#681)
 		// https://github.com/mathiasbynens/CSS.escape/blob/master/css.escape.js
 		cssEscapeForIE = function( selector ) {
 			var stringifiedSelector = String( selector ),
@@ -64,7 +64,7 @@
 					SMALL_LETTER_Z: 0x007A
 				};
 
-			// Helper function to check if value is in the range
+			// Helper function to check if value is in the range.
 			function isInRange( value, min, max ) {
 				return value >= min && value <= max;
 			}
@@ -77,10 +77,10 @@
 					continue;
 				}
 
-				if (
-					isInRange( codeUnit, UTF16.START_OF_HEADING, UTF16.UNIT_SEPARATOR ) || codeUnit == UTF16.DELETE ||
+				if ( codeUnit == UTF16.DELETE ||
+						isInRange( codeUnit, UTF16.START_OF_HEADING, UTF16.UNIT_SEPARATOR )  ||
 						( index == 0 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) ) ||
-							( index == 1 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) && firstCodeUnit == UTF16.HYPHEN_MINUS )
+						( index == 1 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) && firstCodeUnit == UTF16.HYPHEN_MINUS )
 				) {
 					// https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
 					result += '\\' + codeUnit.toString( 16 ) + ' ';
@@ -1618,6 +1618,7 @@
 			if ( window.CSS && CSS.escape ) {
 				return CSS.escape( selector );
 			}
+
 			return cssEscapeForIE(selector);
 		},
 
