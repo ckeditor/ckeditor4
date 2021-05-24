@@ -13,6 +13,16 @@
 	'use strict';
 
 	bender.test( {
+		// Ignored due to #4717.
+		_should: {
+			ignore: {
+				'test converting 8-HEX to 4-HEX': true,
+				'test converting 8-HEX-like to 4-HEX': true,
+				'test not converting 8-HEX to 4-HEX when it is not possible': true,
+				'test not converting 8-HEX-like to 4-HEX when it is not possible': true
+			}
+		},
+
 		'test color from 6-HEX lower-case string returns 6-HEX': colorTools.testColorConversion( '#ffffff', '#FFFFFF', 'getHex' ),
 
 		'test color from 3-HEX lower-case string returns 6-HEX': colorTools.testColorConversion( '#fff', '#FFFFFF', 'getHex' ),
