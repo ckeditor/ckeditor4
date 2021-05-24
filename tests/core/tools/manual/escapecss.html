@@ -46,7 +46,13 @@
   </table>
 </textarea>
 <script>
-	CKEDITOR.replace('editor1', {
-		allowedContent: true
-	});
+	( function() {
+		if ( CKEDITOR.env.safari || CKEDITOR.env.chrome || CKEDITOR.env.mobile ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor1', {
+			allowedContent: true
+		} );
+	} )();
 </script>
