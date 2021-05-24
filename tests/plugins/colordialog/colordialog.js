@@ -109,7 +109,7 @@
 		'test converting transparent value to hex color': function() {
 			colorTools.assertSettingAndGettingColor( this.editor, {
 				inputColor: 'rgba(0,0,0,0)',
-				expectedColor: '#rgba(0, 0, 0, 0)',
+				expectedColor: '',
 				button: 'TextColor'
 			} );
 		}
