@@ -517,7 +517,12 @@
 			 * @returns {String} Returns color in hex format, but without the hash at the beginning, e.g. `ff0000` for red.
 			 */
 			normalizeColor: function( color ) {
-				var colorInstance = new CKEDITOR.tools.color( color );
+				var colorInstance = new CKEDITOR.tools.color( color, '' ),
+					isTransparent = Number( colorInstance._.alpha ) === 0;
+
+				if ( isTransparent ) {
+					return 'transparent';
+				}
 
 				// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
 				// It also covers other cases, like colors with alpha channel (#4351).
