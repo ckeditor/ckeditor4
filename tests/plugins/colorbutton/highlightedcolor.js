@@ -82,6 +82,42 @@
 			bgColorBtn.click( editor );
 
 			wait();
+		},
+
+		// (#4592)
+		'test highlighted color with background color button and no color applied to the selection': function() {
+			var editor = this.editor,
+				bgColorBtn = editor.ui.get( 'BGColor' );
+
+			resume( function() {
+				assertSelectedAutomaticColor( bgColorBtn );
+			} );
+
+			bender.tools.selection.setWithHtml( editor, '<p>{Moo}</p>' );
+			bgColorBtn.click( editor );
+
+			wait();
+		},
+
+		// (#4592)
+		'test highlighted color with text color button and no color applied to the selection': function() {
+			var editor = this.editor,
+				textColorBtn = editor.ui.get( 'TextColor' );
+
+			resume( function() {
+				assertSelectedAutomaticColor( textColorBtn );
+			} );
+
+			bender.tools.selection.setWithHtml( editor, '<p>{Moo}</p>' );
+			textColorBtn.click( editor );
+
+			wait();
 		}
 	} );
+
+	// For now the best way to detect automatic color selection is checking if any color box seems to be selected.
+	// If not, it's automatic, duh. This should be changed after #4725 is fixed.
+	function assertSelectedAutomaticColor( colorButton ) {
+		assert.areSame( 0, colorButton._.panel.getBlock( colorButton._.id ).element.find( '[aria-selected=true]' ).count() );
+	}
 } )();
