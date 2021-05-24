@@ -12,6 +12,33 @@
 	var startupData = '<p>CKEditor4</p>';
 
 	bender.test( {
+		'test recreating editor returns null from getSelection': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
+			bender.editorBot.create( {
+				startupData: startupData,
+				name: 'editor' + new Date().getTime()
+			}, function( bot ) {
+				var editorContainer = bot.editor.container,
+					editorContainerParent = editorContainer.getParent();
+
+				bot.editor.on( 'contentDomUnload', function( evt ) {
+					evt && evt.removeListener();
+					resume( function() {
+						var selection = bot.editor.getSelection();
+						assert.isNull( selection, 'Selection should be null during recreation' );
+					} );
+				} );
+
+				editorContainer.remove();
+				editorContainerParent.append( editorContainer );
+
+				wait();
+			} );
+		},
+
 		'test reattached editor preserve undo step': function() {
 			if ( !isSupportedEnvironment() ) {
 				assert.ignore();
