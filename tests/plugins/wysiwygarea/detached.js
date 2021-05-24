@@ -213,6 +213,10 @@
 		},
 
 		'test reattached editor makes editor data empty with observed invalid DOM object': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var invalidObserveTarget = CKEDITOR.document.getById( 'invalidObserveTarget' ).$;
 
 			bender.editorBot.create( {
@@ -235,6 +239,10 @@
 		},
 
 		'test reattached editor parent makes editor data empty with observed invalid DOM object': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var invalidObserveTarget = CKEDITOR.document.getById( 'invalidObserveTarget' ).$;
 
 			bender.editorBot.create( {
@@ -257,6 +265,10 @@
 		},
 
 		'test reattached editor parent makes editor data empty with observed detached parent element': function() {
+			if ( !isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var invalidObserveTarget = CKEDITOR.document.getById( 'editorDetachableParent2' );
 
 			bender.editorBot.create( {
@@ -284,6 +296,7 @@
 					editorData = iframeElement.getFrameDocument().getBody().getHtml();
 
 				assert.beautified.html( expectedData, editorData, customMessage );
+				bot.editor.destroy();
 			} );
 		}, 200 );
 	}
