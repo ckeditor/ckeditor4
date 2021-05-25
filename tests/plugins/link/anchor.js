@@ -84,7 +84,7 @@
 		'test preserve duplicate anchors after editing text with styles': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
-				html = '<p><a id="test" name="test"><strong>Foobar</strong></a></p>'
+				html = '<p><a id="test" name="test"><strong>Foobar</strong></a></p>';
 
 			bot.setData( html, function() {
 				var range = editor.createRange(),
