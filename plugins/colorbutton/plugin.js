@@ -342,7 +342,7 @@
 
 					editor.execCommand( commandName, { newStyle: colorStyle } );
 					if ( color && colorHistory ) {
-						colorHistory.addColor( color.substr( 1 ).toUpperCase() );
+						colorHistory.addColor( color );
 						renumberElements( panelBlock );
 					}
 				}
@@ -517,7 +517,7 @@
 			 * @returns {String} Returns color in hex format, but without the hash at the beginning, e.g. `ff0000` for red.
 			 */
 			normalizeColor: function( color ) {
-				var colorInstance = new CKEDITOR.tools.color( color, '' ),
+				var colorInstance = ( color instanceof CKEDITOR.tools.color ) ? color : new CKEDITOR.tools.color( color, '' ),
 					isTransparent = Number( colorInstance._.alpha ) === 0;
 
 				if ( isTransparent ) {
@@ -597,9 +597,10 @@
 			},
 
 			extractColorBox: function( colorCode ) {
-				var index = CKEDITOR.tools.getIndex( this.boxes, function( box ) {
-					return box.color.getInitialValue() === colorCode;
-				} );
+				var normalizedColor = ColorBox.normalizeColor( colorCode ),
+					index = CKEDITOR.tools.getIndex( this.boxes, function( box ) {
+						return ColorBox.normalizeColor( box.color ) === normalizedColor;
+					} );
 
 				if ( index < 0 ) {
 					return null;
