@@ -340,39 +340,41 @@
 				newPendingInline = [],
 				candidate = currentNode;
 
-			while ( candidate.type && candidate.name != tagName ) {
-				// If this is an inline element, add it to the pending list, if we're
-				// really closing one of the parents element later, they will continue
-				// after it.
-				if ( !candidate._.isBlockLike )
-					newPendingInline.unshift( candidate );
-
-				// This node should be added to it's parent at this point. But,
-				// it should happen only if the closing tag is really closing
-				// one of the nodes. So, for now, we just cache it.
-				pendingAdd.push( candidate );
-
-				candidate = candidate.parent;
-			}
-
-			if ( candidate.type ) {
-				// Add all elements that have been found in the above loop.
-				for ( i = 0; i < pendingAdd.length; i++ ) {
-					var node = pendingAdd[ i ];
-					addElement( node, node.parent );
+			if (candidate ==!null) {
+				while ( candidate.type && candidate.name != tagName ) {
+					// If this is an inline element, add it to the pending list, if we're
+					// really closing one of the parents element later, they will continue
+					// after it.
+					if ( !candidate._.isBlockLike )
+						newPendingInline.unshift( candidate );
+	
+					// This node should be added to it's parent at this point. But,
+					// it should happen only if the closing tag is really closing
+					// one of the nodes. So, for now, we just cache it.
+					pendingAdd.push( candidate );
+	
+					candidate = candidate.parent;
 				}
-
-				currentNode = candidate;
-
-
-				addElement( candidate, candidate.parent );
-
-				// The parent should start receiving new nodes now, except if
-				// addElement changed the currentNode.
-				if ( candidate == currentNode )
-					currentNode = currentNode.parent;
-
-				pendingInline = pendingInline.concat( newPendingInline );
+	
+				if ( candidate.type ) {
+					// Add all elements that have been found in the above loop.
+					for ( i = 0; i < pendingAdd.length; i++ ) {
+						var node = pendingAdd[ i ];
+						addElement( node, node.parent );
+					}
+	
+					currentNode = candidate;
+	
+	
+					addElement( candidate, candidate.parent );
+	
+					// The parent should start receiving new nodes now, except if
+					// addElement changed the currentNode.
+					if ( candidate == currentNode )
+						currentNode = currentNode.parent;
+	
+					pendingInline = pendingInline.concat( newPendingInline );
+				}
 			}
 		};
 
