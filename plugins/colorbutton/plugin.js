@@ -478,13 +478,15 @@
 	} );
 	ColorBox = CKEDITOR.tools.createClass( {
 		$: function( editor, colorData, clickFn ) {
-			var initialValue = colorData.color.getInitialValue();
+			var isValidColor = colorData.color._.isValidColor,
+				defaultLabel = colorData.color.getInitialValue();
 
 			this.$ = new CKEDITOR.dom.element( 'td' );
 
 			this.color = colorData.color;
 			this.clickFn = clickFn;
-			this.label = colorData.label || ColorBox.getColorName( editor, this.color ) || initialValue;
+			this.label = isValidColor ?
+				( colorData.label || ColorBox.getColorName( editor, this.color ) || defaultLabel ) : '';
 
 			this.setHtml();
 		},
@@ -530,6 +532,10 @@
 			},
 
 			getAppliableColor: function( color ) {
+				if ( !color._.isValidColor ) {
+					return '';
+				}
+
 				var initialValue = color.getInitialValue(),
 					isHexLike = initialValue.toLowerCase() ===
 						color.getHex( initialValue.length === 3 ).toLowerCase().substr( 1 ),
@@ -549,8 +555,8 @@
 			},
 
 			setHtml: function() {
-				var colorStr = this.color.getInitialValue(),
-					appliableColor = ColorBox.getAppliableColor( this.color );
+				var appliableColor = ColorBox.getAppliableColor( this.color ),
+					colorStr = appliableColor ? this.color.getInitialValue() : '';
 
 				this.getElement().setHtml( '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 						' title="' + this.label + '"' +
