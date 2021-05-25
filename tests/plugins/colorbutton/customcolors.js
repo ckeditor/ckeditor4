@@ -77,7 +77,7 @@
 				assert.areEqual( '<p><span style="color:#f1c40f">Moo</span></p>', editor.getData(),
 					'Color box from color history should apply color change.' );
 
-				yellowColorBox = colorHistoryTools.findInPanel( ' .cke_colorhistory_row [data-value="F1C40F"]', txtColorBtn );
+				yellowColorBox = colorHistoryTools.findInPanel( ' .cke_colorhistory_row [data-value="#F1C40F"]', txtColorBtn );
 
 				assert.areEqual( 'Vivid Yellow', yellowColorBox.getAttribute( 'title' ), 'Color box label is incorrect.' );
 			} );

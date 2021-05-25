@@ -43,7 +43,7 @@
 
 					assert.areEqual( 2, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(),
 						'Row should contain two tiles.' );
-					assert.areEqual( 'FF00FF', colorHistoryTools.findInPanel( '.cke_colorhistory_row .cke_colorbox', txtColorBtn )
+					assert.areEqual( '#ff00ff', colorHistoryTools.findInPanel( '.cke_colorhistory_row .cke_colorbox', txtColorBtn )
 						.getAttribute( 'data-value' ), 'New color should be displayed first.' );
 				} );
 		},
@@ -65,7 +65,7 @@
 				.then( function( bot ) {
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' );
 
-					assert.areEqual( '00FF00',
+					assert.areEqual( '#00ff00',
 						colorHistoryTools.findInPanel( '.cke_colorhistory_row .cke_colorbox', txtColorBtn ).getAttribute( 'data-value' ),
 						'Last chosen color should be displayed first.' );
 				} );
@@ -102,12 +102,12 @@
 
 					assert.areEqual( 4, colorHistoryRow.getChildCount(), 'There shouldn\'t be more colors in history than allowed limit.' );
 
-					firstTile = colorHistoryRow.findOne( '[data-value="888888"]' );
+					firstTile = colorHistoryRow.findOne( '[data-value="#888888"]' );
 
 					assert.areEqual( '26', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
 					assert.areEqual( '30', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
 
-					thirdTile = colorHistoryRow.findOne( '[data-value="22AAFF"]' );
+					thirdTile = colorHistoryRow.findOne( '[data-value="#22aaff"]' );
 
 					assert.areEqual( '28', thirdTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
 					assert.areEqual( '30', thirdTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
@@ -146,12 +146,12 @@
 
 					assert.areEqual( 4, firstHistoryRow.getChildCount(), 'There shouldn\'t be more colors in row than allowed limit.' );
 
-					firstTile = firstHistoryRow.findOne( '[data-value="888888"]' );
+					firstTile = firstHistoryRow.findOne( '[data-value="#888888"]' );
 
 					assert.areEqual( '26', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset of 1st box is incorrect.' );
 					assert.areEqual( '31', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize of 1st box is incorrect.' );
 
-					fifthTile = colorHistoryTools.findInPanel( '[data-value="00FF00"]', txtColorBtn );
+					fifthTile = colorHistoryTools.findInPanel( '[data-value="#00ff00"]', txtColorBtn );
 
 					assert.areEqual( '30', fifthTile.getAttribute( 'aria-posinset' ), 'Aria-posinset of 5th box is incorrect.' );
 					assert.areEqual( '31', fifthTile.getAttribute( 'aria-setsize' ), 'Aria-setsize of 5th is incorrect.' );
