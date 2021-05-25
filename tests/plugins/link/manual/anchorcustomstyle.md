@@ -1,0 +1,3 @@
+@bender-tags: link, 4.16.1, bug, 3863
+@bender-ui: collapsed
+@bender-ckeditor-plugins: link, toolbar, wysiwygarea, basicstyles, sourcearea, notification, clipboard, colordialog, copyformatting, div, editorplaceholder, enterkey, forms, indent, list, liststyle, pagebreak, pastetools, preview,print, removeformat, tabletools, tableselection, undo, lineutils, widgetselection, widget, contextmenu, font, format, justify
