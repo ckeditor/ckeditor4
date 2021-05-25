@@ -27,7 +27,6 @@
 				var range = new CKEDITOR.dom.range( editor.document );
 				range.selectNodeContents( editor.editable().findOne( '[data-cke-real-element-type=anchor]' ) );
 				range.select();
-
 				bot.dialog( 'anchor', function( dialog ) {
 					dialog.setValueOf( 'info', 'txtName', 'bar' );
 					dialog.getButton( 'ok' ).click();
@@ -78,6 +77,30 @@
 					assert.areSame( 'test', dialog.getValueOf( 'info', 'txtName' ) );
 					assert.areSame( anchor, dialog.getModel( editor ) );
 				} );
+			} );
+		},
+
+		// (#3863)
+		'test preserve duplicate anchors after editing text with styles': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				html = '<p><a id="test" name="test"><strong>Foobar</strong></a></p>'
+
+			bot.setData( html, function() {
+				var range = editor.createRange(),
+					anchor = editor.editable().findOne( '#test' ),
+					textNode = anchor.getChild( 0 );
+
+				range.selectNodeContents( textNode );
+				range.select();
+
+				bot.dialog( 'anchor', function( dialog ) {
+					dialog.setValueOf( 'info', 'txtName', 'double-test' );
+					dialog.getButton( 'ok' ).click();
+
+					assert.areSame( anchor, dialog.getModel( editor ) );
+				} );
+
 			} );
 		}
 	} );
