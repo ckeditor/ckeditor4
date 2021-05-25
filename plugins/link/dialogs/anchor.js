@@ -28,26 +28,16 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		// If selection is inside text, get its parent element (#3437).
 		if ( element && element.type === CKEDITOR.NODE_TEXT ) {
 			element = element.getParent();
-		} else if ( element && element.type !== CKEDITOR.NODE_TEXT ) {
-			// If anchor is exist and has some styles go to the closest parent <a> tag. (#3863)
-			element = element.getAscendant( 'a' );
+		}
+
+		// If anchor is exist and has some styles go to the closest parent <a> tag. (#3863)
+		if ( element && !element.is( 'a' ) ) {
+			element = element.getAscendant( 'a' ) || element;
 		}
 
 		if ( element && element.type === CKEDITOR.NODE_ELEMENT &&
 			( element.data( 'cke-real-element-type' ) === 'anchor' || element.is( 'a' ) ) ) {
 			return element;
-		}
-	}
-
-	function checkNestedAnchors( range ) {
-		var walker = new CKEDITOR.dom.walker( range ),
-			element = range.collapsed ? range.startContainer : walker.next();
-
-		while ( element ) {
-			if ( element.type === CKEDITOR.NODE_ELEMENT && element.getAttribute( 'data-cke-saved-name' ) ) {
-				element.remove( true );
-			}
-			element = walker.next();
 		}
 	}
 
@@ -83,6 +73,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 				var sel = editor.getSelection(),
 					range = sel && sel.getRanges()[ 0 ];
 
+				// Empty anchor
 				if ( range.collapsed ) {
 					var anchor = createFakeAnchor( editor, attributes );
 					range.insertNode( anchor );
@@ -90,7 +81,6 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 						attributes[ 'class' ] = 'cke_anchor';
 
-					checkNestedAnchors( range );
 					// Apply style.
 					var style = new CKEDITOR.style( { element: 'a', attributes: attributes } );
 					style.type = CKEDITOR.STYLE_INLINE;
@@ -111,6 +101,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 				loadElements.call( this, linkElement );
 				!fakeSelected && sel.selectElement( linkElement );
 			}
+
 			this.getContentElement( 'info', 'txtName' ).focus();
 		},
 		contents: [ {
