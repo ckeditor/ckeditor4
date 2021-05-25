@@ -27,6 +27,7 @@
 				var range = new CKEDITOR.dom.range( editor.document );
 				range.selectNodeContents( editor.editable().findOne( '[data-cke-real-element-type=anchor]' ) );
 				range.select();
+
 				bot.dialog( 'anchor', function( dialog ) {
 					dialog.setValueOf( 'info', 'txtName', 'bar' );
 					dialog.getButton( 'ok' ).click();
