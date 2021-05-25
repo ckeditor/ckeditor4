@@ -103,9 +103,7 @@
 			} );
 		},
 
-		// (#4351)
-		// This particular value should be _broken_ until the whole flow is fixed in #4592.
-		// Otherwise automatic values in colorbutton become broken.
+		// (#4351, #4592)
 		'test converting transparent value to hex color': function() {
 			colorTools.assertSettingAndGettingColor( this.editor, {
 				inputColor: 'rgba(0,0,0,0)',
