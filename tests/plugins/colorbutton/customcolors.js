@@ -106,6 +106,70 @@
 				assert.areEqual( 2, colorHistoryTools.findInPanel( '.cke_colorhistory_row', bgColorBtn ).getChildCount(),
 					'New background color tile should appear.' );
 			} );
+		},
+
+		// (#4333)
+		'test adding non-hex value to color history results in correctly rendered color box': function() {
+			bender.editorBot.create( {
+				name: 'editor-non-hex'
+			}, function( bot ) {
+				var editor = bot.editor,
+					txtColorBtn = editor.ui.get( 'TextColor' );
+
+				editor.once( 'dialogHide', function() {
+					var colorBox;
+
+					txtColorBtn.click();
+
+					colorBox = colorHistoryTools.findInPanel( '.cke_colorhistory_row span.cke_colorbox', txtColorBtn );
+
+					assert.areSame( 'red', colorBox.getStyle( 'background-color' ) );
+				} );
+
+				colorHistoryTools.chooseColorFromDialog( editor, txtColorBtn, 'red' );
+			} );
+		},
+
+		// (#4333)
+		'test adding red color in different non-hex formats (name, RGB, RGBA, HSL, HSLA) creates one, red entry in the history': function() {
+			bender.editorBot.create( {
+				name: 'editor-non-hex-multiple'
+			}, function( bot ) {
+				assertDialogColor( [
+					'red',
+					'rgb( 255, 0, 0 )',
+					'rgba( 255, 0, 0, 1 )',
+					'hsl( 0, 100%, 50% )',
+					'hsla( 0, 100%, 50%, 1 )',
+					'rgb( 255 0 0 / 100% )',
+					'hsl( 0 100% 50% / 1 )'
+				], 'red', bot );
+			} );
 		}
 	} );
+
+	function assertDialogColor( inputColors, expectedColor, bot ) {
+		var editor = bot.editor,
+			colorButton = editor.ui.get( 'TextColor' ),
+			colorPromises = CKEDITOR.tools.array.map( inputColors, function( color ) {
+				return colorHistoryTools.asyncChooseColorFromDialog( bot, color );
+			} );
+
+		CKEDITOR.tools.promise.all( colorPromises ).then( function() {
+			resume( function() {
+				var colorRow,
+					colorBoxes;
+
+				colorButton.click();
+
+				colorRow = colorHistoryTools.findInPanel( '.cke_colorhistory_row', colorButton );
+				colorBoxes = colorRow.find( 'span.cke_colorbox' ).toArray();
+
+				assert.areSame( 1, colorBoxes.length, 'There is only one colorbox in the history' );
+				assert.areSame( expectedColor, colorBoxes[ 0 ].getStyle( 'background-color' ), 'The colorbox background is correct' );
+			} );
+		} );
+
+		wait();
+	}
 } )();
