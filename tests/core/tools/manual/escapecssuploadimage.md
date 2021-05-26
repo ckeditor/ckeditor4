@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: image2, uploadimage, wysiwygarea, elementspath
 
 1. Open developer console.
-2. 1. Drag and drop some image into editor.
+2. Drag and drop some image into editor.
 
 **Expected**	Everything works correctly and no errors.
 
