@@ -1,9 +1,9 @@
-@bender-tags: 4.16.2, bug, 681
+@bender-tags: 4.16.2, bug, 641
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, elementspath
+@bender-ckeditor-plugins: image2, uploadimage, wysiwygarea, elementspath
 
 1. Open developer console.
-2. Select the table cell with "April 2, 2017".
+2. 1. Drag and drop some image into editor.
 
 **Expected**	Everything works correctly and no errors.
 
