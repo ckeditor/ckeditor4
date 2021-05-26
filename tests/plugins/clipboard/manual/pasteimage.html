@@ -3,9 +3,10 @@
 </div>
 
 <script>
-	if ( !CKEDITOR.env.gecko ) {
-		bender.ignore();
-	}
-
-	CKEDITOR.replace( 'editor' );
+	var editor = CKEDITOR.replace( 'editor' );
+	editor.on( 'loaded', function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			bender.ignore();
+		}
+	} );
 </script>

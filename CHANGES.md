@@ -7,6 +7,7 @@ New Features:
 
 * [#4461](https://github.com/ckeditor/ckeditor4/issues/4461): Introduced possibility to delay editor initialization while it is in detached DOM element.
 * [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): Added support for editor functions after reattaching its element to DOM.
+* [#4612](https://github.com/ckeditor/ckeditor4/issues/4612): Allow pasting images as Base64 from [clipboard](https://ckeditor.com/cke4/addon/clipboard) in all browsers except IE.
 
 Fixed Issues:
 

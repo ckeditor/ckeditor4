@@ -82,7 +82,8 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( !CKEDITOR.env.gecko ) {
+			// (#4612).
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				assert.ignore();
 			}
 			FileReader.setFileMockType();
@@ -94,54 +95,54 @@
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'load' );
 
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
 			this.assertPaste( 'image/png',
-				'<p>Paste image here: <img data-cke-saved-src="data:image/png;base64,fileMockBase64=" src="data:image/png;base64,fileMockBase64=" />^@</p>' );
+				'<p>Paste image here:<img data-cke-saved-src="data:image/png;base64,fileMockBase64=" src="data:image/png;base64,fileMockBase64=" />^@</p>' );
 		},
 
 		'test paste .jpeg from clipboard': function() {
 			FileReader.setFileMockType( 'image/jpeg' );
 			FileReader.setReadResult( 'load' );
 
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
 			this.assertPaste( 'image/jpeg',
-				'<p>Paste image here: <img data-cke-saved-src="data:image/jpeg;base64,fileMockBase64=" src="data:image/jpeg;base64,fileMockBase64=" />^@</p>' );
+				'<p>Paste image here:<img data-cke-saved-src="data:image/jpeg;base64,fileMockBase64=" src="data:image/jpeg;base64,fileMockBase64=" />^@</p>' );
 		},
 
 		'test paste .gif from clipboard': function() {
 			FileReader.setFileMockType( 'image/gif' );
 			FileReader.setReadResult( 'load' );
 
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
 			this.assertPaste( 'image/gif',
-				'<p>Paste image here: <img data-cke-saved-src="data:image/gif;base64,fileMockBase64=" src="data:image/gif;base64,fileMockBase64=" />^@</p>' );
+				'<p>Paste image here:<img data-cke-saved-src="data:image/gif;base64,fileMockBase64=" src="data:image/gif;base64,fileMockBase64=" />^@</p>' );
 		},
 
 		'test unsupported file type': function() {
 			FileReader.setFileMockType( 'application/pdf' );
 			FileReader.setReadResult( 'load' );
 
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
 			this.assertPaste( 'application/pdf',
-				'<p>Paste image here: ^@</p>' );
+				'<p>Paste image here:^@</p>' );
 		},
 
 		'test aborted paste': function() {
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'abort' );
 
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
 			this.assertPaste( 'image/png',
-				'<p>Paste image here: ^@</p>' );
+				'<p>Paste image here:^@</p>' );
 		},
 
 		'test failed paste': function() {
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'error' );
 
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
 			this.assertPaste( 'image/png',
-				'<p>Paste image here: ^@</p>' );
+				'<p>Paste image here:^@</p>' );
 		},
 
 		// (#3585, #3625)
