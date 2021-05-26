@@ -47,7 +47,7 @@
 </textarea>
 <script>
 	( function() {
-		if ( CKEDITOR.env.safari || CKEDITOR.env.chrome || CKEDITOR.env.mobile ) {
+		if ( !CKEDITOR.env.ie ) {
 			return bender.ignore();
 		}
 

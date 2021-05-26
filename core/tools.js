@@ -77,10 +77,11 @@
 					continue;
 				}
 
-				if ( codeUnit == UTF16.DELETE ||
-						isInRange( codeUnit, UTF16.START_OF_HEADING, UTF16.UNIT_SEPARATOR )  ||
-						( index == 0 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) ) ||
-						( index == 1 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) && firstCodeUnit == UTF16.HYPHEN_MINUS )
+				if (
+					codeUnit == UTF16.DELETE ||
+					isInRange( codeUnit, UTF16.START_OF_HEADING, UTF16.UNIT_SEPARATOR ) ||
+					( index == 0 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) ) ||
+					( index == 1 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) && firstCodeUnit == UTF16.HYPHEN_MINUS )
 				) {
 					// https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
 					result += '\\' + codeUnit.toString( 16 ) + ' ';
@@ -1619,7 +1620,8 @@
 				return CSS.escape( selector );
 			}
 
-			return cssEscapeForIE(selector);
+			// (#681)
+			return cssEscapeForIE( selector );
 		},
 
 		/**

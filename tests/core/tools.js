@@ -860,8 +860,7 @@
 			var selector = 'abc:def',
 				escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			// Check has-colon selector.
-			assert.areSame( escapedSelector, 'abc\\:def', 'has-colon selector' );
+			assert.areSame( escapedSelector, 'abc\\:def', 'The colon character is not escaped in CSS selector.' );
 		},
 
 		// (#681)
@@ -869,8 +868,7 @@
 			var selector = 'abc.def',
 				escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			// Check has-dot selector.
-			assert.areSame( escapedSelector, 'abc\\.def', 'has-dot selector' );
+			assert.areSame( escapedSelector, 'abc\\.def', 'The dot character is not escaped in CSS selector.' );
 		},
 
 		// (#681)
@@ -878,8 +876,7 @@
 			var selector = 'a\0',
 				escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			// Check has-null selector.
-			assert.areSame( escapedSelector, 'a\uFFFD', 'has-null selector' );
+			assert.areSame( escapedSelector, 'a\uFFFD', 'The null character is not escaped in CSS selector.' );
 		},
 
 		// (#681)
@@ -887,7 +884,7 @@
 			var selector = '\x7F\x01\x02\x1E\x1F',
 				escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			assert.areSame( escapedSelector, '\\7f \\1 \\2 \\1e \\1f ', 'has U+0001 to U+001F or U+007F in selector' );
+			assert.areSame( escapedSelector, '\\7f \\1 \\2 \\1e \\1f ', 'Character from U+0001 to U+001F or U+007F is not escaped in CSS selector.' );
 		},
 
 		// (#681)
