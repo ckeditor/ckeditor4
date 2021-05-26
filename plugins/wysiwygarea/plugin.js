@@ -52,7 +52,11 @@
 					iframe.on( 'load', onLoad );
 
 				var frameLabel = editor.title,
-					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label,
+					recreateEditable = false,
+					isIE11 = CKEDITOR.env.ie && CKEDITOR.env.version === 11,
+					isMutationObserverSupported = !!window.MutationObserver,
+					mutationObserver;
 
 				if ( frameLabel ) {
 					if ( CKEDITOR.env.ie && helpLabel )
@@ -72,9 +76,15 @@
 				// Remove the ARIA description.
 				editor.on( 'beforeModeUnload', function( evt ) {
 					evt.removeListener();
-					if ( desc )
+					if ( desc ) {
 						desc.remove();
+					}
+
+					if ( isMutationObserverSupported ) {
+						mutationObserver.disconnect();
+					}
 				} );
+
 
 				iframe.setAttributes( {
 					tabIndex: editor.tabIndex,
@@ -93,9 +103,79 @@
 						return;
 					}
 
-					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
+					editor.editable( new framedWysiwyg( editor, iframe.getFrameDocument().getBody() ) );
 					editor.setData( editor.getData( 1 ), callback );
+
+					// Skip IE's below version 11. They don't support MutationObserver (#4462).
+					if ( !isMutationObserverSupported ) {
+						return;
+					}
+
+					if ( isIE11 ) {
+						editor.on( 'mode', attachIframeReloader, { iframe: iframe, editor: editor, callback: callback } );
+					}
+
+					editor.on( 'mode', function() {
+						editor.status = 'ready';
+					} );
+
+					observeEditor();
 				}
+
+				function attachIframeReloader( evt ) {
+					evt && evt.removeListener();
+
+					iframe.on( 'load', function() {
+						if ( recreateEditable ) {
+							recreateEditable = false;
+							recreate();
+						}
+					} );
+				}
+
+				function observeEditor() {
+					mutationObserver = new MutationObserver( function( mutationsList ) {
+						CKEDITOR.tools.array.forEach( mutationsList, verifyIfAddsNodesWithEditor );
+					} );
+
+					mutationObserver.observe( editor.config.observableParent, { childList: true, subtree: true } );
+				}
+
+				function verifyIfAddsNodesWithEditor( mutation ) {
+					if ( mutation.type !== 'childList' || mutation.addedNodes.length === 0 ) {
+						return;
+					}
+
+					CKEDITOR.tools.array.forEach( mutation.addedNodes, checkIfAffectsEditor );
+				}
+
+				function checkIfAffectsEditor( node ) {
+					if ( !node.contains || !node.contains( editor.container.$ ) ) {
+						return;
+					}
+
+					if ( !isIE11 ) {
+						recreate();
+						return;
+					}
+					recreateEditable = true;
+				}
+
+				function recreate() {
+					var cacheData = editor.getData( false ),
+						newEditable;
+
+					// Remove current editable, but preserve iframe.
+					editor.editable().preserveIframe = true;
+					editor.editable( null );
+
+					newEditable = new framedWysiwyg( editor, iframe.getFrameDocument().getBody() );
+					editor.editable( newEditable );
+
+					editor.status = 'recreating';
+					editor.setData( cacheData, { callback:  callback, internal: false, noSnapshot: false } );
+				}
+
 			} );
 		}
 	} );
@@ -333,6 +413,8 @@
 		base: CKEDITOR.editable,
 
 		proto: {
+			preserveIframe: false,
+
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 
@@ -437,7 +519,7 @@
 							'var wasLoaded=0;' +	// It must be always set to 0 as it remains as a window property.
 							'function onload(){' +
 								'if(!wasLoaded)' +	// FF3.6 calls onload twice when editor.setData. Stop that.
-									'window.parent.CKEDITOR.tools.callFunction(' + this._.frameLoadedHandler + ',window);' +
+									'window.parent.CKEDITOR && window.parent.CKEDITOR.tools.callFunction(' + this._.frameLoadedHandler + ',window);' +
 								'wasLoaded=1;' +
 							'}' +
 							( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload, false );' ) +
@@ -522,6 +604,10 @@
 			},
 
 			detach: function() {
+				if ( this.preserveIframe ) {
+					return;
+				}
+
 				var editor = this.editor,
 					doc = editor.document,
 					iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
@@ -562,7 +648,7 @@
 			} catch ( e ) {}
 		} else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && editor.config.disableObjectResizing ) {
 			// It's possible to prevent resizing up to IE10.
-			blockResizeStart( editor );
+			blockResizeStart();
 		}
 
 		// Disables resizing by preventing default action on resizestart event.
@@ -716,3 +802,37 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {CKEDITOR.dom.element} data The element being added.
  */
+
+/**
+ * Native DOM element, a document observation starting point for mutation observer. Needed to detect when classic, wysiwygarea
+ * editor reattaches to DOM to restore editor's previous state.
+ *
+ * To recreate editor `wysiwygarea` iframe after editor was reattached to DOM:
+ *
+ * * make sure **detachable element** is nested on any level under **observable element**;
+ * * make sure **editor** is nested on any level under **detachable element**.
+ *
+ * See the sample overview of hierarchy below (HTML pseudocode):
+ *
+ * ```
+ * <observable>
+ *   <...>
+ *     <detachable>
+ *       <...>
+ *         <editor></editor>
+ *       </...>
+ *     </detachable>
+ *   <...>
+ * </observable>
+ * ```
+ *
+ * By default, the entire document is observed. However, if you know exactly which element is detaching,
+ * you can choose its **direct parent** to increase performance a little.
+ *
+ * Note, that if you choose element which is detaching, **no changes will be detected**.
+ *
+ * @since 4.17.0
+ * @cfg {HTMLElement} [observableParent=CKEDITOR.document.$]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.observableParent = CKEDITOR.document.$;

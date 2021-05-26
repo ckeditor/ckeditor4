@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 New Features:
 
 * [#4461](https://github.com/ckeditor/ckeditor4/issues/4461): Introduced possibility to delay editor initialization while it is in detached DOM element.
+* [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): Added support for editor functions after reattaching its element to DOM.
 
 Fixed Issues:
 
@@ -19,6 +20,7 @@ Fixed Issues:
 * [#4604](https://github.com/ckeditor/ckeditor4/issues/4604): Added the [`CKEDITOR.plugins.clipboard.dataTransfer#isFileTransfer()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard_dataTransfer.html#method-isFileTransfer) method.
 * [#4583](https://github.com/ckeditor/ckeditor4/issues/4583): Added support for new, comma-less color syntax to [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html).
 * [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Inserting content next to block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation is now possible. Thanks to [bunglegrind](https://github.com/bunglegrind)!
+* [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): [`CKEDITOR.editor#getSelection()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getSelection) now returns `null` if the editor is in recreating state.
 
 ## CKEditor 4.16.1
 

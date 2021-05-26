@@ -1250,7 +1250,7 @@
 	 * @method
 	 * @member CKEDITOR.editor
 	 * @param {Boolean} forceRealSelection Return real selection, instead of saved or fake one.
-	 * @returns {CKEDITOR.dom.selection} A selection object or null if not available for the moment.
+	 * @returns {CKEDITOR.dom.selection/null} A selection object or null if not available for the moment.
 	 */
 	CKEDITOR.editor.prototype.getSelection = function( forceRealSelection ) {
 
@@ -1260,7 +1260,8 @@
 
 		// Editable element might be absent or editor might not be in a wysiwyg mode.
 		var editable = this.editable();
-		return editable && this.mode == 'wysiwyg' ? new CKEDITOR.dom.selection( editable ) : null;
+
+		return editable && this.mode == 'wysiwyg' && this.status !== 'recreating' ? new CKEDITOR.dom.selection( editable ) : null;
 	};
 
 	/**

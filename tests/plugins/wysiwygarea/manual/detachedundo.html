@@ -1,0 +1,29 @@
+<button id="toggleButton">Toggle</button>
+
+<div id="editorContainer">
+	<div id="editor">Example text</div>
+</div>
+
+<script>
+	// Skip IE's below version 11. They don't support MutationObserver.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+	var editorContainer = document.getElementById( 'editorContainer' ),
+		editorContainerParent = editorContainer.parentNode,
+		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
+		editorDetached = false;
+
+	CKEDITOR.replace( 'editor' );
+
+	toggleButton.on( 'click', function() {
+		if ( editorDetached ) {
+			editorContainerParent.appendChild( editorContainer );
+		} else {
+			editorContainerParent.removeChild( editorContainer );
+		}
+
+		editorDetached = !editorDetached;
+	} );
+</script>

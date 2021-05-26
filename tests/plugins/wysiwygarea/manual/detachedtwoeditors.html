@@ -1,0 +1,40 @@
+<h2>Static editor</h2>
+<div id="staticEditor">
+	<p>I'll stay here forever.</p>
+</div>
+
+<br /><br />
+
+<button id="toggleButton">Toggle</button>
+
+<div id="editorContainer">
+	<h2>Detachable editor</h2>
+	<div id="detachableEditor">
+		<p>I'll disappear soon...</p>
+	</div>
+</div>
+
+<script>
+	// Skip IE's below version 11. They don't support MutationObserver.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+	var editorContainer = document.getElementById( 'editorContainer' ),
+		editorContainerParent = editorContainer.parentNode,
+		toggleButton = CKEDITOR.document.getById( 'toggleButton' ),
+		editorDetached = false;
+
+	CKEDITOR.replace( 'staticEditor' );
+	CKEDITOR.replace( 'detachableEditor' );
+
+	toggleButton.on( 'click', function() {
+		if ( editorDetached ) {
+			editorContainerParent.appendChild( editorContainer );
+		} else {
+			editorContainerParent.removeChild( editorContainer );
+		}
+
+		editorDetached = !editorDetached;
+	} );
+</script>
