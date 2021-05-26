@@ -1261,7 +1261,7 @@
 		// Editable element might be absent or editor might not be in a wysiwyg mode.
 		var editable = this.editable();
 
-		return editable && this.mode == 'wysiwyg' && editable.editor.status !== 'recreating' ? new CKEDITOR.dom.selection( editable ) : null;
+		return editable && this.mode == 'wysiwyg' && this.status !== 'recreating' ? new CKEDITOR.dom.selection( editable ) : null;
 	};
 
 	/**
