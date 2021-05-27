@@ -1,0 +1,20 @@
+<div id="editor"> 
+    <p>Drag and drop image here.</p>
+</div>
+
+<p>Inline editor.</p>
+
+<div id="inline" contenteditable="true" style="border:1px solid #000000;">
+    <p>Drag and drop image here.</p>
+</div>
+
+<script>
+    var editor = CKEDITOR.replace( 'editor' ),
+        inline = CKEDITOR.inline( 'inline' );
+
+    editor.on( 'loaded', function() {
+        if( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ){
+            bender.ignore();
+        }
+    } );
+</script>
