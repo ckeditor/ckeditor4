@@ -159,7 +159,8 @@
 						dataTransfer = dataObj.dataTransfer;
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
-					if ( !data && dataObj.method == 'paste' && isFileData( dataTransfer ) ) {
+					// Allow drag and drop images as base64. (#4681)
+					if ( !data && isFileData( dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
 
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
