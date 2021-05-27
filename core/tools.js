@@ -77,8 +77,7 @@
 					continue;
 				}
 
-				if (
-					codeUnit == UTF16.DELETE ||
+				if ( codeUnit == UTF16.DELETE ||
 					isInRange( codeUnit, UTF16.START_OF_HEADING, UTF16.UNIT_SEPARATOR ) ||
 					( index == 0 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) ) ||
 					( index == 1 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) && firstCodeUnit == UTF16.HYPHEN_MINUS )
