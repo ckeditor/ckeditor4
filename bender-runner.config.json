@@ -6,7 +6,7 @@
     "port": 9002
   },
   "paths": {
-    "ckeditor4": "../ckeditor4-benderjs-runner-tests/",
+    "ckeditor4": "../ckeditor4/",
     "runner": "./src/runner.html"
   },
   "browsers": {
