@@ -17,7 +17,8 @@ git:
   depth: false
 
 env:
-  - FULL_RUN=$(if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then echo "fullRun"; else echo ""; fi)
+  - FULL_RUN=fullRun
+  #- FULL_RUN=$(if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then echo "fullRun"; else echo ""; fi)
 
 jobs:
   include:
