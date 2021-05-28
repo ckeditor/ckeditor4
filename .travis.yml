@@ -16,6 +16,9 @@ node_js: 10
 git:
   depth: false
 
+env:
+  - FULL_RUN=$(if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then echo "fullRun"; else echo ""; fi)
+
 jobs:
   include:
     - name: Chrome (Linux)
