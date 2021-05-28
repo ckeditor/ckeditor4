@@ -42,7 +42,6 @@ jobs:
         - pwd
         - git clone https://github.com/ckeditor/ckeditor4-benderjs-runner.git
         - cd ckeditor4-benderjs-runner
-        - git checkout t/1
         - npm i
       script:
         - pwd
@@ -73,7 +72,6 @@ jobs:
         - pwd
         - git clone https://github.com/ckeditor/ckeditor4-benderjs-runner.git
         - cd ckeditor4-benderjs-runner
-        - git checkout t/1
         - npm i
       script:
         - pwd
