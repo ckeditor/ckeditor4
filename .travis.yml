@@ -24,6 +24,7 @@ jobs:
       addons:
         chrome: stable
       before_script:
+        - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
         - 'export DISPLAY=:99.0'
         - 'sleep 3'
@@ -54,6 +55,7 @@ jobs:
       addons:
         firefox: latest
       before_script:
+        - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
         - 'export DISPLAY=:99.0'
         - 'sleep 3'
