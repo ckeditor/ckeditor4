@@ -30,7 +30,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			element = element.getParent();
 		}
 
-		// If anchor is exist and has some styles go to the closest parent <a> tag. (#3863)
+		// If anchor exists and has any styles find the closest parent <a> tag. (#3863)
 		if ( element && !element.is( 'a' ) ) {
 			element = element.getAscendant( 'a' ) || element;
 		}
@@ -41,24 +41,20 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		}
 	}
 
-	// Checks if range contains some nested anchors and remove it.
-	function checkNestedAnchors( range ) {
+	function removeAnchorsWithinRange( range ) {
 		var newRange = range.clone();
 		newRange.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
 		var walker = new CKEDITOR.dom.walker( newRange ),
 			element = newRange.collapsed ? newRange.startContainer : walker.next(),
-			// Create bookmark to save actual range before removing anchors
 			bookmark = range.createBookmark();
 
 		while ( element ) {
-		// Remove anchor if it exist
 			if ( element.type === CKEDITOR.NODE_ELEMENT && element.getAttribute( 'data-cke-saved-name' ) ) {
 				element.remove( true );
 			}
 			element = walker.next();
 		}
-		// restore range
 		range.moveToBookmark( bookmark );
 	}
 
@@ -102,7 +98,8 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 						attributes[ 'class' ] = 'cke_anchor';
 
-					checkNestedAnchors( range );
+					// (#4728)
+					removeAnchorsWithinRange( range );
 					// Apply style.
 					var style = new CKEDITOR.style( { element: 'a', attributes: attributes } );
 					style.type = CKEDITOR.STYLE_INLINE;
