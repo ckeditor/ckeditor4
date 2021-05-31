@@ -515,8 +515,9 @@
 			 * * HSL/HSLA colors (e.g. `hsl( 100, 50%, 20%)` or `hsla( 100, 50%, 20%, 10%)`).
 			 *
 			 * @private
-			 * @param {String} color
+			 * @param {String/CKEDITOR.tools.color} color
 			 * @returns {String} Returns color in hex format, but without the hash at the beginning, e.g. `ff0000` for red.
+			 * In case of transparent colors, it returns `'transparent'` string.
 			 */
 			normalizeColor: function( color ) {
 				var colorInstance = ( color instanceof CKEDITOR.tools.color ) ? color : new CKEDITOR.tools.color( color, '' ),
