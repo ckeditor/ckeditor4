@@ -495,7 +495,7 @@
 			getColorName: function( editor, color ) {
 				var names = ColorBox.colorNames( editor ),
 					hex = color.getHex().replace( /^#/g, '' ),
-					shortHex = color.getHex( true ).replace( /^#/g, '' );
+					shortHex = color.getHex( { shorten: true } ).replace( /^#/g, '' );
 
 				return names[ hex ] || names[ shortHex ];
 			},
