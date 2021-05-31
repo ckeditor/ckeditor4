@@ -111,42 +111,58 @@
 
 		// (#4592)
 		'test converting 6-HEX to 3-HEX': colorTools.testColorConversion( '#FF00FF', '#F0F', function( color ) {
-			return color.getHex( true );
+			return color.getHex( {
+				shorten: true
+			} );
 		} ),
 
 		// (#4592)
 		'test converting 6-HEX-like to 3-HEX': colorTools.testColorConversion( 'FF00FF', '#F0F', function( color ) {
-			return color.getHex( true );
+			return color.getHex( {
+				shorten: true
+			} );
 		} ),
 
 		// (#4592)
 		'test not converting 6-HEX to 3-HEX when it is not possible': colorTools.testColorConversion( '#FC00FF', '#FC00FF', function( color ) {
-			return color.getHex( true );
+			return color.getHex( {
+				shorten: true
+			} );
 		} ),
 
 		// (#4592)
 		'test not converting 6-HEX-like to 3-HEX when it is not possible': colorTools.testColorConversion( '#FC00FF', '#FC00FF', function( color ) {
-			return color.getHex( true );
+			return color.getHex( {
+				shorten: true
+			} );
 		} ),
 
 		// (#4592)
 		'test converting 8-HEX to 4-HEX': colorTools.testColorConversion( '#FF00FFDD', '#F0FD', function( color ) {
-			return color.getHexWithAlpha( true );
+			return color.getHexWithAlpha( {
+				shorten: true
+			} );
 		} ),
 
 		// (#4592)
 		'test converting 8-HEX-like to 4-HEX': colorTools.testColorConversion( 'FF00FFDD', '#F0FD', function( color ) {
-			return color.getHexWithAlpha( true );
+			return color.getHexWithAlpha( {
+				shorten: true
+			} );
 		} ),
 
 		// (#4592)
 		'test not converting 8-HEX to 4-HEX when it is not possible': colorTools.testColorConversion( '#FC00FFDD', '#FC00FFDD', function( color ) {
-			return color.getHexWithAlpha( true );
+			return color.getHexWithAlpha( {
+				shorten: true
+			} );
 		} ),
 
 		// (#4592)
 		'test not converting 8-HEX-like to 4-HEX when it is not possible': colorTools.testColorConversion( '#FC00FFDD', '#FC00FFDD', function( color ) {
-			return color.getHexWithAlpha( true );
+			return color.getHexWithAlpha( {
+				shorten: true
+			} );
 		} )
 	} );
 

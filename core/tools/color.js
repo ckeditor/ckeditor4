@@ -50,39 +50,49 @@
 			/**
 			 * Gets hexadecimal color representation.
 			 *
-			 * @param {Boolean} [shorten=false] If it's possible, shorten the returned hex to the 3-number format.
+			 * @param {Object} [options]
+			 * @param {Boolean} [options.shorten=false] If it's possible, shorten the returned hex to the 3-number format.
 			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF`) or default value.
 			 */
-			getHex: function( shorten ) {
+			getHex: function( options ) {
 				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
+
+				options = CKEDITOR.tools.object.merge( {
+					shorten: false
+				}, options );
 
 				var isShortenableRegex = /^#([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3$/i,
 					color = this._.blendAlphaColor( this._.red, this._.green, this._.blue, this._.alpha ),
 					hex = this._.formatHexString( color[ 0 ], color[ 1 ], color[ 2 ] ),
 					isShortenable = isShortenableRegex.test( hex );
 
-				return shorten && isShortenable ? this._.shortenHex( hex ) : hex;
+				return ( options.shorten && isShortenable ) ? this._.shortenHex( hex ) : hex;
 			},
 
 			/**
 			 * Gets hexadecimal color representation with separate alpha channel.
 			 *
-			 * @param {Boolean} [shorten=false] If it's possible, shorten the returned hex to the 4-number format.
+			 * @param {Object} [options]
+			 * @param {Boolean} [options.shorten=false] If it's possible, shorten the returned hex to the 4-number format.
 			 * @returns {String/*} Hexadecimal color code (e.g. `#FF00FF00`) or default value.
 			 */
-			getHexWithAlpha: function( shorten ) {
+			getHexWithAlpha: function( options ) {
 				if ( !this._.isValidColor ) {
 					return this._.defaultValue;
 				}
+
+				options = CKEDITOR.tools.object.merge( {
+					shorten: false
+				}, options );
 
 				var isShortenableRegex = /^#([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3([a-f0-9])\4$/i,
 					alpha = Math.round( this._.alpha * CKEDITOR.tools.color.MAX_RGB_CHANNEL_VALUE ),
 					hex = this._.formatHexString( this._.red, this._.green, this._.blue, alpha ),
 					isShortenable = isShortenableRegex.test( hex );
 
-				return shorten && isShortenable ? this._.shortenHex( hex ) : hex;
+				return ( options.shorten && isShortenable ) ? this._.shortenHex( hex ) : hex;
 			},
 
 			/**

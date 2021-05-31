@@ -539,10 +539,10 @@
 
 				var initialValue = color.getInitialValue(),
 					isHexLike = initialValue.toLowerCase() ===
-						color.getHex( initialValue.length === 3 ).toLowerCase().substr( 1 ),
+						color.getHex( { shorten: initialValue.length === 3 } ).toLowerCase().substr( 1 ),
 					isShortHexLike = isHexLike && initialValue.length === 3;
 
-				return isHexLike ? color.getHex( isShortHexLike ) : initialValue;
+				return isHexLike ? color.getHex( { shorten: isShortHexLike } ) : initialValue;
 			}
 		},
 
