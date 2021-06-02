@@ -1,0 +1,15 @@
+{
+  "bender": {
+    "port": 9001
+  },
+  "server": {
+    "port": 9002
+  },
+  "paths": {
+    "ckeditor4": "../ckeditor4/",
+    "runner": "./src/runner.html"
+  },
+  "browsers": {
+    "linux": [ "chrome", "firefox" ]
+  }
+}
