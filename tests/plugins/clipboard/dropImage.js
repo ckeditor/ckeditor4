@@ -26,11 +26,12 @@
 
 		nativeData.types.push( 'Files' );
 		dataTransfer.cacheData();
+
 		return dataTransfer.$;
 	}
 
 	bender.test( {
-		tearDown: function() {
+		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				assert.ignore();
 			}
@@ -132,9 +133,15 @@
 		},
 
 		assertDropImage: function( evt, type, expected, config ) {
-			var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( this.editor );
+			var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( this.editor ),
+				range = new CKEDITOR.dom.range( this.editor.document );
 
-			// push data into clipboard and invoke paste event
+			if ( CKEDITOR.env.gecko ) {
+				range.setStart( config.dropContainer, config.dropOffset );
+				evt.testRange = range;
+			}
+
+			// Push data into clipboard and invoke paste event
 			evt.$.dataTransfer = mockDropFile( this.editor, type );
 
 			onDrop = function( dropEvt ) {
@@ -145,7 +152,7 @@
 				dropRange.endOffset = config.dropOffset;
 			};
 
-			onPaste = function() {
+			onPaste = function( pasteEvt ) {
 				resume( function() {
 					assert.beautified.html( expected, this.editor.getData() );
 				} );
@@ -155,6 +162,7 @@
 			this.editor.on( 'paste', onPaste );
 
 			dropTarget.fire( 'drop', evt );
+
 			wait();
 		}
 	} );
