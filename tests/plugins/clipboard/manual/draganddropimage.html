@@ -12,8 +12,8 @@
     var editor = CKEDITOR.replace( 'editor' ),
         inline = CKEDITOR.inline( 'inline' );
 
-    editor.on( 'loaded', function() {
-        if( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ){
+        editor.on( 'loaded', function() {
+        if( !CKEDITOR.plugins.clipboard.isFileApiSupported ){
             bender.ignore();
         }
     } );

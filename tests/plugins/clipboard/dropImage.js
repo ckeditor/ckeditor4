@@ -1,6 +1,5 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard */
-/* bender-include: _helpers/pasting.js */
 
 ( function() {
 	'use strict';
@@ -9,13 +8,53 @@
 		onDrop,
 		onPaste;
 
+	// Mock FileReader.
+	( function() {
+		var fileMockBase64 = ';base64,fileMockBase64=',
+			fileMockType,
+			readResultMock;
+
+		function FileReaderMock() {
+			this.listeners = {};
+		}
+
+		// Any MIME type.
+		FileReaderMock.setFileMockType = function( type ) {
+			fileMockType = type;
+		};
+
+		// Result can be: load, abort, error.
+		FileReaderMock.setReadResult = function( readResult ) {
+			readResultMock = readResult;
+			if ( !readResultMock ) {
+				readResultMock = 'load';
+			}
+		};
+
+		FileReaderMock.prototype.addEventListener = function( eventName, callback ) {
+			this.listeners[ eventName ] = callback;
+		};
+
+		FileReaderMock.prototype.readAsDataURL = function() {
+			CKEDITOR.tools.setTimeout( function() {
+				this.result = ( readResultMock == 'load' ? 'data:' + fileMockType + fileMockBase64 : null );
+
+				if ( this.listeners[ readResultMock ] ) {
+					this.listeners[ readResultMock ]();
+				}
+			}, 15, this );
+		};
+
+		window.FileReader = FileReaderMock;
+	} )();
+
 	bender.editor = {
 		config: {
 			allowedContent: true
 		}
 	};
 
-	function mockDropFile( editor, type ) {
+	function mockDropFile( type ) {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
@@ -30,11 +69,46 @@
 		return dataTransfer.$;
 	}
 
+	function assertDropImage( editor, evt, type, expected, config ) {
+		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+			range = new CKEDITOR.dom.range( editor.document );
+
+		range.setStart( config.dropContainer, config.dropOffset );
+		evt.testRange = range;
+
+		// Push data into clipboard and invoke paste event
+		evt.$.dataTransfer = mockDropFile( type );
+
+		onDrop = function( dropEvt ) {
+			var dropRange = dropEvt.data.dropRange;
+
+			dropRange.startContainer = config.dropContainer;
+			dropRange.startOffset = config.dropOffset;
+			dropRange.endOffset = config.dropOffset;
+		};
+
+		onPaste = function() {
+			resume( function() {
+				assert.beautified.html( expected, editor.getData() );
+			} );
+		};
+
+		editor.on( 'drop', onDrop );
+		editor.on( 'paste', onPaste );
+
+		dropTarget.fire( 'drop', evt );
+
+		wait();
+	}
+
 	bender.test( {
 		setUp: function() {
-			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}
+
+			FileReader.setFileMockType();
+			FileReader.setReadResult();
 
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 
@@ -51,7 +125,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			this.assertDropImage( dropEvt, imageType, expected, {
+			assertDropImage( this.editor, dropEvt, imageType, expected, {
 				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 				dropOffset: 17
 			} );
@@ -66,7 +140,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			this.assertDropImage( dropEvt, imageType, expected, {
+			assertDropImage( this.editor, dropEvt, imageType, expected, {
 				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 				dropOffset: 17
 			} );
@@ -81,7 +155,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			this.assertDropImage( dropEvt, imageType, expected, {
+			assertDropImage( this.editor, dropEvt, imageType, expected, {
 				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 				dropOffset: 17
 			} );
@@ -96,7 +170,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			this.assertDropImage( dropEvt, imageType, expected, {
+			assertDropImage( this.editor, dropEvt, imageType, expected, {
 				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 				dropOffset: 17
 			} );
@@ -111,7 +185,7 @@
 			FileReader.setReadResult( 'abort' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			this.assertDropImage( dropEvt, imageType, expected, {
+			assertDropImage( this.editor, dropEvt, imageType, expected, {
 				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 				dropOffset: 17
 			} );
@@ -126,44 +200,10 @@
 			FileReader.setReadResult( 'error' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			this.assertDropImage( dropEvt, imageType, expected, {
+			assertDropImage( this.editor, dropEvt, imageType, expected, {
 				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 				dropOffset: 17
 			} );
-		},
-
-		assertDropImage: function( evt, type, expected, config ) {
-			var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( this.editor ),
-				range = new CKEDITOR.dom.range( this.editor.document );
-
-			if ( CKEDITOR.env.gecko ) {
-				range.setStart( config.dropContainer, config.dropOffset );
-				evt.testRange = range;
-			}
-
-			// Push data into clipboard and invoke paste event
-			evt.$.dataTransfer = mockDropFile( this.editor, type );
-
-			onDrop = function( dropEvt ) {
-				var dropRange = dropEvt.data.dropRange;
-
-				dropRange.startContainer = config.dropContainer;
-				dropRange.startOffset = config.dropOffset;
-				dropRange.endOffset = config.dropOffset;
-			};
-
-			onPaste = function( pasteEvt ) {
-				resume( function() {
-					assert.beautified.html( expected, this.editor.getData() );
-				} );
-			};
-
-			this.editor.on( 'drop', onDrop );
-			this.editor.on( 'paste', onPaste );
-
-			dropTarget.fire( 'drop', evt );
-
-			wait();
 		}
 	} );
 } )();
