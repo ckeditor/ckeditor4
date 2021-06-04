@@ -34,8 +34,9 @@ jobs:
         # Define target branches
         - TARGET_BRANCH="origin/$TRAVIS_BRANCH"
         - CURRENT_BRANCH="origin/$TRAVIS_PULL_REQUEST_BRANCH"
-        - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-               sh -e TARGET_BRANCH="origin/HEAD^" && CURRENT_BRANCH="origin/HEAD";
+        - 'if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then
+            TARGET_BRANCH="origin/HEAD^"
+            CURRENT_BRANCH="origin/HEAD";
           fi'
         # Setup CKEditor 4 testing environment
         - pwd
@@ -66,7 +67,8 @@ jobs:
         - TARGET_BRANCH="origin/$TRAVIS_BRANCH"
         - CURRENT_BRANCH="origin/$TRAVIS_PULL_REQUEST_BRANCH"
         - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-               sh -e TARGET_BRANCH="origin/HEAD^" && CURRENT_BRANCH="origin/HEAD";
+            TARGET_BRANCH="origin/HEAD^"
+            CURRENT_BRANCH="origin/HEAD";
           fi'
         # Setup CKEditor 4 testing environment
         - pwd
