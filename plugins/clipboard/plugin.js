@@ -149,7 +149,7 @@
 			// Convert image file (if present) to base64 string for modern browsers except IE, as it does not support
 			// custom MIME types in clipboard (#4612).
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			if ( CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 					latestId;
 
@@ -159,10 +159,9 @@
 						dataTransfer = dataObj.dataTransfer;
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
-					// Allow drag and drop images as base64. (#4681)
-					if ( !data && isFileData( dataTransfer ) ) {
+					// Allow both dragging and dropping and pasting images as base64. (#4681)
+					if ( ( !data && isFileData( dataTransfer ) ) || ( CKEDITOR.env.ie && !data && checkIEPasteImage( dataTransfer, supportedImageTypes ) ) ) {
 						var file = dataTransfer.getFile( 0 );
-
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
 							var fileReader = new FileReader();
 
@@ -184,7 +183,9 @@
 
 							fileReader.readAsDataURL( file );
 
+							// if ( !CKEDITOR.env.ie && !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 							latestId = dataObj.dataTransfer.id;
+							// }
 
 							evt.stop();
 						}
@@ -200,6 +201,28 @@
 				}
 
 				return dataTransfer.isFileTransfer() && dataTransfer.getFilesCount() === 1;
+			}
+
+			function checkIEPasteImage( dataTransfer, supportedImageTypes ) {
+				var file = dataTransfer.$.files,
+					currentTileType = file && dataTransfer.$.files.length > 0 ? file[ 0 ].type : false,
+					transferType = dataTransfer.getTransferType( editor ),
+					result = false;
+
+				if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+					return false;
+				}
+
+				if ( currentTileType && transferType.CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
+					CKEDITOR.tools.array.forEach( supportedImageTypes, function( imageType ) {
+						if ( imageType === currentTileType ) {
+							result = true;
+							dataTransfer.id = CKEDITOR.tools.getUniqueId();
+						}
+					} );
+				}
+
+				return result;
 			}
 
 			editor.on( 'paste', function( evt ) {
