@@ -204,16 +204,13 @@
 			}
 
 			function checkIEPasteImage( dataTransfer, supportedImageTypes ) {
-				var file = dataTransfer.$.files,
-					currentTileType = file && dataTransfer.$.files.length > 0 ? file[ 0 ].type : false,
-					transferType = dataTransfer.getTransferType( editor ),
+				var currentTileType = dataTransfer.$.files.length > 0 ? dataTransfer.getFile( 0 ).type : false,
 					result = false;
-
 				if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 					return false;
 				}
 
-				if ( currentTileType && transferType.CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
+				if ( currentTileType ) {
 					CKEDITOR.tools.array.forEach( supportedImageTypes, function( imageType ) {
 						if ( imageType === currentTileType ) {
 							result = true;
