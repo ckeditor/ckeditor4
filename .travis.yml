@@ -18,6 +18,8 @@ git:
 
 env:
   - FULL_RUN=$(if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then echo "fullRun"; else echo ""; fi)
+  - TARGET_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then echo "origin/HEAD^"; else echo "origin/$TRAVIS_BRANCH"; fi)
+  - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then echo "origin/HEAD"; else echo "origin/$TRAVIS_PULL_REQUEST_BRANCH"; fi)
 
 jobs:
   include:
@@ -31,12 +33,6 @@ jobs:
         # Setup xvfb
         - 'export DISPLAY=:99.0'
         - 'sleep 3'
-        # Define target branches
-        - TARGET_BRANCH="origin/$TRAVIS_BRANCH"
-        - CURRENT_BRANCH="origin/$TRAVIS_PULL_REQUEST_BRANCH"
-        - 'if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then
-               sh -e TARGET_BRANCH="origin/HEAD^" && CURRENT_BRANCH="origin/HEAD"
-          fi'
         # Setup CKEditor 4 testing environment
         - pwd
         - npm install benderjs-cli -g
@@ -50,7 +46,7 @@ jobs:
       script:
         - pwd
         - echo "Running tests based on diff between $TARGET_BRANCH and $CURRENT_BRANCH"
-        - npm run start "../../ckeditor4/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "chrome" $FULL_RUN
+        - npm run start "../../ckeditor4/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "chrome" "$FULL_RUN"
 
     - name: Firefox (Linux)
       services:
@@ -62,12 +58,6 @@ jobs:
         # Setup xvfb
         - 'export DISPLAY=:99.0'
         - 'sleep 3'
-        # Define target branches
-        - TARGET_BRANCH="origin/$TRAVIS_BRANCH"
-        - CURRENT_BRANCH="origin/$TRAVIS_PULL_REQUEST_BRANCH"
-        - 'if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then
-              sh -e TARGET_BRANCH="origin/HEAD^" && CURRENT_BRANCH="origin/HEAD"
-          fi'
         # Setup CKEditor 4 testing environment
         - pwd
         - npm install benderjs-cli -g
@@ -81,4 +71,4 @@ jobs:
       script:
         - pwd
         - echo "Running tests based on diff between $TARGET_BRANCH and $CURRENT_BRANCH"
-        - npm run start "../../ckeditor4/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "firefox" $FULL_RUN
+        - npm run start "../../ckeditor4/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "firefox" "$FULL_RUN"
