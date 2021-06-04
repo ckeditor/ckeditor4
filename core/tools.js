@@ -38,6 +38,78 @@
 			} else {
 				return namedEntities[ code ];
 			}
+		},
+		// This is the polyill for the CSS.escape for IE. (#681)
+		// https://github.com/mathiasbynens/CSS.escape/blob/master/css.escape.js
+		cssEscapeForIE = function( selector ) {
+			var stringifiedSelector = String( selector ),
+				selectorLength = stringifiedSelector.length,
+				index = -1,
+				codeUnit,
+				result = '',
+				firstCodeUnit = stringifiedSelector.charCodeAt( 0 ),
+				UTF16 = {
+					NULL: 0x0000,
+					START_OF_HEADING: 0x0001,
+					UNIT_SEPARATOR: 0x001F,
+					DELETE: 0x007F,
+					DIGIT_ZERO: 0x0030,
+					DIGIT_NINE: 0x0039,
+					HYPHEN_MINUS: 0x002D,
+					LOW_LINE: 0x005F,
+					START_OF_LATIN_1_SUPPLEMENT: 0x0080,
+					CAPITAL_LETTER_A: 0x0041,
+					CAPITAL_LETTER_Z: 0x005A,
+					SMALL_LETTER_A: 0x0061,
+					SMALL_LETTER_Z: 0x007A
+				};
+
+			// Helper function to check if value is in the range.
+			function isInRange( value, min, max ) {
+				return value >= min && value <= max;
+			}
+
+			while ( ++index < selectorLength ) {
+				codeUnit = stringifiedSelector.charCodeAt( index );
+
+				if ( codeUnit == UTF16.NULL ) {
+					result += '\uFFFD';
+					continue;
+				}
+
+				if ( codeUnit == UTF16.DELETE ||
+					isInRange( codeUnit, UTF16.START_OF_HEADING, UTF16.UNIT_SEPARATOR ) ||
+					( index == 0 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) ) ||
+					( index == 1 && isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) && firstCodeUnit == UTF16.HYPHEN_MINUS )
+				) {
+					// https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
+					result += '\\' + codeUnit.toString( 16 ) + ' ';
+					continue;
+				}
+
+				if ( index == 0 && selectorLength == 1 && codeUnit == UTF16.HYPHEN_MINUS ) {
+					result += '\\' + stringifiedSelector.charAt( index );
+					continue;
+				}
+
+				if (
+					codeUnit >= UTF16.START_OF_LATIN_1_SUPPLEMENT ||
+					codeUnit == UTF16.HYPHEN_MINUS ||
+					codeUnit == UTF16.LOW_LINE ||
+					isInRange( codeUnit, UTF16.DIGIT_ZERO, UTF16.DIGIT_NINE ) ||
+					isInRange( codeUnit, UTF16.CAPITAL_LETTER_A, UTF16.CAPITAL_LETTER_Z ) ||
+					isInRange( codeUnit, UTF16.SMALL_LETTER_A, UTF16.SMALL_LETTER_Z )
+				) {
+					// the character itself
+					result += stringifiedSelector.charAt( index );
+					continue;
+				}
+
+				// Otherwise, the escaped character.
+				// https://drafts.csswg.org/cssom/#escape-a-character
+				result += '\\' + stringifiedSelector.charAt( index );
+			}
+			return result;
 		};
 
 	CKEDITOR.on( 'reset', function() {
@@ -1547,12 +1619,8 @@
 				return CSS.escape( selector );
 			}
 
-			// Simple leading digit escape.
-			if ( !isNaN( parseInt( selector.charAt( 0 ), 10 ) ) ) {
-				return '\\3' + selector.charAt( 0 ) + ' ' + selector.substring( 1, selector.length );
-			}
-
-			return selector;
+			// (#681)
+			return cssEscapeForIE( selector );
 		},
 
 		/**

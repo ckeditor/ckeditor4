@@ -855,6 +855,49 @@
 			assert.areSame( escapedSelector, '\\30 ', 'only-one-number selector' );
 		},
 
+		// (#681)
+		'test escapeCss - escaped colon in the css selector': function() {
+			var selector = 'abc:def',
+				escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			assert.areSame( escapedSelector, 'abc\\:def', 'The colon character is not escaped in CSS selector.' );
+		},
+
+		// (#681)
+		'test escapeCss - escaped dot in the css selector': function() {
+			var selector = 'abc.def',
+				escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			assert.areSame( escapedSelector, 'abc\\.def', 'The dot character is not escaped in CSS selector.' );
+		},
+
+		// (#681)
+		'test escapeCss - escaped null in the css selector': function() {
+			var selector = 'a\0',
+				escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			assert.areSame( escapedSelector, 'a\uFFFD', 'The null character is not escaped in CSS selector.' );
+		},
+
+		// (#681)
+		'test escapeCss - escaped U+0001 to U+001F or U+007F in the css selector': function() {
+			var selector = '\x7F\x01\x02\x1E\x1F',
+				escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			assert.areSame( escapedSelector, '\\7f \\1 \\2 \\1e \\1f ', 'Character from U+0001 to U+001F or U+007F is not escaped in CSS selector.' );
+		},
+
+		// (#681)
+		'test escapeCss - escaped U+002D in the css selector': function() {
+			var selectorWithSecondCharIsNumber = '-1a',
+				escapedSelectorWithSecondCharIsNumber = CKEDITOR.tools.escapeCss( selectorWithSecondCharIsNumber ),
+				selectorWithSecondCharIsNotNumber = '-a',
+				escapedSelectorWithSecondCharNotNumber = CKEDITOR.tools.escapeCss( selectorWithSecondCharIsNotNumber );
+
+			assert.areSame( escapedSelectorWithSecondCharIsNumber, '-\\31 a', 'has U+002D in selector and second character and is in the range [0-9]' );
+			assert.areSame( escapedSelectorWithSecondCharNotNumber, '-a', 'has U+002D in selector and second character and is not in the range [0-9]' );
+		},
+
 		'test escapeCss - standard selector': function() {
 			var selector = 'aaa';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );

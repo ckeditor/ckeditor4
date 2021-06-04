@@ -905,7 +905,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
 				showCover( this._.editor );
-			} else {
+			} else if ( CKEDITOR.dialog._.currentTop !== this ) {
+				// Reposition the new dialog only if the current dialog is not already on the top (#3638).
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
 
 				var parentElement = this._.parentDialog.getElement().getFirst();

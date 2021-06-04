@@ -7,6 +7,11 @@
     <pre><code class="language-javascript">//Hello another world!</code></pre>
 </div>
 <script>
+	// (#4705).
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor', {
 		height: 300
 	} );

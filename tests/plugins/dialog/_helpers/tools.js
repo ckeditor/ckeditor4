@@ -401,8 +401,18 @@
 			editor.addCommand( 'singlePageDialog', new CKEDITOR.dialogCommand( 'singlePageDialog' ) );
 			editor.addCommand( 'multiPageDialog', new CKEDITOR.dialogCommand( 'multiPageDialog' ) );
 			editor.addCommand( 'hiddenPageDialog', new CKEDITOR.dialogCommand( 'hiddenPageDialog' ) );
-		}
+		},
 
+		// Closes all opened dialogs.
+		closeAllDialogs: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			while ( dialog ) {
+				dialog.hide();
+
+				dialog = CKEDITOR.dialog.getCurrent();
+			}
+		}
 	};
 
 	window.dialogTools = dialogTools;

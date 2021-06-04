@@ -1,5 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: dialog, link, toolbar, colorbutton, colordialog */
+/* bender-include: _helpers/tools.js */
+/* global dialogTools */
 
 ( function() {
 	'use strict';
@@ -11,12 +13,7 @@
 			// Make sure page is scrollable on vertical screens.
 			CKEDITOR.document.getBody().appendHtml( '<div style="height:4000px"></div>' );
 		},
-		tearDown: function() {
-			var dialog = CKEDITOR.dialog.getCurrent();
-			if ( dialog ) {
-				dialog.hide();
-			}
-		},
+		tearDown: dialogTools.closeAllDialogs,
 
 		// (#2395).
 		'test body has hidden scrollbars when dialog is opened': function() {
@@ -218,8 +215,40 @@
 					} );
 				} );
 			} );
-		}
+		},
 
+		// (#3638)
+		'test dialog is positioned above the cover after opening the same dialog twice': function() {
+			var editorBot = this.editorBot;
+
+			editorBot.dialog( 'link', function() {
+				editorBot.dialog( 'link', function( dialog ) {
+					var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' ),
+						coverZIndex = parseInt( cover.getStyle( 'z-index' ), 10 ),
+						dialogZIndex = parseInt( dialog.getElement().getStyle( 'z-index' ), 10 );
+
+					dialog.getButton( 'cancel' ).click();
+
+					assert.isTrue( dialogZIndex > coverZIndex, 'Dialog should be above the cover (dialog z-index: ' +
+						dialogZIndex + ', cover z-index: ' + coverZIndex + ')' );
+				} );
+			} );
+		},
+
+		// (#3638)
+		'test dialog cover disappears after opening the same dialog twice and closing it': function() {
+			var editorBot = this.editorBot;
+
+			editorBot.dialog( 'link', function() {
+				editorBot.dialog( 'link', function( dialog ) {
+					var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' );
+
+					dialog.getButton( 'cancel' ).click();
+
+					assert.areEqual( 'none', cover.getStyle( 'display' ), 'Dialog cover should not be visible' );
+				} );
+			} );
+		}
 	} );
 
 	function mockWindowGetViewPaneSize( viewPaneSize ) {

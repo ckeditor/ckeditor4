@@ -1,5 +1,7 @@
 /* bender-tags: editor, dialog */
 /* bender-ckeditor-plugins: dialog */
+/* bender-include: _helpers/tools.js */
+/* global dialogTools */
 
 ( function() {
 	'use strict';
@@ -81,6 +83,8 @@
 	bender.editor = {};
 
 	bender.test( {
+		tearDown: dialogTools.closeAllDialogs,
+
 		// (#4262)
 		'test stylesLoaded is not polluting global context': function() {
 			assert.isUndefined( window.stylesLoaded );
@@ -118,6 +122,7 @@
 		'test open dialog forces model': function() {
 			var tc = this,
 				editor = this.editor,
+				editorBot = this.editorBot,
 				model = {};
 
 			editor.openDialog( 'testGetModel', function( dialog1 ) {
@@ -125,10 +130,8 @@
 
 				dialog1.hide();
 
-				editor.openDialog( 'testGetModel', function( dialog2 ) {
-					tc.resume( function() {
-						assert.areNotSame( model, dialog2.getModel() );
-					} );
+				editorBot.dialog( 'testGetModel', function( dialog2 ) {
+					assert.areNotSame( model, dialog2.getModel() );
 				} );
 			}, model );
 
@@ -557,6 +560,19 @@
 					dialog: CKEDITOR.dialog.getCurrent(),
 					definition: sinon.match.instanceOf( Object )
 				} ) );
+			} );
+		},
+
+		// (#3638)
+		'test updating current dialog after closing the dialog opened twice': function() {
+			var editorBot = this.editorBot;
+
+			editorBot.dialog( 'testDialog1', function() {
+				editorBot.dialog( 'testDialog1', function( dialog ) {
+					dialog.getButton( 'cancel' ).click();
+
+					assert.isNull( CKEDITOR.dialog.getCurrent(), 'There is no current dialog' );
+				} );
 			} );
 		}
 	} );
