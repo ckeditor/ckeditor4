@@ -160,7 +160,7 @@
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					// Allow both dragging and dropping and pasting images as base64. (#4681)
-					if ( ( !data && isFileData( dataTransfer ) ) || ( CKEDITOR.env.ie && !data && checkIEPasteImage( dataTransfer, supportedImageTypes ) ) ) {
+					if ( ( !data && isFileData( dataTransfer ) ) || ( !data && checkIEPasteImage( evt, dataTransfer, supportedImageTypes ) ) ) {
 						var file = dataTransfer.getFile( 0 );
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
 							var fileReader = new FileReader();
@@ -173,19 +173,19 @@
 
 							// Proceed with normal flow if reading file was aborted.
 							fileReader.addEventListener( 'abort', function() {
+								setCustomIEEventAttribute( evt );
 								editor.fire( 'paste', evt.data );
 							}, false );
 
 							// Proceed with normal flow if reading file failed.
 							fileReader.addEventListener( 'error', function() {
+								setCustomIEEventAttribute( evt );
 								editor.fire( 'paste', evt.data );
 							}, false );
 
 							fileReader.readAsDataURL( file );
 
-							// if ( !CKEDITOR.env.ie && !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 							latestId = dataObj.dataTransfer.id;
-							// }
 
 							evt.stop();
 						}
@@ -203,23 +203,35 @@
 				return dataTransfer.isFileTransfer() && dataTransfer.getFilesCount() === 1;
 			}
 
-			function checkIEPasteImage( dataTransfer, supportedImageTypes ) {
-				var currentTileType = dataTransfer.$.files.length > 0 ? dataTransfer.getFile( 0 ).type : false,
-					result = false;
-				if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+			// Checking if the 'paste' event contains an image with one of the supported type on IE10+ (#4681)
+			function checkIEPasteImage( evt, dataTransfer, supportedImageTypes ) {
+				if ( evt.data.isIEFailed || !CKEDITOR.plugins.clipboard.isFileApiSupported || !CKEDITOR.env.ie ) {
 					return false;
 				}
 
-				if ( currentTileType ) {
-					CKEDITOR.tools.array.forEach( supportedImageTypes, function( imageType ) {
-						if ( imageType === currentTileType ) {
-							result = true;
-							dataTransfer.id = CKEDITOR.tools.getUniqueId();
-						}
-					} );
-				}
+				var file = dataTransfer.getFile( 0 ) || false,
+					includeFileType = dataTransfer.getTypes() ? dataTransfer.getTypes()[ 0 ] : false,
+					eventFileType = file ? file.type : false,
+					transferType = dataTransfer.getTransferType( editor );
 
-				return result;
+				if ( eventFileType && includeFileType === 'Files' && transferType === CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
+					return checkIfTypeIsSupported( supportedImageTypes, eventFileType );
+				} else {
+					return false;
+				}
+			}
+
+			// Add an attribute when the image is not loaded correctly. (#4681)
+			function setCustomIEEventAttribute( evt ) {
+				if ( CKEDITOR.env.ie && CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+					evt.data.isIEFailed = true;
+				}
+			}
+
+			function checkIfTypeIsSupported( typesArr, currentType ) {
+				return CKEDITOR.tools.array.find( typesArr, function( type ) {
+					return type === currentType;
+				} ) ? true : false;
 			}
 
 			editor.on( 'paste', function( evt ) {
