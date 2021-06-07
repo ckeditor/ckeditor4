@@ -1,5 +1,5 @@
 /* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification, testResetScenario,
-getDefaultNotification, createFixtures */
+getDefaultNotification, createFixtures, mockFileReader */
 
 'use strict';
 
@@ -195,4 +195,43 @@ function createFixtures( fixtures ) {
 			return CKEDITOR.tools.copy( fixtures[ name ] );
 		}
 	};
+}
+
+function mockFileReader() {
+	var fileMockBase64 = ';base64,fileMockBase64=',
+		fileMockType,
+		readResultMock;
+
+	function FileReaderMock() {
+		this.listeners = {};
+	}
+
+	// Any MIME type.
+	FileReaderMock.setFileMockType = function( type ) {
+		fileMockType = type;
+	};
+
+	// Result can be: load, abort, error.
+	FileReaderMock.setReadResult = function( readResult ) {
+		readResultMock = readResult;
+		if ( !readResultMock ) {
+			readResultMock = 'load';
+		}
+	};
+
+	FileReaderMock.prototype.addEventListener = function( eventName, callback ) {
+		this.listeners[ eventName ] = callback;
+	};
+
+	FileReaderMock.prototype.readAsDataURL = function() {
+		CKEDITOR.tools.setTimeout( function() {
+			this.result = ( readResultMock == 'load' ? 'data:' + fileMockType + fileMockBase64 : null );
+
+			if ( this.listeners[ readResultMock ] ) {
+				this.listeners[ readResultMock ]();
+			}
+		}, 15, this );
+	};
+
+	window.FileReader = FileReaderMock;
 }
