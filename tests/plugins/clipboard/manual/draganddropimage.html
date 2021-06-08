@@ -13,8 +13,8 @@
         inline = CKEDITOR.inline( 'inline' );
 
         editor.on( 'loaded', function() {
-        if( !CKEDITOR.plugins.clipboard.isFileApiSupported ){
-            bender.ignore();
-        }
-    } );
+            if( !CKEDITOR.plugins.clipboard.isFileApiSupported ){
+                bender.ignore();
+            }
+        } );
 </script>
