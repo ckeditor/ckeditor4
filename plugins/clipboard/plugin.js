@@ -149,7 +149,7 @@
 			// Convert image file (if present) to base64 string for modern browsers except IE, as it does not support
 			// custom MIME types in clipboard (#4612).
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
-			if ( CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 					latestId;
 
@@ -160,7 +160,7 @@
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					// Allow both dragging and dropping and pasting images as base64. (#4681)
-					if ( ( !data && isFileData( dataTransfer ) ) || ( !data && checkIEPasteImage( evt, dataTransfer, supportedImageTypes ) ) ) {
+					if ( !data && isFileData( dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
 							var fileReader = new FileReader();
@@ -173,13 +173,11 @@
 
 							// Proceed with normal flow if reading file was aborted.
 							fileReader.addEventListener( 'abort', function() {
-								setCustomIEEventAttribute( evt );
 								editor.fire( 'paste', evt.data );
 							}, false );
 
 							// Proceed with normal flow if reading file failed.
 							fileReader.addEventListener( 'error', function() {
-								setCustomIEEventAttribute( evt );
 								editor.fire( 'paste', evt.data );
 							}, false );
 
@@ -194,44 +192,13 @@
 			}
 
 			// Only dataTransfer objects containing only file should be considered
-			// to image pasting (#3585, #3625).
+			// to image pasting and dropping. (#3585, #3625, #4681)
 			function isFileData( dataTransfer ) {
-				if ( !dataTransfer || latestId === dataTransfer.id ) {
+				if ( !CKEDITOR.env.ie && ( !dataTransfer || latestId === dataTransfer.id ) ) {
 					return false;
 				}
 
 				return dataTransfer.isFileTransfer() && dataTransfer.getFilesCount() === 1;
-			}
-
-			// Checking if the 'paste' event contains an image with one of the supported type on IE10+ (#4681)
-			function checkIEPasteImage( evt, dataTransfer, supportedImageTypes ) {
-				if ( evt.data.isIEFailed || !CKEDITOR.plugins.clipboard.isFileApiSupported || !CKEDITOR.env.ie ) {
-					return false;
-				}
-
-				var file = dataTransfer.getFile( 0 ) || false,
-					includeFileType = dataTransfer.getTypes() ? dataTransfer.getTypes()[ 0 ] : false,
-					eventFileType = file ? file.type : false,
-					transferType = dataTransfer.getTransferType( editor );
-
-				if ( eventFileType && includeFileType === 'Files' && transferType === CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
-					return checkIfTypeIsSupported( supportedImageTypes, eventFileType );
-				} else {
-					return false;
-				}
-			}
-
-			// Add an attribute when the image is not loaded correctly. (#4681)
-			function setCustomIEEventAttribute( evt ) {
-				if ( CKEDITOR.env.ie && CKEDITOR.plugins.clipboard.isFileApiSupported ) {
-					evt.data.isIEFailed = true;
-				}
-			}
-
-			function checkIfTypeIsSupported( typesArr, currentType ) {
-				return CKEDITOR.tools.array.find( typesArr, function( type ) {
-					return type === currentType;
-				} ) ? true : false;
 			}
 
 			editor.on( 'paste', function( evt ) {
