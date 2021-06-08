@@ -160,7 +160,7 @@
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					// Allow both dragging and dropping and pasting images as base64. (#4681)
-					if ( !data && isFileData( dataTransfer ) ) {
+					if ( !data && isFileData( evt, dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
 							var fileReader = new FileReader();
@@ -173,11 +173,15 @@
 
 							// Proceed with normal flow if reading file was aborted.
 							fileReader.addEventListener( 'abort', function() {
+								// (#4681)
+								setCustomIEEventAttribute( evt );
 								editor.fire( 'paste', evt.data );
 							}, false );
 
 							// Proceed with normal flow if reading file failed.
 							fileReader.addEventListener( 'error', function() {
+								// (#4681)
+								setCustomIEEventAttribute( evt );
 								editor.fire( 'paste', evt.data );
 							}, false );
 
@@ -192,13 +196,27 @@
 			}
 
 			// Only dataTransfer objects containing only file should be considered
-			// to image pasting and dropping. (#3585, #3625, #4681)
-			function isFileData( dataTransfer ) {
+			// to image pasting (#3585, #3625).
+			function isFileData( evt, dataTransfer ) {
+				// Checking for fileTransferCancel on IE to prevent comparing empty string
+				// from dataTransfer.id and falling into infinite loop. (#4681)
+				if ( CKEDITOR.env.ie && evt.data.fileTransferCancel ) {
+					return false;
+				}
+
 				if ( !CKEDITOR.env.ie && ( !dataTransfer || latestId === dataTransfer.id ) ) {
 					return false;
 				}
 
 				return dataTransfer.isFileTransfer() && dataTransfer.getFilesCount() === 1;
+			}
+
+			// To avoid falling into an infinite loop on IE10+ when the image loading state is other than `load`
+			// add a custom data attribute.
+			function setCustomIEEventAttribute( evt ) {
+				if ( CKEDITOR.env.ie ) {
+					evt.data.fileTransferCancel = true;
+				}
 			}
 
 			editor.on( 'paste', function( evt ) {
