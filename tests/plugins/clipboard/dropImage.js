@@ -69,6 +69,7 @@
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}
+
 			mockFileReader(); // jshint ignore:line
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 
