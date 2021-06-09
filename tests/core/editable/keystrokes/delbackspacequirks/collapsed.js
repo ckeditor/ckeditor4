@@ -33,6 +33,56 @@
 
 		// --- MISC -----------------------------------------------------------
 
+		// (#3819)
+		'test backspace key use when carret between two visual spaces didnt split content': function() {
+			bender.editorBot.create( {
+				name: 'editor' + new Date().getTime()
+			}, function( bot ) {
+				// Intentionally makes selection marker(`{}`) at the end.
+				// If we put it between two spaces at the beginning - content will be splited before backspace key simulation.
+				// And we want it to be split after backspace keydown.
+				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
+
+				var editable = bot.editor.editable(),
+					pContent = editable.findOne( 'p' ),
+					range = bot.editor.createRange();
+
+				// Move selection between two visual spaces.
+				range.setStart( pContent.getFirst(), 6 );
+				range.select();
+
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: BACKSPACE } ) );
+
+				// Expecting content as a single text node and the second is `br`
+				assert.areEqual( 2, pContent.getChildCount() );
+			} );
+		},
+
+		// (#3819)
+		'test delete key use when carret between two visual spaces didnt split content': function() {
+			bender.editorBot.create( {
+				name: 'editor' + new Date().getTime()
+			}, function( bot ) {
+				// Intentionally makes selection marker(`{}`) at the end.
+				// If we put it between two spaces at the beginning - content will be splited before backspace key simulation.
+				// And we want it to be split after backspace keydown.
+				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
+
+				var editable = bot.editor.editable(),
+					pContent = editable.findOne( 'p' ),
+					range = bot.editor.createRange();
+
+				// Move selection between two visual spaces.
+				range.setStart( pContent.getFirst(), 6 );
+				range.select();
+
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: DEL } ) );
+
+				// Expecting content as a single text node and the second is `br`
+				assert.areEqual( 2, pContent.getChildCount() );
+			} );
+		},
+
 		'test backspace records undo snapshots': function() {
 			var editor = this.editor,
 				tc = this;
