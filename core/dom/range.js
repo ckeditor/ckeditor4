@@ -2410,7 +2410,7 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 0, 1 );
 			}
 
-			// (#3819)
+			// Trimming text node may produce unwanted &nbsp; at the beginning of splitted node (#3819).
 			if ( !skipTrimming ) {
 				// Anticipate the trim() call here, so the walker will not make
 				// changes to the DOM, which would not get reflected into this
@@ -2452,7 +2452,7 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 1, 0 );
 			}
 
-			// (#3819)
+			// Trimming text node may produce unwanted &nbsp; at the beginning of splitted node (#3819).
 			if ( !skipTrimming ) {
 				// Anticipate the trim() call here, so the walker will not make
 				// changes to the DOM, which would not get reflected into this

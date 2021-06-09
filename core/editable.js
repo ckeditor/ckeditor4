@@ -1219,6 +1219,7 @@
 							skipRangeTrimming = true;
 
 						if ( range.collapsed ) {
+							// Skip inner range trimming (#3819).
 							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath, skipRangeTrimming ) ) {
 								return;
 							}
@@ -2557,7 +2558,7 @@
 		};
 	} )();
 
-	function mergeBlocksCollapsedSelection( editor, range, backspace, startPath, skipTrimming ) {
+	function mergeBlocksCollapsedSelection( editor, range, backspace, startPath, skipRangeTrimming ) {
 		var startBlock = startPath.block;
 
 		// Selection must be collapsed and to be anchored in a block.
@@ -2566,7 +2567,7 @@
 
 		// Exclude cases where, i.e. if pressed arrow key, selection
 		// would move within the same block (merge inside a block).
-		if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]( skipTrimming ) )
+		if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]( skipRangeTrimming ) )
 			return false;
 
 		// Make sure, there's an editable position to put selection,
