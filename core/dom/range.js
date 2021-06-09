@@ -1182,29 +1182,31 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Change start container to its parent or new node after start container split.
+		 * If range is collapsed, perform collapse to the start and ends.
+		 *
+		 * If not collapse earlier, change end container to its parent or new node after end container split.
+		 *
+		 * Works on container if it is {@link CKEDITOR#NODE_TEXT text node}, range is collapsed or start/end is not ignored.
+		 *
 		 * @param {Boolean} [ignoreStart=false]
 		 * @param {Boolean} [ignoreEnd=false]
-		 * @todo precise desc/algorithm
 		 */
 		trim: function( ignoreStart, ignoreEnd ) {
 			var startContainer = this.startContainer,
 				startOffset = this.startOffset,
 				collapsed = this.collapsed;
+
 			if ( ( !ignoreStart || collapsed ) && startContainer && startContainer.type == CKEDITOR.NODE_TEXT ) {
-				// If the offset is zero, we just insert the new node before
-				// the start.
 				if ( !startOffset ) {
 					startOffset = startContainer.getIndex();
 					startContainer = startContainer.getParent();
 				}
-				// If the offset is at the end, we'll insert it after the text
-				// node.
 				else if ( startOffset >= startContainer.getLength() ) {
 					startOffset = startContainer.getIndex() + 1;
 					startContainer = startContainer.getParent();
 				}
-				// In other case, we split the text node and insert the new
-				// node at the split point.
+				// Split the text node and point to the new node at split point.
 				else {
 					var nextText = startContainer.split( startOffset );
 
@@ -1230,20 +1232,15 @@ CKEDITOR.dom.range = function( root ) {
 			var endOffset = this.endOffset;
 
 			if ( !( ignoreEnd || collapsed ) && endContainer && endContainer.type == CKEDITOR.NODE_TEXT ) {
-				// If the offset is zero, we just insert the new node before
-				// the start.
 				if ( !endOffset ) {
 					endOffset = endContainer.getIndex();
 					endContainer = endContainer.getParent();
 				}
-				// If the offset is at the end, we'll insert it after the text
-				// node.
 				else if ( endOffset >= endContainer.getLength() ) {
 					endOffset = endContainer.getIndex() + 1;
 					endContainer = endContainer.getParent();
 				}
-				// In other case, we split the text node and insert the new
-				// node at the split point.
+				// Split the text node and point to the new node at split point.
 				else {
 					endContainer.split( endOffset );
 
