@@ -39,8 +39,7 @@
 				name: 'editor' + new Date().getTime()
 			}, function( bot ) {
 				// Intentionally makes selection marker(`{}`) at the end.
-				// If we put it between two spaces at the beginning - content will be splited before backspace key simulation.
-				// And we want it to be split after backspace keydown.
+				// If we put it between two spaces at the beginning - content will be splited before key simulation.
 				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
 
 				var editable = bot.editor.editable(),
@@ -53,8 +52,12 @@
 
 				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: BACKSPACE } ) );
 
-				// Expecting content as a single text node and the second is `br`
-				assert.areEqual( 2, pContent.getChildCount() );
+				var foundIndex = CKEDITOR.tools.getIndex( pContent.getChildren().toArray(), function( node ) {
+					var firstCharCode = node.getText().charCodeAt( 0 );
+					return firstCharCode === 32 || firstCharCode === 160;
+				} );
+
+				assert.areEqual( -1, foundIndex, 'There should not be a node starting with whitespace after backspace key' );
 			} );
 		},
 
@@ -64,22 +67,25 @@
 				name: 'editor' + new Date().getTime()
 			}, function( bot ) {
 				// Intentionally makes selection marker(`{}`) at the end.
-				// If we put it between two spaces at the beginning - content will be splited before backspace key simulation.
-				// And we want it to be split after backspace keydown.
+				// If we put it before two spaces at the beginning - content could be splited before key simulation.
 				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
 
 				var editable = bot.editor.editable(),
 					pContent = editable.findOne( 'p' ),
 					range = bot.editor.createRange();
 
-				// Move selection between two visual spaces.
-				range.setStart( pContent.getFirst(), 6 );
+				// Move selection before two visual spaces.
+				range.setStart( pContent.getFirst(), 5 );
 				range.select();
 
 				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: DEL } ) );
 
-				// Expecting content as a single text node and the second is `br`
-				assert.areEqual( 2, pContent.getChildCount() );
+				var foundIndex = CKEDITOR.tools.getIndex( pContent.getChildren().toArray(), function( node ) {
+					var firstCharCode = node.getText().charCodeAt( 0 );
+					return firstCharCode === 32 || firstCharCode === 160;
+				} );
+
+				assert.areEqual( -1, foundIndex, 'There should not be a node starting with whitespace after delete key' );
 			} );
 		},
 
