@@ -124,49 +124,6 @@
 			assert.areEqual( range.endOffset, 2 );
 		},
 
-		// (#3819)
-		'test trim collapsing with nbsp and space combination': function() {
-			var id = '_trim_ct_span';
-			var ct = doc.getById( id );
-			ct.setHtml( 'Hello&nbsp; World' );
-
-			var initChilds = ct.getChildCount();
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( doc.getById( id ).getFirst(), 6 );
-			range.trim();
-
-			assert.isTrue( range.collapsed );
-			assert.areEqual( doc.getById( id ).$, range.startContainer.$ );
-			assert.areEqual( doc.getById( id ).$, range.endContainer.$ );
-			assert.areEqual( initChilds, ct.getChildCount() );
-		},
-
-		// (#3819)
-		'test backspace when carret between two visual spaces': function() {
-			bender.editorBot.create( {
-				name: 'editorXXX'
-			}, function( bot ) {
-				// Intentionally makes selection marker(`{}`) at the end.
-				// Otherwise the content will be splitted at the beginning.
-				// And we want it to be split after keydown.
-				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
-
-				var editable = bot.editor.editable(),
-					pContent = editable.findOne( 'p' ),
-					range = bot.editor.createRange();
-
-				// Move selection between two visual spaces.
-				range.setStart( pContent.getFirst(), 6 );
-				range.select();
-
-				// Fire backspace( keyCode: 8)
-				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 8 } ) );
-
-				assert.areEqual( 2, pContent.getChildCount() );
-			} );
-		},
-
 		/**
 		 * Trim range which collapsed at text node boundary.
 		 */
