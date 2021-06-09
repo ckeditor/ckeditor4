@@ -2401,7 +2401,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean}
 		 * @todo
 		 */
-		checkStartOfBlock: function() {
+		checkStartOfBlock: function( skipTrimming ) {
 			var startContainer = this.startContainer,
 				startOffset = this.startOffset;
 
@@ -2413,10 +2413,13 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 0, 1 );
 			}
 
-			// Anticipate the trim() call here, so the walker will not make
-			// changes to the DOM, which would not get reflected into this
-			// range otherwise.
-			this.trim();
+			// (#3819)
+			if ( !skipTrimming ) {
+				// Anticipate the trim() call here, so the walker will not make
+				// changes to the DOM, which would not get reflected into this
+				// range otherwise.
+				this.trim();
+			}
 
 			// We need to grab the block element holding the start boundary, so
 			// let's use an element path for it.
@@ -2440,7 +2443,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean}
 		 * @todo
 		 */
-		checkEndOfBlock: function() {
+		checkEndOfBlock: function( skipTrimming ) {
 			var endContainer = this.endContainer,
 				endOffset = this.endOffset;
 
@@ -2452,10 +2455,13 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 1, 0 );
 			}
 
-			// Anticipate the trim() call here, so the walker will not make
-			// changes to the DOM, which would not get reflected into this
-			// range otherwise.
-			this.trim();
+			// (#3819)
+			if ( !skipTrimming ) {
+				// Anticipate the trim() call here, so the walker will not make
+				// changes to the DOM, which would not get reflected into this
+				// range otherwise.
+				this.trim();
+			}
 
 			// We need to grab the block element holding the start boundary, so
 			// let's use an element path for it.

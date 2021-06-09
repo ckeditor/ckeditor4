@@ -1215,10 +1215,11 @@
 
 						var backspace = key == 8,
 							range = sel.getRanges()[ 0 ],
-							startPath = range.startPath();
+							startPath = range.startPath(),
+							skipRangeTrimming = true;
 
 						if ( range.collapsed ) {
-							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) ) {
+							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath, skipRangeTrimming ) ) {
 								return;
 							}
 						} else {
@@ -2556,7 +2557,7 @@
 		};
 	} )();
 
-	function mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) {
+	function mergeBlocksCollapsedSelection( editor, range, backspace, startPath, skipTrimming ) {
 		var startBlock = startPath.block;
 
 		// Selection must be collapsed and to be anchored in a block.
@@ -2565,7 +2566,7 @@
 
 		// Exclude cases where, i.e. if pressed arrow key, selection
 		// would move within the same block (merge inside a block).
-		if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
+		if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]( skipTrimming ) )
 			return false;
 
 		// Make sure, there's an editable position to put selection,
