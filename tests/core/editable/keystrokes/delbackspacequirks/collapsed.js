@@ -34,7 +34,7 @@
 		// --- MISC -----------------------------------------------------------
 
 		// (#3819)
-		'test backspace key use when carret between two visual spaces didnt split content': function() {
+		'test backspace key use when carret between two visual spaces did not split content': function() {
 			bender.editorBot.create( {
 				name: 'editor' + new Date().getTime()
 			}, function( bot ) {
@@ -62,7 +62,7 @@
 		},
 
 		// (#3819)
-		'test delete key use when carret between two visual spaces didnt split content': function() {
+		'test delete key use when carret before two visual spaces did not split content': function() {
 			bender.editorBot.create( {
 				name: 'editor' + new Date().getTime()
 			}, function( bot ) {
