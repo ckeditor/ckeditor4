@@ -263,7 +263,37 @@
 			return false;
 		}
 
-		return CKEDITOR.style.getStyleText( styleA.getDefinition() ) === CKEDITOR.style.getStyleText( styleB.getDefinition() );
+		var hasEqualAttributes = compareAttributes( styleA, styleB ),
+			hasEqualStyles = compareStyles( styleA, styleB );
+
+		return hasEqualAttributes && hasEqualStyles;
+
+		function compareAttributes( styleA, styleB ) {
+			var styleADefinition = styleA.getDefinition(),
+				styleBDefinition = styleB.getDefinition(),
+				styleAAttributes = CKEDITOR.tools.object.entries( styleADefinition.attributes ),
+				styleBAttributes = CKEDITOR.tools.object.entries( styleBDefinition.attributes );
+
+			if ( styleAAttributes.length !== styleBAttributes.length ) {
+				return false;
+			}
+
+			return CKEDITOR.tools.array.every( styleAAttributes, function( attributeA, i ) {
+				var attributeB = styleBAttributes[ i ],
+					attributeAName = attributeA[ 0 ],
+					attributeAValue = attributeA[ 1 ],
+					attributeBName = attributeB[ 0 ],
+					attributeBValue = attributeB[ 1 ],
+					isSameName = attributeAName === attributeBName,
+					isSameValue = attributeAValue === attributeBValue;
+
+				return isSameName && isSameValue;
+			} );
+		}
+
+		function compareStyles( styleA, styleB ) {
+			return CKEDITOR.style.getStyleText( styleA.getDefinition() ) === CKEDITOR.style.getStyleText( styleB.getDefinition() );
+		}
 	}
 
 	//  * @param {Object} options
