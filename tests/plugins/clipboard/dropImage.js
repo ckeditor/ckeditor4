@@ -1,6 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard */
 /* bender-include: _helpers/pasting.js */
+/* globals mockFileReader */
 
 ( function() {
 	'use strict';
@@ -60,7 +61,6 @@
 
 		dropTarget.fire( 'drop', evt );
 
-		window.FileReader = originalFileReader;
 		wait();
 	}
 
@@ -70,11 +70,15 @@
 				assert.ignore();
 			}
 
-			mockFileReader(); // jshint ignore:line
+			mockFileReader();
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 
 			this.editor.removeListener( 'drop', onDrop );
 			this.editor.removeListener( 'paste', onPaste );
+		},
+
+		tearDown: function() {
+			window.FileReader = originalFileReader;
 		},
 
 		'test drop .png image': function() {
