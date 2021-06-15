@@ -1215,12 +1215,11 @@
 
 						var backspace = key == 8,
 							range = sel.getRanges()[ 0 ],
-							startPath = range.startPath(),
-							skipRangeTrimming = true;
+							startPath = range.startPath();
 
 						if ( range.collapsed ) {
 							// Skip inner range trimming (#3819).
-							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath, skipRangeTrimming ) ) {
+							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath, true ) ) {
 								return;
 							}
 						} else {
