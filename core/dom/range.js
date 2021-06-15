@@ -2392,11 +2392,13 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Verify wheter range starts on non text or non inline element.
+		 *
 		 * **Note:** Calls to this function may produce changes to the DOM. The range may
 		 * be updated to reflect such changes.
 		 *
+		 * @param {Boolean} skipTrimming Wheter range trim should be skipped.
 		 * @returns {Boolean}
-		 * @todo
 		 */
 		checkStartOfBlock: function( skipTrimming ) {
 			var startContainer = this.startContainer,
@@ -2434,11 +2436,13 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Verify wheter range ends on non text or non inline element.
+		 *
 		 * **Note:** Calls to this function may produce changes to the DOM. The range may
 		 * be updated to reflect such changes.
 		 *
+		 * @param {Boolean} skipTrimming Wheter range trim should be skipped.
 		 * @returns {Boolean}
-		 * @todo
 		 */
 		checkEndOfBlock: function( skipTrimming ) {
 			var endContainer = this.endContainer,
