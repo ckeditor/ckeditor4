@@ -17,53 +17,6 @@
 		}
 	};
 
-	function mockDropFile( type ) {
-		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
-
-		nativeData.files.push( {
-			name: 'mock.file',
-			type: type
-		} );
-
-		nativeData.types.push( 'Files' );
-		dataTransfer.cacheData();
-
-		return dataTransfer.$;
-	}
-
-	function assertDropImage( editor, evt, type, expected, config ) {
-		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
-			range = new CKEDITOR.dom.range( editor.document );
-
-		range.setStart( config.dropContainer, config.dropOffset );
-		evt.testRange = range;
-
-		// Push data into clipboard and invoke paste event
-		evt.$.dataTransfer = mockDropFile( type );
-
-		onDrop = function( dropEvt ) {
-			var dropRange = dropEvt.data.dropRange;
-
-			dropRange.startContainer = config.dropContainer;
-			dropRange.startOffset = config.dropOffset;
-			dropRange.endOffset = config.dropOffset;
-		};
-
-		onPaste = function() {
-			resume( function() {
-				assert.beautified.html( expected, editor.getData() );
-			} );
-		};
-
-		editor.on( 'drop', onDrop );
-		editor.on( 'paste', onPaste );
-
-		dropTarget.fire( 'drop', evt );
-
-		wait();
-	}
-
 	var tests = {
 		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
@@ -173,4 +126,51 @@
 	};
 
 	bender.test( tests );
+
+	function mockDropFile( type ) {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.files.push( {
+			name: 'mock.file',
+			type: type
+		} );
+
+		nativeData.types.push( 'Files' );
+		dataTransfer.cacheData();
+
+		return dataTransfer.$;
+	}
+
+	function assertDropImage( editor, evt, type, expected, config ) {
+		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+			range = new CKEDITOR.dom.range( editor.document );
+
+		range.setStart( config.dropContainer, config.dropOffset );
+		evt.testRange = range;
+
+		// Push data into clipboard and invoke paste event
+		evt.$.dataTransfer = mockDropFile( type );
+
+		onDrop = function( dropEvt ) {
+			var dropRange = dropEvt.data.dropRange;
+
+			dropRange.startContainer = config.dropContainer;
+			dropRange.startOffset = config.dropOffset;
+			dropRange.endOffset = config.dropOffset;
+		};
+
+		onPaste = function() {
+			resume( function() {
+				assert.beautified.html( expected, editor.getData() );
+			} );
+		};
+
+		editor.on( 'drop', onDrop );
+		editor.on( 'paste', onPaste );
+
+		dropTarget.fire( 'drop', evt );
+
+		wait();
+	}
 } )();
