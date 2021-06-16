@@ -1,11 +1,18 @@
 <textarea id="editor" cols="30" rows="10">
 	<p>Hello World!</p>
 </textarea>
+<p style="font-family: monospace;"><strong>Result:</strong><span id="sourceView"></span></p>
 
 <script>
 	if ( !CKEDITOR.env.webkit ) {
 		assert.ignore();
 	}
 
-	CKEDITOR.replace( 'editor' );
+	var sourceView = CKEDITOR.document.getById( 'sourceView' ),
+		editor = CKEDITOR.replace( 'editor' );
+
+	editor.on( 'change', function( evt ) {
+		sourceView.setText( evt.editor.editable().getHtml() );
+	} );
+
 </script>
