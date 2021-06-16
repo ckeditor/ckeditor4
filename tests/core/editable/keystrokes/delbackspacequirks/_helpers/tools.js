@@ -13,33 +13,35 @@ var quirksTools = ( function() {
 
 	// (#3819)
 	function assertRemovingSpaces( keyCode, caretPosition ) {
-		bender.editorBot.create( {
-			name: 'editor' + new Date().getTime()
-		}, function( bot ) {
-			// Intentionally makes selection marker(`{}`) at the end.
-			// If we put it in proper position at the beginning - content will be splited before key simulation.
-			bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
+		return function() {
+			bender.editorBot.create( {
+				name: 'editor' + new Date().getTime()
+			}, function( bot ) {
+				// Intentionally makes selection marker(`{}`) at the end.
+				// If we put it in proper position at the beginning - content will be splited before key simulation.
+				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
 
-			var editable = bot.editor.editable(),
-				pContent = editable.findOne( 'p' ),
-				range = bot.editor.createRange();
+				var editable = bot.editor.editable(),
+					pContent = editable.findOne( 'p' ),
+					range = bot.editor.createRange();
 
-			// Move caret to proper place in text.
-			range.setStart( pContent.getFirst(), caretPosition );
-			range.select();
+				// Move caret to proper place in text.
+				range.setStart( pContent.getFirst(), caretPosition );
+				range.select();
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: keyCode } ) );
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: keyCode } ) );
 
-			var foundIndex = CKEDITOR.tools.getIndex( pContent.getChildren().toArray(), function( node ) {
-				var firstCharCode = node.getText().charCodeAt( 0 );
+				var foundIndex = CKEDITOR.tools.getIndex( pContent.getChildren().toArray(), function( node ) {
+					var firstCharCode = node.getText().charCodeAt( 0 );
 
-				// 32 - space, 160 - nbsp
-				return firstCharCode === 32 || firstCharCode === 160;
+					// 32 - space, 160 - nbsp
+					return firstCharCode === 32 || firstCharCode === 160;
+				} );
+
+				assert.areEqual( -1, foundIndex,
+					'There should not be a node starting with whitespace after ' + keyNames[ keyCode ] + ' key' );
 			} );
-
-			assert.areEqual( -1, foundIndex,
-				'There should not be a node starting with whitespace after ' + keyNames[ keyCode ] + ' key' );
-		} );
+		};
 	}
 
 	function assertKeystroke( key, keyModifiers, handled, html, expected ) {
