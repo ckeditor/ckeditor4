@@ -1,4 +1,4 @@
-<div id="editor"> 
+<div id="editor">
     <p>Drag and drop image here.</p>
 </div>
 
@@ -10,7 +10,9 @@
 
 <script>
     var editor = CKEDITOR.replace( 'editor' ),
-        inline = CKEDITOR.inline( 'inline' );
+        inline = CKEDITOR.inline( 'inline', {
+            extraPlugins: 'sourcedialog'
+        } );
 
         editor.on( 'loaded', function() {
             if( !CKEDITOR.plugins.clipboard.isFileApiSupported ){
