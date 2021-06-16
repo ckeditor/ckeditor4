@@ -159,7 +159,7 @@
 						dataTransfer = dataObj.dataTransfer;
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
-					// Allow both dragging and dropping and pasting images as base64. (#4681)
+					// Allow both dragging and dropping and pasting images as base64 (#4681).
 					if ( !data && isFileData( evt, dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
@@ -199,7 +199,7 @@
 			// to image pasting (#3585, #3625).
 			function isFileData( evt, dataTransfer ) {
 				// Checking for fileTransferCancel on IE to prevent comparing empty string
-				// from dataTransfer.id and falling into infinite loop. (#4681)
+				// from dataTransfer.id and falling into infinite loop (#4681).
 				if ( CKEDITOR.env.ie && evt.data.fileTransferCancel ) {
 					return false;
 				}
