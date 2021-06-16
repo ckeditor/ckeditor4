@@ -23,6 +23,7 @@ var quirksTools = ( function() {
 
 				var editable = bot.editor.editable(),
 					pContent = editable.findOne( 'p' ),
+					initialChildCount = pContent.getChildCount(),
 					range = bot.editor.createRange();
 
 				// Move caret to proper place in text.
@@ -30,16 +31,10 @@ var quirksTools = ( function() {
 				range.select();
 
 				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: keyCode } ) );
+				var childCountAfterKeyUsage = pContent.getChildCount();
 
-				var foundIndex = CKEDITOR.tools.getIndex( pContent.getChildren().toArray(), function( node ) {
-					var firstCharCode = node.getText().charCodeAt( 0 );
-
-					// 32 - space, 160 - nbsp
-					return firstCharCode === 32 || firstCharCode === 160;
-				} );
-
-				assert.areEqual( -1, foundIndex,
-					'There should not be a node starting with whitespace after ' + keyNames[ keyCode ] + ' key' );
+				assert.areEqual( initialChildCount, childCountAfterKeyUsage,
+					'There should not be a node starting with whitespace after ' + keyNames[ keyCode ] + ' key.' );
 			} );
 		};
 	}
