@@ -38,7 +38,7 @@ var quirksTools = ( function() {
 			} );
 
 			assert.areEqual( -1, foundIndex,
-				'There should not be a node starting with whitespace after ' + keyNames.keyCode + ' key' );
+				'There should not be a node starting with whitespace after ' + keyNames[ keyCode ] + ' key' );
 		} );
 	}
 
