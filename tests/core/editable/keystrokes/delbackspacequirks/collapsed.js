@@ -16,6 +16,7 @@
 	var BACKSPACE = t.BACKSPACE,
 		DEL = t.DEL,
 		assertKeystroke = t.assertKeystroke,
+		assertRemovingSpaces = t.assertRemovingSpaces,
 		d = t.d,
 		b = t.b,
 		df = t.df,
@@ -34,60 +35,10 @@
 		// --- MISC -----------------------------------------------------------
 
 		// (#3819)
-		'test backspace key use when carret between two visual spaces did not split content': function() {
-			bender.editorBot.create( {
-				name: 'editor' + new Date().getTime()
-			}, function( bot ) {
-				// Intentionally makes selection marker(`{}`) at the end.
-				// If we put it between two spaces at the beginning - content will be splited before key simulation.
-				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
-
-				var editable = bot.editor.editable(),
-					pContent = editable.findOne( 'p' ),
-					range = bot.editor.createRange();
-
-				// Move selection between two visual spaces.
-				range.setStart( pContent.getFirst(), 6 );
-				range.select();
-
-				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: BACKSPACE } ) );
-
-				var foundIndex = CKEDITOR.tools.getIndex( pContent.getChildren().toArray(), function( node ) {
-					var firstCharCode = node.getText().charCodeAt( 0 );
-					return firstCharCode === 32 || firstCharCode === 160;
-				} );
-
-				assert.areEqual( -1, foundIndex, 'There should not be a node starting with whitespace after backspace key' );
-			} );
-		},
+		'test backspace key use when carret between two visual spaces did not split content': assertRemovingSpaces( BACKSPACE, 6 ),
 
 		// (#3819)
-		'test delete key use when carret before two visual spaces did not split content': function() {
-			bender.editorBot.create( {
-				name: 'editor' + new Date().getTime()
-			}, function( bot ) {
-				// Intentionally makes selection marker(`{}`) at the end.
-				// If we put it before two spaces at the beginning - content could be splited before key simulation.
-				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
-
-				var editable = bot.editor.editable(),
-					pContent = editable.findOne( 'p' ),
-					range = bot.editor.createRange();
-
-				// Move selection before two visual spaces.
-				range.setStart( pContent.getFirst(), 5 );
-				range.select();
-
-				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: DEL } ) );
-
-				var foundIndex = CKEDITOR.tools.getIndex( pContent.getChildren().toArray(), function( node ) {
-					var firstCharCode = node.getText().charCodeAt( 0 );
-					return firstCharCode === 32 || firstCharCode === 160;
-				} );
-
-				assert.areEqual( -1, foundIndex, 'There should not be a node starting with whitespace after delete key' );
-			} );
-		},
+		'test delete key use when carret before two visual spaces did not split content': assertRemovingSpaces( DEL, 5 ),
 
 		'test backspace records undo snapshots': function() {
 			var editor = this.editor,
