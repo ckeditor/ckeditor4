@@ -4,7 +4,8 @@
 <p style="font-family: monospace;"><strong>Result:</strong><span id="sourceView"></span></p>
 
 <script>
-	if ( !CKEDITOR.env.webkit ) {
+	// Ignore mobile due to lack of delete key.
+	if ( !CKEDITOR.env.webkit || CKEDITOR.env.mobile ) {
 		assert.ignore();
 	}
 
