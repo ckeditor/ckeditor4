@@ -2,15 +2,16 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo
 
-1. Put caret right after the word `Hello`.
-2. Type a space. The caret is now between two visual spaces.
-3. Press the left arrow to put caret before two visual spaces.
+**Note**: On mac devices, press `fn`+`delete` whenever `delete` key is required.
 
-**Note**: On mac device, press `fn`+`delete`in the next step.
+1. Put caret right after the word `One`.
+1. Type a space. The caret is now between two visual spaces.
+1. Put caret to the left, so it will be before two visual spaces.
+1. Use the delete key to remove one space.
+1. Put caret right after the word `two`.
+1. Type a space. The caret is now between two visual spaces.
+1. Use the delete key to remove one space.
 
-4. Use the delete key to remove one space.
-5. Type a space and a new word "foobar".
+**Expected** Result content: `<p>One two three</p>`
 
-**Expected** Result content: `<p>Hello foobar world!</p>`
-
-**Unexpected** Result content: `<p>Hello foobar&nbsp;world!</p>`
+**Unexpected** Result content: `<p>One&nbsp;two&nbsp;three</p>`
