@@ -147,7 +147,7 @@
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			// Convert image file (if present) to base64 string for modern browsers except IE<10, as it does not support
-			// custom MIME types in clipboard. (#4612)
+			// custom MIME types in clipboard (#4612).
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
@@ -159,7 +159,7 @@
 						dataTransfer = dataObj.dataTransfer;
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
-					// Allow both dragging and dropping and pasting images as base64. (#4681)
+					// Allow both dragging and dropping and pasting images as base64 (#4681).
 					if ( !data && isFileData( evt, dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
@@ -196,10 +196,10 @@
 			}
 
 			// Only dataTransfer objects containing only file should be considered
-			// to image pasting. (#3585, #3625)
+			// to image pasting (#3585, #3625).
 			function isFileData( evt, dataTransfer ) {
 				// Checking for fileTransferCancel on IE to prevent comparing empty string
-				// from dataTransfer.id and falling into infinite loop. (#4681)
+				// from dataTransfer.id and falling into infinite loop (#4681).
 				if ( CKEDITOR.env.ie && evt.data.fileTransferCancel ) {
 					return false;
 				}
