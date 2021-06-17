@@ -6,12 +6,12 @@
 
 1. Open browser console.
 1. Drag and drop image into the editable for each of accepted formats: `image/png`, `image/jpeg`, `image/gif`.
-1. Repeat the above septs for inline editor.
+1. Repeat the above steps for inline editor.
 
 ## Expected:
-There is no error in browser's console. Dragged image is pasted correctly and created `<img>` tag `src` contains base64 format. 
+There is no error in browser's console. Dragged image is pasted correctly and created `<img>` tag `src` contains base64 format.
 ## Unexpected:
-There is an error in browser's console. Image is not visible. 
+There is an error in browser's console. Image is not visible.
 
 ## Scenario 2
 
@@ -20,6 +20,6 @@ There is an error in browser's console. Image is not visible.
 1. Repeat the above steps for inline editor.
 
 ## Expected:
-There is no error in browser's console. Editable is not changed. 
+There is no error in browser's console. Editable is not changed.
 ## Unexpected:
-There is an error in browser's console. Editable is changed. 
+There is an error in browser's console. Editable is changed.
