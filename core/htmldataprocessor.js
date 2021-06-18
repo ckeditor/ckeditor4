@@ -325,7 +325,7 @@
 		}
 	};
 
-	function createLinkFilterRules() {
+	function createLinkFilterRules( editor ) {
 		return {
 			elements: {
 				a: function( element ) {
@@ -334,7 +334,12 @@
 
 					if ( javaScriptSchemaRegex.test( href ) ) {
 						element.attributes.href = '#';
-						element.attributes[ 'data-cke-saved-href' ] = '#';
+
+						if ( editor.config.linkJavaScriptLinksAllowed ) {
+							element.attributes[ 'data-cke-pa-href' ] = href;
+						} else {
+							element.attributes[ 'data-cke-saved-href' ] = '#';
+						}
 					}
 				}
 			}
