@@ -24,6 +24,7 @@ var quirksTools = ( function() {
 				var editable = bot.editor.editable(),
 					pContent = editable.findOne( 'p' ),
 					initialChildCount = pContent.getChildCount(),
+					childCountAfterKeyUsage,
 					range = bot.editor.createRange();
 
 				// Move caret to proper place in text.
@@ -31,7 +32,7 @@ var quirksTools = ( function() {
 				range.select();
 
 				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: keyCode } ) );
-				var childCountAfterKeyUsage = pContent.getChildCount();
+				childCountAfterKeyUsage = pContent.getChildCount();
 
 				assert.areEqual( initialChildCount, childCountAfterKeyUsage,
 					'There should not be a node starting with whitespace after ' + keyNames[ keyCode ] + ' key.' );
