@@ -1182,12 +1182,9 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Change start container to its parent or new node after start container split.
-		 * If range is collapsed, perform collapse to the start and ends.
+		 * Change start/end container to its parent or to a new node created from container split.
 		 *
-		 * If not collapse earlier, change end container to its parent or new node after end container split.
-		 *
-		 * Works on container if it is {@link CKEDITOR#NODE_TEXT text node}, range is collapsed or start/end is not ignored.
+		 * Works on container if it is a {@link CKEDITOR#NODE_TEXT text node}, range is collapsed or start/end is not ignored.
 		 *
 		 * @param {Boolean} [ignoreStart=false]
 		 * @param {Boolean} [ignoreEnd=false]
