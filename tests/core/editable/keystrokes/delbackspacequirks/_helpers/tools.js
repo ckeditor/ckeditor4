@@ -17,7 +17,7 @@ var quirksTools = ( function() {
 			bender.editorBot.create( {
 				name: 'editor' + new Date().getTime()
 			}, function( bot ) {
-				// Intentionally makes selection marker(`{}`) at the end.
+				// Intentionally makes selection marker (`{}`) at the end.
 				// If we put it in proper position at the beginning - content will be splited before key simulation.
 				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
 

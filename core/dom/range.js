@@ -1184,7 +1184,8 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Change start/end container to its parent or to a new node created from container split.
 		 *
-		 * Works on container if it is a {@link CKEDITOR#NODE_TEXT text node}, range is collapsed or start/end is not ignored.
+		 * Works on the container if it is a {@link CKEDITOR#NODE_TEXT text node} and the range is collapsed
+		 * or start/end is not ignored.
 		 *
 		 * @param {Boolean} [ignoreStart=false]
 		 * @param {Boolean} [ignoreEnd=false]
@@ -2389,12 +2390,12 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Verify wheter range starts on non text or non inline element.
+		 * Verifies whether range starts on non-text or non-inline element.
 		 *
 		 * **Note:** Calls to this function may produce changes to the DOM. The range may
 		 * be updated to reflect such changes.
 		 *
-		 * @param {Boolean} skipTrimming Wheter range trim should be skipped.
+		 * @param {Boolean} skipTrimming Whether range trim should be skipped.
 		 * @returns {Boolean}
 		 */
 		checkStartOfBlock: function( skipTrimming ) {
@@ -2409,7 +2410,7 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 0, 1 );
 			}
 
-			// Trimming text node may produce unwanted &nbsp; at the beginning of splitted node (#3819).
+			// Trimming text node may produce unwanted `&nbsp;` at the beginning of splitted node (#3819).
 			if ( !skipTrimming ) {
 				// Anticipate the trim() call here, so the walker will not make
 				// changes to the DOM, which would not get reflected into this
@@ -2433,12 +2434,12 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Verify wheter range ends on non text or non inline element.
+		 * Verifies whether range ends on non-text or non-inline element.
 		 *
 		 * **Note:** Calls to this function may produce changes to the DOM. The range may
 		 * be updated to reflect such changes.
 		 *
-		 * @param {Boolean} skipTrimming Wheter range trim should be skipped.
+		 * @param {Boolean} skipTrimming Whether range trim should be skipped.
 		 * @returns {Boolean}
 		 */
 		checkEndOfBlock: function( skipTrimming ) {
@@ -2453,7 +2454,7 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 1, 0 );
 			}
 
-			// Trimming text node may produce unwanted &nbsp; at the beginning of splitted node (#3819).
+			// Trimming text node may produce unwanted `&nbsp;` at the beginning of splitted node (#3819).
 			if ( !skipTrimming ) {
 				// Anticipate the trim() call here, so the walker will not make
 				// changes to the DOM, which would not get reflected into this
