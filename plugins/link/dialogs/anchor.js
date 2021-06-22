@@ -52,6 +52,9 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		while ( element ) {
 			if ( element.type === CKEDITOR.NODE_ELEMENT && element.getAttribute( 'data-cke-saved-name' ) ) {
 				element.remove( true );
+				// Reset the walker and start from beginning, to check if element has more nested anchors.
+				// Without it, next element is null, so there might be space to more nested elements.
+				walker.reset();
 			}
 			element = walker.next();
 		}
