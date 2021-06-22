@@ -1182,29 +1182,29 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Change start/end container to its parent or to a new node created from container split.
+		 *
+		 * Works on the container if it is a {@link CKEDITOR#NODE_TEXT text node} and the range is collapsed
+		 * or start/end is not ignored.
+		 *
 		 * @param {Boolean} [ignoreStart=false]
 		 * @param {Boolean} [ignoreEnd=false]
-		 * @todo precise desc/algorithm
 		 */
 		trim: function( ignoreStart, ignoreEnd ) {
 			var startContainer = this.startContainer,
 				startOffset = this.startOffset,
 				collapsed = this.collapsed;
+
 			if ( ( !ignoreStart || collapsed ) && startContainer && startContainer.type == CKEDITOR.NODE_TEXT ) {
-				// If the offset is zero, we just insert the new node before
-				// the start.
 				if ( !startOffset ) {
 					startOffset = startContainer.getIndex();
 					startContainer = startContainer.getParent();
 				}
-				// If the offset is at the end, we'll insert it after the text
-				// node.
 				else if ( startOffset >= startContainer.getLength() ) {
 					startOffset = startContainer.getIndex() + 1;
 					startContainer = startContainer.getParent();
 				}
-				// In other case, we split the text node and insert the new
-				// node at the split point.
+				// Split the text node and point to the new node at split point.
 				else {
 					var nextText = startContainer.split( startOffset );
 
@@ -1230,20 +1230,15 @@ CKEDITOR.dom.range = function( root ) {
 			var endOffset = this.endOffset;
 
 			if ( !( ignoreEnd || collapsed ) && endContainer && endContainer.type == CKEDITOR.NODE_TEXT ) {
-				// If the offset is zero, we just insert the new node before
-				// the start.
 				if ( !endOffset ) {
 					endOffset = endContainer.getIndex();
 					endContainer = endContainer.getParent();
 				}
-				// If the offset is at the end, we'll insert it after the text
-				// node.
 				else if ( endOffset >= endContainer.getLength() ) {
 					endOffset = endContainer.getIndex() + 1;
 					endContainer = endContainer.getParent();
 				}
-				// In other case, we split the text node and insert the new
-				// node at the split point.
+				// Split the text node and point to the new node at split point.
 				else {
 					endContainer.split( endOffset );
 
@@ -2395,13 +2390,15 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Verifies whether range starts on non-text or non-inline element.
+		 *
 		 * **Note:** Calls to this function may produce changes to the DOM. The range may
 		 * be updated to reflect such changes.
 		 *
+		 * @param {Boolean} skipTrimming Whether range trim should be skipped.
 		 * @returns {Boolean}
-		 * @todo
 		 */
-		checkStartOfBlock: function() {
+		checkStartOfBlock: function( skipTrimming ) {
 			var startContainer = this.startContainer,
 				startOffset = this.startOffset;
 
@@ -2413,10 +2410,13 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 0, 1 );
 			}
 
-			// Anticipate the trim() call here, so the walker will not make
-			// changes to the DOM, which would not get reflected into this
-			// range otherwise.
-			this.trim();
+			// Trimming text node may produce unwanted `&nbsp;` at the beginning of splitted node (#3819).
+			if ( !skipTrimming ) {
+				// Anticipate the trim() call here, so the walker will not make
+				// changes to the DOM, which would not get reflected into this
+				// range otherwise.
+				this.trim();
+			}
 
 			// We need to grab the block element holding the start boundary, so
 			// let's use an element path for it.
@@ -2434,13 +2434,15 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Verifies whether range ends on non-text or non-inline element.
+		 *
 		 * **Note:** Calls to this function may produce changes to the DOM. The range may
 		 * be updated to reflect such changes.
 		 *
+		 * @param {Boolean} skipTrimming Whether range trim should be skipped.
 		 * @returns {Boolean}
-		 * @todo
 		 */
-		checkEndOfBlock: function() {
+		checkEndOfBlock: function( skipTrimming ) {
 			var endContainer = this.endContainer,
 				endOffset = this.endOffset;
 
@@ -2452,10 +2454,13 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 1, 0 );
 			}
 
-			// Anticipate the trim() call here, so the walker will not make
-			// changes to the DOM, which would not get reflected into this
-			// range otherwise.
-			this.trim();
+			// Trimming text node may produce unwanted `&nbsp;` at the beginning of splitted node (#3819).
+			if ( !skipTrimming ) {
+				// Anticipate the trim() call here, so the walker will not make
+				// changes to the DOM, which would not get reflected into this
+				// range otherwise.
+				this.trim();
+			}
 
 			// We need to grab the block element holding the start boundary, so
 			// let's use an element path for it.
