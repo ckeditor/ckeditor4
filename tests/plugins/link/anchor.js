@@ -130,6 +130,22 @@
 		},
 
 		// (#4728)
+		'test prevent duplicated anchors in the selection: strong > em > span': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				template = '<p>[<strong><em><span>test</span></em></strong>]</p>',
+				expected = '<p><a id="emphasize" name="emphasize"><strong><em><span>test</span></em></strong></a></p>';
+
+			bot.setHtmlWithSelection( template );
+			bot.dialog( 'anchor', function( dialog ) {
+				dialog.setValueOf( 'info', 'txtName', 'emphasize' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.beautified.html( expected, editor.getData() );
+			} );
+		},
+
+		// (#4728)
 		'test prevent duplicated anchors in the selection of multiline with styled words': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
