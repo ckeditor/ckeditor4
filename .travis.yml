@@ -1,7 +1,3 @@
-os:
-  - linux
-  - osx
-
 branches:
   only:
   - master
@@ -10,9 +6,6 @@ branches:
   - latest
   - /^\d+\.\d+(\.\d+)?(-\S*)?$/
   - /^release\/\d+\.\d+\.x$/
-
-language: node_js
-node_js: 10
 
 git:
   depth: false
@@ -24,10 +17,14 @@ env:
     - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "origin/$TRAVIS_BRANCH"; else echo "origin/$TRAVIS_PULL_REQUEST_BRANCH"; fi)
 
 jobs:
+  exclude:
+    - language: ruby
   include:
     - name: Chrome (Linux)
       os: linux
       dist: xenial
+      language: node_js
+      node_js: 10
       services:
         - xvfb
       addons:
@@ -55,6 +52,8 @@ jobs:
     - name: Firefox (Linux)
       os: linux
       dist: xenial
+      language: node_js
+      node_js: 10
       services:
         - xvfb
       addons:
@@ -81,6 +80,8 @@ jobs:
 
     - name: Safari (OSX)
       os: osx
+      language: node_js
+      node_js: 10
       before_script:
         - echo $TRAVIS_EVENT_TYPE
         # Setup CKEditor 4 testing environment
