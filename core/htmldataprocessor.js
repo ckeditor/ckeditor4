@@ -334,12 +334,7 @@
 
 					if ( javaScriptSchemaRegex.test( href ) ) {
 						element.attributes.href = '#';
-
-						if ( editor.config.linkJavaScriptLinksAllowed ) {
-							element.attributes[ 'data-cke-pa-href' ] = href;
-						} else {
-							element.attributes[ 'data-cke-saved-href' ] = '#';
-						}
+						element.attributes[ 'data-cke-saved-href' ] = editor.config.linkJavaScriptLinksAllowed ? href : '#';
 					}
 				}
 			}
