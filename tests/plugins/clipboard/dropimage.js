@@ -44,9 +44,15 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( this.editor, dropEvt, imageType, expected, {
-				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
-				dropOffset: 17
+			assertDropImage( {
+				editor: this.editor,
+				event: dropEvt,
+				type: imageType,
+				expected: expected,
+				dropRange: {
+					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+					dropOffset: 17
+				}
 			} );
 		},
 
@@ -59,9 +65,15 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( this.editor, dropEvt, imageType, expected, {
-				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
-				dropOffset: 17
+			assertDropImage( {
+				editor: this.editor,
+				event: dropEvt,
+				type: imageType,
+				expected: expected,
+				dropRange: {
+					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+					dropOffset: 17
+				}
 			} );
 		},
 
@@ -74,9 +86,15 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( this.editor, dropEvt, imageType, expected, {
-				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
-				dropOffset: 17
+			assertDropImage( {
+				editor: this.editor,
+				event: dropEvt,
+				type: imageType,
+				expected: expected,
+				dropRange: {
+					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+					dropOffset: 17
+				}
 			} );
 		},
 
@@ -89,9 +107,15 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( this.editor, dropEvt, imageType, expected, {
-				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
-				dropOffset: 17
+			assertDropImage( {
+				editor: this.editor,
+				event: dropEvt,
+				type: imageType,
+				expected: expected,
+				dropRange: {
+					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+					dropOffset: 17
+				}
 			} );
 		},
 
@@ -107,15 +131,22 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( this.editor, dropEvt, imageType, expected, {
-				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
-				dropOffset: 17
-			}, function() {
-				spy.restore();
+			assertDropImage(  {
+				editor: this.editor,
+				event: dropEvt,
+				type: imageType,
+				expected: expected,
+				dropRange: {
+					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+					dropOffset: 17
+				},
+				callback: function() {
+					spy.restore();
 
-				assert.areSame( 1, spy.callCount, 'There was only one notification' );
-				assert.areSame( expectedMsg, spy.getCall( 0 ).args[ 0 ],
-					'The notification had correct message' );
+					assert.areSame( 1, spy.callCount, 'There was only one notification' );
+					assert.areSame( expectedMsg, spy.getCall( 0 ).args[ 0 ],
+						'The notification had correct message' );
+				}
 			} );
 		},
 
@@ -128,9 +159,15 @@
 			FileReader.setReadResult( 'abort' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( this.editor, dropEvt, imageType, expected, {
-				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
-				dropOffset: 17
+			assertDropImage( {
+				editor: this.editor,
+				event: dropEvt,
+				type: imageType,
+				expected: expected,
+				dropRange: {
+					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+					dropOffset: 17
+				}
 			} );
 		},
 
@@ -143,9 +180,15 @@
 			FileReader.setReadResult( 'error' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( this.editor, dropEvt, imageType, expected, {
-				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
-				dropOffset: 17
+			assertDropImage( {
+				editor: this.editor,
+				event: dropEvt,
+				type: imageType,
+				expected: expected,
+				dropRange: {
+					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+					dropOffset: 17
+				}
 			} );
 		}
 	};
@@ -167,11 +210,17 @@
 		return dataTransfer.$;
 	}
 
-	function assertDropImage( editor, evt, type, expected, config ) {
-		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+	function assertDropImage( options ) {
+		var editor = options.editor,
+			evt = options.event,
+			type = options.type,
+			expected = options.expected,
+			callback = options.callback,
+			dropRangeOptions = options.dropRange,
+			dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
 			range = new CKEDITOR.dom.range( editor.document );
 
-		range.setStart( config.dropContainer, config.dropOffset );
+		range.setStart( dropRangeOptions.dropContainer, dropRangeOptions.dropOffset );
 		evt.testRange = range;
 
 		// Push data into clipboard and invoke paste event
@@ -180,14 +229,18 @@
 		onDrop = function( dropEvt ) {
 			var dropRange = dropEvt.data.dropRange;
 
-			dropRange.startContainer = config.dropContainer;
-			dropRange.startOffset = config.dropOffset;
-			dropRange.endOffset = config.dropOffset;
+			dropRange.startContainer = dropRangeOptions.dropContainer;
+			dropRange.startOffset = dropRangeOptions.dropOffset;
+			dropRange.endOffset = dropRangeOptions.dropOffset;
 		};
 
 		onPaste = function() {
 			resume( function() {
 				assert.beautified.html( expected, editor.getData() );
+
+				if ( callback ) {
+					callback();
+				}
 			} );
 		};
 
