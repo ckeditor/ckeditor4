@@ -76,7 +76,8 @@
 
 	bender.editor = {
 		config: {
-			allowedContent: true
+			allowedContent: true,
+			language: 'en'
 		}
 	};
 
@@ -127,6 +128,28 @@
 				'<p>Paste image here:^@</p>' );
 		},
 
+		// (#4750)
+		'test showing notification for unsupported file type': function() {
+			var editor = this.editor,
+				expectedMsg = editor.lang.clipboard.fileFormatNotSupportedNotification,
+				spy = sinon.spy( editor, 'showNotification' );
+
+			FileReader.setFileMockType( 'application/pdf' );
+			FileReader.setReadResult( 'load' );
+
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
+			this.assertPaste( 'application/pdf',
+				'<p>Paste image here:^@</p>', undefined, {
+					callback: function() {
+						spy.restore();
+
+						assert.areSame( 1, spy.callCount, 'There was only one notification' );
+						assert.areSame( expectedMsg, spy.getCall( 0 ).args[ 0 ],
+							'The notification had correct message' );
+					}
+				} );
+		},
+
 		'test aborted paste': function() {
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'abort' );
@@ -156,7 +179,8 @@
 			] );
 		},
 
-		assertPaste: function( type, expected, additionalData ) {
+		assertPaste: function( type, expected, additionalData, options ) {
+			options = options || {};
 			this.editor.once( 'paste', function() {
 				resume( function() {
 					assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( this.editor ), {
@@ -165,6 +189,10 @@
 						compareSelection: true,
 						normalizeSelection: true
 					} );
+
+					if ( options.callback ) {
+						options.callback();
+					}
 				} );
 			}, this, null, 9999 );
 

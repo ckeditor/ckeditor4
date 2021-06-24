@@ -13,7 +13,8 @@
 
 	bender.editor = {
 		config: {
-			allowedContent: true
+			allowedContent: true,
+			language: 'en'
 		}
 	};
 
@@ -91,6 +92,30 @@
 			assertDropImage( this.editor, dropEvt, imageType, expected, {
 				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 				dropOffset: 17
+			} );
+		},
+
+		// (#4750)
+		'test showing notification for dropping unsupported image type': function() {
+			var dropEvt = bender.tools.mockDropEvent(),
+				imageType = 'application/pdf',
+				expected = '<p class="p">Paste image here:</p>',
+				expectedMsg = this.editor.lang.clipboard.fileFormatNotSupportedNotification,
+				spy = sinon.spy( this.editor, 'showNotification' );
+
+			FileReader.setFileMockType( imageType );
+			FileReader.setReadResult( 'load' );
+
+			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
+			assertDropImage( this.editor, dropEvt, imageType, expected, {
+				dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 17
+			}, function() {
+				spy.restore();
+
+				assert.areSame( 1, spy.callCount, 'There was only one notification' );
+				assert.areSame( expectedMsg, spy.getCall( 0 ).args[ 0 ],
+					'The notification had correct message' );
 			} );
 		},
 
