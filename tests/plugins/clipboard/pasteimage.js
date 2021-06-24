@@ -1,78 +1,12 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard */
+/* bender-include: _helpers/pasting.js */
+/* globals mockFileReader */
 
 ( function() {
 	'use strict';
 
-	// Mock FileReader.
-	( function() {
-		var fileMockBase64 = ';base64,fileMockBase64=',
-			fileMockType,
-			readResultMock;
-
-		function FileReaderMock() {
-			this.listeners = {};
-		}
-
-		// Any MIME type.
-		FileReaderMock.setFileMockType = function( type ) {
-			fileMockType = type;
-		};
-
-		// Result can be: load, abort, error.
-		FileReaderMock.setReadResult = function( readResult ) {
-			readResultMock = readResult;
-			if ( !readResultMock ) {
-				readResultMock = 'load';
-			}
-		};
-
-		FileReaderMock.prototype.addEventListener = function( eventName, callback ) {
-			this.listeners[ eventName ] = callback;
-		};
-
-		FileReaderMock.prototype.readAsDataURL = function() {
-			CKEDITOR.tools.setTimeout( function() {
-				this.result = ( readResultMock == 'load' ? 'data:' + fileMockType + fileMockBase64 : null );
-
-				if ( this.listeners[ readResultMock ] ) {
-					this.listeners[ readResultMock ]();
-				}
-			}, 15, this );
-		};
-
-		/* jshint ignore:start */
-		FileReader = FileReaderMock;
-		/* jshint ignore:end */
-	} )();
-
-	// Mock paste file from clipboard.
-	function mockPasteFile( editor, type, additionalData ) {
-		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
-
-		nativeData.files.push( {
-			name: 'mock.file',
-			type: type
-		} );
-		nativeData.types.push( 'Files' );
-
-		if ( additionalData ) {
-			CKEDITOR.tools.array.forEach( additionalData, function( data ) {
-				nativeData.setData( data.type, data.data );
-			} );
-		}
-
-		dataTransfer.cacheData();
-
-		editor.fire( 'paste', {
-			dataTransfer: dataTransfer,
-			dataValue: '',
-			method: 'paste',
-			type: 'auto'
-		} );
-	}
-
+	var originalFileReader = window.FileReader;
 
 	bender.editor = {
 		config: {
@@ -87,9 +21,13 @@
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				assert.ignore();
 			}
-			FileReader.setFileMockType();
-			FileReader.setReadResult();
+
+			mockFileReader();
 			this.editor.focus();
+		},
+
+		tearDown: function() {
+			window.FileReader = originalFileReader;
 		},
 
 		'test paste .png from clipboard': function() {
@@ -202,4 +140,30 @@
 		}
 	} );
 
+	// Mock paste file from clipboard.
+	function mockPasteFile( editor, type, additionalData ) {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.files.push( {
+			name: 'mock.file',
+			type: type
+		} );
+		nativeData.types.push( 'Files' );
+
+		if ( additionalData ) {
+			CKEDITOR.tools.array.forEach( additionalData, function( data ) {
+				nativeData.setData( data.type, data.data );
+			} );
+		}
+
+		dataTransfer.cacheData();
+
+		editor.fire( 'paste', {
+			dataTransfer: dataTransfer,
+			dataValue: '',
+			method: 'paste',
+			type: 'auto'
+		} );
+	}
 } )();
