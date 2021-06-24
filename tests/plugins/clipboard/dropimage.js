@@ -125,6 +125,7 @@
 				imageType = 'application/pdf',
 				expected = '<p class="p">Paste image here:</p>',
 				expectedMsg = this.editor.lang.clipboard.fileFormatNotSupportedNotification,
+				expectedDuration = this.editor.config.clipboard_notificationDuration,
 				spy = sinon.spy( this.editor, 'showNotification' );
 
 			FileReader.setFileMockType( imageType );
@@ -146,6 +147,10 @@
 					assert.areSame( 1, spy.callCount, 'There was only one notification' );
 					assert.areSame( expectedMsg, spy.getCall( 0 ).args[ 0 ],
 						'The notification had correct message' );
+					assert.areSame( 'info', spy.getCall( 0 ).args[ 1 ],
+					'The notification had correct type' );
+					assert.areSame( expectedDuration, spy.getCall( 0 ).args[ 2 ],
+						'The notification had correct duration' );
 				}
 			} );
 		},

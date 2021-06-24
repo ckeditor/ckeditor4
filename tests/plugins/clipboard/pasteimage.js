@@ -78,6 +78,7 @@
 		'test showing notification for unsupported file type': function() {
 			var editor = this.editor,
 				expectedMsg = editor.lang.clipboard.fileFormatNotSupportedNotification,
+				expectedDuration = editor.config.clipboard_notificationDuration,
 				spy = sinon.spy( editor, 'showNotification' );
 
 			FileReader.setFileMockType( 'application/pdf' );
@@ -93,6 +94,10 @@
 					assert.areSame( 1, spy.callCount, 'There was only one notification' );
 					assert.areSame( expectedMsg, spy.getCall( 0 ).args[ 0 ],
 						'The notification had correct message' );
+					assert.areSame( 'info', spy.getCall( 0 ).args[ 1 ],
+						'The notification had correct type' );
+					assert.areSame( expectedDuration, spy.getCall( 0 ).args[ 2 ],
+						'The notification had correct duration' );
 				}
 			} );
 		},
