@@ -9,6 +9,8 @@
  *		data loading.
  */
 
+// Test
+
 ( function() {
 	CKEDITOR.plugins.add( 'ajax', {
 		requires: 'xml'
