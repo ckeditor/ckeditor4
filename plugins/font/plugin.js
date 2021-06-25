@@ -271,24 +271,10 @@
 		function compareAttributes( styleA, styleB ) {
 			var styleADefinition = styleA.getDefinition(),
 				styleBDefinition = styleB.getDefinition(),
-				styleAAttributes = CKEDITOR.tools.object.entries( styleADefinition.attributes ),
-				styleBAttributes = CKEDITOR.tools.object.entries( styleBDefinition.attributes );
+				styleAAttributes = styleADefinition.attributes,
+				styleBAttributes = styleBDefinition.attributes;
 
-			if ( styleAAttributes.length !== styleBAttributes.length ) {
-				return false;
-			}
-
-			return CKEDITOR.tools.array.every( styleAAttributes, function( attributeA, i ) {
-				var attributeB = styleBAttributes[ i ],
-					attributeAName = attributeA[ 0 ],
-					attributeAValue = attributeA[ 1 ],
-					attributeBName = attributeB[ 0 ],
-					attributeBValue = attributeB[ 1 ],
-					isSameName = attributeAName === attributeBName,
-					isSameValue = attributeAValue === attributeBValue;
-
-				return isSameName && isSameValue;
-			} );
+			return CKEDITOR.tools.objectCompare( styleAAttributes, styleBAttributes );
 		}
 
 		function compareStyles( styleA, styleB ) {
