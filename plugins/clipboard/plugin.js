@@ -2781,21 +2781,44 @@
 
 			// Passed HTML may be empty or null. There is no need to strip such values (#1299).
 			if ( result && result.length ) {
+				// Keep only contents of the <body> element
+				result = findBody( result );
+
 				// See https://dev.ckeditor.com/ticket/13583 for more details.
 				// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
 				result = result.replace( this._.metaRegExp, '' );
 
-				// Keep only contents of the <body> element
-				var match = this._.bodyRegExp.exec( result );
-				if ( match && match.length ) {
-					result = match[ 1 ];
-
-					// Remove also comments.
-					result = result.replace( this._.fragmentRegExp, '' );
-				}
+				// Remove also comments.
+				result = result.replace( this._.fragmentRegExp, '' );
 			}
 
 			return result;
+
+			function findBody( html ) {
+				var parser = new CKEDITOR.htmlParser(),
+					start,
+					end;
+
+				parser.onTagOpen = function( name ) {
+					if ( name === 'body' ) {
+						start = parser._.htmlPartsRegex.lastIndex;
+					}
+				};
+
+				parser.onTagClose = function( name ) {
+					if ( name === 'body' ) {
+						end = parser._.htmlPartsRegex.lastIndex;
+					}
+				};
+
+				parser.parse( html );
+
+				if ( typeof start !== 'number' || typeof end !== 'number' ) {
+					return html;
+				}
+
+				return html.substring( start, end ).replace( /<\/body\s*>$/gi, '' );
+			}
 		}
 	};
 
