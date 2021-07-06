@@ -44,6 +44,7 @@
 
 		dataFilter.addRules( defaultDataFilterRulesEditableOnly );
 		dataFilter.addRules( defaultDataFilterRulesForAll, { applyToAll: true } );
+		dataFilter.addRules( createLinkFilterRules( editor ), { applyToAll: true } );
 		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ), { applyToAll: true } );
 		htmlFilter.addRules( defaultHtmlFilterRulesEditableOnly );
 		htmlFilter.addRules( defaultHtmlFilterRulesForAll, { applyToAll: true } );
@@ -323,6 +324,22 @@
 			return unprotectSource( html, this.editor );
 		}
 	};
+
+	function createLinkFilterRules( editor ) {
+		return {
+			elements: {
+				a: function( element ) {
+					var href = element.attributes.href,
+						javaScriptSchemaRegex = /^\s*javascript:/i;
+
+					if ( javaScriptSchemaRegex.test( href ) ) {
+						element.attributes.href = '#';
+						element.attributes[ 'data-cke-saved-href' ] = editor.config.linkJavaScriptLinksAllowed ? href : '#';
+					}
+				}
+			}
+		};
+	}
 
 	// Produce a set of filtering rules that handles bogus and filler node at the
 	// end of block/pseudo block, in the following consequence:
