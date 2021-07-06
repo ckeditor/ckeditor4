@@ -117,7 +117,7 @@ CKEDITOR.htmlParser = function() {
 				cdata; // The collected data inside a CDATA section.
 
 			while ( ( parts = this._.htmlPartsRegex.exec( html ) ) ) {
-				var tagIndex = parts.index;
+				var tagIndex = this._.tagIndex = parts.index;
 				if ( tagIndex > nextIndex ) {
 					var text = html.substring( nextIndex, tagIndex );
 
