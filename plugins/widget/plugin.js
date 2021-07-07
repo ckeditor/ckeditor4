@@ -3308,10 +3308,10 @@
 			start,
 			end;
 
-		parser.onTagOpen = function( name, attribs, selfClosing ) {
+		parser.onTagOpen = function( name, attribs ) {
 			if ( name === 'span' ) {
-				var hasClass = attribs.class && attribs.class.indexOf( 'cke_widget_drag_handler_container' ) >= 0;
-				if( hasClass) {
+				var hasClass = attribs[ 'class' ] && attribs[ 'class' ].indexOf( 'cke_widget_drag_handler_container' ) >= 0;
+				if ( hasClass ) {
 					start = parser._.tagIndex;
 				}
 			}
@@ -3330,7 +3330,7 @@
 		}
 
 		var htmlArray = html.split( '' );
-		htmlArray.splice( start, end - start )
+		htmlArray.splice( start, end - start );
 
 		html = htmlArray.join( '' );
 
