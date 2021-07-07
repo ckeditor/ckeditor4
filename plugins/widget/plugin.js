@@ -3296,9 +3296,10 @@
 		}
 
 		undoManager.addFilterRule( function( data ) {
-			return data.replace( /\s*cke_widget_selected/g, '' )
-				.replace( /\s*cke_widget_focused/g, '' )
-				.replace( /<span[^>]*cke_widget_drag_handler_container[^>]*.*?<\/span>/gmi, '' );
+			data = data.replace( /\s*cke_widget_selected/g, '' )
+				.replace( /\s*cke_widget_focused/g, '' );
+
+			return removeDragHandler( data );
 		} );
 	}
 
