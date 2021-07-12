@@ -3296,45 +3296,9 @@
 		}
 
 		undoManager.addFilterRule( function( data ) {
-			data = data.replace( /\s*cke_widget_selected/g, '' )
+			return data.replace( /\s*cke_widget_selected/g, '' )
 				.replace( /\s*cke_widget_focused/g, '' );
-
-			return removeDragHandler( data );
 		} );
-	}
-
-	function removeDragHandler( html ) {
-		var parser = new CKEDITOR.htmlParser(),
-			start,
-			end;
-
-		parser.onTagOpen = function( name, attribs ) {
-			if ( name === 'span' ) {
-				var hasClass = attribs[ 'class' ] && attribs[ 'class' ].indexOf( 'cke_widget_drag_handler_container' ) >= 0;
-				if ( hasClass ) {
-					start = parser._.tagIndex;
-				}
-			}
-		};
-
-		parser.onTagClose = function( name ) {
-			if ( name === 'span' && typeof start === 'number' ) {
-				end = parser._.htmlPartsRegex.lastIndex;
-			}
-		};
-
-		parser.parse( html );
-
-		if ( typeof start !== 'number' || typeof end !== 'number' ) {
-			return html;
-		}
-
-		var htmlArray = html.split( '' );
-		htmlArray.splice( start, end - start );
-
-		html = htmlArray.join( '' );
-
-		return html;
 	}
 
 	//
