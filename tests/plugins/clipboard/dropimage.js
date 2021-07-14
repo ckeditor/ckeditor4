@@ -48,7 +48,7 @@
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
-				expected: expected,
+				expectedData: expected,
 				dropRange: {
 					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 					dropOffset: 17
@@ -69,7 +69,7 @@
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
-				expected: expected,
+				expectedData: expected,
 				dropRange: {
 					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 					dropOffset: 17
@@ -90,7 +90,7 @@
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
-				expected: expected,
+				expectedData: expected,
 				dropRange: {
 					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 					dropOffset: 17
@@ -111,7 +111,7 @@
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
-				expected: expected,
+				expectedData: expected,
 				dropRange: {
 					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 					dropOffset: 17
@@ -120,13 +120,13 @@
 		},
 
 		// (#4750)
-		'test showing notification for dropping unsupported image type': function() {
+		'test dropping unsupported image type shows notification': function() {
 			var dropEvt = bender.tools.mockDropEvent(),
 				imageType = 'application/pdf',
-				expected = '<p class="p">Paste image here:</p>',
+				expectedData = '<p class="p">Paste image here:</p>',
 				expectedMsg = this.editor.lang.clipboard.fileFormatNotSupportedNotification,
 				expectedDuration = this.editor.config.clipboard_notificationDuration,
-				spy = sinon.spy( this.editor, 'showNotification' );
+				notificationSpy = sinon.spy( this.editor, 'showNotification' );
 
 			FileReader.setFileMockType( imageType );
 			FileReader.setReadResult( 'load' );
@@ -136,20 +136,20 @@
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
-				expected: expected,
+				expectedData: expectedData,
 				dropRange: {
 					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 					dropOffset: 17
 				},
 				callback: function() {
-					spy.restore();
+					notificationSpy.restore();
 
-					assert.areSame( 1, spy.callCount, 'There was only one notification' );
-					assert.areSame( expectedMsg, spy.getCall( 0 ).args[ 0 ],
+					assert.areSame( 1, notificationSpy.callCount, 'There was only one notification' );
+					assert.areSame( expectedMsg, notificationSpy.getCall( 0 ).args[ 0 ],
 						'The notification had correct message' );
-					assert.areSame( 'info', spy.getCall( 0 ).args[ 1 ],
+					assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
 					'The notification had correct type' );
-					assert.areSame( expectedDuration, spy.getCall( 0 ).args[ 2 ],
+					assert.areSame( expectedDuration, notificationSpy.getCall( 0 ).args[ 2 ],
 						'The notification had correct duration' );
 				}
 			} );
@@ -168,7 +168,7 @@
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
-				expected: expected,
+				expectedData: expected,
 				dropRange: {
 					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 					dropOffset: 17
@@ -189,7 +189,7 @@
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
-				expected: expected,
+				expectedData: expected,
 				dropRange: {
 					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 					dropOffset: 17
@@ -219,7 +219,7 @@
 		var editor = options.editor,
 			evt = options.event,
 			type = options.type,
-			expected = options.expected,
+			expectedData = options.expectedData,
 			callback = options.callback,
 			dropRangeOptions = options.dropRange,
 			dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
@@ -241,7 +241,7 @@
 
 		onPaste = function() {
 			resume( function() {
-				assert.beautified.html( expected, editor.getData() );
+				assert.beautified.html( expectedData, editor.getData() );
 
 				if ( callback ) {
 					callback();

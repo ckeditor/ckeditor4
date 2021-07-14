@@ -75,7 +75,7 @@
 		},
 
 		// (#4750)
-		'test showing notification for unsupported file type': function() {
+		'test pasting unsupported file type shows notification': function() {
 			var editor = this.editor,
 				expectedMsg = editor.lang.clipboard.fileFormatNotSupportedNotification,
 				expectedDuration = editor.config.clipboard_notificationDuration,
