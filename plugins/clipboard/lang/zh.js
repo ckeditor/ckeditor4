@@ -11,5 +11,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'zh', {
 	pasteNotification: '請按下「%1」貼上。您的瀏覽器不支援工具列按鈕或是內容功能表選項。',
 	pasteArea: '貼上區',
 	pasteMsg: '請將您的內容貼於下方區域中並按下「OK」。',
-	fileFormatNotSupportedNotification: 'This file format is not supported.' // MISSING
+	fileFormatNotSupportedNotification: 'This file format is not supported. You can try with one of the supported formats: PNG, JPG or GIF.' // MISSING
 } );

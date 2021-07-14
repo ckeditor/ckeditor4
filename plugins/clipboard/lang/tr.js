@@ -11,5 +11,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'tr', {
 	pasteNotification: '%1 tuşuna yapıştırmak için tıklayın. Tarayıcınız, Araç Çubuğu yada İçerik Menüsünü kullanarak yapıştırmayı desteklemiyor.',
 	pasteArea: 'Yapıştırma Alanı',
 	pasteMsg: 'İçeriğinizi alttaki bulunan alana yapıştırın ve TAMAM butonuna tıklayın',
-	fileFormatNotSupportedNotification: 'This file format is not supported.' // MISSING
+	fileFormatNotSupportedNotification: 'This file format is not supported. You can try with one of the supported formats: PNG, JPG or GIF.' // MISSING
 } );

@@ -11,5 +11,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'nl', {
 	pasteNotification: 'Plakken met de knop in de werkbalk wordt niet ondersteund door de browser. Gebruik de sneltoets %1 van het toetsenbord.',
 	pasteArea: 'Plakgebied',
 	pasteMsg: 'Plak de inhoud in het vak hieronder en druk op OK.',
-	fileFormatNotSupportedNotification: 'This file format is not supported.' // MISSING
+	fileFormatNotSupportedNotification: 'This file format is not supported. You can try with one of the supported formats: PNG, JPG or GIF.' // MISSING
 } );
