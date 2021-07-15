@@ -269,10 +269,8 @@
 		return hasEqualAttributes && hasEqualStyles;
 
 		function compareAttributes( styleA, styleB ) {
-			var styleADefinition = styleA.getDefinition(),
-				styleBDefinition = styleB.getDefinition(),
-				styleAAttributes = styleADefinition.attributes,
-				styleBAttributes = styleBDefinition.attributes;
+			var styleAAttributes = styleA.getDefinition().attributes,
+				styleBAttributes = styleB.getDefinition().attributes;
 
 			return CKEDITOR.tools.objectCompare( styleAAttributes, styleBAttributes );
 		}
