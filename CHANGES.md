@@ -10,6 +10,7 @@ Fixed Issues:
 	* [#641](https://github.com/ckeditor/ckeditor4/issues/641): Fixed: UploadImage Plugin Widgets not working in IE, Opera, Safari, PhantomJS.
 * [#3638](https://github.com/ckeditor/ckeditor4/issues/3638): Fixed: Opening the same dialog twice causes it to become hidden under the dialog's page cover.
 * [#4247](https://github.com/ckeditor/ckeditor4/issues/4247): Fixed: [Color Button](https://ckeditor.com/cke4/addon/colorbutton)'s incorrect rendering on the first opening.
+* [#4555](https://github.com/ckeditor/ckeditor4/issues/4555): Fixed: [Font](https://ckeditor.com/cke4/addon/font) styles with attributes are not applied correctly when used multiple times over the same selection.
 
 ## CKEditor 4.16.1
 
