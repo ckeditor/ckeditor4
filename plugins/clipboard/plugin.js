@@ -2780,8 +2780,7 @@
 
 			// Passed HTML may be empty or null. There is no need to strip such values (#1299).
 			if ( result && result.length ) {
-				// Keep only contents of the <body> element
-				result = findBody( result );
+				result = extractBodyContent( result );
 
 				// See https://dev.ckeditor.com/ticket/13583 for more details.
 				// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
@@ -2793,7 +2792,7 @@
 
 			return result;
 
-			function findBody( html ) {
+			function extractBodyContent( html ) {
 				var parser = new CKEDITOR.htmlParser(),
 					start,
 					end;
