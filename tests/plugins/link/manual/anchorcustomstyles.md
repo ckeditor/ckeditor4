@@ -2,17 +2,25 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: link, toolbar, wysiwygarea, basicstyles, sourcearea, clipboard, enterkey, link, list, liststyle, tabletools, tableselection, undo, format, elementspath
 
-Play with the anchors.
+### Scenario 1
+1. Select `world!`.
+1. Add an anchor.
+1. Edit existing anchor and save it.
 
-Things to check:
+**Expected result:**
+There is one anchor with changed `id` and `name`.
 
-* creating anchors,
-* creating anchors with styled words,
-* creating anchors with heavily styled content ( p>em>strong> etc.),
-* creating anchors with different paragraph format,
-* creating anchors with multiline words,
-* modifying existing anchors.
+**Unexpected result:**
+Anchors was doubled.
 
-Notes:
-* Testing multiline creating anchors should create anchors for each line.
-* Editing a few words with an existing anchor should replace it with one for the entire range.
+### Scenario 2
+1. Select `world!` and add an anchor.
+1. Select `Hello World!` and add an anchor.
+1. Edit anchor and save it.
+
+
+**Expected result:**
+There is one anchor: `Hello World!`.
+
+**Unexpected result:**
+There are three anchors: One in `Hello` and doubled in `world!`.
