@@ -93,7 +93,23 @@
 				dialog.setValueOf( 'info', 'txtName', 'duplicate-test' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.beautified.html( expected, editor.getData() );
+				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed after editing a word with custom style' );
+			} );
+		},
+
+		// (#4728)
+		'test prevent duplicated anchors': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				template = '[<p>Hello <a id="hello" name="hello" data-cke-saved-name="hello"><strong>world!</strong></a></p>]',
+				expected = '<p><a id="helloWorld" name="helloWorld">Hello <strong>world!</strong></a></p>';
+
+			bot.setHtmlWithSelection( template );
+			bot.dialog( 'anchor', function( dialog ) {
+				dialog.setValueOf( 'info', 'txtName', 'helloWorld' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed' );
 			} );
 		},
 
@@ -109,7 +125,7 @@
 				dialog.setValueOf( 'info', 'txtName', 'multiTestResult' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.beautified.html( expected, editor.getData() );
+				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed after editing multiple words with styles' );
 			} );
 		},
 
@@ -125,7 +141,7 @@
 				dialog.setValueOf( 'info', 'txtName', 'nested' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.beautified.html( expected, editor.getData() );
+				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed in the selection: strong > em' );
 			} );
 		},
 
@@ -141,7 +157,7 @@
 				dialog.setValueOf( 'info', 'txtName', 'emphasize' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.beautified.html( expected, editor.getData() );
+				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed in the selection: strong > em > span' );
 			} );
 		},
 
@@ -157,7 +173,7 @@
 				dialog.setValueOf( 'info', 'txtName', 'multiLine' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.beautified.html( expected, editor.getData() );
+				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed in the selection of multiline with styled words' );
 			} );
 		},
 
@@ -173,7 +189,7 @@
 				dialog.setValueOf( 'info', 'txtName', 'unorderedList' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.beautified.html( expected, editor.getData() );
+				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed in the unordered list with styled word' );
 			} );
 		},
 
@@ -189,7 +205,7 @@
 				dialog.setValueOf( 'info', 'txtName', 'orderedList' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.beautified.html( expected, editor.getData() );
+				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed in the ordered list with styled word' );
 			} );
 		}
 	} );
