@@ -1,6 +1,15 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.5
+
+Fixes:
+
+- [#6](https://github.com/interviewstreet/ckeditor-dev/pull/6/files): Fixed: Internationalization changes
+ - Changed the translation for label 'ok' in fr-ca
+ - Add fr-ca lang to codesnippet plugin
+ - Read the language value from window.__codesnippet__.lang in codesnippet plugin
+
 ## CKEditor 4.11.4.4
 
 Fixes:
