@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		cssClass: 'Classes CSS',
 		advisoryTitle: 'Titre',
 		cssStyle: 'Style',
-		ok: 'OK',
+		ok: 'Continuer',
 		cancel: 'Annuler',
 		close: 'Fermer',
 		preview: 'Aperçu',
