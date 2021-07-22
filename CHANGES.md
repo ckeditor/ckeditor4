@@ -4,6 +4,9 @@ CKEditor 4 Changelog
 ## CKEditor 4.16.2
 
 Fixed Issues:
+* [#4733](https://github.com/ckeditor/ckeditor4/pull/4733): Fixed: [Link](https://ckeditor.com/cke4/addon/link) prevent duplicate anchors in text with styles.
+	* [#4728](https://github.com/ckeditor/ckeditor4/issues/4728): Fixed: Multiple anchors in one line and multi-line with text style.
+	* [#3863](https://github.com/ckeditor/ckeditor4/issues/3863): Fixed: Multiple anchors in single word with text style.
 * [#3819](https://github.com/ckeditor/ckeditor4/issues/3819): [Chrome] Fixed: After removing one of the two consecutive spaces, the `&nbsp;` character appears in the editor instead of a space.
 * [#4666](https://github.com/ckeditor/ckeditor4/pull/4666): [IE] Introduce CSS.escape polyfill. Thanks to [limingli0707](https://github.com/limingli0707)!
 	* [#681](https://github.com/ckeditor/ckeditor4/issues/681): Fixed: Table elements (td, tr, th, ..) with an id that starts with dot (.) causes javascript runtime err.
