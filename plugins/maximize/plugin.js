@@ -91,6 +91,13 @@
 		}
 	}
 
+	function checkIOS( container ) {
+		if ( !container ) {
+			return CKEDITOR.env.iOS;
+		}
+		return CKEDITOR.env.iOS && container.hasClass( 'cke_maximized' );
+	}
+
 	CKEDITOR.plugins.add( 'maximize', {
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -113,9 +120,20 @@
 			var outerScroll;
 
 			// Saved resize handler function.
-			function resizeHandler() {
-				var viewPaneSize = mainWindow.getViewPaneSize();
-				editor.resize( viewPaneSize.width, viewPaneSize.height, null, true );
+			function resizeHandler( height ) {
+				var viewPaneSize = mainWindow.getViewPaneSize(),
+					panelHeight = checkIOS() && height ? height : viewPaneSize.height;
+
+				editor.resize( viewPaneSize.width, panelHeight, null, true );
+			}
+
+			function setContainerHeight( container ) {
+				// We must wait for end of autoZoom on iOS.
+				setTimeout( function() {
+					if ( checkIOS( container ) ) {
+						resizeHandler( window.innerHeight );
+					}
+				}, 150 );
 			}
 
 			// Retain state after mode switches.
@@ -129,7 +147,8 @@
 					var container = editor.container.getFirst( function( node ) {
 						return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_inner' );
 					} );
-					var contents = editor.ui.space( 'contents' );
+					var contents = editor.ui.space( 'contents' ),
+						savedHeight = 0;
 
 					// Save current selection and scroll position in editing area.
 					if ( editor.mode == 'wysiwyg' ) {
@@ -140,6 +159,22 @@
 						var $textarea = editor.editable().$;
 						savedSelection = !CKEDITOR.env.ie && [ $textarea.selectionStart, $textarea.selectionEnd ];
 						savedScroll = [ $textarea.scrollLeft, $textarea.scrollTop ];
+					}
+
+					// Safari automatically enlarges the page after activating focus.
+					// We need to calculate the new height of the iframe container. (#4427)
+					editor.on( 'focus', function() {
+						setContainerHeight( container );
+					} );
+
+					// visualViewport is experimental feature so we need add a simple feature detection.
+					if ( window.visualViewport && checkIOS( container ) ) {
+						window.visualViewport.addEventListener( 'resize', function() {
+							if ( window.innerHeight !== savedHeight ) {
+								resizeHandler( window.innerHeight );
+								savedHeight = window.innerHeight;
+							}
+						} );
 					}
 
 					// Go fullscreen if the state is off.
