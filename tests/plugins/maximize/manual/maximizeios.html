@@ -1,0 +1,44 @@
+<div id="editor">
+	<h1>Lenna</h1>
+
+	<p><strong>Lenna</strong> or <strong>Lena</strong> is the name given to a <a href="http://en.wikipedia.org/wiki/Standard_test_image" title="Standard test image">standard test image</a> widely used in the field of image processing since 1973. It is a picture of <a href="http://en.wikipedia.org/wiki/Lena_S%C3%B6derberg" title="Lena Söderberg">Lena Söderberg</a>, shot by photographer <a href="http://en.wikipedia.org/wiki/Dwight_Hooker" title="Dwight Hooker">Dwight Hooker</a>, cropped from the <a href="http://en.wikipedia.org/wiki/Centerfold" title="Centerfold">centerfold</a> of the November 1972 issue of <em><a href="http://en.wikipedia.org/wiki/Playboy" title="Playboy">Playboy</a></em> magazine. Given the nature of the image and its source, several academics have criticized its continued use in scientific publications and <a href="http://en.wikipedia.org/wiki/Higher_education" title="Higher education">higher education</a> as both sexist and unprofessional.</p>
+
+	<figure class="image"><img alt="Lena Söderberg" src="/tests/_assets/lena.jpg" width="150" />
+
+		<figcaption>Image of <a href="http://en.wikipedia.org/wiki/Lena_S%C3%B6derberg">Lena Söderberg</a> used in<br />
+		many image processing experiments.</figcaption>
+	</figure>
+
+	<p>The spelling "Lenna" comes from the <a href="http://en.wikipedia.org/wiki/Anglicisation" title="Anglicisation">anglicisation</a> used in the original <i>Playboy</i> article.</p>
+
+	<h1>JavaScript</h1>
+
+	<p>JavaScript code:</p>
+
+	<pre>
+	<code class="language-javascript">function isEmpty( object ) {
+		for ( var i in object ) {
+			if ( object.hasOwnProperty( i ) )
+				return false;
+		}
+		return true;
+	}</code></pre>
+
+	<h1>Apollo 11</h1>
+
+	<h2>Broadcasting and <em>quotes</em> <a id="quotes" name="quotes"></a></h2>
+
+	<p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p>
+
+	<blockquote>
+	<p>One small step for [a] man, one giant leap for mankind.</p>
+	</blockquote>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.iOS ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>
