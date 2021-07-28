@@ -1928,7 +1928,7 @@
 			}
 			this._.initialSetData = false;
 
-			// Unprotect comments, to get rid of additionall characters (#4777).
+			// Unprotect comments, to get rid of additional characters (#4777).
 			data = this.editor.dataProcessor.unprotectRealComments( data );
 
 			// Unescape protected content to prevent double escaping and corruption of content (#4060, #4509).

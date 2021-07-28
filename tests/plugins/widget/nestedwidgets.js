@@ -412,18 +412,17 @@
 		},
 
 		// (#4777)
-		'test comments in nested widget are parsed without artifacts': function() {
+		'test comments in nested widget are correctly parsed': function() {
 			var editor = this.editors.editor,
-				content = '<div data-widget="testcontainer" id="w1">' +
+				expectedContent = '<div data-widget="testcontainer" id="w1">' +
 					'<div class="ned">' +
 						'<!--some comment inside-->' +
 						'<!--some other comment inside-->' +
 					'</div>' +
 				'</div>';
 
-			this.editorBots.editor.setData( content, function() {
-				var foundArtifactIndex = editor.getData().indexOf( '{C}<!--' );
-				assert.areEqual( -1, foundArtifactIndex, 'There are artifacts left after comments parsing in widget.' );
+			this.editorBots.editor.setData( expectedContent, function() {
+				assert.areEqual( editor.getData(), expectedContent );
 			} );
 		}
 	} );
