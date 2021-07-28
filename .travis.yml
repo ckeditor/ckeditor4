@@ -6,6 +6,7 @@ branches:
   - latest
   - /^\d+\.\d+(\.\d+)?(-\S*)?$/
   - /^release\/\d+\.\d+\.x$/
+  - /^t\/.*$/
 
 git:
   depth: false
