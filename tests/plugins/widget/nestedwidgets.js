@@ -409,6 +409,21 @@
 				assert.areSame( 'nestedcol1', widgetNested.editables.col1.getId(), 'nested widget has editable .col1 with id' );
 				assert.areSame( 'nestedcol2', widgetNested.editables.col2.getId(), 'nested widget has editable .col2 with id' );
 			} );
+		},
+
+		// (#4777)
+		'test comments in nested widget are correctly parsed': function() {
+			var editor = this.editors.editor,
+				expectedContent = '<div data-widget="testcontainer" id="w1">' +
+					'<div class="ned">' +
+						'<!--some comment inside-->' +
+						'<!--some other comment inside-->' +
+					'</div>' +
+				'</div>';
+
+			this.editorBots.editor.setData( expectedContent, function() {
+				assert.areEqual( editor.getData(), expectedContent, 'There are artifacts left after comments parsing in widget' );
+			} );
 		}
 	} );
 } )();

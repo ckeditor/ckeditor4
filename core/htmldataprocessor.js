@@ -321,6 +321,15 @@
 		 */
 		unprotectSource: function( html ) {
 			return unprotectSource( html, this.editor );
+		},
+
+		/**
+		 * @since 4.16.2
+		 * @private
+		 * @param {String} html
+		 */
+		unprotectRealComments: function( html ) {
+			return unprotectRealComments( html );
 		}
 	};
 
