@@ -422,7 +422,7 @@
 				'</div>';
 
 			this.editorBots.editor.setData( expectedContent, function() {
-				assert.areEqual( editor.getData(), expectedContent, 'There are artifacts left after comments parsing in widget.' );
+				assert.areEqual( editor.getData(), expectedContent, 'There are artifacts left after comments parsing in widget' );
 			} );
 		}
 	} );
