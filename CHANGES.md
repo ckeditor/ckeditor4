@@ -4,6 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.16.2
 
 Fixed Issues:
+* [#4777](https://github.com/ckeditor/ckeditor4/issues/4777): Fixed: HTML comments in widgets not processed correctly.
 * [#4733](https://github.com/ckeditor/ckeditor4/pull/4733): Fixed: [Link](https://ckeditor.com/cke4/addon/link) prevent duplicate anchors in text with styles.
 	* [#4728](https://github.com/ckeditor/ckeditor4/issues/4728): Fixed: Multiple anchors in one line and multi-line with text style.
 	* [#3863](https://github.com/ckeditor/ckeditor4/issues/3863): Fixed: Multiple anchors in single word with text style.
