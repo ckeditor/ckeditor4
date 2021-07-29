@@ -3,6 +3,83 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_bbcodeMap = [
+ *			b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div',
+ *          justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol'
+ *		];
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_bbcodeMap = {
+	b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div',
+	justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol'
+};
+
+/**
+ *		// This is actually the default value.
+ *		{ strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', code: 'code', li: '*' };
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', code: 'code', li: '*' };
+
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_tagnameMap = {
+ *			strong: 'b', em: 'i', u: 'u', s: 's', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link',
+ *			img: 'img', blockquote: 'quote'
+ *		};
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_tagnameMap = {
+	strong: 'b', em: 'i', u: 'u', s: 's', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link',
+	img: 'img', blockquote: 'quote'
+};
+
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_stylesMap = [
+ *			b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div',
+ *          justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol'
+ *		];
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_stylesMap = {
+	color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align', justify: 'text-align'
+};
+
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
+
+/**
+ *		// This is actually the default value.
+ *		config.bbcode_smileyMap = {
+ *			smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|',
+ *			angry: '>:(',angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*'
+ *		};
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbcode_smileyMap = {
+	smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|',
+	angry: '>:(',angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*'
+};
+
 ( function() {
 	CKEDITOR.on( 'dialogDefinition', function( ev ) {
 		var tab,
@@ -26,20 +103,19 @@
 		}
 	} );
 
-	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
-		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', code: 'code', li: '*' },
-		tagnameMap = { strong: 'b', em: 'i', u: 'u', s: 's', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
-		stylesMap = { color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align', justify: 'text-align' },
-		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
+	var bbcodeMap = {},
+		convertMap = {},
+		tagnameMap = {},
+		stylesMap = {},
+		attributesMap = {};
 
 	// List of block-like tags.
 	var dtd = CKEDITOR.dtd,
 		blockLikeTags = CKEDITOR.tools.extend( { table: 1 }, dtd.$block, dtd.$listItem, dtd.$tableContent, dtd.$list );
 
-	var semicolonFixRegex = /\s*(?:;\s*|$)/;
-
 	function serializeStyleText( stylesObject ) {
 		var styleText = '';
+		var semicolonFixRegex = /\s*(?:;\s*|$)/;
 		for ( var style in stylesObject ) {
 			var styleVal = stylesObject[ style ],
 				text = ( style + ':' + styleVal ).replace( semicolonFixRegex, ';' );
@@ -49,22 +125,21 @@
 		return styleText;
 	}
 
-	// Maintain the map of smiley-to-description.
-	// jscs:disable maximumLineLength
-	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
-	// jscs:enable maximumLineLength
+	var smileyMap = {},
 		smileyReverseMap = {},
 		smileyRegExp = [];
 
-	// Build regexp for the list of smiley text.
-	for ( var i in smileyMap ) {
-		smileyReverseMap[ smileyMap[ i ] ] = i;
-		smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
-			return '\\' + match;
-		} ) );
-	}
+	function buildSmileyRegExp() {
+		// Build regexp for the list of smiley text.
+		for ( var i in smileyMap ) {
+			smileyReverseMap[ smileyMap[ i ] ] = i;
+			smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
+				return '\\' + match;
+			} ) );
+		}
 
-	smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
+		smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
+	}
 
 	var decodeHtml = ( function() {
 		var regex = [],
@@ -389,11 +464,12 @@
 						var lastIndex = 0;
 
 						// Create smiley from text emotion.
-						piece.replace( smileyRegExp, function( match, index ) {
-							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
-							addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
-							lastIndex = index + match.length;
-						} );
+						if (smileyMap)
+							piece.replace( smileyRegExp, function( match, index ) {
+								addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
+								addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
+								lastIndex = index + match.length;
+							} );
 
 						if ( lastIndex != piece.length )
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, piece.length ) ), currentNode );
@@ -438,6 +514,13 @@
 				breakBeforeOpen: 1,
 				breakAfterOpen: 0,
 				breakBeforeClose: 0,
+				breakAfterClose: 1
+			} );
+
+			this.setRules( 'quote', {
+				breakBeforeOpen: 1,
+				breakAfterOpen: 1,
+				breakBeforeClose: 1,
 				breakAfterClose: 1
 			} );
 		},
@@ -563,6 +646,16 @@
 		beforeInit: function( editor ) {
 			var config = editor.config;
 
+			bbcodeMap = config.bbcode_bbcodeMap;
+			convertMap = config.bbcode_convertMap;
+			tagnameMap = config.bbcode_tagnameMap;
+			stylesMap = config.bbcode_stylesMap;
+			attributesMap = config.bbcode_attributesMap;
+			smileyMap = config.bbcode_smileyMap;
+
+			if (smileyMap)
+				buildSmileyRegExp();
+
 			CKEDITOR.tools.extend( config, {
 				// This one is for backwards compatibility only as
 				// editor#enterMode is already set at this stage (https://dev.ckeditor.com/ticket/11202).
@@ -599,8 +692,14 @@
 						element.children = [ quoted ];
 						var citeText = element.attributes.cite;
 						if ( citeText ) {
+							var citeTextClean = citeText.replace( /^"|"$/g, '' ),
+								citeData = citeTextClean.split(' ');
+							if (citeData.length > 0) {
+								element.attributes['data-metadata'] = citeTextClean;
+								citeTextClean = citeData[0];
+							}
 							var cite = new CKEDITOR.htmlParser.element( 'cite' );
-							cite.add( new CKEDITOR.htmlParser.text( citeText.replace( /^"|"$/g, '' ) ) );
+							cite.add( new CKEDITOR.htmlParser.text( citeTextClean ) );
 							delete element.attributes.cite;
 							element.children.unshift( cite );
 						}
@@ -647,7 +746,13 @@
 							title: description,
 							alt: description
 						};
-					}
+					},
+					code: function( element ) {
+						var lang = element.attributes['data-cke-code-lang'];
+						if (lang) {
+							element.attributes['class'] = 'language-' + lang;
+						}
+					},
 				}
 			} );
 
@@ -691,13 +796,13 @@
 							try {
 								var cite = element.children[ 0 ],
 									quoted = element.children[ 1 ],
-									citeText = cite.name == 'cite' && cite.children[ 0 ].value;
+									citeText = cite.name == 'cite' && cite.children[ 0 ].value,
+									raw = element.attributes['data-metadata'];
 
 								if ( citeText ) {
-									value = '"' + citeText + '"';
+									value = raw ? raw : '"' + citeText + '"';
 									element.children = quoted.children;
 								}
-
 							} catch ( er ) {}
 
 							tagName = 'quote';
@@ -727,6 +832,11 @@
 								return new CKEDITOR.htmlParser.text( smileyMap[ alt ] );
 							else
 								element.children = [ new CKEDITOR.htmlParser.text( src ) ];
+						} else if ( tagName == 'code' ) {
+							var lang = attributes[ 'data-cke-code-lang' ];
+							if ( lang ) {
+								value = lang;
+							}
 						}
 
 						element.name = tagName;
