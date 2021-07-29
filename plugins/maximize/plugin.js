@@ -129,11 +129,38 @@
 
 			function setContainerHeight( container ) {
 				// We must wait for end of autoZoom on iOS.
-				setTimeout( function() {
-					if ( checkIOS( container ) ) {
+				if ( checkIOS( container ) ) {
+					setTimeout( function() {
 						resizeHandler( window.innerHeight );
-					}
-				}, 150 );
+
+						// After autoZoom we have to take the caret position and scroll the editable to the current position.
+						var html = editor.editable().getParent(),
+							scrollPos = mainWindow.getScrollPosition(),
+							toolbarHeight = html.getClientRect( true ).top;
+
+						if ( scrollPos.y !== 0 ) {
+							window.scrollTo( 0, 0 );
+
+							setTimeout( function() {
+								html.$.scrollTo( 0, scrollPos.y + toolbarHeight );
+								window.scrollTo( scrollPos.x, 0 );
+							}, 10 );
+						}
+					}, 150 );
+				}
+			}
+
+			function restoreIOSPosition() {
+				var body = editor.editable(),
+					iframe = editor.window.getFrame(),
+					bodyRects = body.getClientRect( true ),
+					iframeRects = body.getClientRect( true ),
+					actualScrollPos = bodyRects.height - window.innerHeight - iframeRects.top,
+					maxScrollPos = bodyRects.height - iframe.$.scrollHeight + 20;
+
+				if ( actualScrollPos > maxScrollPos ) {
+					iframe.$.contentWindow.scrollTo( 0, maxScrollPos );
+				}
 			}
 
 			// Retain state after mode switches.
@@ -166,16 +193,6 @@
 					editor.on( 'focus', function() {
 						setContainerHeight( container );
 					} );
-
-					// visualViewport is experimental feature so we need add a simple feature detection.
-					if ( window.visualViewport && checkIOS( container ) ) {
-						window.visualViewport.addEventListener( 'resize', function() {
-							if ( window.innerHeight !== savedHeight ) {
-								resizeHandler( window.innerHeight );
-								savedHeight = window.innerHeight;
-							}
-						} );
-					}
 
 					// Go fullscreen if the state is off.
 					if ( this.state == CKEDITOR.TRISTATE_OFF ) {
@@ -277,6 +294,21 @@
 							outerHeight: editor.container.$.offsetHeight,
 							contentsHeight: contents.$.offsetHeight,
 							outerWidth: editor.container.$.offsetWidth
+						} );
+					}
+
+					// visualViewport is experimental feature so we need add a simple feature detection.
+					if ( window.visualViewport && checkIOS( container ) ) {
+						window.visualViewport.addEventListener( 'resize', function() {
+							if ( window.innerHeight !== savedHeight ) {
+								resizeHandler( window.innerHeight );
+
+								if ( savedHeight !== 0 && window.innerHeight > savedHeight ) {
+									// restore scroll position on iOS
+									restoreIOSPosition();
+								}
+								savedHeight = window.innerHeight;
+							}
 						} );
 					}
 
