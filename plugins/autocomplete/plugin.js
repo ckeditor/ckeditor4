@@ -347,7 +347,7 @@
 			var editable = this.editor.editable(),
 				isActive = evt.data;
 
-			if ( !editable.isInline() ) {
+			if ( !editable || !editable.isInline() ) {
 				return;
 			}
 
