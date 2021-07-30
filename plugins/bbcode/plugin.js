@@ -133,7 +133,7 @@ CKEDITOR.config.bbcode_smileyMap = {
 		// Build regexp for the list of smiley text.
 		for ( var i in smileyMap ) {
 			smileyReverseMap[ smileyMap[ i ] ] = i;
-			smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
+			smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\?|\|/g, function( match ) {
 				return '\\' + match;
 			} ) );
 		}
