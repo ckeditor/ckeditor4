@@ -195,11 +195,6 @@
 					selLocked = 0;
 				}
 				instance.execute();
-
-				// Fixed iOS focus issue when your press disabled button (https://dev.ckeditor.com/ticket/12381).
-				if ( env.iOS ) {
-					editor.focus();
-				}
 			} );
 
 
