@@ -391,5 +391,24 @@ bender.test( {
 
 			assert.isTrue( editor.isDestroyed() );
 		} );
+	},
+
+	'test isMaximized method should return a proper value': function() {
+		bender.editorBot.create( {
+			name: 'test_ismaximized',
+			config: {
+				plugins: 'maximize'
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.isFalse( editor.isMaximized(), 'isMaximized method return ' + editor.isMaximized() + ' instead of false' );
+			editor.execCommand( 'maximize' );
+
+			assert.isTrue( editor.isMaximized(), 'isMaximized method return ' + editor.isMaximized() + ' instead of true' );
+			editor.execCommand( 'maximize' );
+
+			assert.isFalse( editor.isMaximized(), 'isMaximized method return ' + editor.isMaximized() + ' instead of false' );
+		} );
 	}
 } );
