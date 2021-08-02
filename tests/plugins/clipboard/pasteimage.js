@@ -77,7 +77,7 @@
 		// (#4750)
 		'test pasting unsupported file type shows notification': function() {
 			var editor = this.editor,
-				expectedMsg = editor.lang.clipboard.fileFormatNotSupportedNotification,
+				expectedMsgRegex  = prepareNotificationRegex( this.editor.lang.clipboard.fileFormatNotSupportedNotification ),
 				expectedDuration = editor.config.clipboard_notificationDuration,
 				notificationSpy = sinon.spy( editor, 'showNotification' );
 
@@ -92,7 +92,7 @@
 					notificationSpy.restore();
 
 					assert.areSame( 1, notificationSpy.callCount, 'There was only one notification' );
-					assert.areSame( expectedMsg, notificationSpy.getCall( 0 ).args[ 0 ],
+					assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
 						'The notification had correct message' );
 					assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
 						'The notification had correct type' );
@@ -191,5 +191,12 @@
 			method: 'paste',
 			type: 'auto'
 		} );
+	}
+
+	function prepareNotificationRegex( notification ) {
+		var formatsGroup = '[a-z,\\s]+',
+			regexp = '^' + notification.replace( /\$\{formats\}/g, formatsGroup ) + '$';
+
+		return new RegExp( regexp, 'gi' );
 	}
 } )();

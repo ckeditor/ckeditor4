@@ -124,7 +124,7 @@
 			var dropEvt = bender.tools.mockDropEvent(),
 				imageType = 'application/pdf',
 				expectedData = '<p class="p">Paste image here:</p>',
-				expectedMsg = this.editor.lang.clipboard.fileFormatNotSupportedNotification,
+				expectedMsgRegex  = prepareNotificationRegex( this.editor.lang.clipboard.fileFormatNotSupportedNotification ),
 				expectedDuration = this.editor.config.clipboard_notificationDuration,
 				notificationSpy = sinon.spy( this.editor, 'showNotification' );
 
@@ -145,7 +145,7 @@
 					notificationSpy.restore();
 
 					assert.areSame( 1, notificationSpy.callCount, 'There was only one notification' );
-					assert.areSame( expectedMsg, notificationSpy.getCall( 0 ).args[ 0 ],
+					assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
 						'The notification had correct message' );
 					assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
 					'The notification had correct type' );
@@ -255,5 +255,12 @@
 		dropTarget.fire( 'drop', evt );
 
 		wait();
+	}
+
+	function prepareNotificationRegex( notification ) {
+		var formatsGroup = '[a-z,\\s]+',
+			regexp = '^' + notification.replace( /\$\{formats\}/g, formatsGroup ) + '$';
+
+		return new RegExp( regexp, 'gi' );
 	}
 } )();
