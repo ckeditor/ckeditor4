@@ -151,6 +151,14 @@
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
+					humanReadableImageTypes = CKEDITOR.tools.array.map( supportedImageTypes, function( imageType ) {
+						var splittedMimeType = imageType.split( '/' ),
+							imageFormat = splittedMimeType[ 1 ].toUpperCase();
+
+						return imageFormat;
+					} ).join( ', ' ),
+					notificationMsg = editor.lang.clipboard.fileFormatNotSupportedNotification.
+						replace( /\${formats\}/g, humanReadableImageTypes ),
 					latestId;
 
 				editor.on( 'paste', function( evt ) {
@@ -164,9 +172,7 @@
 						var file = dataTransfer.getFile( 0 );
 
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) === -1 ) {
-							var msg = editor.lang.clipboard.fileFormatNotSupportedNotification;
-
-							editor.showNotification( msg, 'info', editor.config.clipboard_notificationDuration );
+							editor.showNotification( notificationMsg, 'info', editor.config.clipboard_notificationDuration );
 
 							return;
 						}
