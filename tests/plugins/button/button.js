@@ -5,7 +5,7 @@ var customCls = 'my_btn';
 
 bender.editor = {
 	config: {
-		toolbar: [ [ 'custom_btn', 'expandable_btn', 'clickable_btn' ] ],
+		toolbar: [ [ 'custom_btn', 'expandable_btn', 'clickable_btn', 'disabled_btn' ] ],
 		on: {
 			pluginsLoaded: function( evt ) {
 				var ed = evt.editor,
@@ -28,6 +28,11 @@ bender.editor = {
 				ed.ui.addButton( 'clickable_btn', {
 					label: 'clickable button',
 					command: 'buttonCmd'
+				} );
+
+				ed.ui.addButton( 'disabled_btn', {
+					label: 'disabled button',
+					modes: {}
 				} );
 			}
 		}
@@ -69,5 +74,20 @@ bender.test( {
 		bender.tools.dispatchMouseEvent( btnEl, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
 
 		assert.areSame( 0, spy.callCount );
+	},
+
+	// (#4766)
+	'test click of a disabled button should not activate the focus': function() {
+		if ( !CKEDITOR.env.iOS ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor,
+			btn = editor.ui.get( 'disabled_btn' ),
+			btnEl = CKEDITOR.document.getById( btn._.id ).$;
+
+		assert.isFalse( editor.editable().hasFocus );
+		btnEl.click();
+		assert.isFalse( editor.editable().hasFocus );
 	}
 } );
