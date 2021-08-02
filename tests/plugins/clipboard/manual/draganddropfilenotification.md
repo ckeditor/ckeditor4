@@ -4,7 +4,7 @@
 
 1. Drag and drop into the editor file in format unsupported by editor, e.g. SVG or WebP image, PDF file, Word document etc.
 
-	**Expected** Notifaction with "This file format is not supported." message is displayed.
+	**Expected** Notification with "This file format is not supported." message is displayed.
 
 	**Unexpected** Nothing happens.
 
