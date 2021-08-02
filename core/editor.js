@@ -1607,6 +1607,16 @@
 		 */
 		isDestroyed: function() {
 			return this.status === 'destroyed';
+		},
+
+		/**
+		 * Provides information whether the editor's maximized.
+		 *
+		 * @since 4.17.0
+		 * @return {Boolean} true if editor is maximized.
+		*/
+		isMaximized: function() {
+			return this.getCommand( 'maximize' ).state === CKEDITOR.TRISTATE_ON;
 		}
 	} );
 
