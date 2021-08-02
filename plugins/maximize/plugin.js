@@ -91,13 +91,6 @@
 		}
 	}
 
-	function checkIOS( container ) {
-		if ( !container ) {
-			return CKEDITOR.env.iOS;
-		}
-		return CKEDITOR.env.iOS && container.hasClass( 'cke_maximized' );
-	}
-
 	CKEDITOR.plugins.add( 'maximize', {
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -111,7 +104,8 @@
 
 			var lang = editor.lang;
 			var mainDocument = CKEDITOR.document,
-				mainWindow = mainDocument.getWindow();
+				mainWindow = mainDocument.getWindow(),
+				previousWindowHeight = 0;
 
 			// Saved selection and scroll position for the editing area.
 			var savedSelection, savedScroll;
@@ -120,37 +114,28 @@
 			var outerScroll;
 
 			// Saved resize handler function.
-			function resizeHandler( height ) {
+			function resizeEditor( height ) {
 				var viewPaneSize = mainWindow.getViewPaneSize(),
-					panelHeight = checkIOS() && height ? height : viewPaneSize.height;
+					panelHeight = height != null ? height : viewPaneSize.height;
 
 				editor.resize( viewPaneSize.width, panelHeight, null, true );
 			}
 
-			function setContainerHeight( container ) {
-				// We must wait for end of autoZoom on iOS.
-				if ( checkIOS( container ) ) {
-					setTimeout( function() {
-						resizeHandler( window.innerHeight );
+			function resizeEditorOnIOS() {
+				if ( editor.isMaximized() && window.innerHeight !== previousWindowHeight ) {
+					resizeEditor( window.innerHeight );
 
-						// After autoZoom we have to take the caret position and scroll the editable to the current position.
-						var html = editor.editable().getParent(),
-							scrollPos = mainWindow.getScrollPosition(),
-							toolbarHeight = html.getClientRect( true ).top;
-
-						if ( scrollPos.y !== 0 ) {
-							window.scrollTo( 0, 0 );
-
-							setTimeout( function() {
-								html.$.scrollTo( 0, scrollPos.y + toolbarHeight );
-								window.scrollTo( scrollPos.x, 0 );
-							}, 10 );
-						}
-					}, 150 );
+					// When the content size is reduced, e.g. after iOS auto-zooms,
+					// there may be a situation where the bottom position of the content is placed too high with a lot of unnecessary blank space.
+					// We have to fix it.
+					if ( previousWindowHeight !== 0 && window.innerHeight > previousWindowHeight ) {
+						restoreIframeScrollPosition();
+					}
+					previousWindowHeight = window.innerHeight;
 				}
 			}
 
-			function restoreIOSPosition() {
+			function restoreIframeScrollPosition() {
 				var body = editor.editable(),
 					iframe = editor.window.getFrame(),
 					bodyRects = body.getClientRect( true ),
@@ -163,6 +148,30 @@
 				}
 			}
 
+			editor.on( 'focus', function() {
+				if ( CKEDITOR.env.iOS && editor.isMaximized() ) {
+					// We must wait for end of autoZoom on iOS.
+					setTimeout( function() {
+						resizeEditor( window.innerHeight );
+
+						// After auto-zoom we have to take the caret position and scroll the editable to the current position.
+						var html = editor.editable().getParent(),
+							scrollPos = mainWindow.getScrollPosition(),
+							toolbarHeight = html.getClientRect( true ).top;
+
+						// When the content is scrolled and after that the editor is maximized, the height of the frame will change.
+						// In addition, the iOS auto-zoom will try to move the content to the position before zooming.
+						// So we have to handle it.
+						if ( scrollPos.y !== 0 ) {
+							// First move the content along the y-axis to current position.
+							html.$.scrollTo( 0, scrollPos.y + toolbarHeight );
+							// Next move the entire editor along the x-axis.
+							window.scrollTo( scrollPos.x, 0 );
+						}
+					}, 150 );
+				}
+			} );
+
 			// Retain state after mode switches.
 			var savedState = CKEDITOR.TRISTATE_OFF;
 
@@ -174,8 +183,7 @@
 					var container = editor.container.getFirst( function( node ) {
 						return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_inner' );
 					} );
-					var contents = editor.ui.space( 'contents' ),
-						savedHeight = 0;
+					var contents = editor.ui.space( 'contents' );
 
 					// Save current selection and scroll position in editing area.
 					if ( editor.mode == 'wysiwyg' ) {
@@ -188,16 +196,10 @@
 						savedScroll = [ $textarea.scrollLeft, $textarea.scrollTop ];
 					}
 
-					// Safari automatically enlarges the page after activating focus.
-					// We need to calculate the new height of the iframe container. (#4427)
-					editor.on( 'focus', function() {
-						setContainerHeight( container );
-					} );
-
 					// Go fullscreen if the state is off.
 					if ( this.state == CKEDITOR.TRISTATE_OFF ) {
 						// Add event handler for resizing.
-						mainWindow.on( 'resize', resizeHandler );
+						mainWindow.on( 'resize', resizeEditor );
 
 						// Save the scroll bar position.
 						outerScroll = mainWindow.getScrollPosition();
@@ -242,7 +244,7 @@
 						// Add cke_maximized class before resize handle since that will change things sizes (https://dev.ckeditor.com/ticket/5580)
 						container.addClass( 'cke_maximized' );
 
-						resizeHandler();
+						resizeEditor();
 
 						// Still not top left? Fix it. (Bug https://dev.ckeditor.com/ticket/174)
 						var offset = container.getDocumentPosition();
@@ -257,7 +259,11 @@
 					// Restore from fullscreen if the state is on.
 					else if ( this.state == CKEDITOR.TRISTATE_ON ) {
 						// Remove event handler for resizing.
-						mainWindow.removeListener( 'resize', resizeHandler );
+						mainWindow.removeListener( 'resize', resizeEditor );
+						// Remove event handler for additional resize event on iOS.
+						if ( CKEDITOR.env.iOS && window.visualViewport ) {
+							window.visualViewport.removeEventListener( 'resize', resizeEditorOnIOS );
+						}
 
 						// Restore CSS styles for the entire node tree.
 						var editorElements = [ contents, container ];
@@ -297,22 +303,12 @@
 						} );
 					}
 
-					// visualViewport is experimental feature so we need add a simple feature detection.
-					if ( window.visualViewport && checkIOS( container ) ) {
-						window.visualViewport.addEventListener( 'resize', function() {
-							if ( window.innerHeight !== savedHeight ) {
-								resizeHandler( window.innerHeight );
-
-								if ( savedHeight !== 0 && window.innerHeight > savedHeight ) {
-									// restore scroll position on iOS
-									restoreIOSPosition();
-								}
-								savedHeight = window.innerHeight;
-							}
-						} );
-					}
-
 					this.toggleState();
+
+					// visualViewport is available since version 13 of iOS but it's experimental feature so it's good to check if exist.
+					if ( CKEDITOR.env.iOS && window.visualViewport ) {
+						window.visualViewport.addEventListener( 'resize', resizeEditorOnIOS );
+					}
 
 					// Toggle button label.
 					var button = this.uiItems[ 0 ];
