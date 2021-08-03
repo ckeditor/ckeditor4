@@ -151,6 +151,7 @@
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
+					unsupportedTypeMsg = createNotificationMessage( supportedImageTypes ),
 					latestId;
 
 				editor.on( 'paste', function( evt ) {
@@ -162,37 +163,57 @@
 					// Allow both dragging and dropping and pasting images as base64 (#4681).
 					if ( !data && isFileData( evt, dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
-						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
-							var fileReader = new FileReader();
 
-							// Convert image file to img tag with base64 image.
-							fileReader.addEventListener( 'load', function() {
-								evt.data.dataValue = '<img src="' + fileReader.result + '" />';
-								editor.fire( 'paste', evt.data );
-							}, false );
+						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) === -1 ) {
+							editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
 
-							// Proceed with normal flow if reading file was aborted.
-							fileReader.addEventListener( 'abort', function() {
-								// (#4681)
-								setCustomIEEventAttribute( evt );
-								editor.fire( 'paste', evt.data );
-							}, false );
-
-							// Proceed with normal flow if reading file failed.
-							fileReader.addEventListener( 'error', function() {
-								// (#4681)
-								setCustomIEEventAttribute( evt );
-								editor.fire( 'paste', evt.data );
-							}, false );
-
-							fileReader.readAsDataURL( file );
-
-							latestId = dataObj.dataTransfer.id;
-
-							evt.stop();
+							return;
 						}
+
+						var fileReader = new FileReader();
+
+						// Convert image file to img tag with base64 image.
+						fileReader.addEventListener( 'load', function() {
+							evt.data.dataValue = '<img src="' + fileReader.result + '" />';
+							editor.fire( 'paste', evt.data );
+						}, false );
+
+						// Proceed with normal flow if reading file was aborted.
+						fileReader.addEventListener( 'abort', function() {
+							// (#4681)
+							setCustomIEEventAttribute( evt );
+							editor.fire( 'paste', evt.data );
+						}, false );
+
+						// Proceed with normal flow if reading file failed.
+						fileReader.addEventListener( 'error', function() {
+							// (#4681)
+							setCustomIEEventAttribute( evt );
+							editor.fire( 'paste', evt.data );
+						}, false );
+
+						fileReader.readAsDataURL( file );
+
+						latestId = dataObj.dataTransfer.id;
+
+						evt.stop();
 					}
 				}, null, null, 1 );
+			}
+
+			// Prepare content for unsupported image type notification (#4750).
+			function createNotificationMessage( imageTypes ) {
+				var humanReadableImageTypes = CKEDITOR.tools.array.map( imageTypes, function( imageType ) {
+					var splittedMimeType = imageType.split( '/' ),
+						imageFormat = splittedMimeType[ 1 ].toUpperCase();
+
+					return imageFormat;
+				} ).join( ', ' ),
+
+				message = editor.lang.clipboard.fileFormatNotSupportedNotification.
+					replace( /\${formats\}/g, humanReadableImageTypes );
+
+				return message;
 			}
 
 			// Only dataTransfer objects containing only file should be considered
