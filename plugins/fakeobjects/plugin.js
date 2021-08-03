@@ -183,17 +183,31 @@
 		if ( fakeElement.data( 'cke-real-node-type' ) != CKEDITOR.NODE_ELEMENT )
 			return null;
 
-		var element = CKEDITOR.dom.element.createFromHtml( decodeURIComponent( fakeElement.data( 'cke-realelement' ) ), this.document );
+		var filter = this.activeFilter,
+			writer = new CKEDITOR.htmlParser.basicWriter(),
+			realElementHtml = decodeURIComponent( fakeElement.data( 'cke-realelement' ) ),
+			realElementFragment = CKEDITOR.htmlParser.fragment.fromHtml( realElementHtml ),
+			filteredHtml = realElementHtml,
+			realElement;
+
+		if ( filter ) {
+			filter.applyTo( realElementFragment );
+			realElementFragment.writeHtml( writer );
+
+			filteredHtml = writer.getHtml();
+		}
+
+		realElement = CKEDITOR.dom.element.createFromHtml( filteredHtml, this.document );
 
 		if ( fakeElement.data( 'cke-resizable' ) ) {
 			var width = fakeElement.getStyle( 'width' ),
 				height = fakeElement.getStyle( 'height' );
 
-			width && element.setAttribute( 'width', replaceCssLength( element.getAttribute( 'width' ), width ) );
-			height && element.setAttribute( 'height', replaceCssLength( element.getAttribute( 'height' ), height ) );
+			width && realElement.setAttribute( 'width', replaceCssLength( realElement.getAttribute( 'width' ), width ) );
+			height && realElement.setAttribute( 'height', replaceCssLength( realElement.getAttribute( 'height' ), height ) );
 		}
 
-		return element;
+		return realElement;
 	};
 
 } )();
