@@ -11,6 +11,35 @@ var quirksTools = ( function() {
 			8: 'BACKSPACE'
 		};
 
+	// (#3819)
+	function assertRemovingSpaces( keyCode, caretPosition ) {
+		return function() {
+			bender.editorBot.create( {
+				name: 'editor' + new Date().getTime()
+			}, function( bot ) {
+				// Intentionally makes selection marker (`{}`) at the end.
+				// If we put it in proper position at the beginning - content will be splited before key simulation.
+				bender.tools.selection.setWithHtml( bot.editor, 'Hello&nbsp; World{}' );
+
+				var editable = bot.editor.editable(),
+					pContent = editable.findOne( 'p' ),
+					initialChildCount = pContent.getChildCount(),
+					childCountAfterKeyUsage,
+					range = bot.editor.createRange();
+
+				// Move caret to proper place in text.
+				range.setStart( pContent.getFirst(), caretPosition );
+				range.select();
+
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: keyCode } ) );
+				childCountAfterKeyUsage = pContent.getChildCount();
+
+				assert.areEqual( initialChildCount, childCountAfterKeyUsage,
+					'There should not be a node starting with whitespace after ' + keyNames[ keyCode ] + ' key.' );
+			} );
+		};
+	}
+
 	function assertKeystroke( key, keyModifiers, handled, html, expected ) {
 		function decodeBoguses( html ) {
 			return html.replace( /@/g, CKEDITOR.env.needsBrFiller ? '<br />' : '' );
@@ -84,6 +113,8 @@ var quirksTools = ( function() {
 		assertKeystroke: assertKeystroke,
 		d: d,
 		b: b,
+
+		assertRemovingSpaces: assertRemovingSpaces,
 
 		// Calls d() and b() for the same arguments.
 		bd: function() {

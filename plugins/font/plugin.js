@@ -263,7 +263,21 @@
 			return false;
 		}
 
-		return CKEDITOR.style.getStyleText( styleA.getDefinition() ) === CKEDITOR.style.getStyleText( styleB.getDefinition() );
+		var hasEqualAttributes = compareAttributes( styleA, styleB ),
+			hasEqualStyles = compareStyles( styleA, styleB );
+
+		return hasEqualAttributes && hasEqualStyles;
+
+		function compareAttributes( styleA, styleB ) {
+			var styleAAttributes = styleA.getDefinition().attributes,
+				styleBAttributes = styleB.getDefinition().attributes;
+
+			return CKEDITOR.tools.objectCompare( styleAAttributes, styleBAttributes );
+		}
+
+		function compareStyles( styleA, styleB ) {
+			return CKEDITOR.style.getStyleText( styleA.getDefinition() ) === CKEDITOR.style.getStyleText( styleB.getDefinition() );
+		}
 	}
 
 	//  * @param {Object} options

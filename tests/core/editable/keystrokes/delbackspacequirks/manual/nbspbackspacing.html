@@ -1,0 +1,18 @@
+<textarea id="editor" cols="30" rows="10">
+	<p>One two three</p>
+</textarea>
+<p style="font-family: monospace;"><strong>Result:</strong><span id="sourceView"></span></p>
+
+<script>
+	if ( !CKEDITOR.env.webkit ) {
+		bender.ignore();
+	}
+
+	var sourceView = CKEDITOR.document.getById( 'sourceView' ),
+		editor = CKEDITOR.replace( 'editor' );
+
+	editor.on( 'change', function( evt ) {
+		sourceView.setText( evt.editor.editable().getHtml() );
+	} );
+
+</script>

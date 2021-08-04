@@ -16,6 +16,7 @@
 	var BACKSPACE = t.BACKSPACE,
 		DEL = t.DEL,
 		assertKeystroke = t.assertKeystroke,
+		assertRemovingSpaces = t.assertRemovingSpaces,
 		d = t.d,
 		b = t.b,
 		df = t.df,
@@ -32,6 +33,12 @@
 		},
 
 		// --- MISC -----------------------------------------------------------
+
+		// (#3819)
+		'test backspace key use when carret between two visual spaces did not split content': assertRemovingSpaces( BACKSPACE, 6 ),
+
+		// (#3819)
+		'test delete key use when carret before two visual spaces did not split content': assertRemovingSpaces( DEL, 5 ),
 
 		'test backspace records undo snapshots': function() {
 			var editor = this.editor,
