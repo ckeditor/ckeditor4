@@ -183,34 +183,9 @@
 		if ( fakeElement.data( 'cke-real-node-type' ) != CKEDITOR.NODE_ELEMENT )
 			return null;
 
-		var dataFilter = new CKEDITOR.htmlParser.filter( {
-				elements: {
-					iframe: function( element ) {
-						element.children = [];
-					}
-				}
-			} ),
-			acfFilter = this.activeFilter,
-			writer = new CKEDITOR.htmlParser.basicWriter(),
-			realElementHtml = decodeURIComponent( fakeElement.data( 'cke-realelement' ) ),
-			realElementFragment = CKEDITOR.htmlParser.fragment.fromHtml( realElementHtml ),
-			filteredHtml,
-			realElement;
-
-		dataFilter.applyTo( realElementFragment );
-		realElementFragment.writeHtml( writer );
-
-		filteredHtml = writer.getHtml();
-
-		if ( acfFilter ) {
-			writer.reset();
-			acfFilter.applyTo( realElementFragment );
-			realElementFragment.writeHtml( writer );
-
-			filteredHtml = writer.getHtml();
-		}
-
-		realElement = CKEDITOR.dom.element.createFromHtml( filteredHtml, this.document );
+		var realElementHtml = decodeURIComponent( fakeElement.data( 'cke-realelement' ) ),
+			filteredHtml = filterHtml( this, realElementHtml ),
+			realElement = CKEDITOR.dom.element.createFromHtml( filteredHtml, this.document );
 
 		if ( fakeElement.data( 'cke-resizable' ) ) {
 			var width = fakeElement.getStyle( 'width' ),
@@ -223,4 +198,33 @@
 		return realElement;
 	};
 
+
+	function filterHtml( editor, html ) {
+		var dataFilter = new CKEDITOR.htmlParser.filter( {
+				elements: {
+					iframe: function( element ) {
+						element.children = [];
+					}
+				}
+			} ),
+			acfFilter = editor.activeFilter,
+			writer = new CKEDITOR.htmlParser.basicWriter(),
+			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
+			filteredHtml;
+
+		dataFilter.applyTo( fragment );
+		fragment.writeHtml( writer );
+
+		filteredHtml = writer.getHtml();
+
+		if ( acfFilter ) {
+			writer.reset();
+			acfFilter.applyTo( fragment );
+			fragment.writeHtml( writer );
+
+			filteredHtml = writer.getHtml();
+		}
+
+		return filteredHtml;
+	}
 } )();
