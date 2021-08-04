@@ -5,13 +5,13 @@
 1. Wait for the editor to load.
 2. Click preview button.
 
- **Expected result**: New browser tab/window with preview is opened correctly. The content is hte same as in editor.
+ **Expected result** New browser tab/window with preview is opened correctly. The content is the same as in editor.
 
 3. Open browser console in the newly opened tab.
 
- **Expected result**: There is no error in the browser console.
+ **Expected result** There is no error in the browser console.
 
- **Unexpected result**: There is an error in the browser console: `Permission denied to access property "_cke_htmlToLoad" on cross-origin object`
+ **Unexpected result** There is an error in the browser console: `Permission denied to access property "_cke_htmlToLoad" on cross-origin object`
 
 ## Notes
 
