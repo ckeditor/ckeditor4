@@ -27,30 +27,6 @@
 		return length2;
 	}
 
-	var htmlFilterRules = {
-		elements: {
-			$: function( element ) {
-				var attributes = element.attributes,
-					realHtml = attributes && attributes[ 'data-cke-realelement' ],
-					realFragment = realHtml && new CKEDITOR.htmlParser.fragment.fromHtml( decodeURIComponent( realHtml ) ),
-					realElement = realFragment && realFragment.children[ 0 ];
-
-				// Width/height in the fake object are subjected to clone into the real element.
-				if ( realElement && element.attributes[ 'data-cke-resizable' ] ) {
-					var styles = new cssStyle( element ).rules,
-						realAttrs = realElement.attributes,
-						width = styles.width,
-						height = styles.height;
-
-					width && ( realAttrs.width = replaceCssLength( realAttrs.width, width ) );
-					height && ( realAttrs.height = replaceCssLength( realAttrs.height, height ) );
-				}
-
-				return realElement;
-			}
-		}
-	};
-
 	CKEDITOR.plugins.add( 'fakeobjects', {
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -67,7 +43,7 @@
 				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 
 			if ( htmlFilter ) {
-				htmlFilter.addRules( htmlFilterRules, {
+				htmlFilter.addRules( createHtmlFilterRules( editor ), {
 					applyToAll: true
 				} );
 			}
@@ -198,6 +174,32 @@
 		return realElement;
 	};
 
+	function createHtmlFilterRules( editor ) {
+		return {
+			elements: {
+				$: function( element ) {
+					var attributes = element.attributes,
+						realHtml = attributes && attributes[ 'data-cke-realelement' ],
+						filteredRealHtml = filterHtml( editor, decodeURIComponent( realHtml ) ),
+						realFragment = realHtml && new CKEDITOR.htmlParser.fragment.fromHtml( filteredRealHtml ),
+						realElement = realFragment && realFragment.children[ 0 ];
+
+					// Width/height in the fake object are subjected to clone into the real element.
+					if ( realElement && element.attributes[ 'data-cke-resizable' ] ) {
+						var styles = new cssStyle( element ).rules,
+							realAttrs = realElement.attributes,
+							width = styles.width,
+							height = styles.height;
+
+						width && ( realAttrs.width = replaceCssLength( realAttrs.width, width ) );
+						height && ( realAttrs.height = replaceCssLength( realAttrs.height, height ) );
+					}
+
+					return realElement;
+				}
+			}
+		};
+	}
 
 	function filterHtml( editor, html ) {
 		var dataFilter = new CKEDITOR.htmlParser.filter( {
