@@ -194,7 +194,7 @@
 			writer = new CKEDITOR.htmlParser.basicWriter(),
 			realElementHtml = decodeURIComponent( fakeElement.data( 'cke-realelement' ) ),
 			realElementFragment = CKEDITOR.htmlParser.fragment.fromHtml( realElementHtml ),
-			filteredHtml = realElementHtml,
+			filteredHtml,
 			realElement;
 
 		dataFilter.applyTo( realElementFragment );
