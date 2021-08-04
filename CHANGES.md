@@ -16,6 +16,7 @@ Fixed Issues:
 * [#4247](https://github.com/ckeditor/ckeditor4/issues/4247): Fixed: [Color Button](https://ckeditor.com/cke4/addon/colorbutton)'s incorrect rendering on the first opening.
 * [#4555](https://github.com/ckeditor/ckeditor4/issues/4555): Fixed: [Font](https://ckeditor.com/cke4/addon/font) styles with attributes are not applied correctly when used multiple times over the same selection.
 * [#4782](https://github.com/ckeditor/ckeditor4/issues/4782): [Firefox] Fixed: `TypeError` is thrown when switching to Source View and back while [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin is enabled.
+* [#4444](https://github.com/ckeditor/ckeditor4/issues/4444): [Firefox] Fixed: [Print](https://ckeditor.com/cke4/addon/print) and [Preview](https://ckeditor.com/cke4/addon/preview) plugins don't work on Firefox when editor is loaded from different origin than the host.
 
 ## CKEditor 4.16.1
 
