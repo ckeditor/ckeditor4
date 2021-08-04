@@ -10,14 +10,19 @@
 </div>
 
 <script>
+	if ( bender.env.mobile ) {
+		bender.ignore();
+	}
+
 	// 1. Load local editor by default with bender.
 	// 2. Remove existing instance and add script with editor from CDN.
 	// 3. Wait for the new editor to be loaded from CDN and initialize it.
 	// 4. Add icons in IE <11 from local.
 	var editorVersion = '',
-	 	path = simulateCORS( window.location ) || 'https://raw.githack.com/ckeditor/ckeditor4/master';
+		path = getCKEditorCORSLink( window.location );
 
 	CKEDITOR.replace( 'editor' );
+
 	CKEDITOR.once( 'instanceReady', function() {
 		var scripts = document.querySelectorAll( 'script' ),
 			head = CKEDITOR.document.getHead();
@@ -32,7 +37,7 @@
 
 		var newScript = document.createElement( 'script' ),
 			loadingBox = document.getElementById( 'loading_box' ),
-			loadingText = 'loading editor from CDN';
+			loadingText = 'Simulating loading editor from CDN';
 
 		newScript.type = 'text/javascript';
 		newScript.src = path + '/ckeditor.js';
@@ -44,7 +49,7 @@
 					clearInterval( interval );
 
 					CKEDITOR.replace( 'editor_cdn', { plugins: pluginsList } );
-					loadingBox.textContent = editorVersion + ' version of editor was loaded successfully!';
+					loadingBox.textContent = editorVersion + ' editor version was loaded successfully!';
 
 					// There is problem in IE <11 with receiving icons from githack so we must add it manually.
 					if( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ){
@@ -52,7 +57,7 @@
 							fixButtonsIcons();
 						} );
 					}
-				}else {
+				} else {
 					loadingText += '.';
 					loadingBox.textContent = loadingText;
 				}
@@ -72,24 +77,24 @@
 		} );
 	}
 
-	function simulateCORS( link ){
-		var protocol = link.protocol,
-			hostName = link.hostname,
-			port = link.port,
+	function getCKEditorCORSLink( location ){
+		var protocol = location.protocol,
+			hostName = location.hostname,
+			port = location.port,
 			pathName = '/apps/ckeditor',
-			possibleNewHostNames = [ '0.0.0.0', '127.0.0.1', 'localhost' ];
+			possibleNewHostNames = [ '0.0.0.0', '127.0.0.1', 'localhost' ],
+			isLocalHostName = CKEDITOR.tools.indexOf( possibleNewHostNames, hostName ) !== -1;
 
-		// vBox have no alternative host than 10.0.2.2 so CORS simulate is impossible.
-		if( CKEDITOR.tools.indexOf( hostName, '10.0' ) === -1 ) {
-			editorVersion = 'Local simulated CORS';
+		// If we are not on localhost, simulate CORS via Githack.
+		if ( isLocalHostName ) {
+			editorVersion = 'Local';
 			var newHostName = CKEDITOR.tools.array.find( possibleNewHostNames , function( value ) {
 				return value != hostName;
 			} );
 			return protocol + '//' + newHostName + ':' + port + pathName;
 		}
 
-		editorVersion = 'Githack CORS';
-		return false;
+		editorVersion = 'Recent master';
+		return 'https://raw.githack.com/ckeditor/ckeditor4/master';
 	}
-
 </script>
