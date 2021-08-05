@@ -211,22 +211,16 @@
 			} ),
 			acfFilter = editor.activeFilter,
 			writer = new CKEDITOR.htmlParser.basicWriter(),
-			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
-			filteredHtml;
+			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html );
 
 		dataFilter.applyTo( fragment );
-		fragment.writeHtml( writer );
-
-		filteredHtml = writer.getHtml();
 
 		if ( acfFilter ) {
-			writer.reset();
 			acfFilter.applyTo( fragment );
-			fragment.writeHtml( writer );
-
-			filteredHtml = writer.getHtml();
 		}
 
-		return filteredHtml;
+		fragment.writeHtml( writer );
+
+		return writer.getHtml();
 	}
 } )();
