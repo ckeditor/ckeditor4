@@ -202,43 +202,25 @@
 	}
 
 	function filterHtml( editor, html ) {
-		var toDataElementFilterRules = {
-				iframe: function( element ) {
-					element.children = [];
-				}
-			},
-			restoreObjectFilter = new CKEDITOR.htmlParser.filter( {
+		var unprefixedElements = [],
+			prefixRegex = /^cke:/i,
+			dataFilter =  new CKEDITOR.htmlParser.filter( {
 				elements: {
-					object: function( element ) {
-						element.name = 'cke:object';
-					},
+					'^': function( element ) {
+						if ( prefixRegex.test( element.name ) ) {
+							element.name = element.name.replace( prefixRegex, '' );
 
-					param: function( element ) {
-						element.name = 'cke:param';
+							unprefixedElements.push( element );
+						}
 					},
-
-					embed: function( element ) {
-						element.name = 'cke:embed';
+					iframe: function( element ) {
+						element.children = [];
 					}
 				}
 			} ),
 			acfFilter = editor.activeFilter,
 			writer = new CKEDITOR.htmlParser.basicWriter(),
-			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
-			dataFilter;
-
-		toDataElementFilterRules[ 'cke:object' ] = function( element ) {
-			element.name = 'object';
-		};
-		toDataElementFilterRules[ 'cke:param' ] = function( element ) {
-			element.name = 'param';
-		};
-		toDataElementFilterRules[ 'cke:embed' ] = function( element ) {
-			element.name = 'embed';
-		};
-		dataFilter =  new CKEDITOR.htmlParser.filter( {
-			elements: toDataElementFilterRules
-		} ),
+			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html );
 
 		dataFilter.applyTo( fragment );
 
@@ -246,7 +228,10 @@
 			acfFilter.applyTo( fragment );
 		}
 
-		restoreObjectFilter.applyTo( fragment );
+		CKEDITOR.tools.array.forEach( unprefixedElements, function( element ) {
+			element.name = 'cke:' + element.name;
+		} );
+
 		fragment.writeHtml( writer );
 
 		return writer.getHtml();
