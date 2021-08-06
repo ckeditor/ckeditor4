@@ -202,16 +202,43 @@
 	}
 
 	function filterHtml( editor, html ) {
-		var dataFilter = new CKEDITOR.htmlParser.filter( {
+		var toDataElementFilterRules = {
+				iframe: function( element ) {
+					element.children = [];
+				}
+			},
+			restoreObjectFilter = new CKEDITOR.htmlParser.filter( {
 				elements: {
-					iframe: function( element ) {
-						element.children = [];
+					object: function( element ) {
+						element.name = 'cke:object';
+					},
+
+					param: function( element ) {
+						element.name = 'cke:param';
+					},
+
+					embed: function( element ) {
+						element.name = 'cke:embed';
 					}
 				}
 			} ),
 			acfFilter = editor.activeFilter,
 			writer = new CKEDITOR.htmlParser.basicWriter(),
-			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html );
+			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
+			dataFilter;
+
+		toDataElementFilterRules[ 'cke:object' ] = function( element ) {
+			element.name = 'object';
+		};
+		toDataElementFilterRules[ 'cke:param' ] = function( element ) {
+			element.name = 'param';
+		};
+		toDataElementFilterRules[ 'cke:embed' ] = function( element ) {
+			element.name = 'embed';
+		};
+		dataFilter =  new CKEDITOR.htmlParser.filter( {
+			elements: toDataElementFilterRules
+		} ),
 
 		dataFilter.applyTo( fragment );
 
@@ -219,6 +246,7 @@
 			acfFilter.applyTo( fragment );
 		}
 
+		restoreObjectFilter.applyTo( fragment );
 		fragment.writeHtml( writer );
 
 		return writer.getHtml();
