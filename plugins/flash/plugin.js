@@ -39,7 +39,7 @@
 		init: function( editor ) {
 			var allowed = 'object[classid,codebase,height,hspace,vspace,width];' +
 				'param[name,value];' +
-				'embed[height,hspace,pluginspage,src,type,vspace,width]';
+				'embed[allowfullscreen,height,hspace,pluginspage,src,type,vspace,width]';
 
 			if ( CKEDITOR.dialog.isTabEnabled( editor, 'flash', 'properties' ) )
 				allowed += ';object[align]; embed[allowscriptaccess,quality,scale,wmode]';
