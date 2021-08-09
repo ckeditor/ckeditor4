@@ -226,10 +226,7 @@
 			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html );
 
 		dataFilter.applyTo( fragment );
-
-		if ( acfFilter ) {
-			acfFilter.applyTo( fragment );
-		}
+		acfFilter.applyTo( fragment );
 
 		CKEDITOR.tools.array.forEach( unprefixedElements, function( element ) {
 			element.name = 'cke:' + element.name;
