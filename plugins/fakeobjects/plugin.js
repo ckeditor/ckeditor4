@@ -201,6 +201,9 @@
 		};
 	}
 
+	// Content stored inside fake element is raw and should be explicitly
+	// passed to ACF filter. Additionally some elements can have prefixes in tag names,
+	// which should be removed before filtering and added after it.
 	function filterHtml( editor, html ) {
 		var unprefixedElements = [],
 			prefixRegex = /^cke:/i,
