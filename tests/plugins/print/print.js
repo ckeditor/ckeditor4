@@ -42,15 +42,27 @@ bender.test( {
 	// (#3661)
 	'test returning false from CKEDITOR.plugins.preview#createPreview cancels printing': function() {
 		var editor = this.editor,
+			isCanceled = null,
 			createPreviewStub = sinon.stub( CKEDITOR.plugins.preview, 'createPreview', function() {
-				return false;
+				return {
+					$: {
+						print: function() {},
+						close: function() {
+							return isCanceled = true;
+						},
+						document: {
+							readyState: 'interactive',
+							execCommand: function() {}
+						}
+					}
+				};
 			} );
 
 		editor.once( 'afterCommandExec', function() {
 			resume( function() {
 				createPreviewStub.restore();
 
-				assert.pass();
+				assert.isTrue( isCanceled );
 			} );
 		} );
 
