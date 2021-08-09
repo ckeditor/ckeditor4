@@ -24,7 +24,9 @@
 				modes: { wysiwyg: 1 },
 				canUndo: false,
 				readOnly: 1,
-				exec: CKEDITOR.plugins.preview.createPreview
+				exec: function() {
+					CKEDITOR.plugins.preview.createPreview( editor );
+				}
 			} );
 			editor.ui.addButton && editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview.preview,
@@ -51,8 +53,8 @@
 		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @returns {CKEDITOR.dom.window} A newly created window that contains the preview HTML.
 		 */
-		createPreview: function( editor ) {
-			var previewHtml = createPreviewHtml( editor ),
+		createPreview: function( editor, callback ) {
+			var previewHtml = createPreviewHtml( editor, callback ),
 				eventData = { dataValue: previewHtml },
 				windowDimensions = getWindowDimensions(),
 				// For IE we should use window.location rather than setting url in window.open (https://dev.ckeditor.com/ticket/11146).
@@ -94,7 +96,7 @@
 		}
 	};
 
-	function createPreviewHtml( editor ) {
+	function createPreviewHtml( editor, callback ) {
 		var pluginPath = CKEDITOR.plugins.getPath( 'preview' ),
 			config = editor.config,
 			title = editor.lang.preview.preview,
@@ -113,6 +115,7 @@
 				'<link rel="stylesheet" media="screen" href="' + pluginPath + 'styles/screen.css">' +
 			'</head>' + createBodyHtml() +
 				editor.getData() +
+				setPrintCallback( callback ) +
 			'</body></html>';
 
 		function generateBaseTag() {
@@ -154,6 +157,14 @@
 			}
 
 			return html;
+		}
+
+		function setPrintCallback( callback ) {
+			if ( !callback ) {
+				return '';
+			}
+
+			return '<script> window.onreadystatechange = firePrint </script>';
 		}
 	}
 
