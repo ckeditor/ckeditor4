@@ -51,6 +51,7 @@
 		 * **Note**: This function will open a new browser window with the editor's content HTML.
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {Function} [callback] The function that will be fired after preview window is loaded.
 		 * @returns {CKEDITOR.dom.window} A newly created window that contains the preview HTML.
 		 */
 		createPreview: function( editor, callback ) {
