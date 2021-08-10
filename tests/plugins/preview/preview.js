@@ -80,5 +80,25 @@ bender.test( {
 			assert.isNotUndefined( previewCommand, 'Command is registered' );
 			assert.areSame( previewCommand.state, CKEDITOR.TRISTATE_DISABLED, 'Command is disabled' );
 		} );
+	},
+
+	// (#4790)
+	'test callback should be called when document.readyState is complete': function() {
+		bender.editorBot.create( {
+			name: 'callback-execute-test',
+			startupData: '<p>Foo</p>',
+			config: {
+				plugins: 'print,image'
+			}
+		}, function( bot ) {
+			var preview = CKEDITOR.plugins.preview;
+
+			preview.createPreview( bot.editor, function( previewWindow ) {
+				resume( function() {
+					assert.areSame( 'complete', previewWindow.$.document.readyState, 'callback was not called because document.readyState is other than complete' );
+				} );
+			} );
+			wait();
+		} );
 	}
 } );
