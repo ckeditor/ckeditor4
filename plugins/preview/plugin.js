@@ -60,6 +60,7 @@
 				// For IE we should use window.location rather than setting url in window.open (https://dev.ckeditor.com/ticket/11146).
 				previewLocation = getPreviewLocation(),
 				previewUrl = getPreviewUrl(),
+				nativePreviewWindow,
 				previewWindow,
 				doc;
 
@@ -76,23 +77,37 @@
 				window._cke_htmlToLoad = eventData.dataValue;
 			}
 
-			previewWindow = window.open( previewUrl, null, generateWindowOptions( windowDimensions ) );
+			nativePreviewWindow = window.open( previewUrl, null, generateWindowOptions( windowDimensions ) );
+			previewWindow = new CKEDITOR.dom.window( nativePreviewWindow );
 
 			// For IE we want to assign whole js stored in previewLocation, but in case of
 			// popup blocker activation oWindow variable will be null (https://dev.ckeditor.com/ticket/11597).
-			if ( previewLocation && previewWindow ) {
-				previewWindow.location = previewLocation;
+			if ( previewLocation && nativePreviewWindow ) {
+				nativePreviewWindow.location = previewLocation;
 			}
 
 			if ( !window._cke_htmlToLoad ) {
-				doc = previewWindow.document;
+				doc = nativePreviewWindow.document;
 
 				doc.open();
 				doc.write( eventData.dataValue );
 				doc.close();
 			}
 
-			return new CKEDITOR.dom.window( previewWindow );
+			if ( callback ) {
+				nativePreviewWindow.fireCallback = function() {
+					// In several browsers (e.g. Safari or Chrome on Linux) print command
+					// seems to be blocking loading of the preview page. Because of that
+					// print must be performed after the document is complete.
+					if ( nativePreviewWindow.document.readyState === 'complete' ) {
+						callback( previewWindow );
+					}
+				};
+
+				nativePreviewWindow.fireCallback();
+			}
+
+			return previewWindow;
 		}
 	};
 
@@ -164,7 +179,7 @@
 				return '';
 			}
 
-			return '<script> window.onreadystatechange = firePrint </script>';
+			return '<script>document.onreadystatechange = fireCallback; </script>';
 		}
 	}
 
