@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'es', {
 	anchorName: 'Por Nombre de Referencia',
 	charset: 'Fuente de caracteres vinculado',
 	cssClasses: 'Clases de hojas de estilo',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Forzar la descarga',
+	displayText: 'Mostrar texto',
 	emailAddress: 'Dirección de E-Mail',
 	emailBody: 'Cuerpo del Mensaje',
 	emailSubject: 'Título del Mensaje',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'es', {
 	noAnchors: '(No hay referencias disponibles en el documento)',
 	noEmail: 'Por favor escriba la dirección de e-mail',
 	noUrl: 'Por favor escriba el vínculo URL',
-	noTel: 'Please type the phone number', // MISSING
+	noTel: 'Por favor ingrese el numero de telefono',
 	other: '<otro>',
 	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Dependiente (Netscape)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'es', {
 	toAnchor: 'Referencia en esta página',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Teléfono',
 	toolbar: 'Insertar/Editar Vínculo',
 	type: 'Tipo de vínculo',
 	unlink: 'Eliminar Vínculo',

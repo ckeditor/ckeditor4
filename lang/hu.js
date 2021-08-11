@@ -61,7 +61,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		preview: 'Előnézet',
 		resize: 'Húzza az átméretezéshez',
 		generalTab: 'Általános',
-		advancedTab: 'További opciók',
+		advancedTab: 'Speciális',
 		validateNumberFailed: 'A mezőbe csak számokat írhat.',
 		confirmNewPage: 'Minden nem mentett változás el fog veszni! Biztosan be szeretné tölteni az oldalt?',
 		confirmCancel: 'Pár beállítást megváltoztatott. Biztosan be szeretné zárni az ablakot?',
