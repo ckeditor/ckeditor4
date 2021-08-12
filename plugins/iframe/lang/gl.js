@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'gl', {
 	scrolling: 'Activar as barras de desprazamento',
 	title: 'Propiedades do iFrame',
 	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	tabindex: 'Eliminar do índice de tabulación'
 } );

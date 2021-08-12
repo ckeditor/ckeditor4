@@ -566,7 +566,7 @@
 
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax,panelbutton,floatpanel',
-		lang: 'cs,da,de,de-ch,en,en-au,et,fr,gl,hr,hu,it,nl,pl,pt-br,sr,sr-latn,sv,tr,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'cs,da,de,de-ch,en,en-au,et,fr,gl,hr,hu,it,nl,pl,pt-br,sk,sr,sr-latn,sv,tr,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'emojipanel',
 		hidpi: true,
 

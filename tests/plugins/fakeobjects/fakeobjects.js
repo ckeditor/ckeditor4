@@ -19,7 +19,10 @@ function fakeHtml( editor, elHtml, className, type ) {
 
 bender.editors = {
 	editor: {
-		name: 'editor1'
+		name: 'editor1',
+		config: {
+			extraAllowedContent: 'em'
+		}
 	}
 };
 

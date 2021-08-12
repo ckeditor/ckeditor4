@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'iframe', 'hu', {
 	scrolling: 'Gördítősáv bekapcsolása',
 	title: 'IFrame Tulajdonságok',
 	toolbar: 'IFrame',
-	tabindex: 'Remove from tabindex' // MISSING
+	tabindex: 'Eltávolítás a tabindexből'
 } );

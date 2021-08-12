@@ -27,30 +27,6 @@
 		return length2;
 	}
 
-	var htmlFilterRules = {
-		elements: {
-			$: function( element ) {
-				var attributes = element.attributes,
-					realHtml = attributes && attributes[ 'data-cke-realelement' ],
-					realFragment = realHtml && new CKEDITOR.htmlParser.fragment.fromHtml( decodeURIComponent( realHtml ) ),
-					realElement = realFragment && realFragment.children[ 0 ];
-
-				// Width/height in the fake object are subjected to clone into the real element.
-				if ( realElement && element.attributes[ 'data-cke-resizable' ] ) {
-					var styles = new cssStyle( element ).rules,
-						realAttrs = realElement.attributes,
-						width = styles.width,
-						height = styles.height;
-
-					width && ( realAttrs.width = replaceCssLength( realAttrs.width, width ) );
-					height && ( realAttrs.height = replaceCssLength( realAttrs.height, height ) );
-				}
-
-				return realElement;
-			}
-		}
-	};
-
 	CKEDITOR.plugins.add( 'fakeobjects', {
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -67,7 +43,7 @@
 				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 
 			if ( htmlFilter ) {
-				htmlFilter.addRules( htmlFilterRules, {
+				htmlFilter.addRules( createHtmlFilterRules( editor ), {
 					applyToAll: true
 				} );
 			}
@@ -183,17 +159,81 @@
 		if ( fakeElement.data( 'cke-real-node-type' ) != CKEDITOR.NODE_ELEMENT )
 			return null;
 
-		var element = CKEDITOR.dom.element.createFromHtml( decodeURIComponent( fakeElement.data( 'cke-realelement' ) ), this.document );
+		var realElementHtml = decodeURIComponent( fakeElement.data( 'cke-realelement' ) ),
+			filteredHtml = filterHtml( this, realElementHtml ),
+			realElement = CKEDITOR.dom.element.createFromHtml( filteredHtml, this.document );
 
 		if ( fakeElement.data( 'cke-resizable' ) ) {
 			var width = fakeElement.getStyle( 'width' ),
 				height = fakeElement.getStyle( 'height' );
 
-			width && element.setAttribute( 'width', replaceCssLength( element.getAttribute( 'width' ), width ) );
-			height && element.setAttribute( 'height', replaceCssLength( element.getAttribute( 'height' ), height ) );
+			width && realElement.setAttribute( 'width', replaceCssLength( realElement.getAttribute( 'width' ), width ) );
+			height && realElement.setAttribute( 'height', replaceCssLength( realElement.getAttribute( 'height' ), height ) );
 		}
 
-		return element;
+		return realElement;
 	};
 
+	function createHtmlFilterRules( editor ) {
+		return {
+			elements: {
+				$: function( element ) {
+					var attributes = element.attributes,
+						realHtml = attributes && attributes[ 'data-cke-realelement' ],
+						filteredRealHtml = filterHtml( editor, decodeURIComponent( realHtml ) ),
+						realFragment = realHtml && new CKEDITOR.htmlParser.fragment.fromHtml( filteredRealHtml ),
+						realElement = realFragment && realFragment.children[ 0 ];
+
+					// Width/height in the fake object are subjected to clone into the real element.
+					if ( realElement && element.attributes[ 'data-cke-resizable' ] ) {
+						var styles = new cssStyle( element ).rules,
+							realAttrs = realElement.attributes,
+							width = styles.width,
+							height = styles.height;
+
+						width && ( realAttrs.width = replaceCssLength( realAttrs.width, width ) );
+						height && ( realAttrs.height = replaceCssLength( realAttrs.height, height ) );
+					}
+
+					return realElement;
+				}
+			}
+		};
+	}
+
+	// Content stored inside fake element is raw and should be explicitly
+	// passed to ACF filter. Additionally some elements can have prefixes in tag names,
+	// which should be removed before filtering and added after it.
+	function filterHtml( editor, html ) {
+		var unprefixedElements = [],
+			prefixRegex = /^cke:/i,
+			dataFilter =  new CKEDITOR.htmlParser.filter( {
+				elements: {
+					'^': function( element ) {
+						if ( prefixRegex.test( element.name ) ) {
+							element.name = element.name.replace( prefixRegex, '' );
+
+							unprefixedElements.push( element );
+						}
+					},
+					iframe: function( element ) {
+						element.children = [];
+					}
+				}
+			} ),
+			acfFilter = editor.activeFilter,
+			writer = new CKEDITOR.htmlParser.basicWriter(),
+			fragment = CKEDITOR.htmlParser.fragment.fromHtml( html );
+
+		dataFilter.applyTo( fragment );
+		acfFilter.applyTo( fragment );
+
+		CKEDITOR.tools.array.forEach( unprefixedElements, function( element ) {
+			element.name = 'cke:' + element.name;
+		} );
+
+		fragment.writeHtml( writer );
+
+		return writer.getHtml();
+	}
 } )();
