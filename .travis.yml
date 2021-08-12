@@ -30,6 +30,8 @@ jobs:
       addons:
         chrome: stable
       before_script:
+        - npm i -g npm@7
+        - npm -v
         - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
         - 'export DISPLAY=:99.0'
@@ -59,6 +61,8 @@ jobs:
       addons:
         firefox: latest
       before_script:
+        - npm i -g npm@7
+        - npm -v
         - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
         - 'export DISPLAY=:99.0'
