@@ -30,7 +30,7 @@ jobs:
       addons:
         chrome: stable
       before_script:
-        - npm i -g npm@7
+        - npm install npm@7 -g
         - npm -v
         - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
