@@ -30,8 +30,6 @@ jobs:
       addons:
         chrome: stable
       before_script:
-        - npm install npm@7 -g
-        - npm -v
         - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
         - 'export DISPLAY=:99.0'
