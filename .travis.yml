@@ -29,13 +29,14 @@ jobs:
         - xvfb
       addons:
         chrome: stable
+      install:
+        - npm install npm@7 -g
+        - npm --version
       before_script:
         - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
         - 'export DISPLAY=:99.0'
         - 'sleep 3'
-        - npm install npm@7 -g
-        - npm --version
         # Setup CKEditor 4 testing environment
         - pwd
         - npm install benderjs-cli -g
