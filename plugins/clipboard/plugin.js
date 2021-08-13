@@ -2668,7 +2668,8 @@
 
 			// Copy files references.
 			file = this._getImageFromClipboard();
-			files = this.$ && this.$.files || null; // Only access .files once - it's expensive in Chrome (https://github.com/ckeditor/ckeditor4/issues/4807)
+			// Only access .files once - it's expensive in Chrome (#4807).
+			files = this.$ && this.$.files || null;
 			if ( files || file ) {
 				this._.files = [];
 
@@ -2697,7 +2698,8 @@
 				return this._.files.length;
 			}
 
-			var files = this.$ && this.$.files || null; // Only access .files once - it's expensive in Chrome (https://github.com/ckeditor/ckeditor4/issues/4807)
+			// Only access .files once - it's expensive in Chrome (#4807).
+			var files = this.$ && this.$.files || null;
 			if ( files && files.length ) {
 				return files.length;
 			}
@@ -2716,7 +2718,8 @@
 				return this._.files[ i ];
 			}
 
-			var files = this.$ && this.$.files || null; // Only access .files once - it's expensive in Chrome (https://github.com/ckeditor/ckeditor4/issues/4807)
+			// Only access .files once - it's expensive in Chrome (#4807).
+			var files = this.$ && this.$.files || null;
 			if ( files && files.length ) {
 				return files[ i ];
 			}
