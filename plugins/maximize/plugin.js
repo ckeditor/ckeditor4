@@ -299,6 +299,15 @@
 				var command = editor.getCommand( 'maximize' );
 				command.setState( command.state == CKEDITOR.TRISTATE_DISABLED ? CKEDITOR.TRISTATE_DISABLED : savedState );
 			}, null, null, 100 );
+
+			// Add support for History API (#4374).
+			mainWindow.on( 'popstate', function() {
+				var command = editor.getCommand( 'maximize' );
+
+				if ( command.state === CKEDITOR.TRISTATE_ON ) {
+					command.exec();
+				}
+			} );
 		}
 	} );
 } )();
