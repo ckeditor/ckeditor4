@@ -100,9 +100,11 @@
 					// In several browsers (e.g. Safari or Chrome on Linux) print command
 					// seems to be blocking loading of the preview page. Because of that
 					// print must be performed after the document is complete.
-					if ( nativePreviewWindow.document.readyState === 'complete' ) {
+					if ( !CKEDITOR.env.ie && nativePreviewWindow.document.readyState === 'complete' ) {
 						callback( previewWindow );
-					} else if ( CKEDITOR.env.ie ) {
+					}
+
+					if ( CKEDITOR.env.ie ) {
 						callback( previewWindow );
 					}
 				};
