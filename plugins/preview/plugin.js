@@ -102,6 +102,8 @@
 					// print must be performed after the document is complete.
 					if ( nativePreviewWindow.document.readyState === 'complete' ) {
 						callback( previewWindow );
+					} else if ( CKEDITOR.env.ie ) {
+						callback( previewWindow );
 					}
 				};
 
@@ -180,7 +182,14 @@
 				return '';
 			}
 
-			return '<script>document.onreadystatechange = fireCallback; </script>';
+			// On IE onreadystatechange does not change document.readyState to complete if there are any images in the content.
+			// So we need introduce a two flows. One for IE and second for all other browsers. (#4790)
+			if ( CKEDITOR.env.ie ) {
+				return '<script>window.onload = fireCallback; </script>';
+			} else {
+				return '<script>document.onreadystatechange = fireCallback; </script>';
+			}
+
 		}
 	}
 
