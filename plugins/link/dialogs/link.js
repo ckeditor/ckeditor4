@@ -342,7 +342,7 @@
 									return true;
 								}
 
-								if ( !editor.config.linkJavaScriptLinksAllowed && ( /javascript\:/ ).test( this.getValue() ) ) {
+								if ( !editor.config.linkJavaScriptLinksAllowed && ( /javascript\:/i ).test( this.getValue() ) ) {
 									alert( commonLang.invalidValue ); // jshint ignore:line
 									return false;
 								}
