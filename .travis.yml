@@ -29,6 +29,9 @@ jobs:
         - xvfb
       addons:
         chrome: stable
+      install:
+        - npm install npm@7 -g
+        - npm --version
       before_script:
         - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
@@ -58,6 +61,9 @@ jobs:
         - xvfb
       addons:
         firefox: latest
+      install:
+        - npm install npm@7 -g
+        - npm --version
       before_script:
         - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
