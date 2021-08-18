@@ -40,7 +40,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 *
 	 *		CKEDITOR.document.appendStyleSheet( '/mystyles.css' );
 	 *
-	 * **Note:** URLs are passed through {@link CKEDITOR.getUrl} function.
+	 * **Note:** URLs are passed through {@link CKEDITOR#getUrl} function.
 	 *
 	 * @param {String} cssFileUrl The CSS file URL.
 	 */

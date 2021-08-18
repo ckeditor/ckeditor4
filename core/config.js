@@ -287,7 +287,7 @@ CKEDITOR.config = {
 	/**
 	 * The CSS file(s) to be used to apply style to editor content. It should
 	 * reflect the CSS used in the target pages where the content is to be
-	 * displayed. Every URL is passed through {@link CKEDITOR.getUrl} function.
+	 * displayed. Every URL is passed through {@link CKEDITOR#getUrl} function.
 	 *
 	 * **Note:** This configuration value is used only in {@glink guide/dev_framed `<iframe>`-based editor }
 	 * and ignored by {@glink guide/dev_inline inline editor}
