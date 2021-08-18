@@ -59,29 +59,31 @@
 
 		// Insert the specified template content into editor.
 		// @param {Number} index
-		function insertTemplate( html ) {
+		function insertTemplate( htmlFile ) {
 			var dialog = CKEDITOR.dialog.getCurrent(),
 				isReplace = dialog.getValueOf( 'selectTpl', 'chkInsertOpt' );
 
-			if ( isReplace ) {
-				editor.fire( 'saveSnapshot' );
-				// Everything should happen after the document is loaded (https://dev.ckeditor.com/ticket/4073).
-				editor.setData( html, function() {
+			htmlFile.then(html => {
+				if ( isReplace ) {
+					editor.fire( 'saveSnapshot' );
+					// Everything should happen after the document is loaded (https://dev.ckeditor.com/ticket/4073).
+					editor.setData( html, function() {
+						dialog.hide();
+	
+						// Place the cursor at the first editable place.
+						var range = editor.createRange();
+						range.moveToElementEditStart( editor.editable() );
+						range.select();
+						setTimeout( function() {
+							editor.fire( 'saveSnapshot' );
+						}, 0 );
+	
+					} );
+				} else {
+					editor.insertHtml( html );
 					dialog.hide();
-
-					// Place the cursor at the first editable place.
-					var range = editor.createRange();
-					range.moveToElementEditStart( editor.editable() );
-					range.select();
-					setTimeout( function() {
-						editor.fire( 'saveSnapshot' );
-					}, 0 );
-
-				} );
-			} else {
-				editor.insertHtml( html );
-				dialog.hide();
-			}
+				}
+			});
 		}
 
 		function keyNavigation( evt ) {
