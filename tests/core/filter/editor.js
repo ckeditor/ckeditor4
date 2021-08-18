@@ -283,9 +283,6 @@
 					editor.setActiveFilter( filter );
 					editor.insertHtml( '<u class="active">A1</u>-<u class="main">A2</u>' );
 
-					filter.applyTo = function() {
-						assert.fail( 'active filter should not be used while getting data from editor' );
-					};
 					assert.areSame( '<p><u class="active">A1</u>-A2</p>', editor.getData(), 'data was filtered using active filter' );
 
 					bot.setData( '<p><u class="active">A1</u>-<u class="main">A2</u></p>', function() {
@@ -315,9 +312,6 @@
 					editor.setActiveFilter( filter );
 					editor.insertHtml( '<u class="active">A1</u>-<u class="main">A2</u>' );
 
-					filter.applyTo = function() {
-						assert.fail( 'active filter should not be used while getting data from editor' );
-					};
 					assert.areSame( '<p><u class="active">A1</u>-A2</p>', editor.getData(), 'data was filtered using active filter' );
 
 					bot.setData( '<p><u class="active">A1</u>-<u class="main">A2</u></p>', function() {
