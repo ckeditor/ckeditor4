@@ -3,6 +3,10 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	( function() {
 		CKEDITOR.inline( 'edito,r', {
 			uploadUrl: '%BASE_PATH%'
