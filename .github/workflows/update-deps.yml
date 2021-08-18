@@ -31,6 +31,8 @@ jobs:
 
       - name: Read config
         run: |
+          npm i -g npm@7
+          npm -v
           CONFIG='{}'
           if [[ ! -z '${{ github.event.inputs.config }}' ]]; then
             CONFIG='${{ github.event.inputs.config }}'
