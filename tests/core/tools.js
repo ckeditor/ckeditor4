@@ -1177,6 +1177,80 @@
 			assert.areSame( 2, testSpy.callCount );
 			assert.areSame( testObj, testSpy.getCall( 0 ).thisValue );
 			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'bar' ) );
+		},
+
+		// (#4761)
+		'test buildStyleHtml with no timestamp returns stylesheet URL without cache key for passed string': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				url = '/file.css',
+				expectedHref = 'href="' + url + '"',
+				html;
+
+			CKEDITOR.timestamp = '';
+			html = CKEDITOR.tools.buildStyleHtml( url ),
+			CKEDITOR.timestamp = originalTimestamp;
+
+			assert.areNotSame( -1, html.indexOf( expectedHref ), 'Built HTML includes correct stylesheet link' );
+		},
+
+		// (#4761)
+		'test buildStyleHtml with set timestamp returns stylesheet URL with cache key for passed string': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				newTimestamp = 'wer55',
+				url = '/file.css',
+				expectedHref = 'href="' + url + '?t=' + newTimestamp + '"',
+				html;
+
+			CKEDITOR.timestamp = newTimestamp;
+			html = CKEDITOR.tools.buildStyleHtml( url ),
+			CKEDITOR.timestamp = originalTimestamp;
+
+			assert.areNotSame( -1, html.indexOf( expectedHref ), 'Built HTML includes correct stylesheet link' );
+		},
+
+		// (#4761)
+		'test buildStyleHtml with no timestamp returns stylesheet URLs without cache key for passed array': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				urls = [
+					'/file.css',
+					'/some-other-file'
+				],
+				expectedHrefs = [
+					'href="' + urls[ 0 ] + '"',
+					'href="' + urls[ 1 ] + '"'
+				],
+				html;
+
+			CKEDITOR.timestamp = '';
+			html = CKEDITOR.tools.buildStyleHtml( urls ),
+			CKEDITOR.timestamp = originalTimestamp;
+
+			CKEDITOR.tools.array.forEach( expectedHrefs, function( expectedHref ) {
+				assert.areNotSame( -1, html.indexOf( expectedHref ), 'Built HTML includes correct stylesheet link' );
+			} );
+		},
+
+		// (#4761)
+		'test buildStyleHtml with set timestamp returns stylesheet URLs with cache key for passed array': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				newTimestamp = 'wer55',
+				urls = [
+					'/file.css',
+					'/some-other-file'
+				],
+				expectedHrefs = [
+					'href="' + urls[ 0 ] + '?t=' + newTimestamp + '"',
+					'href="' + urls[ 1 ] + '?t=' + newTimestamp + '"'
+				],
+				html;
+
+			CKEDITOR.timestamp = newTimestamp;
+			html = CKEDITOR.tools.buildStyleHtml( urls ),
+			CKEDITOR.timestamp = originalTimestamp;
+
+			CKEDITOR.tools.array.forEach( expectedHrefs, function( expectedHref ) {
+				assert.areNotSame( -1, html.indexOf( expectedHref ), 'Built HTML includes correct stylesheet link' );
+			} );
 		}
 	} );
 } )();
