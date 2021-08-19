@@ -13,8 +13,7 @@
 
   ### Unexpected result
 
-  * There aren't any hover styles **during** the tap.
-  * There aren't hover style **after** releasing the finger.
+  * There aren't any hover styles **during** the tap and **after** it.
 
 2. Check if taping on rich combos activate their toggled on state (lighter background).
 
