@@ -40,7 +40,13 @@ function getHtml(fileName) {
 				throw Error(response.statusText);
 			}
 			return response;
-		}).then(html => html.text())
+		})
+		.then(response => response.arrayBuffer())
+		.then(buffer => {
+		    let decoder = new TextDecoder("iso-8859-1");
+		    let text = decoder.decode(buffer);
+		    return text;
+		})
 		.catch(error => {
 			console.log(error);
 			return '';
