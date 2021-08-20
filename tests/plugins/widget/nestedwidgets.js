@@ -413,6 +413,10 @@
 
 		// (#4777)
 		'test comments in nested widget are correctly parsed': function() {
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
 			var editor = this.editors.editor,
 				expectedContent = '<div data-widget="testcontainer" id="w1">' +
 					'<div class="ned">' +
@@ -422,7 +426,7 @@
 				'</div>';
 
 			this.editorBots.editor.setData( expectedContent, function() {
-				assert.areEqual( editor.getData(), expectedContent, 'There are artifacts left after comments parsing in widget' );
+				assert.areEqual( expectedContent, editor.getData(), 'There are artifacts left after comments parsing in widget' );
 			} );
 		}
 	} );
