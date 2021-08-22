@@ -100,11 +100,7 @@
 					// In several browsers (e.g. Safari or Chrome on Linux) print command
 					// seems to be blocking loading of the preview page. Because of that
 					// print must be performed after the document is complete.
-					if ( !CKEDITOR.env.ie && nativePreviewWindow.document.readyState === 'complete' ) {
-						callback( previewWindow );
-					}
-
-					if ( CKEDITOR.env.ie ) {
+					if ( nativePreviewWindow.document.readyState === 'complete' ) {
 						callback( previewWindow );
 					}
 				};
@@ -187,7 +183,7 @@
 			// On IE onreadystatechange does not change document.readyState to complete if there are any images in the content.
 			// So we need introduce a two flows. One for IE and second for all other browsers. (#4790)
 			if ( CKEDITOR.env.ie ) {
-				return '<script>window.onload = fireCallback; </script>';
+				return '<script> window.focus(); window.onload = function() { fireCallback() }; </script>';
 			} else {
 				return '<script>document.onreadystatechange = fireCallback; </script>';
 			}
