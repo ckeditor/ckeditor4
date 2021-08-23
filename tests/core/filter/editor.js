@@ -271,7 +271,7 @@
 				name: 'test_editor_processing_active_filter',
 				config: {
 					allowedContent: 'u(!main); p',
-					plugins: ''
+					plugins: 'wysiwygarea,toolbar,basicstyles'
 				}
 			}, function( bot ) {
 				var editor = bot.editor;
@@ -304,7 +304,7 @@
 				creator: 'inline',
 				config: {
 					allowedContent: 'u(!main); p',
-					plugins: ''
+					plugins: 'wysiwygarea,toolbar,basicstyles'
 				}
 			}, function( bot ) {
 				var editor = bot.editor;
