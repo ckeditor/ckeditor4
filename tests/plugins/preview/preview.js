@@ -92,15 +92,15 @@ bender.test( {
 		var documentReadyState = 'complete',
 			// We need to prevent the opening of a new as browsers block it and the test will fall.
 			openStub = sinon.stub( window, 'open', function() {
-			return {
-				document: {
-					open: function() {},
-					write: function() {},
-					close: function() {},
-					readyState: documentReadyState
-				}
-			};
-		} );
+				return {
+					document: {
+						open: function() {},
+						write: function() {},
+						close: function() {},
+						readyState: documentReadyState
+					}
+				};
+			} );
 
 		bender.editorBot.create( {
 			name: 'callback-execute-test',
