@@ -182,12 +182,8 @@
 
 			// On IE onreadystatechange does not change document.readyState to complete if there are any images in the content.
 			// So we need introduce a two flows. One for IE and second for all other browsers. (#4790)
-			if ( CKEDITOR.env.ie ) {
-				return '<script> window.onload = function() { fireCallback(); } </script>';
-			} else {
-				return '<script> document.onreadystatechange = fireCallback; </script>';
-			}
-
+			var event = CKEDITOR.env.ie ? 'window.onload' : 'document.onreadystatechange';
+			return '<script>' + event + ' = function() { fireCallback(); } </script>';
 		}
 	}
 
