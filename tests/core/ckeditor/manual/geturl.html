@@ -4,7 +4,7 @@
 
 <script>
 	( function() {
-		if ( !CKEDITOR.timestamp ) {
+		if ( bender.tools.env.mobile || !CKEDITOR.timestamp ) {
 			return bender.ignore();
 		}
 
