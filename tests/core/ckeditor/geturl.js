@@ -150,7 +150,7 @@
 				CKEDITOR.basePath = originalBasePath;
 				CKEDITOR.timestamp = originalTimestamp;
 
-				assert.areSame( expected, actualResult, 'For ' + url + ' input correct ' + expected + ' is returned' );
+				assert.areSame( expected, actualResult, 'Invalid URL generated from the ' + url );
 			};
 		}
 	}
