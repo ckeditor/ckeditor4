@@ -24,7 +24,9 @@
 				modes: { wysiwyg: 1 },
 				canUndo: false,
 				readOnly: 1,
-				exec: CKEDITOR.plugins.preview.createPreview
+				exec: function() {
+					CKEDITOR.plugins.preview.createPreview( editor );
+				}
 			} );
 			editor.ui.addButton && editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview.preview,
@@ -49,15 +51,17 @@
 		 * **Note**: This function will open a new browser window with the editor's content HTML.
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {Function} [callback] The function that will be fired after preview window is loaded.
 		 * @returns {CKEDITOR.dom.window} A newly created window that contains the preview HTML.
 		 */
-		createPreview: function( editor ) {
-			var previewHtml = createPreviewHtml( editor ),
+		createPreview: function( editor, callback ) {
+			var previewHtml = createPreviewHtml( editor, callback ),
 				eventData = { dataValue: previewHtml },
 				windowDimensions = getWindowDimensions(),
 				// For IE we should use window.location rather than setting url in window.open (https://dev.ckeditor.com/ticket/11146).
 				previewLocation = getPreviewLocation(),
 				previewUrl = getPreviewUrl(),
+				nativePreviewWindow,
 				previewWindow,
 				doc;
 
@@ -74,27 +78,41 @@
 				window._cke_htmlToLoad = eventData.dataValue;
 			}
 
-			previewWindow = window.open( previewUrl, null, generateWindowOptions( windowDimensions ) );
+			nativePreviewWindow = window.open( previewUrl, null, generateWindowOptions( windowDimensions ) );
+			previewWindow = new CKEDITOR.dom.window( nativePreviewWindow );
 
 			// For IE we want to assign whole js stored in previewLocation, but in case of
 			// popup blocker activation oWindow variable will be null (https://dev.ckeditor.com/ticket/11597).
-			if ( previewLocation && previewWindow ) {
-				previewWindow.location = previewLocation;
+			if ( previewLocation && nativePreviewWindow ) {
+				nativePreviewWindow.location = previewLocation;
 			}
 
 			if ( !window._cke_htmlToLoad ) {
-				doc = previewWindow.document;
+				doc = nativePreviewWindow.document;
 
 				doc.open();
 				doc.write( eventData.dataValue );
 				doc.close();
 			}
 
-			return new CKEDITOR.dom.window( previewWindow );
+			if ( callback ) {
+				nativePreviewWindow.previewCallback = function() {
+					// In several browsers (e.g. Safari or Chrome on Linux) print command
+					// seems to be blocking loading of the preview page. Because of that
+					// print must be performed after the document is complete.
+					if ( nativePreviewWindow.document.readyState === 'complete' ) {
+						callback( previewWindow );
+					}
+				};
+
+				nativePreviewWindow.previewCallback();
+			}
+
+			return previewWindow;
 		}
 	};
 
-	function createPreviewHtml( editor ) {
+	function createPreviewHtml( editor, callback ) {
 		var pluginPath = CKEDITOR.plugins.getPath( 'preview' ),
 			config = editor.config,
 			title = editor.lang.preview.preview,
@@ -113,6 +131,7 @@
 				'<link rel="stylesheet" media="screen" href="' + pluginPath + 'styles/screen.css">' +
 			'</head>' + createBodyHtml() +
 				editor.getData() +
+				setPrieviewCallback( callback ) +
 			'</body></html>';
 
 		function generateBaseTag() {
@@ -155,6 +174,17 @@
 
 			return html;
 		}
+
+		function setPrieviewCallback( callback ) {
+			if ( !callback ) {
+				return '';
+			}
+
+			// On IE onreadystatechange does not change document.readyState to complete if there are any images in the content.
+			// So we need introduce a two flows. One for IE and second for all other browsers. (#4790)
+			var event = CKEDITOR.env.ie ? 'window.onload' : 'document.onreadystatechange';
+			return '<script>' + event + ' = function() { previewCallback(); } </script>';
+		}
 	}
 
 	function getWindowDimensions() {
@@ -182,7 +212,8 @@
 	}
 
 	function getPreviewLocation() {
-		if ( !CKEDITOR.env.ie ) {
+		// #(4444)
+		if ( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
 			return null;
 		}
 

@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 3661, 4.14.0, feature
+@bender-tags: 3661, 3876, 4.14.0, 4.16.3, feature
 @bender-ckeditor-plugins: wysiwygarea, print, font, colorbutton, format, clipboard, pagebreak, toolbar, floatingspace, link, image2
 
 ## Steps
