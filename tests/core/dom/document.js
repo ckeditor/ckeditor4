@@ -15,8 +15,12 @@ bender.test( appendDomObjectTests(
 			assert.areSame( document, doc.$ );
 		},
 
-		test_appendStyleSheet: function() {
-			var cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css';
+		// (#4761)
+		test_appendStyleSheet_notimestamp: function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css';
+
+			CKEDITOR.timestamp = '';
 
 			var doc = new CKEDITOR.dom.document( document );
 			doc.appendStyleSheet( cssUrl );
@@ -30,6 +34,31 @@ bender.test( appendDomObjectTests(
 				}
 			}
 
+			CKEDITOR.timestamp = originalTimestamp;
+			assert.isTrue( succeed, 'The link element was not found' );
+		},
+
+		// (#4761)
+		test_appendStyleSheet_timestamp: function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css',
+				expectedUrl = cssUrl + '?t=wer56';
+
+			CKEDITOR.timestamp = 'wer56';
+
+			var doc = new CKEDITOR.dom.document( document );
+			doc.appendStyleSheet( cssUrl );
+
+			var links = document.getElementsByTagName( 'link' );
+			var succeed = false;
+			for ( var i = 0 ; i < links.length ; i++ ) {
+				if ( links[ i ].href == expectedUrl ) {
+					succeed = true;
+					break;
+				}
+			}
+
+			CKEDITOR.timestamp = originalTimestamp;
 			assert.isTrue( succeed, 'The link element was not found' );
 		},
 

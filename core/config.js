@@ -287,7 +287,7 @@ CKEDITOR.config = {
 	/**
 	 * The CSS file(s) to be used to apply style to editor content. It should
 	 * reflect the CSS used in the target pages where the content is to be
-	 * displayed.
+	 * displayed. Every URL is passed through {@link CKEDITOR#getUrl} function.
 	 *
 	 * **Note:** This configuration value is used only in {@glink guide/dev_framed `<iframe>`-based editor }
 	 * and ignored by {@glink guide/dev_inline inline editor}
@@ -301,9 +301,9 @@ CKEDITOR.config = {
 	 *		config.contentsCss = '/css/mysitestyles.css';
 	 *		config.contentsCss = [ '/css/mysitestyles.css', '/css/anotherfile.css' ];
 	 *
-	 * @cfg {String/Array} [contentsCss=CKEDITOR.getUrl( 'contents.css' )]
+	 * @cfg {String/Array} [contentsCss='contents.css']
 	 */
-	contentsCss: CKEDITOR.getUrl( 'contents.css' ),
+	contentsCss: 'contents.css',
 
 	/**
 	 * Comma-separated list of plugins to be used in an editor instance. Note that
