@@ -96,7 +96,7 @@
 			}
 
 			if ( callback ) {
-				nativePreviewWindow.fireCallback = function() {
+				nativePreviewWindow.previewCallback = function() {
 					// In several browsers (e.g. Safari or Chrome on Linux) print command
 					// seems to be blocking loading of the preview page. Because of that
 					// print must be performed after the document is complete.
@@ -105,7 +105,7 @@
 					}
 				};
 
-				nativePreviewWindow.fireCallback();
+				nativePreviewWindow.previewCallback();
 			}
 
 			return previewWindow;
@@ -131,7 +131,7 @@
 				'<link rel="stylesheet" media="screen" href="' + pluginPath + 'styles/screen.css">' +
 			'</head>' + createBodyHtml() +
 				editor.getData() +
-				setPrintCallback( callback ) +
+				setPrieviewCallback( callback ) +
 			'</body></html>';
 
 		function generateBaseTag() {
@@ -175,7 +175,7 @@
 			return html;
 		}
 
-		function setPrintCallback( callback ) {
+		function setPrieviewCallback( callback ) {
 			if ( !callback ) {
 				return '';
 			}
@@ -183,7 +183,7 @@
 			// On IE onreadystatechange does not change document.readyState to complete if there are any images in the content.
 			// So we need introduce a two flows. One for IE and second for all other browsers. (#4790)
 			var event = CKEDITOR.env.ie ? 'window.onload' : 'document.onreadystatechange';
-			return '<script>' + event + ' = function() { fireCallback(); } </script>';
+			return '<script>' + event + ' = function() { previewCallback(); } </script>';
 		}
 	}
 
