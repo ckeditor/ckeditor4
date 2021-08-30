@@ -14,41 +14,26 @@ CKEDITOR.addTemplates( 'default', {
 		title: 'Image and Title',
 		image: 'template1.gif',
 		description: 'One main image with a title and text that surround the image.',
-		html: getHtml('image-and-title.html')
+		html: '<h3>' +
+			// Use src=" " so image is not filtered out by the editor as incorrect (src is required).
+			'<img src=" " alt="" style="margin-right: 10px" height="100" width="100" align="left" />' +
+			'Type the title here' +
+			'</h3>' +
+			'<p>' +
+			'Type the text here' +
+			'</p>'
 	},
 	{
 		title: 'Strange Template',
 		image: 'template2.gif',
 		description: 'A template that defines two columns, each one with a title, and some text.',
-		html: getHtml('strange-template.html')
+		htmlFile: 'strange-template.html'
 	},
 	{
 		title: 'Text and Table',
 		image: 'template3.gif',
 		description: 'A title with some text and a table.',
-		html: getHtml('text-and-table.html')
+		htmlFile: 'text-and-table.html'
 	}
 	]
 });
-
-// Get the contents of the given html file.
-function getHtml(fileName) {
-	let path = CKEDITOR.getUrl(CKEDITOR.plugins.getPath('templates') + 'templates/html/' + fileName);
-	return fetch(path)
-		.then(response => {
-			if (!response.ok) {
-				throw Error(response.statusText);
-			}
-			return response;
-		})
-		.then(response => response.arrayBuffer())
-		.then(buffer => {
-		    let decoder = new TextDecoder("iso-8859-1");
-		    let text = decoder.decode(buffer);
-		    return text;
-		})
-		.catch(error => {
-			console.log(error);
-			return '';
-		});
-}

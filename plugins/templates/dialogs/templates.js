@@ -51,39 +51,49 @@
 			item.getFirst().setHtml( html );
 
 			item.on( 'click', function() {
-				insertTemplate( template.html );
+				if( template.htmlFile ) {
+					insertTemplateFile( template.htmlFile );
+				} else {
+					insertTemplate( template.html );
+				}
 			} );
 
 			return item;
 		}
+		
+		// Insert the specified template file content into editor.
+		function insertTemplateFile(fileName) {
+			var path = CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'templates' ) + 'templates/html/' + fileName);
+			CKEDITOR.ajax.loadText( path, function( html ) {
+				insertTemplate( html );
+			});
+		}
 
 		// Insert the specified template content into editor.
 		// @param {Number} index
-		function insertTemplate( htmlFile ) {
+		function insertTemplate( html ) {
 			var dialog = CKEDITOR.dialog.getCurrent(),
 				isReplace = dialog.getValueOf( 'selectTpl', 'chkInsertOpt' );
 
-			htmlFile.then(html => {
-				if ( isReplace ) {
-					editor.fire( 'saveSnapshot' );
-					// Everything should happen after the document is loaded (https://dev.ckeditor.com/ticket/4073).
-					editor.setData( html, function() {
-						dialog.hide();
-	
-						// Place the cursor at the first editable place.
-						var range = editor.createRange();
-						range.moveToElementEditStart( editor.editable() );
-						range.select();
-						setTimeout( function() {
-							editor.fire( 'saveSnapshot' );
-						}, 0 );
-	
-					} );
-				} else {
-					editor.insertHtml( html );
+			if ( isReplace ) {
+				editor.fire( 'saveSnapshot' );
+				// Everything should happen after the document is loaded (https://dev.ckeditor.com/ticket/4073).
+				editor.setData( html, function() {
 					dialog.hide();
-				}
-			});
+
+					// Place the cursor at the first editable place.
+					var range = editor.createRange();
+					range.moveToElementEditStart( editor.editable() );
+					range.select();
+					setTimeout( function() {
+						editor.fire( 'saveSnapshot' );
+					}, 0 );
+
+				} );
+			} else {
+				editor.insertHtml( html );
+				dialog.hide();
+			}
 		}
 
 		function keyNavigation( evt ) {
