@@ -70,11 +70,12 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		},
 		onOk: function() {
 			var name = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtName' ) ),
-				attributes = {
-					id: name,
-					name: name,
-					'data-cke-saved-name': name
-				},
+				var id = name.replace(/\s/g, '_');
+				var attributes = {
+					id: id,
+					name: id,
+					'data-cke-saved-name': id
+				};
 				selectedElement = this.getModel( editor );
 
 			if ( selectedElement ) {
