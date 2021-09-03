@@ -609,5 +609,5 @@ CKEDITOR.plugins.add( 'menu', {
 CKEDITOR.config.menu_groups = 'clipboard,' +
 	'form,' +
 	'tablecell,tablecellproperties,tablerow,tablecolumn,table,' +
-	'anchor,link,image,flash,' +
+	'anchor,link,image,' +
 	'checkbox,radio,textfield,hiddenfield,imagebutton,button,select,textarea,div';
