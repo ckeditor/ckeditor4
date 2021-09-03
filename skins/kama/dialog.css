@@ -720,17 +720,6 @@ tendency that these will be moved to the plugins code in the future.
 	background-color : #e4e4e4;
 }
 
-.cke_dialog  .FlashPreviewBox
-{
-	white-space : normal;
-	border : 2px ridge black;
-	overflow : auto;
-	height : 160px;
-	width : 390px;
-	padding : 2px;
-	background-color : white;
-}
-
 .cke_dialog .cke_pastetext
 {
 	width: 346px;

@@ -931,17 +931,6 @@ tendency that these will be moved to the plugins code in the future.
 	background-color: #e4e4e4;
 }
 
-.cke_dialog .FlashPreviewBox
-{
-	white-space: normal;
-	border: 1px solid #bcbcbc;
-	overflow: auto;
-	height: 160px;
-	width: 390px;
-	padding: 2px;
-	background-color: white;
-}
-
 .cke_dialog .cke_pastetext
 {
 	width: 346px;
@@ -1127,7 +1116,7 @@ a.cke_specialchar:active
 }
 
 .cke_dialog_image_url .cke_dialog_ui_hbox_last,
-.cke_dialog_flash_url .cke_dialog_ui_hbox_last
+.cke_dialog_ui_hbox_last
 {
 	vertical-align: bottom;
 }
