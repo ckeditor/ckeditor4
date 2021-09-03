@@ -1,6 +1,6 @@
 @bender-tags: 4.9.1, bug, 1835
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, filebrowser, filetools, image, link, flash, floatingspace
+@bender-ckeditor-plugins: wysiwygarea, toolbar, filebrowser, filetools, image, link, floatingspace
 
 # CKFinder upload
 
