@@ -26,7 +26,6 @@ CKEDITOR.editorConfig = function( config ) {
 		'entities,' +
 		'filebrowser,' +
 		'find,' +
-		'flash,' +
 		'floatingspace,' +
 		'font,' +
 		'format,' +
