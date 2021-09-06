@@ -27,7 +27,7 @@
 		},
 
 		// (#4617)
-		'test autocomplete adds correct ARIA attributes to the editor\'s editable (divarea)': function() {
+		'a test autocomplete adds correct ARIA attributes to the editor\'s editable (divarea)': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
 				viewElement,
