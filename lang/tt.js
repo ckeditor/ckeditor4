@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'tt' ] = {
 		upload: 'Йөкләү',
 		uploadSubmit: 'Серверга җибәрү',
 		image: 'Рәсем',
-		flash: 'Флеш',
 		form: 'Форма',
 		checkbox: 'Чекбокс',
 		radio: 'Радио төймә',

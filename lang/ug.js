@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'ug' ] = {
 		upload: 'يۈكلە',
 		uploadSubmit: 'مۇلازىمېتىرغا يۈكلە',
 		image: 'سۈرەت',
-		flash: 'چاقماق',
 		form: 'جەدۋەل',
 		checkbox: 'كۆپ تاللاش رامكىسى',
 		radio: 'يەككە تاللاش توپچىسى',

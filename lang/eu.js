@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'eu' ] = {
 		upload: 'Kargatu',
 		uploadSubmit: 'Bidali zerbitzarira',
 		image: 'Irudia',
-		flash: 'Flash',
 		form: 'Formularioa',
 		checkbox: 'Kontrol-laukia',
 		radio: 'Aukera-botoia',

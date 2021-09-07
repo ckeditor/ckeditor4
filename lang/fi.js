@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'fi' ] = {
 		upload: 'Lisää tiedosto',
 		uploadSubmit: 'Lähetä palvelimelle',
 		image: 'Kuva',
-		flash: 'Flash-animaatio',
 		form: 'Lomake',
 		checkbox: 'Valintaruutu',
 		radio: 'Radiopainike',

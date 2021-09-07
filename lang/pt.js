@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'pt' ] = {
 		upload: 'Carregar',
 		uploadSubmit: 'Enviar para o servidor',
 		image: 'Imagem',
-		flash: 'Flash',
 		form: 'Formulário',
 		checkbox: 'Caixa de verificação',
 		radio: 'Botão',

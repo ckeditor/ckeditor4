@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'da' ] = {
 		upload: 'Upload',
 		uploadSubmit: 'Upload',
 		image: 'Indsæt billede',
-		flash: 'Indsæt Flash',
 		form: 'Indsæt formular',
 		checkbox: 'Indsæt afkrydsningsfelt',
 		radio: 'Indsæt alternativknap',

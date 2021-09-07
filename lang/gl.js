@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'gl' ] = {
 		upload: 'Enviar',
 		uploadSubmit: 'Enviar ao servidor',
 		image: 'Imaxe',
-		flash: 'Flash',
 		form: 'Formulario',
 		checkbox: 'Caixa de selección',
 		radio: 'Botón de opción',

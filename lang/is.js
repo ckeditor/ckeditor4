@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'is' ] = {
 		upload: 'Senda upp',
 		uploadSubmit: 'Hlaða upp',
 		image: 'Setja inn mynd',
-		flash: 'Flash',
 		form: 'Setja inn innsláttarform',
 		checkbox: 'Setja inn hökunarreit',
 		radio: 'Setja inn valhnapp',

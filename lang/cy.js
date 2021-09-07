@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'cy' ] = {
 		upload: 'Lanlwytho',
 		uploadSubmit: 'Anfon i\'r Gweinydd',
 		image: 'Delwedd',
-		flash: 'Flash',
 		form: 'Ffurflen',
 		checkbox: 'Blwch ticio',
 		radio: 'Botwm Radio',

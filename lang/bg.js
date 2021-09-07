@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'bg' ] = {
 		upload: 'Качване',
 		uploadSubmit: 'Изпращане към сървъра',
 		image: 'Изображение',
-		flash: 'Флаш',
 		form: 'Форма',
 		checkbox: 'Поле за избор',
 		radio: 'Радио бутон',

@@ -4,7 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'sr', {
 	anchor: 'Сидро',
-	flash: 'Флеш анимација',
 	hiddenfield: 'Скривено полје',
 	iframe: 'IFrame',
 	unknown: 'Непознат објекат'

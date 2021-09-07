@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'id' ] = {
 		upload: 'Unggah',
 		uploadSubmit: 'Kirim ke Server',
 		image: 'Gambar',
-		flash: 'Flash',
 		form: 'Formulir',
 		checkbox: 'Kotak Cek',
 		radio: 'Tombol Radio',

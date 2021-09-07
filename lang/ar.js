@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'ar' ] = {
 		upload: 'رفع',
 		uploadSubmit: 'أرسل',
 		image: 'صورة',
-		flash: 'فلاش',
 		form: 'نموذج',
 		checkbox: 'خانة إختيار',
 		radio: 'زر اختيار',

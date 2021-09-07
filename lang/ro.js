@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'ro' ] = {
 		upload: 'Încarcă',
 		uploadSubmit: 'Trimite la server',
 		image: 'Imagine',
-		flash: 'Flash',
 		form: 'Formular (Form)',
 		checkbox: 'Bifă (Checkbox)',
 		radio: 'Buton radio (RadioButton)',

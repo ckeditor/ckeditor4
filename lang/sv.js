@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'sv' ] = {
 		upload: 'Ladda upp',
 		uploadSubmit: 'Skicka till server',
 		image: 'Bild',
-		flash: 'Flash',
 		form: 'Formulär',
 		checkbox: 'Kryssruta',
 		radio: 'Alternativknapp',

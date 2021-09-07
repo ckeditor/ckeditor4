@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'si' ] = {
 		upload: 'උඩුගතකිරීම',
 		uploadSubmit: 'සේවාදායකය වෙත යොමුකිරිම',
 		image: 'රුපය',
-		flash: 'දීප්තිය',
 		form: 'පෝරමය',
 		checkbox: 'ලකුණුකිරීමේ කොටුව',
 		radio: 'තේරීම් ',

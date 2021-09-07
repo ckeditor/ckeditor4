@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 		upload: 'Pošalji',
 		uploadSubmit: 'Pošalji na server',
 		image: 'Slika',
-		flash: 'Fleš',
 		form: 'Formular',
 		checkbox: 'Polje za potvrdu',
 		radio: 'Radio-dugme',

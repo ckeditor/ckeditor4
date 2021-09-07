@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'mk' ] = {
 		upload: 'Прикачи',
 		uploadSubmit: 'Прикачи на сервер',
 		image: 'Слика',
-		flash: 'Flash', // MISSING
 		form: 'Form', // MISSING
 		checkbox: 'Checkbox', // MISSING
 		radio: 'Radio Button', // MISSING

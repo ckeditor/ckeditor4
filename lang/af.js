@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'af' ] = {
 		upload: 'Oplaai',
 		uploadSubmit: 'Stuur aan die bediener',
 		image: 'Beeld',
-		flash: 'Flash',
 		form: 'Vorm',
 		checkbox: 'Merkhokkie',
 		radio: 'Radioknoppie',

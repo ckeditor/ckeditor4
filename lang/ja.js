@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'ja' ] = {
 		upload: 'アップロード',
 		uploadSubmit: 'サーバーに送信',
 		image: 'イメージ',
-		flash: 'Flash',
 		form: 'フォーム',
 		checkbox: 'チェックボックス',
 		radio: 'ラジオボタン',

@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'az' ] = {
 		upload: 'Serverə yüklə',
 		uploadSubmit: 'Göndər',
 		image: 'Şəkil',
-		flash: 'Flash',
 		form: 'Forma',
 		checkbox: 'Çekboks',
 		radio: 'Radio düyməsi',

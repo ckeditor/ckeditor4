@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'fo' ] = {
 		upload: 'Send til ambætaran',
 		uploadSubmit: 'Send til ambætaran',
 		image: 'Myndir',
-		flash: 'Flash',
 		form: 'Formur',
 		checkbox: 'Flugubein',
 		radio: 'Radioknøttur',

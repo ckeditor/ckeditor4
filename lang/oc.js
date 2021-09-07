@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'oc' ] = {
 		upload: 'Mandar',
 		uploadSubmit: 'Mandar sul servidor',
 		image: 'Imatge',
-		flash: 'Flash',
 		form: 'Formulari',
 		checkbox: 'Casa de marcar',
 		radio: 'Boton ràdio',

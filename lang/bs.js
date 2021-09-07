@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'bs' ] = {
 		upload: 'Šalji',
 		uploadSubmit: 'Šalji na server',
 		image: 'Slika',
-		flash: 'Flash', // MISSING
 		form: 'Form', // MISSING
 		checkbox: 'Checkbox', // MISSING
 		radio: 'Radio Button', // MISSING

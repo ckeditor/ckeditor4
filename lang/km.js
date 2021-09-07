@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'km' ] = {
 		upload: 'ផ្ទុក​ឡើង',
 		uploadSubmit: 'បញ្ជូនទៅកាន់ម៉ាស៊ីន​បម្រើ',
 		image: 'រូបភាព',
-		flash: 'Flash',
 		form: 'បែបបទ',
 		checkbox: 'ប្រអប់​ធីក',
 		radio: 'ប៊ូតុង​មូល',

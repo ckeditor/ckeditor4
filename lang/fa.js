@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'fa' ] = {
 		upload: 'بالاگذاری',
 		uploadSubmit: 'به سرور بفرست',
 		image: 'تصویر',
-		flash: 'فلش',
 		form: 'فرم',
 		checkbox: 'چک‌باکس',
 		radio: 'دکمه‌ی رادیویی',

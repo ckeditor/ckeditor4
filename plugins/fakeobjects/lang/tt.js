@@ -4,7 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'tt', {
 	anchor: 'Якорь',
-	flash: 'Флеш анимациясы',
 	hiddenfield: 'Яшерен кыр',
 	iframe: 'IFrame',
 	unknown: 'Танылмаган объект'

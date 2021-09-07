@@ -4,7 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'sv', {
 	anchor: 'Ankare',
-	flash: 'Flashanimation',
 	hiddenfield: 'Gömt fält',
 	iframe: 'iFrame',
 	unknown: 'Okänt objekt'

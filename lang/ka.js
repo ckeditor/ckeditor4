@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'ka' ] = {
 		upload: 'ატვირთვა',
 		uploadSubmit: 'სერვერზე გაგზავნა',
 		image: 'სურათი',
-		flash: 'Flash',
 		form: 'ფორმა',
 		checkbox: 'მონიშვნის ღილაკი',
 		radio: 'ამორჩევის ღილაკი',
