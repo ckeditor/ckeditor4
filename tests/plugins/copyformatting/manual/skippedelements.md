@@ -5,6 +5,6 @@
 Check if copy formatting doesn't copy or remove elements such as (try selecting them with mouse):
 
 * images
-* iframes/media embeds/flash
+* iframes/media embeds
 * form inputs (they can be copied using keyboard)
 * anchors
