@@ -523,6 +523,9 @@
  *
  *		config.filebrowserFlashBrowseUrl = '/browser/browse.php?type=Flash';
  *
+ * **Note**: This option is deprecated due to the flash plugin being removed.
+ *
+ * @deprecated 4.17.0
  * @since 3.0.0
  * @cfg {String} [filebrowserFlashBrowseUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
@@ -557,6 +560,9 @@
  *
  *		config.filebrowserFlashUploadUrl = '/uploader/upload.php?type=Flash';
  *
+ * **Note**: This option is deprecated due to the flash plugin being removed.
+ *
+ * @deprecated 4.17.0
  * @since 3.0.0
  * @cfg {String} filebrowserFlashUploadUrl='' (empty string = disabled)]
  * @member CKEDITOR.config

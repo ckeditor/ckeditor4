@@ -3598,7 +3598,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
  * **Note:** Be cautious when specifying dialog tabs that are mandatory,
  * like `'info'`, dialog functionality might be broken because of this!
  *
- *		config.removeDialogTabs = 'flash:advanced;image:Link';
+ *		config.removeDialogTabs = 'table:advanced,image:Link';
  *
  * @since 3.5.0
  * @cfg {String} [removeDialogTabs='']
