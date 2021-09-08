@@ -79,7 +79,7 @@
 						} else if ( bender.tools.env.mobile ) {
 							actual = Math.round( actual );
 						}
-						// Adding toFixed method in the expected values due to difference level of thousands of a decimal place on mobile devices. (#2832)
+						// Adding toFixed method to expected values due to decimal differences in the mobile screens. (#2832)
 						assert.areEqual( expected[ index ][ rectKey ].toFixed( 2 ), actual, 'rect[' + index + '].' + rectKey );
 					}
 				}

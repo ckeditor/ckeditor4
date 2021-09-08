@@ -68,7 +68,7 @@
 			if ( typeof object[ p ] == 'object' ) {
 				compareObjects( object[ p ], reference[ p ] );
 			} else {
-				// Adding toFixed method in the actual values due to difference level of thousands of a decimal place on mobile devices. (#2832)
+				// Adding toFixed method to actual values due to decimal differences in the mobile screens. (#2832)
 				assert.areEqual( reference[ p ], Math.round( object[ p ] ).toFixed( 2 ) );
 			}
 		}
