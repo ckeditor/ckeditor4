@@ -612,7 +612,7 @@
 
 		// Some elements should not have protected source markup inside. (https://dev.ckeditor.com/ticket/11223)
 		'test protected source in title': addProtectedSourceTC( '<p>[[mytag]]</p>', '[[mytag]]' ),
-		'test protected source in iframe': addProtectedSourceTC( '<p><iframe name="aa">[[mytag]]</iframe></p>' ),
+		'test protected source in iframe': addProtectedSourceTC( '<p><iframe name="aa"></iframe></p>' ),
 		'test protected source in textarea': addProtectedSourceTC( '<p><textarea name="aa">[[mytag]]</textarea></p>' ),
 		'test protected source in textarea multiline': addProtectedSourceTC( '<p><textarea name="aa">[[aa]]\n[[bb]]</textarea></p>' ),
 		// Meta tags should be allowed in any element. (https://dev.ckeditor.com/ticket/8117)
