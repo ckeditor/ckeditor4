@@ -25,6 +25,12 @@ Fixed Issues:
 * [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Inserting content next to block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation is now possible. Thanks to [bunglegrind](https://github.com/bunglegrind)!
 * [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): [`CKEDITOR.editor#getSelection()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getSelection) now returns `null` if the editor is in recreating state.
 
+## CKEditor 4.16.3
+
+Fixed Issues:
+
+* [#4783](https://github.com/ckeditor/ckeditor4/issues/4783): Fixed: [Accessibility Help](https://ckeditor.com/cke4/addon/a11yhelp) dialog does not contain info about focus being moved back to the editing area upon activating a toolbar button.
+
 ## CKEditor 4.16.2
 
 **Security Updates:**

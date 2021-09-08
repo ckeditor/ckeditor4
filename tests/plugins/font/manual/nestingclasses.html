@@ -11,6 +11,7 @@
 		CKEDITOR.addCss( '.small{font-size: 8px} .medium{font-size: 16px}' )
 
 		CKEDITOR.replace( 'editor', {
+			extraAllowedContent: 'span(small,medium)',
 			fontSize_sizes: 'small;medium',
 			fontSize_style: {
 				element: 'span',
