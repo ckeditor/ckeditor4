@@ -7,7 +7,7 @@
 
 	// (#3768)
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
-		bender.ignore();
+		return bender.ignore();
 	}
 
 	var assertWidgetDialog = widgetTestsTools.assertWidgetDialog;

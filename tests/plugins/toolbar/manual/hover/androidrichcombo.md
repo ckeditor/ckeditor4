@@ -4,17 +4,16 @@
 
 ## Procedure (Moono-Lisa on Android device)
 
-1. Check if rich combos have hover styles (darker background) by long tapping on them and releasing the finger.
+1. Check if rich combos have hover styles by long tapping on them and releasing the finger.
 
   ### Expected result
 
-  * There are hover styles **during** the tap.
-  * There aren't any hover styles **after** releasing the finger.
+  * There are hover styles (lighter background) **during** the tap.
+  * **after** releasing the finger the background becomes darker.
 
   ### Unexpected result
 
-  * There aren't any hover styles **during** the tap.
-  * There are hover style **after** releasing the finger.
+  * There aren't any hover styles **during** the tap and **after** it.
 
 2. Check if taping on rich combos activate their toggled on state (lighter background).
 
