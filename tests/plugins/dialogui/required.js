@@ -65,10 +65,10 @@
 				resume( function() {
 					wait( function() {
 						var domId = dialog.getContentElement( 'dialog', 'foo' ).domId,
-							label = document.getElementById( domId ),
-							labelContent = CKEDITOR.env.safari ? label.textContent : label.innerText;
+							label = document.getElementById( domId ).firstChild.innerHTML,
+							expected = 'bar<span class=\"cke_dialog_ui_labeled_required\">*</span>';
 
-						assert.areSame( 'bar*', labelContent );
+						assert.areSame( bender.tools.fixHtml( label ), expected );
 						dialog.getButton( 'cancel' ).click();
 					}, 100 );
 				} );
@@ -83,10 +83,9 @@
 				resume( function() {
 					wait( function() {
 						var domId = dialog.getContentElement( 'dialog', 'foo2' ).domId,
-							label = document.getElementById( domId ),
-							labelContent = CKEDITOR.env.safari ? label.textContent : label.innerText;
+							label = document.getElementById( domId ).firstChild.innerHTML;
 
-						assert.areSame( 'bar2', labelContent );
+						assert.areSame( label, 'bar2' );
 						dialog.getButton( 'cancel' ).click();
 					}, 100 );
 				} );
