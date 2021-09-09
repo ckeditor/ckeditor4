@@ -5,7 +5,7 @@
 
 <script>
 	( function() {
-		if ( !( 'pushState' in history ) ) {
+		if ( !history.pushState ) {
 			return bender.ignore();
 		}
 
@@ -13,6 +13,8 @@
 			history.pushState( {}, '', './test' );
 		} );
 
-		CKEDITOR.replace( 'editor' );
+		CKEDITOR.replace( 'editor', {
+			maximize_historyIntegration: false
+		} );
 	} )();
 </script>

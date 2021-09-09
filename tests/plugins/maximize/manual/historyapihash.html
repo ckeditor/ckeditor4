@@ -5,14 +5,16 @@
 
 <script>
 	( function() {
-		if ( !( 'pushState' in history ) ) {
+		if ( !( 'onhashchange' in window ) ) {
 			return bender.ignore();
 		}
 
 		CKEDITOR.document.getById( 'history-pusher' ).on( 'click', function() {
-			history.pushState( {}, '', './test' );
+			location.hash = '#/test';
 		} );
 
-		CKEDITOR.replace( 'editor' );
+		CKEDITOR.replace( 'editor', {
+			maximize_historyIntegration: 2
+		} );
 	} )();
 </script>
