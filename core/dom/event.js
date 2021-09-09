@@ -226,3 +226,13 @@ CKEDITOR.HISTORY_NATIVE = 1;
  * @member CKEDITOR
  */
 CKEDITOR.HISTORY_HASH = 2;
+
+/**
+ * Switch off integration with browser's "Go back" and "Go forward" buttons.
+ *
+ * @since 4.17.0
+ * @readonly
+ * @property {Number} [=0]
+ * @member CKEDITOR
+ */
+CKEDITOR.HISTORY_OFF = 0;
