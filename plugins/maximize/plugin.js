@@ -318,13 +318,17 @@
 
 	/**
 	 * Informs plugin how it should integrate with browser's "Go back" and "Go forward" buttons.
-	 * If it's set to {@link CKEDITOR.plugins.maximize#HISTORY_NATIVE}, the plugin will use native History API and
-	 * [`popstate`](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event) event.
-	 * If it's set to {@link CKEDITOR.plugins.maximize#HISTORY_HASH}, the plugin will use
-	 * [`hashchange`](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) event.
-	 * If it's set to `false`, the plugin will not integrate with browser's "Go back" and "Go forward" buttons.
 	 *
-	 * @cfg {Boolean} [maximize_historyIntegration=CKEDITOR.HISTORY_NATIVE]
+	 * If it's set to {@link CKEDITOR#HISTORY_NATIVE}, the plugin will use native History API and
+	 * [`popstate`](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event) event.
+	 *
+	 * If it's set to {@link CKEDITOR#HISTORY_HASH}, the plugin will use
+	 * [`hashchange`](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) event.
+	 *
+	 * If it's set to {@link CKEDITOR#HISTORY_OFF}, the plugin will not integrate
+	 * with browser's "Go back" and "Go forward" buttons.
+	 *
+	 * @cfg {Number} [maximize_historyIntegration=CKEDITOR.HISTORY_NATIVE]
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.maximize_historyIntegration = CKEDITOR.HISTORY_NATIVE;
