@@ -3,9 +3,18 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	( function() {
 		CKEDITOR.inline( 'edito,r', {
-			uploadUrl: '%BASE_PATH%'
+			uploadUrl: '%BASE_PATH%',
+			on: {
+				instanceReady: function( evt ) {
+					bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget', evt.editor );
+				}
+			}
 		} );
 	} )();
 </script>

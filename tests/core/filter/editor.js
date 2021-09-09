@@ -270,7 +270,8 @@
 			bender.editorBot.create( {
 				name: 'test_editor_processing_active_filter',
 				config: {
-					allowedContent: 'u(!main); p'
+					allowedContent: 'u(!main); p',
+					plugins: 'wysiwygarea,toolbar,basicstyles'
 				}
 			}, function( bot ) {
 				var editor = bot.editor;
@@ -302,7 +303,8 @@
 				name: 'test_editor_processing_active_filter_inline',
 				creator: 'inline',
 				config: {
-					allowedContent: 'u(!main); p'
+					allowedContent: 'u(!main); p',
+					plugins: 'wysiwygarea,toolbar,basicstyles'
 				}
 			}, function( bot ) {
 				var editor = bot.editor;

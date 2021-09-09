@@ -80,5 +80,46 @@ bender.test( {
 			assert.isNotUndefined( previewCommand, 'Command is registered' );
 			assert.areSame( previewCommand.state, CKEDITOR.TRISTATE_DISABLED, 'Command is disabled' );
 		} );
+	},
+
+	// (#4790)
+	'test callback should be called when document.readyState is complete': function() {
+		// It's not possible to overwrite window.open in IE8.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			assert.ignore();
+		}
+
+		var documentReadyState = 'complete',
+			// We need to prevent the opening of a new as browsers block it and the test will fall.
+			openStub = sinon.stub( window, 'open', function() {
+				return {
+					document: {
+						open: function() {},
+						write: function() {},
+						close: function() {},
+						readyState: documentReadyState
+					}
+				};
+			} );
+
+		bender.editorBot.create( {
+			name: 'callback-execute-test',
+			config: {
+				plugins: 'print,image'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				preview = CKEDITOR.plugins.preview;
+
+			preview.createPreview( editor, function( previewWindow ) {
+				resume( function() {
+					assert.areSame( 'complete', previewWindow.$.document.readyState, 'callback was not called because document.readyState is other than complete' );
+				} );
+			} );
+
+			openStub.restore();
+
+			wait();
+		} );
 	}
 } );

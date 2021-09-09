@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo
 
-**Note**: On mac devices, press `fn`+`delete` whenever `delete` key is required.
+**Note**: On mac devices, press `fn`+`backspace` whenever `delete` key is required.
 
 1. Put caret right after the word `One`.
 1. Type a space. The caret is now between two visual spaces.

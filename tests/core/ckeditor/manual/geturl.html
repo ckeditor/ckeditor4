@@ -1,0 +1,13 @@
+<div id="editor">
+	<p>Lorem ipsum dolor sit amet</p>
+</div>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile || !CKEDITOR.timestamp ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor' );
+	} )();
+</script>

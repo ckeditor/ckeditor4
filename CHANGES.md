@@ -13,6 +13,7 @@ New Features:
 
 Fixed Issues:
 
+* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): Fixed: not all resources loaded by the editor respect the cache key.
 * [#3757](https://github.com/ckeditor/ckeditor4/issues/3757): [Firefox] Fixed: images pasted from [clipboard](https://ckeditor.com/cke4/addon/clipboard) are not inserted as Base64-encoded images.
 * [#4604](https://github.com/ckeditor/ckeditor4/issues/4604): Fixed: [`CKEDITOR.plugins.clipboard.dataTransfer#getTypes()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard_dataTransfer.html#method-getTypes) returns no types.
 * [#4597](https://github.com/ckeditor/ckeditor4/issues/4597): Fixed: Incorrect color conversion for HSL/HSLA values in [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html).
@@ -20,6 +21,7 @@ Fixed Issues:
 
 **API Changes:**
 
+* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): [`CKEDITOR.dom.document#appendStyleSheet()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_document.html#method-appendStyleSheet) and [`CKEDITOR.tools.buildStyleHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-buildStyleHtml) now use [`CKEDITOR.getUrl()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-getUrl) to correctly handle caching of CSS files.
 * [#4604](https://github.com/ckeditor/ckeditor4/issues/4604): Added the [`CKEDITOR.plugins.clipboard.dataTransfer#isFileTransfer()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard_dataTransfer.html#method-isFileTransfer) method.
 * [#4583](https://github.com/ckeditor/ckeditor4/issues/4583): Added support for new, comma-less color syntax to [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html).
 * [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Inserting content next to block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation is now possible. Thanks to [bunglegrind](https://github.com/bunglegrind)!
@@ -30,6 +32,13 @@ Fixed Issues:
 Fixed Issues:
 
 * [#4783](https://github.com/ckeditor/ckeditor4/issues/4783): Fixed: [Accessibility Help](https://ckeditor.com/cke4/addon/a11yhelp) dialog does not contain info about focus being moved back to the editing area upon activating a toolbar button.
+* [#4790](https://github.com/ckeditor/ckeditor4/issues/4790): Fixed: Printing page is invoked before the printed page is fully loaded.
+* [#3876](https://github.com/ckeditor/ckeditor4/issues/3876): Fixed: [Print](https://ckeditor.com/cke4/addon/print) plugin incorrectly prints links and images.
+* [#4444](https://github.com/ckeditor/ckeditor4/issues/4444): [Firefox] Fixed: Print preview is incorrectly loaded from CDN.
+
+API Changes:
+
+* [#4790](https://github.com/ckeditor/ckeditor4/issues/4790): Added `callback` parameter to [`CKEDITOR.plugins.preview#createPreview()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_preview.html#method-createPreview) method.
 
 ## CKEditor 4.16.2
 
