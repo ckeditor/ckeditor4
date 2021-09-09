@@ -1,0 +1,13 @@
+<div id="editor">
+	<p>Paste inside me</p>
+</div>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile || !CKEDITOR.env.chrome ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor' );
+	} )();
+</script>
