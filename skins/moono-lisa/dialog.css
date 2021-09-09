@@ -752,6 +752,12 @@ select.cke_dialog_ui_input_select
 	margin-left: 1px;
 }
 
+/* (#3433) */
+.cke_dialog_ui_labeled_required
+{
+	color: red;
+}
+
 /*
  * Some utility CSS classes for dialog authors.
  */

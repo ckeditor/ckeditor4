@@ -1,0 +1,34 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="iframe-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="div-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<h2><code>Inline</code>-based editor</h2>
+<div id="inline-editor" contenteditable="true">
+	<p>Foo Bar</p>
+</div>
+
+<script>
+	( function() {
+		var pathRegex = /required\/(required)(moono|kama)?/i,
+			match = location.pathname.match( pathRegex ),
+			expectedEnv = match[ 1 ],
+			skin = match[ 2 ] ? match[ 2 ] : 'moono-lisa';
+
+		CKEDITOR.replace( 'iframe-editor', {
+			skin: skin
+		} );
+		CKEDITOR.replace( 'div-editor', {
+			extraPlugins: 'divarea',
+			skin: skin
+		} );
+		CKEDITOR.inline( 'inline-editor', {
+			skin: skin
+		} );
+	}() );
+</script>
