@@ -206,3 +206,23 @@ CKEDITOR.EVENT_PHASE_AT_TARGET = 2;
  * @member CKEDITOR
  */
 CKEDITOR.EVENT_PHASE_BUBBLING = 3;
+
+/**
+ * Integration with browser's "Go back" and "Go forward" buttons using Native History API.
+ *
+ * @since 4.17.0
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
+ */
+CKEDITOR.HISTORY_NATIVE = 1;
+
+/**
+ * Integration with browser's "Go back" and "Go forward" buttons using hash-based navigation.
+ *
+ * @since 4.17.0
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
+ */
+CKEDITOR.HISTORY_HASH = 2;

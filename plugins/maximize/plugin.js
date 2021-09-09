@@ -301,7 +301,9 @@
 			}, null, null, 100 );
 
 			// Add support for History API (#4374).
-			mainWindow.on( 'popstate', function() {
+			var historyEvent = editor.config.maximize_useHistoryApi ? 'popstate': 'hashchange';
+
+			mainWindow.on( historyEvent, function() {
 				var command = editor.getCommand( 'maximize' );
 
 				if ( command.state === CKEDITOR.TRISTATE_ON ) {
@@ -310,6 +312,42 @@
 			} );
 		}
 	} );
+
+	/**
+	 * @since 4.17.0
+	 * @singleton
+	 * @class CKEDITOR.plugins.maximize
+	 */
+	CKEDITOR.plugins.maximize = {
+		/**
+		 * Integration with browser's "Go back" and "Go forward" buttons using Native History API.
+		 *
+		 * @readonly
+		 * @property {Number} [=1]
+		 */
+		HISTORY_NATIVE: 1,
+
+		/**
+		 * Integration with browser's "Go back" and "Go forward" buttons using Native History API.
+		 *
+		 * @readonly
+		 * @property {Number} [=2]
+		 */
+		HISTORY_HASH: 2
+	};
+
+	/**
+	 * Informs plugin how it should integrate with browser's "Go back" and "Go forward" buttons.
+	 * If it's set to {@link CKEDITOR.plugins.maximize#HISTORY_NATIVE}, the plugin will use native History API and
+	 * [`popstate`](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event) event.
+	 * If it's set to {@link CKEDITOR.plugins.maximize#HISTORY_HASH}, the plugin will use
+	 * [`hashchange`](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) event.
+	 * If it's set to `false`, the plugin will not integrate with browser's "Go back" and "Go forward" buttons.
+	 *
+	 * @cfg {Boolean} [maximize_historyIntegration=CKEDITOR.plugins.maximize.HISTORY_NATIVE]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.maximize_historyIntegration = CKEDITOR.plugins.maximize.HISTORY_NATIVE;
 } )();
 
 /**
