@@ -753,7 +753,8 @@ select.cke_dialog_ui_input_select
 }
 
 /* (#3433) */
-.cke_dialog_ui_labeled_required{
+.cke_dialog_ui_labeled_required
+{
 	color: red;
 }
 
