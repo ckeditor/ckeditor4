@@ -1115,8 +1115,7 @@ a.cke_specialchar:active
 	padding-top: 4px;
 }
 
-.cke_dialog_image_url .cke_dialog_ui_hbox_last,
-.cke_dialog_ui_hbox_last
+.cke_dialog_image_url .cke_dialog_ui_hbox_last
 {
 	vertical-align: bottom;
 }
