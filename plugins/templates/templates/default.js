@@ -27,13 +27,13 @@ CKEDITOR.addTemplates( 'default', {
 		title: 'Strange Template',
 		image: 'template2.gif',
 		description: 'A template that defines two columns, each one with a title, and some text.',
-		htmlFile: 'strange-template.html'
+		htmlFile: CKEDITOR.getUrl( 'plugins/templates/templates/html/strange-template.html' )
 	},
 	{
 		title: 'Text and Table',
 		image: 'template3.gif',
 		description: 'A title with some text and a table.',
-		htmlFile: 'text-and-table.html'
+		htmlFile: CKEDITOR.getUrl( 'plugins/templates/templates/html/text-and-table.html' )
 	}
 	]
 });

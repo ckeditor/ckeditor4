@@ -52,21 +52,16 @@
 
 			item.on( 'click', function() {
 				if( template.htmlFile ) {
-					insertTemplateFile( template.htmlFile );
+					// Load HTML of the file before inserting it.
+					CKEDITOR.ajax.loadText( template.htmlFile, function( html ) {
+						insertTemplate( html );
+					});
 				} else {
 					insertTemplate( template.html );
 				}
 			} );
 
 			return item;
-		}
-		
-		// Insert the specified template file content into editor.
-		function insertTemplateFile(fileName) {
-			var path = CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'templates' ) + 'templates/html/' + fileName);
-			CKEDITOR.ajax.loadText( path, function( html ) {
-				insertTemplate( html );
-			});
 		}
 
 		// Insert the specified template content into editor.
