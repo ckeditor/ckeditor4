@@ -7,10 +7,10 @@ Insert template and replace all contents
 
 1. Click the `Templates` Button.
 2. Select the `insertOption` checkbox at the bottom.
-3. Choose the template `Image and Title`.
+3. Choose the template `Title and Text`.
  
 
-**Expected:** The Text inside of the editor will be replaced by an empty image, a placeholder title and a placeholder text.
+**Expected:** The Text inside of the editor will be replaced by the heading `I am a title` and the text `I am a text`.
 
 Insert template at the cursor position
 ======================================
@@ -19,9 +19,9 @@ Insert template at the cursor position
 2. Place the cursor between `->` and `<-`.
 3. Click `Templates` Button.
 4. Deselect the checkbox at the bottom.
-5. Choose the template `Image and Title`.
+5. Choose the template `Title and Text`.
  
 
-**Expected:** An empty image, a placeholder title and a placeholder text will be inserted between `->` and `<-`.
+**Expected:** The heading `I am a title` and the text `I am a text` will be inserted between `->` and `<-`.
 
-**Unexpected:** The whole content of the editor will be replaces by the template.
+**Unexpected:** The whole content of the editor will be replaced by the template.
