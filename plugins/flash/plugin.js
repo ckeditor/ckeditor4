@@ -3,6 +3,12 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+CKEDITOR.plugins.add( 'flash', {
+	init: function() {
+		CKEDITOR.error( 'editor-plugin-deprecated', { pluginName: 'flash' } );
+	}
+} );
+
 CKEDITOR.tools.extend( CKEDITOR.config, {
 	/**
 	 * Save as `<embed>` tag only. This tag is unrecommended.
