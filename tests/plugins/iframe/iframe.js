@@ -14,6 +14,25 @@ bender.test( {
 		if ( dialog ) {
 			dialog.hide();
 		}
+
+		this.editor.setData( '' );
+	},
+
+	'test load iframe': function() {
+		var editor = this.editor;
+		const expected = '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com"></iframe>';
+
+		this.editorBot.setData( expected, function() {
+			assert.areEqual( editor.getData(), expected );
+		} );
+	},
+
+	'test load iframe with content': function() {
+		var editor = this.editor;
+
+		this.editorBot.setData( '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com">foobar</iframe>', function() {
+			assert.areEqual( editor.getData(), '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com"></iframe>' );
+		} );
 	},
 
 	'test create iframe': function() {
