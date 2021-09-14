@@ -8,6 +8,7 @@
 	</div>
 	<p>dolor sit amet.</p>
 </div>
+<div id="fake_observable_item"></div>
 
 <script>
 	if ( bender.tools.env.mobile ) {
@@ -21,7 +22,10 @@
 	var editorVersion = '',
 		path = getCKEditorCORSLink( window.location );
 
-	CKEDITOR.replace( 'editor' );
+	CKEDITOR.replace( 'editor', {
+		// Set fake element as observableParent due to removing existing instance of the editor.
+		observableParent: document.getElementById( 'fake_observable_item' )
+	} );
 
 	CKEDITOR.once( 'instanceReady', function() {
 		var scripts = document.querySelectorAll( 'script' ),
