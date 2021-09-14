@@ -95,7 +95,12 @@
 					'synthetic triggerExpand: Text node between': true,
 					'command: deep space access - with changes': true
 				}
-				: null
+				// Skipping test on mobile devices with Firefox browser due to different value depending on screen.
+				// This difference does not affect to the plugin in any way. (#1636)
+				: CKEDITOR.env.gecko && CKEDITOR.env.mobile ?
+				{
+					'get size': true
+				} : null
 		},
 
 		// Simulate triggerEditable on a first and last element.
@@ -385,6 +390,7 @@
 		},
 
 		'get size': function() {
+
 			testEditor( this, {},
 				'',
 				function( editor, editable, backdoor ) {
