@@ -390,7 +390,6 @@
 		},
 
 		'get size': function() {
-
 			testEditor( this, {},
 				'',
 				function( editor, editable, backdoor ) {
