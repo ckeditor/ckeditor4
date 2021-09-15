@@ -7,14 +7,14 @@
 CKEDITOR.addTemplates( 'test', {
 	// The name of sub folder which hold the shortcut preview images of the
 	// templates.
-	imagesPath: '/tests//plugins/templates/_assets/images/',
+	imagesPath: '/tests/plugins/templates/_assets/images/',
 
 	// The templates definitions.
 	templates: [ {
 		title: 'Title and Text',
 		image: 'titleAndText.gif',
 		description: 'A title and a text',
-		htmlFile: '/tests//plugins/templates/_assets/html/titleAndText.html'
+		htmlFile: '/tests/plugins/templates/_assets/html/titleAndText.html'
 	},
 	{
 		title: 'Title',

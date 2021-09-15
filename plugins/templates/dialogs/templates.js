@@ -55,7 +55,7 @@
 					// Load HTML of the file before inserting it.
 					CKEDITOR.ajax.loadText( template.htmlFile, function( html ) {
 						insertTemplate( html );
-					});
+					} );
 				} else {
 					insertTemplate( template.html );
 				}

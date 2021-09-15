@@ -5,11 +5,11 @@
     'use strict';
 
     bender.test( {
-        'Abort template insertion': function() {
+        'test aborting template insertion': function() {
             bender.editorBot.create( {
                 startupData: '<p>Lorem ipsum</p>',
                 config: {
-                    templates_files: ['/tests//plugins/templates/_assets/test.js'],
+                    templates_files: ['/tests/plugins/templates/_assets/test.js'],
                     templates: 'test'
                 }
             }, function( bot ) {
@@ -20,7 +20,7 @@
 
                 } );
             } );
-        },
+        }
 
     } );
 } )();
