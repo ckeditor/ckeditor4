@@ -9,14 +9,17 @@
 	};
 
 	bender.test( {
+		setUp: function() {
+			// Cleanup editor content and set selection inside the editor
+			// to make sure that iframe dialog has correct insertion range.
+			this.editorBot.setHtmlWithSelection( '^' );
+		},
 		tearDown: function() {
 			var dialog = CKEDITOR.dialog.getCurrent();
 
 			if ( dialog ) {
 				dialog.hide();
 			}
-
-			this.editor.setData( '' );
 		},
 
 		'test load iframe': function() {
