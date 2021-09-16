@@ -11,6 +11,16 @@ bender.test( {
 		}
 	},
 
+	tearDown: function() {
+		var editors = CKEDITOR.tools.object.values( CKEDITOR.instances );
+
+		CKEDITOR.tools.array.forEach( editors, function( editor ) {
+			if ( editor.getCommand( 'maximize' ).state === CKEDITOR.TRISTATE_ON ) {
+				editor.execCommand( 'maximize' );
+			}
+		} );
+	},
+
 	// https://dev.ckeditor.com/ticket/4355
 	'test command exec not require editor focus': function() {
 		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
