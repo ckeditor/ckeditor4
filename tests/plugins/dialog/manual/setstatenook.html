@@ -1,0 +1,45 @@
+<div id="editor">
+	<p>Somebody once told me the world is gonna roll me…</p>
+</div>
+
+<button id="press">Open Dialog</button>
+<script>
+( function() {
+	if ( bender.tools.env.mobile ) {
+		return bender.ignore();
+	}
+
+	var editor = CKEDITOR.replace( 'editor' );
+
+	CKEDITOR.once( 'instanceLoaded', function() {
+		CKEDITOR.dialog.add( 'testDialog', function() {
+			return {
+				title: 'Test dialog',
+				contents: [
+					{
+						id: 'tab1',
+						label: 'Tab one',
+						elements: [
+							{
+								type: 'html',
+								id: 'field11',
+								html: 'foo'
+							}
+						]
+					}
+				],
+				buttons: [],
+				onShow: function() {
+					this.setState( CKEDITOR.DIALOG_STATE_BUSY );
+				}
+			}
+		} );
+
+		editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
+	} );
+
+	CKEDITOR.document.getById( 'press' ).on( 'click', function() {
+		editor.execCommand( 'testDialog' );
+	} );
+} )();
+</script>
