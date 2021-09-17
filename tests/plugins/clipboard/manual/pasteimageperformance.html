@@ -7,7 +7,9 @@
 <br><br>
 
 <b>CKEditor version 4.16.2 (slow image pasting)</b><br>
-<div id="remote-editor-container"></div>
+<div id="remote-editor-container">
+  <iframe id="remoteIframe" style="width: 100%; height: 700px; border: 1px solid silver;"></iframe>
+</div>
 
 <script>
 	( function() {
@@ -17,27 +19,25 @@
 
 		CKEDITOR.replace( 'editor' );
 
-		var ifr = document.createElement( 'iframe' );
-		ifr.style.cssText = 'width: 100%; height: 700px; border: 1px solid silver';
-		ifr.onload = function() {
-			var idoc = ifr.contentWindow.document;
+		var remoteIframe = document.getElementById( 'remoteiframe' );
+		remoteIframe.onload = function() {
+			var iframeDocument = remoteIframe.contentWindow.document;
 			idoc.open();
 			idoc.write(`
 				<!DOCTYPE html>
 				<html>
 				<head>
-					<script type="text/javascript" src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></scr` + `ipt>
+					<script type="text/javascript" src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"><\/script>
 				</head>
 				<body>
 					` + document.querySelector( '#editor' ).outerHTML + `
 					<script>
 						CKEDITOR.replace( 'editor' );
-					</scr` + `ipt>
+					<\/script>
 				</body>
 				</html>
 			`);
 			idoc.close();
 		}
-		document.querySelector( '#remote-editor-container' ).appendChild(ifr);
 	} )();
 </script>

@@ -6,7 +6,7 @@
  1. Open Developer Tools in Chrome and make sure log output contains the `Verbose` level.
  1. Paste the image from your clipboard into the first editor.
  1. Observe the browser log - after a delay it outputs `[Violation] 'paste' handler took Xms` - take note of the time spent.
- 1. Paste the same image in the second editor (* see note).
+ 1. Paste the same image in the second editor.
  1. Observe the browser log - after a delay it outputs `[Violation] 'paste' handler took Xms` - take note of the time spent.
 
 **Expected** The paste violation for the first editor is reduced to 30% or less compared to the paste violation for the second editor.
