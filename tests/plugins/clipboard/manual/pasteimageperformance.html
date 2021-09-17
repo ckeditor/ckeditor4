@@ -19,25 +19,23 @@
 
 		CKEDITOR.replace( 'editor' );
 
-		var remoteIframe = document.getElementById( 'remoteiframe' );
-		remoteIframe.onload = function() {
-			var iframeDocument = remoteIframe.contentWindow.document;
-			idoc.open();
-			idoc.write(`
-				<!DOCTYPE html>
-				<html>
-				<head>
-					<script type="text/javascript" src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"><\/script>
-				</head>
-				<body>
-					` + document.querySelector( '#editor' ).outerHTML + `
-					<script>
-						CKEDITOR.replace( 'editor' );
-					<\/script>
-				</body>
-				</html>
-			`);
-			idoc.close();
-		}
+		var remoteIframe = document.getElementById( 'remoteIframe' );
+		var iframeDocument = remoteIframe.contentWindow.document;
+		iframeDocument.open();
+		iframeDocument.write(`
+			<!DOCTYPE html>
+			<html>
+			<head>
+				<script type="text/javascript" src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"><\/script>
+			</head>
+			<body>
+				` + document.querySelector( '#editor' ).outerHTML + `
+				<script>
+					CKEDITOR.replace( 'editor' );
+				<\/script>
+			</body>
+			</html>
+		`);
+		iframeDocument.close();
 	} )();
 </script>
