@@ -1,0 +1,41 @@
+<b>Most recent version of CKEditor (fast image pasting)</b><br>
+<div id="editor">
+	<p>Paste an image with a size of 20-25 MB inside me</p>
+	<p></p>
+</div>
+
+<br><br>
+
+<b>CKEditor version 4.16.2 (slow image pasting)</b><br>
+<div id="remote-editor-container">
+  <iframe id="remoteIframe" style="width: 100%; height: 700px; border: 1px solid silver;"></iframe>
+</div>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile || !CKEDITOR.env.chrome ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor' );
+
+		var remoteIframe = document.getElementById( 'remoteIframe' );
+		var iframeDocument = remoteIframe.contentWindow.document;
+		iframeDocument.open();
+		iframeDocument.write(`
+			<!DOCTYPE html>
+			<html>
+			<head>
+				<script type="text/javascript" src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"><\/script>
+			</head>
+			<body>
+				` + document.querySelector( '#editor' ).outerHTML + `
+				<script>
+					CKEDITOR.replace( 'editor' );
+				<\/script>
+			</body>
+			</html>
+		`);
+		iframeDocument.close();
+	} )();
+</script>

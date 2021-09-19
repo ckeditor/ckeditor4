@@ -2633,7 +2633,7 @@
 			}
 
 			var that = this,
-				i, file;
+				i, file, files;
 
 			function getAndSetData( type ) {
 				type = that._.normalizeType( type );
@@ -2668,13 +2668,15 @@
 
 			// Copy files references.
 			file = this._getImageFromClipboard();
-			if ( ( this.$ && this.$.files ) || file ) {
+			// Only access .files once - it's expensive in Chrome (#4807).
+			files = this.$ && this.$.files || null;
+			if ( files || file ) {
 				this._.files = [];
 
 				// Edge have empty files property with no length (https://dev.ckeditor.com/ticket/13755).
-				if ( this.$.files && this.$.files.length ) {
-					for ( i = 0; i < this.$.files.length; i++ ) {
-						this._.files.push( this.$.files[ i ] );
+				if ( files && files.length ) {
+					for ( i = 0; i < files.length; i++ ) {
+						this._.files.push( files[ i ] );
 					}
 				}
 
@@ -2696,8 +2698,10 @@
 				return this._.files.length;
 			}
 
-			if ( this.$ && this.$.files && this.$.files.length ) {
-				return this.$.files.length;
+			// Only access .files once - it's expensive in Chrome (#4807).
+			var files = this.$ && this.$.files || null;
+			if ( files && files.length ) {
+				return files.length;
 			}
 
 			return this._getImageFromClipboard() ? 1 : 0;
@@ -2714,8 +2718,10 @@
 				return this._.files[ i ];
 			}
 
-			if ( this.$ && this.$.files && this.$.files.length ) {
-				return this.$.files[ i ];
+			// Only access .files once - it's expensive in Chrome (#4807).
+			var files = this.$ && this.$.files || null;
+			if ( files && files.length ) {
+				return files[ i ];
 			}
 
 			// File or null if the file was not found.
