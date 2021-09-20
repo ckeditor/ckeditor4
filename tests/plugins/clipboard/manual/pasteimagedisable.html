@@ -1,0 +1,42 @@
+<div id="editor">
+	<p>Paste image here</p>
+	<p></p>
+</div>
+
+<br><br>
+
+<button id="button"> Disable built-in image paste handling </button>
+
+<br><br>
+
+<div id="log">Log output:</div>
+
+<script>
+	( function() {
+		if ( !window.FileReader ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.plugins.add( 'customImagePasteHandlerPlugin', {
+			init: function( editor ) {
+				editor.on( 'paste', function( event ) {
+					var log = document.querySelector( '#log' );
+					var msg = '<br>Custom image paste handling: image data received';
+					log.innerHTML += msg;
+				} );
+			}
+		} );
+
+		CKEDITOR.replace( 'editor' );
+
+		var button = document.querySelector( '#button' );
+		button.onclick = function() {
+			CKEDITOR.instances.editor.destroy();
+			CKEDITOR.replace( 'editor', {
+				// Allow 3rd party plugins to handle image pasting
+				clipboard_handleImagePasting: false,
+				extraPlugins: "customImagePasteHandlerPlugin"
+			} );
+		}
+	} )();
+</script>
