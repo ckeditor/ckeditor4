@@ -1036,7 +1036,7 @@
 		},
 
 		'test focusing editor when focusing nested editable': function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 9 ) {
+			if ( CKEDITOR.env.ie ) {
 				assert.ignore();
 			}
 
