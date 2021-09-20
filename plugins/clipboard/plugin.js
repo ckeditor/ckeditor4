@@ -3476,8 +3476,8 @@ CKEDITOR.config.clipboard_notificationDuration = 10000;
  * Whether to use clipboard plugin to handle image pasting, turning
  * images into base64 strings on browsers supporting the File API.
  *
- * @since 4.7.0
- * @cfg {Number} [clipboard_handleImagePasting=true]
+ * @since 4.17.0
+ * @cfg {Boolean} [clipboard_handleImagePasting=true]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.clipboard_handleImagePasting = true;
