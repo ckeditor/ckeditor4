@@ -1,0 +1,18 @@
+<div id="editor">
+	<p>Hi, I am just a test editor!</p>
+</div>
+<button id="history-pusher">Push history</button>
+
+<script>
+	( function() {
+		if ( !( 'pushState' in history ) ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.document.getById( 'history-pusher' ).on( 'click', function() {
+			history.pushState( {}, '', './test' );
+		} );
+
+		CKEDITOR.replace( 'editor' );
+	} )();
+</script>

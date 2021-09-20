@@ -299,8 +299,39 @@
 				var command = editor.getCommand( 'maximize' );
 				command.setState( command.state == CKEDITOR.TRISTATE_DISABLED ? CKEDITOR.TRISTATE_DISABLED : savedState );
 			}, null, null, 100 );
+
+			// Add support for History API (#4374).
+			if ( editor.config.maximize_historyIntegration ) {
+				var historyEvent = editor.config.maximize_historyIntegration === CKEDITOR.HISTORY_NATIVE ?
+					'popstate' : 'hashchange';
+
+				mainWindow.on( historyEvent, function() {
+					var command = editor.getCommand( 'maximize' );
+
+					if ( command.state === CKEDITOR.TRISTATE_ON ) {
+						command.exec();
+					}
+				} );
+			}
 		}
 	} );
+
+	/**
+	 * Informs plugin how it should integrate with browser's "Go back" and "Go forward" buttons.
+	 *
+	 * If it's set to {@link CKEDITOR#HISTORY_NATIVE}, the plugin will use native History API and
+	 * [`popstate`](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event) event.
+	 *
+	 * If it's set to {@link CKEDITOR#HISTORY_HASH}, the plugin will use
+	 * [`hashchange`](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) event.
+	 *
+	 * If it's set to {@link CKEDITOR#HISTORY_OFF}, the plugin will not integrate
+	 * with browser's "Go back" and "Go forward" buttons.
+	 *
+	 * @cfg {Number} [maximize_historyIntegration=CKEDITOR.HISTORY_NATIVE]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.maximize_historyIntegration = CKEDITOR.HISTORY_NATIVE;
 } )();
 
 /**

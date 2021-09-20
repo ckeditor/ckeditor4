@@ -11,6 +11,16 @@ bender.test( {
 		}
 	},
 
+	tearDown: function() {
+		var editors = CKEDITOR.tools.object.values( CKEDITOR.instances );
+
+		CKEDITOR.tools.array.forEach( editors, function( editor ) {
+			if ( editor.getCommand( 'maximize' ).state === CKEDITOR.TRISTATE_ON ) {
+				editor.execCommand( 'maximize' );
+			}
+		} );
+	},
+
 	// https://dev.ckeditor.com/ticket/4355
 	'test command exec not require editor focus': function() {
 		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
@@ -101,6 +111,95 @@ bender.test( {
 
 			bot.editor.execCommand( 'maximize' );
 			assert.isFalse( inner.hasClass( 'cke_maximized' ) );
+		} );
+	},
+
+	// (#4374)
+	'test maximize integrates with native History API by default': function() {
+		bender.editorBot.create( {
+			name: 'editor_historyDefault'
+		}, function( bot ) {
+			var ckeWindow = CKEDITOR.document.getWindow(),
+				editor = bot.editor,
+				maximizeCommand = editor.getCommand( 'maximize' );
+
+			ckeWindow.on( 'popstate', function() {
+				assert.areSame( CKEDITOR.TRISTATE_OFF, maximizeCommand.state, 'Maximize has correct state – OFF' );
+			}, null, null, 999 );
+
+			editor.execCommand( 'maximize' );
+
+			ckeWindow.fire( 'popstate' );
+		} );
+	},
+
+	// (#4374)
+	'test maximize integrates with native History API if config.maximize_historyIntegration is set to native value': function() {
+		bender.editorBot.create( {
+			name: 'editor_historyNative',
+			config: {
+				maximize_historyIntegration: CKEDITOR.HISTORY_NATIVE
+			}
+		}, function( bot ) {
+			var ckeWindow = CKEDITOR.document.getWindow(),
+				editor = bot.editor,
+				maximizeCommand = editor.getCommand( 'maximize' );
+
+			ckeWindow.on( 'popstate', function() {
+				assert.areSame( CKEDITOR.TRISTATE_OFF, maximizeCommand.state, 'Maximize has correct state – OFF' );
+			}, null, null, 999 );
+
+			editor.execCommand( 'maximize' );
+
+			ckeWindow.fire( 'popstate' );
+		} );
+	},
+
+	// (#4374)
+	'test maximize integrates with hash-based navigation if config.maximize_historyIntegration is set to hash value': function() {
+		bender.editorBot.create( {
+			name: 'editor_historyHash',
+			config: {
+				maximize_historyIntegration: CKEDITOR.HISTORY_HASH
+			}
+		}, function( bot ) {
+			var ckeWindow = CKEDITOR.document.getWindow(),
+				editor = bot.editor,
+				maximizeCommand = editor.getCommand( 'maximize' );
+
+			ckeWindow.on( 'hashchange', function() {
+				assert.areSame( CKEDITOR.TRISTATE_OFF, maximizeCommand.state, 'Maximize has correct state – OFF' );
+			}, null, null, 999 );
+
+			editor.execCommand( 'maximize' );
+			ckeWindow.fire( 'hashchange' );
+		} );
+	},
+
+	// (#4374)
+	'test maximize does not integrates with history if config.maximize_historyIntegration is set to off value': function() {
+		bender.editorBot.create( {
+			name: 'editor_historyOff',
+			config: {
+				maximize_historyIntegration: CKEDITOR.HISTORY_OFF
+			}
+		}, function( bot ) {
+			var ckeWindow = CKEDITOR.document.getWindow(),
+				editor = bot.editor,
+				maximizeCommand = editor.getCommand( 'maximize' );
+
+			ckeWindow.on( 'popstate', function() {
+				assert.areSame( CKEDITOR.TRISTATE_ON, maximizeCommand.state, 'Maximize has correct state – ON' );
+
+				ckeWindow.fire( 'hashchange' );
+			}, null, null, 999 );
+
+			ckeWindow.on( 'hashchange', function() {
+				assert.areSame( CKEDITOR.TRISTATE_ON, maximizeCommand.state, 'Maximize has correct state – ON' );
+			}, null, null, 999 );
+
+			editor.execCommand( 'maximize' );
+			ckeWindow.fire( 'popstate' );
 		} );
 	}
 } );
