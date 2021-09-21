@@ -8,6 +8,7 @@ Fixed Issues:
 * [#4790](https://github.com/ckeditor/ckeditor4/issues/4790): Fixed: Printing page is invoked before the printed page is fully loaded.
 * [#3876](https://github.com/ckeditor/ckeditor4/issues/3876): Fixed: [Print](https://ckeditor.com/cke4/addon/print) plugin incorrectly prints links and images.
 * [#4444](https://github.com/ckeditor/ckeditor4/issues/4444): [Firefox] Fixed: Print preview is incorrectly loaded from CDN.
+* [#4888](https://github.com/ckeditor/ckeditor4/issues/4888): Fixed: [`CKEDITOR.dialog#setState()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-setState) method throws error when there is no "Ok" button in the dialog.
 
 API Changes:
 
