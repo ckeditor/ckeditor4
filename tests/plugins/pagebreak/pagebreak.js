@@ -48,6 +48,11 @@
 		},
 
 		'test paste': function() {
+			// Ignored due to #4885.
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBot,
 				editor = this.editor,
 				editable = editor.editable();
