@@ -17,10 +17,10 @@ CKEDITOR.addTemplates( 'test', {
 		htmlFile: '/tests/plugins/templates/_assets/html/titleAndText.html'
 	},
 	{
-		title: 'Title',
+		title: 'Some text',
 		image: 'titleAndText.gif',
-		description: 'A simple title',
-		html: '<h1>I am a title</h1>'
+		description: 'A text in two paragraphs',
+		html: '<p>I am a text</p><p>Here is some more text</p>'
 	}
 	]
 });
