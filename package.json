@@ -7,7 +7,7 @@
 		"benderjs-coverage": "^0.2.2",
 		"benderjs-jquery": "^0.3.0",
 		"benderjs-sinon": "^0.3.1",
-		"benderjs-yui": "^0.3.4",
+		"benderjs-yui": "^0.3.2",
 		"benderjs-yui-beautified": "0.1.2",
 		"cksource-samples-framework": "^1.0.1",
 		"grunt": "^1.0.1",
