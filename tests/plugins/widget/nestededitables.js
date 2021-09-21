@@ -1036,6 +1036,10 @@
 		},
 
 		'test focusing editor when focusing nested editable': function() {
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor;
 
 			editor.widgets.add( 'testfocus1', {
@@ -1118,6 +1122,10 @@
 		},
 
 		'test subsequent nested editable focus causes selectionChange': function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor,
 				editorBot = this.editorBot;
 

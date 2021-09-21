@@ -1155,7 +1155,8 @@ bender.test( appendDomObjectTests(
 				expectedWidth;
 
 			function round( num ) {
-				return Math.round( num * 100 ) / 100;
+				// Decrease precision of calculations (#3188).
+				return Math.floor( num * 100 ) / 100;
 			}
 
 			doc.getBody().append( elem );
