@@ -1535,12 +1535,16 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				// Finally, show the spinner.
 				this.parts.spinner.show();
 
-				this.getButton( 'ok' ).disable();
+				if ( this.getButton( 'ok' ) ) {
+					this.getButton( 'ok' ).disable();
+				}
 			} else if ( state == CKEDITOR.DIALOG_STATE_IDLE ) {
 				// Hide the spinner. But don't do anything if there is no spinner yet.
 				this.parts.spinner && this.parts.spinner.hide();
 
-				this.getButton( 'ok' ).enable();
+				if ( this.getButton( 'ok' ) ) {
+					this.getButton( 'ok' ).enable();
+				}
 			}
 
 			this.fire( 'state', state );

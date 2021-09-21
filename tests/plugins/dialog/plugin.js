@@ -415,6 +415,63 @@
 			wait();
 		},
 
+		// (#4888)
+		'test dialog setState does not throw when dialog has no Ok button': function() {
+			var editor = this.editor,
+				errorOccured = false;
+
+			CKEDITOR.dialog.add( 'testDialogSetStateNoOk', function() {
+				return {
+					title: 'Test Dialog setState No Ok',
+					contents: [
+						{
+							id: 'tab1',
+							label: 'Test 1',
+							elements: [
+								{
+									type: 'text',
+									id: 'foo',
+									label: 'foo',
+									requiredContent: 'p'
+								}
+							]
+						}
+					],
+					buttons: []
+				};
+			} );
+
+			editor.addCommand( 'testDialogSetStateNoOk', new CKEDITOR.dialogCommand( 'testDialogSetStateNoOk' ) );
+
+			editor.once( 'dialogShow', function( evt ) {
+				var dialog = evt.data;
+
+				resume( function() {
+					try {
+						dialog.setState( CKEDITOR.DIALOG_STATE_BUSY );
+					} catch ( err ) {
+						errorOccured = true;
+					}
+
+					assert.areSame( CKEDITOR.DIALOG_STATE_BUSY, dialog.state, 'Correct dialog state – BUSY' );
+
+					// These tries are separate to catch issues with setting and unsetting busy state.
+					try {
+						dialog.setState( CKEDITOR.DIALOG_STATE_IDLE );
+					} catch ( err ) {
+						errorOccured = true;
+					}
+
+					assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state, 'Correct dialog state – IDLE' );
+					assert.isFalse( errorOccured, 'No error occured' );
+				} );
+			} );
+
+			editor.execCommand( 'testDialogSetStateNoOk' );
+
+			wait();
+		},
+
 		// #830
 		'test dialog opens tab defined in tabId as default': function() {
 			var editor = this.editor;
