@@ -7,6 +7,7 @@
 	bender.test( {
 		'test aborting template insertion': function() {
 			bender.editorBot.create( {
+				name: 'editor_abort_template',
 				startupData: '<p>Lorem ipsum</p>',
 				config: {
 					templates_files: [ '/tests/plugins/templates/_assets/test.js' ],
@@ -25,6 +26,7 @@
 
 		'test insert template and replace content': function() {
 			bender.editorBot.create( {
+				name: 'editor_insert_and_replace',
 				startupData: '<p>Lorem ipsum</p>',
 				config: {
 					templates_files: [ '/tests/plugins/templates/_assets/test.js' ],
@@ -50,6 +52,7 @@
 
 		'test insert template file and replace content': function() {
 			bender.editorBot.create( {
+				name: 'editor_insert_file_and_replace',
 				startupData: '<p>Lorem ipsum</p>',
 				config: {
 					templates_files: [ '/tests/plugins/templates/_assets/test.js' ],
@@ -76,6 +79,7 @@
 
 		'test insert template file at cursor position': function() {
 			bender.editorBot.create( {
+				name: 'editor_insert_file',
 				startupData: '<p>Lorem ipsum</p>',
 				config: {
 					templates_files: [ '/tests/plugins/templates/_assets/test.js' ],
@@ -104,6 +108,7 @@
 		},
 		'test insert template at cursor position': function() {
 			bender.editorBot.create( {
+				name: 'editor_insert',
 				startupData: '<p>Lorem ipsum</p>',
 				config: {
 					templates_files: [ '/tests/plugins/templates/_assets/test.js' ],
