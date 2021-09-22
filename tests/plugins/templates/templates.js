@@ -40,8 +40,8 @@
 
 						setTimeout( function() {
 							resume( function() {
-								assert.areEqual( '<h1>^I am a title</h1>', bot.htmlWithSelection(),
-									'Editor data has been replaced by the template.' );
+								assert.areEqual( '<p>^I am a text</p><p>Here is some more text</p>',
+									bot.htmlWithSelection(), 'Editor data has been replaced by the template.' );
 							} );
 						}, 100 );
 					}, 100 );
