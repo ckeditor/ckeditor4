@@ -36,7 +36,9 @@
 				bot.dialog( 'templates', function( dialog ) {
 					dialog.getContentElement( 'selectTpl', 'chkInsertOpt' ).setValue( true );
 					setTimeout( function() {
-						dialog.getContentElement( 'selectTpl', 'templatesList' ).getElement().find( 'a' ).$[ 1 ].click();
+						var templates = getTemplatesList( dialog );
+
+						templates[ 1 ].$.click();
 
 						setTimeout( function() {
 							resume( function() {
@@ -63,7 +65,9 @@
 					dialog.getContentElement( 'selectTpl', 'chkInsertOpt' ).setValue( true );
 
 					setTimeout( function() {
-						dialog.getContentElement( 'selectTpl', 'templatesList' ).getElement().findOne( 'a' ).$.click();
+						var templates = getTemplatesList( dialog );
+
+						templates[ 0 ].$.click();
 
 						setTimeout( function() {
 							resume( function() {
@@ -92,7 +96,9 @@
 					dialog.getContentElement( 'selectTpl', 'chkInsertOpt' ).setValue( false );
 
 					setTimeout( function() {
-						dialog.getContentElement( 'selectTpl', 'templatesList' ).getElement().findOne( 'a' ).$.click();
+						var templates = getTemplatesList( dialog );
+
+						templates[ 0 ].$.click();
 
 						setTimeout( function() {
 							resume( function() {
@@ -120,7 +126,9 @@
 					dialog.getContentElement( 'selectTpl', 'chkInsertOpt' ).setValue( false );
 
 					setTimeout( function() {
-						dialog.getContentElement( 'selectTpl', 'templatesList' ).getElement().find( 'a' ).$[ 1 ].click();
+						var templates = getTemplatesList( dialog );
+
+						templates[ 1 ].$.click();
 
 						setTimeout( function() {
 							resume( function() {
@@ -141,5 +149,9 @@
 		var range = editor.createRange();
 		range.moveToElementEditEnd( editor.editable() );
 		range.select();
+	}
+
+	function getTemplatesList( dialog ) {
+		return dialog.getContentElement( 'selectTpl', 'templatesList' ).getElement().find( 'a' ).toArray();
 	}
 } )();
