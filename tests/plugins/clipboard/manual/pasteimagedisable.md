@@ -2,16 +2,13 @@
 @bender-tags: 4.17.0, clipboard, 4874, bug
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image, clipboard, sourcearea
 
- 1. Paste an image into the editor.
+ 1. Copy an image from an image editor or from the file system (using Explorer on Windows or Finder on Mac).
 
-    Observe that the image is inserted and that no "Custom image paste handling" entry is written to "log output" on the page.
+    **Note**: Do not copy an image from a web browser, as it may not copy the
+    actual image, but instead a reference, which is not valid for this test case.
 
- 2. Click the "Disable built-in image paste handling" button.
+ 1. Paste the image into the editor
 
- 3. Paste an image into the editor.
+**Expected** No image is inserted. "Log output" shows: "Custom image paste handling: data received".
 
-    Observe that the image is not inserted, and that "log output" now shows "Custom image paste handling: image data received".
-
-**Expected** No image is inserted in step 3 but instead produces log output as described.
-
-**Unexpected** Image pasting is not suppressed in step 3 and/or no log output is produced.
+**Unexpected** Image is pasted into editor and/or a message is shown in "Log output".
