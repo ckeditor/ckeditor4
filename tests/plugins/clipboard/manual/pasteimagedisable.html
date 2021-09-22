@@ -9,7 +9,7 @@
 
 <script>
 	( function() {
-		if ( !window.FileReader ) {
+		if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
 			return bender.ignore();
 		}
 
