@@ -235,3 +235,56 @@ function mockFileReader() {
 
 	window.FileReader = FileReaderMock;
 }
+
+function assertImagePaste( editor, options ) {
+	// Mock paste file from clipboard.
+	function mockPasteFile( type, additionalData ) {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.files.push( {
+			name: 'mock.file',
+			type: type
+		} );
+		nativeData.types.push( 'Files' );
+
+		if ( additionalData ) {
+			CKEDITOR.tools.array.forEach( additionalData, function( data ) {
+				nativeData.setData( data.type, data.data );
+			} );
+		}
+
+		dataTransfer.cacheData();
+
+		editor.fire( 'paste', {
+			dataTransfer: dataTransfer,
+			dataValue: '',
+			method: 'paste',
+			type: 'auto'
+		} );
+	}
+
+	var type = options.type,
+		expected = options.expected,
+		additionalData = options.additionalData,
+		callback = options.callback;
+
+	editor.once( 'paste', function() {
+		resume( function() {
+			assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( editor ), {
+				noTempElements: true,
+				fixStyles: true,
+				compareSelection: true,
+				normalizeSelection: true
+			} );
+
+			if ( callback ) {
+				callback();
+			}
+		} );
+	}, this, null, 9999 );
+
+	mockPasteFile( type, additionalData );
+
+	wait();
+}

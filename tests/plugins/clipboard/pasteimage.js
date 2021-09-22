@@ -140,58 +140,9 @@
 		},
 
 		assertPaste: function( options ) {
-			var type = options.type,
-				expected = options.expected,
-				additionalData = options.additionalData,
-				callback = options.callback;
-
-			this.editor.once( 'paste', function() {
-				resume( function() {
-					assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( this.editor ), {
-						noTempElements: true,
-						fixStyles: true,
-						compareSelection: true,
-						normalizeSelection: true
-					} );
-
-					if ( callback ) {
-						callback();
-					}
-				} );
-			}, this, null, 9999 );
-
-			mockPasteFile( this.editor, type, additionalData );
-
-			wait();
+			assertImagePaste( this.editor, options );
 		}
 	} );
-
-	// Mock paste file from clipboard.
-	function mockPasteFile( editor, type, additionalData ) {
-		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
-
-		nativeData.files.push( {
-			name: 'mock.file',
-			type: type
-		} );
-		nativeData.types.push( 'Files' );
-
-		if ( additionalData ) {
-			CKEDITOR.tools.array.forEach( additionalData, function( data ) {
-				nativeData.setData( data.type, data.data );
-			} );
-		}
-
-		dataTransfer.cacheData();
-
-		editor.fire( 'paste', {
-			dataTransfer: dataTransfer,
-			dataValue: '',
-			method: 'paste',
-			type: 'auto'
-		} );
-	}
 
 	function prepareNotificationRegex( notification ) {
 		var formatsGroup = '[a-z,\\s]+',
