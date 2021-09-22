@@ -52,9 +52,14 @@
 
 			item.on( 'click', function() {
 				if( template.htmlFile ) {
+					var templatesDialog = CKEDITOR.dialog.getCurrent();
+			
+					templatesDialog.setState( CKEDITOR.DIALOG_STATE_BUSY );
+			
 					// Load HTML of the file before inserting it.
 					CKEDITOR.ajax.loadText( template.htmlFile, function( html ) {
 						insertTemplate( html );
+						templatesDialog.setState( CKEDITOR.DIALOG_STATE_IDLE );
 					} );
 				} else {
 					insertTemplate( template.html );
