@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.17.0, clipboard, 4874
+@bender-tags: 4.17.0, clipboard, 4874, bug
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image, clipboard, sourcearea
 
  1. Paste an image into the editor.
