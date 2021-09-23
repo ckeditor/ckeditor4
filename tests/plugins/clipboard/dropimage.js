@@ -7,9 +7,7 @@
 	'use strict';
 
 	var setHtmlWithSelection = bender.tools.setHtmlWithSelection,
-		originalFileReader = window.FileReader,
-		onDrop,
-		onPaste;
+		originalFileReader = window.FileReader
 
 	bender.editor = {
 		config: {
@@ -26,9 +24,6 @@
 
 			mockFileReader();
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
-
-			this.editor.removeListener( 'drop', onDrop );
-			this.editor.removeListener( 'paste', onPaste );
 		},
 
 		tearDown: function() {
@@ -199,63 +194,6 @@
 	};
 
 	bender.test( tests );
-
-	function mockDropFile( type ) {
-		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
-
-		nativeData.files.push( {
-			name: 'mock.file',
-			type: type
-		} );
-
-		nativeData.types.push( 'Files' );
-		dataTransfer.cacheData();
-
-		return dataTransfer.$;
-	}
-
-	function assertDropImage( options ) {
-		var editor = options.editor,
-			evt = options.event,
-			type = options.type,
-			expectedData = options.expectedData,
-			callback = options.callback,
-			dropRangeOptions = options.dropRange,
-			dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
-			range = new CKEDITOR.dom.range( editor.document );
-
-		range.setStart( dropRangeOptions.dropContainer, dropRangeOptions.dropOffset );
-		evt.testRange = range;
-
-		// Push data into clipboard and invoke paste event
-		evt.$.dataTransfer = mockDropFile( type );
-
-		onDrop = function( dropEvt ) {
-			var dropRange = dropEvt.data.dropRange;
-
-			dropRange.startContainer = dropRangeOptions.dropContainer;
-			dropRange.startOffset = dropRangeOptions.dropOffset;
-			dropRange.endOffset = dropRangeOptions.dropOffset;
-		};
-
-		onPaste = function() {
-			resume( function() {
-				assert.beautified.html( expectedData, editor.getData() );
-
-				if ( callback ) {
-					callback();
-				}
-			} );
-		};
-
-		editor.on( 'drop', onDrop );
-		editor.on( 'paste', onPaste );
-
-		dropTarget.fire( 'drop', evt );
-
-		wait();
-	}
 
 	function prepareNotificationRegex( notification ) {
 		var formatsGroup = '[a-z,\\s]+',

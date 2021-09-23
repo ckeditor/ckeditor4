@@ -288,3 +288,71 @@ function assertImagePaste( editor, options ) {
 
 	wait();
 }
+
+function assertDropImage( options ) {
+	function mockDropFile( type ) {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.files.push( {
+			name: 'mock.file',
+			type: type
+		} );
+
+		nativeData.types.push( 'Files' );
+		dataTransfer.cacheData();
+
+		return dataTransfer.$;
+	}
+
+	var editor = options.editor,
+		evt = options.event,
+		type = options.type,
+		expectedData = options.expectedData,
+		callback = options.callback,
+		dropRangeOptions = options.dropRange,
+		dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+		range = new CKEDITOR.dom.range( editor.document );
+
+	range.setStart( dropRangeOptions.dropContainer, dropRangeOptions.dropOffset );
+	evt.testRange = range;
+
+	// Push data into clipboard and invoke paste event
+	evt.$.dataTransfer = mockDropFile( type );
+
+	var onDrop,
+		onPaste,
+		tearDown;
+
+	tearDown = function() {
+		editor.removeListener( 'drop', onDrop );
+		editor.removeListener( 'paste', onPaste );
+	};
+
+	onDrop = function( dropEvt ) {
+		var dropRange = dropEvt.data.dropRange;
+
+		dropRange.startContainer = dropRangeOptions.dropContainer;
+		dropRange.startOffset = dropRangeOptions.dropOffset;
+		dropRange.endOffset = dropRangeOptions.dropOffset;
+	};
+
+	onPaste = function() {
+		resume( function() {
+			assert.beautified.html( expectedData, editor.getData() );
+
+			if ( callback ) {
+				callback();
+			}
+
+			tearDown();
+		} );
+	};
+
+	editor.on( 'drop', onDrop );
+	editor.on( 'paste', onPaste );
+
+	dropTarget.fire( 'drop', evt );
+
+	wait();
+}
