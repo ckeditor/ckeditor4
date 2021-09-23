@@ -1,5 +1,5 @@
 <div id="editor">
-	<p>Paste image here</p>
+	<p>Drop image here</p>
 	<p></p>
 </div>
 
@@ -13,11 +13,11 @@
 			return bender.ignore();
 		}
 
-		CKEDITOR.plugins.add( 'customImagePasteHandlerPlugin', {
+		CKEDITOR.plugins.add( 'customImageHandlerPlugin', {
 			init: function( editor ) {
-				editor.on( 'paste', function( event ) {
+				editor.on( 'drop', function( event ) {
 					var log = document.querySelector( '#log' );
-					var msg = '<br>Custom image paste handling: data received';
+					var msg = '<br>Custom image drop handling: data received';
 					log.innerHTML += msg;
 				} );
 			}
@@ -26,7 +26,7 @@
 		CKEDITOR.replace( 'editor', {
 			// Allow 3rd party plugins to handle image pasting and dropping
 			clipboard_handleImages: false,
-			extraPlugins: "customImagePasteHandlerPlugin"
+			extraPlugins: "customImageHandlerPlugin"
 		} );
 	} )();
 </script>

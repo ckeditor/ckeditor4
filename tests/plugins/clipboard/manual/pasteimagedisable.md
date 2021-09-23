@@ -7,8 +7,8 @@
     **Note**: Do not copy an image from a web browser, as it may not copy the
     actual image, but instead a reference, which is not valid for this test case.
 
- 1. Paste the image into the editor
+ 1. Paste the image into the editor.
 
 **Expected** No image is inserted. "Log output" shows: "Custom image paste handling: data received".
 
-**Unexpected** Image is pasted into editor and/or a message is shown in "Log output".
+**Unexpected** Image is inserted into editor.
