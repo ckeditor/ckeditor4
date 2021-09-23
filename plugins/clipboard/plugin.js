@@ -150,7 +150,7 @@
 			// custom MIME types in clipboard (#4612).
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			var isImagePasteSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported;
-			if ( isImagePasteSupported && editor.config.clipboard_handleImagePasting ) {
+			if ( isImagePasteSupported && editor.config.clipboard_handleImages ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 					unsupportedTypeMsg = createNotificationMessage( supportedImageTypes ),
 					latestId;

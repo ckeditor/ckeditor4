@@ -12,7 +12,7 @@
 		config: {
 			allowedContent: true,
 			language: 'en',
-			clipboard_handleImagePasting: false
+			clipboard_handleImages: false
 		}
 	};
 
