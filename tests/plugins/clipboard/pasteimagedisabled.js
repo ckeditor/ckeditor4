@@ -56,6 +56,27 @@
 			} );
 		},
 
+		'test image drop suppressed': function() {
+			var dropEvt = bender.tools.mockDropEvent(),
+				imageType = 'image/png',
+				expected = '<p class="p">Paste image here:</p>';
+
+			FileReader.setFileMockType( imageType );
+			FileReader.setReadResult( 'load' );
+
+			bender.tools.setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
+			assertDropImage( {
+				editor: this.editor,
+				event: dropEvt,
+				type: imageType,
+				expectedData: expected,
+				dropRange: {
+					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
+					dropOffset: 17
+				}
+			} );
+		},
+
 		assertPaste: function( options ) {
 			assertImagePaste( this.editor, options );
 		}
