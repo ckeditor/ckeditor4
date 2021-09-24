@@ -6,13 +6,32 @@
 ( function() {
 	'use strict';
 
+	var pasteCount = 0,
+		dropCount = 0;
+
+	CKEDITOR.plugins.add( 'customImagePasteHandlerPlugin', {
+		init: function( editor ) {
+			editor.on( 'paste', function( event ) {
+				if (event.data.dataTransfer.$.files.length === 1) {
+					pasteCount++;
+				}
+			} );
+			editor.on( 'drop', function( event ) {
+				if (event.data.dataTransfer.$.files.length === 1) {
+					dropCount++;
+				}
+			} );
+		}
+	} );
+
 	var originalFileReader = window.FileReader;
 
 	bender.editor = {
 		config: {
 			allowedContent: true,
 			language: 'en',
-			clipboard_handleImages: false
+			clipboard_handleImages: false,
+			extraPlugins: "customImagePasteHandlerPlugin"
 		}
 	};
 
@@ -35,10 +54,16 @@
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'load' );
 
+			pasteCount = 0;
+			var assert = this.assert;
+
 			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
 			this.assertPaste( {
 				type: 'image/png',
-				expected: '<p>Paste image here:^@</p>'
+				expected: '<p>Paste image here:^@</p>',
+				callback: function() {
+					assert(pasteCount === 1, "custom image handler plugin did not receive file");
+				}
 			} );
 		},
 
@@ -46,13 +71,19 @@
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'load' );
 
+			pasteCount = 0;
+			var assert = this.assert;
+
 			bender.tools.selection.setWithHtml( this.editor, '<p>{}</p>' );
 			this.assertPaste( {
 				type: 'image/png',
 				expected: '<p><strong>Hello world^</strong>@</p><p></p>',
 				additionalData: [
 					{ type: 'text/html', data: '<strong>Hello world</strong>' }
-				]
+				],
+				callback: function() {
+					assert(pasteCount === 1, "custom image handler plugin did not receive file");
+				}
 			} );
 		},
 
@@ -64,6 +95,9 @@
 			FileReader.setFileMockType( imageType );
 			FileReader.setReadResult( 'load' );
 
+			dropCount = 0;
+			var assert = this.assert;
+
 			bender.tools.setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
 			assertDropImage( {
 				editor: this.editor,
@@ -73,6 +107,9 @@
 				dropRange: {
 					dropContainer: this.editor.editable().findOne( '.p' ).getChild( 0 ),
 					dropOffset: 17
+				},
+				callback: function() {
+					assert(dropCount === 1, "custom image handler plugin did not receive file");
 				}
 			} );
 		},
