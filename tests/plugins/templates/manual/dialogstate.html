@@ -1,0 +1,23 @@
+<textarea id="editor">
+	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		templates_files: ['../_assets/test.js'],
+		templates: 'test',
+		on: {
+			loaded: function() {
+				var originalLoad = CKEDITOR.ajax.loadText;
+
+				CKEDITOR.ajax.loadText = function( url, callback ) {
+					originalLoad( url, function( value ) {
+						setTimeout( function() {
+							callback( value );
+						}, 2000 );
+					} );
+				}
+			}
+		}
+	} );
+</script>
