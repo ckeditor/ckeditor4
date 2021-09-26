@@ -1,0 +1,32 @@
+<div id="editor">
+	<p>Paste image here</p>
+	<p></p>
+</div>
+
+<br><br>
+
+<div id="log">Log output:</div>
+
+<script>
+	( function() {
+		if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.plugins.add( 'customImagePasteHandlerPlugin', {
+			init: function( editor ) {
+				editor.on( 'paste', function( event ) {
+					var log = document.querySelector( '#log' );
+					var msg = '<br>Custom image paste handling: data received';
+					log.innerHTML += msg;
+				} );
+			}
+		} );
+
+		CKEDITOR.replace( 'editor', {
+			// Allow 3rd party plugins to handle image pasting and dropping
+			clipboard_handleImages: false,
+			extraPlugins: "customImagePasteHandlerPlugin"
+		} );
+	} )();
+</script>

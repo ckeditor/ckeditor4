@@ -1,0 +1,32 @@
+<div id="editor">
+	<p>Drop image here</p>
+	<p></p>
+</div>
+
+<br><br>
+
+<div id="log">Log output:</div>
+
+<script>
+	( function() {
+		if ( !( 'FileReader' in window ) || bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.plugins.add( 'customImageHandlerPlugin', {
+			init: function( editor ) {
+				editor.on( 'drop', function( event ) {
+					var log = document.querySelector( '#log' );
+					var msg = '<br>Custom image drop handling: data received';
+					log.innerHTML += msg;
+				} );
+			}
+		} );
+
+		CKEDITOR.replace( 'editor', {
+			// Allow 3rd party plugins to handle image pasting and dropping
+			clipboard_handleImages: false,
+			extraPlugins: "customImageHandlerPlugin"
+		} );
+	} )();
+</script>

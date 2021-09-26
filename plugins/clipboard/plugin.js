@@ -149,7 +149,8 @@
 			// Convert image file (if present) to base64 string for modern browsers except IE<10, as it does not support
 			// custom MIME types in clipboard (#4612).
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+			var isImagePasteSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported;
+			if ( isImagePasteSupported && editor.config.clipboard_handleImages ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 					unsupportedTypeMsg = createNotificationMessage( supportedImageTypes ),
 					latestId;
@@ -3471,3 +3472,13 @@
  * @member CKEDITOR.config
  */
 CKEDITOR.config.clipboard_notificationDuration = 10000;
+
+/**
+ * Whether to use clipboard plugin to handle image pasting and dropping,
+ * turning images into base64 strings on browsers supporting the File API.
+ *
+ * @since 4.17.0
+ * @cfg {Boolean} [clipboard_handleImages=true]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.clipboard_handleImages = true;
