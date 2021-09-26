@@ -29,7 +29,7 @@
 
 	bender.editor = {
 		config: {
-			allowedContent: true,
+			extraAllowedContent: 'img[*];strong',
 			language: 'en',
 			clipboard_handleImages: false,
 			extraPlugins: 'customImagePasteHandlerPlugin'
