@@ -14,6 +14,7 @@ New Features:
 * [#3433](https://github.com/ckeditor/ckeditor4/issues/3433): Marked required fields in dialogs with asterisk (`*`) symbol.
 * [#4374](https://github.com/ckeditor/ckeditor4/issues/4374): Integrated [Maximize](https://ckeditor.com/cke4/addon/maximize) plugin with browser's History API.
 * [#4874](https://github.com/ckeditor/ckeditor4/issues/4874): Added the [`config.clipboard_handleImages`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-clipboard_handleImages) configuration option for enabling and disabling built-in support for pasting and dropping images in the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
+* [#4850](https://github.com/ckeditor/ckeditor4/issues/4850): Added support for loading [content templates](https://ckeditor.com/cke4/addon/templates) from HTML files. Thanks to [Fynn96](https://github.com/Fynn96)!
 
 Fixed Issues:
 
