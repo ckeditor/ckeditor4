@@ -1,7 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard */
 /* bender-include: _helpers/pasting.js */
-/* globals mockFileReader, assertDropImage, assertImagePaste */
+/* globals mockFileReader, assertImageDrop, assertImagePaste */
 
 ( function() {
 	'use strict';
@@ -107,7 +107,7 @@
 
 			bender.tools.setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
 
-			assertDropImage( {
+			assertImageDrop( {
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,

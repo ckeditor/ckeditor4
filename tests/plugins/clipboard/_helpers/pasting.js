@@ -1,5 +1,5 @@
-/* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification, testResetScenario,
-getDefaultNotification, createFixtures, mockFileReader */
+/* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification, assertImagePaste,
+assertImageDrop, testResetScenario,getDefaultNotification, createFixtures, mockFileReader */
 
 'use strict';
 
@@ -289,7 +289,7 @@ function assertImagePaste( editor, options ) {
 	wait();
 }
 
-function assertDropImage( options ) {
+function assertImageDrop( options ) {
 	function mockDropFile( type ) {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );

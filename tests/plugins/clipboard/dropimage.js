@@ -1,13 +1,13 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard */
 /* bender-include: _helpers/pasting.js */
-/* globals mockFileReader */
+/* globals assertImageDrop, mockFileReader */
 
 ( function() {
 	'use strict';
 
 	var setHtmlWithSelection = bender.tools.setHtmlWithSelection,
-		originalFileReader = window.FileReader
+		originalFileReader = window.FileReader;
 
 	bender.editor = {
 		config: {
@@ -39,7 +39,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( {
+			assertImageDrop( {
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
@@ -60,7 +60,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( {
+			assertImageDrop( {
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
@@ -81,7 +81,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( {
+			assertImageDrop( {
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
@@ -102,7 +102,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( {
+			assertImageDrop( {
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
@@ -127,7 +127,7 @@
 			FileReader.setReadResult( 'load' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage(  {
+			assertImageDrop(  {
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
@@ -159,7 +159,7 @@
 			FileReader.setReadResult( 'abort' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( {
+			assertImageDrop( {
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
@@ -180,7 +180,7 @@
 			FileReader.setReadResult( 'error' );
 
 			setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
-			assertDropImage( {
+			assertImageDrop( {
 				editor: this.editor,
 				event: dropEvt,
 				type: imageType,
