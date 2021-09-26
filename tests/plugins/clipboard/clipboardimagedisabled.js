@@ -1,7 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard */
 /* bender-include: _helpers/pasting.js */
-/* globals mockFileReader */
+/* globals mockFileReader, assertDropImage, assertImagePaste */
 
 ( function() {
 	'use strict';
@@ -12,12 +12,13 @@
 	CKEDITOR.plugins.add( 'customImagePasteHandlerPlugin', {
 		init: function( editor ) {
 			editor.on( 'paste', function( event ) {
-				if (event.data.dataTransfer.$.files.length === 1) {
+				if ( event.data.dataTransfer.$.files.length === 1 ) {
 					pasteCount++;
 				}
 			} );
+
 			editor.on( 'drop', function( event ) {
-				if (event.data.dataTransfer.$.files.length === 1) {
+				if ( event.data.dataTransfer.$.files.length === 1 ) {
 					dropCount++;
 				}
 			} );
@@ -31,17 +32,12 @@
 			allowedContent: true,
 			language: 'en',
 			clipboard_handleImages: false,
-			extraPlugins: "customImagePasteHandlerPlugin"
+			extraPlugins: 'customImagePasteHandlerPlugin'
 		}
 	};
 
 	bender.test( {
 		setUp: function() {
-			// (#4612).
-			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-				assert.ignore();
-			}
-
 			mockFileReader();
 			this.editor.focus();
 		},
@@ -51,30 +47,38 @@
 		},
 
 		'test image paste from clipboard suppressed': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+				assert.ignore();
+			}
+
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'load' );
 
 			pasteCount = 0;
-			var assert = this.assert;
 
 			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
+
 			this.assertPaste( {
 				type: 'image/png',
 				expected: '<p>Paste image here:^@</p>',
 				callback: function() {
-					assert(pasteCount === 1, "custom image handler plugin did not receive file");
+					assert.areSame( pasteCount, 1, 'custom image handler plugin did not receive file' );
 				}
 			} );
 		},
 
 		'test image and text paste from clipboard, only image suppressed': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+				assert.ignore();
+			}
+
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'load' );
 
 			pasteCount = 0;
-			var assert = this.assert;
 
 			bender.tools.selection.setWithHtml( this.editor, '<p>{}</p>' );
+
 			this.assertPaste( {
 				type: 'image/png',
 				expected: '<p><strong>Hello world^</strong>@</p><p></p>',
@@ -82,12 +86,16 @@
 					{ type: 'text/html', data: '<strong>Hello world</strong>' }
 				],
 				callback: function() {
-					assert(pasteCount === 1, "custom image handler plugin did not receive file");
+					assert.areSame( pasteCount, 1, 'custom image handler plugin did not receive file' );
 				}
 			} );
 		},
 
 		'test image drop suppressed': function() {
+			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+				assert.ignore();
+			}
+
 			var dropEvt = bender.tools.mockDropEvent(),
 				imageType = 'image/png',
 				expected = '<p class="p">Paste image here:</p>';
@@ -96,9 +104,9 @@
 			FileReader.setReadResult( 'load' );
 
 			dropCount = 0;
-			var assert = this.assert;
 
 			bender.tools.setHtmlWithSelection( this.editor, '<p class="p">Paste image here:^</p>' );
+
 			assertDropImage( {
 				editor: this.editor,
 				event: dropEvt,
@@ -109,7 +117,7 @@
 					dropOffset: 17
 				},
 				callback: function() {
-					assert(dropCount === 1, "custom image handler plugin did not receive file");
+					assert.areSame( dropCount, 1, 'custom image handler plugin did not receive file' );
 				}
 			} );
 		},
