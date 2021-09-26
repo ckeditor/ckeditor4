@@ -4,7 +4,6 @@
  */
 
 ( function() {
-
 	CKEDITOR.dialog.add( 'templates', function( editor ) {
 		// Constructs the HTML view of the specified templates data.
 		function renderTemplatesList( container, templatesDefinitions ) {
@@ -53,9 +52,9 @@
 			item.on( 'click', function() {
 				if( template.htmlFile ) {
 					var templatesDialog = CKEDITOR.dialog.getCurrent();
-			
+
 					templatesDialog.setState( CKEDITOR.DIALOG_STATE_BUSY );
-			
+
 					// Load HTML of the file before inserting it.
 					CKEDITOR.ajax.loadText( template.htmlFile, function( html ) {
 						insertTemplate( html );
