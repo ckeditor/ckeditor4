@@ -112,6 +112,7 @@
 				} );
 			} );
 		},
+
 		'test insert template at cursor position': function() {
 			bender.editorBot.create( {
 				name: 'editor_insert',
@@ -134,6 +135,43 @@
 							resume( function() {
 								assert.areEqual( '<p>Lorem ipsum</p><p>I am a text</p><p>Here is some more text^</p>',
 									bot.htmlWithSelection(), 'Template has been inserted.' );
+							} );
+						}, 100 );
+					}, 100 );
+
+					wait();
+				} );
+			} );
+		},
+
+		'test inserting template file makes dialog busy': function() {
+			bender.editorBot.create( {
+				name: 'editor_dialog_state',
+				startupData: '<p>Lorem ipsum</p>',
+				config: {
+					templates_files: [ '/tests/plugins/templates/_assets/test.js' ],
+					templates: 'test'
+				}
+			}, function( bot ) {
+				setCursorAtTheEnd( bot.editor );
+
+				bot.dialog( 'templates', function( dialog ) {
+					dialog.getContentElement( 'selectTpl', 'chkInsertOpt' ).setValue( false );
+
+					setTimeout( function() {
+						var templates = getTemplatesList( dialog ),
+							dialogStateAfterClick;
+
+						templates[ 0 ].$.click();
+
+						dialogStateAfterClick = dialog.state;
+
+						setTimeout( function() {
+							resume( function() {
+								assert.areSame( CKEDITOR.DIALOG_STATE_BUSY, dialogStateAfterClick,
+									'Triggering inserting template file changed dialog state to busy' );
+								assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state,
+									'Dialog state after inserting template is back to idle' );
 							} );
 						}, 100 );
 					}, 100 );
