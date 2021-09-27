@@ -1,4 +1,4 @@
-@bender-tags: 4.16.3, 4783, bug
+@bender-tags: 4.17.0, 4783, bug
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,a11yhelp
 
