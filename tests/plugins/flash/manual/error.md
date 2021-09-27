@@ -1,6 +1,6 @@
 @bender-tags: 4.17.0, feature, 4866
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, flash
+@bender-ckeditor-plugins: wysiwygarea, toolbar, flash, basicstyles, link, undo
 
 1. Open browser's console.
 
