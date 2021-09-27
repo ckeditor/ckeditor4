@@ -74,6 +74,10 @@
 			}
 
 			function getHtmlToInsert( text ) {
+				// URL will be encoded later on with link.setAttribute method. Avoid
+				// double encoding of special characters (#4858).
+				text = CKEDITOR.tools.htmlDecodeAttr( text );
+
 				var link = new CKEDITOR.dom.element( 'a' ),
 					value = text.replace( /"/g, '%22' );
 
