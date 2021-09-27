@@ -7,9 +7,11 @@ Paste the given URL to the editor and check whether it's turned into a link. Mak
 ## Expected
 
 **Editor:** Link is pasted as it is, without additional encoding.
+
 **Source area:** `&` characters are single encoded with `&amp;`.
 
 ## Unexpected
 
 **Editor:** Special `&` characters are additionaly encoded to `&amp;`.
+
 **Source area:** `&` characters are double encoded to `&amp;amp;`.
