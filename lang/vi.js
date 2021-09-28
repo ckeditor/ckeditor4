@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'vi' ] = {
 		upload: 'Tải lên',
 		uploadSubmit: 'Tải lên máy chủ',
 		image: 'Hình ảnh',
-		flash: 'Flash',
 		form: 'Biểu mẫu',
 		checkbox: 'Nút kiểm',
 		radio: 'Nút chọn',

@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'ru' ] = {
 		upload: 'Загрузка файла',
 		uploadSubmit: 'Загрузить на сервер',
 		image: 'Изображение',
-		flash: 'Flash',
 		form: 'Форма',
 		checkbox: 'Чекбокс',
 		radio: 'Радиокнопка',

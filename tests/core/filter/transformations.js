@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-remove-plugins: basicstyles,image,table,showborders,tabletools,fakeobjects,flash,forms,iframe,link,pagebreak */
+/* bender-ckeditor-remove-plugins: basicstyles,image,table,showborders,tabletools,fakeobjects,forms,iframe,link,pagebreak */
 
 ( function() {
 	'use strict';

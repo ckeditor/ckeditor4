@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'lv' ] = {
 		upload: 'Augšupielādēt',
 		uploadSubmit: 'Nosūtīt serverim',
 		image: 'Attēls',
-		flash: 'Flash',
 		form: 'Forma',
 		checkbox: 'Atzīmēšanas kastīte',
 		radio: 'Izvēles poga',

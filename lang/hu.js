@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'hu' ] = {
 		upload: 'Feltöltés',
 		uploadSubmit: 'Küldés a szerverre',
 		image: 'Kép',
-		flash: 'Flash',
 		form: 'Űrlap',
 		checkbox: 'Jelölőnégyzet',
 		radio: 'Választógomb',

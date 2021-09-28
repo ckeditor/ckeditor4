@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'el' ] = {
 		upload: 'Αποστολή',
 		uploadSubmit: 'Αποστολή στον Διακομιστή',
 		image: 'Εικόνα',
-		flash: 'Flash',
 		form: 'Φόρμα',
 		checkbox: 'Κουτί Επιλογής',
 		radio: 'Κουμπί Επιλογής',

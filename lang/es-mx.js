@@ -4,7 +4,7 @@
  */
 
 /**
-* @fileOverview 
+* @fileOverview
 */
 
 /**#@+
@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'es-mx' ] = {
 		upload: 'Subir',
 		uploadSubmit: 'Enviar al servidor',
 		image: 'Imagen',
-		flash: 'Flash',
 		form: 'Formulario',
 		checkbox: 'Casilla de verificación',
 		radio: 'Botón de opción',

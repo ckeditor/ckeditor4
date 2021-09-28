@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'no' ] = {
 		upload: 'Last opp',
 		uploadSubmit: 'Send det til serveren',
 		image: 'Bilde',
-		flash: 'Flash',
 		form: 'Skjema',
 		checkbox: 'Avmerkingsboks',
 		radio: 'Alternativknapp',

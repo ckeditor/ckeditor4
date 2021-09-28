@@ -15,7 +15,6 @@ module.exports = function( grunt ) {
 		'plugins/*/lib/**',
 		'plugins/**/lang/**',
 		'plugins/uicolor/yui/**',
-		'plugins/htmlwriter/samples/assets/outputforflash/**',
 		'samples/toolbarconfigurator/lib/**',
 		'tests/adapters/jquery/_assets/**',
 		'tests/core/dom/_assets/**',

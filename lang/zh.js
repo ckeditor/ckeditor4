@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'zh' ] = {
 		upload: '上傳',
 		uploadSubmit: '傳送至伺服器',
 		image: '圖像',
-		flash: 'Flash',
 		form: '表格',
 		checkbox: '核取方塊',
 		radio: '選項按鈕',

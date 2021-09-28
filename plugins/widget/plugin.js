@@ -4745,7 +4745,7 @@
 /**
  * If set to `true`, the widget's element will be covered with a transparent mask.
  * This will prevent its content from being clickable, which matters in case
- * of special elements like embedded Flash or iframes that generate a separate "context".
+ * of special elements like embedded iframes that generate a separate "context".
  *
  * If the value is a `string` type, then the partial mask covering only the given widget part
  * is created instead. The `string` mask should point to the name of one of the widget {@link CKEDITOR.plugins.widget#parts parts}.

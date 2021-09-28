@@ -1,6 +1,6 @@
 /* bender-tags: editor */
 // jscs:disable maximumLineLength
-/* bender-ckeditor-plugins: basicstyles,bidi,blockquote,button,clipboard,colorbutton,dialog,div,docprops,elementspath,find,flash,font,format,forms,horizontalrule,iframe,iframedialog,image,indent,justify,link,list,listblock,maximize,newpage,pagebreak,pastefromword,pastetext,placeholder,preview,print,removeformat,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,table,templates,toolbar,uicolor,undo */
+/* bender-ckeditor-plugins: basicstyles,bidi,blockquote,button,clipboard,colorbutton,dialog,div,docprops,elementspath,find,font,format,forms,horizontalrule,iframe,iframedialog,image,indent,justify,link,list,listblock,maximize,newpage,pagebreak,pastefromword,pastetext,placeholder,preview,print,removeformat,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,table,templates,toolbar,uicolor,undo */
 // jscs:enable maximumLineLength
 
 // This list of commands are to be maintained whenever new commands are added.

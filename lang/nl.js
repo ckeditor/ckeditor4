@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'nl' ] = {
 		upload: 'Upload',
 		uploadSubmit: 'Naar server verzenden',
 		image: 'Afbeelding',
-		flash: 'Flash',
 		form: 'Formulier',
 		checkbox: 'Selectievinkje',
 		radio: 'Keuzerondje',

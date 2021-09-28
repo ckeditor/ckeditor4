@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'lt' ] = {
 		upload: 'Siųsti',
 		uploadSubmit: 'Siųsti į serverį',
 		image: 'Vaizdas',
-		flash: 'Flash',
 		form: 'Forma',
 		checkbox: 'Žymimasis langelis',
 		radio: 'Žymimoji akutė',

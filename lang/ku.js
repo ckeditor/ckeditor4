@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'ku' ] = {
 		upload: 'بارکردن',
 		uploadSubmit: 'ناردنی بۆ ڕاژە',
 		image: 'وێنە',
-		flash: 'فلاش',
 		form: 'داڕشتە',
 		checkbox: 'خانەی نیشانکردن',
 		radio: 'جێگرەوەی دوگمە',

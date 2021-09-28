@@ -1,6 +1,6 @@
 /* bender-tags: editor */
 // jscs:disable maximumLineLength
-/* bender-ckeditor-plugins: about,basicstyles,bidi,blockquote,clipboard,colorbutton,colordialog,div,enterkey,entities,find,flash,font,format,forms,horizontalrule,iframe,indent,justify,link,list,newpage,pagebreak,pastefromword,pastetext,removeformat,resize,toolbar,save,selectall,showblocks,smiley,sourcearea,specialchar,stylescombo,table,templates,undo,wysiwygarea */
+/* bender-ckeditor-plugins: about,basicstyles,bidi,blockquote,clipboard,colorbutton,colordialog,div,enterkey,entities,find,font,format,forms,horizontalrule,iframe,indent,justify,link,list,newpage,pagebreak,pastefromword,pastetext,removeformat,resize,toolbar,save,selectall,showblocks,smiley,sourcearea,specialchar,stylescombo,table,templates,undo,wysiwygarea */
 // jscs:enable maximumLineLength
 
 

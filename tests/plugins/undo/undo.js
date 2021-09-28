@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: undo,enterkey,horizontalrule,image,iframe,flash,basicstyles,toolbar,sourcearea */
+/* bender-ckeditor-plugins: undo,enterkey,horizontalrule,image,iframe,basicstyles,toolbar,sourcearea */
 
 var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
 	fillingCharSequenceLength = fillingCharSequence.length,
@@ -810,14 +810,6 @@ bender.test( {
 	'test undo iframe insertion (dialog)': function() {
 		this.doUndoDialog( '<p>foo^bar</p>', 'iframe', function( dialog ) {
 			dialog.setValueOf( 'info', 'src', 'about:blank' );
-			dialog.getButton( 'ok' ).click();
-		} ) ;
-	},
-
-	// https://dev.ckeditor.com/ticket/8258
-	'test undo flash insertion (dialog)': function() {
-		this.doUndoDialog( '<p>foo^bar</p>', 'flash', function( dialog ) {
-			dialog.setValueOf( 'info', 'src', '../../_assets/sample.swf' );
 			dialog.getButton( 'ok' ).click();
 		} ) ;
 	},

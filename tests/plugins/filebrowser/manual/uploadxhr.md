@@ -1,6 +1,6 @@
 @bender-tags: 4.9.0, feature, 643, tp3117
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, filebrowser, filetools, image, link, flash
+@bender-ckeditor-plugins: wysiwygarea, toolbar, filebrowser, filetools, image, link
 
 ----
 1. Open image dialog

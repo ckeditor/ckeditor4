@@ -4,7 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'si', {
 	anchor: 'ආධාරය',
-	flash: 'Flash Animation', // MISSING
 	hiddenfield: 'සැඟවුණු ප්‍රදේශය',
 	iframe: 'IFrame',
 	unknown: 'Unknown Object' // MISSING

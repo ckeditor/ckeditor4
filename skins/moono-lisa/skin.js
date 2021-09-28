@@ -310,7 +310,7 @@ CKEDITOR.skin.chameleon = ( function() {
 //		// extension) available inside the "icons" folder.
 //		var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
 //			'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
-//			'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
+//			'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,form,' +
 //			'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
 //			'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
 //			'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +

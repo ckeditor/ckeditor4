@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'sq' ] = {
 		upload: 'Ngarko',
 		uploadSubmit: 'E dërgo në server',
 		image: 'Foto',
-		flash: 'Objekt flash',
 		form: 'Formulari',
 		checkbox: 'Kuti përzgjedhjeje',
 		radio: 'Pullë përzgjedhjeje',

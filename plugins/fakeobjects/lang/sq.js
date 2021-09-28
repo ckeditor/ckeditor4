@@ -4,7 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'sq', {
 	anchor: 'Spirancë',
-	flash: 'Objekt flash',
 	hiddenfield: 'Fushë e fshehur',
 	iframe: 'IFrame',
 	unknown: 'Objekt i Panjohur'

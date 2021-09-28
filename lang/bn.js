@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'bn' ] = {
 		upload: 'আপলোড',
 		uploadSubmit: 'ইহাকে সার্ভারে প্রেরন কর',
 		image: 'ছবির লেবেল যুক্ত কর',
-		flash: 'ফ্লাশ লেবেল যুক্ত কর',
 		form: 'ফর্ম',
 		checkbox: 'চেক বাক্স',
 		radio: 'রেডিও বাটন',

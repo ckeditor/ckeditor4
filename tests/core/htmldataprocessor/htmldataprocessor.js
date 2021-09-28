@@ -372,8 +372,6 @@
 			assert.areSame( getTextAreaValue( '_TEXTAREA_3591' ), dataProcessor.toDataFormat( protectedHtml ) );
 		}, */
 
-		test_ticket_3591_2: testProcessedHtmlUnchanged( '_TEXTAREA_3591_2', true ),
-
 		test_ticket_3869_1: testProcessedHtmlUnchanged( '_TEXTAREA_3869_1' ),
 
 		test_ticket_3869_2: function() {

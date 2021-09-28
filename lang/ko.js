@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'ko' ] = {
 		upload: '업로드',
 		uploadSubmit: '서버로 전송',
 		image: '이미지',
-		flash: '플래시',
 		form: '폼',
 		checkbox: '체크 박스',
 		radio: '라디오 버튼',

@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'et' ] = {
 		upload: 'Laadi üles',
 		uploadSubmit: 'Saada serverisse',
 		image: 'Pilt',
-		flash: 'Flash',
 		form: 'Vorm',
 		checkbox: 'Märkeruut',
 		radio: 'Raadionupp',

@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'ms' ] = {
 		upload: 'Muat Naik',
 		uploadSubmit: 'Hantar ke Server',
 		image: 'Gambar',
-		flash: 'Flash', // MISSING
 		form: 'Borang',
 		checkbox: 'Checkbox',
 		radio: 'Butang Radio',

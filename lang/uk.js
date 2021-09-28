@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'uk' ] = {
 		upload: 'Надіслати',
 		uploadSubmit: 'Надіслати на сервер',
 		image: 'Зображення',
-		flash: 'Flash',
 		form: 'Форма',
 		checkbox: 'Галочка',
 		radio: 'Кнопка вибору',

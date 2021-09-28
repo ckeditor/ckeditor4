@@ -34,7 +34,6 @@ CKEDITOR.lang[ 'sk' ] = {
 		upload: 'Odoslať',
 		uploadSubmit: 'Odoslať na server',
 		image: 'Obrázok',
-		flash: 'Flash',
 		form: 'Formulár',
 		checkbox: 'Zaškrtávacie pole',
 		radio: 'Prepínač',

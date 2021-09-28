@@ -33,7 +33,6 @@ CKEDITOR.lang[ 'tr' ] = {
 		upload: 'Karşıya Yükle',
 		uploadSubmit: 'Sunucuya Gönder',
 		image: 'Resim',
-		flash: 'Flash',
 		form: 'Form',
 		checkbox: 'Seçim Kutusu',
 		radio: 'Seçenek Düğmesi',
