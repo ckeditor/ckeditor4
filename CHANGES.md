@@ -3,6 +3,11 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.17
 
+**Highlights:**
+
+Adobe [end support of Flash Player](https://www.adobe.com/products/flashplayer/end-of-life.html) on December 31, 2020 and blocked Flash content from running in Flash Player beginning January 12, 2021.
+We've decided to deprecate and remove [Flash](https://ckeditor.com/cke4/addon/flash) plugin from CKEditor 4 to help protect users systems and discourage using insecure software.
+
 New Features:
 
 * [#3433](https://github.com/ckeditor/ckeditor4/issues/3433): Marked required fields in dialogs with asterisk (`*`) symbol.
@@ -42,9 +47,6 @@ API Changes:
 Other Changes:
 
 * [#4866](https://github.com/ckeditor/ckeditor4/issues/#4866): [Flash](https://ckeditor.com/cke4/addon/flash) plugin has been deprecated and removed from the CKEditor 4.
-
-Adobe [end support of Flash Player](https://www.adobe.com/products/flashplayer/end-of-life.html) on December 31, 2020 and blocked Flash content from running in Flash Player beginning January 12, 2021.
-We've decided to deprecate and remove [Flash](https://ckeditor.com/cke4/addon/flash) plugin from CKEditor 4 to help protect users systems and discourage using insecure software.
 
 ## CKEditor 4.16.2
 
