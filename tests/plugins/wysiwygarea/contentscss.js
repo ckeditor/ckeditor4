@@ -17,28 +17,34 @@
 		},
 
 		'test string value': function() {
+			var assetName = '_assets/contents.css';
 			bender.editorBot.create( {
 				name: 'test_string',
 				config: {
-					contentsCss: '_assets/contents.css'
+					contentsCss: assetName
 				}
 			}, function( bot ) {
 				var hrefs = getStylesheets( bot.editor.document );
+				// (#4903)
+				var expectedPath = getFullAppPathToAssets( [ assetName ] ).join( '' );
 
-				assert.areSame( '_assets/contents.css', hrefs.join() );
+				assert.areSame( expectedPath, hrefs.join() );
 			} );
 		},
 
 		'test array value': function() {
+			var additionalCssFiles = [ '_assets/contents.css', '_assets/contents2.css' ];
 			bender.editorBot.create( {
 				name: 'test_array',
 				config: {
-					contentsCss: [ '_assets/contents.css', '_assets/contents2.css' ]
+					contentsCss: additionalCssFiles
 				}
 			}, function( bot ) {
 				var hrefs = getStylesheets( bot.editor.document );
+				// (#4903)
+				var cssWithFullUrl = getFullAppPathToAssets( additionalCssFiles );
 
-				assert.areSame( '_assets/contents.css,_assets/contents2.css', hrefs.sort().join() );
+				assert.areSame( cssWithFullUrl.join( ',' ), hrefs.sort().join() );
 			} );
 		},
 
@@ -92,4 +98,11 @@
 
 		return hrefs;
 	}
+
+	function getFullAppPathToAssets( assets ) {
+		return CKEDITOR.tools.array.map( assets, function( element ) {
+			return window.location.origin + '/apps/ckeditor/' + element;
+		} );
+	}
+
 } )();
