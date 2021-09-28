@@ -30,7 +30,7 @@ Fixed Issues:
 * [#4874](https://github.com/ckeditor/ckeditor4/issues/4874): Fixed: Built-in support for pasting and dropping images in the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin restricts third party plugins from handling image pasting. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
 * [#4888](https://github.com/ckeditor/ckeditor4/issues/4888): Fixed: [`CKEDITOR.dialog#setState()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-setState) method throws error when there is no "Ok" button in the dialog.
 
-**API Changes:**
+API Changes:
 
 * [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): [`CKEDITOR.editor#getSelection()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getSelection) now returns `null` if the editor is in recreating state.
 * [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Inserting content next to block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation is now possible. Thanks to [bunglegrind](https://github.com/bunglegrind)!
@@ -38,6 +38,13 @@ Fixed Issues:
 * [#4604](https://github.com/ckeditor/ckeditor4/issues/4604): Added the [`CKEDITOR.plugins.clipboard.dataTransfer#isFileTransfer()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard_dataTransfer.html#method-isFileTransfer) method.
 * [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): [`CKEDITOR.dom.document#appendStyleSheet()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_document.html#method-appendStyleSheet) and [`CKEDITOR.tools.buildStyleHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-buildStyleHtml) now use [`CKEDITOR.getUrl()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-getUrl) to correctly handle caching of CSS files.
 * [#4790](https://github.com/ckeditor/ckeditor4/issues/4790): Added `callback` parameter to [`CKEDITOR.plugins.preview#createPreview()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_preview.html#method-createPreview) method.
+
+Other Changes:
+
+* [#4866](https://github.com/ckeditor/ckeditor4/issues/#4866): [Flash](https://ckeditor.com/cke4/addon/flash) plugin has been deprecated and removed from the CKEditor 4.
+
+Adobe [end support of Flash Player](https://www.adobe.com/products/flashplayer/end-of-life.html) on December 31, 2020 and blocked Flash content from running in Flash Player beginning January 12, 2021.
+We've decided to deprecate and remove [Flash](https://ckeditor.com/cke4/addon/flash) plugin from CKEditor 4 to help protect users systems and discourage using insecure software.
 
 ## CKEditor 4.16.2
 
