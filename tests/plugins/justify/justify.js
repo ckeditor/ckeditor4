@@ -74,8 +74,8 @@
 		},
 
 		'test alignment commands with justifyClasses': function() {
-			// (#3364), (#4903)
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.chrome ) {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
@@ -119,8 +119,8 @@
 		},
 
 		'test alignment commands with justifyClasses - one disallowed': function() {
-			// (#3364), (#4903)
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.chrome ) {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
@@ -184,8 +184,8 @@
 		},
 
 		'test alignment commands in div mode and with justifyClasses': function() {
-			// (#3364), (#4903)
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.chrome ) {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
@@ -389,8 +389,8 @@
 
 		// (#455)
 		'test alignment on multi-element non-collapsed selection (class)': function() {
-			// (#3364), (#4903)
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.chrome ) {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
@@ -447,8 +447,8 @@
 
 		// (#455)
 		'test alignment on multi-element with disallowContent (class)': function() {
-			// (#3364), (#4903)
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.chrome ) {
+			// (#3364)
+			if ( CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
