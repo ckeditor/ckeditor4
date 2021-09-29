@@ -99,6 +99,20 @@
 			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
+		// (#4858)
+		'test URL link with encoded characters': function() {
+			var pastedText = 'https://www.google.com/test/?one=one&amp;two=two&amp;three',
+				expected = '<a href="https://www.google.com/test/?one=one&amp;two=two&amp;three">https://www.google.com/test/?one=one&amp;two=two&amp;three</a>',
+				spy = sinon.spy( CKEDITOR.tools, 'htmlDecodeAttr' );
+
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
+
+			spy.restore();
+
+			// Ensure that the test is correct.
+			assert.isTrue( spy.calledWithExactly( pastedText ), 'htmlDecodeAttr was called with incorrect input' );
+		},
+
 		'test mail link with text after': function() {
 			var pastedText = 'mail@example.com nope';
 

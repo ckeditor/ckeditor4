@@ -1,0 +1,17 @@
+<h3>URLs that should be turned into links</h3>
+
+<style>
+input[type=text] { width: 450px }
+</style>
+
+<input type="text" readonly="readonly" value="https://www.google.com/test/?one=one&two=two&three">
+
+<textarea id="editor" cols="10" rows="10">
+	<p>Foo bar.</p>
+</textarea>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
+
+	CKEDITOR.replace( 'editor' );
+</script>
