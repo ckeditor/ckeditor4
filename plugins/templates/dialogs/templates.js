@@ -156,6 +156,12 @@
 					type: 'vbox',
 					padding: 5,
 					children: [ {
+						id: 'chkInsertOpt',
+						type: 'checkbox',
+						label: lang.insertOption,
+						'default': config.templates_replaceContent
+					},
+					{
 						id: 'selectTplText',
 						type: 'html',
 						html: '<span>' +
@@ -170,12 +176,6 @@
 								'<div class="cke_tpl_loading"><span></span></div>' +
 							'</div>' +
 							'<span class="cke_voice_label" id="' + templateListLabelId + '">' + lang.options + '</span>'
-					},
-					{
-						id: 'chkInsertOpt',
-						type: 'checkbox',
-						label: lang.insertOption,
-						'default': config.templates_replaceContent
 					} ]
 				} ]
 			} ],
