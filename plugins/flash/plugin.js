@@ -5,7 +5,7 @@
 
 CKEDITOR.plugins.add( 'flash', {
 	init: function() {
-		CKEDITOR.error( 'editor-plugin-deprecated', { pluginName: 'flash' } );
+		CKEDITOR.error( 'editor-plugin-deprecated', { plugin: 'flash' } );
 	}
 } );
 
