@@ -148,11 +148,8 @@
 			if ( newHeight != currentHeight && lastHeight != newHeight ) {
 				newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
 
-				var boxSizingType = editor.container.getComputedStyle( 'box-sizing' ),
-					isBorderBox = boxSizingType === 'border-box',
-					width = editor.container.getSize( 'width', isBorderBox );
-
-				editor.resize( width, newHeight, true );
+				// width parameter is null because we only need to update the height of the editor. (#4891)
+				editor.resize( null, newHeight, true );
 				lastHeight = newHeight;
 			}
 
