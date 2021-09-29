@@ -1898,7 +1898,7 @@
 			nodesData = extractNodesData( that.dataWrapper, that );
 
 			// Keep br's when CKEDITOR.ENTER_BR is active for proper spacing. (#3858)
-			if ( that.editor.enterMode !== 2 ) {
+			if ( that.editor.enterMode !== CKEDITOR.ENTER_BR ) {
 				removeBrsAdjacentToPastedBlocks( nodesData, range );
 			}
 
