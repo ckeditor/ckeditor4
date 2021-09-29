@@ -13,7 +13,12 @@
 				name: 'editor'
 			}, function() {
 				spy.restore();
+
+				assert.areSame( 1, spy.callCount, 'Error was thrown' );
 				assert.isTrue( spy.calledWith( 'editor-plugin-deprecated' ), 'The error code is invalid' );
+				assert.isTrue( spy.calledWithExactly( 'editor-plugin-deprecated', sinon.match( {
+					plugin: 'flash'
+				} ) ), 'Appropriate error code and additional data should be used' );
 			} );
 		}
 	} );
