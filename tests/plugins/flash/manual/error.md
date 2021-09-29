@@ -8,7 +8,7 @@
  * The editor loading process was aborted with the console error:
 ```
 [CKEDITOR] Error code: editor-plugin-deprecated.
-{ pluginName: "flash" }
+{ plugin: "flash" }
 ```
 
 **Unexpected**
