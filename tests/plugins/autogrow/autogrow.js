@@ -70,7 +70,7 @@
 					resume( function() {
 						var editorContainerInlineWidth = editor.container.$.style.width;
 
-						assert.areSame( editorContainerInlineWidth, '', 'editor shouldn\'t have width property' );
+						assert.areSame( editorContainerInlineWidth, '', 'editor shouldn\'t have any inline width property' );
 					} );
 				} );
 
