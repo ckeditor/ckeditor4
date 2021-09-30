@@ -35,7 +35,6 @@ Fixed Issues:
 * [#4790](https://github.com/ckeditor/ckeditor4/issues/4790): Fixed: Printing page is invoked before the printed page is fully loaded.
 * [#4874](https://github.com/ckeditor/ckeditor4/issues/4874): Fixed: Built-in support for pasting and dropping images in the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin restricts third party plugins from handling image pasting. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
 * [#4888](https://github.com/ckeditor/ckeditor4/issues/4888): Fixed: [`CKEDITOR.dialog#setState()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-setState) method throws error when there is no "Ok" button in the dialog.
-* [#4901](https://github.com/ckeditor/ckeditor4/issues/4901): Fixed: Incorrect order of controls inside [Content templates](https://ckeditor.com/cke4/addon/templates) dialog. Thanks to [Fynn96](https://github.com/Fynn96)!
 
 API Changes:
 
@@ -49,6 +48,7 @@ API Changes:
 Other Changes:
 
 * [#4866](https://github.com/ckeditor/ckeditor4/issues/#4866): [Flash](https://ckeditor.com/cke4/addon/flash) plugin has been deprecated and removed from the CKEditor 4.
+* [#4901](https://github.com/ckeditor/ckeditor4/issues/4901): Redesigned buttons placement in [Content templates](https://ckeditor.com/cke4/addon/templates) dialog to make it more UX friendly. Thanks to [Fynn96](https://github.com/Fynn96)!
 
 ## CKEditor 4.16.2
 
