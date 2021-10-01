@@ -40,7 +40,7 @@
 		"javascript"
 	],
 	"author": "CKSource (https://cksource.com/)",
-	"license": "(GPL-2.0-or-later OR LGPL-2.1 OR MPL-1.1)",
+	"license": "(GPL-2.0-or-later OR LGPL-2.1-or-later OR MPL-1.1-or-later)",
 	"bugs": "https://github.com/ckeditor/ckeditor4/issues",
 	"homepage": "https://ckeditor.com",
 	"repository": {
