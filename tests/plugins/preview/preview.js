@@ -6,6 +6,24 @@ bender.editor = {
 };
 
 bender.test( {
+    'test title of preview': function() {
+		var tc = this,
+			editor = tc.editor;
+
+        editor.title = 'Test title';
+        editor.once('contentPreview', function( event ) {
+            tc.resume( function() {
+                assert.isArray( event.data.dataValue.match( '<title>' + editor.title + '</title>'), 'Preview title is editor\'s title.');
+            } );
+
+            event.cancel();
+       }, null, null, 1);
+
+        editor.execCommand( 'preview' );
+
+        tc.wait();
+    },
+
 	'test processing of data on contentPreview': function() {
 		var tc = this,
 			editor = tc.editor;
