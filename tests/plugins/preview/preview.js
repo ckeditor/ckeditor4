@@ -6,17 +6,19 @@ bender.editor = {
 };
 
 bender.test( {
+	// (#4026)
 	'test title of preview': function() {
 		var tc = this,
 			editor = tc.editor;
 
 		editor.title = 'Test title';
 		editor.once( 'contentPreview', function( event ) {
-			tc.resume( function() {
-				assert.isArray( event.data.dataValue.match( '<title>' + editor.title + '</title>' ), 'Preview title is editor\'s title.' );
-			} );
-
 			event.cancel();
+
+			tc.resume( function() {
+				assert.isMatching( '<title>' + editor.title + '</title>', event.data.dataValue,
+					'Preview title is editor\'s title.' );
+			} );
 		}, null, null, 1 );
 
 		editor.execCommand( 'preview' );
