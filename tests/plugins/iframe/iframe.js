@@ -23,8 +23,8 @@
 		},
 
 		'test load iframe': function() {
-			var editor = this.editor;
-			const expected = '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com"></iframe>';
+			var editor = this.editor,
+				expected = '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com"></iframe>';
 
 			this.editorBot.setData( expected, function() {
 				assertHtml( expected, editor.getData() );
