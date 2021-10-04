@@ -20,7 +20,7 @@ New Features:
 * [#4807](https://github.com/ckeditor/ckeditor4/issues/4807): [Chrome] Improve the performance of pasting large images. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
 * [#4850](https://github.com/ckeditor/ckeditor4/issues/4850): Added support for loading [content templates](https://ckeditor.com/cke4/addon/templates) from HTML files. Thanks to [Fynn96](https://github.com/Fynn96)!
 * [#4874](https://github.com/ckeditor/ckeditor4/issues/4874): Added the [`config.clipboard_handleImages`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-clipboard_handleImages) configuration option for enabling and disabling built-in support for pasting and dropping images in the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
-* [#4858](https://github.com/ckeditor/ckeditor4/issues/4858): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin incorrectly escapes `&` characters when pasting links into the editor.
+* [#4026](https://github.com/ckeditor/ckeditor4/issues/4026): [Preview](https://ckeditor.com/cke4/addon/preview) plugin now uses [`editor#title`](http://localhost/ckeditor4-docs/build/docs/ckeditor4/latest/api/CKEDITOR_editor.html#property-title) property for the title of the preview window. Thanks to [Ely](https://github.com/Elyasin)!
 
 Fixed Issues:
 
@@ -35,6 +35,7 @@ Fixed Issues:
 * [#4790](https://github.com/ckeditor/ckeditor4/issues/4790): Fixed: Printing page is invoked before the printed page is fully loaded.
 * [#4874](https://github.com/ckeditor/ckeditor4/issues/4874): Fixed: Built-in support for pasting and dropping images in the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin restricts third party plugins from handling image pasting. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
 * [#4888](https://github.com/ckeditor/ckeditor4/issues/4888): Fixed: [`CKEDITOR.dialog#setState()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-setState) method throws error when there is no "Ok" button in the dialog.
+* [#4858](https://github.com/ckeditor/ckeditor4/issues/4858): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin incorrectly escapes `&` characters when pasting links into the editor.
 
 API Changes:
 
