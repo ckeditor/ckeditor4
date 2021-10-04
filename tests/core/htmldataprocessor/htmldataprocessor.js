@@ -110,6 +110,7 @@
 			name: 'test_editor3',
 			config: {
 				protectedSource: [ /\[\[[^\]]*?\]\]/g ],
+				removePlugins: 'iframe', // Iframe plugin does not allow any content inside (#4822).
 				fullPage: true,
 				allowedContent: true
 			}
