@@ -80,7 +80,7 @@
 						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
 						plugins: 'justify,toolbar',
 						extraAllowedContent: 'img[src]',
-						contentsCss: bender.testDir + '_assets/styles.css'
+						contentsCss: '%TEST_DIR%/_assets/styles.css'
 					}
 				} )
 				.then( function( bot ) {
@@ -121,7 +121,7 @@
 						plugins: 'justify,toolbar',
 						// Note: alignRight is not allowed.
 						allowedContent: 'p(alignLeft,alignCenter,alignJustify); img[src]',
-						contentsCss: bender.testDir + '_assets/styles.css'
+						contentsCss: '%TEST_DIR%/_assets/styles.css'
 					}
 				} )
 				.then( function( bot ) {
@@ -180,7 +180,7 @@
 						plugins: 'justify,toolbar',
 						enterMode: CKEDITOR.ENTER_DIV,
 						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
-						contentsCss: bender.testDir + '_assets/styles.css'
+						contentsCss: '%TEST_DIR%/_assets/styles.css'
 					}
 				} )
 				.then( function( bot ) {
@@ -239,7 +239,7 @@
 						plugins: 'justify,toolbar,wysiwygarea',
 						allowedContent: 'p ul(align*);li;',
 						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
-						contentsCss: bender.testDir + '_assets/styles.css'
+						contentsCss: '%TEST_DIR%/_assets/styles.css'
 					}
 				} )
 				.then( function( bot ) {
@@ -379,7 +379,7 @@
 					config: {
 						plugins: 'justify,toolbar,wysiwygarea',
 						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
-						contentsCss: bender.testDir + '_assets/styles.css',
+						contentsCss: '%TEST_DIR%/_assets/styles.css',
 						allowedContent: 'p ul(align*);li;'
 					}
 				} )
@@ -440,7 +440,7 @@
 						},
 						disallowedContent: 'h1(align*){text-align}',
 						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
-						contentsCss: bender.testDir + '_assets/styles.css'
+						contentsCss: '%TEST_DIR%/_assets/styles.css'
 					}
 				} )
 				.then( function( bot ) {

@@ -17,7 +17,7 @@
 		},
 
 		'test string value': function() {
-			var assetName = bender.testDir + '_assets/contents.css';
+			var assetName = '%TEST_DIR%/_assets/contents.css';
 
 			bender.editorBot.create( {
 				name: 'test_string',
@@ -32,7 +32,7 @@
 		},
 
 		'test array value': function() {
-			var additionalCssFiles = [ bender.testDir + '_assets/contents.css', bender.testDir + '_assets/contents2.css' ];
+			var additionalCssFiles = [ '%TEST_DIR%/_assets/contents.css', '%TEST_DIR%/_assets/contents2.css' ];
 
 			bender.editorBot.create( {
 				name: 'test_array',
