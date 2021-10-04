@@ -115,7 +115,7 @@
 	function createPreviewHtml( editor, callback ) {
 		var pluginPath = CKEDITOR.plugins.getPath( 'preview' ),
 			config = editor.config,
-			title = editor.lang.preview.preview,
+			title = editor.title,
 			baseTag = generateBaseTag();
 
 		if ( config.fullPage ) {

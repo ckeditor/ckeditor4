@@ -1,0 +1,13 @@
+<div id="editor">
+	<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.safari ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		title: 'Some fancy title'
+	} );
+</script>
