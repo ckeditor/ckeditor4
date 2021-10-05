@@ -6,13 +6,13 @@
 **Note**: Do not change the cursor position during the following steps.
 
 1. Open browser's console.
-2. Copy two paragraphs placed above the editor and paste then.
+2. Copy two paragraphs placed above the editor and paste them.
 
 **Note**: This will also copy `<p>` elements that are around `a` and `b` letters.
 
 3. Hit enter twice.
 4. Type any (only one) letter and remove it using `backspace`.
-5. Don't change the cursor position. Paste again the same two paragraphs.
+5. Remember: don't change the cursor position. Paste again the same two paragraphs.
 
 **Expected**
 
