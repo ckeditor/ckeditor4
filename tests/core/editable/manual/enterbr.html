@@ -1,0 +1,18 @@
+<h3>Copy below content:</h3>
+<p>a</p>
+<p>b</p>
+<br>
+<p id="editor"></p>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor', {
+			enterMode: CKEDITOR.ENTER_BR,
+			shiftEnterMode: CKEDITOR.ENTER_BR
+		} );
+	} )();
+</script>
