@@ -148,7 +148,7 @@
 			if ( newHeight != currentHeight && lastHeight != newHeight ) {
 				newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
 
-				// width parameter is null because we only need to update the height of the editor. (#4891)
+				// Set width parameter as null, to update only the height of the editor. (#4891)
 				editor.resize( null, newHeight, true );
 				lastHeight = newHeight;
 			}

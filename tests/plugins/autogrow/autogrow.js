@@ -68,9 +68,9 @@
 			bot.setData( autogrowTools.getTestContent( 10 ), function() {
 				editor.once( 'afterCommandExec', function() {
 					resume( function() {
-						var editorContainerInlineWidth = editor.container.$.style.width;
+						var editorContainerInlineWidth = editor.container.getStyle( 'width' );
 
-						assert.areSame( editorContainerInlineWidth, '', 'editor shouldn\'t have any inline width property' );
+						assert.areSame( editorContainerInlineWidth, '', 'Editor shouldn\'t have any inline width property' );
 					} );
 				} );
 
