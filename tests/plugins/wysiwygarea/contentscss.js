@@ -17,28 +17,32 @@
 		},
 
 		'test string value': function() {
+			var assetName = '%TEST_DIR%/_assets/contents.css';
+
 			bender.editorBot.create( {
 				name: 'test_string',
 				config: {
-					contentsCss: '_assets/contents.css'
+					contentsCss: assetName
 				}
 			}, function( bot ) {
 				var hrefs = getStylesheets( bot.editor.document );
 
-				assert.areSame( '_assets/contents.css', hrefs.join() );
+				assert.areSame( assetName, hrefs.join() );
 			} );
 		},
 
 		'test array value': function() {
+			var additionalCssFiles = [ '%TEST_DIR%/_assets/contents.css', '%TEST_DIR%/_assets/contents2.css' ];
+
 			bender.editorBot.create( {
 				name: 'test_array',
 				config: {
-					contentsCss: [ '_assets/contents.css', '_assets/contents2.css' ]
+					contentsCss: additionalCssFiles
 				}
 			}, function( bot ) {
 				var hrefs = getStylesheets( bot.editor.document );
 
-				assert.areSame( '_assets/contents.css,_assets/contents2.css', hrefs.sort().join() );
+				assert.areSame( additionalCssFiles.join( ',' ), hrefs.sort().join() );
 			} );
 		},
 
@@ -92,4 +96,5 @@
 
 		return hrefs;
 	}
+
 } )();
