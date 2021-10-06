@@ -661,6 +661,10 @@ var testsForMultipleEditor = {
 
 		// #(2292)
 		'test internal drag and drop on editors margin': function( editor ) {
+			// Ignored due to #4885
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
 			var evt = bender.tools.mockDropEvent(),
 				isWindows = navigator.userAgent.toLowerCase().indexOf( 'windows' ) !== -1,
 				newLine = CKEDITOR.env.gecko && CKEDITOR.env.version >= 69 && isWindows ?

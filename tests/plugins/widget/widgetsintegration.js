@@ -1144,6 +1144,10 @@
 			},
 
 			assert: function( editor ) {
+				// Ignored due to #4885
+				if ( CKEDITOR.env.safari ) {
+					assert.ignore();
+				}
 				assert.areSame( '', editor.getData() );
 				assert.isTrue( editor.getSelection().isCollapsed(), 'selection is collapsed' );
 			}
