@@ -27,14 +27,35 @@
 	var templates = {},
 		loadedTemplatesFiles = {};
 
+	/**
+	 * Adds templates' collection to the list of all available templates.
+	 *
+	 * @member CKEDITOR
+	 * @param {String} name Name of the templates' collection.
+	 * @param {CKEDITOR.plugins.templates.collection} definition Definition of templates' collection.
+	 */
 	CKEDITOR.addTemplates = function( name, definition ) {
 		templates[ name ] = definition;
 	};
 
+	/**
+	 * Gets templates' collection by its name.
+	 *
+	 * @member CKEDITOR
+	 * @param {String} name Name of the templates' collection.
+	 * @returns {CKEDITOR.plugins.templates.collection}
+	 */
 	CKEDITOR.getTemplates = function( name ) {
 		return templates[ name ];
 	};
 
+	/**
+	 * Loads files that contains templates' collection definition.
+	 *
+	 * @member CKEDITOR
+	 * @param {String[]} templateFiles Array of files' paths.
+	 * @param {Function} callback Function to be run after loading all files.
+	 */
 	CKEDITOR.loadTemplates = function( templateFiles, callback ) {
 		// Holds the templates files to be loaded.
 		var toLoad = [];
@@ -53,8 +74,6 @@
 			setTimeout( callback, 0 );
 	};
 } )();
-
-
 
 /**
  * The templates definition set to use. It accepts a list of names separated by
@@ -76,6 +95,7 @@
  *
  * For a sample template file
  * [see `templates/default.js`](https://github.com/ckeditor/ckeditor4/blob/master/plugins/templates/templates/default.js).
+ * For more information on template definiton see {@link CKEDITOR.plugins.templates.collection}.
  *
  * @cfg {String[]}
  * @member CKEDITOR.config
