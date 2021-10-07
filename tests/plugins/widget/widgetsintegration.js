@@ -1138,6 +1138,11 @@
 			html: '<div id="w1" data-widget="test3">test3</div>',
 
 			init: function( editor ) {
+				// Ignored due to #4885
+				if ( CKEDITOR.env.safari ) {
+					assert.ignore();
+				}
+
 				var widget = getWidgetById( editor, 'w1' );
 
 				widget.focus();
