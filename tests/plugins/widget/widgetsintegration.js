@@ -1149,7 +1149,6 @@
 			},
 
 			assert: function( editor ) {
-
 				assert.areSame( '', editor.getData() );
 				assert.isTrue( editor.getSelection().isCollapsed(), 'selection is collapsed' );
 			}
