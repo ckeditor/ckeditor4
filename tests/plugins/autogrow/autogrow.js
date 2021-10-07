@@ -58,6 +58,25 @@
 
 				wait();
 			} );
+		},
+
+		// (#4891)
+		'test autogrow shouldn\'t add inline width property to editor container': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			bot.setData( autogrowTools.getTestContent( 10 ), function() {
+				editor.once( 'afterCommandExec', function() {
+					resume( function() {
+						var editorContainerInlineWidth = editor.container.getStyle( 'width' );
+
+						assert.areSame( editorContainerInlineWidth, '', 'Editor shouldn\'t have any inline width property' );
+					} );
+				} );
+
+				editor.execCommand( 'autogrow' );
+				wait();
+			} );
 		}
 	} );
 } )();

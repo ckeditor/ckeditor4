@@ -260,7 +260,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * ```
 	 *
 	 * @param {Number/String} width The new width. It can be an integer denoting a value
-	 * in pixels or a CSS size value with unit.
+	 * in pixels or a CSS size value with unit. When null is passed, the value will not be set.
 	 * @param {Number/String} height The new height. It can be an integer denoting a value
 	 * in pixels or a CSS size value with unit.
 	 * @param {Boolean} [isContentHeight] Indicates that the provided height is to
