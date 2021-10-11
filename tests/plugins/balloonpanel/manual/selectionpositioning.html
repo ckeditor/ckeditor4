@@ -63,58 +63,64 @@
 </textarea>
 
 <script>
-	CKEDITOR.disableAutoInline = true;
-
-	function fillPanel ( panel, text ) {
-		function dots ( str, int ) {
-			return str.length > int ? '...' : ''
+	( function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 10 ) {
+			return bender.ignore();
 		}
 
-		panel.setTitle( "I'm panel!" );
-		panel.parts.content.setHtml( '<p style="padding: 2px"> Selected text:</p>' +
-			'<p style="padding: 2px">' + text.substring( 0, 15 ) + '</p>' +
-			'<p style="padding: 2px">' + text.substring( 15, 29 ) + dots( text, 29 ) + '</p>'
-		);
-	}
+		CKEDITOR.disableAutoInline = true;
 
-	function instanceReadyListener () {
-		var panel;
-		panel = new CKEDITOR.ui.balloonPanel( this, {
-			width: 100,
-			height: 100,
-			content: 'Editor test'
+		function fillPanel ( panel, text ) {
+			function dots ( str, int ) {
+				return str.length > int ? '...' : ''
+			}
+
+			panel.setTitle( "I'm panel!" );
+			panel.parts.content.setHtml( '<p style="padding: 2px"> Selected text:</p>' +
+				'<p style="padding: 2px">' + text.substring( 0, 15 ) + '</p>' +
+				'<p style="padding: 2px">' + text.substring( 15, 29 ) + dots( text, 29 ) + '</p>'
+			);
+		}
+
+		function instanceReadyListener () {
+			var panel;
+			panel = new CKEDITOR.ui.balloonPanel( this, {
+				width: 100,
+				height: 100,
+				content: 'Editor test'
+			} );
+			this.on( 'selectionCheck', function( evt )  {
+				var editor = this;
+				setTimeout( function() {
+					var selection = editor.getSelection(),
+						text = selection.getSelectedText();
+
+					if ( text === null ) {
+						text = selection.getSelectedElement().getText();
+					}
+
+					fillPanel( panel, text );
+					panel.attach( selection, { focusElement: false } );
+				}, 0 );
+			} );
+		}
+
+		CKEDITOR.replace( 'editor_classic', {
+			extraPlugins: 'balloonpanel',
+			height: 300,
+			width: 600,
+			on: {
+				instanceReady: instanceReadyListener
+			}
 		} );
-		this.on( 'selectionCheck', function( evt )  {
-			var editor = this;
-			setTimeout( function() {
-				var selection = editor.getSelection(),
-					text = selection.getSelectedText();
 
-				if ( text === null ) {
-					text = selection.getSelectedElement().getText();
-				}
-
-				fillPanel( panel, text );
-				panel.attach( selection, { focusElement: false } );
-			}, 0 );
+		CKEDITOR.inline( 'editor_inline', {
+			extraPlugins: 'balloonpanel,floatingspace',
+			height: 300,
+			width: 600,
+			on: {
+				instanceReady: instanceReadyListener
+			}
 		} );
-	}
-
-	CKEDITOR.replace( 'editor_classic', {
-		extraPlugins: 'balloonpanel',
-		height: 300,
-		width: 600,
-		on: {
-			instanceReady: instanceReadyListener
-		}
-	} );
-
-	CKEDITOR.inline( 'editor_inline', {
-		extraPlugins: 'balloonpanel,floatingspace',
-		height: 300,
-		width: 600,
-		on: {
-			instanceReady: instanceReadyListener
-		}
-	} );
+	} )();
 </script>
