@@ -12,6 +12,7 @@
 		PasteTools = CKEDITOR.tools.createClass( {
 			$: function() {
 				this.handlers = [];
+				this.comandeerHook = function() {};
 			},
 
 			proto: {
