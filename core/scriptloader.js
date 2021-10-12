@@ -128,6 +128,17 @@ CKEDITOR.scriptLoader = ( function() {
 									onLoad( url, true );
 								}
 							};
+						} else if ( CKEDITOR.env.gecko ) {
+							CKEDITOR.document.$.addEventListener( 'afterscriptexecute', function( evt ) {
+								if ( evt.target !== script.$ ) {
+									return;
+								}
+
+								setTimeout( function() {
+									removeListeners( script );
+									onLoad( url, true );
+								}, 0 );
+							}, false );
 						} else {
 							script.$.onload = function() {
 								// Some browsers, such as Safari, may call the onLoad function
@@ -149,7 +160,6 @@ CKEDITOR.scriptLoader = ( function() {
 					script.appendTo( CKEDITOR.document.getHead() );
 
 					CKEDITOR.fire( 'download', url ); // %REMOVE_LINE%
-
 				};
 
 			showBusy && CKEDITOR.document.getDocumentElement().setStyle( 'cursor', 'wait' );
