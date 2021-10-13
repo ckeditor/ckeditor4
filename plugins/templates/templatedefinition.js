@@ -5,7 +5,7 @@
 
 /**
  * @fileOverview Defines the "virtual" {@link CKEDITOR.plugins.templates.collection} class, which
- * contains the defintions of the templates used by [Content Templates](https://ckeditor.com/cke4/addon/templates)
+ * contains the definitions of the templates used by [Content Templates](https://ckeditor.com/cke4/addon/templates)
  * plugin.
  */
 
