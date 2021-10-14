@@ -995,12 +995,47 @@
 	// is build only once for this module.
 	removeReservedKeywords = ( function() {
 		var encodedKeywordRegex = createEncodedKeywordRegex(),
-			sourceKeywordRegex = createSourceKeywordRegex();
+			sourceKeywordRegex = createSourceKeywordRegex(),
+			ckeFilterReg = createCkeDataFilterRegex();
 
 		return function( data ) {
-			return data.replace( encodedKeywordRegex, '' )
-				.replace( sourceKeywordRegex, '' );
+			while ( encodedKeywordRegex.test( data ) ||
+					sourceKeywordRegex.test( data ) ||
+					ckeFilterReg.test( data )
+					) {
+				data = data.replace( encodedKeywordRegex, '' )
+					.replace( sourceKeywordRegex, '' )
+					.replace( ckeFilterReg, '' );
+
+				encodedKeywordRegex.lastIndex = 0;
+				sourceKeywordRegex.lastIndex = 0;
+				ckeFilterReg.lastIndex = 0;
+			}
+
+			return data;
 		};
+
+		// Produces regex matching `data-cke-filter=off`.
+		function createCkeDataFilterRegex() {
+			return new RegExp(
+				'('+
+				createEncodedRegex( 'data-cke-filter' ) +
+				// Equal sign with any spaces variations around it
+				createEncodedRegex( ' ' ) + '*' +
+				createEncodedRegex( '=' ) + '{1}' +
+				createEncodedRegex( ' ' ) + '*' +
+				// Opening quotes variations.
+				createEncodedRegex( '\'' ) + '?' +
+				createEncodedRegex( '"' ) + '?' +
+				// Only `off` value has meaning for the filter.
+				createEncodedRegex( 'off' ) + '{1}' +
+				// Closing quotes variations.
+				createEncodedRegex( '\'' ) + '?' +
+				createEncodedRegex( '"' ) + '?' +
+				')',
+				'gi'
+			);
+		}
 
 		// Produces regex matching `cke:encoded` element.
 		function createEncodedKeywordRegex() {
