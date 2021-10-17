@@ -54,11 +54,11 @@
 				data = evtData.dataValue,
 				fixBodyTag;
 
-			data = preprocessHtml( data );
-
 			// Before we start protecting markup, make sure there are no externally injected
 			// protection keywords.
 			data = removeReservedKeywords( data );
+
+			data = preprocessHtml( data );
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
