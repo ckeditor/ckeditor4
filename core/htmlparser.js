@@ -116,8 +116,6 @@ CKEDITOR.htmlParser = function() {
 				nextIndex = 0,
 				cdata; // The collected data inside a CDATA section.
 
-			html = preprocess( html );
-
 			while ( ( parts = this._.htmlPartsRegex.exec( html ) ) ) {
 				var tagIndex = parts.index;
 				if ( tagIndex > nextIndex ) {
@@ -204,10 +202,4 @@ CKEDITOR.htmlParser = function() {
 				this.onText( html.substring( nextIndex, html.length ) );
 		}
 	};
-
-	function preprocess( html ) {
-		var toRemove = /(?:<!-->)/g;
-
-		return html.replace( toRemove, '' );
-	}
 } )();

@@ -54,6 +54,8 @@
 				data = evtData.dataValue,
 				fixBodyTag;
 
+			data = preprocessHtml( data );
+
 			// Before we start protecting markup, make sure there are no externally injected
 			// protection keywords.
 			data = removeReservedKeywords( data );
@@ -837,6 +839,18 @@
 		unprotectElementNamesRegex = /(<\/?)cke:((?:html|body|head|title)[^>]*>)/gi;
 
 	var protectSelfClosingRegex = /<cke:(param|embed)([^>]*?)\/?>(?!\s*<\/cke:\1)/gi;
+
+	function preprocessHtml( html ) {
+		var toRemove = /(?:<!-\s*-\s*>)/g;
+
+		while ( toRemove.test( html ) ) {
+			html = html.replace( toRemove, '' );
+
+			toRemove.lastIndex = 0;
+		}
+
+		return html;
+	}
 
 	function protectAttributes( html ) {
 		return html.replace( protectElementRegex, function( element, tag, attributes ) {
