@@ -1018,12 +1018,12 @@
 		// Produces regex matching `data-cke-filter=off`.
 		function createCkeDataFilterRegex() {
 			return new RegExp(
-				'('+
+				'(' +
 				createEncodedRegex( 'data-cke-filter' ) +
 				// Equal sign with any spaces variations around it
-				createEncodedRegex( ' ' ) + '*' +
+				'[\\s]*' +
 				createEncodedRegex( '=' ) + '{1}' +
-				createEncodedRegex( ' ' ) + '*' +
+				'[\\s]*' +
 				// Opening quotes variations.
 				createEncodedRegex( '\'' ) + '?' +
 				createEncodedRegex( '"' ) + '?' +
