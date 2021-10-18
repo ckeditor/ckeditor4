@@ -21,7 +21,7 @@ RESET_STYLE='\033[0m'
 PROGNAME=$(basename $0)
 MSG_UPDATE_FAILED="Warning: The attempt to update ckbuilder.jar failed. The existing file will be used."
 MSG_DOWNLOAD_FAILED="It was not possible to download ckbuilder.jar."
-MSG_INCORRECT_JDK_VERSION="${RED}Your actual JDK version is not supported, please change the JDK version to 15 or lower.${RED} ${GREEN}https://jdk.java.net/archive/${GREEN}"
+MSG_INCORRECT_JDK_VERSION="${RED}Your actual JDK version is not supported, there may be a problem with finish build process. Please change the JDK version to 15 or lower.${RED} ${GREEN}https://jdk.java.net/archive/${GREEN}"
 ARGS=" $@ "
 
 function error_exit
@@ -63,8 +63,9 @@ echo ""
 echo "Starting CKBuilder..."
 
 jdk_version=$( echo `java -version 2>&1 | grep 'version' 2>&1 | awk -F\" '{ split($2,a,"."); print a[1]}'` | bc -l);
+regex='^[0-9]+$';
 # Builder is crashing when JDK version is newer than 15.
-if [ $jdk_version -gt 15 ]; then
+if ! [[ $jdk_version =~ $regex ]] || [ $jdk_version -gt 15 ]; then
 	echo "${MSG_INCORRECT_JDK_VERSION}";
 	echo "${UNDERLINE}${YELLOW}Actual version of JDK: ${jdk_version}${RESET_STYLE}";
 fi
@@ -83,7 +84,11 @@ then
 	VERSION="$VERSION DEV"
 fi
 
-java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release $JAVA_ARGS --version="$VERSION" --revision="$REVISION" --overwrite
+{
+	java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release $JAVA_ARGS --version="$VERSION" --revision="$REVISION" --overwrite
+} || {
+	echo "${RED}Verify errors before java stack trace${RESET_STYLE}"
+}
 
 # Copy and build tests.
 if [[ "$ARGS" == *\ \-t\ * ]]; then
