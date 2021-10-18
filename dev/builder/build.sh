@@ -16,6 +16,7 @@ RED='\033[01;31m'
 GREEN='\033[01;32m'
 YELLOW='\033[01;33m'
 UNDERLINE='\033[4m'
+RESET_STYLE='\033[0m'
 
 PROGNAME=$(basename $0)
 MSG_UPDATE_FAILED="Warning: The attempt to update ckbuilder.jar failed. The existing file will be used."
@@ -65,8 +66,7 @@ jdk_version=$( echo `java -version 2>&1 | grep 'version' 2>&1 | awk -F\" '{ spli
 # Builder is crashing when JDK version is newer than 15.
 if [ $jdk_version -gt 15 ]; then
 	echo "${MSG_INCORRECT_JDK_VERSION}";
-	echo "${UNDERLINE}${YELLOW}Actual version of JDK: ${jdk_version}${YELLOW}${UNDERLINE}";
-	exit 1;
+	echo "${UNDERLINE}${YELLOW}Actual version of JDK: ${jdk_version}${RESET_STYLE}";
 fi
 
 JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
