@@ -11,7 +11,7 @@
 
 /**
  * Virtual class that illustrates the templates' collection to be
- * passed to  {@link CKEDITOR.addTemplates} function.
+ * passed to  {@link CKEDITOR#addTemplates} function.
  *
  * This class is not really part of the API.
  *
