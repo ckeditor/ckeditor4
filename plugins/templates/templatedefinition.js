@@ -20,7 +20,7 @@
  */
 
 /**
- * The path of subdirectory which holds thumbnail images of the templates
+ * The path of a subdirectory that holds thumbnail images of templates
  *
  * @property {String} imagesPath
  */
@@ -32,7 +32,7 @@
  */
 
 /**
- * Virtual class that illustrates the single template.
+ * Virtual class that illustrates a single template.
  *
  * This class is not really part of the API.
  *
