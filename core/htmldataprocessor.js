@@ -994,26 +994,31 @@
 	// This function produces very complicated regex code. Using IIFE ensures that the regex
 	// is build only once for this module.
 	removeReservedKeywords = ( function() {
-		var encodedKeywordRegex = createEncodedKeywordRegex(),
-			sourceKeywordRegex = createSourceKeywordRegex(),
-			ckeFilterReg = createCkeDataFilterRegex();
+		var regexes = [
+			createEncodedKeywordRegex(),
+			createSourceKeywordRegex(),
+			createCkeDataFilterRegex()
+		];
 
 		return function( data ) {
-			while ( encodedKeywordRegex.test( data ) ||
-					sourceKeywordRegex.test( data ) ||
-					ckeFilterReg.test( data )
-					) {
-				data = data.replace( encodedKeywordRegex, '' )
-					.replace( sourceKeywordRegex, '' )
-					.replace( ckeFilterReg, '' );
-
-				encodedKeywordRegex.lastIndex = 0;
-				sourceKeywordRegex.lastIndex = 0;
-				ckeFilterReg.lastIndex = 0;
+			while( CKEDITOR.tools.array.some( regexes, regexTest( data ) ) ) {
+				data = CKEDITOR.tools.array.reduce( regexes, regexReplace, data );
 			}
 
 			return data;
 		};
+
+		function regexTest( data ) {
+			return function( regexp ) {
+				var result = regexp.test( data );
+				regexp.lastIndex = 0;
+				return result;
+			}
+		}
+
+		function regexReplace( data, regexp ) {
+			return data.replace( regexp, '' );
+		}
 
 		// Produces regex matching `data-cke-filter=off`.
 		function createCkeDataFilterRegex() {
