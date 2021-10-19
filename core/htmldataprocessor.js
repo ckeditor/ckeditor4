@@ -1001,14 +1001,14 @@
 		];
 
 		return function( data ) {
-			while( isDataMatchAnyPattern( regexes, data ) ) {
+			while( isContentMatchingAnyPattern( regexes, data ) ) {
 				data = removeMatchingContent( regexes, data );
 			}
 
 			return data;
 		};
 
-		function isDataMatchAnyPattern( regexes, data ) {
+		function isContentMatchingAnyPattern( regexes, data ) {
 			for ( var i = 0; i < regexes.length; i++ ) {
 				var regex = regexes[ i ],
 					match = regex.test( data );
