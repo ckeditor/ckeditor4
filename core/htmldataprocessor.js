@@ -1001,23 +1001,32 @@
 		];
 
 		return function( data ) {
-			while( CKEDITOR.tools.array.some( regexes, regexTest( data ) ) ) {
-				data = CKEDITOR.tools.array.reduce( regexes, regexReplace, data );
+			while( testMatchingContent( regexes, data ) ) {
+				data = removeMatchingContent( regexes, data );
 			}
 
 			return data;
 		};
 
-		function regexTest( data ) {
-			return function( regexp ) {
-				var result = regexp.test( data );
-				regexp.lastIndex = 0;
-				return result;
+		function testMatchingContent( regexes, data ) {
+			for ( var i = 0; i < regexes.length; i++ ) {
+				var regex = regexes[ i ],
+					match = regex.test( data );
+
+				regex.lastIndex = 0;
+
+				if ( match ) {
+					return true;
+				}
 			}
+			return false;
 		}
 
-		function regexReplace( data, regexp ) {
-			return data.replace( regexp, '' );
+		function removeMatchingContent( regexes, data ) {
+			for ( var i = 0; i < regexes.length; i++ ) {
+				data = data.replace( regexes[ i ], '' );
+			}
+			return data;
 		}
 
 		// Produces regex matching `data-cke-filter=off`.
