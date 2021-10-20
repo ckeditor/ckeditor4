@@ -37,6 +37,7 @@ Fixed Issues:
 * [#4888](https://github.com/ckeditor/ckeditor4/issues/4888): Fixed: [`CKEDITOR.dialog#setState()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-setState) method throws error when there is no "Ok" button in the dialog.
 * [#4858](https://github.com/ckeditor/ckeditor4/issues/4858): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin incorrectly escapes `&` characters when pasting links into the editor.
 * [#4892](https://github.com/ckeditor/ckeditor4/issues/4892): Fixed: Focus of buttons in dialogs is not visible enough in High Contrast mode.
+* [#3858](https://github.com/ckeditor/ckeditor4/issues/3858): Fixed: Pasting content in `ENTER_BR` [enter mode](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-enterMode) crashes the editor.
 
 API Changes:
 
