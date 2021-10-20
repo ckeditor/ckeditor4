@@ -21,7 +21,7 @@ RESET_STYLE='\033[0m'
 PROGNAME=$(basename $0)
 MSG_UPDATE_FAILED="Warning: The attempt to update ckbuilder.jar failed. The existing file will be used."
 MSG_DOWNLOAD_FAILED="It was not possible to download ckbuilder.jar."
-MSG_INCORRECT_JDK_VERSION="${RED}Your actual JDK version is not supported, there may be a problem with finish build process. Please change the JDK version to 15 or lower.${RED} ${GREEN}https://jdk.java.net/archive/${GREEN}"
+MSG_INCORRECT_JDK_VERSION="${RED}Your JDK version is not supported, there may be a problem to finish build process. Please change the JDK version to 15 or lower.${RED} ${GREEN}https://jdk.java.net/archive/${GREEN}"
 ARGS=" $@ "
 
 function error_exit
