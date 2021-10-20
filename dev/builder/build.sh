@@ -87,7 +87,9 @@ fi
 {
 	java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release $JAVA_ARGS --version="$VERSION" --revision="$REVISION" --overwrite
 } || {
-	echo "${RED}Verify errors before java stack trace${RESET_STYLE}"
+	if ! [[ $jdk_version =~ $regex ]] || [ $jdk_version -gt 15 ]; then
+		echo "${RED}Verify errors before java stack trace${RESET_STYLE}"
+	fi
 }
 
 # Copy and build tests.
