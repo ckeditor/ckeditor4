@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image, find, forms, link
 
 1. Set the High Contrast Mode to white.
-2. Open one of the dialog.
+2. Open one of the dialogs.
 3. Use the `TAB` key on the keyboard to move focus to the `Cancel`, `OK` or `Close` buttons.
 
 **Expected**
