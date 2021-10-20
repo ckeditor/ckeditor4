@@ -13,7 +13,7 @@ New Features:
 * [#3433](https://github.com/ckeditor/ckeditor4/issues/3433): Marked required fields in dialogs with asterisk (`*`) symbol.
 * [#4374](https://github.com/ckeditor/ckeditor4/issues/4374): Integrated [Maximize](https://ckeditor.com/cke4/addon/maximize) plugin with browser's History API.
 * [#4461](https://github.com/ckeditor/ckeditor4/issues/4461): Introduced possibility to delay editor initialization while it is in detached DOM element.
-* [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): Added support for editor functions after reattaching its element to DOM.
+* [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): Introduced support for reattaching editor container in DOM.
 * [#4612](https://github.com/ckeditor/ckeditor4/issues/4612): Allow pasting images as Base64 from [clipboard](https://ckeditor.com/cke4/addon/clipboard) in all browsers except IE.
 * [#4681](https://github.com/ckeditor/ckeditor4/issues/4681): Allow drag and drop images as Base64.
 * [#4750](https://github.com/ckeditor/ckeditor4/issues/4750): Added notification for pasting and dropping unsupported file types into the editor.
