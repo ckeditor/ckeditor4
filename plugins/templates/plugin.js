@@ -32,7 +32,7 @@
 	 *
 	 * @member CKEDITOR
 	 * @param {String} name Name of the templates' collection.
-	 * @param {CKEDITOR.plugins.templates.collection} definition Definition of templates' collection.
+	 * @param {CKEDITOR.plugins.templates.collectionDefinition} definition Definition of templates' collection.
 	 */
 	CKEDITOR.addTemplates = function( name, definition ) {
 		templates[ name ] = definition;
@@ -43,7 +43,7 @@
 	 *
 	 * @member CKEDITOR
 	 * @param {String} name Name of the templates' collection.
-	 * @returns {CKEDITOR.plugins.templates.collection}
+	 * @returns {CKEDITOR.plugins.templates.collectionDefinition}
 	 */
 	CKEDITOR.getTemplates = function( name ) {
 		return templates[ name ];
@@ -95,7 +95,7 @@
  *
  * For a sample template file
  * [see `templates/default.js`](https://github.com/ckeditor/ckeditor4/blob/master/plugins/templates/templates/default.js).
- * For more information on template definiton see {@link CKEDITOR.plugins.templates.collection}.
+ * For more information on template definiton see {@link CKEDITOR.plugins.templates.collectionDefinition}.
  *
  * @cfg {String[]}
  * @member CKEDITOR.config

@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Defines the "virtual" {@link CKEDITOR.plugins.templates.collection} class, which
+ * @fileOverview Defines the "virtual" {@link CKEDITOR.plugins.templates.collectionDefinition} class, which
  * contains the definitions of the templates used by [Content Templates](https://ckeditor.com/cke4/addon/templates)
  * plugin.
  */
@@ -15,7 +15,7 @@
  *
  * This class is not really part of the API.
  *
- * @class CKEDITOR.plugins.templates.collection
+ * @class CKEDITOR.plugins.templates.collectionDefinition
  * @abstract
  */
 
@@ -28,7 +28,7 @@
 /**
  * The list of available templates.
  *
- * @property {CKEDITOR.plugins.templates.template[]} templates
+ * @property {CKEDITOR.plugins.templates.templateDefinition[]} templates
  */
 
 /**
@@ -36,7 +36,7 @@
  *
  * This class is not really part of the API.
  *
- * @class CKEDITOR.plugins.templates.template
+ * @class CKEDITOR.plugins.templates.templateDefinition
  * @abstract
  */
 
@@ -49,7 +49,7 @@
 /**
  * The template's thumbnail image path.
  *
- * It is relative to {@link CKEDITOR.plugins.templates.collection#imagesPath}.
+ * It is relative to {@link CKEDITOR.plugins.templates.collectionDefinition#imagesPath}.
  *
  * @property {String} image
  */
