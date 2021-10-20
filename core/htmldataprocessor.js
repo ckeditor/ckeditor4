@@ -58,8 +58,6 @@
 			// protection keywords.
 			data = removeReservedKeywords( data );
 
-			data = preprocessHtml( data );
-
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
 			data = protectSource( data, editor );
@@ -840,18 +838,6 @@
 
 	var protectSelfClosingRegex = /<cke:(param|embed)([^>]*?)\/?>(?!\s*<\/cke:\1)/gi;
 
-	function preprocessHtml( html ) {
-		var toRemove = /(?:<!-\s*-\s*>)/g;
-
-		while ( toRemove.test( html ) ) {
-			html = html.replace( toRemove, '' );
-
-			toRemove.lastIndex = 0;
-		}
-
-		return html;
-	}
-
 	function protectAttributes( html ) {
 		return html.replace( protectElementRegex, function( element, tag, attributes ) {
 			return '<' + tag + attributes.replace( protectAttributeRegex, function( fullAttr, attrName ) {
@@ -1011,7 +997,8 @@
 		var regexes = [
 			createEncodedKeywordRegex(),
 			createSourceKeywordRegex(),
-			createCkeDataFilterRegex()
+			createCkeDataFilterRegex(),
+			/(?:<!-\s*-\s*>)/g
 		];
 
 		return function( data ) {
