@@ -1,0 +1,13 @@
+<div id="editor">
+	<p>Add link here</p>
+</div>
+
+<script>
+	( function() {
+		if ( !CKEDITOR.env.hc ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor' );
+	} )();
+</script>
