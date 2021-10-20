@@ -998,7 +998,7 @@
 			createEncodedKeywordRegex(),
 			createSourceKeywordRegex(),
 			createCkeDataFilterRegex(),
-			/(?:<!-\s*-\s*>)/g
+			/(?:<!-\s*-\s*>)/
 		];
 
 		return function( data ) {
@@ -1048,7 +1048,7 @@
 				createEncodedRegex( '\'' ) + '?' +
 				createEncodedRegex( '"' ) + '?' +
 				')',
-				'gi'
+				'i'
 			);
 		}
 
@@ -1065,7 +1065,7 @@
 				createEncodedRegex( '<' ) +
 				createEncodedRegex( '/' ) + '?' +
 				createEncodedRegex( 'cke:encoded>' ) +
-				')', 'gi' );
+				')', 'i' );
 		}
 
 		// Produces regex matching `{cke_protected}` and `{cke_protected_id}` keywords.
@@ -1074,7 +1074,7 @@
 				createEncodedRegex( '{cke_protected' ) +
 				')(_[0-9]*)?' +
 				createEncodedRegex( '}' ) +
-				')' , 'gi' );
+				')' , 'i' );
 		}
 
 		function createEncodedRegex( str ) {
