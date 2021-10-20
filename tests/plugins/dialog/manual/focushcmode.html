@@ -3,5 +3,11 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor' );
+	( function() {
+		if ( !CKEDITOR.env.hc ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor' );
+	} )();
 </script>
