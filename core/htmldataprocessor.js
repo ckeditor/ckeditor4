@@ -1011,15 +1011,15 @@
 
 		function isContentMatchingAnyPattern( regexes, data ) {
 			for ( var i = 0; i < regexes.length; i++ ) {
-				var regex = regexes[ i ],
-					match = regex.test( data );
+				var regex = regexes[ i ];
 
 				regex.lastIndex = 0;
 
-				if ( match ) {
+				if ( regex.test( data ) ) {
 					return true;
 				}
 			}
+
 			return false;
 		}
 
@@ -1031,7 +1031,7 @@
 		}
 
 		function createIncorrectCommentRegex() {
-			return /(?:<!-\s*-\s*>)/;
+			return /(?:<!-\s*-\s*>)/g;
 		}
 
 		// Produces regex matching `data-cke-filter=off`.
@@ -1052,7 +1052,7 @@
 				createEncodedRegex( '\'' ) + '?' +
 				createEncodedRegex( '"' ) + '?' +
 				')',
-				'i'
+				'gi'
 			);
 		}
 
@@ -1069,7 +1069,7 @@
 				createEncodedRegex( '<' ) +
 				createEncodedRegex( '/' ) + '?' +
 				createEncodedRegex( 'cke:encoded>' ) +
-				')', 'i' );
+				')', 'gi' );
 		}
 
 		// Produces regex matching `{cke_protected}` and `{cke_protected_id}` keywords.
@@ -1078,7 +1078,7 @@
 				createEncodedRegex( '{cke_protected' ) +
 				')(_[0-9]*)?' +
 				createEncodedRegex( '}' ) +
-				')' , 'i' );
+				')' , 'gi' );
 		}
 
 		function createEncodedRegex( str ) {
