@@ -998,7 +998,7 @@
 			createEncodedKeywordRegex(),
 			createSourceKeywordRegex(),
 			createCkeDataFilterRegex(),
-			/(?:<!-\s*-\s*>)/
+			createIncorrectCommentRegex()
 		];
 
 		return function( data ) {
@@ -1028,6 +1028,10 @@
 				data = data.replace( regexes[ i ], '' );
 			}
 			return data;
+		}
+
+		function createIncorrectCommentRegex() {
+			return /(?:<!-\s*-\s*>)/;
 		}
 
 		// Produces regex matching `data-cke-filter=off`.
