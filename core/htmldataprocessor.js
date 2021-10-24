@@ -1031,7 +1031,7 @@
 		}
 
 		function createIncorrectCommentRegex() {
-			return /(?:<!-\s*-\s*>)/g;
+			return /<!(?:\s*-\s*){2,3}!?\s*>/g;
 		}
 
 		// Produces regex matching `data-cke-filter=off`.
