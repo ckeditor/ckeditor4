@@ -370,6 +370,22 @@ CKEDITOR.config = {
 	tabIndex: 0,
 
 	/**
+	 * Indicates that some of the editor features, like alignment and text
+	 * direction, should use the "computed value" of the feature to indicate its
+	 * on/off state instead of using the "real value".
+	 *
+	 * If enabled in a Left-To-Right written document, the "Left Justify"
+	 * alignment button will be shown as active, even if the alignment style is not
+	 * explicitly applied to the current paragraph in the editor.
+	 *
+	 *		config.useComputedState = false;
+	 *
+	 * @since 3.4.0
+	 * @cfg {Boolean} [useComputedState=true]
+	 */
+	useComputedState: true,
+
+	/**
 	 * The editor UI outer width. This configuration option accepts an integer
 	 * (to denote a value in pixels) or any CSS-defined length unit.
 	 *
@@ -417,21 +433,6 @@ CKEDITOR.config = {
 		CKEDITOR.CTRL + 85 // Ctrl+U
 	]
 };
-
-/**
- * Indicates that some of the editor features, like alignment and text
- * direction, should use the "computed value" of the feature to indicate its
- * on/off state instead of using the "real value".
- *
- * If enabled in a Left-To-Right written document, the "Left Justify"
- * alignment button will be shown as active, even if the alignment style is not
- * explicitly applied to the current paragraph in the editor.
- *
- *		config.useComputedState = false;
- *
- * @since 3.4.0
- * @cfg {Boolean} [useComputedState=true]
- */
 
 /**
  * The base user interface color to be used by the editor. Not all skins are

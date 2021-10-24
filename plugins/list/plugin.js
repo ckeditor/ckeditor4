@@ -364,8 +364,6 @@
 		var useComputedState = editor.config.useComputedState,
 			listDir, explicitDirection;
 
-		useComputedState = useComputedState === undefined || useComputedState;
-
 		// We want to insert things that are in the same tree level only, so calculate the contents again
 		// by expanding the selected blocks to the same tree level.
 		for ( i = 0; i < contents.length; i++ ) {
