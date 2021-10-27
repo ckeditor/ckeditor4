@@ -1,6 +1,7 @@
 branches:
   only:
   - master
+  - 4170security
   - major
   - stable
   - latest
