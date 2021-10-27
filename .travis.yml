@@ -34,11 +34,11 @@ jobs:
         - npm install npm@7 -g
         - npm --version
       before_script:
-        - echo TRAVIS_REPO_SLUG
+        - echo $TRAVIS_REPO_SLUG
         - echo *
-        - echo TRAVIS_REPO_NAME
+        - echo $TRAVIS_REPO_NAME
         - echo *
-        - echo REPO_NAME
+        - echo $REPO_NAME
         - echo $TRAVIS_EVENT_TYPE
         # Setup xvfb
         - 'export DISPLAY=:99.0'
