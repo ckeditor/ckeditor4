@@ -1042,12 +1042,16 @@
 								( selected = getSelectedTableList( sel ) ) ) {
 							// Make undo snapshot.
 							editor.fire( 'saveSnapshot' );
+							if ( !selected.isMultipleSelectedList ) {
+								// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
+								// break up the selection, safely manage it here. (https://dev.ckeditor.com/ticket/4795)
+								range.moveToPosition( selected.selection, CKEDITOR.POSITION_BEFORE_START );
+								// Remove the control manually.
+								selected.selection.remove();
+							} else {
+								selected.selection.deleteContents();
+							}
 
-							// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
-							// break up the selection, safely manage it here. (https://dev.ckeditor.com/ticket/4795)
-							range.moveToPosition( selected, CKEDITOR.POSITION_BEFORE_START );
-							// Remove the control manually.
-							selected.remove();
 							range.select();
 
 							editor.fire( 'saveSnapshot' );
@@ -1563,6 +1567,16 @@
 			// Create a new walker.
 			var walker = new CKEDITOR.dom.walker( walkerRng );
 
+			// Check if range include more than one list.
+			var multipleList = checkForMultipleList( range );
+
+			if ( multipleList ) {
+				return {
+					isMultipleSelectedList: true,
+					selection: multipleList
+				};
+			}
+
 			// Assign a new guard to the walker.
 			walker.guard = guard();
 
@@ -1598,7 +1612,10 @@
 				// Go forwards checking for selected structural node.
 				walker.checkForward();
 
-				return selected;
+				return {
+					isMultipleSelectedList: false,
+					selection: selected
+				};
 			}
 		}
 
@@ -1617,6 +1634,54 @@
 				if ( !isWalkOut && isNotEmpty( node ) && !( forwardGuard && isBogus( node ) ) )
 					return false;
 			};
+		}
+
+		function checkForMultipleList( range ) {
+			// We know that we are in the list so now we must check if there is another one.
+			var listsTypes = [ 'ul', 'ol', 'dl' ],
+				listItems = [ 'dd', 'dt', 'li' ],
+				walker = new CKEDITOR.dom.walker( range ),
+				element = range.collapsed ? range.startContainer : walker.next(),
+				firstRangeEl = range.startContainer,
+				isInclude = false,
+				// Check if the first element from range is an list item.
+				isListItem = CKEDITOR.tools.array.some( listItems, function( listItem ) {
+					var item = firstRangeEl.$.nodeName.toLowerCase();
+					return item === listItem;
+				} );
+
+			if ( !isListItem || firstRangeEl.getPrevious() !== null ) {
+				return;
+			}
+
+			// Walk through all the items in the range to find lists.
+			while ( element ) {
+				var tagName = element.$.nodeName.toLowerCase();
+
+				CKEDITOR.tools.array.forEach( listsTypes, function( listType ) {
+					if ( tagName === listType ) {
+						isInclude = true;
+					}
+				} );
+
+				element = walker.next();
+			}
+
+			if ( isInclude ) {
+				var listParent = null;
+				// Get the parent of the list.
+				CKEDITOR.tools.array.map( listsTypes, function( listType ) {
+					var parent = firstRangeEl.getAscendant( listType );
+					if ( parent ) {
+						listParent = parent;
+					}
+				} );
+
+				range.setStart( listParent, 0 );
+				range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+				return range;
+			}
 		}
 	}
 
