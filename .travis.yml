@@ -48,7 +48,10 @@ jobs:
         - npm install benderjs-cli -g
         - npm i
         # Setup additional dependency
-        - echo $DEPENDENCY_CMD_TRAVIS
+        - git clone $DEPS_TRAVIS $DEPS_LOCATION_TRAVIS --quiet
+        - cd $DEPS_LOCATION_TRAVIS
+        - git checkout $TRAVIS_PULL_REQUEST_BRANCH --quiet
+        - cd ../..
         # Setup bender test runner
         - cd ..
         - pwd
