@@ -47,6 +47,8 @@ jobs:
         - pwd
         - npm install benderjs-cli -g
         - npm i
+        # Setup additional dependency
+        - $DEPENDENCY_CMD_TRAVIS
         # Setup bender test runner
         - cd ..
         - pwd
@@ -79,6 +81,8 @@ jobs:
         - pwd
         - npm install benderjs-cli -g
         - npm i
+        # Setup additional dependency
+        - $DEPENDENCY_CMD_TRAVIS
         # Setup bender test runner
         - cd ..
         - pwd
