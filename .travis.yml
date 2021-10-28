@@ -51,6 +51,7 @@ jobs:
         - git clone $DEPS_TRAVIS $DEPS_LOCATION_TRAVIS --quiet
         - cd $DEPS_LOCATION_TRAVIS
         - git checkout $TRAVIS_PULL_REQUEST_BRANCH --quiet
+		- if [ $? -eq 1 ]; then git checkout master --quiet fi
         - cd ../..
         # Setup bender test runner
         - cd ..
