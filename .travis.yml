@@ -50,6 +50,10 @@ jobs:
         # Setup additional dependency
         - |
           if [[ "$EXTRA_DEPS" == "true" ]]; then
+            echo "okokok"
+          fi
+        - |
+          if [[ "$EXTRA_DEPS" == "true" ]]; then
             git clone $DEPS_TRAVIS $DEPS_LOCATION_TRAVIS --quiet
           fi
         - |
