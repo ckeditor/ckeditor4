@@ -50,7 +50,7 @@ jobs:
         # Setup additional dependency
         - git clone $DEPS_TRAVIS $DEPS_LOCATION_TRAVIS --quiet
         - cd $DEPS_LOCATION_TRAVIS
-        - git checkout $TRAVIS_PULL_REQUEST_BRANCH &> /dev/null
+        - git checkout $TRAVIS_PULL_REQUEST_BRANCH || true
         - cd ../..
         # Setup bender test runner
         - cd ..
