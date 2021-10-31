@@ -34,7 +34,29 @@
 		 */
 		type: CKEDITOR.NODE_TEXT,
 
-		filter: function() {},
+		filter: function( filter ) {
+			var style = this.getAscendant( 'style' );
+
+			if ( !style ) {
+				return;
+			}
+
+			// MathML and SVG namespaces processing parsers `style` content as a normal HTML, not text.
+			// Make sure to filter such content also.
+			var nonHtmlElementNamespace = style.getAscendant( { math: 1, svg: 1 } );
+
+			if ( !nonHtmlElementNamespace ) {
+				return;
+			}
+
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( this.value ),
+				writer = new CKEDITOR.htmlParser.basicWriter();
+
+			filter.applyTo( fragment );
+			fragment.writeHtml( writer );
+
+			this.value = writer.getHtml();
+		},
 
 		/**
 		 * Writes the CDATA with no special manipulations.
