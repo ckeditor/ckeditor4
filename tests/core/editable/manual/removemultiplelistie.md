@@ -2,13 +2,15 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, list, resize, undo
 
-1. Select everything from first list item (t1) to last list item in the second list (t22)
+1. Select everything contained in `[]` including markers.
 2. Press <kbd>delete</kbd> or <kbd>backspace</kbd>
 
 **Expected**
 
-Whole text gets deleted.
+Selected range was properly removed.
 
 **Unexpected**
 
-Only second list gets deleted.
+Selected range was removed partially.
+
+3. Repeat above steps for the second example.
