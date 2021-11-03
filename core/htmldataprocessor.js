@@ -997,7 +997,6 @@
 		var regexes = [
 			createEncodedKeywordRegex(),
 			createSourceKeywordRegex(),
-			createCkeDataFilterRegex(),
 			createIncorrectCommentRegex()
 		];
 
@@ -1032,28 +1031,6 @@
 
 		function createIncorrectCommentRegex() {
 			return /<!(?:\s*-\s*){2,3}!?\s*>/g;
-		}
-
-		// Produces regex matching `data-cke-filter=off`.
-		function createCkeDataFilterRegex() {
-			return new RegExp(
-				'(' +
-				createEncodedRegex( 'data-cke-filter' ) +
-				// Equal sign with any spaces variations around it
-				'[\\s]*' +
-				createEncodedRegex( '=' ) + '{1}' +
-				'[\\s]*' +
-				// Opening quotes variations.
-				createEncodedRegex( '\'' ) + '?' +
-				createEncodedRegex( '"' ) + '?' +
-				// Only `off` value has meaning for the filter.
-				createEncodedRegex( 'off' ) + '{1}' +
-				// Closing quotes variations.
-				createEncodedRegex( '\'' ) + '?' +
-				createEncodedRegex( '"' ) + '?' +
-				')',
-				'gi'
-			);
 		}
 
 		// Produces regex matching `cke:encoded` element.
