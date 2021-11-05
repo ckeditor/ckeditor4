@@ -1,4 +1,4 @@
-@bender-tags: dialog, _next_, 547, bug
+@bender-tags: dialog, __next__, 547, bug
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableselection, undo, sourcearea
 
