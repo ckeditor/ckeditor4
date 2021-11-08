@@ -51,17 +51,8 @@ jobs:
         - |
           if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
             git clone $DEPS_TRAVIS $DEPS_LOCATION_TRAVIS --quiet
-          fi
-        - |
-          if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
             cd $DEPS_LOCATION_TRAVIS
-          fi
-        - |
-          if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
             git checkout $TRAVIS_PULL_REQUEST_BRANCH || true
-          fi
-        - |
-          if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
             cd ../..
           fi
         # Setup bender test runner
@@ -100,19 +91,10 @@ jobs:
         - |
           if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
             git clone $DEPS_TRAVIS $DEPS_LOCATION_TRAVIS --quiet
-          fi
-        - |
-          if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
             cd $DEPS_LOCATION_TRAVIS
-          fi
-        - |
-          if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
             git checkout $TRAVIS_PULL_REQUEST_BRANCH || true
-          fi
-        - |
-          if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
             cd ../..
-          fiS
+          fi
         # Setup bender test runner
         - cd ..
         - pwd
