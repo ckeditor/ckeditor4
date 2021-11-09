@@ -11,94 +11,99 @@
 <div id="fake_observable_item"></div>
 
 <script>
-	if ( bender.tools.env.mobile ) {
-		bender.ignore();
-	}
-
-	// 1. Load local editor by default with bender.
-	// 2. Remove existing instance and add script with editor from CDN.
-	// 3. Wait for the new editor to be loaded from CDN and initialize it.
-	// 4. Add icons in IE <11 from local.
-	var editorVersion = '',
-		path = getCKEditorCORSLink( window.location );
-
-	CKEDITOR.replace( 'editor', {
-		// Set fake element as observableParent due to removing existing instance of the editor.
-		observableParent: document.getElementById( 'fake_observable_item' )
-	} );
-
-	CKEDITOR.once( 'instanceReady', function() {
-		var scripts = document.querySelectorAll( 'script' ),
-			head = CKEDITOR.document.getHead();
-			pluginsList = CKEDITOR.tools.object.keys( this.plugins.registered ).join();
-
-		CKEDITOR.tools.array.forEach( scripts, function( script ){
-			script.parentNode.removeChild( script );
-		} );
-
-		CKEDITOR.instances.editor.destroy();
-		window.CKEDITOR = null;
-
-		var newScript = document.createElement( 'script' ),
-			loadingBox = document.getElementById( 'loading_box' ),
-			loadingText = 'Simulating loading editor from CDN';
-
-		newScript.type = 'text/javascript';
-		newScript.src = path + '/ckeditor.js';
-		document.getElementsByTagName('head')[0].appendChild( newScript );
-
-		var interval = setInterval( function() {
-			try {
-				if( CKEDITOR.status === 'loaded' ){
-					clearInterval( interval );
-
-					CKEDITOR.replace( 'editor_cdn', { plugins: pluginsList } );
-					loadingBox.innerText = editorVersion + ' editor version was loaded successfully!';
-
-					// There is problem in IE <11 with receiving icons from githack so we must add it manually.
-					if( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ){
-						CKEDITOR.once( 'instanceReady', function() {
-							fixButtonsIcons();
-						} );
-					}
-				} else {
-					loadingText += '.';
-					loadingBox.innerText = loadingText;
-				}
-			} catch ( e ) {}
-		}, 200 );
-	} );
-
-	function fixButtonsIcons() {
-		var buttons = document.querySelectorAll( '.cke_button .cke_button_icon' );
-
-		CKEDITOR.tools.array.forEach( buttons, function( button ){
-			var actualPath = button.style.backgroundImage,
-				origin = window.location.protocol + '//' + window.location.host,
-				fixedPath = actualPath.split( path ).join( origin );
-
-			button.style.backgroundImage = fixedPath;
-		} );
-	}
-
-	function getCKEditorCORSLink( location ){
-		var protocol = location.protocol,
-			hostName = location.hostname,
-			port = location.port,
-			pathName = '/apps/ckeditor',
-			possibleNewHostNames = [ '0.0.0.0', '127.0.0.1', 'localhost' ],
-			isLocalHostName = CKEDITOR.tools.indexOf( possibleNewHostNames, hostName ) !== -1;
-
-		// If we are not on localhost, simulate CORS via Githack.
-		if ( isLocalHostName ) {
-			editorVersion = 'Local';
-			var newHostName = CKEDITOR.tools.array.find( possibleNewHostNames , function( value ) {
-				return value != hostName;
-			} );
-			return protocol + '//' + newHostName + ':' + port + pathName;
+	( function () {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
 		}
 
-		editorVersion = 'Recent master';
-		return 'https://raw.githack.com/ckeditor/ckeditor4/master';
-	}
+		// 1. Load local editor by default with bender.
+		// 2. Remove existing instance and add script with editor from CDN.
+		// 3. Wait for the new editor to be loaded from CDN and initialize it.
+		// 4. Add icons in IE <11 from local.
+		var editorVersion = '',
+			path = getCKEditorCORSLink( window.location );
+
+		CKEDITOR.replace( 'editor', {
+			// Set fake element as observableParent due to removing existing instance of the editor.
+			observableParent: document.getElementById( 'fake_observable_item' )
+		} );
+
+		CKEDITOR.once( 'instanceReady', function () {
+			var scripts = document.querySelectorAll( 'script' ),
+				head = CKEDITOR.document.getHead(),
+				pluginsList = CKEDITOR.tools.object.keys( this.plugins.registered ).join();
+
+			CKEDITOR.tools.array.forEach( scripts, function ( script ) {
+				script.parentNode.removeChild( script );
+			} );
+
+			CKEDITOR.instances.editor.destroy();
+			window.CKEDITOR = null;
+
+			var newScript = document.createElement( 'script' ),
+				loadingBox = document.getElementById( 'loading_box' ),
+				loadingText = 'Simulating loading editor from CDN';
+
+			newScript.type = 'text/javascript';
+			newScript.src = path + '/ckeditor.js';
+			document.getElementsByTagName( 'head' )[ 0 ].appendChild( newScript );
+
+			var interval = setInterval( function () {
+				try {
+					if ( CKEDITOR.status === 'loaded' ) {
+						clearInterval( interval );
+
+						CKEDITOR.replace( 'editor_cdn', {
+							plugins: pluginsList,
+							removePlugins: 'scayt,exportpdf'
+						} );
+						loadingBox.innerText = editorVersion + ' editor version was loaded successfully!';
+
+						// There is problem in IE <11 with receiving icons from githack so we must add it manually.
+						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+							CKEDITOR.once( 'instanceReady', function () {
+								fixButtonsIcons();
+							} );
+						}
+					} else {
+						loadingText += '.';
+						loadingBox.innerText = loadingText;
+					}
+				} catch ( e ) { }
+			}, 200 );
+		} );
+
+		function fixButtonsIcons() {
+			var buttons = document.querySelectorAll( '.cke_button .cke_button_icon' );
+
+			CKEDITOR.tools.array.forEach( buttons, function ( button ) {
+				var actualPath = button.style.backgroundImage,
+					origin = window.location.protocol + '//' + window.location.host,
+					fixedPath = actualPath.split( path ).join( origin );
+
+				button.style.backgroundImage = fixedPath;
+			} );
+		}
+
+		function getCKEditorCORSLink( location ) {
+			var protocol = location.protocol,
+				hostName = location.hostname,
+				port = location.port,
+				pathName = '/apps/ckeditor',
+				possibleNewHostNames = [ '0.0.0.0', '127.0.0.1', 'localhost' ],
+				isLocalHostName = CKEDITOR.tools.indexOf( possibleNewHostNames, hostName ) !== -1;
+
+			// If we are not on localhost, simulate CORS via Githack.
+			if ( isLocalHostName ) {
+				editorVersion = 'Local';
+				var newHostName = CKEDITOR.tools.array.find( possibleNewHostNames, function ( value ) {
+					return value != hostName;
+				} );
+				return protocol + '//' + newHostName + ':' + port + pathName;
+			}
+
+			editorVersion = 'Recent master';
+			return 'https://raw.githack.com/ckeditor/ckeditor4/master';
+		}
+	} )();
 </script>
