@@ -402,7 +402,7 @@ div.cke_disabled .cke_dialog_ui_labeled_content div *
 /* (#3433) */
 .cke_dialog_ui_labeled_required
 {
-	color: red;
+	font-weight: bold;
 }
 
 /*
