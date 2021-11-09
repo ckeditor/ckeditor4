@@ -356,6 +356,7 @@ div.cke_disabled .cke_dialog_ui_labeled_content *
 .cke_dialog_ui_labeled_required
 {
 	font-weight: bold;
+	font-size: 1.2em;
 }
 
 /*
