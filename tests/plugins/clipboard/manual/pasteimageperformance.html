@@ -1,6 +1,8 @@
+<a href="_assets/largeImage.jpg" target="_blank">Large image ~26MB</a>
+<br /><br />
 <b>Most recent version of CKEditor (fast image pasting)</b><br>
 <div id="editor">
-	<p>Paste an image with a size of 20-25 MB inside me</p>
+	<p>Paste an image inside me</p>
 	<p></p>
 </div>
 
@@ -19,23 +21,24 @@
 
 		CKEDITOR.replace( 'editor' );
 
-		var remoteIframe = document.getElementById( 'remoteIframe' );
-		var iframeDocument = remoteIframe.contentWindow.document;
+		var remoteIframe = document.getElementById( 'remoteIframe' ),
+		iframeDocument = remoteIframe.contentWindow.document;
+
 		iframeDocument.open();
-		iframeDocument.write(`
-			<!DOCTYPE html>
-			<html>
-			<head>
-				<script type="text/javascript" src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"><\/script>
-			</head>
-			<body>
-				` + document.querySelector( '#editor' ).outerHTML + `
-				<script>
-					CKEDITOR.replace( 'editor' );
-				<\/script>
-			</body>
-			</html>
-		`);
+		iframeDocument.write(
+			'<!DOCTYPE html>' +
+			'<html>' +
+			'<head>' +
+				'<script type="text/javascript" src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"><\/script>' +
+			'</head>' +
+			'<body>' +
+				document.querySelector( '#editor' ).outerHTML +
+				'<script>' +
+					'CKEDITOR.replace( "editor" );' +
+				'<\/script>' +
+			'</body>' +
+			'</html>'
+		);
 		iframeDocument.close();
 	} )();
 </script>
