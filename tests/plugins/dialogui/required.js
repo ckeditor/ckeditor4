@@ -66,7 +66,7 @@
 					wait( function() {
 						var domId = dialog.getContentElement( 'dialog', 'foo' ).domId,
 							label = document.getElementById( domId ).firstChild.innerHTML,
-							expected = 'bar<span class=\"cke_dialog_ui_labeled_required\">*</span>';
+							expected = 'bar<span aria-hidden="true" class=\"cke_dialog_ui_labeled_required\">*</span>';
 
 						assert.areSame( bender.tools.fixHtml( label ), expected );
 						dialog.getButton( 'cancel' ).click();

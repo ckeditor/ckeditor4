@@ -151,8 +151,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 								'<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"',
 									( _.inputId ? ' for="' + _.inputId + '"' : '' ),
 									( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>',
-									// If label is required add red asterisk. #3433)
-									( elementDefinition.required ? elementDefinition.label + '<span class="cke_dialog_ui_labeled_required">*</span>' : elementDefinition.label ),
+									// If label is required add asterisk. #3433)
+									( elementDefinition.required ? elementDefinition.label + '<span class="cke_dialog_ui_labeled_required" aria-hidden="true">*</span>' : elementDefinition.label ),
 								'</label>',
 								'<div class="cke_dialog_ui_labeled_content"',
 									( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ),
