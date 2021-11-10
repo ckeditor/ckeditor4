@@ -5,6 +5,10 @@
 
 <script>
 	( function() {
+		if ( bender.tools.env.mobile ) {
+			bender.ignore();
+		}
+
 		if ( !( 'onhashchange' in window ) ) {
 			return bender.ignore();
 		}

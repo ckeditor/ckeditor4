@@ -5,6 +5,10 @@
 
 <script>
 	( function() {
+		if ( bender.tools.env.mobile ) {
+			bender.ignore();
+		}
+
 		if ( !( 'pushState' in history ) ) {
 			return bender.ignore();
 		}
