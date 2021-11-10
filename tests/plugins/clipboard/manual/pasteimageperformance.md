@@ -4,7 +4,7 @@
 
 1. Open and copy large image provided with link above the editor.
 
-  **Note**: The first editor is capable of reading clipboard data copied from the file system (e.g. from Finder on macOS and from Explorer on Windows), while the second editor is not - make sure to copy an actual image into the clipboard, preferably from an image editor.
+  **Note**: The first editor is capable of reading clipboard data copied from the file system (e.g. from Finder on macOS and from Explorer on Windows), while the second editor is not - make sure to copy an actual image into the clipboard.
 
 2. Open Developer Tools in Chrome and make sure log output contains the `Verbose` level.
 3. Paste the image from your clipboard into the first editor.
