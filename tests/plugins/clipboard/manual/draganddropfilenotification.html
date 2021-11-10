@@ -17,7 +17,7 @@
 		} );
 
 	editor.on( 'loaded', function() {
-		if( !CKEDITOR.plugins.clipboard.isFileApiSupported ){
+		if( !CKEDITOR.plugins.clipboard.isFileApiSupported || bender.tools.env.mobile ){
 			bender.ignore();
 		}
 	} );
