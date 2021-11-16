@@ -71,8 +71,18 @@
 			} );
 		},
 
+		'test remove last item with previous nested list': function( editor, bot ) {
+			bender.tools.testInputOut( 'nested_list', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
 		'test remove part of multiple list': function( editor, bot ) {
-			if ( CKEDITOR.env.ie ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
@@ -86,7 +96,7 @@
 		},
 
 		'test remove part mixed lists': function( editor, bot ) {
-			if ( CKEDITOR.env.ie ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 

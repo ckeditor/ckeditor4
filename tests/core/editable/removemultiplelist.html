@@ -213,3 +213,23 @@
 		<li>23</li>
 	</ol>
 </textarea>
+
+<textarea id="nested_list">
+	<ul>
+		<li>11</li>
+		<li>12
+			<ul>
+				<li>[111</li>
+				<li>112</li>
+			</ul>
+		</li>
+		<li>13]</li>
+	</ul>
+
+	=>
+	<ul>
+		<li>11</li>
+		<li>12</li>
+		<li>^&nbsp;</li>
+	</ul>
+</textarea>
