@@ -80,9 +80,9 @@ CKEDITOR.lang[ 'id' ] = {
 		right: 'Kanan',
 		center: 'Tengah',
 		justify: 'Rata kiri-kanan',
-		alignLeft: 'Align Left', // MISSING
-		alignRight: 'Align Right', // MISSING
-		alignCenter: 'Align Center', // MISSING
+		alignLeft: 'Rata Kiri',
+		alignRight: 'Rata Kanan',
+		alignCenter: 'Rata Tengah',
 		alignTop: 'Atas',
 		alignMiddle: 'Tengah',
 		alignBottom: 'Bawah',
@@ -90,7 +90,7 @@ CKEDITOR.lang[ 'id' ] = {
 		invalidValue: 'Nilai tidak sah.',
 		invalidHeight: 'Tinggi harus sebuah angka.',
 		invalidWidth: 'Lebar harus sebuah angka.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'Nilai untuk "%1" harus bernilai positif dengan atau tanpa disertai dengan satuan ukur yang tepat (%2)',
 		invalidCssLength: 'Nilai untuk "%1" harus sebuah angkat positif dengan atau tanpa pengukuran unit CSS yang sah (px, %, in, cm, mm, em, ex, pt, or pc).',
 		invalidHtmlLength: 'Nilai yang dispesifikasian untuk kolom "%1" harus sebuah angka positif dengan atau tanpa sebuah unit pengukuran HTML (px atau %) yang valid.',
 		invalidInlineStyle: 'Nilai pada inline style merupakan pasangan nama dan nilai dengan format "nama : nilai", yang dipisahkan dengan titik dua.',
@@ -110,30 +110,30 @@ CKEDITOR.lang[ 'id' ] = {
 			35: 'End',
 			36: 'Home',
 			46: 'Hapus',
-			112: 'F1', // MISSING
-			113: 'F2', // MISSING
-			114: 'F3', // MISSING
-			115: 'F4', // MISSING
-			116: 'F5', // MISSING
-			117: 'F6', // MISSING
-			118: 'F7', // MISSING
-			119: 'F8', // MISSING
-			120: 'F9', // MISSING
-			121: 'F10', // MISSING
-			122: 'F11', // MISSING
-			123: 'F12', // MISSING
-			124: 'F13', // MISSING
-			125: 'F14', // MISSING
-			126: 'F15', // MISSING
-			127: 'F16', // MISSING
-			128: 'F17', // MISSING
-			129: 'F18', // MISSING
-			130: 'F19', // MISSING
-			131: 'F20', // MISSING
-			132: 'F21', // MISSING
-			133: 'F22', // MISSING
-			134: 'F23', // MISSING
-			135: 'F24', // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
 			224: 'Command'
 		},
 

@@ -5,52 +5,52 @@
 
 CKEDITOR.plugins.setLang( 'specialchar', 'id', {
 	euro: 'Tanda Euro',
-	lsquo: 'Left single quotation mark', // MISSING
-	rsquo: 'Right single quotation mark', // MISSING
-	ldquo: 'Left double quotation mark', // MISSING
-	rdquo: 'Right double quotation mark', // MISSING
-	ndash: 'En dash', // MISSING
-	mdash: 'Em dash', // MISSING
-	iexcl: 'Inverted exclamation mark', // MISSING
-	cent: 'Cent sign', // MISSING
-	pound: 'Pound sign', // MISSING
-	curren: 'Currency sign', // MISSING
+	lsquo: 'Tanda kutip tunggal kiri',
+	rsquo: 'Tanda kutip tunggal kanan',
+	ldquo: 'Tanda kutip ganda kiri',
+	rdquo: 'Tanda kutip ganda kanan',
+	ndash: 'Tanda hubung',
+	mdash: 'Sisipan',
+	iexcl: 'Tanda seru terbalik',
+	cent: 'Tanda cent',
+	pound: 'Tanda pound',
+	curren: 'Tanda mata uang',
 	yen: 'Tanda Yen',
-	brvbar: 'Broken bar', // MISSING
-	sect: 'Section sign', // MISSING
-	uml: 'Diaeresis', // MISSING
+	brvbar: 'Broken bar',
+	sect: 'Penanda bagian',
+	uml: 'Diaeresis',
 	copy: 'Tanda Hak Cipta',
-	ordf: 'Feminine ordinal indicator', // MISSING
-	laquo: 'Left-pointing double angle quotation mark', // MISSING
-	not: 'Not sign', // MISSING
+	ordf: 'Indikator ordinal feminin',
+	laquo: 'Tanda kutip sudut ganda mengarah ke kiri',
+	not: 'Bukan tanda',
 	reg: 'Tanda Telah Terdaftar',
-	macr: 'Macron', // MISSING
-	deg: 'Degree sign', // MISSING
-	sup2: 'Superscript two', // MISSING
-	sup3: 'Superscript three', // MISSING
-	acute: 'Acute accent', // MISSING
-	micro: 'Micro sign', // MISSING
-	para: 'Pilcrow sign', // MISSING
-	middot: 'Middle dot', // MISSING
-	cedil: 'Cedilla', // MISSING
-	sup1: 'Superscript one', // MISSING
-	ordm: 'Masculine ordinal indicator', // MISSING
-	raquo: 'Right-pointing double angle quotation mark', // MISSING
-	frac14: 'Vulgar fraction one quarter', // MISSING
-	frac12: 'Vulgar fraction one half', // MISSING
-	frac34: 'Vulgar fraction three quarters', // MISSING
-	iquest: 'Inverted question mark', // MISSING
-	Agrave: 'Latin capital letter A with grave accent', // MISSING
-	Aacute: 'Latin capital letter A with acute accent', // MISSING
-	Acirc: 'Latin capital letter A with circumflex', // MISSING
-	Atilde: 'Latin capital letter A with tilde', // MISSING
-	Auml: 'Latin capital letter A with diaeresis', // MISSING
-	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin capital letter Æ', // MISSING
-	Ccedil: 'Latin capital letter C with cedilla', // MISSING
-	Egrave: 'Latin capital letter E with grave accent', // MISSING
-	Eacute: 'Latin capital letter E with acute accent', // MISSING
-	Ecirc: 'Latin capital letter E with circumflex', // MISSING
+	macr: 'Garis makron',
+	deg: 'Tanda derajat',
+	sup2: 'Superskrip dua',
+	sup3: 'Superskrip tiga',
+	acute: 'Aksen akut',
+	micro: 'Tanda mikro',
+	para: 'Tanda Pilcrow',
+	middot: 'Titik tengah',
+	cedil: 'Cedilla',
+	sup1: 'Superskrip satu',
+	ordm: 'Indikator ordinal maskulin',
+	raquo: 'Tanda kutip sudut ganda menunjuk ke kanan',
+	frac14: 'Bilangan Pecahan seperempat',
+	frac12: 'Bilangan Pecahan setengah',
+	frac34: 'Bilangan Pecahan tigaperempat',
+	iquest: 'Tanda baca terbalik',
+	Agrave: 'Huruf kapital Latin A dengan aksen grave',
+	Aacute: 'Huruf kapital Latin A dengan aksen acute',
+	Acirc: 'Huruf kapital Latin A dengan circumflex',
+	Atilde: 'Huruf kapital Latin A dengan tilde',
+	Auml: 'Huruf kapital Latin A dengan diaeresis',
+	Aring: 'Huruf kapital Latin A dengan cincin di atas',
+	AElig: 'huruf kapital latin Æ',
+	Ccedil: 'Huruf kapital latin C dengan cedilla',
+	Egrave: 'Huruf kapital Latin E dengan aksen grave',
+	Eacute: 'Huruf kapital Latin E dengan aksen acute',
+	Ecirc: 'Huruf kapital Latin E dengan circumflex',
 	Euml: 'Latin capital letter E with diaeresis', // MISSING
 	Igrave: 'Latin capital letter I with grave accent', // MISSING
 	Iacute: 'Latin capital letter I with acute accent', // MISSING
@@ -63,7 +63,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'id', {
 	Ocirc: 'Latin capital letter O with circumflex', // MISSING
 	Otilde: 'Latin capital letter O with tilde', // MISSING
 	Ouml: 'Latin capital letter O with diaeresis', // MISSING
-	times: 'Multiplication sign', // MISSING
+	times: 'Tanda perkalian',
 	Oslash: 'Latin capital letter O with stroke', // MISSING
 	Ugrave: 'Latin capital letter U with grave accent', // MISSING
 	Uacute: 'Latin capital letter U with acute accent', // MISSING
@@ -95,7 +95,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'id', {
 	ocirc: 'Latin small letter o with circumflex', // MISSING
 	otilde: 'Latin small letter o with tilde', // MISSING
 	ouml: 'Latin small letter o with diaeresis', // MISSING
-	divide: 'Division sign', // MISSING
+	divide: 'Tanda bagi',
 	oslash: 'Latin small letter o with stroke', // MISSING
 	ugrave: 'Latin small letter u with grave accent', // MISSING
 	uacute: 'Latin small letter u with acute accent', // MISSING
