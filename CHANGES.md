@@ -5,41 +5,41 @@ CKEditor 4 Changelog
 
 **Highlights:**
 
-Adobe [end support of Flash Player](https://www.adobe.com/products/flashplayer/end-of-life.html) on December 31, 2020 and blocked Flash content from running in Flash Player beginning January 12, 2021.
-We've decided to deprecate and remove [Flash](https://ckeditor.com/cke4/addon/flash) plugin from CKEditor 4 to help protect users systems and discourage using insecure software.
+Adobe [ended support of Flash Player](https://www.adobe.com/products/flashplayer/end-of-life.html) on December 31, 2020 and blocked Flash content from running in Flash Player beginning January 12, 2021.
+We have decided to deprecate and remove the [Flash](https://ckeditor.com/cke4/addon/flash) plugin from CKEditor 4 to help protect users' systems and discourage using insecure software.
 
 New Features:
 
 * [#3433](https://github.com/ckeditor/ckeditor4/issues/3433): Marked required fields in dialogs with asterisk (`*`) symbol.
-* [#4374](https://github.com/ckeditor/ckeditor4/issues/4374): Integrated [Maximize](https://ckeditor.com/cke4/addon/maximize) plugin with browser's History API.
-* [#4461](https://github.com/ckeditor/ckeditor4/issues/4461): Introduced possibility to delay editor initialization while it is in detached DOM element.
+* [#4374](https://github.com/ckeditor/ckeditor4/issues/4374): Integrated the [Maximize](https://ckeditor.com/cke4/addon/maximize) plugin with browser's History API.
+* [#4461](https://github.com/ckeditor/ckeditor4/issues/4461): Introduced the possibility to delay editor initialization while it is in a detached DOM element.
 * [#4462](https://github.com/ckeditor/ckeditor4/issues/4462): Introduced support for reattaching editor container element to DOM.
 * [#4612](https://github.com/ckeditor/ckeditor4/issues/4612): Allow pasting images as Base64 from [clipboard](https://ckeditor.com/cke4/addon/clipboard) in all browsers except IE.
 * [#4681](https://github.com/ckeditor/ckeditor4/issues/4681): Allow drag and drop images as Base64.
 * [#4750](https://github.com/ckeditor/ckeditor4/issues/4750): Added notification for pasting and dropping unsupported file types into the editor.
-* [#4807](https://github.com/ckeditor/ckeditor4/issues/4807): [Chrome] Improve the performance of pasting large images. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
+* [#4807](https://github.com/ckeditor/ckeditor4/issues/4807): [Chrome] Improved the performance of pasting large images. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
 * [#4850](https://github.com/ckeditor/ckeditor4/issues/4850): Added support for loading [content templates](https://ckeditor.com/cke4/addon/templates) from HTML files. Thanks to [Fynn96](https://github.com/Fynn96)!
 * [#4874](https://github.com/ckeditor/ckeditor4/issues/4874): Added the [`config.clipboard_handleImages`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-clipboard_handleImages) configuration option for enabling and disabling built-in support for pasting and dropping images in the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
-* [#4026](https://github.com/ckeditor/ckeditor4/issues/4026): [Preview](https://ckeditor.com/cke4/addon/preview) plugin now uses [`editor#title`](http://localhost/ckeditor4-docs/build/docs/ckeditor4/latest/api/CKEDITOR_editor.html#property-title) property for the title of the preview window. Thanks to [Ely](https://github.com/Elyasin)!
-* [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Added support for inserting content next to block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation. Thanks to [bunglegrind](https://github.com/bunglegrind)!
+* [#4026](https://github.com/ckeditor/ckeditor4/issues/4026): [Preview](https://ckeditor.com/cke4/addon/preview) plugin now uses the [`editor#title`](http://localhost/ckeditor4-docs/build/docs/ckeditor4/latest/api/CKEDITOR_editor.html#property-title) property for the title of the preview window. Thanks to [Ely](https://github.com/Elyasin)!
+* [#4467](https://github.com/ckeditor/ckeditor4/issues/4467): Added support for inserting content next to a block [widgets](https://ckeditor.com/cke4/addon/widget) using keyboard navigation. Thanks to [bunglegrind](https://github.com/bunglegrind)!
 
 Fixed Issues:
 
 * [#3757](https://github.com/ckeditor/ckeditor4/issues/3757): [Firefox] Fixed: images pasted from [clipboard](https://ckeditor.com/cke4/addon/clipboard) are not inserted as Base64-encoded images.
-* [#3876](https://github.com/ckeditor/ckeditor4/issues/3876): Fixed: [Print](https://ckeditor.com/cke4/addon/print) plugin incorrectly prints links and images.
+* [#3876](https://github.com/ckeditor/ckeditor4/issues/3876): Fixed: The [Print](https://ckeditor.com/cke4/addon/print) plugin incorrectly prints links and images.
 * [#4444](https://github.com/ckeditor/ckeditor4/issues/4444): [Firefox] Fixed: Print preview is incorrectly loaded from CDN.
 * [#4596](https://github.com/ckeditor/ckeditor4/issues/4596): Fixed: Incorrect handling of HSL/HSLA values in [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html).
 * [#4597](https://github.com/ckeditor/ckeditor4/issues/4597): Fixed: Incorrect color conversion for HSL/HSLA values in [`CKEDITOR.tools.color`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_color.html).
 * [#4604](https://github.com/ckeditor/ckeditor4/issues/4604): Fixed: [`CKEDITOR.plugins.clipboard.dataTransfer#getTypes()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard_dataTransfer.html#method-getTypes) returns no types.
-* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): Fixed: not all resources loaded by the editor respect the cache key.
-* [#4783](https://github.com/ckeditor/ckeditor4/issues/4783): Fixed: [Accessibility Help](https://ckeditor.com/cke4/addon/a11yhelp) dialog does not contain info about focus being moved back to the editing area upon activating a toolbar button.
+* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): Fixed: Not all resources loaded by the editor respect the cache key.
+* [#4783](https://github.com/ckeditor/ckeditor4/issues/4783): Fixed: The [Accessibility Help](https://ckeditor.com/cke4/addon/a11yhelp) dialog does not contain info about focus being moved back to the editing area upon activating a toolbar button.
 * [#4790](https://github.com/ckeditor/ckeditor4/issues/4790): Fixed: Printing page is invoked before the printed page is fully loaded.
 * [#4874](https://github.com/ckeditor/ckeditor4/issues/4874): Fixed: Built-in support for pasting and dropping images in the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin restricts third party plugins from handling image pasting. Thanks to [FlowIT-JIT](https://github.com/FlowIT-JIT)!
-* [#4888](https://github.com/ckeditor/ckeditor4/issues/4888): Fixed: [`CKEDITOR.dialog#setState()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-setState) method throws error when there is no "Ok" button in the dialog.
-* [#4858](https://github.com/ckeditor/ckeditor4/issues/4858): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin incorrectly escapes `&` characters when pasting links into the editor.
+* [#4888](https://github.com/ckeditor/ckeditor4/issues/4888): Fixed: The [`CKEDITOR.dialog#setState()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-setState) method throws error when there is no "OK" button in the dialog.
+* [#4858](https://github.com/ckeditor/ckeditor4/issues/4858): Fixed: The [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin incorrectly escapes the `&` characters when pasting links into the editor.
 * [#4892](https://github.com/ckeditor/ckeditor4/issues/4892): Fixed: Focus of buttons in dialogs is not visible enough in High Contrast mode.
 * [#3858](https://github.com/ckeditor/ckeditor4/issues/3858): Fixed: Pasting content in `ENTER_BR` [enter mode](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-enterMode) crashes the editor.
-* [#4891](https://github.com/ckeditor/ckeditor4/issues/4891): Fixed: [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin applies fixed width to the editor.
+* [#4891](https://github.com/ckeditor/ckeditor4/issues/4891): Fixed: The [Autogrow](https://ckeditor.com/cke4/addon/autogrow) plugin applies fixed width to the editor.
 
 API Changes:
 
@@ -51,8 +51,8 @@ API Changes:
 
 Other Changes:
 
-* [#4866](https://github.com/ckeditor/ckeditor4/issues/#4866): [Flash](https://ckeditor.com/cke4/addon/flash) plugin has been deprecated and removed from the CKEditor 4.
-* [#4901](https://github.com/ckeditor/ckeditor4/issues/4901): Redesigned buttons placement in [Content templates](https://ckeditor.com/cke4/addon/templates) dialog to make it more UX friendly. Thanks to [Fynn96](https://github.com/Fynn96)!
+* [#4866](https://github.com/ckeditor/ckeditor4/issues/#4866): The [Flash](https://ckeditor.com/cke4/addon/flash) plugin is now deprecated and has been removed from CKEditor 4.
+* [#4901](https://github.com/ckeditor/ckeditor4/issues/4901): Redesigned buttons placement in the [Content templates](https://ckeditor.com/cke4/addon/templates) dialog to make it more UX friendly. Thanks to [Fynn96](https://github.com/Fynn96)!
 
 ## CKEditor 4.16.2
 
