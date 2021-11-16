@@ -28,13 +28,28 @@
 	</ul>
 </textarea>
 
+<h2>#3</span>
+<textarea id="editor3">
+	<ul>
+		<li>11</li>
+		<li>12
+			<ul>
+				<li>[111</li>
+				<li>112</li>
+			</ul>
+		</li>
+		<li>13]</li>
+	</ul>
+</textarea>
+
 <script>
 	( function() {
-		if( !CKEDITOR.env.ie ) {
+		if( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
 			return bender.ignore();
 		}
 
 		CKEDITOR.replace( 'editor1' );
 		CKEDITOR.replace( 'editor2' );
+		CKEDITOR.replace( 'editor3' );
 	} )();
 </script>
