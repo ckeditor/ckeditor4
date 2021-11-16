@@ -1032,24 +1032,36 @@
 							block,
 							parent,
 							next,
-							rtl = keyCode == 8;
+							rtl = keyCode == 8,
+							isMultipleSelectedList = false;
 
-
-						if (
-								// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (https://dev.ckeditor.com/ticket/10055)
-								( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && ( selected = sel.getSelectedElement() ) ) ||
+						// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (https://dev.ckeditor.com/ticket/10055)
+						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && sel.getSelectedElement() ) {
+							selected = sel.getSelectedElement();
+						// Check it selection contain list or table.
+						} else if ( isListOrTableInSelection( sel ) ) {
+							// (#4875)
+							var multipleListSelection = areMultipleListInRange( range );
+							if ( multipleListSelection ) {
+								selected = multipleListSelection;
+								isMultipleSelectedList = true;
+							} else if ( !isMultipleSelectedList ) {
 								// Remove the entire list/table on fully selected content. (https://dev.ckeditor.com/ticket/7645)
-								( selected = getSelectedTableList( sel ) ) ) {
+								selected = getSelectedTableList( sel );
+							}
+						}
+
+						if ( selected ) {
 							// Make undo snapshot.
 							editor.fire( 'saveSnapshot' );
-							if ( !selected.isMultipleSelectedList ) {
+							if ( isMultipleSelectedList ) {
+								selected.deleteContents();
+							} else {
 								// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
 								// break up the selection, safely manage it here. (https://dev.ckeditor.com/ticket/4795)
-								range.moveToPosition( selected.selection, CKEDITOR.POSITION_BEFORE_START );
+								range.moveToPosition( selected, CKEDITOR.POSITION_BEFORE_START );
 								// Remove the control manually.
-								selected.selection.remove();
-							} else {
-								selected.selection.deleteContents();
+								selected.remove();
 							}
 
 							range.select();
@@ -1548,15 +1560,22 @@
 		return false;
 	}
 
+	function isListOrTableInSelection( selection ) {
+		var range = selection.getRanges()[ 0 ],
+			path = range.startPath(),
+			structural = { table: 1, ul: 1, ol: 1, dl: 1 };
+
+		return !!path.contains( structural );
+	}
+
 	// Check if the entire table/list contents is selected.
 	function getSelectedTableList( sel ) {
 		var selected,
 			range = sel.getRanges()[ 0 ],
 			editable = sel.root,
-			path = range.startPath(),
 			structural = { table: 1, ul: 1, ol: 1, dl: 1 };
 
-		if ( path.contains( structural ) ) {
+		if ( isListOrTableInSelection( sel ) ) {
 			// Clone the original range.
 			var walkerRng = range.clone();
 
@@ -1566,16 +1585,6 @@
 
 			// Create a new walker.
 			var walker = new CKEDITOR.dom.walker( walkerRng );
-
-			// Check if range include more than one list.
-			var multipleList = checkForMultipleList( range );
-
-			if ( multipleList ) {
-				return {
-					isMultipleSelectedList: true,
-					selection: multipleList
-				};
-			}
 
 			// Assign a new guard to the walker.
 			walker.guard = guard();
@@ -1612,10 +1621,7 @@
 				// Go forwards checking for selected structural node.
 				walker.checkForward();
 
-				return {
-					isMultipleSelectedList: false,
-					selection: selected
-				};
+				return selected;
 			}
 		}
 
@@ -1635,53 +1641,90 @@
 					return false;
 			};
 		}
+	}
 
-		function checkForMultipleList( range ) {
-			// We know that we are in the list so now we must check if there is another one.
-			var listsTypes = [ 'ul', 'ol', 'dl' ],
-				listItems = [ 'dd', 'dt', 'li' ],
-				walker = new CKEDITOR.dom.walker( range ),
-				element = range.collapsed ? range.startContainer : walker.next(),
-				firstRangeEl = range.startContainer,
-				isInclude = false,
-				// Check if the first element from range is an list item.
-				isListItem = CKEDITOR.tools.array.some( listItems, function( listItem ) {
-					var item = firstRangeEl.$.nodeName.toLowerCase();
-					return item === listItem;
-				} );
+	function areMultipleListInRange( range ) {
+		// We know that we are in the list so now we must check if there is another one.
+		var listsTypes = [ 'ul', 'ol', 'dl' ],
+			walker = new CKEDITOR.dom.walker( range ),
+			element = range.collapsed ? range.startContainer : walker.next(),
+			firstRangeEl = range.startContainer,
+			isIncludeNestedList = false;
 
-			if ( !isListItem || firstRangeEl.getPrevious() !== null ) {
-				return;
-			}
+		if ( !isFirstListItem( range ) ) {
+			return;
+		}
 
-			// Walk through all the items in the range to find lists.
-			while ( element ) {
-				var tagName = element.$.nodeName.toLowerCase();
+		// Walk through all the items in the range to find nested lists.
+		while ( element && !isIncludeNestedList ) {
+			var tagName = element.$.nodeName.toLowerCase();
 
-				CKEDITOR.tools.array.forEach( listsTypes, function( listType ) {
-					if ( tagName === listType ) {
-						isInclude = true;
-					}
-				} );
+			isIncludeNestedList = CKEDITOR.tools.array.some( listsTypes, function( listType ) {
+				return tagName === listType;
+			} );
 
-				element = walker.next();
-			}
+			element = walker.next();
+		}
 
-			if ( isInclude ) {
-				var listParent = null;
-				// Get the parent of the list.
-				CKEDITOR.tools.array.map( listsTypes, function( listType ) {
-					var parent = firstRangeEl.getAscendant( listType );
-					if ( parent ) {
+		/*
+			Special case for nested list
+			[] - selection
+
+			...
+			<li>list item 1</li>
+				<ul>
+					<li>[list item 1_1</li>
+					<li>list item 1_2</li>
+				</ul>
+			<li>list item 2]</li>
+		*/
+		var startBlockChildCount = getParentBlockChildCount( range.startPath() ),
+			endBlockChildCount = getParentBlockChildCount( range.endPath() );
+
+		if ( isIncludeNestedList || ( startBlockChildCount !== endBlockChildCount ) ) {
+			var isListParent = null,
+				listParent = null,
+				parent = firstRangeEl.getParent();
+
+			// Get the parent of the list.
+			while ( !isListParent ) {
+				var parentName = parent.getName();
+
+				// We need to search for first closest parent list.
+				isListParent = CKEDITOR.tools.array.some( listsTypes, function( listType ) {
+					if ( parentName === listType ) {
 						listParent = parent;
+						return parentName === listType;
 					}
 				} );
 
-				range.setStart( listParent, 0 );
-				range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-
-				return range;
+				parent = parent.getParent();
 			}
+
+			range.setStart( listParent, 0 );
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			return range;
+		} else {
+			return false;
+		}
+
+		// Check if element is the first item in the list.
+		function isFirstListItem( range ) {
+			var possibleListItems = [ 'dd', 'dt', 'li' ],
+				block = range.startPath().block || range.startPath().blockLimit,
+				blockName = block.getName(),
+				isListItem = false;
+
+			isListItem = CKEDITOR.tools.array.some( possibleListItems, function( listItem ) {
+				return blockName === listItem;
+			} );
+
+			return isListItem && block.getPrevious() === null;
+		}
+
+		function getParentBlockChildCount( path ) {
+			return path.block.getParent().getChildCount();
 		}
 	}
 
