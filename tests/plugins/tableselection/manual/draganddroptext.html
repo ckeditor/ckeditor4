@@ -29,11 +29,13 @@
 </textarea>
 
 <script>
-	if ( bender.tools.env.mobile ) {
-		bender.ignore();
-	}
+	( function() {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
 
-	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 
-	CKEDITOR.replace('editor');
+		CKEDITOR.replace( 'editor' );
+	} )();
 </script>

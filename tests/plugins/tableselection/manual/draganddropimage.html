@@ -2,7 +2,7 @@
 	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
 		<tbody>
 			<tr>
-				<td><img alt="" src="https://via.placeholder.com/100" />&nbsp;</td>
+				<td><img alt="" src="http://via.placeholder.com/100" />&nbsp;</td>
 				<td>test</td>
 			</tr>
 			<tr>
@@ -30,13 +30,15 @@
 </textarea>
 
 <script>
-	if ( bender.tools.env.mobile ) {
-		bender.ignore();
-	}
+	( function() {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
 
-	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 
-	CKEDITOR.replace('editor', {
-		height: 350
-	} );
+		CKEDITOR.replace( 'editor', {
+			height: 350
+		} );
+	} )();
 </script>
