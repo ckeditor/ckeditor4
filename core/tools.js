@@ -414,7 +414,7 @@
 		 * Builds a HTML snippet from a set of `<style>/<link>`.
 		 *
 		 * @param {String/Array} css Each of which are URLs (absolute) of a CSS file or
-		 * a trunk of style text. URLs are passed through {@link CKEDITOR#getUrl} function.
+		 * a trunk of style text.
 		 * @returns {String}
 		 */
 		buildStyleHtml: function( css ) {
@@ -426,11 +426,8 @@
 					// Is CSS style text ?
 					if ( /@import|[{}]/.test( item ) )
 						retval.push( '<style>' + item + '</style>' );
-					else {
-						item = CKEDITOR.getUrl( item );
-
+					else
 						retval.push( '<link type="text/css" rel=stylesheet href="' + item + '">' );
-					}
 				}
 			}
 			return retval.join( '' );
