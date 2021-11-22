@@ -1,0 +1,13 @@
+<textarea name="editor1"></textarea>
+
+<script>
+	( function() {
+		var isWindows = navigator.userAgent.toLowerCase().indexOf( 'windows' ) !== -1;
+
+		if ( CKEDITOR.env.safari || bender.tools.env.mobile || !isWindows ) {
+			bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor1' );
+	} )();
+</script>
