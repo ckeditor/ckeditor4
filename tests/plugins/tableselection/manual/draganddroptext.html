@@ -1,0 +1,41 @@
+<textarea id="editor">
+	<table border="1" cellspacing="1" cellpadding="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>Move me.</td>
+				<td>test</td>
+			</tr>
+			<tr>
+				<td>
+					&nbsp;
+					<table border="1" cellspacing="1" cellpadding="1" style="width:500px">
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					&nbsp;
+				</td>
+				<td> </td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+		CKEDITOR.replace( 'editor' );
+	} )();
+</script>

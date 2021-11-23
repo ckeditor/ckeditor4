@@ -381,6 +381,9 @@
 	function fakeSelectionDragHandler( evt ) {
 		var table = evt.data.getTarget().getAscendant( 'table', true );
 
+		// Prevent table selection during dragging. (#547)
+		fakeSelection.active = false;
+
 		// (#2945)
 		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
 			return;
@@ -391,10 +394,6 @@
 		if ( !cell || cell.hasClass( fakeSelectedClass ) ) {
 			return;
 		}
-
-		// We're not supporting dragging in our table selection for the time being.
-		evt.cancel();
-		evt.data.preventDefault();
 	}
 
 	function copyTable( editor, isCut ) {
@@ -786,6 +785,11 @@
 			pastedTableMap;
 
 		if ( !isCustomPaste( selection, selectedCells, pastedTable, boundarySelection ) ) {
+			return;
+		}
+
+		// #(547)
+		if ( evt.data.method === 'drop' ) {
 			return;
 		}
 

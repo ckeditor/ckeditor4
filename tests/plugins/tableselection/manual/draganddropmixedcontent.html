@@ -1,0 +1,47 @@
+<textarea id="editor">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>--&gt;&nbsp;<img alt="" src="http://via.placeholder.com/100" />&nbsp;<br />
+				Lorem ipsum dolor &lt;--<br />
+				sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&nbsp;</td>
+				<td>test</td>
+			</tr>
+			<tr>
+				<td>
+				<p> </p>
+
+				<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+					<tbody>
+						<tr>
+							<td> </td>
+							<td> </td>
+						</tr>
+					</tbody>
+				</table>
+
+				<p> </p>
+				</td>
+				<td> </td>
+			</tr>
+			<tr>
+				<td> </td>
+				<td> </td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+		CKEDITOR.replace( 'editor', {
+			height: 350
+		} );
+	} )();
+</script>
