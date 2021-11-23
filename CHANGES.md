@@ -5,6 +5,11 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.17.2 [IN DEVELOPMENT]
 
+Fixed issues:
+
+* [#547](https://github.com/ckeditor/ckeditor4/issues/547): Fixed: Element/Image drag to move within the table is no longer available.
+
+
 ## CKEditor 4.17.1
 
 **Highlights:**
