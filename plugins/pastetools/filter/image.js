@@ -301,7 +301,7 @@
 				// they can be easily filtered.
 				isWordArtShape = currentImage.indexOf( '\\defshp' ) !== -1,
 				isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, imageType ) !== -1,
-				isHorizontalLine = !!CKEDITOR.tools.indexOf( currentImage, 'fHorizRule' );
+				isHorizontalLine = CKEDITOR.tools.indexOf( currentImage, 'fHorizRule' ) !== -1;
 
 			if ( isDuplicated ) {
 				ret.push( ret[ imageDataIndex ] );

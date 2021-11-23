@@ -4,7 +4,7 @@
 	( function() {
 		var isWindows = navigator.userAgent.toLowerCase().indexOf( 'windows' ) !== -1;
 
-		if ( CKEDITOR.env.safari || bender.tools.env.mobile || !isWindows ) {
+		if ( CKEDITOR.env.safari || CKEDITOR.env.ie || bender.tools.env.mobile || !isWindows ) {
 			bender.ignore();
 		}
 
