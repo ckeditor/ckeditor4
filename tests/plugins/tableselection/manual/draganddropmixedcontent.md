@@ -1,4 +1,4 @@
-@bender-tags: dialog, 4.17.1 547, bug
+@bender-tags: dialog, 4.17.2 547, bug
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableselection, undo, sourcearea, elementspath, image, basicstyles
 
