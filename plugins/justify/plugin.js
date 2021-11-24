@@ -9,7 +9,6 @@
 
 ( function() {
 	function getAlignment( element, useComputedState ) {
-		useComputedState = useComputedState === undefined || useComputedState;
 
 		var align;
 		if ( useComputedState )
@@ -139,7 +138,6 @@
 				iterator, block;
 
 			var useComputedState = editor.config.useComputedState;
-			useComputedState = useComputedState === undefined || useComputedState;
 
 			for ( var i = ranges.length - 1; i >= 0; i-- ) {
 				iterator = ranges[ i ].createIterator();

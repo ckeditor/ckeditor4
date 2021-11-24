@@ -22,6 +22,11 @@ bender.test( {
 		} );
 	},
 
+	// (#4918)
+	test_startup_computed_state_value: function() {
+		assert.isTrue( this.editor.config.useComputedState, 'config.useComputedState should return true as default' );
+	},
+
 	test_startup_focus: function() {
 		assert.isTrue( this.editor.focusManager.hasFocus, 'config.startupFocus' );
 		// TODO: Check cursor position at the beginning of document.

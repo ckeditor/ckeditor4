@@ -9,6 +9,9 @@ Fixed issues:
 
 * [#547](https://github.com/ckeditor/ckeditor4/issues/547): Fixed: Element/Image drag to move within the table is no longer available.
 
+API changes:
+
+* [#4918](https://github.com/ckeditor/ckeditor4/issues/4918): Explicitly set [`config.useComputedState`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-useComputedState) default value to `true`. Thanks to [Shabab Karim](https://github.com/shabab477)!
 
 ## CKEditor 4.17.1
 

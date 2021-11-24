@@ -15,8 +15,6 @@
 		var useComputedState = editor.config.useComputedState,
 			selectedElement;
 
-		useComputedState = useComputedState === undefined || useComputedState;
-
 		// We can use computedState provided by the browser or traverse parents manually.
 		if ( !useComputedState )
 			selectedElement = getElementForDirection( path.lastElement, editor.editable() );
@@ -80,7 +78,7 @@
 			}
 		}
 
-		var useComputedState = ( 'useComputedState' in editor.config ) ? editor.config.useComputedState : 1;
+		var useComputedState = editor.config.useComputedState;
 
 		var elementDir = useComputedState ? element.getComputedStyle( 'direction' ) : element.getStyle( 'direction' ) || element.hasAttribute( 'dir' );
 
