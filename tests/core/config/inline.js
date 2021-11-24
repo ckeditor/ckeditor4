@@ -22,6 +22,7 @@ bender.test( {
 		} );
 	},
 
+	// (#4918)
 	test_startup_computed_state_value: function() {
 		assert.isTrue( this.editor.config.useComputedState, 'config.useComputedState should return true as default' );
 	},
