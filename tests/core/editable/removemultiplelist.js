@@ -10,105 +10,101 @@
 		}
 	};
 
-	var tests = {
-		'test remove full multiple list': function( editor, bot ) {
-			bender.tools.testInputOut( 'multiple_full_list', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
+	var tests = {},
+		keyCodes = [
+			{
+				name: 'Backspace',
+				code: 46
+			},
 
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test remove full mixed lists': function( editor, bot ) {
-			bender.tools.testInputOut( 'mixed_full_lists', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test remove multiple list with table': function( editor, bot ) {
-			bender.tools.testInputOut( 'lists_with_table', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test remove full multiple nested lists': function( editor, bot ) {
-			bender.tools.testInputOut( 'nested_full_lists', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test remove part of multiple nested lists': function( editor, bot ) {
-			bender.tools.testInputOut( 'nested_part_lists', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test remove whole of nested list inside another one': function( editor, bot ) {
-			bender.tools.testInputOut( 'only_nested_part_list', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test remove last item with previous nested list': function( editor, bot ) {
-			bender.tools.testInputOut( 'nested_list', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test remove part of multiple list': function( editor, bot ) {
-			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko ) {
-				assert.ignore();
+			{
+				name: 'Delete',
+				code: 8
 			}
+		],
+		testCases = [
+			{
+				name: 'test fully selected lists are removed when',
+				template: 'multiple_full_list'
+			},
 
-			bender.tools.testInputOut( 'multiple_part_list', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
+			{
+				name: 'test fully mixed lists are removed when',
+				template: 'mixed_full_lists'
+			},
 
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
+			{
+				name: 'test multiple list with table is removed when',
+				template: 'lists_with_table'
+			},
 
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
+			{
+				name: 'test fully multiple nested lists are removed when',
+				template: 'nested_full_lists'
+			},
 
-		'test remove part mixed lists': function( editor, bot ) {
-			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko ) {
-				assert.ignore();
+			{
+				name: 'test whole of nested list inside another one is removed when',
+				template: 'only_nested_part_list'
+			},
+
+			{
+				name: 'test last item with previous nested list is removed when',
+				template: 'nested_list',
+				ignore: CKEDITOR.env.ie && CKEDITOR.env.version < 9
+			},
+
+			{
+				name: 'test part of multiple nested lists are removed when remove when',
+				template: 'nested_part_lists',
+				ignore: CKEDITOR.env.ie && CKEDITOR.env.version < 9
+			},
+
+			{
+				name: 'test part of multiple list is removed when',
+				template: 'multiple_part_list',
+				ignore: CKEDITOR.env.ie || CKEDITOR.env.gecko
+			},
+
+			{
+				name: 'test part mixed lists is removed when',
+				template: 'mixed_part_lists',
+				ignore: CKEDITOR.env.ie || CKEDITOR.env.gecko
 			}
+		];
 
-			bender.tools.testInputOut( 'mixed_part_lists', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
+	for ( var i = 0; i < keyCodes.length; i++ ) {
+		CKEDITOR.tools.array.forEach( testCases, function( test ) {
+			var testName = test.name + ' ' + keyCodes[ i ].name + ' key is pressed',
+				keyCode = keyCodes[ i ].code,
+				options = {
+					testInput: test.template,
+					testName: testName,
+					keyCode: keyCode
+				},
+				newTest = {};
 
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
+			newTest[ testName ] = function( editor, bot ) {
+					if ( test.ignore ) {
+						assert.ignore();
+					}
 
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		}
-	};
+					setTest( editor, bot, options );
+				};
+
+			CKEDITOR.tools.extend( tests, newTest );
+		} );
+	}
+
+	function setTest( editor, bot, options ) {
+		return bender.tools.testInputOut( options.testInput, function( source, expected ) {
+			bender.tools.setHtmlWithSelection( editor, source );
+
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: options.keyCode } ) );
+
+			bender.assert.beautified.html( expected, bot.htmlWithSelection(), 'There was a problem with test: ' + options.testName );
+		} );
+	}
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
