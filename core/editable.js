@@ -1045,7 +1045,7 @@
 							if ( multipleListSelection ) {
 								selected = multipleListSelection;
 								isMultipleSelectedList = true;
-							} else if ( !isMultipleSelectedList ) {
+							} else {
 								// Remove the entire list/table on fully selected content. (https://dev.ckeditor.com/ticket/7645)
 								selected = getSelectedTableList( sel );
 							}
@@ -1572,8 +1572,7 @@
 	function getSelectedTableList( sel ) {
 		var selected,
 			range = sel.getRanges()[ 0 ],
-			editable = sel.root,
-			structural = { table: 1, ul: 1, ol: 1, dl: 1 };
+			editable = sel.root;
 
 		if ( isListOrTableInSelection( sel ) ) {
 			// Clone the original range.
@@ -1628,6 +1627,7 @@
 		return null;
 
 		function guard( forwardGuard ) {
+			var structural = { table: 1, ul: 1, ol: 1, dl: 1 };
 			return function( node, isWalkOut ) {
 				// Save the encountered node as selected if going down the DOM structure
 				// and the node is structured element.
