@@ -10,103 +10,58 @@
 		}
 	};
 
-	var tests = {},
-		keyCodes = [
-			{
-				name: 'Backspace',
-				code: 46
-			},
+	var DELETE_KEY = 8,
+		BACKSPACE_KEY = 46,
+		tests = {
+			'test fully selected lists are removed with the delete key': performInputOutputTest( 'multiple_full_list', DELETE_KEY ),
+			'test fully selected lists are removed with the backspace key': performInputOutputTest( 'multiple_full_list', BACKSPACE_KEY ),
 
-			{
-				name: 'Delete',
-				code: 8
-			}
-		],
-		testCases = [
-			{
-				name: 'test fully selected lists are removed when',
-				template: 'multiple_full_list'
-			},
+			'test fully mixed lists are removed with the delete key': performInputOutputTest( 'mixed_full_lists', DELETE_KEY ),
+			'test fully mixed lists are removed with the backspace key': performInputOutputTest( 'mixed_full_lists', BACKSPACE_KEY ),
 
-			{
-				name: 'test fully mixed lists are removed when',
-				template: 'mixed_full_lists'
-			},
+			'test multiple list with table is removed with the delete key': performInputOutputTest( 'lists_with_table', DELETE_KEY ),
+			'test multiple list with table is removed with the backspace key': performInputOutputTest( 'lists_with_table', BACKSPACE_KEY ),
 
-			{
-				name: 'test multiple list with table is removed when',
-				template: 'lists_with_table'
-			},
+			'test fully multiple nested lists are removed with the delete key': performInputOutputTest( 'nested_full_lists', DELETE_KEY ),
+			'test fully multiple nested lists are removed with the backspace key': performInputOutputTest( 'nested_full_lists', BACKSPACE_KEY ),
 
-			{
-				name: 'test fully multiple nested lists are removed when',
-				template: 'nested_full_lists'
-			},
+			'test whole of nested list inside another one is removed with the delete key': performInputOutputTest( 'only_nested_part_list', DELETE_KEY ),
+			'test whole of nested list inside another one is removed with the backspace key': performInputOutputTest( 'only_nested_part_list', BACKSPACE_KEY ),
 
-			{
-				name: 'test whole of nested list inside another one is removed when',
-				template: 'only_nested_part_list'
-			},
+			'test last item with previous nested list is removed with the delete key': performInputOutputTest( 'nested_list', DELETE_KEY, CKEDITOR.env.ie && CKEDITOR.env.version < 9 ),
+			'test last item with previous nested list is removed with the backspace key': performInputOutputTest( 'nested_list', BACKSPACE_KEY, CKEDITOR.env.ie && CKEDITOR.env.version < 9 ),
 
-			{
-				name: 'test last item with previous nested list is removed when',
-				template: 'nested_list',
-				ignore: CKEDITOR.env.ie && CKEDITOR.env.version < 9
-			},
+			'test part of multiple nested lists are removed with the delete key': performInputOutputTest( 'nested_part_lists', DELETE_KEY, CKEDITOR.env.ie && CKEDITOR.env.version < 9 ),
+			'test part of multiple nested lists are removed with the backspace key': performInputOutputTest( 'nested_part_lists', BACKSPACE_KEY, CKEDITOR.env.ie && CKEDITOR.env.version < 9 ),
 
-			{
-				name: 'test part of multiple nested lists are removed when remove when',
-				template: 'nested_part_lists',
-				ignore: CKEDITOR.env.ie && CKEDITOR.env.version < 9
-			},
+			'test part of multiple list is removed with the delete key': performInputOutputTest( 'multiple_part_list', DELETE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko ),
+			'test part of multiple list is removed with the backspace key': performInputOutputTest( 'multiple_part_list', BACKSPACE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko ),
 
-			{
-				name: 'test part of multiple list is removed when',
-				template: 'multiple_part_list',
-				ignore: CKEDITOR.env.ie || CKEDITOR.env.gecko
-			},
-
-			{
-				name: 'test part mixed lists is removed when',
-				template: 'mixed_part_lists',
-				ignore: CKEDITOR.env.ie || CKEDITOR.env.gecko
-			}
-		];
-
-	for ( var i = 0; i < keyCodes.length; i++ ) {
-		CKEDITOR.tools.array.forEach( testCases, function( test ) {
-			var testName = test.name + ' ' + keyCodes[ i ].name + ' key is pressed',
-				keyCode = keyCodes[ i ].code,
-				options = {
-					testInput: test.template,
-					testName: testName,
-					keyCode: keyCode
-				},
-				newTest = {};
-
-			newTest[ testName ] = function( editor, bot ) {
-					if ( test.ignore ) {
-						assert.ignore();
-					}
-
-					setTest( editor, bot, options );
-				};
-
-			CKEDITOR.tools.extend( tests, newTest );
-		} );
-	}
-
-	function setTest( editor, bot, options ) {
-		return bender.tools.testInputOut( options.testInput, function( source, expected ) {
-			bender.tools.setHtmlWithSelection( editor, source );
-
-			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: options.keyCode } ) );
-
-			bender.assert.beautified.html( expected, bot.htmlWithSelection(), 'There was a problem with test: ' + options.testName );
-		} );
-	}
+			'test part mixed lists is removed with the delete key': performInputOutputTest( 'mixed_part_lists', DELETE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko ),
+			'test part mixed lists is removed with the backspace key': performInputOutputTest( 'mixed_part_lists', BACKSPACE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko )
+		};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
-
 	bender.test( tests );
+
+	function performInputOutputTest( templateName, keyCode, ignore ) {
+		return function( editor, bot ) {
+			if ( ignore ) {
+				assert.ignore();
+			}
+
+			bender.tools.testInputOut( templateName, function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: keyCode } ) );
+
+				bender.assert.beautified.html(
+					expected,
+					bot.htmlWithSelection(),
+					'Failed to remove list on template ' + templateName + ' with key code ' + keyCode
+				);
+			} );
+		};
+	}
+
 } )();
