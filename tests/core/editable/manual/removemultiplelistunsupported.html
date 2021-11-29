@@ -1,0 +1,55 @@
+<h2>#1</h2>
+<textarea id="editor1">
+	<p>begin</p>
+	<ul>
+		<li>t1</li>
+		<li>[t2</li>
+	</ul>
+	<p>middle</p>
+	<ul>
+		<li>t21</li>
+		<li>t22]</li>
+	</ul>
+</textarea>
+
+</br>
+
+<h2>#2</span>
+<textarea id="editor2">
+	<p>begin</p>
+	<ol>
+		<li>12</li>
+		<li>[23</li>
+	</ol>
+	<p>middle</p>
+	<ul>
+		<li>ab]</li>
+		<li>bc</li>
+	</ul>
+</textarea>
+
+<h2>#3</span>
+<textarea id="editor3">
+	<ul>
+		<li>11</li>
+		<li>12
+			<ul>
+				<li>[111</li>
+				<li>112</li>
+			</ul>
+		</li>
+		<li>13]</li>
+	</ul>
+</textarea>
+
+<script>
+	( function() {
+		if( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor1' );
+		CKEDITOR.replace( 'editor2' );
+		CKEDITOR.replace( 'editor3' );
+	} )();
+</script>

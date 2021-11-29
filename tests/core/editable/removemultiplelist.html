@@ -1,0 +1,235 @@
+<textarea id="multiple_full_list">
+	<p>begin</p>
+	<ul>
+		<li>[t1</li>
+		<li>t2</li>
+	</ul>
+	<p>middle</p>
+	<ul>
+		<li>t21</li>
+		<li>t22]</li>
+	</ul>
+
+	=>
+	<p>begin</p>
+	<p>^&nbsp;</p>
+</textarea>
+
+<textarea id="multiple_part_list">
+	<p>begin</p>
+	<ul>
+		<li>t1</li>
+		<li>[t2</li>
+	</ul>
+	<p>middle</p>
+	<ul>
+		<li>t21</li>
+		<li>t22]</li>
+	</ul>
+
+	=>
+	<p>begin</p>
+	<ul>
+		<li>t1</li>
+		<li>^&nbsp;</li>
+	</ul>
+</textarea>
+
+<textarea id="mixed_full_lists">
+	<p>begin</p>
+	<ol>
+		<li>[12</li>
+		<li>23</li>
+	</ol>
+	<p>middle</p>
+	<ul>
+		<li>ab</li>
+		<li>bc]</li>
+	</ul>
+
+	=>
+	<p>begin</p>
+	<p>^&nbsp;</p>
+</textarea>
+
+<textarea id="mixed_part_lists">
+	<p>begin</p>
+	<ol>
+		<li>12</li>
+		<li>[23</li>
+	</ol>
+	<p>middle</p>
+	<ul>
+		<li>ab]</li>
+		<li>bc</li>
+	</ul>
+
+	=>
+	<p>begin</p>
+	<ol>
+		<li>12</li>
+		<li>^&nbsp;</li>
+	</ol>
+	<ul>
+		<li>bc</li>
+	</ul>
+</textarea>
+
+<textarea id="lists_with_table">
+	<p>begin</p>
+	<ol>
+		<li>[12</li>
+		<li>
+		<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+			<tbody>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+		</li>
+		<li>23</li>
+	</ol>
+	<p>middle</p>
+	<ul>
+		<li>ab</li>
+		<li>bc]</li>
+	</ul>
+
+	=>
+	<p>begin</p>
+	<p>^&nbsp;</p>
+</textarea>
+
+<textarea id="nested_full_lists">
+	<p>begin</p>
+	<ol>
+		<li>[12
+		<ol>
+			<li>111</li>
+			<li>112
+			<ol>
+				<li>1212</li>
+			</ol>
+			</li>
+			<li>12</li>
+		</ol>
+		</li>
+		<li>23</li>
+	</ol>
+	<p>middle</p>
+	<ul>
+		<li>ab
+		<ul>
+			<li>111</li>
+		</ul>
+		</li>
+		<li>bc]</li>
+	</ul>
+
+	=>
+	<p>begin</p>
+	<p>^&nbsp;</p>
+</textarea>
+
+<textarea id="nested_part_lists">
+	<p>begin</p>
+	<ol>
+		<li>12
+		<ol>
+			<li>111</li>
+			<li>112
+			<ol>
+				<li>[1212</li>
+			</ol>
+			</li>
+			<li>12</li>
+		</ol>
+		</li>
+		<li>23</li>
+	</ol>
+	<p>middle</p>
+	<ul>
+		<li>ab
+		<ul>
+			<li>111]</li>
+		</ul>
+		</li>
+		<li>bc</li>
+	</ul>
+
+	=>
+	<p>begin</p>
+
+	<ol>
+		<li>12
+		<ol>
+			<li>111</li>
+			<li>112</li>
+		</ol>
+		</li>
+	</ol>
+	<p>^&nbsp;</p>
+	<ul>
+		<li>bc</li>
+	</ul>
+</textarea>
+
+<textarea id="only_nested_part_list">
+	<p>begin</p>
+	<ol>
+		<li>12
+		<ol>
+			<li>111</li>
+			<li>112
+			<ol>
+				<li>[212</li>
+				<li>23</li>
+				<li>23</li>
+				<li>sdsd]</li>
+			</ol>
+			</li>
+			<li>12</li>
+		</ol>
+		</li>
+		<li>23</li>
+	</ol>
+
+	=>
+	<p>begin</p>
+	<ol>
+		<li>12
+		<ol>
+			<li>111</li>
+			<li>112^</li>
+			<li>12</li>
+		</ol>
+		</li>
+		<li>23</li>
+	</ol>
+</textarea>
+
+<textarea id="nested_list">
+	<ul>
+		<li>11</li>
+		<li>12
+			<ul>
+				<li>[111</li>
+				<li>112</li>
+			</ul>
+		</li>
+		<li>13]</li>
+	</ul>
+
+	=>
+	<ul>
+		<li>11</li>
+		<li>12</li>
+		<li>^&nbsp;</li>
+	</ul>
+</textarea>

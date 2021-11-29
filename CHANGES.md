@@ -8,6 +8,7 @@ CKEditor 4 Changelog
 Fixed issues:
 
 * [#547](https://github.com/ckeditor/ckeditor4/issues/547): Fixed: Element/Image drag to move within the table is no longer available.
+* [#4875](https://github.com/ckeditor/ckeditor4/issues/4875): Fixed: Not possible to delete multiple selected lists.
 
 API changes:
 
