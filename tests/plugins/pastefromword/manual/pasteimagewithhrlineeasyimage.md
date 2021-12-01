@@ -4,7 +4,8 @@
 @bender-include: ../_helpers/easyimage.js
 
 1. Open browser's console.
-2. Open [outlook1](_assets/outlook1.msg).
+2. Open [outlook1](_assets/outlook1.msg)
+or [image_with_hrline](_assets/image_with_hrline.docx)
 3. Copy entire content from outlook.
 4. Paste the content in the editor.
 
