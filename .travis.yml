@@ -7,13 +7,15 @@ branches:
   - latest
   - /^\d+\.\d+(\.\d+)?(-\S*)?$/
   - /^release\/\d+\.\d+\.x$/
+  - /^[\d]{4,5}security$/
 
 git:
   depth: false
 
 env:
   global:
-    - FULL_RUN=$(if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then echo "fullRun"; else echo ""; fi)
+    - FULL_RUN=$(if [ "$FULL_RUN_TRAVIS_CFG" != "" ]; then echo "$FULL_RUN_TRAVIS_CFG"; elif [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then echo "fullRun"; else echo ""; fi)
+    - REPO_NAME=$(IFS='/' read -r -a array <<< "$TRAVIS_REPO_SLUG"; echo ${array[1]};)
     - TARGET_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "origin/$TRAVIS_BRANCH^"; else echo "origin/$TRAVIS_BRANCH"; fi)
     - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "origin/$TRAVIS_BRANCH"; else echo "origin/$TRAVIS_PULL_REQUEST_BRANCH"; fi)
 
@@ -42,6 +44,14 @@ jobs:
         - pwd
         - npm install benderjs-cli -g
         - npm i
+        # Setup additional dependency
+        - |
+          if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
+            git clone $DEPS_TRAVIS $DEPS_LOCATION_TRAVIS --quiet
+            cd $DEPS_LOCATION_TRAVIS
+            git checkout $TRAVIS_PULL_REQUEST_BRANCH || true
+            cd ../..
+          fi
         # Setup bender test runner
         - cd ..
         - pwd
@@ -51,7 +61,7 @@ jobs:
       script:
         - pwd
         - echo "Running tests based on diff between $TARGET_BRANCH and $CURRENT_BRANCH"
-        - npm run start "../../ckeditor4/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "chrome" "$FULL_RUN"
+        - npm run start "../../$REPO_NAME/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "chrome" "$FULL_RUN" "../$REPO_NAME/"
 
     - name: Firefox (Linux)
       os: linux
@@ -74,6 +84,14 @@ jobs:
         - pwd
         - npm install benderjs-cli -g
         - npm i
+        # Setup additional dependency
+        - |
+          if [[ "$EXTRA_DEPS_TRAVIS" == "true" ]]; then
+            git clone $DEPS_TRAVIS $DEPS_LOCATION_TRAVIS --quiet
+            cd $DEPS_LOCATION_TRAVIS
+            git checkout $TRAVIS_PULL_REQUEST_BRANCH || true
+            cd ../..
+          fi
         # Setup bender test runner
         - cd ..
         - pwd
@@ -83,4 +101,4 @@ jobs:
       script:
         - pwd
         - echo "Running tests based on diff between $TARGET_BRANCH and $CURRENT_BRANCH"
-        - npm run start "../../ckeditor4/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "firefox" "$FULL_RUN"
+        - npm run start "../../$REPO_NAME/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "firefox" "$FULL_RUN" "../$REPO_NAME/"
