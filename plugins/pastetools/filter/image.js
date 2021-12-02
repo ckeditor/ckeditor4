@@ -314,7 +314,7 @@
 			}
 
 			// Continue when the element is a <hr> line to allow paste image with horizontal line. (#4873)
-			if ( imageType === 'image/wmf' && isHorizontalLine ) {
+			if ( isHorizontalLine ) {
 				continue;
 			}
 
