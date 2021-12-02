@@ -61,7 +61,7 @@ jobs:
       script:
         - pwd
         - echo "Running tests based on diff between $TARGET_BRANCH and $CURRENT_BRANCH"
-        - npm run start "../../$REPO_NAME/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "chrome" "$FULL_RUN" "../$REPO_NAME/"
+        - npm run start -- --configFile "../../$REPO_NAME/bender-runner.config.json" --targetBranch "$TARGET_BRANCH" --currentBranch "$CURRENT_BRANCH" --browser "chrome" --fullRun "$FULL_RUN" --repoPath "../$REPO_NAME/" --prRepoSlug "$TRAVIS_PULL_REQUEST_SLUG"
 
     - name: Firefox (Linux)
       os: linux
@@ -101,4 +101,4 @@ jobs:
       script:
         - pwd
         - echo "Running tests based on diff between $TARGET_BRANCH and $CURRENT_BRANCH"
-        - npm run start "../../$REPO_NAME/bender-runner.config.json" "$TARGET_BRANCH" "$CURRENT_BRANCH" "firefox" "$FULL_RUN" "../$REPO_NAME/"
+        - npm run start -- --configFile "../../$REPO_NAME/bender-runner.config.json" --targetBranch "$TARGET_BRANCH" --currentBranch "$CURRENT_BRANCH" --browser "firefox" --fullRun "$FULL_RUN" --repoPath "../$REPO_NAME/" --prRepoSlug "$TRAVIS_PULL_REQUEST_SLUG"
