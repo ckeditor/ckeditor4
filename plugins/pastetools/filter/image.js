@@ -300,7 +300,8 @@
 				// WordArt shapes are defined using \defshp control word. Thanks to that
 				// they can be easily filtered.
 				isWordArtShape = currentImage.indexOf( '\\defshp' ) !== -1,
-				isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, imageType ) !== -1;
+				isSupportedType = CKEDITOR.tools.array.indexOf( CKEDITOR.pasteFilters.image.supportedImageTypes, imageType ) !== -1,
+				isHorizontalLine = CKEDITOR.tools.indexOf( currentImage, 'fHorizRule' ) !== -1;
 
 			if ( isDuplicated ) {
 				ret.push( ret[ imageDataIndex ] );
@@ -309,6 +310,11 @@
 			}
 
 			if ( isAlternateFormat || isWordArtShape ) {
+				continue;
+			}
+
+			// Continue when the element is a <hr> line to allow paste image with horizontal line. (#4873)
+			if ( isHorizontalLine ) {
 				continue;
 			}
 

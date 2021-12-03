@@ -1,0 +1,11 @@
+<textarea name="editor1"></textarea>
+
+<script>
+	( function() {
+		if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
+			bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor1' );
+	} )();
+</script>

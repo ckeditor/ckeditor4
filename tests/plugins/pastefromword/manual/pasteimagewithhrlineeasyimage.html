@@ -1,0 +1,18 @@
+<textarea name="editor1"></textarea>
+
+<script>
+	( function() {
+		if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
+			bender.ignore();
+		}
+
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+		var config = {
+			cloudServices_uploadUrl: easyImage.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImage.CLOUD_SERVICES_TOKEN_URL
+		};
+
+		CKEDITOR.replace( 'editor1', config );
+	} )();
+</script>
