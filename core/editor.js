@@ -686,9 +686,10 @@
 			var start = range.startContainer,
 				end = range.endContainer,
 				startIsTr = start.is && start.is( 'tr' ),
-				startIsTdWithEqualChildCount = start.is && start.is( 'td' ) && start.equals( end ) && range.endOffset === start.getChildCount(),
+				startIsTd = start.is && start.is( 'td' ),
+				startIsTdWithEqualChildCount = startIsTd && start.equals( end ) && range.endOffset === start.getChildCount(),
 				// (#4952)
-				startIsTdAndIncludeOnlyImage = start.is && start.is( 'td' ) && start.getChildCount() === 1 && start.getChildren().getItem( 0 ).getName() === 'img';
+				startIsTdAndIncludeOnlyImage = startIsTd && start.getChildCount() === 1 && start.getChildren().getItem( 0 ).getName() === 'img';
 
 			if ( startIsTr || ( startIsTdWithEqualChildCount && !startIsTdAndIncludeOnlyImage ) ) {
 				return true;
