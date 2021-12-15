@@ -684,10 +684,14 @@
 		// 2. <td>[Cell]</td> (IE8-, Safari)
 		function isSelectedCell( range ) {
 			var start = range.startContainer,
-				end = range.endContainer;
+				end = range.endContainer,
+				startIsTr = start.is && start.is( 'tr' ),
+				startIsTd = start.is && start.is( 'td' ),
+				startIsTdWithEqualChildCount = startIsTd && start.equals( end ) && range.endOffset === start.getChildCount(),
+				// (#4952)
+				startIsTdAndIncludeOnlyImage = startIsTd && start.getChildCount() === 1 && start.getChildren().getItem( 0 ).getName() === 'img';
 
-			if ( start.is && ( start.is( 'tr' ) ||
-				( start.is( 'td' ) && start.equals( end ) && range.endOffset === start.getChildCount() ) ) ) {
+			if ( startIsTr || ( startIsTdWithEqualChildCount && !startIsTdAndIncludeOnlyImage ) ) {
 				return true;
 			}
 

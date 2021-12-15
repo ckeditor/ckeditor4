@@ -1,0 +1,24 @@
+<textarea id="editor" >
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td><img alt="" src="https://via.placeholder.com/100" /></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<script>
+	( function(){
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor' );
+	} )();
+</script>

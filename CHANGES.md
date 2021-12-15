@@ -10,6 +10,7 @@ Fixed issues:
 * [#547](https://github.com/ckeditor/ckeditor4/issues/547): Fixed: Dragging and dropping elements like images within a table is no longer available.
 * [#4875](https://github.com/ckeditor/ckeditor4/issues/4875): Fixed: Not possible to delete multiple selected lists.
 * [#4873](https://github.com/ckeditor/ckeditor4/issues/4873): Fixed: Pasting content from MS Word and Outlook with horizontal lines prevents images from being uploaded.
+* [#4952](https://github.com/ckeditor/ckeditor4/issues/4952): Fix: Dragging image between cells append additional elements to target cell.
 
 API changes:
 
