@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.17.0, 4761
+@bender-tags: bug, 4.17.2, 4761
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, emoji, copyformatting, easyimage, tableselection
 
