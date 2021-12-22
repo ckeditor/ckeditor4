@@ -1234,6 +1234,28 @@
 
 			CKEDITOR.timestamp = originalTimestamp;
 			assert.isTrue( expectedPosition > -1, 'Built HTML does not contains expected href with timestamp' );
+		},
+
+		// (#4761)
+		'test buildStyleHtml adds timestamp as cache key to provided URLs': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				relativeUrls = [ '/file.css', '../file2.css' ],
+				fakeTimestamp = 'cke4',
+				expectedHrefs = [
+					'href="' + relativeUrls[ 0 ] + '?t=' + fakeTimestamp + '"',
+					'href="' + relativeUrls[ 1 ] + '?t=' + fakeTimestamp + '"'
+				],
+				html;
+
+			CKEDITOR.timestamp = fakeTimestamp;
+			html = CKEDITOR.tools.buildStyleHtml( relativeUrls );
+
+			CKEDITOR.timestamp = originalTimestamp;
+
+			CKEDITOR.tools.array.forEach( expectedHrefs, function( expectedHref ) {
+				var expectedPosition = html.indexOf( expectedHref );
+				assert.isTrue( expectedPosition > -1, 'Built HTML does not contains expected hrefs with timestamp' );
+			} );
 		}
 	} );
 } )();
