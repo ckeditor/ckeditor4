@@ -43,8 +43,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @param {String} cssFileUrl The CSS file URL.
 	 */
 	appendStyleSheet: function( cssFileUrl ) {
-		var cacheKey = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '';
-		cssFileUrl += cacheKey;
+		cssFileUrl = CKEDITOR.appendTimestamp( cssFileUrl );
 
 		if ( this.$.createStyleSheet )
 			this.$.createStyleSheet( cssFileUrl );

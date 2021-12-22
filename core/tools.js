@@ -420,7 +420,6 @@
 		buildStyleHtml: function( css ) {
 			css = [].concat( css );
 			var item,
-				cacheKey = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
 				retval = [];
 			for ( var i = 0; i < css.length; i++ ) {
 				if ( ( item = css[ i ] ) ) {
@@ -428,7 +427,7 @@
 					if ( /@import|[{}]/.test( item ) ) {
 						retval.push( '<style>' + item + '</style>' );
 					} else {
-						item = item + cacheKey;
+						item = CKEDITOR.appendTimestamp( item );
 						retval.push( '<link type="text/css" rel=stylesheet href="' + item + '">' );
 					}
 				}

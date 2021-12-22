@@ -174,9 +174,26 @@ if ( !window.CKEDITOR ) {
 				if ( resource.indexOf( ':/' ) == -1 && resource.indexOf( '/' ) !== 0 )
 					resource = this.basePath + resource;
 
-				// Add the timestamp, except for directories.
-				if ( this.timestamp && resource.charAt( resource.length - 1 ) != '/' && !( /[&?]t=/ ).test( resource ) )
+				resource = this.appendTimestamp( resource );
+
+				return resource;
+			},
+
+			/**
+			 * Appends {@link CKEDITOR#timestamp} to the provided URL as querystring parameter ("t").
+			 *
+			 * Leaves the URL unchanged if it is a directory URL or it already contains querystring parameter.
+			 *
+			 * @param {String} resource The resource whose URL we want to affect with the timestamp.
+			 * @returns The resource URL with cache key appended whenever possible.
+			 */
+			appendTimestamp: function( resource ) {
+				if ( this.timestamp &&
+					resource.charAt( resource.length - 1 ) != '/' &&
+					!( /[&?]t=/ ).test( resource )
+				) {
 					resource += ( resource.indexOf( '?' ) >= 0 ? '&' : '?' ) + 't=' + this.timestamp;
+				}
 
 				return resource;
 			},
