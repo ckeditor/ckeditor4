@@ -420,14 +420,17 @@
 		buildStyleHtml: function( css ) {
 			css = [].concat( css );
 			var item,
+				cacheKey = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
 				retval = [];
 			for ( var i = 0; i < css.length; i++ ) {
 				if ( ( item = css[ i ] ) ) {
 					// Is CSS style text ?
-					if ( /@import|[{}]/.test( item ) )
+					if ( /@import|[{}]/.test( item ) ) {
 						retval.push( '<style>' + item + '</style>' );
-					else
+					} else {
+						item = item + cacheKey;
 						retval.push( '<link type="text/css" rel=stylesheet href="' + item + '">' );
+					}
 				}
 			}
 			return retval.join( '' );

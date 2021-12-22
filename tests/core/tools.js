@@ -1197,12 +1197,12 @@
 		},
 
 		// (#4761)
-		'test buidStyleHtml returns passed style text embeded in style element': function() {
+		'test buidStyleHtml returns passed style text embedded in style element': function() {
 			var styleText = '*{color:red}',
 				expected = '<style>' + styleText + '</style>',
 				styledStringElem = CKEDITOR.tools.buildStyleHtml( styleText );
 
-			assert.areSame( expected, styledStringElem, 'Styled text wasnt exact same wrapped in style elem' );
+			assert.areSame( expected, styledStringElem, 'Styled text was not exact same wrapped in style elem' );
 		},
 
 		// (#4761)
@@ -1217,7 +1217,23 @@
 			var expectedPosition = html.indexOf( expectedHref );
 
 			CKEDITOR.timestamp = originalTimestamp;
-			assert.isTrue( expectedPosition > -1, 'Built HTML includes correct stylesheet link' );
+			assert.isTrue( expectedPosition > -1, 'Built HTML does not contains expected href attribute' );
+		},
+
+		// (#4761)
+		'test buildStyleHtml adds timestamp as cache key to provided URL': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				relativeUrl = '/file.css',
+				fakeTimestamp = 'cke4',
+				expectedHref = 'href="' + relativeUrl + '?t=' + fakeTimestamp + '"',
+				html;
+
+			CKEDITOR.timestamp = fakeTimestamp;
+			html = CKEDITOR.tools.buildStyleHtml( relativeUrl );
+			var expectedPosition = html.indexOf( expectedHref );
+
+			CKEDITOR.timestamp = originalTimestamp;
+			assert.isTrue( expectedPosition > -1, 'Built HTML does not contains expected href with timestamp' );
 		}
 	} );
 } )();
