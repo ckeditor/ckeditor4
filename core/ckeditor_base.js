@@ -188,14 +188,15 @@ if ( !window.CKEDITOR ) {
 			 * @returns The resource URL with cache key appended whenever possible.
 			 */
 			appendTimestamp: function( resource ) {
-				if ( this.timestamp &&
-					resource.charAt( resource.length - 1 ) != '/' &&
-					!( /[&?]t=/ ).test( resource )
+				if ( !this.timestamp ||
+					resource.charAt( resource.length - 1 ) === '/' ||
+					( /[&?]t=/ ).test( resource )
 				) {
-					resource += ( resource.indexOf( '?' ) >= 0 ? '&' : '?' ) + 't=' + this.timestamp;
+					return resource;
 				}
 
-				return resource;
+				var concatenateSign = resource.indexOf( '?' ) >= 0 ? '&' : '?';
+				return resource + concatenateSign + 't=' + this.timestamp;
 			},
 
 			/**
