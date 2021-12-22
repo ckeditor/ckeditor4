@@ -24,10 +24,30 @@ bender.test( appendDomObjectTests(
 			var doc = new CKEDITOR.dom.document( document );
 			doc.appendStyleSheet( cssUrl );// this makes absolute URL no matter what is passed
 
-			var links = document.getElementsByTagName( 'link' );
-			var succeed = CKEDITOR.tools.array.some( links, function( link ) {
-				return link.href === cssUrl;
-			} );
+			var links = document.getElementsByTagName( 'link' ),
+				succeed = CKEDITOR.tools.array.some( links, function( link ) {
+					return link.href === cssUrl;
+				} );
+
+			CKEDITOR.timestamp = originalTimestamp;
+			assert.isTrue( succeed, 'The link element was not found' );
+		},
+
+		// (#4761)
+		'test appendStyleSheet with timestamp': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				fakeTimestamp = 'cke4',
+				cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css',
+				expectedCssUrl = cssUrl + '?t=' + fakeTimestamp;
+
+			CKEDITOR.timestamp = fakeTimestamp;
+			var doc = new CKEDITOR.dom.document( document );
+			doc.appendStyleSheet( cssUrl );// this makes absolute URL no matter what is passed
+
+			var links = document.getElementsByTagName( 'link' ),
+				succeed = CKEDITOR.tools.array.some( links, function( link ) {
+					return link.href === expectedCssUrl;
+				} );
 
 			CKEDITOR.timestamp = originalTimestamp;
 			assert.isTrue( succeed, 'The link element was not found' );
