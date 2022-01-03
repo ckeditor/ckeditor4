@@ -79,7 +79,7 @@ Find out more in the [Browser Compatibility guide](https://ckeditor.com/docs/cke
 
 ---
 
-## Working with the `ckeditor4` repostiory
+## Working with the `ckeditor4` repository
 
 **Attention**: The code in this repository should be used locally and for development purposes only. We do not recommend using it in a production environment because the user experience will be very limited.
 
