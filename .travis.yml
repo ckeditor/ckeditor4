@@ -16,8 +16,8 @@ env:
   global:
     - FULL_RUN=$(if [ "$FULL_RUN_TRAVIS_CFG" != "" ]; then echo "$FULL_RUN_TRAVIS_CFG"; elif [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then echo "fullRun"; else echo ""; fi)
     - REPO_NAME=$(IFS='/' read -r -a array <<< "$TRAVIS_REPO_SLUG"; echo ${array[1]};)
-    - TARGET_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "origin/$TRAVIS_BRANCH^"; else echo "origin/$TRAVIS_BRANCH"; fi)
-    - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "origin/$TRAVIS_BRANCH"; else echo "origin/$TRAVIS_PULL_REQUEST_BRANCH"; fi)
+    - TARGET_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "$TRAVIS_BRANCH^"; else echo "$TRAVIS_BRANCH"; fi)
+    - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "$TRAVIS_BRANCH"; else echo "$TRAVIS_PULL_REQUEST_BRANCH"; fi)
 
 jobs:
   exclude:
