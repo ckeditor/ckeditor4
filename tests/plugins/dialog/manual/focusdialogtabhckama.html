@@ -1,0 +1,13 @@
+<textarea id="editor"></textarea>
+
+<script>
+	( function() {
+		if ( !CKEDITOR.env.hc ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor', {
+			skin: 'kama'
+		} );
+	} )();
+</script>

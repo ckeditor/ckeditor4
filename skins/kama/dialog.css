@@ -272,6 +272,11 @@ a.cke_dialog_tab_selected
 	border-width: 3px;
 }
 
+/* #4934 */
+.cke_hc a.cke_dialog_tab:focus {
+	text-decoration: underline;
+}
+
 a.cke_dialog_tab_disabled
 {
 	color: #bababa;

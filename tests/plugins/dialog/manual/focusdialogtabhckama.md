@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image
 
-1. Set the High Contrast Mode to white.
+1. Set the High Contrast Mode.
 2. Open image dialog.
 3. Using the `TAB` key on on the keyboard, change the focus to the dialog tab title.
 
