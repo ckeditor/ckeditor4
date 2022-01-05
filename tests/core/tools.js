@@ -1180,7 +1180,7 @@
 		},
 
 		// (#4761)
-		'test buidStyleHtml returns relative URL for passed relative URL string': function() {
+		'test buildStyleHtml returns relative URL for passed relative URL string': function() {
 			var relativeUrl = '/file.css',
 				styledStringElem = CKEDITOR.tools.buildStyleHtml( relativeUrl );
 
@@ -1188,7 +1188,7 @@
 		},
 
 		// (#4761)
-		'test buidStyleHtml returns absolute URL for passed absolute URL string': function() {
+		'test buildStyleHtml returns absolute URL for passed absolute URL string': function() {
 			var relatedUrl = 'http://example.com/file.css',
 				styledStringElem = CKEDITOR.tools.buildStyleHtml( relatedUrl ),
 				httpPosition = styledStringElem.indexOf( 'http' );
@@ -1197,12 +1197,12 @@
 		},
 
 		// (#4761)
-		'test buidStyleHtml returns passed style text embedded in style element': function() {
+		'test buildStyleHtml returns passed style text embedded in style element': function() {
 			var styleText = '*{color:red}',
 				expected = '<style>' + styleText + '</style>',
 				styledStringElem = CKEDITOR.tools.buildStyleHtml( styleText );
 
-			assert.areSame( expected, styledStringElem, 'Styled text was not exact same wrapped in style elem' );
+			assert.areSame( expected, styledStringElem, 'Styled text was not exact same wrapped in style element' );
 		},
 
 		// (#4761)
