@@ -17,6 +17,10 @@ API changes:
 
 * [#4918](https://github.com/ckeditor/ckeditor4/issues/4918): Explicitly set [`config.useComputedState`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-useComputedState) default value to `true`. Thanks to [Shabab Karim](https://github.com/shabab477)!
 
+Other changes:
+
+* [#5014](https://github.com/ckeditor/ckeditor4/issues/5014): Fixed: Toolbar configurator fails when plugin not defines toolbar group. Thanks to [SuperPat](https://github.com/SuperPat45)!
+
 ## CKEditor 4.17.1
 
 **Highlights:**

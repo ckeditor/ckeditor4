@@ -212,7 +212,7 @@ window.ToolbarConfigurator = {};
 		var max = buttons.length;
 		for ( var i = 0; i < max; i += 1 ) {
 			var currBtn = buttons[ i ],
-				currBtnGroupName = currBtn.toolbar.split( ',' )[ 0 ];
+				currBtnGroupName = !!currBtn.toolbar ? currBtn.toolbar.split( ',' )[ 0 ] : 'others';
 
 			groups[ currBtnGroupName ] = groups[ currBtnGroupName ] || [];
 
