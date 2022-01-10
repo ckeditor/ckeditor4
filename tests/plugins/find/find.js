@@ -146,5 +146,85 @@ bender.test( {
 
 			dialog.getButton( 'cancel' ).click();
 		} );
+	},
+
+	'test find text with double space between words': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>example&nbsp; text</p>' );
+
+		bot.dialog( 'find', function( dialog ) {
+			dialog.setValueOf( 'find', 'txtFindFind', 'example  text' );
+			dialog.getContentElement( 'find', 'btnFind' ).click();
+
+
+			assert.areSame( '<p><span title="highlight">example&nbsp; text</span></p>', bot.getData( true ) );
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	'test find text with double &nbsp; between words': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>example&nbsp;&nbsp;text</p>' );
+
+		bot.dialog( 'find', function( dialog ) {
+			dialog.setValueOf( 'find', 'txtFindFind', 'example  text' );
+			dialog.getContentElement( 'find', 'btnFind' ).click();
+
+
+			assert.areSame( '<p><span title="highlight">example&nbsp;&nbsp;text</span></p>', bot.getData( true ) );
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	'test find text with double space between words in read-only mode': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>example&nbsp; text</p>' );
+		bot.editor.setReadOnly( true );
+
+		bot.dialog( 'find', function( dialog ) {
+			dialog.setValueOf( 'find', 'txtFindFind', 'example  text' );
+			dialog.getContentElement( 'find', 'btnFind' ).click();
+
+			bot.editor.setReadOnly( false );
+
+			assert.areSame( '<p><span title="highlight">example&nbsp; text</span></p>', bot.getData( true ) );
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	'test find and replace text with double space between words': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>example&nbsp; text from CKEditor4</p>' );
+
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'example  text' );
+			dialog.setValueOf( 'replace', 'txtReplace', 'changed example text' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+
+			assert.areSame( '<p><span title="highlight">changed example text</span> from ckeditor4</p>', bot.getData( true ) );
+
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	'test replace all texts with double spaces between words': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>[example&nbsp; text]</p><p>example&nbsp; text</p>' );
+
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtReplace', 'replaced text' );
+			dialog.getContentElement( 'replace', 'btnReplaceAll' ).click();
+			dialog.getButton( 'cancel' ).click();
+
+			assert.areSame( '<p>replaced text</p><p>replaced text</p>', bot.getData( false, true ) );
+
+			dialog.getButton( 'cancel' ).click();
+		} );
 	}
 } );
