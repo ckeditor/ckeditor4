@@ -19,10 +19,10 @@ decrease the time needed to reproduce the issue by our team, which means it can 
 
 You can use one of our samples to create the reproduction sample:
 
-* CodePen: https://codepen.io/Comandeer/pen/ExaMgpz?editors=1010
-* JSFiddle: https://jsfiddle.net/Comandeer/d6ey8a2w
-* JSBin: https://jsbin.com/keqekef/1/edit?html,js,output
-* StackBlitz: https://stackblitz.com/edit/js-vcqfw3
+* CodePen: https://codepen.io/karoldawidziuk/pen/LYzJvdx
+* JSFiddle: https://jsfiddle.net/Kratek_95/nhwe5uLq
+* JSBin: https://jsbin.com/gubepar/edit?html,js,output
+* StackBlitz: https://stackblitz.com/edit/ckeditor4-bug-report
 -->
 
 1. …
