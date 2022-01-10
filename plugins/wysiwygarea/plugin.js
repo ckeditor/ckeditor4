@@ -85,6 +85,11 @@
 					}
 				} );
 
+				editor.on( 'destroy', function() {
+					if ( isMutationObserverSupported ) {
+						mutationObserver.disconnect();
+					}
+				} );
 
 				iframe.setAttributes( {
 					tabIndex: editor.tabIndex,
