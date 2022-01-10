@@ -140,7 +140,12 @@
 
 				function observeEditor() {
 					mutationObserver = new MutationObserver( function( mutationsList ) {
-						CKEDITOR.tools.array.forEach( mutationsList, verifyIfAddsNodesWithEditor );
+						var length = mutationsList.length,
+							index;
+
+						for ( index = 0; index < length; index++ ) {
+							verifyIfAddsNodesWithEditor( mutationsList[ index ] );
+						}
 					} );
 
 					mutationObserver.observe( editor.config.observableParent, { childList: true, subtree: true } );
@@ -151,7 +156,12 @@
 						return;
 					}
 
-					CKEDITOR.tools.array.forEach( mutation.addedNodes, checkIfAffectsEditor );
+					var length = mutation.addedNodes.length,
+						index;
+
+					for ( index = 0; index < length; index++ ) {
+						checkIfAffectsEditor( mutation.addedNodes[ index ] );
+					}
 				}
 
 				function checkIfAffectsEditor( node ) {
