@@ -20,7 +20,7 @@ decrease the time needed to reproduce the issue by our team, which means it can 
 You can use one of our samples to create the reproduction sample:
 
 * CodePen: https://codepen.io/karoldawidziuk/pen/LYzJvdx
-* JSFiddle: https://jsfiddle.net/Kratek_95/nhwe5uLq/
+* JSFiddle: https://jsfiddle.net/Kratek_95/nhwe5uLq
 * JSBin: https://jsbin.com/gubepar/edit?html,js,output
 * StackBlitz: https://stackblitz.com/edit/ckeditor4-bug-report
 -->
