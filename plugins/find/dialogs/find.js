@@ -363,7 +363,9 @@
 					c = c.toLowerCase();
 
 				while ( true ) {
-					if ( c == this._.pattern.charAt( this._.state ) ) {
+					var currentPatternCharacter = this._.pattern.charAt( this._.state );
+					// #4987
+					if ( c == currentPatternCharacter || isWhiteSpace( currentPatternCharacter ) ) {
 						this._.state++;
 						if ( this._.state == this._.pattern.length ) {
 							this._.state = 0;
@@ -373,8 +375,26 @@
 					} else if ( !this._.state ) {
 						return KMP_NOMATCH;
 					} else {
-						this._.state = this._.overlap[this._.state];
+						this._.state = this._.overlap[ this._.state ];
 					}
+				}
+
+				/*
+					Whitespace comes in two forms: ' ' and &nbsp;
+					We should return true if one of them occurs.
+					There may be case like:
+
+						Search range: <p>ckeditor&nbsp test</p>
+						Search input: 'ckeditor  test'
+
+					In visual side there will be no difference. The difference is in UTF-16 codes. #4987
+				*/
+				function isWhiteSpace( character ) {
+					if ( character.charCodeAt( 0 ) === 160 || character.charCodeAt() === 32 ) {
+						return true;
+					}
+
+					return false;
 				}
 			},
 
