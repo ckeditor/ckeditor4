@@ -1,7 +1,6 @@
 @bender-tags: 4.17.2, bug, 4987
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, find, sourcearea
-@bender-include: helpers/utils.js
 
 **Note:** There are two spaces between the words in step 2.
 

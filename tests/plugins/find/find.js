@@ -195,6 +195,37 @@ bender.test( {
 		} );
 	},
 
+	'test find word when pattern starting with empty space': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>example&nbsp;[&nbsp;text]</p>' );
+
+		bot.dialog( 'find', function( dialog ) {
+			dialog.getContentElement( 'find', 'btnFind' ).click();
+
+			assert.areSame( '<p>example&nbsp;<span title="highlight">&nbsp;text</span></p>', bot.getData( true ) );
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	'test find text without spaces between words should thrown alert with proper message': function() {
+		var bot = this.editorBot,
+			spy = sinon.stub( window, 'alert' );
+
+		bot.setHtmlWithSelection( '<p>exampletext</p>' );
+
+		bot.dialog( 'find', function( dialog ) {
+			dialog.setValueOf( 'find', 'txtFindFind', 'example  text' );
+			dialog.getContentElement( 'find', 'btnFind' ).click();
+
+			assert.isTrue( spy.calledOnce, 'Find text without spaces between words should thrown alert' );
+			assert.areEqual( spy.args[ 0 ][ 0 ], this.editorBot.editor.lang.find.notFoundMsg,
+				'Find text without spaces between words should have proper alert message' );
+
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
 	'test find and replace text with double space between words': function() {
 		var bot = this.editorBot;
 
@@ -226,5 +257,81 @@ bender.test( {
 
 			dialog.getButton( 'cancel' ).click();
 		} );
+	},
+
+	'test word separator: SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u0020' );
+	},
+
+	'test word separator: OGHAM SPACE MARK': function() {
+		assertSpaceSeparator( this.editorBot, '\u1680' );
+	},
+
+	'test word separator: EN QUAD': function() {
+		assertSpaceSeparator( this.editorBot, '\u2000' );
+	},
+
+	'test word separator: EM QUAD': function() {
+		assertSpaceSeparator( this.editorBot, '\u2001' );
+	},
+
+	'test word separator: EN SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u2002' );
+	},
+
+	'test word separator: EM SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u2003' );
+	},
+
+	'test word separator: THREE-PER-EM SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u2004' );
+	},
+
+	'test word separator: FOUR-PER-EM SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u2005' );
+	},
+
+	'test word separator: SIX-PER-EM SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u2006' );
+	},
+
+	'test word separator: FIGURE SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u2007' );
+	},
+
+	'test word separator: PUNCTUATION SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u2008' );
+	},
+
+	'test word separator: THIN SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u2009' );
+	},
+
+	'test word separator: HAIR SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u200A' );
+	},
+
+	'test word separator: NARROW NO-BREAK SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u202F' );
+	},
+
+	'test word separator: IDEOGRAPHIC SPACE': function() {
+		assertSpaceSeparator( this.editorBot, '\u3000' );
 	}
+
 } );
+
+function assertSpaceSeparator( bot, unicode ) {
+	var expected = '<p><span title="highlight">test' + unicode + 'test</span></p>',
+		unicodeRaw = unicode.codePointAt( 0 ).toString( 16 );
+
+	bot.setHtmlWithSelection( '<p>test' + unicode + 'test</p>' );
+
+	bot.dialog( 'find', function( dialog ) {
+		dialog.setValueOf( 'find', 'txtFindFind', 'test' + unicode + 'test' );
+		dialog.getContentElement( 'find', 'btnFind' ).click();
+
+		assert.areSame( expected, bot.getData( true ), 'Word separator with unicode: \\u' + unicodeRaw + ' is incorrect' );
+		dialog.getButton( 'cancel' ).click();
+	} );
+}
