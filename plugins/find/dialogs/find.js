@@ -365,7 +365,7 @@
 				while ( true ) {
 					var currentPatternCharacter = this._.pattern.charAt( this._.state );
 					// #4987
-					if ( c == currentPatternCharacter || isWhiteSpace( currentPatternCharacter ) ) {
+					if ( c == currentPatternCharacter || isWordSeparator( c ) ) {
 						this._.state++;
 						if ( this._.state == this._.pattern.length ) {
 							this._.state = 0;
@@ -378,24 +378,6 @@
 						this._.state = this._.overlap[ this._.state ];
 					}
 				}
-
-				/*
-					Whitespace comes in two forms: ' ' and &nbsp;
-					We should return true if one of them occurs.
-					There may be case like:
-
-						Search range: <p>ckeditor&nbsp test</p>
-						Search input: 'ckeditor  test'
-
-					In visual side there will be no difference. The difference is in UTF-16 codes. #4987
-				*/
-				function isWhiteSpace( character ) {
-					if ( character.charCodeAt( 0 ) === 160 || character.charCodeAt() === 32 ) {
-						return true;
-					}
-
-					return false;
-				}
 			},
 
 			reset: function() {
@@ -405,12 +387,12 @@
 
 		var wordSeparatorRegex = /[.,"'?!;: \u0085\u00a0\u1680\u280e\u2028\u2029\u202f\u205f\u3000]/;
 
-		var isWordSeparator = function( c ) {
+		function isWordSeparator( c ) {
 			if ( !c )
 				return true;
 			var code = c.charCodeAt( 0 );
 			return ( code >= 9 && code <= 0xd ) || ( code >= 0x2000 && code <= 0x200a ) || wordSeparatorRegex.test( c );
-		};
+		}
 
 		var finder = {
 			searchRange: null,
