@@ -351,7 +351,7 @@ function assertSpaceSeparator( bot, unicode, name ) {
 	bot.dialog( 'find', function( dialog ) {
 		dialog.getContentElement( 'find', 'btnFind' ).click();
 
-		assert.areSame( expected, bot.getData( true ), 'Word separator ' + name + ' is incorrect');
+		assert.areSame( expected, bot.getData( true ), 'Word separator ' + name + ' is incorrect' );
 		dialog.getButton( 'cancel' ).click();
 	} );
 }
