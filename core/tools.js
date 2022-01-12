@@ -424,10 +424,12 @@
 			for ( var i = 0; i < css.length; i++ ) {
 				if ( ( item = css[ i ] ) ) {
 					// Is CSS style text ?
-					if ( /@import|[{}]/.test( item ) )
+					if ( /@import|[{}]/.test( item ) ) {
 						retval.push( '<style>' + item + '</style>' );
-					else
+					} else {
+						item = CKEDITOR.appendTimestamp( item );
 						retval.push( '<link type="text/css" rel=stylesheet href="' + item + '">' );
+					}
 				}
 			}
 			return retval.join( '' );

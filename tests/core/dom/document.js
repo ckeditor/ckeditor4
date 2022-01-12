@@ -15,21 +15,41 @@ bender.test( appendDomObjectTests(
 			assert.areSame( document, doc.$ );
 		},
 
-		test_appendStyleSheet: function() {
-			var cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css';
+		// (#4761)
+		'test appendStyleSheet without timestamp': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css';
 
+			CKEDITOR.timestamp = '';
 			var doc = new CKEDITOR.dom.document( document );
-			doc.appendStyleSheet( cssUrl );
+			doc.appendStyleSheet( cssUrl );// this makes absolute URL no matter what is passed
 
-			var links = document.getElementsByTagName( 'link' );
-			var succeed = false;
-			for ( var i = 0 ; i < links.length ; i++ ) {
-				if ( links[ i ].href == cssUrl ) {
-					succeed = true;
-					break;
-				}
-			}
+			var links = document.getElementsByTagName( 'link' ),
+				succeed = CKEDITOR.tools.array.some( links, function( link ) {
+					return link.href === cssUrl;
+				} );
 
+			CKEDITOR.timestamp = originalTimestamp;
+			assert.isTrue( succeed, 'The link element was not found' );
+		},
+
+		// (#4761)
+		'test appendStyleSheet with timestamp': function() {
+			var originalTimestamp = CKEDITOR.timestamp,
+				fakeTimestamp = 'cke4',
+				cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css',
+				expectedCssUrl = cssUrl + '?t=' + fakeTimestamp;
+
+			CKEDITOR.timestamp = fakeTimestamp;
+			var doc = new CKEDITOR.dom.document( document );
+			doc.appendStyleSheet( cssUrl );// this makes absolute URL no matter what is passed
+
+			var links = document.getElementsByTagName( 'link' ),
+				succeed = CKEDITOR.tools.array.some( links, function( link ) {
+					return link.href === expectedCssUrl;
+				} );
+
+			CKEDITOR.timestamp = originalTimestamp;
 			assert.isTrue( succeed, 'The link element was not found' );
 		},
 
