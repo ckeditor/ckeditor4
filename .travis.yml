@@ -5,6 +5,7 @@ branches:
   - major
   - stable
   - latest
+  - t/bender-runner-19
   - /^\d+\.\d+(\.\d+)?(-\S*)?$/
   - /^release\/\d+\.\d+\.x$/
   - /^[\d]{4,5}security$/
