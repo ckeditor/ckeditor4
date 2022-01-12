@@ -271,12 +271,12 @@
 			this.view.attach();
 			this.textWatcher.attach();
 
-			this._listeners.push( this.textWatcher.on( 'matched', this.onTextMatched, this ) );
-			this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
-			this._listeners.push( this.model.on( 'change-data', this.modelChangeListener, this ) );
-			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
-			this._listeners.push( this.view.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
-			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
+			// this._listeners.push( this.textWatcher.on( 'matched', this.onTextMatched, this ) );
+			// this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
+			// this._listeners.push( this.model.on( 'change-data', this.modelChangeListener, this ) );
+			// this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
+			// this._listeners.push( this.view.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
+			// this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// (#4617)
 			this._listeners.push( this.model.on( 'change-isActive', this.updateAriaAttributesOnEditable, this ) );
