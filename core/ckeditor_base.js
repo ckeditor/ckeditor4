@@ -184,8 +184,9 @@ if ( !window.CKEDITOR ) {
 			 *
 			 * Leaves the URL unchanged if it is a directory URL or it already contains querystring parameter.
 			 *
-			 * @param {String} resource The resource whose URL we want to affect with the timestamp.
-			 * @returns The resource URL with cache key appended whenever possible.
+			 * @since 4.17.2
+			 * @param {String} resource The resource URL to which the timestamp should be appended.
+			 * @returns {String} The resource URL with cache key appended whenever possible.
 			 */
 			appendTimestamp: function( resource ) {
 				if ( !this.timestamp ||
