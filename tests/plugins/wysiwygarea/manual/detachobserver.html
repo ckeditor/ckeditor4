@@ -1,0 +1,33 @@
+<div id="editor">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+<button id="triggerButton" disabled>Trigger test</button>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		var triggerButton = document.getElementById( 'triggerButton' );
+		triggerButton.addEventListener( 'click', function() {
+			delete CKEDITOR;
+
+			var element = document.createElement( 'div' );
+			document.body.appendChild( element );
+		} );
+
+		CKEDITOR.replace( 'editor', {
+			on: {
+				instanceReady: function ( evt ) {
+					evt.editor.destroy();
+				},
+				destroy: function() {
+					setTimeout( function() {
+						triggerButton.removeAttribute( 'disabled' );
+					}, 1000 );
+				}
+			}
+		} );
+	} )();
+</script>
