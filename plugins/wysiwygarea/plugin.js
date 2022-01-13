@@ -140,10 +140,7 @@
 
 				function observeEditor() {
 					mutationObserver = new MutationObserver( function( mutationsList ) {
-						var length = mutationsList.length,
-							index;
-
-						for ( index = 0; index < length; index++ ) {
+						for ( var index = 0; index < mutationsList.length; index++ ) {
 							verifyIfAddsNodesWithEditor( mutationsList[ index ] );
 						}
 					} );
@@ -156,10 +153,7 @@
 						return;
 					}
 
-					var length = mutation.addedNodes.length,
-						index;
-
-					for ( index = 0; index < length; index++ ) {
+					for ( var index = 0; index < mutation.addedNodes.length; index++ ) {
 						checkIfAffectsEditor( mutation.addedNodes[ index ] );
 					}
 				}
