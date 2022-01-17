@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 # Updates meta files, which are used later to export language files to .po (gettext) format.
