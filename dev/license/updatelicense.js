@@ -26,7 +26,11 @@ function recursivelyUpdateLicenseDate( filepath ) {
 		return;
 	}
 
-	var stats = fs.statSync( filepath );
+	var stats = fs.lstatSync( filepath );
+
+	if ( stats.isSymbolicLink() ) {
+		return;
+	}
 
 	if ( stats.isDirectory() ) {
 		fs.readdirSync( filepath )
