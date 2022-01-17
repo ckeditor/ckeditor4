@@ -6,6 +6,6 @@
 2. Wait until the `Trigger test` button will be available.
 3. Click the button and watch console.
 
-	**Expected:** No errors in the console.
+**Expected:** No errors in the console.
 
-	**Unexpected:** Error appears: `Uncaught ReferenceError: CKEDITOR is not defined`.
+**Unexpected:** Error appears: `Uncaught ReferenceError: CKEDITOR is not defined`.
