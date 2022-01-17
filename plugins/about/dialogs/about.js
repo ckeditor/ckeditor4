@@ -64,7 +64,7 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 							'<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/legal/ckeditor-oss-license/">https://ckeditor.com/legal/ckeditor-oss-license/</a>' +
 						'</p>' +
 						'<p>' +
-							lang.copy.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://cksource.com/">CKSource</a> - Frederico Knabben' ) +
+							lang.copy.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://cksource.com/">CKSource</a> Holding sp. z o.o' ) +
 						'</p>' +
 						'</div>'
 				}

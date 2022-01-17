@@ -9,7 +9,7 @@ var fs = require( 'fs' ),
 	path = require( 'path' ),
 	execSync = require( 'child_process' ).execSync,
 	dirname = require( 'path' ).dirname,
-	OLD_COMPANY_NAME_REGEXP = /(\[)?CKSource(\]\(.+?\))?(?: -)? Frederico Knabben/gi,
+	OLD_COMPANY_NAME_REGEXP = /(\[|<a.+?>)?CKSource(\]\(.+?\)|<\/a>)?(?: -)? Frederico\s+Knabben/gi,
 	NEW_COMPANY_NAME_REPLACEMENT = '$1CKSource$2 Holding sp. z o.o',
 	YEAR = new Date().getFullYear(),
 	ACCEPTED_FORMATS = [ '.html', '.txt', '.js', '.ts', '.jsx', '.tsx', '.md', '.sh', '.css', '.py', '.less', '.php', '.rb' ],
@@ -84,7 +84,7 @@ function checkIsGitSubmodule( filepath ) {
 
 function checkIsGitIgnored( filepath ) {
 	try {
-		var isIgnored = execSync( 'git check-ignore ' + filepath, {
+		var isIgnored = execSync( 'git check-ignore "' + filepath + '"', {
 			cwd: getExecutionPath()
 		} );
 
