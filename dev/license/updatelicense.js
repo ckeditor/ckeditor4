@@ -7,11 +7,13 @@
 
 var fs = require( 'fs' ),
 	path = require( 'path' ),
+	execSync = require( 'child_process' ).execSync,
+	dirname = require( 'path' ).dirname,
 	OLD_COMPANY_NAME_REGEXP = /(\[)?CKSource(\]\(.+?\))? - Frederico Knabben/gi,
 	COMPANY_NAME = 'CKSource Holding sp. z o.o',
 	YEAR = new Date().getFullYear(),
 	ACCEPTED_FORMATS = [ '.html', '.txt', '.js', '.md', '.sh', '.css', '.py', '.less', '.php', '.rb' ],
-	EXCLUDED_DIRS = [ '.git', 'node_modules', 'release', 'coverage' ];
+	EXCLUDED_DIRS = [ '.git', 'node_modules', 're lease', 'coverage' ];
 
 recursivelyUpdateLicenseDate( getExecutionPath() );
 
@@ -37,6 +39,12 @@ function recursivelyUpdateLicenseDate( filepath ) {
 }
 
 function updateLicenseBanner( filepath ) {
+	if ( checkIsGitSubmodule( filepath ) || checkIsGitIgnored( filepath ) ) {
+		return;
+	}
+
+	console.log( 'Updating' + filepath );
+
 	var data = fs.readFileSync( filepath, 'utf8' ),
 		bannerRegexp = /(Copyright.*\d{4}.*-.*)\d{4}(.*CKSource.*\.)/gi,
 		bannerMatch = bannerRegexp.exec( data ),
@@ -57,5 +65,29 @@ function updateLicenseBanner( filepath ) {
 
 	if ( updated ) {
 		fs.writeFileSync( filepath, data );
+	}
+}
+
+function checkIsGitSubmodule( filepath ) {
+	try {
+		var isSubmodule = execSync( 'git rev-parse --show-superproject-working-tree', {
+			cwd: dirname( filepath )
+		} );
+
+		return isSubmodule.length > 0;
+	} catch ( e ) {
+		return false;
+	}
+}
+
+function checkIsGitIgnored( filepath ) {
+	try {
+		var isIgnored = execSync( 'git check-ignore ' + filepath, {
+			cwd: getExecutionPath()
+		} );
+
+		return isIgnored.length > 0;
+	} catch ( e ) {
+		return false;
 	}
 }
