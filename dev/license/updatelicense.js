@@ -12,8 +12,8 @@ var fs = require( 'fs' ),
 	OLD_COMPANY_NAME_REGEXP = /(\[)?CKSource(\]\(.+?\))? - Frederico Knabben/gi,
 	COMPANY_NAME = 'CKSource Holding sp. z o.o',
 	YEAR = new Date().getFullYear(),
-	ACCEPTED_FORMATS = [ '.html', '.txt', '.js', '.md', '.sh', '.css', '.py', '.less', '.php', '.rb' ],
-	EXCLUDED_DIRS = [ '.git', 'node_modules', 're lease', 'coverage' ];
+	ACCEPTED_FORMATS = [ '.html', '.txt', '.js', '.ts', '.jsx', '.tsx', '.md', '.sh', '.css', '.py', '.less', '.php', '.rb' ],
+	EXCLUDED_DIRS = [ '.git', 'node_modules', 'release', 'coverage' ];
 
 recursivelyUpdateLicenseDate( getExecutionPath() );
 
