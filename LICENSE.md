@@ -100,7 +100,7 @@ The following libraries are included only in the development version of CKEditor
 Trademarks
 ----------
 
-CKEditor is a trademark of CKSource - Frederico Knabben. All other brand
+CKEditor is a trademark of CKSource Holding sp. z o.o. All other brand
 and product names are trademarks, registered trademarks or service
 marks of their respective holders.
 
