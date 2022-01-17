@@ -9,8 +9,8 @@ var fs = require( 'fs' ),
 	path = require( 'path' ),
 	execSync = require( 'child_process' ).execSync,
 	dirname = require( 'path' ).dirname,
-	OLD_COMPANY_NAME_REGEXP = /(\[)?CKSource(\]\(.+?\))? - Frederico Knabben/gi,
-	COMPANY_NAME = 'CKSource Holding sp. z o.o',
+	OLD_COMPANY_NAME_REGEXP = /(\[)?CKSource(\]\(.+?\))?(?: -)? Frederico Knabben/gi,
+	NEW_COMPANY_NAME_REPLACEMENT = '$1CKSource$2 Holding sp. z o.o',
 	YEAR = new Date().getFullYear(),
 	ACCEPTED_FORMATS = [ '.html', '.txt', '.js', '.ts', '.jsx', '.tsx', '.md', '.sh', '.css', '.py', '.less', '.php', '.rb' ],
 	EXCLUDED_DIRS = [ '.git', 'node_modules', 'release', 'coverage' ];
@@ -46,20 +46,18 @@ function updateLicenseBanner( filepath ) {
 	console.log( 'Updating' + filepath );
 
 	var data = fs.readFileSync( filepath, 'utf8' ),
-		bannerRegexp = /(Copyright.*\d{4}.*-.*)\d{4}(.*CKSource.*\.)/gi,
+		bannerRegexp = /(Copyright.*\d{4}.*-.*)\d{4}(.*CKSource)/gi,
 		bannerMatch = bannerRegexp.exec( data ),
-		updated = false,
-		companyNamePart;
+		updated = false;
+
+	if ( OLD_COMPANY_NAME_REGEXP.test( data ) ) {
+		updated = true;
+		data = data.replace( OLD_COMPANY_NAME_REGEXP, NEW_COMPANY_NAME_REPLACEMENT );
+	}
 
 	while ( bannerMatch != null ) {
 		updated = true;
-		companyNamePart = bannerMatch[ 2 ];
-
-		if ( OLD_COMPANY_NAME_REGEXP.test( companyNamePart ) ) {
-			companyNamePart = companyNamePart.replace( OLD_COMPANY_NAME_REGEXP, '$1' + COMPANY_NAME + '$2' );
-		}
-
-		data = data.replace( bannerMatch[ 0 ], bannerMatch[ 1 ] + YEAR + companyNamePart );
+		data = data.replace( bannerMatch[ 0 ], bannerMatch[ 1 ] + YEAR + bannerMatch[ 2 ] );
 		bannerMatch = bannerRegexp.exec( data );
 	}
 
