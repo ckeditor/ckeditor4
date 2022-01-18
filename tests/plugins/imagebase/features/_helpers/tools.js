@@ -4,6 +4,16 @@
 	'use strict';
 
 	window.imageBaseFeaturesTools = {
+		/**
+		 * Helper for pasting files
+		 *
+		 * @param {CKEDITOR.editor} editor
+		 * @param {File[]} files
+		 * @param {String} dataValue Content for paste's evt.data.dataValue.
+		 * @param {Object} pasteData Additional data about paste, e.g. method.
+		 * @param {Object} pasteData.additionalData Object with additional paste data in form of MIME type → data.
+		 */
+		pasteFiles: pasteFiles,
 		/*
 		 * Main assertion for pasting files.
 		 *

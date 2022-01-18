@@ -1,7 +1,7 @@
 /* bender-tags: editor, clipboard, upload */
 /* bender-ckeditor-plugins: sourcearea, wysiwygarea, easyimage */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
-/* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent */
+/* global imageBaseFeaturesTools, assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -24,6 +24,7 @@
 	}
 
 	var assertPasteFiles = imageBaseFeaturesTools.assertPasteFiles,
+		pasteFiles = imageBaseFeaturesTools.pasteFiles,
 		tests = {
 			init: function() {
 				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.

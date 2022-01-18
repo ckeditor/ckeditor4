@@ -166,6 +166,10 @@
 			'test pasting supported file alongside HTML content does not create a widget': function() {
 				var editor = this.editor;
 
+				if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+					assert.ignore();
+				}
+
 				assertPasteFiles( editor, {
 					files: [ bender.tools.getTestPngFile() ],
 					additionalData: {
