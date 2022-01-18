@@ -251,15 +251,15 @@
 
 			setUp: function( editor, definition ) {
 				editor.on( 'paste', function( evt ) {
-					var method = evt.data.method,
-						dataTransfer = evt.data.dataTransfer,
+					var dataTransfer = evt.data.dataTransfer,
+						isFileTransfer = dataTransfer && dataTransfer.isFileTransfer(),
 						filesCount = dataTransfer && dataTransfer.getFilesCount();
 
 					if ( editor.readOnly ) {
 						return;
 					}
 
-					if ( method === 'drop' || ( method === 'paste' && filesCount ) ) {
+					if ( isFileTransfer ) {
 						var matchedFiles = [],
 							curFile;
 
