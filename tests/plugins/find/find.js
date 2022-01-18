@@ -267,86 +267,97 @@ bender.test( {
 	},
 
 	// #4987
-	'test word separator: SPACE': function() {
-		assertSpaceSeparator( this.editorBot, '\u0020', 'SPACE' );
+	'test space separator: SPACE': function() {
+		var bot = this.editorBot,
+			expected = '<p>test<span title="highlight">&nbsp; </span>test</p>';
+
+		bot.setHtmlWithSelection( '<p>test&nbsp; test</p>' );
+
+		bot.dialog( 'find', function( dialog ) {
+			dialog.setValueOf( 'find', 'txtFindFind', '  ' );
+			dialog.getContentElement( 'find', 'btnFind' ).click();
+
+			assert.areSame( expected, bot.getData( true ), 'Word separator SPACE is incorrect' );
+			dialog.getButton( 'cancel' ).click();
+		} );
 	},
 
 	// #4987
-	'test word separator: OGHAM SPACE MARK': function() {
+	'test space separator: OGHAM SPACE MARK': function() {
 		assertSpaceSeparator( this.editorBot, '\u1680', 'OGHAM SPACE MARK' );
 	},
 
 	// #4987
-	'test word separator: EN QUAD': function() {
+	'test space separator: EN QUAD': function() {
 		assertSpaceSeparator( this.editorBot, '\u2000', 'EN QUAD' );
 	},
 
 	// #4987
-	'test word separator: EM QUAD': function() {
+	'test space separator: EM QUAD': function() {
 		assertSpaceSeparator( this.editorBot, '\u2001', 'EM QUAD' );
 	},
 
 	// #4987
-	'test word separator: EN SPACE': function() {
+	'test space separator: EN SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2002', 'EN SPACE' );
 	},
 
 	// #4987
-	'test word separator: EM SPACE': function() {
+	'test space separator: EM SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2003', 'EM SPACE' );
 	},
 
 	// #4987
-	'test word separator: THREE-PER-EM SPACE': function() {
+	'test space separator: THREE-PER-EM SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2004', 'THREE-PER-EM SPACE' );
 	},
 
 	// #4987
-	'test word separator: FOUR-PER-EM SPACE': function() {
+	'test space separator: FOUR-PER-EM SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2005', 'FOUR-PER-EM SPACE' );
 	},
 
 	// #4987
-	'test word separator: SIX-PER-EM SPACE': function() {
+	'test space separator: SIX-PER-EM SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2006', 'SIX-PER-EM SPACE' );
 	},
 
 	// #4987
-	'test word separator: FIGURE SPACE': function() {
+	'test space separator: FIGURE SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2007', 'FIGURE SPACE' );
 	},
 
 	// #4987
-	'test word separator: PUNCTUATION SPACE': function() {
+	'test space separator: PUNCTUATION SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2008', 'PUNCTUATION SPACE' );
 	},
 
 	// #4987
-	'test word separator: THIN SPACE': function() {
+	'test space separator: THIN SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2009', 'THIN SPACE' );
 	},
 
 	// #4987
-	'test word separator: HAIR SPACE': function() {
+	'test space separator: HAIR SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u200A', 'HAIR SPACE' );
 	},
 
 	// #4987
-	'test word separator: NARROW NO-BREAK SPACE': function() {
+	'test space separator: NARROW NO-BREAK SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u202F', 'NARROW NO-BREAK SPACE' );
 	},
 
 	// #4987
-	'test word separator: IDEOGRAPHIC SPACE': function() {
+	'test space separator: IDEOGRAPHIC SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u3000', 'IDEOGRAPHIC SPACE' );
 	}
 
 } );
 
 function assertSpaceSeparator( bot, unicode, name ) {
-	var expected = '<p><span title="highlight">test' + unicode + 'test</span></p>';
+	var expected = '<p>test<span title="highlight">' + unicode + ' </span>test</p>';
 
-	bot.setHtmlWithSelection( '<p>[test' + unicode + 'test]</p>' );
+	bot.setHtmlWithSelection( '<p>test[' + unicode + ' ]test</p>' );
 
 	bot.dialog( 'find', function( dialog ) {
 		dialog.getContentElement( 'find', 'btnFind' ).click();
