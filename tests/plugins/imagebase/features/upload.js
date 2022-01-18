@@ -162,6 +162,21 @@
 				} );
 			},
 
+			// (#4994)
+			'test pasting supported file alongside HTML content does not create a widget': function() {
+				var editor = this.editor;
+
+				assertPasteFiles( editor, {
+					files: [ bender.tools.getTestPngFile() ],
+					additionalData: {
+						'text/html': '<p>Lorem ipsum</p>'
+					},
+					callback: function( widgets ) {
+						assert.areSame( 0, widgets.length, 'Widgets count' );
+					}
+				} );
+			},
+
 			'test multiple files create multiple widgets': function() {
 				var editor = this.editor;
 

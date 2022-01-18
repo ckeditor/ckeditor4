@@ -1,5 +1,4 @@
 /* exported imageBaseFeaturesTools */
-/* global pasteFiles */
 
 ( function() {
 	'use strict';
@@ -24,7 +23,15 @@
 		 */
 		assertPasteFiles: function( editor, options ) {
 			var files = options.files || [],
-				callback = options.callback;
+				callback = options.callback,
+				pasteData = {
+					type: 'auto',
+					method: 'paste'
+				};
+
+			if ( options && options.additionalData ) {
+				pasteData.additionalData = options.additionalData;
+			}
 
 			editor.once( 'paste', function( evt ) {
 				// Unfortunately at the time being we need to do additional timeout here, as
@@ -60,11 +67,8 @@
 				}, 30 );
 			}, null, null, -1 );
 
-			// pasteFiles is defined in clipboard plugin helper.
-			pasteFiles( editor, files, options.dataValue, {
-				type: 'auto',
-				method: 'paste'
-			} );
+			// pasteFiles _should be_ defined in clipboard plugin helper. See #5038.
+			pasteFiles( editor, files, options.dataValue, pasteData );
 
 			wait();
 		},
@@ -203,4 +207,27 @@
 			_cache: {}
 		}
 	};
+
+	function pasteFiles( editor, files, dataValue, pasteData ) {
+		var	nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer;
+
+		nativeData.files = files;
+		nativeData.types = [ 'Files' ];
+
+		if ( pasteData && pasteData.additionalData ) {
+			CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.entries( pasteData.additionalData ), function( data ) {
+				nativeData.setData( data[ 0 ], data[ 1 ] );
+			} );
+
+			delete pasteData.additionalData;
+		}
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		editor.fire( 'paste', CKEDITOR.tools.extend( {
+			dataTransfer: dataTransfer,
+			dataValue: dataValue ? dataValue : ''
+		}, pasteData || {} ) );
+	}
 } )();
