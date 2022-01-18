@@ -86,7 +86,7 @@
 				} );
 
 				editor.on( 'destroy', function() {
-					if ( isMutationObserverSupported ) {
+					if ( mutationObserver ) {
 						mutationObserver.disconnect();
 					}
 				} );
