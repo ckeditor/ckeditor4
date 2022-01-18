@@ -33,7 +33,9 @@
 				} );
 
 				editorContainer.remove();
-				editorContainerParent.append( editorContainer );
+				setTimeout( function() {
+					editorContainerParent.append( editorContainer );
+				}, 200 );
 
 				wait();
 			} );
