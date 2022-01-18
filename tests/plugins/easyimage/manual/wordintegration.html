@@ -1,0 +1,11 @@
+<textarea id="editor">
+	<p>Paste here</p>
+</textarea>
+
+<script>
+	if ( !CKEDITOR.env.chrome ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>
