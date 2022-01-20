@@ -148,7 +148,7 @@ bender.test( {
 		} );
 	},
 
-	// #4987
+	// (#4987)
 	'test find text with double space between words': function() {
 		var bot = this.editorBot;
 
@@ -164,7 +164,7 @@ bender.test( {
 		} );
 	},
 
-	// #4987
+	// (#4987)
 	'test find text with double &nbsp; between words': function() {
 		var bot = this.editorBot;
 
@@ -180,7 +180,7 @@ bender.test( {
 		} );
 	},
 
-	// #4987
+	// (#4987)
 	'test find text with double space between words in read-only mode': function() {
 		var bot = this.editorBot;
 
@@ -198,7 +198,7 @@ bender.test( {
 		} );
 	},
 
-	// #4987
+	// (#4987)
 	'test find word when pattern starting with empty space': function() {
 		var bot = this.editorBot;
 
@@ -212,7 +212,7 @@ bender.test( {
 		} );
 	},
 
-	// #4987
+	// (#4987)
 	'test find text without spaces between words should thrown alert with proper message': function() {
 		var bot = this.editorBot,
 			spy = sinon.stub( window, 'alert' );
@@ -231,7 +231,7 @@ bender.test( {
 		} );
 	},
 
-	// #4987
+	// (#4987)
 	'test find and replace text with double space between words': function() {
 		var bot = this.editorBot;
 
@@ -249,8 +249,8 @@ bender.test( {
 		} );
 	},
 
-	// #4987
-	'test replace all texts with double spaces between words': function() {
+	// (#4987)
+	'test replace all text with double spaces between words': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>[example&nbsp; text]</p><p>example&nbsp; text</p>' );
@@ -266,7 +266,7 @@ bender.test( {
 		} );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: SPACE': function() {
 		var bot = this.editorBot,
 			expected = '<p>test<span title="highlight">&nbsp; </span>test</p>';
@@ -282,72 +282,72 @@ bender.test( {
 		} );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: OGHAM SPACE MARK': function() {
 		assertSpaceSeparator( this.editorBot, '\u1680', 'OGHAM SPACE MARK' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: EN QUAD': function() {
 		assertSpaceSeparator( this.editorBot, '\u2000', 'EN QUAD' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: EM QUAD': function() {
 		assertSpaceSeparator( this.editorBot, '\u2001', 'EM QUAD' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: EN SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2002', 'EN SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: EM SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2003', 'EM SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: THREE-PER-EM SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2004', 'THREE-PER-EM SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: FOUR-PER-EM SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2005', 'FOUR-PER-EM SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: SIX-PER-EM SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2006', 'SIX-PER-EM SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: FIGURE SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2007', 'FIGURE SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: PUNCTUATION SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2008', 'PUNCTUATION SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: THIN SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u2009', 'THIN SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: HAIR SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u200A', 'HAIR SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: NARROW NO-BREAK SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u202F', 'NARROW NO-BREAK SPACE' );
 	},
 
-	// #4987
+	// (#4987)
 	'test space separator: IDEOGRAPHIC SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u3000', 'IDEOGRAPHIC SPACE' );
 	}

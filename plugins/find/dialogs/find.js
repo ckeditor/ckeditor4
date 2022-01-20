@@ -365,7 +365,7 @@
 				while ( true ) {
 					var currentPatternCharacter = this._.pattern.charAt( this._.state );
 					// #4987
-					if ( c == currentPatternCharacter || compareCharacterWithPattern( c, currentPatternCharacter ) ) {
+					if ( compareCharacterWithPattern( c, currentPatternCharacter ) ) {
 						this._.state++;
 						if ( this._.state == this._.pattern.length ) {
 							this._.state = 0;
@@ -396,6 +396,10 @@
 		}
 
 		function compareCharacterWithPattern( character, currentPatternCharacter ) {
+			if ( character == currentPatternCharacter ) {
+				return true;
+			}
+
 			var isCharacterASpaceSeparator = spaceSeparatorRegex.test( character ),
 				isPatternCharacterASpaceSeparator = spaceSeparatorRegex.test( currentPatternCharacter );
 
