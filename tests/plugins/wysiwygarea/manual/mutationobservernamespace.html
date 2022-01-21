@@ -20,12 +20,7 @@
 		CKEDITOR.replace( 'editor', {
 			on: {
 				instanceReady: function ( evt ) {
-					evt.editor.destroy();
-				},
-				destroy: function() {
-					setTimeout( function() {
-						triggerButton.removeAttribute( 'disabled' );
-					}, 1000 );
+					triggerButton.removeAttribute( 'disabled' );
 				}
 			}
 		} );
