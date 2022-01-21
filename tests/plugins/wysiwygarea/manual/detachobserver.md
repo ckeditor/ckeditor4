@@ -1,4 +1,4 @@
-@bender-tags: 4.17.2, feature, 5004
+@bender-tags: 4.17.2, bug, 5004
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,elementspath,undo
 
