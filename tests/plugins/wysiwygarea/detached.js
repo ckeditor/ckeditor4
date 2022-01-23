@@ -26,8 +26,9 @@
 
 				bot.editor.on( 'contentDomUnload', function( evt ) {
 					evt && evt.removeListener();
+					var selection = bot.editor.getSelection();
+
 					resume( function() {
-						var selection = bot.editor.getSelection();
 						assert.isNull( selection, 'Selection should be null during recreation' );
 					} );
 				} );
