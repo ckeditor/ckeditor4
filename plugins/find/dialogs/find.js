@@ -363,7 +363,9 @@
 					c = c.toLowerCase();
 
 				while ( true ) {
-					if ( c == this._.pattern.charAt( this._.state ) ) {
+					var currentPatternCharacter = this._.pattern.charAt( this._.state );
+					// #4987
+					if ( compareCharacterWithPattern( c, currentPatternCharacter ) ) {
 						this._.state++;
 						if ( this._.state == this._.pattern.length ) {
 							this._.state = 0;
@@ -373,7 +375,7 @@
 					} else if ( !this._.state ) {
 						return KMP_NOMATCH;
 					} else {
-						this._.state = this._.overlap[this._.state];
+						this._.state = this._.overlap[ this._.state ];
 					}
 				}
 			},
@@ -384,13 +386,25 @@
 		};
 
 		var wordSeparatorRegex = /[.,"'?!;: \u0085\u00a0\u1680\u280e\u2028\u2029\u202f\u205f\u3000]/;
+		var spaceSeparatorRegex = /[\u0020\u00a0\u1680\u202f\u205f\u3000\u2000-\u200a]/;
 
-		var isWordSeparator = function( c ) {
+		function isWordSeparator( c ) {
 			if ( !c )
 				return true;
 			var code = c.charCodeAt( 0 );
 			return ( code >= 9 && code <= 0xd ) || ( code >= 0x2000 && code <= 0x200a ) || wordSeparatorRegex.test( c );
-		};
+		}
+
+		function compareCharacterWithPattern( character, currentPatternCharacter ) {
+			if ( character == currentPatternCharacter ) {
+				return true;
+			}
+
+			var isCharacterASpaceSeparator = spaceSeparatorRegex.test( character ),
+				isPatternCharacterASpaceSeparator = spaceSeparatorRegex.test( currentPatternCharacter );
+
+			return isCharacterASpaceSeparator && isPatternCharacterASpaceSeparator;
+		}
 
 		var finder = {
 			searchRange: null,
