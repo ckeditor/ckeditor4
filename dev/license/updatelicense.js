@@ -9,10 +9,25 @@ var fs = require( 'fs' ),
 	path = require( 'path' ),
 	execSync = require( 'child_process' ).execSync,
 	dirname = require( 'path' ).dirname,
-	OLD_COMPANY_NAME_REGEXP = /(\[|<a.+?>)?CKSource(\]\(.+?\)|<\/a>)?(?: -)? Frederico\s+Knabben/gi,
+	OLD_COMPANY_NAME_REGEXP = /(\[|<a.+?>)?CKSource(\]\(.+?\)|<\/a>)?\s*?(?:-|&ndash;)? Frederico\s+Knabben/gi,
 	NEW_COMPANY_NAME_REPLACEMENT = '$1CKSource$2 Holding sp. z o.o',
 	YEAR = new Date().getFullYear(),
-	ACCEPTED_FORMATS = [ '.html', '.txt', '.js', '.ts', '.jsx', '.tsx', '.md', '.sh', '.css', '.py', '.less', '.php', '.rb' ],
+	ACCEPTED_FORMATS = [
+		'.html',
+		'.txt',
+		'.js',
+		'.json',
+		'.ts',
+		'.jsx',
+		'.tsx',
+		'.md',
+		'.sh',
+		'.css',
+		'.py',
+		'.less',
+		'.php',
+		'.rb'
+	],
 	EXCLUDED_DIRS = [ '.git', 'node_modules', 'release', 'coverage' ];
 
 recursivelyUpdateLicenseDate( getExecutionPath() );
