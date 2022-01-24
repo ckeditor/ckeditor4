@@ -7,10 +7,6 @@
 1. Copy any text content from Word.
 1. Paste it into the editor
 
-## Expected
+	**Expected** Content is pasted as a text.
 
-Content is pasted as a text.
-
-## Unexpected
-
-Content is pasted as an image.
+	**Unexpected** Content is pasted as an image.
