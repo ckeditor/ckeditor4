@@ -8,4 +8,4 @@
 
 **Expected:** No errors in the console.
 
-**Unexpected:** Error appears: `Uncaught ReferenceError: CKEDITOR is not defined`.
+**Unexpected:** Error appears in the console.
