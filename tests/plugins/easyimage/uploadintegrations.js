@@ -29,7 +29,7 @@
 			init: function() {
 				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
 				if ( !this.editor.plugins.easyimage.isSupportedEnvironment() ) {
-					bender.ignore();
+					return;
 				}
 
 				var sampleCloudServicesResponse = {
@@ -127,6 +127,11 @@
 			},
 
 			setUp: function() {
+				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
+				if ( !this.editor.plugins.easyimage.isSupportedEnvironment() ) {
+					assert.ignore();
+				}
+
 				if ( bender.config.isTravis && CKEDITOR.env.gecko ) {
 					assert.ignore();
 				}
