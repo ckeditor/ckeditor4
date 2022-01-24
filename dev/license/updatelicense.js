@@ -13,20 +13,20 @@ var fs = require( 'fs' ),
 	NEW_COMPANY_NAME_REPLACEMENT = '$1CKSource$2 Holding sp. z o.o',
 	YEAR = new Date().getFullYear(),
 	ACCEPTED_FORMATS = [
+		'.css',
 		'.html',
-		'.txt',
 		'.js',
 		'.json',
-		'.ts',
 		'.jsx',
-		'.tsx',
-		'.md',
-		'.sh',
-		'.css',
-		'.py',
 		'.less',
+		'.md',
 		'.php',
-		'.rb'
+		'.py',
+		'.rb',
+		'.sh',
+		'.ts',
+		'.tsx',
+		'.txt'
 	],
 	EXCLUDED_DIRS = [ '.git', 'node_modules', 'release', 'coverage' ];
 
