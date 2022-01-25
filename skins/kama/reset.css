@@ -109,6 +109,11 @@ https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_reset.html
 	box-sizing: border-box;
 }
 
+.cke_reset_all select[multiple] option:checked
+{
+	background-color: rgb(206, 206, 206);
+}
+
 .cke_reset_all table
 {
 	table-layout: auto;
