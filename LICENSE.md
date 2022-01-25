@@ -2,7 +2,7 @@ Software License Agreement
 ==========================
 
 CKEditor - The text editor for Internet - https://ckeditor.com/
-Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
 
 Licensed under the terms of any of the following licenses at your
 choice:
@@ -37,7 +37,7 @@ done by developers outside of CKSource with their express permission.
 
 The following libraries are included in CKEditor under the MIT license (see Appendix D):
 
-* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2021, CKSource - Frederico Knabben.
+* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2022, CKSource Holding sp. z o.o.
 * PicoModal (included in `samples/js/sf.js`) - Copyright (c) 2012 James Frasca.
 * CodeMirror (included in the samples) - Copyright (C) 2014 by Marijn Haverbeke <marijnh@gmail.com> and others.
 * ES6Promise - Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors.
@@ -60,16 +60,16 @@ The following libraries are included in CKEditor under the BSD-3 License (see Ap
 
 The following libraries are included only in the development version of CKEditor under the MIT license (see Appendix D):
 
-* CKBuilder - Copyright (c) 2012-2021, CKSource - Frederico Knabben.
-* CKLangTool - Copyright (c) 2012-2021, CKSource - Frederico Knabben.
+* CKBuilder - Copyright (c) 2012-2022, CKSource Holding sp. z o.o.
+* CKLangTool - Copyright (c) 2012-2022, CKSource Holding sp. z o.o.
 * Optimist - Copyright 2010 James Halliday (mail@substack.net).
 * Tmp - Copyright (c) 2014 KARASZI István.
 * Mkdirp - Copyright 2010 James Halliday (mail@substack.net).
-* Bender.js - Copyright (c) 2014-2021, CKSource - Frederico Knabben.
-* benderjs-coverage - Copyright (c) 2014-2021, CKSource - Frederico Knabben.
-* benderjs-jquery - Copyright (c) 2014-2021, CKSource - Frederico Knabben.
-* benderjs-sinon - Copyright (c) 2014-2021, CKSource - Frederico Knabben.
-* benderjs-yui - Copyright (c) 2014-2021, CKSource - Frederico Knabben.
+* Bender.js - Copyright (c) 2014-2022, CKSource Holding sp. z o.o.
+* benderjs-coverage - Copyright (c) 2014-2022, CKSource Holding sp. z o.o.
+* benderjs-jquery - Copyright (c) 2014-2022, CKSource Holding sp. z o.o.
+* benderjs-sinon - Copyright (c) 2014-2022, CKSource Holding sp. z o.o.
+* benderjs-yui - Copyright (c) 2014-2022, CKSource Holding sp. z o.o.
 * Grunt - Copyright (c) 2015 "Cowboy" Ben Alman.
 * grunt-contrib-imagemin - Copyright (c) 2014 Sindre Sorhus, contributors.
 * grunt-jscs - Copyright (c) 2014 Gustavo Henke, contributors.
@@ -100,7 +100,7 @@ The following libraries are included only in the development version of CKEditor
 Trademarks
 ----------
 
-CKEditor is a trademark of CKSource - Frederico Knabben. All other brand
+CKEditor is a trademark of CKSource Holding sp. z o.o. All other brand
 and product names are trademarks, registered trademarks or service
 marks of their respective holders.
 
