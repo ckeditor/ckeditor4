@@ -14,7 +14,7 @@ Fixed issues:
 * [#4952](https://github.com/ckeditor/ckeditor4/issues/4952): Fixed: Dragging and dropping images within a table cells appends additional elements.
 * [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): Fixed: not all resources loaded by the editor respect the cache key.
 * [#4987](https://github.com/ckeditor/ckeditor4/issues/4987): Fixed: [Find/Replace](https://ckeditor.com/cke4/addon/find) is not recognizing more than one space character.
-* [#5004](https://github.com/ckeditor/ckeditor4/issues/5004): Fixed: possible memory leak with `MutationObserver` inside [IFrame Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) plugin.
+* [#5004](https://github.com/ckeditor/ckeditor4/issues/5004): Fixed: `MutationObserver` used in [IFrame Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) plugin causes memory leaks.
 
 API changes:
 
