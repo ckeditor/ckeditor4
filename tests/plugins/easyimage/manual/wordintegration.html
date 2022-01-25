@@ -1,0 +1,13 @@
+<textarea id="editor">
+	<p>Paste here</p>
+</textarea>
+
+<script>
+	CKEDITOR.on( 'instanceReady', function( evt ) {
+		if ( !evt.editor.plugins.easyimage.isSupportedEnvironment() ) {
+			bender.ignore();
+		}
+	} );
+
+	CKEDITOR.replace( 'editor' );
+</script>
