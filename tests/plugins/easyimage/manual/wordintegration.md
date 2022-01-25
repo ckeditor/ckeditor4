@@ -2,11 +2,9 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, easyimage
 
-## Procedure
-
 1. Copy any text content from Word.
 1. Paste it into the editor
 
-	**Expected** Content is pasted as a text.
+**Expected** Content is pasted as text.
 
-	**Unexpected** Content is pasted as an image.
+**Unexpected** Content is pasted as an image.

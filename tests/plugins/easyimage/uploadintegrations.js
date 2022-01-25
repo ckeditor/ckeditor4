@@ -27,7 +27,7 @@
 		pasteFiles = imageBaseFeaturesTools.pasteFiles,
 		tests = {
 			init: function() {
-				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
+				// We need to ignore the entire test suit to prevent firing init, which breaks the test suit on IE8-IE10.
 				if ( !this.editor.plugins.easyimage.isSupportedEnvironment() ) {
 					return;
 				}
@@ -127,7 +127,7 @@
 			},
 
 			setUp: function() {
-				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
+				// We need to ignore the entire test suit to prevent firing init, which breaks the test suit on IE8-IE10.
 				if ( !this.editor.plugins.easyimage.isSupportedEnvironment() ) {
 					assert.ignore();
 				}
