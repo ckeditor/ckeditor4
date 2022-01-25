@@ -274,28 +274,32 @@
 						}
 					}
 
-					if ( matchedFiles.length ) {
-						evt.cancel();
-						// At the time being we expect no other actions to happen after the widget was inserted.
-						evt.stop();
-
-						CKEDITOR.tools.array.forEach( matchedFiles, function( curFile, index ) {
-							var loader = ret._spawnLoader( editor, curFile, definition, curFile.name );
-
-							ret._insertWidget( editor, definition, URL.createObjectURL( curFile ), true, { uploadId: loader.id } );
-
-							// Now modify the selection so that the next widget won't replace the current one.
-							// This selection workaround is required to store multiple files.
-							if ( index !== matchedFiles.length - 1 ) {
-								// We don't want to modify selection for the last element, so that the last widget remains selected.
-								var sel = editor.getSelection(),
-									ranges = sel.getRanges();
-
-								ranges[ 0 ].enlarge( CKEDITOR.ENLARGE_ELEMENT );
-								ranges[ 0 ].collapse( false );
-							}
-						} );
+					if ( matchedFiles.length === 0 ) {
+						return;
 					}
+
+					evt.cancel();
+					// At the time being we expect no other actions to happen after the widget was inserted.
+					evt.stop();
+
+					CKEDITOR.tools.array.forEach( matchedFiles, function( curFile, index ) {
+						var loader = ret._spawnLoader( editor, curFile, definition, curFile.name );
+
+						ret._insertWidget( editor, definition, URL.createObjectURL( curFile ), true, { uploadId: loader.id } );
+
+						// Now modify the selection so that the next widget won't replace the current one.
+						// This selection workaround is required to store multiple files.
+						if ( index === matchedFiles.length - 1 ) {
+							// We don't want to modify selection for the last element, so that the last widget remains selected.
+							return;
+						}
+
+						var sel = editor.getSelection(),
+							ranges = sel.getRanges();
+
+						ranges[ 0 ].enlarge( CKEDITOR.ENLARGE_ELEMENT );
+						ranges[ 0 ].collapse( false );
+					} );
 				} );
 			},
 
