@@ -15,6 +15,7 @@ Fixed issues:
 * [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): Fixed: not all resources loaded by the editor respect the cache key.
 * [#4987](https://github.com/ckeditor/ckeditor4/issues/4987): Fixed: [Find/Replace](https://ckeditor.com/cke4/addon/find) is not recognizing more than one space character.
 * [#5004](https://github.com/ckeditor/ckeditor4/issues/5004): Fixed: `MutationObserver` used in [IFrame Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) plugin causes memory leaks.
+* [#4994](https://github.com/ckeditor/ckeditor4/issues/4994): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin caused content pasted from Word to turn into an image.
 
 API changes:
 
