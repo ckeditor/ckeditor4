@@ -12,6 +12,11 @@
 	};
 
 	var tests = {
+		init: function() {
+			CKEDITOR.addCss( '.usecomputedstatetest { text-align: right;}' +
+				'.usecomputedstatetestdir { direction: rtl; }' );
+		},
+
 		'test alignment command on selected image': function() {
 			var bot = this.editorBot;
 			bot.setHtmlWithSelection( '<p>[<img src="http://tests/404" style="float:left;"/>]</p>' );
@@ -559,6 +564,112 @@
 				} )
 				.then( function( bot ) {
 					assert.isInnerHtmlMatching( '<div style="text-align:center"><span class="marker">Foo bar baz</span></div>', bot.getData(), { fixStyles: true } );
+				} );
+		},
+
+		// (#4989)
+		'test justify buttons states in the editor with config.useComputedState set to default value': function() {
+			return bender.editorBot.createAsync( {
+					name: 'editor_useComputedState_default',
+					config: {
+						extraAllowedContent: 'p(usecomputedstatetest)',
+						plugins: 'justify,toolbar'
+					}
+				} )
+				.then( function( bot ) {
+					bot.setHtmlWithSelection( '<p class="usecomputedstatetest">[Foo bar baz]</p>' );
+
+					return assertCommandState( CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_ON, CKEDITOR.TRISTATE_OFF,
+						CKEDITOR.TRISTATE_OFF, bot );
+				} );
+		},
+
+		// (#4989)
+		'test justify buttons states in the editor with config.useComputedState set to true': function() {
+			return bender.editorBot.createAsync( {
+					name: 'editor_useComputedState_true',
+					config: {
+						extraAllowedContent: 'p(usecomputedstatetest)',
+						plugins: 'justify,toolbar',
+						useComputedState: true
+					}
+				} )
+				.then( function( bot ) {
+					bot.setHtmlWithSelection( '<p class="usecomputedstatetest">[Foo bar baz]</p>' );
+
+					return assertCommandState( CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_ON, CKEDITOR.TRISTATE_OFF,
+						CKEDITOR.TRISTATE_OFF, bot );
+				} );
+		},
+
+		// (#4989)
+		'test justify buttons states in the editor with config.useComputedState set to false': function() {
+			return bender.editorBot.createAsync( {
+					name: 'editor_useComputedState_false',
+					config: {
+						extraAllowedContent: 'p(usecomputedstatetest)',
+						plugins: 'justify,toolbar',
+						useComputedState: false
+					}
+				} )
+				.then( function( bot ) {
+					bot.setHtmlWithSelection( '<p class="usecomputedstatetest">[Foo bar baz]</p>' );
+
+					return assertCommandState( CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_OFF,
+						CKEDITOR.TRISTATE_OFF, bot );
+				} );
+		},
+
+		// (#4989)
+		'test justify buttons states in the editor with config.useComputedState set to default value (direction style)': function() {
+			return bender.editorBot.createAsync( {
+					name: 'editor_useComputedStateDir_default',
+					config: {
+						extraAllowedContent: 'p(usecomputedstatetestdir)',
+						plugins: 'justify,toolbar'
+					}
+				} )
+				.then( function( bot ) {
+					bot.setHtmlWithSelection( '<p class="usecomputedstatetestdir">[Foo bar baz]</p>' );
+
+					return assertCommandState( CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_ON, CKEDITOR.TRISTATE_OFF,
+						CKEDITOR.TRISTATE_OFF, bot );
+				} );
+		},
+
+		// (#4989)
+		'test justify buttons states in the editor with config.useComputedState set to true (direction style)': function() {
+			return bender.editorBot.createAsync( {
+					name: 'editor_useComputedStateDir_true',
+					config: {
+						extraAllowedContent: 'p(usecomputedstatetestdir)',
+						plugins: 'justify,toolbar',
+						useComputedState: true
+					}
+				} )
+				.then( function( bot ) {
+					bot.setHtmlWithSelection( '<p class="usecomputedstatetestdir">[Foo bar baz]</p>' );
+
+					return assertCommandState( CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_ON, CKEDITOR.TRISTATE_OFF,
+						CKEDITOR.TRISTATE_OFF, bot );
+				} );
+		},
+
+		// (#4989)
+		'test justify buttons states in the editor with config.useComputedState set to false (direction style)': function() {
+			return bender.editorBot.createAsync( {
+					name: 'editor_useComputedStateDir_false',
+					config: {
+						extraAllowedContent: 'p(usecomputedstatetestdir)',
+						plugins: 'justify,toolbar',
+						useComputedState: false
+					}
+				} )
+				.then( function( bot ) {
+					bot.setHtmlWithSelection( '<p class="usecomputedstatetestdir">[Foo bar baz]</p>' );
+
+					return assertCommandState( CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_OFF,
+						CKEDITOR.TRISTATE_OFF, bot );
 				} );
 		}
 	};

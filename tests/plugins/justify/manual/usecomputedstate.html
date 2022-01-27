@@ -1,0 +1,27 @@
+<h2>Default (expected: right)</h2>
+<div id="editor-default">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<h2>True (expected: right)</h2>
+<div id="editor-true">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<h2>False (expected: none)</h2>
+<div id="editor-false">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+
+<script>
+	CKEDITOR.addCss( 'p { text-align: right; }' );
+
+	CKEDITOR.replace( 'editor-default' );
+	CKEDITOR.replace( 'editor-true', {
+		useComputedState: true
+	} );
+	CKEDITOR.replace( 'editor-false', {
+		useComputedState: false
+	} );
+</script>
