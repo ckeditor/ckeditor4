@@ -9,23 +9,23 @@ Fixed issues:
 
 * [#4934](https://github.com/ckeditor/ckeditor4/issues/4934): Fixed: Active focus in dialog tabs is not visible in the High Contrast mode.
 * [#547](https://github.com/ckeditor/ckeditor4/issues/547): Fixed: Dragging and dropping elements like images within a table is no longer available.
-* [#4875](https://github.com/ckeditor/ckeditor4/issues/4875): Fixed: Not possible to delete multiple selected lists.
+* [#4875](https://github.com/ckeditor/ckeditor4/issues/4875): Fixed: It is not possible to delete multiple selected lists.
 * [#4873](https://github.com/ckeditor/ckeditor4/issues/4873): Fixed: Pasting content from MS Word and Outlook with horizontal lines prevents images from being uploaded.
-* [#4952](https://github.com/ckeditor/ckeditor4/issues/4952): Fixed: Dragging and dropping images within a table cells appends additional elements.
-* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): Fixed: not all resources loaded by the editor respect the cache key.
+* [#4952](https://github.com/ckeditor/ckeditor4/issues/4952): Fixed: Dragging and dropping images within a table cell appends additional elements.
+* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): Fixed: Some CSS files are missing unique timestamp used to prevent browser to cache static resources between editor releases.
 * [#4987](https://github.com/ckeditor/ckeditor4/issues/4987): Fixed: [Find/Replace](https://ckeditor.com/cke4/addon/find) is not recognizing more than one space character.
 * [#5004](https://github.com/ckeditor/ckeditor4/issues/5004): Fixed: `MutationObserver` used in [IFrame Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) plugin causes memory leaks.
 * [#4994](https://github.com/ckeditor/ckeditor4/issues/4994): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin caused content pasted from Word to turn into an image.
 
 API changes:
 
-* [#4918](https://github.com/ckeditor/ckeditor4/issues/4918): Explicitly set [`config.useComputedState`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-useComputedState) default value to `true`. Thanks to [Shabab Karim](https://github.com/shabab477)!
-* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): [`CKEDITOR.appendTimestamp()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTimestamp) function was added.
-* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): [`CKEDITOR.dom.document#appendStyleSheet()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_document.html#method-appendStyleSheet) and [`CKEDITOR.tools.buildStyleHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-buildStyleHtml) now use newly added [`CKEDITOR.appendTimestamp()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTimestamp) function to correctly handle caching of CSS files.
+* [#4918](https://github.com/ckeditor/ckeditor4/issues/4918): Explicitly set the [`config.useComputedState`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-useComputedState) default value to `true`. Thanks to [Shabab Karim](https://github.com/shabab477)!
+* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): The [`CKEDITOR.appendTimestamp()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTimestamp) function was added.
+* [#4761](https://github.com/ckeditor/ckeditor4/issues/4761): [`CKEDITOR.dom.document#appendStyleSheet()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_document.html#method-appendStyleSheet) and [`CKEDITOR.tools.buildStyleHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-buildStyleHtml) now use the newly added [`CKEDITOR.appendTimestamp()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTimestamp) function to correctly handle caching of CSS files.
 
 Other changes:
 
-* [#5014](https://github.com/ckeditor/ckeditor4/issues/5014): Fixed: Toolbar configurator fails when plugin not defines toolbar group. Thanks to [SuperPat](https://github.com/SuperPat45)!
+* [#5014](https://github.com/ckeditor/ckeditor4/issues/5014): Fixed: Toolbar configurator fails when plugin does not define a toolbar group. Thanks to [SuperPat](https://github.com/SuperPat45)!
 
 ## CKEditor 4.17.1
 
