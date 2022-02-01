@@ -152,12 +152,10 @@ bender.test( {
 	'test find text with double space between words': function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '<p>example&nbsp; text</p>' );
+		bot.setHtmlWithSelection( '<p>[example&nbsp; text]</p>' );
 
 		bot.dialog( 'find', function( dialog ) {
-			dialog.setValueOf( 'find', 'txtFindFind', 'example  text' );
 			dialog.getContentElement( 'find', 'btnFind' ).click();
-
 
 			assert.areSame( '<p><span title="highlight">example&nbsp; text</span></p>', bot.getData( true ) );
 			dialog.getButton( 'cancel' ).click();
@@ -235,10 +233,9 @@ bender.test( {
 	'test find and replace text with double space between words': function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '<p>example&nbsp; text from CKEditor4</p>' );
+		bot.setHtmlWithSelection( '<p>[example&nbsp; text] from CKEditor4</p>' );
 
 		bot.dialog( 'replace', function( dialog ) {
-			dialog.setValueOf( 'replace', 'txtFindReplace', 'example  text' );
 			dialog.setValueOf( 'replace', 'txtReplace', 'changed example text' );
 			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
 			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
