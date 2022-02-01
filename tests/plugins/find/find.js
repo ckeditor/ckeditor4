@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: find */
+/* bender-ckeditor-plugins: find,entities, */
 
 bender.editor = {
 	config: {
@@ -296,12 +296,12 @@ bender.test( {
 
 	// (#4987)
 	'test space separator: EN SPACE': function() {
-		assertSpaceSeparator( this.editorBot, '\u2002', 'EN SPACE' );
+		assertSpaceSeparator( this.editorBot, '\u2002', 'EN SPACE', '&ensp;' );
 	},
 
 	// (#4987)
 	'test space separator: EM SPACE': function() {
-		assertSpaceSeparator( this.editorBot, '\u2003', 'EM SPACE' );
+		assertSpaceSeparator( this.editorBot, '\u2003', 'EM SPACE', '&emsp;' );
 	},
 
 	// (#4987)
@@ -331,7 +331,7 @@ bender.test( {
 
 	// (#4987)
 	'test space separator: THIN SPACE': function() {
-		assertSpaceSeparator( this.editorBot, '\u2009', 'THIN SPACE' );
+		assertSpaceSeparator( this.editorBot, '\u2009', 'THIN SPACE', '&thinsp;' );
 	},
 
 	// (#4987)
@@ -351,8 +351,10 @@ bender.test( {
 
 } );
 
-function assertSpaceSeparator( bot, unicode, name ) {
-	var expected = '<p>test<span title="highlight">' + unicode + ' </span>test</p>';
+function assertSpaceSeparator( bot, unicode, name, expectedHtmlEntities ) {
+	// In some cases editor return html entities instead of empty space expressed as ' '. #5055
+	var spaceCharacter = expectedHtmlEntities || unicode,
+		expected = '<p>test<span title="highlight">' + spaceCharacter + ' </span>test</p>';
 
 	bot.setHtmlWithSelection( '<p>test[' + unicode + ' ]test</p>' );
 
