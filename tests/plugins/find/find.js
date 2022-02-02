@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: find */
+/* bender-ckeditor-plugins: find,entities, */
 
 bender.editor = {
 	config: {
@@ -152,12 +152,10 @@ bender.test( {
 	'test find text with double space between words': function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '<p>example&nbsp; text</p>' );
+		bot.setHtmlWithSelection( '<p>[example&nbsp; text]</p>' );
 
 		bot.dialog( 'find', function( dialog ) {
-			dialog.setValueOf( 'find', 'txtFindFind', 'example  text' );
 			dialog.getContentElement( 'find', 'btnFind' ).click();
-
 
 			assert.areSame( '<p><span title="highlight">example&nbsp; text</span></p>', bot.getData( true ) );
 			dialog.getButton( 'cancel' ).click();
@@ -235,10 +233,9 @@ bender.test( {
 	'test find and replace text with double space between words': function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '<p>example&nbsp; text from CKEditor4</p>' );
+		bot.setHtmlWithSelection( '<p>[example&nbsp; text] from CKEditor4</p>' );
 
 		bot.dialog( 'replace', function( dialog ) {
-			dialog.setValueOf( 'replace', 'txtFindReplace', 'example  text' );
 			dialog.setValueOf( 'replace', 'txtReplace', 'changed example text' );
 			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
 			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
@@ -299,12 +296,12 @@ bender.test( {
 
 	// (#4987)
 	'test space separator: EN SPACE': function() {
-		assertSpaceSeparator( this.editorBot, '\u2002', 'EN SPACE' );
+		assertSpaceSeparator( this.editorBot, '\u2002', 'EN SPACE', '&ensp;' );
 	},
 
 	// (#4987)
 	'test space separator: EM SPACE': function() {
-		assertSpaceSeparator( this.editorBot, '\u2003', 'EM SPACE' );
+		assertSpaceSeparator( this.editorBot, '\u2003', 'EM SPACE', '&emsp;' );
 	},
 
 	// (#4987)
@@ -334,7 +331,7 @@ bender.test( {
 
 	// (#4987)
 	'test space separator: THIN SPACE': function() {
-		assertSpaceSeparator( this.editorBot, '\u2009', 'THIN SPACE' );
+		assertSpaceSeparator( this.editorBot, '\u2009', 'THIN SPACE', '&thinsp;' );
 	},
 
 	// (#4987)
@@ -354,8 +351,10 @@ bender.test( {
 
 } );
 
-function assertSpaceSeparator( bot, unicode, name ) {
-	var expected = '<p>test<span title="highlight">' + unicode + ' </span>test</p>';
+function assertSpaceSeparator( bot, unicode, name, expectedHtmlEntities ) {
+	// In some cases editor return html entities instead of empty space expressed as ' '. #5055
+	var spaceCharacter = expectedHtmlEntities || unicode,
+		expected = '<p>test<span title="highlight">' + spaceCharacter + ' </span>test</p>';
 
 	bot.setHtmlWithSelection( '<p>test[' + unicode + ' ]test</p>' );
 
