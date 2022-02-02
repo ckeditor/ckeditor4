@@ -1714,13 +1714,16 @@
 			var possibleListItems = [ 'dd', 'dt', 'li' ],
 				block = range.startPath().block || range.startPath().blockLimit,
 				blockName = block.getName(),
+				havePreviousListItem = block.getPrevious() === null,
 				isListItem = false;
 
 			isListItem = CKEDITOR.tools.array.some( possibleListItems, function( listItem ) {
 				return blockName === listItem;
 			} );
 
-			return isListItem && block.getPrevious() === null;
+			// Despite checking whether the range is contained in the first element of the list
+			// we should also check that the whole content is selected. #5068
+			return isListItem && havePreviousListItem && range.startOffset === 0;
 		}
 
 		function getParentBlockChildCount( path ) {
