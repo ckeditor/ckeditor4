@@ -833,9 +833,10 @@
 		function createTextNodeWithPreservedSpaces( editor, text ) {
 			var textWithPreservedSpaces = text.replace( consecutiveWhitespaceRegex,
 				function( whitespace ) {
-					var newSpaces = CKEDITOR.tools.array.map( whitespace, function( space, i ) {
-						return i % 2 === 0 ? nonBreakingSpace : space;
-					} );
+					var whitespaceArray = whitespace.split( '' ),
+						newSpaces = CKEDITOR.tools.array.map( whitespaceArray, function( space, i ) {
+							return i % 2 === 0 ? nonBreakingSpace : space;
+						} );
 
 					return newSpaces.join( '' );
 				} );
