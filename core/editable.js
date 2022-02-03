@@ -6,7 +6,11 @@
 ( function() {
 	var isNotWhitespace, isNotBookmark, isEmpty, isBogus, emptyParagraphRegexp,
 		insert, fixTableAfterContentsDeletion, fixListAfterContentsDelete, getHtmlFromRangeHelpers, extractHtmlFromRangeHelpers,
-		listsTypes = [ 'ul', 'ol', 'dl' ];
+		listTypes = {
+			ul: 1,
+			ol: 1,
+			dl: 1
+		};
 
 	/**
 	 * Editable class which provides all editing related activities by
@@ -1650,19 +1654,17 @@
 		// We know that we are in the list so now we must check if there is another one.
 		var walker = new CKEDITOR.dom.walker( range ),
 			element = range.collapsed ? range.startContainer : walker.next(),
-			isIncludeNestedList = false;
+			isIncludingNestedList = false;
 
 		if ( !startsAtFirstListItem( range ) ) {
 			return;
 		}
 
 		// Walk through all the items in the range to find nested lists.
-		while ( element && !isIncludeNestedList ) {
+		while ( element && !isIncludingNestedList ) {
 			var tagName = element.$.nodeName.toLowerCase();
 
-			isIncludeNestedList = CKEDITOR.tools.array.some( listsTypes, function( listType ) {
-				return tagName === listType;
-			} );
+			isIncludingNestedList = !!listTypes[ tagName ];
 
 			element = walker.next();
 		}
@@ -1682,7 +1684,7 @@
 		var startBlockChildCount = getParentBlockChildCount( range.startPath() ),
 			endBlockChildCount = getParentBlockChildCount( range.endPath() );
 
-		return isIncludeNestedList || ( startBlockChildCount !== endBlockChildCount );
+		return isIncludingNestedList || ( startBlockChildCount !== endBlockChildCount );
 
 		// Check if element is the first item in the list.
 		function startsAtFirstListItem( range ) {
@@ -1694,10 +1696,9 @@
 			var possibleListItems = [ 'dd', 'dt', 'li' ],
 				block = range.startPath().block || range.startPath().blockLimit,
 				blockName = block.getName(),
-				hasPreviousListItem = block.getPrevious() !== null,
 				isListItem = CKEDITOR.tools.array.indexOf( possibleListItems, blockName ) !== -1;
 
-			return isListItem && !hasPreviousListItem;
+			return isListItem && block.getPrevious() === null;
 		}
 
 		function getParentBlockChildCount( path ) {
@@ -1706,27 +1707,9 @@
 	}
 
 	function getRangeForSelectedLists( range ) {
-		var isListParent = null,
-			listParent = null,
-			firstRangeEl = range.startContainer,
-			parent = firstRangeEl.getParent();
+		var list = range.startContainer.getAscendant( listTypes, true );
 
-		// Get the parent of the list.
-			while ( !isListParent ) {
-				var parentName = parent.getName();
-
-				// We need to search for first closest parent list.
-					isListParent = CKEDITOR.tools.array.some( listsTypes, function( listType ) {
-						if ( parentName === listType ) {
-							listParent = parent;
-							return parentName === listType;
-						}
-					} );
-
-				parent = parent.getParent();
-			}
-
-		range.setStart( listParent, 0 );
+		range.setStart( list, 0 );
 		range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
 		return range;
