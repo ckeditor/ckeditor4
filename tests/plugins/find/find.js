@@ -264,7 +264,7 @@ bender.test( {
 	},
 
 	// (#5061)
-	'test replace one of occurences of phrase with phrase with several spaces inside': function() {
+	'test replace one of the occurrences of the phrase with a phrase with several spaces inside': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>replace me</p>' );
@@ -274,15 +274,14 @@ bender.test( {
 			dialog.setValueOf( 'replace', 'txtReplace', 'foo   bar' );
 			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
 			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
-
-			assert.areSame( '<p><span title="highlight">foo&nbsp; &nbsp;bar</span></p>', bot.getData( true ) );
-
 			dialog.getButton( 'cancel' ).click();
+
+			assert.areSame( '<p>foo&nbsp; &nbsp;bar</p>', bot.getData() );
 		} );
 	},
 
 	// (#5061)
-	'test replace all occurences of phrase with phrase with several spaces inside': function() {
+	'test replace all the occurrences of the phrase with a phrase with several spaces inside': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>[replace me]</p><p>replace me</p>' );
@@ -292,9 +291,7 @@ bender.test( {
 			dialog.getContentElement( 'replace', 'btnReplaceAll' ).click();
 			dialog.getButton( 'cancel' ).click();
 
-			assert.areSame( '<p>foo&nbsp; &nbsp;bar</p><p>foo&nbsp; &nbsp;bar</p>', bot.getData( false, true ) );
-
-			dialog.getButton( 'cancel' ).click();
+			assert.areSame( '<p>foo&nbsp; &nbsp;bar</p><p>foo&nbsp; &nbsp;bar</p>', bot.getData() );
 		} );
 	},
 

@@ -5,7 +5,7 @@
 1. Open Find and Replace dialog and move to `Replace` tab.
 1. In `Find what:` input type `Replace me`.
 1. In `Replace with` input type `Foo   bar` (note **three spaces** between words).
-1. Click `Replace` button.
+1. Click `Replace All` button.
 
 **Expected** Three spaces between "Foo" and "bar" are preserved.
 
