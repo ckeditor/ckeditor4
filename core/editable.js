@@ -5,7 +5,8 @@
 
 ( function() {
 	var isNotWhitespace, isNotBookmark, isEmpty, isBogus, emptyParagraphRegexp,
-		insert, fixTableAfterContentsDeletion, fixListAfterContentsDelete, getHtmlFromRangeHelpers, extractHtmlFromRangeHelpers;
+		insert, fixTableAfterContentsDeletion, fixListAfterContentsDelete, getHtmlFromRangeHelpers, extractHtmlFromRangeHelpers,
+		listsTypes = [ 'ul', 'ol', 'dl' ];
 
 	/**
 	 * Editable class which provides all editing related activities by
@@ -1033,28 +1034,30 @@
 							parent,
 							next,
 							rtl = keyCode == 8,
-							isMultipleSelectedList = false;
+							isMultipleListSelection = false;
 
 						// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (https://dev.ckeditor.com/ticket/10055)
 						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && sel.getSelectedElement() ) {
 							selected = sel.getSelectedElement();
 						// Check it selection contain list or table.
 						} else if ( isListOrTableInSelection( sel ) ) {
-							// (#4875)
-							var multipleListSelection = areMultipleListInRange( range );
-							if ( multipleListSelection ) {
-								selected = multipleListSelection;
-								isMultipleSelectedList = true;
-							} else {
+							// Check whether selection starts at the beginnig of the list and ends at the other list (#4875).
+							// Lists needs to be extrated later on after saving snapshot image, otherwise some UI artifacts like
+							// magicline may affect list range (#5068).
+							isMultipleListSelection = areMultipleListsInRange( range );
+
+							if ( !isMultipleListSelection ) {
 								// Remove the entire list/table on fully selected content. (https://dev.ckeditor.com/ticket/7645)
 								selected = getSelectedTableList( sel );
 							}
 						}
 
-						if ( selected ) {
+						if ( selected || isMultipleListSelection ) {
 							// Make undo snapshot.
 							editor.fire( 'saveSnapshot' );
-							if ( isMultipleSelectedList ) {
+
+							if ( isMultipleListSelection ) {
+								selected = getRangeForSelectedLists( range );
 								selected.deleteContents();
 							} else {
 								// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
@@ -1643,15 +1646,13 @@
 		}
 	}
 
-	function areMultipleListInRange( range ) {
+	function areMultipleListsInRange( range ) {
 		// We know that we are in the list so now we must check if there is another one.
-		var listsTypes = [ 'ul', 'ol', 'dl' ],
-			walker = new CKEDITOR.dom.walker( range ),
+		var walker = new CKEDITOR.dom.walker( range ),
 			element = range.collapsed ? range.startContainer : walker.next(),
-			firstRangeEl = range.startContainer,
 			isIncludeNestedList = false;
 
-		if ( !isFirstListItem( range ) ) {
+		if ( !startsAtFirstListItem( range ) ) {
 			return;
 		}
 
@@ -1681,54 +1682,54 @@
 		var startBlockChildCount = getParentBlockChildCount( range.startPath() ),
 			endBlockChildCount = getParentBlockChildCount( range.endPath() );
 
-		if ( isIncludeNestedList || ( startBlockChildCount !== endBlockChildCount ) ) {
-			var isListParent = null,
-				listParent = null,
-				parent = firstRangeEl.getParent();
-
-			// Get the parent of the list.
-			while ( !isListParent ) {
-				var parentName = parent.getName();
-
-				// We need to search for first closest parent list.
-				isListParent = CKEDITOR.tools.array.some( listsTypes, function( listType ) {
-					if ( parentName === listType ) {
-						listParent = parent;
-						return parentName === listType;
-					}
-				} );
-
-				parent = parent.getParent();
-			}
-
-			range.setStart( listParent, 0 );
-			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-
-			return range;
-		} else {
-			return false;
-		}
+		return isIncludeNestedList || ( startBlockChildCount !== endBlockChildCount );
 
 		// Check if element is the first item in the list.
-		function isFirstListItem( range ) {
+		function startsAtFirstListItem( range ) {
+			// Selection should start at the beginning of the list item (#5068).
+			if ( range.startOffset !== 0 ) {
+				return false;
+			}
+
 			var possibleListItems = [ 'dd', 'dt', 'li' ],
 				block = range.startPath().block || range.startPath().blockLimit,
 				blockName = block.getName(),
-				havePreviousListItem = block.getPrevious() === null,
-				isListItem = false;
+				hasPreviousListItem = block.getPrevious() !== null,
+				isListItem = CKEDITOR.tools.array.indexOf( possibleListItems, blockName ) !== -1;
 
-			isListItem = CKEDITOR.tools.array.some( possibleListItems, function( listItem ) {
-				return blockName === listItem;
-			} );
-
-			// Despite checking whether the range is contained in the first element of the list
-			// we should also check that the whole content is selected. #5068
-			return isListItem && havePreviousListItem && range.startOffset === 0;
+			return isListItem && !hasPreviousListItem;
 		}
 
 		function getParentBlockChildCount( path ) {
 			return path.block.getParent().getChildCount();
 		}
+	}
+
+	function getRangeForSelectedLists( range ) {
+		var isListParent = null,
+			listParent = null,
+			firstRangeEl = range.startContainer,
+			parent = firstRangeEl.getParent();
+
+		// Get the parent of the list.
+			while ( !isListParent ) {
+				var parentName = parent.getName();
+
+				// We need to search for first closest parent list.
+					isListParent = CKEDITOR.tools.array.some( listsTypes, function( listType ) {
+						if ( parentName === listType ) {
+							listParent = parent;
+							return parentName === listType;
+						}
+					} );
+
+				parent = parent.getParent();
+			}
+
+		range.setStart( listParent, 0 );
+		range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+		return range;
 	}
 
 	// Whether in given context (pathBlock, pathBlockLimit and editor settings)
