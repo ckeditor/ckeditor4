@@ -9,7 +9,7 @@ set -e
 printf "CKBuilder - Builds a release version of ckeditor4.\n"
 printf "\n"
 
-CKBUILDER_VERSION="2.3.2"
+CKBUILDER_VERSION="2.4.3"
 CKBUILDER_URL="https://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuilder.jar"
 
 RED='\033[01;31m'
