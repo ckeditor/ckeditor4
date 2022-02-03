@@ -489,15 +489,7 @@
 					// Turn off highlight for a while when saving snapshots.
 					this.matchRange.removeHighlight();
 					var domRange = this.matchRange.toDomRange(),
-						textWithPreservedSpaces = newString.replace( consecutiveWhitespaceRegex,
-							function( whitespace ) {
-								var newSpaces = CKEDITOR.tools.array.map( whitespace, function( space, i ) {
-									return i % 2 === 0 ? nonBreakingSpace : space;
-								} );
-
-								return newSpaces.join( '' );
-							} ),
-						text = editor.document.createText( textWithPreservedSpaces );
+						text = createTextNodeWithPreservedSpaces( editor, newString );
 
 					if ( !isReplaceAll ) {
 						// Save undo snaps before and after the replacement.
@@ -837,6 +829,19 @@
 				}
 			}
 		};
+
+		function createTextNodeWithPreservedSpaces( editor, text ) {
+			var textWithPreservedSpaces = text.replace( consecutiveWhitespaceRegex,
+				function( whitespace ) {
+					var newSpaces = CKEDITOR.tools.array.map( whitespace, function( space, i ) {
+						return i % 2 === 0 ? nonBreakingSpace : space;
+					} );
+
+					return newSpaces.join( '' );
+				} );
+
+			return editor.document.createText( textWithPreservedSpaces );
+		}
 	}
 
 	CKEDITOR.dialog.add( 'find', findDialog );
