@@ -4,9 +4,7 @@
 
 1. Open the browser's console.
 2. Select everything contained in `[]` including markers.
-3. Move the mouse cursor under the last list item to show the `magicline`.
-
-**Expected** Red dashed line should be visible under the last list item.
+3. Move the mouse cursor under the last list item to show the `magicline`. Red dashed line should be visible under the last list item.
 
 4. Press <kbd>delete</kbd> or <kbd>backspace</kbd>
 
@@ -18,4 +16,4 @@ Selected range was properly removed.
 
 There is an error in the console: `Cannot read properties of null (reading 'getParents')`
 
-3. Repeat above steps for the next examples.
+5. Repeat above steps for all examples.
