@@ -263,6 +263,38 @@ bender.test( {
 		} );
 	},
 
+	// (#5061)
+	'test replace one of the occurrences of the phrase with a phrase with several spaces inside': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>replace me</p>' );
+
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'replace me' );
+			dialog.setValueOf( 'replace', 'txtReplace', 'foo   bar' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+			dialog.getButton( 'cancel' ).click();
+
+			assert.areSame( '<p>foo&nbsp; &nbsp;bar</p>', bot.getData() );
+		} );
+	},
+
+	// (#5061)
+	'test replace all the occurrences of the phrase with a phrase with several spaces inside': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>[replace me]</p><p>replace me</p>' );
+
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtReplace', 'foo   bar' );
+			dialog.getContentElement( 'replace', 'btnReplaceAll' ).click();
+			dialog.getButton( 'cancel' ).click();
+
+			assert.areSame( '<p>foo&nbsp; &nbsp;bar</p><p>foo&nbsp; &nbsp;bar</p>', bot.getData() );
+		} );
+	},
+
 	// (#4987)
 	'test space separator: SPACE': function() {
 		var bot = this.editorBot,

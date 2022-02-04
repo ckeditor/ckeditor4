@@ -387,6 +387,8 @@
 
 		var wordSeparatorRegex = /[.,"'?!;: \u0085\u00a0\u1680\u280e\u2028\u2029\u202f\u205f\u3000]/;
 		var spaceSeparatorRegex = /[\u0020\u00a0\u1680\u202f\u205f\u3000\u2000-\u200a]/;
+		var consecutiveWhitespaceRegex = /[\u0020\u00a0\u1680\u202f\u205f\u3000\u2000-\u200a]{2,}/g;
+		var nonBreakingSpace = '\xA0';
 
 		function isWordSeparator( c ) {
 			if ( !c )
@@ -486,8 +488,9 @@
 				if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced && !this.matchRange.isReadOnly() && !matchOptionsChanged ) {
 					// Turn off highlight for a while when saving snapshots.
 					this.matchRange.removeHighlight();
-					var domRange = this.matchRange.toDomRange();
-					var text = editor.document.createText( newString );
+					var domRange = this.matchRange.toDomRange(),
+						text = createTextNodeWithPreservedSpaces( editor, newString );
+
 					if ( !isReplaceAll ) {
 						// Save undo snaps before and after the replacement.
 						var selection = editor.getSelection();
@@ -826,6 +829,20 @@
 				}
 			}
 		};
+
+		function createTextNodeWithPreservedSpaces( editor, text ) {
+			var textWithPreservedSpaces = text.replace( consecutiveWhitespaceRegex,
+				function( whitespace ) {
+					var whitespaceArray = whitespace.split( '' ),
+						newSpaces = CKEDITOR.tools.array.map( whitespaceArray, function( space, i ) {
+							return i % 2 === 0 ? nonBreakingSpace : space;
+						} );
+
+					return newSpaces.join( '' );
+				} );
+
+			return editor.document.createText( textWithPreservedSpaces );
+		}
 	}
 
 	CKEDITOR.dialog.add( 'find', findDialog );
