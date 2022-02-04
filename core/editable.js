@@ -1687,7 +1687,7 @@
 	// Check if element is the first item in the list.
 	function startsAtFirstListItem( range ) {
 		// Selection should start at the beginning of the list item (#5068).
-		if ( range.startOffset !== 0 ) {
+		if ( !range.checkStartOfBlock() ) {
 			return false;
 		}
 

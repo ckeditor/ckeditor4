@@ -1,6 +1,6 @@
 @bender-tags: 4.17.2, bug, 4875
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, list, resize, undo, sourcearea, elementspath
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, list, resize, undo, sourcearea, elementspath, link
 
 1. Select everything contained in `[]` including markers.
 2. Press <kbd>delete</kbd> or <kbd>backspace</kbd>
