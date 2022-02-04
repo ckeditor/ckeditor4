@@ -233,3 +233,22 @@
 		<li>^&nbsp;</li>
 	</ul>
 </textarea>
+
+<textarea id="without_first_item">
+	<p>begin</p>
+	<ul>
+		<li>t[1</li>
+		<li>t2</li>
+	</ul>
+	<p>middle</p>
+	<ul>
+		<li>t21</li>
+		<li>t22]</li>
+	</ul>
+
+	=>
+	<p>begin</p>
+	<ul>
+		<li>t^</li>
+	</ul>
+</textarea>

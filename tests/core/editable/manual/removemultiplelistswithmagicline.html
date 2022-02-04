@@ -1,0 +1,106 @@
+<h2>#1</h2>
+<textarea name="editor1">
+	<p>begin</p>
+	<ul>
+		<li>[t1</li>
+		<li>t2</li>
+		<li>t3</li>
+	</ul>
+	<p>middle</p>
+	<ul>
+		<li>t21</li>
+		<li>t22]</li>
+	</ul>
+</textarea>
+
+<h2>#2</h2>
+<textarea id="editor2">
+	<p>begin</p>
+	<ul>
+		<li>t1</li>
+		<li>[t2</li>
+	</ul>
+	<p>middle</p>
+	<ul>
+		<li>t21</li>
+		<li>t22]</li>
+	</ul>
+</textarea>
+
+</br>
+
+<h2>#3</span>
+<textarea id="editor3">
+	<p>begin</p>
+	<ol>
+		<li>[111
+		<ol>
+			<li>222</li>
+			<li>222
+			<ol>
+				<li>333</li>
+			</ol>
+			</li>
+			<li>222</li>
+		</ol>
+		</li>
+		<li>111</li>
+	</ol>
+	<p>middle</p>
+	<ul>
+		<li>ab
+		<ul>
+			<li>222</li>
+		</ul>
+		</li>
+		<li>111]</li>
+	</ul>
+</textarea>
+
+<h2>#4</span>
+<textarea id="editor4">
+	<ul>
+		<li>11</li>
+		<li>12
+			<ul>
+				<li>[111</li>
+				<li>112</li>
+			</ul>
+		</li>
+		<li>13]</li>
+	</ul>
+</textarea>
+
+<h2>#5</span>
+<textarea id="editor5">
+	<p>begin</p>
+	<ol>
+		<li>111
+		<ol>
+			<li>222</li>
+			<li>222
+			<ol>
+				<li>[333</li>
+				<li>333</li>
+				<li>333</li>
+				<li>333]</li>
+			</ol>
+			</li>
+			<li>222</li>
+		</ol>
+		</li>
+		<li>111</li>
+	</ol>
+</textarea>
+
+<script>
+	CKEDITOR.config.height = 250;
+
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2' );
+	CKEDITOR.replace( 'editor3', {
+		height: 350
+	} );
+	CKEDITOR.replace( 'editor4' );
+	CKEDITOR.replace( 'editor5' );
+</script>

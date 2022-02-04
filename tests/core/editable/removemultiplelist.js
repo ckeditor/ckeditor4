@@ -38,7 +38,11 @@
 			'test part of multiple list is removed with the backspace key': performInputOutputTest( 'multiple_part_list', BACKSPACE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko ),
 
 			'test part mixed lists is removed with the delete key': performInputOutputTest( 'mixed_part_lists', DELETE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko ),
-			'test part mixed lists is removed with the backspace key': performInputOutputTest( 'mixed_part_lists', BACKSPACE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko )
+			'test part mixed lists is removed with the backspace key': performInputOutputTest( 'mixed_part_lists', BACKSPACE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko ),
+
+			// (#5068)
+			'test fully selected lists without part of first list item are removed with the delete key': performInputOutputTest( 'without_first_item', DELETE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko ),
+			'test fully selected lists without part of first list item are removed with the backspace key': performInputOutputTest( 'without_first_item', BACKSPACE_KEY, CKEDITOR.env.ie || CKEDITOR.env.gecko )
 		};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
