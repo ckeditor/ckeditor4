@@ -1669,45 +1669,46 @@
 			element = walker.next();
 		}
 
-		/*
-			Special case for nested list
-			[] - selection
-
-			...
-			<li>list item 1</li>
-				<ul>
-					<li>[list item 1_1</li>
-					<li>list item 1_2</li>
-				</ul>
-			<li>list item 2]</li>
-		*/
+		// Special case for nested list
+		// [] - selection
+		// ...
+		// <li>list item 1</li>
+		// 	<ul>
+		// 		<li>[list item 1_1</li>
+		// 		<li>list item 1_2</li>
+		// 	</ul>
+		// <li>list item 2]</li>
 		var startBlockChildCount = getParentBlockChildCount( range.startPath() ),
 			endBlockChildCount = getParentBlockChildCount( range.endPath() );
 
 		return isIncludingNestedList || ( startBlockChildCount !== endBlockChildCount );
+	}
 
-		// Check if element is the first item in the list.
-		function startsAtFirstListItem( range ) {
-			// Selection should start at the beginning of the list item (#5068).
-			if ( range.startOffset !== 0 ) {
-				return false;
-			}
-
-			var possibleListItems = [ 'dd', 'dt', 'li' ],
-				block = range.startPath().block || range.startPath().blockLimit,
-				blockName = block.getName(),
-				isListItem = CKEDITOR.tools.array.indexOf( possibleListItems, blockName ) !== -1;
-
-			return isListItem && block.getPrevious() === null;
+	// Check if element is the first item in the list.
+	function startsAtFirstListItem( range ) {
+		// Selection should start at the beginning of the list item (#5068).
+		if ( range.startOffset !== 0 ) {
+			return false;
 		}
 
-		function getParentBlockChildCount( path ) {
-			return path.block.getParent().getChildCount();
-		}
+		var possibleListItems = [ 'dd', 'dt', 'li' ],
+			block = range.startPath().block || range.startPath().blockLimit,
+			blockName = block.getName(),
+			isListItem = CKEDITOR.tools.array.indexOf( possibleListItems, blockName ) !== -1;
+
+		return isListItem && block.getPrevious() === null;
+	}
+
+	function getParentBlockChildCount( path ) {
+		return path.block.getParent().getChildCount();
 	}
 
 	function getRangeForSelectedLists( range ) {
 		var list = range.startContainer.getAscendant( listTypes, true );
+
+		if ( !list ) {
+			return null;
+		}
 
 		range.setStart( list, 0 );
 		range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
