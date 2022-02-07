@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sk', {
 		items: [
 			{
 			name: 'Lišta nástrojov editora',
-			legend: 'Stlačte ${toolbarFocus} pre navigáciu na lištu nástrojov. Medzi ďalšou a predchádzajúcou lištou nástrojov sa pohybujete s TAB a SHIFT+TAB. Medzi ďalším a predchádzajúcim tlačidlom na lište nástrojov sa pohybujete s pravou šípkou a ľavou šípkou. Stlačte medzerník alebo ENTER pre aktiváciu tlačidla lišty nástrojov.'
+			legend: 'Stlačením ${toolbarFocus} prejdete na panel nástrojov. Medzi ďalšou a predchádzajúcou skupinou sa pohybujete s TAB a SHIFT+TAB. Medzi ďalším a predchádzajúcim tlačidlom na panelu nástrojov sa pohybujete s ŠÍPKA VPRAVO a ŠÍPKA VĽAVO. Stlačte medzerník alebo ENTER pre aktiváciu tlačidla lišty nástrojov. Po aktivácii tlačidla sa fókus presunie späť do editačnej oblasti.'
 		},
 
 			{

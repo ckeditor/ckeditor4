@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cs', {
 		'0FF': 'Azurová',
 		'00F': 'Modrá',
 		EE82EE: 'Fialová',
-		A9A9A9: 'Kalně šedá',
+		A9A9A9: 'Tmavě šedá',
 		FFA07A: 'Světle lososová',
 		FFA500: 'Oranžová',
 		FFFF00: 'Žlutá',
