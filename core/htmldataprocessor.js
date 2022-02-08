@@ -50,17 +50,18 @@
 		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ), { applyToAll: true } );
 
 		editor.on( 'toHtml', function( evt ) {
-			var evtData = evt.data,
+			var randomNumber = generateRandomNumber(),
+				evtData = evt.data,
 				data = evtData.dataValue,
 				fixBodyTag;
 
 			// Before we start protecting markup, make sure there are no externally injected
 			// protection keywords.
-			data = removeReservedKeywords( data );
+			data = removeReservedKeywords( data, randomNumber );
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
-			data = protectSource( data, editor );
+			data = protectSource( data, editor, randomNumber );
 
 			// Protect content of textareas. (https://dev.ckeditor.com/ticket/9995)
 			// Do this before protecting attributes to avoid breaking:
@@ -70,7 +71,7 @@
 			// Before anything, we must protect the URL attributes as the
 			// browser may changing them when setting the innerHTML later in
 			// the code.
-			data = protectAttributes( data );
+			data = protectAttributes( data, randomNumber );
 
 			// Protect elements than can't be set inside a DIV. E.g. IE removes
 			// style tags from innerHTML. (https://dev.ckeditor.com/ticket/3710)
@@ -90,7 +91,7 @@
 
 			// There are attributes which may execute JavaScript code inside fixBin.
 			// Encode them greedily. They will be unprotected right after getting HTML from fixBin. (https://dev.ckeditor.com/ticket/10)
-			data = protectInsecureAttributes( data );
+			data = protectInsecureAttributes( data, randomNumber );
 
 			var fixBin = evtData.context || editor.editable().getName(),
 				isPre;
@@ -110,7 +111,7 @@
 			data = el.getHtml().substr( 1 );
 
 			// Restore shortly protected attribute names.
-			data = data.replace( new RegExp( 'data-cke-' + CKEDITOR.rnd + '-', 'ig' ), '' );
+			data = data.replace( new RegExp( 'data-cke-' + randomNumber + '-', 'ig' ), '' );
 
 			isPre && ( data = data.replace( /^<pre>|<\/pre>$/gi, '' ) );
 
@@ -838,13 +839,13 @@
 
 	var protectSelfClosingRegex = /<cke:(param|embed)([^>]*?)\/?>(?!\s*<\/cke:\1)/gi;
 
-	function protectAttributes( html ) {
+	function protectAttributes( html, randomNumber ) {
 		return html.replace( protectElementRegex, function( element, tag, attributes ) {
 			return '<' + tag + attributes.replace( protectAttributeRegex, function( fullAttr, attrName ) {
 				// Avoid corrupting the inline event attributes (https://dev.ckeditor.com/ticket/7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (https://dev.ckeditor.com/ticket/5218)
 				if ( protectAttributeNameRegex.test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
-					return ' data-cke-saved-' + fullAttr + ' data-cke-' + CKEDITOR.rnd + '-' + fullAttr;
+					return ' data-cke-saved-' + fullAttr + ' data-cke-' + randomNumber + '-' + fullAttr;
 
 				return fullAttr;
 			} ) + '>';
@@ -897,8 +898,8 @@
 	// * opening tags - e.g. `<onfoo`,
 	// * closing tags - e.g. </onfoo> (tested in "false positive 1"),
 	// * part of other attribute - e.g. `data-onfoo` or `fonfoo`.
-	function protectInsecureAttributes( html ) {
-		return html.replace( /([^a-z0-9<\-])(on\w{3,})(?!>)/gi, '$1data-cke-' + CKEDITOR.rnd + '-$2' );
+	function protectInsecureAttributes( html, randomNumber ) {
+		return html.replace( /([^a-z0-9<\-])(on\w{3,})(?!>)/gi, '$1data-cke-' + randomNumber + '-$2' );
 	}
 
 	function unprotectRealComments( html ) {
@@ -917,11 +918,11 @@
 		} );
 	}
 
-	function protectSource( data, editor ) {
+	function protectSource( data, editor, randomNumber ) {
 		var protectedHtml = [],
 			protectRegexes = editor.config.protectedSource,
 			store = editor._.dataStore || ( editor._.dataStore = { id: 1 } ),
-			tempRegex = /<\!--\{cke_temp(comment)?\}(\d*?)-->/g;
+			tempRegex = new RegExp('<\\!--\\{cke_temp_' + randomNumber + '(comment)?\\}(\\d*?)-->', 'g' );
 
 		var regexes = [
 			// Script tags will also be forced to be protected, otherwise
@@ -940,7 +941,7 @@
 		// Note that we use a different tag for comments, as we need to
 		// transform them when applying filters.
 		data = data.replace( ( /<!--[\s\S]*?-->/g ), function( match ) {
-			return '<!--{cke_tempcomment}' + ( protectedHtml.push( match ) - 1 ) + '-->';
+			return '<!--{cke_temp_' + randomNumber + 'comment}' + ( protectedHtml.push( match ) - 1 ) + '-->';
 		} );
 
 		for ( var i = 0; i < regexes.length; i++ ) {
@@ -951,7 +952,8 @@
 				} );
 
 				// Avoid protecting over protected, e.g. /\{.*?\}/
-				return ( /cke_temp(comment)?/ ).test( match ) ? match : '<!--{cke_temp}' + ( protectedHtml.push( match ) - 1 ) + '-->';
+				return ( tempRegex ).test( match ) ? match : '<!--{cke_temp_' + randomNumber + '}' +
+					( protectedHtml.push( match ) - 1 ) + '-->';
 			} );
 		}
 		data = data.replace( tempRegex, function( $, isComment, id ) {
@@ -1107,6 +1109,16 @@
 			};
 		}
 	} )();
+
+	function generateRandomNumber() {
+		var cryptoApi = window.crypto || window.msCrypto;
+
+		if ( cryptoApi ) {
+			return cryptoApi.getRandomValues( new Uint32Array( 1 ) )[ 0 ];
+		}
+
+		return Math.floor( Math.random() *  9000000000 + 1000000000 );
+	}
 } )();
 
 /**
