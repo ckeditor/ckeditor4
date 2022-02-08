@@ -4,11 +4,11 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'font', 'en', {
 	fontSize: {
-		label: 'Size',
-		voiceLabel: 'Font Size',
-		panelTitle: 'Font Size'
+		label: 'Text Size',
+		voiceLabel: 'Text Size',
+		panelTitle: 'Text Size'
 	},
-	label: 'Font',
-	panelTitle: 'Font Name',
-	voiceLabel: 'Font'
+	label: 'Text',
+	panelTitle: 'Text Name',
+	voiceLabel: 'Text'
 } );

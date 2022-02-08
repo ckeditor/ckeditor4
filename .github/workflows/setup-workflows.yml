@@ -1,0 +1,55 @@
+name: Setup and update common workflows
+
+on:
+  schedule:
+  - cron: "0 2 * * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout default branch
+        # https://github.com/marketplace/actions/checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_WORKFLOWS_TOKEN }}
+
+      - name: Checkout common workflows repository
+        # https://github.com/marketplace/actions/checkout
+        uses: actions/checkout@v2
+        with:
+          path: ckeditor4-workflows-common
+          repository: ckeditor/ckeditor4-workflows-common
+          ref: master
+
+      - name: Setup workflows directory
+        run: |
+          mkdir -p .github/workflows
+
+      - name: Copy workflow files
+        run: |
+          rsync -a --include='*/' --include='*.yml' --exclude='*' ./ckeditor4-workflows-common/workflows/ ./.github/workflows/
+          if [[ $(git status --porcelain) ]]; then
+              echo "HAS_CHANGES=1" >> $GITHUB_ENV
+          fi
+
+      - name: Cleanup common workflows artifacts
+        run: |
+          rm -rf ckeditor4-workflows-common
+
+      - name: Add changes
+        if: env.HAS_CHANGES == 1
+        run: |
+          git config --local user.email "${{ secrets.GH_BOT_EMAIL }}"
+          git config --local user.name "${{ secrets.GH_BOT_USERNAME }}"
+          git add .github/workflows
+          git commit -m "Update common workflows."
+
+      - name: Push changes
+        if: env.HAS_CHANGES == 1
+        # https://github.com/marketplace/actions/github-push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_WORKFLOWS_TOKEN }}
+          branch: ${{ github.ref }}

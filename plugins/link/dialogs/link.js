@@ -68,6 +68,12 @@
 				// Apply style.
 				style.applyToRange( range, editor );
 
+        if(range.startContainer.$.tagName === 'A') {
+          range.startContainer.setAttribute('target', '_blank')
+        } else if (range.endContainer.$.tagName === 'A') {
+          range.endContainer.setAttribute('target', '_blank')
+        }
+
 				rangesToSelect.push( range );
 			}
 
@@ -95,6 +101,7 @@
 
 				element.setAttributes( attributes.set );
 				element.removeAttributes( attributes.removed );
+        element.setAttribute('target', '_blank');
 
 				if ( isDisplayChanged ) {
 					// Display text has been changed.
@@ -253,6 +260,26 @@
 						data.linkText = this.isEnabled() ? this.getValue() : '';
 					}
 				},
+        {
+          type: 'text',
+          id: 'eventName',
+          label: 'Analytics event name',
+          required: false,
+          onLoad: function() { },
+          onKeyUp: function() { },
+          onChange: function() { },
+          validate: function() {
+            return true; // no validation
+          },
+          setup: function( data ) {
+            if(data.eventName) {
+              this.setValue( data.eventName );
+            }
+          },
+          commit: function( data ) {
+            data.eventName = this.getValue();
+          }
+        },
 				{
 					id: 'linkType',
 					type: 'select',
@@ -278,32 +305,33 @@
 					children: [ {
 						type: 'hbox',
 						widths: [ '25%', '75%' ],
-						children: [ {
-							id: 'protocol',
-							type: 'select',
-							label: commonLang.protocol,
-							items: [
-								// Force 'ltr' for protocol names in BIDI. (https://dev.ckeditor.com/ticket/5433)
-								[ 'http://\u200E', 'http://' ],
-								[ 'https://\u200E', 'https://' ],
-								[ 'ftp://\u200E', 'ftp://' ],
-								[ 'news://\u200E', 'news://' ],
-								[ linkLang.other, '' ]
-							],
-							'default': editor.config.linkDefaultProtocol,
-							setup: function( data ) {
-								if ( data.url ) {
-									this.setValue( data.url.protocol || '' );
-								}
-							},
-							commit: function( data ) {
-								if ( !data.url ) {
-									data.url = {};
-								}
-
-								data.url.protocol = this.getValue();
-							}
-						},
+						children: [
+            //   {
+						// 	id: 'protocol',
+						// 	type: 'select',
+						// 	label: commonLang.protocol,
+						// 	items: [
+						// 		// Force 'ltr' for protocol names in BIDI. (https://dev.ckeditor.com/ticket/5433)
+						// 		[ 'http://\u200E', 'http://' ],
+						// 		[ 'https://\u200E', 'https://' ],
+						// 		[ 'ftp://\u200E', 'ftp://' ],
+						// 		[ 'news://\u200E', 'news://' ],
+						// 		[ linkLang.other, '' ]
+						// 	],
+						// 	'default': editor.config.linkDefaultProtocol,
+						// 	setup: function( data ) {
+						// 		if ( data.url ) {
+						// 			this.setValue( data.url.protocol || '' );
+						// 		}
+						// 	},
+						// 	commit: function( data ) {
+						// 		if ( !data.url ) {
+						// 			data.url = {};
+						// 		}
+            //
+						// 		data.url.protocol = this.getValue();
+						// 	}
+						// },
 						{
 							type: 'text',
 							id: 'url',

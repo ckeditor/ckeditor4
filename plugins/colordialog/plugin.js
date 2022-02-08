@@ -33,10 +33,16 @@ CKEDITOR.plugins.colordialog = {
 			onClose = function( evt ) {
 				releaseHandlers( this );
 				var color = evt.name == 'ok' ? this.getValueOf( 'picker', 'selectedColor' ) : null;
+
+				if ( color && !CKEDITOR.tools._isValidColorFormat( color ) ) {
+					color = null;
+				}
+
 				// Adding `#` character to hexadecimal 3 or 6 digit numbers to have proper color value (#565).
 				if ( /^[0-9a-f]{3}([0-9a-f]{3})?$/i.test( color ) ) {
 					color = '#' + color;
 				}
+
 				callback.call( scope, color );
 			};
 			onShow = function( evt ) {

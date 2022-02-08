@@ -1,7 +1,7 @@
 /* bender-tags: tableselection, tabletools */
 /* bender-ckeditor-plugins: entities,dialog,tableselection,toolbar,undo,floatingspace */
 /* bender-include: ../../_helpers/tableselection.js,../../../undo/_helpers/tools.js */
-/* global tableSelectionHelpers, doCommandTest */
+/* global doCommandTest */
 
 ( function() {
 	'use strict';
@@ -96,7 +96,11 @@
 		'test delete nested cells': function( editor, bot ) {
 			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells', cells: [ 1, 2 ], skipCheckingSelection: true } );
 			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-2', cells: [ 2, 3 ], skipCheckingSelection: true } );
-			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
+
+			// Test fails due to issue in the Safari (#4306).
+			if ( !CKEDITOR.env.safari ) {
+				doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
+			}
 		},
 
 		// To reproduce https://dev.ckeditor.com/ticket/11058 we need 4 rows

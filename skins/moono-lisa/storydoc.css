@@ -1,0 +1,554 @@
+/* FONTS
+   ========================================================================== */
+/* Open Sans */
+@font-face {
+	font-family: "Open Sans";
+	src: url(fonts/OpenSans/OpenSans-Regular.ttf);
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: "Open Sans";
+	src: url(fonts/OpenSans/OpenSans-Bold.ttf);
+	font-weight: 500;
+}
+
+.cke {
+	max-width: 1000px;
+}
+
+.cke_chrome {
+	border: none;
+}
+
+.cke_editable {
+	min-height: 50px;
+	padding: 10px;
+	cursor: auto !important;
+	border: 2px dashed transparent;
+}
+
+.cke_editable:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	background: linear-gradient(to right, #FB177E 50%, transparent 0%) top/35px 2px repeat-x, linear-gradient(#FB177E 50%, transparent 0%) right/2px 35px repeat-y, linear-gradient(to right, #FB177E 50%, transparent 0%) bottom/35px 2px repeat-x, linear-gradient(#FB177E 50%, transparent 0%) left/2px 35px repeat-y;
+	border-radius: 1px;
+}
+
+.cke_editable:hover:after {
+	opacity: 1;
+}
+
+.cke_editable.cke_focus {
+	cursor: text !important;
+	border-color: #fa187e;
+	outline: none;
+}
+
+.cke_editable.cke_focus:after {
+	display: none;
+}
+
+.cke_inner .cke_top {
+	display: flex;
+	align-items: center;
+	background: #fff;
+	box-shadow: 0px 1px 4px rgba(46, 59, 88, 0.08);
+	border-radius: 4px;
+	padding: 10px;
+}
+
+.cke_inner .cke_combo_on a.cke_combo_button, .cke_inner .cke_combo_off a.cke_combo_button:hover, .cke_inner .cke_combo_off a.cke_combo_button:focus, .cke_inner .cke_combo_off a.cke_combo_button:active {
+	border: none;
+	background: none;
+}
+
+.cke_inner .cke_toolbox, .cke_inner .cke_toolbar, .cke_inner .cke_combo, .cke_inner .cke_combo_button {
+	width: 100%;
+	height: 100%;
+	float: none;
+}
+
+.cke_inner .cke_toolbox {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.cke_inner .cke_toolbar {
+	display: inline-flex;
+	align-items: center;
+	width: auto;
+	padding: 10px 14px;
+	box-sizing: border-box;
+	border-right: 1px solid #EEEEEE;
+}
+
+.cke_inner .cke_toolbar.cke_toolbar_last {
+	border-right: none;
+}
+
+.cke_inner .cke_toolbar .cke_toolgroup {
+	display: flex;
+	align-items: center;
+	float: none;
+	padding: 0;
+}
+
+.cke_inner .cke_toolbar .cke_toolgroup .cke_button {
+	display: inline-flex;
+	flex: 40px;
+	align-items: center;
+	height: auto;
+	border: none;
+	float: none;
+	border-radius: 4px;
+	padding: 4px 5px;
+	margin-right: 20px;
+	background: none;
+	cursor: pointer;
+}
+
+.cke_inner .cke_toolbar .cke_toolgroup .cke_button:hover {
+	background: #EDF1F7;
+}
+
+.cke_inner .cke_toolbar .cke_toolgroup .cke_button.cke_button_on {
+	background: #D6DDEC;
+}
+
+.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 22px;
+	height: 22px;
+	background-position: center !important;
+	background-size: contain !important;
+}
+
+.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_arrow {
+	border: none;
+	width: 12px;
+	height: 8px;
+	background: url(images/angle_down.svg) no-repeat center;
+	background-size: 100%;
+	margin: 0;
+	margin-left: 8px;
+}
+
+.cke_inner .cke_toolbar .cke_toolgroup .cke_button:after {
+	display: none;
+}
+
+.cke_inner .cke_toolbar .cke_toolgroup .cke_button:last-child {
+	margin: 0;
+}
+
+.cke_inner .cke_toolbar .cke_combo {
+	margin-bottom: 0;
+}
+
+.cke_inner .cke_toolbar .cke_combo:after {
+	display: none;
+}
+
+.cke_inner .cke_toolbar .cke_combo .cke_combo_button {
+	padding: 0;
+	display: flex;
+	align-items: center;
+}
+
+.cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_text {
+	font-size: 20px;
+	width: auto;
+}
+
+.cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_open {
+	display: inline-flex;
+	height: auto;
+	width: auto;
+	line-height: 1;
+}
+
+.cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_open .cke_combo_arrow {
+	border: none;
+	width: 12px;
+	height: 8px;
+	background: url(images/angle_down.svg) no-repeat center;
+	background-size: 100%;
+	margin: 0;
+}
+
+.cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Formatting Styles"] .cke_combo_text {
+	font-weight: 800;
+	width: 100px;
+}
+
+.cke_panel_block .cke_panel_grouptitle {
+	background: #F7F9FC;
+	text-transform: uppercase;
+	padding: 6px 16px;
+	font-family: "Open Sans";
+}
+
+.cke_panel_block .cke_panel_list .cke_panel_listItem a {
+	font-family: "Open Sans";
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.cke_panel_block .cke_panel_list .cke_panel_listItem a:hover {
+	background: none;
+}
+
+.cke_panel_block .cke_panel_list .cke_panel_listItem a:hover * {
+	color: #FB177E;
+}
+
+.cke_panel_block .cke_panel_list .cke_panel_listItem.cke_selected a {
+	background: none;
+	outline: none;
+}
+
+.cke_panel_block .cke_panel_list .cke_panel_listItem.cke_selected a * {
+	color: #FB177E;
+}
+
+.cke_notification_warning {
+	background: rgba(237, 241, 247, 0.7);
+	border: 1px solid #EDF1F7;
+	border-radius: 4px;
+	width: auto;
+	max-width: 400px;
+	padding: 8px;
+}
+
+.cke_notification_warning .cke_notification_message {
+	font-size: 16px;
+	line-height: 24px;
+}
+
+.cke_notification_warning .cke_notification_message a.cke_notification_close {
+	opacity: 1;
+}
+
+.cke_dialog {
+	width: 496px;
+}
+
+.cke_dialog .cke_dialog_body {
+	box-shadow: 0px 4px 60px rgba(46, 59, 88, 0.2);
+	border-radius: 4px;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_title {
+	display: flex;
+	align-items: center;
+	background: none;
+	padding: 23px 19px;
+	font-weight: 600;
+	font-size: 24px;
+	line-height: 1;
+	font-family: Open Sans;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents {
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_contents_body {
+	padding: 24px;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_contents_body a.cke_dialog_close_button {
+	opacity: 1;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_contents_body .cke_dialog_ui_labeled_label {
+	display: flex;
+	font-family: Open Sans;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 1;
+	text-transform: uppercase;
+	color: #91A1B9;
+	margin-bottom: 12px;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_contents_body .cke_dialog_ui_input_text {
+	margin-bottom: 10px;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_contents_body .cke_dialog_ui_input_text input.cke_dialog_ui_input_text {
+	background: #F7F9FC;
+	border: 1px solid #E4E9F2;
+	box-sizing: border-box;
+	border-radius: 4px;
+	height: 40px;
+	font-family: Open Sans;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1;
+	color: #222B45;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_contents_body .cke_dialog_ui_input_select {
+	background: #F7F9FC;
+	border: 1px solid #E4E9F2;
+	box-sizing: border-box;
+	border-radius: 4px;
+	height: 40px;
+	font-family: Open Sans;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1;
+	color: #222B45;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_contents_body .cke_dialog_ui_radio_input {
+	width: 18px;
+	height: 18px;
+	outline: none !important;
+	position: relative;
+	top: 2px;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_contents_body .cke_dialog_ui_radio_input + label {
+	font-size: 18px;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer {
+	background: rgba(237, 241, 247, 0.2);
+	box-shadow: 0px 1px 4px rgba(46, 59, 88, 0.08);
+	border-radius: 0px 0px 6px 6px;
+	overflow: hidden;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer .cke_resizer_ltr {
+	display: none;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer .cke_dialog_footer_buttons {
+	display: flex;
+	width: 100%;
+	margin: 0;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer .cke_dialog_footer_buttons tbody {
+	width: 100%;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer .cke_dialog_footer_buttons tbody .cke_dialog_ui_hbox {
+	display: flex;
+	flex-flow: row-reverse;
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	justify-content: space-between;
+	padding: 24px;
+	box-sizing: border-box;
+	position: relative;
+	z-index: 1;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer .cke_dialog_footer_buttons tbody .cke_dialog_ui_hbox td a.cke_dialog_ui_button_cancel {
+	display: flex;
+	align-items: center;
+	border: none;
+	background: none;
+	color: #2E3B58;
+	height: 100%;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer .cke_dialog_footer_buttons tbody .cke_dialog_ui_hbox td a.cke_dialog_ui_button_cancel .cke_dialog_ui_button {
+	font-size: 18px;
+	font-weight: bold;
+	color: #2E3B58;
+	font-family: Open Sans;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer .cke_dialog_footer_buttons tbody .cke_dialog_ui_hbox td a.cke_dialog_ui_button_ok {
+	display: flex;
+	align-items: center;
+	background: linear-gradient(90deg, #56108F 0%, #8A3DBB 100%);
+	border-radius: 4px;
+	border: none;
+	padding: 12px 20px;
+}
+
+.cke_dialog .cke_dialog_body .cke_dialog_contents .cke_dialog_footer .cke_dialog_footer_buttons tbody .cke_dialog_ui_hbox td a.cke_dialog_ui_button_ok .cke_dialog_ui_button {
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+	font-family: Open Sans;
+}
+
+.cke_panel_block[title="Colors"] {
+	display: none !important;
+}
+
+.extraData {
+	display: flex;
+	margin-bottom: 20px;
+	opacity: 0;
+}
+
+.extraData .editorCharCounter {
+	display: inline-flex;
+	margin-right: 10px;
+}
+
+.extraData .editorNotifications {
+	display: inline-flex;
+	opacity: 0;
+}
+
+.extraData .editorNotifications.error {
+	opacity: 1;
+}
+
+.cke_focus + .extraData {
+	opacity: 1;
+}
+
+.editor-basic .cke {
+	max-width: 100%;
+	background-color: #f7f9fc;
+	border: 1px solid #edf1f7;
+}
+
+.editor-basic .cke_inner .cke_top {
+	box-shadow: none;
+	border-bottom: 1px solid #edf1f7;
+}
+
+.editor-basic .cke_inner .cke_contents {
+	padding: 20px;
+}
+
+.editor-basic .cke_inner .cke_toolbar .cke_toolgroup .cke_button {
+	flex: 20px;
+	margin-right: 10px;
+}
+
+.editor-basic .cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon {
+	width: 14px;
+	height: 14px;
+}
+
+.editor-basic .cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_arrow {
+	width: 9px;
+}
+
+.editor-basic .cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_text {
+	font-size: 12px;
+	width: 167px;
+}
+
+.editor-basic .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Formatting Styles"] .cke_combo_text {
+	font-size: 12px;
+	width: auto;
+}
+
+.editor-basic .cke_panel_block .cke_panel_list .cke_panel_listItem a {
+	font-size: 14px;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__textcolor_icon {
+	background: url(images/textcolor.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__bgcolor_icon {
+	background: url(images/bgcolor.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__bold_icon {
+	background: url(images/bold.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__italic_icon {
+	background: url(images/italic.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__underline_icon {
+	background: url(images/underline.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__link_icon {
+	background: url(images/link.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__unlink_icon {
+	background: url(images/unlink.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__toolbarswitch_icon {
+	background: url(images/toolbarswitch.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__justifyleft_icon {
+	background: url(images/justifyleft.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__justifycenter_icon {
+	background: url(images/justifycenter.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__justifyright_icon {
+	background: url(images/justifyright.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__justifyblock_icon {
+	background: url(images/justifyblock.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__bidiltr_icon {
+	background: url(images/bidiltr.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__bidirtl_icon {
+	background: url(images/bidirtl.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__emojipanel_icon {
+	background: url(images/emojipanel.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__numberedlist_icon {
+	background: url(images/numberedlist.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__bulletedlist_icon {
+	background: url(images/bulletedlist.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__strike_icon {
+	background: url(images/strike.svg) no-repeat center !important;
+	background-size: contain !important;
+}
+
+/*# sourceMappingURL=storydoc.css.map */

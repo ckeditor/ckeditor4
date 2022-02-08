@@ -363,6 +363,10 @@
 				assert.isUndefined( getContentGeneratorName( content ),
 					'The content number: ' + index + ', should return undefiend' );
 			} );
+		},
+
+		'test CKEDITOR.pasteFilters is an alias of CKEDITOR.plugins.pastetools.filters': function() {
+			assert.areSame( CKEDITOR.plugins.pastetools.filters, CKEDITOR.pasteFilters );
 		}
 	} );
 

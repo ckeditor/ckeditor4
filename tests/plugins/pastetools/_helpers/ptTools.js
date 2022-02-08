@@ -1,4 +1,5 @@
 /* exported ptTools */
+/* global ptTools */
 
 ( function() {
 	'use strict';
@@ -68,6 +69,24 @@
 
 				bender.test( tests );
 			} );
+		},
+
+		createFilterTest: function( options ) {
+			return function() {
+				var editor = this.editor,
+					filtersPaths = options.filters || [
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
+					];
+
+				return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
+					.then( function( imageFilter ) {
+						var inputHtml = options.html,
+							actual = imageFilter( inputHtml, editor, options.rtf );
+
+						assert.areSame( options.expected, actual );
+					} );
+			};
 		}
 	};
 

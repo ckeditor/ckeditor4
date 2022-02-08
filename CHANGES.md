@@ -3,6 +3,55 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.16
 
+New Features:
+
+* [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin on paste, additionally showing descriptive error messages.
+* [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Unsupported image formats are now gracefully handled by the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin on paste, additionally showing descriptive error messages.
+* [#3582](https://github.com/ckeditor/ckeditor4/issues/3582): Introduced smart positioning of [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) panel used by [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins. The panel will now be additionally positioned related to browser viewport to be always fully visible.
+
+Fixed Issues:
+
+* [#2800](https://github.com/ckeditor/ckeditor4/issues/2800): Fixed: No images are imported from Microsoft Word when content pasted by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin if there is at least one image in unsupported format.
+* [#1134](https://github.com/ckeditor/ckeditor4/issues/1134): [Safari] Fixed: [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) does not embed images.
+
+API Changes:
+
+* [#3782](https://github.com/ckeditor/ckeditor4/issues/3782): Moved [`CKEDITOR.plugins.pastetool.filters.word.images`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters_word_images.html) filters to [`CKEDITOR.plugins.pastetools.filters.image`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters_image.html) namespace.
+* [#4297](https://github.com/ckeditor/ckeditor4/issues/4297): All [`CKEDITOR.plugins.pastetools.filters`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pastetools_filters.html) are now available under [`CKEDITOR.pasteTools`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-pasteTools) alias.
+
+## CKEditor 4.15.2
+
+## CKEditor 4.15.1
+
+**Security Updates:**
+
+* Fixed XSS vulnerability in the [Color History feature](https://ckeditor.com/docs/ckeditor4/latest/features/colorbutton.html#color-history) reported by [Mark Wade](https://github.com/mark-wade).
+
+	Issue summary: It was possible to execute an XSS-type attack inside CKEditor 4 by persuading a victim to paste a specially crafted HTML code into the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) dialog.
+
+**An upgrade is highly recommended!**
+
+Fixed Issues:
+
+* [#4293](https://github.com/ckeditor/ckeditor4/issues/4293): Fixed: The [`CKEDITOR.inlineAll()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inlineAll) method tries to initialize inline editor also on elements with an editor already attached to them.
+* [#3961](https://github.com/ckeditor/ckeditor4/issues/3961): Fixed: The [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin prevents editing of merged cells.
+* [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Fixed: Applying a [block format](https://ckeditor.com/docs/ckeditor4/latest/features/format.html) should remove existing block styles.
+* [#4282](https://github.com/ckeditor/ckeditor4/issues/4282): Fixed: The [script loader](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_scriptLoader.html) does not execute callback for scripts already loaded when called for the second time. Thanks to [Alexander Korotkevich](https://github.com/aldoom)!
+* [#4273](https://github.com/ckeditor/ckeditor4/issues/4273): Fixed: A memory leak in the [`CKEDITOR.domReady()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-domReady) method connected with not removing `load` event listeners. Thanks to [rohit1](https://github.com/rohit1)!
+* [#1330](https://github.com/ckeditor/ckeditor4/issues/1330): Fixed: Incomplete CSS margin parsing if an `auto` or `0` value is used.
+* [#4286](https://github.com/ckeditor/ckeditor4/issues/4286): Fixed: The [Auto Grow](https://ckeditor.com/cke4/addon/autogrow) plugin causes the editor width to be set to `0` on editor resize.
+* [#848](https://github.com/ckeditor/ckeditor4/issues/848): Fixed: Arabic text not being "bound" correctly when pasting. Thanks to [Thomas Hunkapiller](https://github.com/devoidfury) and [J. Ivan Duarte Rodríguez](https://github.com/jidrone-mbm)!
+
+API Changes:
+
+* [#3649](https://github.com/ckeditor/ckeditor4/issues/3649): Added a new [`stylesRemove`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#event-stylesRemove) editor event.
+
+Other Changes:
+
+* [#4262](https://github.com/ckeditor/ckeditor4/issues/4262): Removed the global reference to the `stylesLoaded` variable. Thanks to [Levi Carter](https://github.com/swiftMessenger)!
+* Updated the [Export to PDF](https://ckeditor.com/cke4/addon/exportpdf) plugin to `1.0.1` version:
+	* Improved external CSS support for [classic editor](https://ckeditor.com/docs/ckeditor4/latest/examples/classic.html) by handling exceptions and displaying convenient [error messages](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_errors.html#exportpdf-stylesheets-incaccessible).
+
 ## CKEditor 4.15
 
 New features:

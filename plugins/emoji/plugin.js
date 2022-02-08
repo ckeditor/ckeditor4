@@ -6,6 +6,8 @@
 ( function() {
 	'use strict';
 
+	var iconPath = '';
+
 	var stylesLoaded = false,
 		arrTools = CKEDITOR.tools.array,
 		htmlEncode = CKEDITOR.tools.htmlEncode,
@@ -124,6 +126,7 @@
 						},
 						markFirst: false
 					},
+					icon: iconPath + '/emojipanel.svg',
 
 					onBlock: function( panel, block ) {
 						var keys = block.keys,
@@ -585,6 +588,7 @@
 		},
 
 		init: function( editor ) {
+			iconPath = this.path + '/icons';
 			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}

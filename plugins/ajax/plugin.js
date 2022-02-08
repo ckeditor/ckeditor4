@@ -51,21 +51,25 @@
 			return ( xhr.readyState == 4 && ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status == 304 || xhr.status === 0 || xhr.status == 1223 ) );
 		}
 
-		function getResponseText( xhr ) {
-			if ( checkStatus( xhr ) )
-				return xhr.responseText;
-			return null;
-		}
-
-		function getResponseXml( xhr ) {
-			if ( checkStatus( xhr ) ) {
-				var xml = xhr.responseXML;
-				return new CKEDITOR.xml( xml && xml.firstChild ? xml : xhr.responseText );
+		function getResponse( xhr, type ) {
+			if ( !checkStatus( xhr ) ) {
+				return null;
 			}
-			return null;
+
+			switch ( type ) {
+				case 'text':
+					return xhr.responseText;
+				case 'xml':
+					var xml = xhr.responseXML;
+					return new CKEDITOR.xml( xml && xml.firstChild ? xml : xhr.responseText );
+				case 'arraybuffer':
+					return xhr.response;
+				default:
+					return null;
+			}
 		}
 
-		function load( url, callback, getResponseFn ) {
+		function load( url, callback, responseType ) {
 			var async = !!callback;
 
 			var xhr = createXMLHttpRequest();
@@ -73,13 +77,17 @@
 			if ( !xhr )
 				return null;
 
+			if ( async && responseType !== 'text' && responseType !== 'xml' ) {
+				xhr.responseType = responseType;
+			}
+
 			xhr.open( 'GET', url, async );
 
 			if ( async ) {
 				// TODO: perform leak checks on this closure.
 				xhr.onreadystatechange = function() {
 					if ( xhr.readyState == 4 ) {
-						callback( getResponseFn( xhr ) );
+						callback( getResponse( xhr, responseType ) );
 						xhr = null;
 					}
 				};
@@ -87,10 +95,10 @@
 
 			xhr.send( null );
 
-			return async ? '' : getResponseFn( xhr );
+			return async ? '' : getResponse( xhr, responseType );
 		}
 
-		function post( url, data, contentType, callback, getResponseFn ) {
+		function post( url, data, contentType, callback, responseType ) {
 			var xhr = createXMLHttpRequest();
 
 			if ( !xhr )
@@ -101,7 +109,7 @@
 			xhr.onreadystatechange = function() {
 				if ( xhr.readyState == 4 ) {
 					if ( callback ) {
-						callback( getResponseFn( xhr ) );
+						callback( getResponse( xhr, responseType ) );
 					}
 					xhr = null;
 				}
@@ -128,12 +136,16 @@
 			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded
-			 * synchronously.
-			 * @returns {String} The loaded data. For asynchronous requests, an
+			 * synchronously. Please notice that only text data might be loaded synchronously.
+			 * @param {String} [responseType='text'] Defines type of returned data.
+			 * Currently supports: `text`, `xml`, `arraybuffer`. This parameter was added in 4.16.0.
+			 * @returns {String/null} The loaded data. For asynchronous requests, an
 			 * empty string. For invalid requests, `null`.
 			 */
-			load: function( url, callback ) {
-				return load( url, callback, getResponseText );
+			load: function( url, callback, responseType ) {
+				responseType = responseType || 'text';
+
+				return load( url, callback, responseType );
 			},
 
 			/**
@@ -149,7 +161,7 @@
 			 *			console.log( data );
 			 *		} );
 			 *
-			 * @since 4.4.0
+			 * @since 4.4
 			 * @param {String} url The URL of the request.
 			 * @param {String/Object/Array} data Data passed to `XMLHttpRequest#send`.
 			 * @param {String} [contentType='application/x-www-form-urlencoded; charset=UTF-8'] The value of the `Content-type` header.
@@ -157,7 +169,7 @@
 			 * depending on the `status` of the request.
 			 */
 			post: function( url, data, contentType, callback ) {
-				return post( url, data, contentType, callback, getResponseText );
+				return post( url, data, contentType, callback, 'text' );
 			},
 
 			/**
@@ -179,9 +191,8 @@
 			 * empty string. For invalid requests, `null`.
 			 */
 			loadXml: function( url, callback ) {
-				return load( url, callback, getResponseXml );
+				return load( url, callback, 'xml' );
 			}
 		};
 	} )();
-
 } )();

@@ -860,13 +860,15 @@
 					label: editor.lang.list.numberedlist,
 					command: 'numberedlist',
 					directional: true,
-					toolbar: 'list,10'
+					toolbar: 'list,10',
+					icon: this.path + 'icons/numberedlist.svg'
 				} );
 				editor.ui.addButton( 'BulletedList', {
 					label: editor.lang.list.bulletedlist,
 					command: 'bulletedlist',
 					directional: true,
-					toolbar: 'list,20'
+					toolbar: 'list,20',
+					icon: this.path + 'icons/bulletedlist.svg'
 				} );
 			}
 

@@ -491,7 +491,7 @@ CKEDITOR.config.fontSize_defaultLabel = '';
  */
 CKEDITOR.config.fontSize_style = {
 	element: 'span',
-	styles: { 'font-size': '#(size)' },
+	styles: { 'font-size': '#(size)', 'line-height': '1.5' },
 	overrides: [ {
 		element: 'font', attributes: { 'size': null }
 	} ]

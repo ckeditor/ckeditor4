@@ -1,0 +1,25 @@
+<textarea name="editor1">
+	<p>Paste here: </p>
+</textarea>
+<hr />
+<textarea name="editor2">
+	<p>Paste here: </p>
+</textarea>
+<hr />
+<textarea name="editor3">
+	<p>Paste here: </p>
+</textarea>
+
+<script type="text/javascript">
+	if ( !CKEDITOR.env.webkit || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'divarea'
+	} );
+
+	CKEDITOR.replace( 'editor2' );
+
+	CKEDITOR.inline( 'editor3' );
+</script>

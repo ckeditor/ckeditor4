@@ -17,12 +17,12 @@ CKEDITOR.plugins.add( 'rkpi', {
     lang: 'en',
     init: function( editor ) {
         var dialog = CKEDITOR.dialog.add( 'rkpi', this.path + 'dialogs/rkpi.js' );
-        var dialogCommand = editor.addCommand( 'openDialog', new CKEDITOR.dialogCommand( 'rkpi' ) );
+        var dialogCommand = editor.addCommand('openDialog', new CKEDITOR.dialogCommand('rkpi'));
         editor.ui.addButton( 'Animated Numbers', {
             label: 'Insert Animated Numbers',
             command: 'openDialog',
             toolbar: 'basicstyles,100',
-            icon: this.path + 'icons/rkpi4.png'
+            icon: this.path + 'icons/rkpi4.svg'
         });
 
         // Activate listener for content change
