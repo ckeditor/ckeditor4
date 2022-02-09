@@ -1,0 +1,4 @@
+.cke_reset_all select[multiple] option:checked
+{
+	background-color: rgb(206, 206, 206);
+}
