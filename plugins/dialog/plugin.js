@@ -3169,7 +3169,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	};
 
 	( function() {
-		var notEmptyRegex = /^([a]|[^a])+$/,
+		var notEmptyRegex = /^([a]|[^a])+?/,
 			integerRegex = /^\d*$/,
 			numberRegex = /^\d*(?:\.\d+)?$/,
 			htmlLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|\%)?)?$/,
