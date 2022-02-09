@@ -12,6 +12,13 @@ bender.test( {
 		this.getValue = null;
 	},
 
+	'test notEmptyValidator immediate call': function() {
+		assert.isTrue( CKEDITOR.dialog.validate.notEmpty( this.msg )( 'not empty' ) );
+	},
+
+	'test notEmptyValidator immediate call empty': function() {
+		assert.areSame( CKEDITOR.dialog.validate.notEmpty( this.msg )( '' ), this.msg );
+	},
 	// Next two tests prove - that value could be received in `getValue` way
 	// and validator treat them differently, not as some hardcoded manner
 	// all edge cases are performed on local value - less code -and we validate the
@@ -113,7 +120,6 @@ bender.test( {
 	}
 } );
 
-// Setup `getValue()` method for the current context due to #4473.
 function setupValueGetter( value, context ) {
 	context.getValue = function() {
 		return value;
