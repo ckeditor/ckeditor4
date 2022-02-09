@@ -3290,7 +3290,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 *
 			 * ```javascript
 			 * CKEDITOR.dialog.validate.notEmpty( 'error!' )( 'test' ) // true
-			 * CKEDITOR.dialog.validate.notEmpty( 'error!' )( '  ' ) // error!
+			 * CKEDITOR.dialog.validate.notEmpty( 'error!' )( '' ) // error!
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
