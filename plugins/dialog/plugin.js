@@ -3169,8 +3169,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	};
 
 	( function() {
-		var notEmptyRegex = /^([a]|[^a])+?/,
-			integerRegex = /^\d*$/,
+		var integerRegex = /^\d*$/,
 			numberRegex = /^\d*(?:\.\d+)?$/,
 			htmlLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|\%)?)?$/,
 			cssLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|em|ex|in|cm|mm|pt|pc|\%)?)?$/i,
@@ -3297,7 +3296,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * @returns {Function} Validation function.
 			 */
 			notEmpty: function( msg ) {
-				return this.regex( notEmptyRegex, msg );
+				return function() {
+					var value = this && this.getValue ? this.getValue() : arguments[ 0 ];
+					return value.length > 0 ? true : msg;
+				};
 			},
 
 			/**
