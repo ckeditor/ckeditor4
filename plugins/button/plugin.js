@@ -8,7 +8,6 @@
 		' class="cke_button cke_button__{name} cke_button_{state} {cls}"' +
 		( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
 		' title="{title}"' +
-		' tabindex="-1"' +
 		' hidefocus="true"' +
 		' role="button"' +
 		' aria-labelledby="{id}_label"' +
