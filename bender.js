@@ -76,10 +76,12 @@ var config = {
 				'adapters/**',
 				'!**/_*/**'
 			],
+			// The first officially supported version (1.7.0)
 			// Latest of the old API (1.8.3)
 			// Latest of the 1.* branch
 			// Latest of the 2.* branch
-			jQuery: [ '1.8.3', '1.11.1', '2.1.1' ]
+			// Latest of the 3.* branch
+			jQuery: [ '1.7.0', '1.8.3', '1.11.1', '2.1.1', '3.6.0' ]
 		},
 
 		'Core': {
