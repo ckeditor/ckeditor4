@@ -3,7 +3,8 @@
 /* bender-ckeditor-plugins: wysiwygarea,save,toolbar */
 /* global $ */
 
-var FOO = '<p>foo</p>';
+var FOO = '<p>foo</p>',
+	isJquerySlim = $().jquery.indexOf( ' -ajax' ) !== -1;
 
 function assertTextareaValue( id, value, msg ) {
 	assert.areSame( value, bender.tools.compatHtml( CKEDITOR.document.getById( id ).getValue() ), msg );
@@ -11,6 +12,11 @@ function assertTextareaValue( id, value, msg ) {
 
 bender.test( {
 	'test form with textarea inside': function() {
+		// jQuery slim does not support Ajax calls.
+		if ( isJquerySlim ) {
+			assert.ignore();
+		}
+
 		$( '#editor-inside' ).ckeditor( function() {
 			// Set data without refreshing textarea (this should be done by adapter).
 			$( '#editor-inside' ).ckeditor().editor.setData( FOO, function() {
@@ -30,7 +36,8 @@ bender.test( {
 
 	'test form with textarea outside': function() {
 		// 'form' attribute is not supported in Internet Explorer!
-		if ( CKEDITOR.env.ie )
+		// jQuery slim does not support Ajax calls.
+		if ( CKEDITOR.env.ie || isJquerySlim )
 			assert.ignore();
 
 		$( '#editor-outside' ).ckeditor( function() {
@@ -51,6 +58,11 @@ bender.test( {
 	},
 
 	'test save button with jQuery form': function() {
+		// jQuery slim does not support Ajax calls.
+		if ( isJquerySlim ) {
+			assert.ignore();
+		}
+
 		$( '#editor-save' ).ckeditor( function() {
 			this.setData( FOO, function() {
 				this.execCommand( 'save' );

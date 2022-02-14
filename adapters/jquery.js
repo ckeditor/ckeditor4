@@ -107,7 +107,7 @@
 				throw new Error( 'The environment is incompatible.' );
 
 			// Reverse the order of arguments if the first one isn't a function.
-			if ( !$.isFunction( callback ) ) {
+			if ( typeof callback !== 'function' ) {
 				var tmp = config;
 				config = callback;
 				callback = tmp;
@@ -214,7 +214,7 @@
 							// Overwrite save button to call jQuery submit instead of javascript submit.
 							// Otherwise jQuery.forms does not work properly
 							editor.on( 'save', function() {
-								$( element.form ).submit();
+								$( element.form ).trigger('submit');
 								return false;
 							}, null, null, 20 );
 
@@ -227,15 +227,15 @@
 								};
 
 								// Bind to submit event.
-								$( element.form ).submit( onSubmit );
+								$( element.form ).on( 'submit', onSubmit );
 
 								// Bind to form-pre-serialize from jQuery Forms plugin.
-								$( element.form ).bind( 'form-pre-serialize', onSubmit );
+								$( element.form ).on( 'form-pre-serialize', onSubmit );
 
 								// Unbind when editor destroyed.
-								$element.bind( 'destroy.ckeditor', function() {
-									$( element.form ).unbind( 'submit', onSubmit );
-									$( element.form ).unbind( 'form-pre-serialize', onSubmit );
+								$element.on( 'destroy.ckeditor', function() {
+									$( element.form ).off( 'submit', onSubmit );
+									$( element.form ).off( 'form-pre-serialize', onSubmit );
 								} );
 							}
 
