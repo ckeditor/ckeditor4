@@ -81,7 +81,15 @@ var config = {
 			// Latest of the 1.* branch
 			// Latest of the 2.* branch
 			// Latest of the 3.* branch
-			jQuery: [ '1.7.0', '1.8.3', '1.11.1', '2.1.1', '3.6.0' ]
+			// Latest of the 3.*.slim branch
+			jQuery: [
+				'1.7.0',
+				'1.8.3',
+				'1.12.4',
+				'2.2.4',
+				'3.6.0',
+				'3.6.0.slim'
+			]
 		},
 
 		'Core': {
