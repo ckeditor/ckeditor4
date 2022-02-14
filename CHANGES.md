@@ -5,6 +5,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.17.3 [IN DEVELOPMENT]
 
+Other changes:
+
+* [#5087](https://github.com/ckeditor/ckeditor4/issues/5087): Deprecated jQuery API calls in jQuery adapter were replaced by undeprecated ones. Thanks to [Fran Boon](https://github.com/flavour)!
+
 ## CKEditor 4.17.2
 
 Fixed issues:
