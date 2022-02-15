@@ -175,10 +175,11 @@
 					spy = sinon.spy( balloonToolbar, 'reposition' ),
 					// This test randomly fails when run from dashboard. That's because balloon toolbar
 					// uses also other listeners to reposition, which might be fired before `change`.
-					// Prevent all other event's for this TC to check if it's correctly repositions on `change` #(2979).
+					// Prevent all other event's for this TC to check if it's correctly repositions on `change` #(2979, #5056).
 					listeners = [
 						editor.on( 'resize', cancelEvent ),
 						CKEDITOR.document.getWindow().on( 'resize', cancelEvent ),
+						CKEDITOR.document.getWindow().on( 'scroll', cancelEvent ),
 						editor.editable().getDocument().on( 'scroll', cancelEvent )
 					],
 					initialPosition,
