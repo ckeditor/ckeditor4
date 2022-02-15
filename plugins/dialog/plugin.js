@@ -3298,7 +3298,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			notEmpty: function( msg ) {
 				return function() {
 					var value = this && this.getValue ? this.getValue() : arguments[ 0 ];
-					return value.length > 0 ? true : msg;
+					return CKEDITOR.tools.trim( value ).length > 0 ? true : msg;
 				};
 			},
 
