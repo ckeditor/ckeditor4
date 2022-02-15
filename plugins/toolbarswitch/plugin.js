@@ -27,95 +27,91 @@
  *                - jQuery
  */
 
+
 function switchMe(editor, callback) {
 
-	var origCustomConfig = editor.config.toolbarStatus;
-	var origContentCss = editor.config.contentsCss;
-	var origExtraPlugins = editor.config.extraPlugins;
-
-	var origToolbar = editor.config.toolbar;
+	var toolbarSize = editor.config.toolbarStatus;
+	var toolbarStatus = '';
 	var origSmallToolbar = editor.config.smallToolbar;
 	var origMaximizedToolbar = editor.config.maximizedToolbar;
 	var newToolbar;
-	if (origCustomConfig == 'smallToolbar') {
-		newToolbar = origMaximizedToolbar;
-		origCustomConfig = 'maximizedToolbar';
+	if (toolbarSize === 'smallToolbar') {
+		editor.config.toolbar = origMaximizedToolbar;
+		editor.config.toolbarStatus = 'maximizedToolbar';
 	} else {
-		newToolbar = origSmallToolbar;
-		origCustomConfig = 'smallToolbar';
+		editor.config.toolbar = origSmallToolbar;
+		editor.config.toolbarStatus = 'smallToolbar';
 	}
 
-	var variable = editor.config.currentVariable;
-	var elementTrigger = editor.config.elementTrigger;
-	var elementTriggerIndex = editor.config.elementTriggerIndex;
+	var customConfig = editor.config;
 
 	// Copy data to original text element before getting rid of the old editor
 	var data = editor.getData();
 	var domTextElement = editor.element.$;
-	jQuery(domTextElement).val(data);
-
+	domTextElement.value = data;
+	if (domTextElement.name === '') {
+		domTextElement.name = editor.name;
+	}
 	// Remove old editor and the DOM elements, else you get two editors
-	var editorUniqId = domTextElement.getAttribute('name');
+	var editorUniqId = editor.name;
+	var variable = editor.config.currentVariable;
+	var elementTrigger = editor.config.elementTrigger;
+	var elementTriggerIndex = editor.config.elementTriggerIndex;
+	//var editorElement = document.querySelector('#editorToolbar');
 	editor.destroy(true);
+	if (editor.config.isWysiwyg) {
+		CKEDITOR.inline(editorUniqId, customConfig);
+		editor = CKEDITOR.instances[editorUniqId];
+		var warnings = null;
 
-	CKEDITOR.inline(editorUniqId, {
-		language: 'en',
-		skin: 'moono-lisa',
-		extraPlugins: origExtraPlugins,
-		allowedContent: editor.config.allowedContent,
-		contentsCss: editor.config.contentsCss,
-		bodyClass: editor.config.bodyClass,
-		stylesSet: editor.config.stylesSet,
-		line_height: editor.config.line_height,
-		line: editor.config.fontSize_sizes,
-		toolbar: newToolbar,
-		smallToolbar: origSmallToolbar,
-		maximizedToolbar: origMaximizedToolbar,
-		toolbarStatus: origCustomConfig,
-		currentVariable: variable,
-		elementTrigger: elementTrigger,
-		elementTriggerIndex: elementTriggerIndex,
-		toolbarLocation: 'top',
-		startupFocus: 'end',
-		// sharedSpaces: {
-		// 	top: editorElement,
-		// },
-		on: {
-			instanceReady: function (e) {
-				CKeditor_OnComplete(e.editor);
-				if (callback) {
-					callback.call(null, e);
-				}
+		var counterElement = document.querySelector('.' + editorUniqId + '-counter');
+		var notificationsElement = document.querySelector('.' + editorUniqId + '-notification');
+
+		editor.on('instanceReady', function (e) {
+			CKeditor_OnComplete(e.editor);
+			if (callback) {
+				callback.call(null, e);
 			}
-		}
-	});
-
-	editor = CKEDITOR.instances[editorUniqId];
-
-	var warnings = null;
-
-	var counterElement = document.querySelector('.' + editorUniqId + '-counter');
-	var notificationsElement = document.querySelector('.' + editorUniqId + '-notification');
-
-	editor.on('instanceReady', function (ev) {
-		//add notification to editor
-		var notifications_area = document.querySelector('.cke_notifications_area');
-		if (notifications_area !== null) {
-			notifications_area.innerHTML = '';
-		}
-		warnings = checkEditorValidation(editor, variable, counterElement, notificationsElement);
-	});
-	editor.on('change', function () {
-		var notifications_area = document.querySelector('.cke_notifications_area');
-		if (notifications_area !== null) {
-			notifications_area.innerHTML = '';
-		}
-		warnings = checkEditorValidation(editor, variable, counterElement, notificationsElement);
-		trackCKEditorsChange(editor, elementTrigger, elementTriggerIndex, variable.name, false);
-	});
-	editor.on('blur', function () {
-		trackCKEditorsChange(editor, elementTrigger, elementTriggerIndex, variable.name, true);
-	});
+			if (editor.config.toolbarStatus === 'maximizedToolbar') {
+				document.querySelector('.cke_button__toolbarswitch_icon').classList.add('bigToolbar');
+			}
+			else {
+				document.querySelector('.cke_button__toolbarswitch_icon').classList.remove('bigToolbar');
+			}
+			//add notification to editor
+			var notifications_area = document.querySelector('.cke_notifications_area');
+			if (notifications_area !== null) {
+				notifications_area.innerHTML = '';
+			}
+			warnings = checkEditorValidation(editor, variable, counterElement, notificationsElement);
+		});
+		editor.on('change', function () {
+			var notifications_area = document.querySelector('.cke_notifications_area');
+			if (notifications_area !== null) {
+				notifications_area.innerHTML = '';
+			}
+			warnings = checkEditorValidation(editor, variable, counterElement, notificationsElement);
+			trackCKEditorsChange(editor, elementTrigger, elementTriggerIndex, variable, false);
+		});
+		editor.on('blur', function () {
+			trackCKEditorsChange(editor, elementTrigger, elementTriggerIndex, variable, true);
+		});
+	} else {
+		CKEDITOR.replace(editorUniqId, customConfig);
+		editor = CKEDITOR.instances[editorUniqId];
+		editor.on('instanceReady', function (e) {
+			CKeditor_OnComplete(e.editor);
+			if (callback) {
+				callback.call(null, e);
+			}
+			if (editor.config.toolbarStatus === 'maximizedToolbar') {
+				document.querySelector('.cke_button__toolbarswitch_icon').classList.add('bigToolbar');
+			}
+			else {
+				document.querySelector('.cke_button__toolbarswitch_icon').classList.remove('bigToolbar');
+			}
+		});
+	}
 }
 
 function checkEditorValidation(editor, variable, counterElement, notificationsElement) {
@@ -142,10 +138,10 @@ function checkEditorValidation(editor, variable, counterElement, notificationsEl
 function getWarnings(variable, textLength) {
 
 	if (variable.validation && variable.validation.max && textLength >= +variable.validation.max) {
-		return "Recommended max text length: " +variable.validation.max+ "characters";
+		return "Recommended max text length: " + variable.validation.max + "characters";
 	}
 	if (variable.validation && variable.validation.min && textLength <= +variable.validation.min) {
-		return "Recommended min text length " +variable.validation.min+ "characters";
+		return "Recommended min text length " + variable.validation.min + "characters";
 	}
 	return null;
 }
@@ -157,7 +153,7 @@ function getEditorTextLength(editorData) {
 	return txtLength;
 }
 
-function trackCKEditorsChange(editor, activeTrigger, activeTriggerIndex, variableName, saveChanges) {
+function trackCKEditorsChange(editor, activeTrigger, activeTriggerIndex, variable, saveChanges) {
 
 	var action = 'editorChanges';
 	var value = '';
@@ -165,10 +161,10 @@ function trackCKEditorsChange(editor, activeTrigger, activeTriggerIndex, variabl
 	value = editor.getData();
 
 	var dataMassage = {
-		action:action,
+		action: action,
 		activeTrigger: activeTrigger,
 		activeTriggerIndex: activeTriggerIndex,
-		variableName: variableName,
+		variable: variable.name,
 		value: value,
 		saveChanges: saveChanges
 	}

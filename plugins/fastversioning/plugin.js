@@ -30,6 +30,29 @@ CKEDITOR.addCss(
 	'}'
 );
 
+if (!window.isWYSIWYG) {
+// on variable selection - add it to the content
+	var subscription;
+
+	function subscribeToChanges() {
+		if (!window.ckeditorSubscriber) return;
+		if (subscription && subscription.unsubscribe) subscription.unsubscribe();
+		subscription = window.ckeditorSubscriber.subscribe(function (data) {
+			var selectedEditor = data.editor;
+			var displayText = data.value;
+			var tag = selectedEditor.document.createElement('span', {
+				attributes: {
+					'class': 'fast-versioning'
+				}
+			});
+			tag.setAttribute('contentEditable', false);
+			tag.setHtml(displayText);
+			selectedEditor.insertElement(tag);
+		});
+	}
+
+	subscribeToChanges();
+}
 
 CKEDITOR.plugins.add('fastversioning', {
 	icons: 'about',
@@ -47,18 +70,21 @@ CKEDITOR.plugins.add('fastversioning', {
 		// click will open fast versioning dialog
 		editor.addCommand('insertFastversioning', {
 			exec: function (editor) {
-				//window.showFastVersioningDialog(editor);
-				//   window.ckeditorSubscriber = editor;
+				if (window.isWYSIWYG) {
+					var dataMassage = {
+						action: 'openAngularDialog',
+						editorInstance: editor.name,
+						angularDialog: 'fastVersioning',
+						activeTrigger: 'ckeditorPlugin',
+						activeTriggerIndex: null
+					}
 
-				var dataMassage = {
-					action:'openAngularDialog',
-					editorInstance: editor.name,
-					angularDialog: 'fastVersioning',
-					activeTrigger: 'ckeditorPlugin',
-					activeTriggerIndex: null
+					window.postMessage(dataMassage, "*");
 				}
-
-				window.postMessage(dataMassage, "*");
+				else {
+					window.showFastVersioningDialog(editor);
+					window.ckeditorSubscriber = editor;
+				}
 			}
 		})
 

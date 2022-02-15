@@ -1,17 +1,19 @@
-CKEDITOR.addCss(
-    '[data-start-counter-class] {' +
-        'position: relative;' +
-    '}' +
-    '[data-start-counter-class]:after {' +
-        'content: "";' +
-        'position: absolute;' +
-        'bottom: 0px;' +
-        'left: 0;' +
-        'height: 1px;' +
-        'width: 100%;' +
-        'border-bottom: 2px dashed #000;' +
-    '}'
-);
+if(!window.isWYSIWYG) {
+	CKEDITOR.addCss(
+		'[data-start-counter-class] {' +
+		'position: relative;' +
+		'}' +
+		'[data-start-counter-class]:after {' +
+		'content: "";' +
+		'position: absolute;' +
+		'bottom: 0px;' +
+		'left: 0;' +
+		'height: 1px;' +
+		'width: 100%;' +
+		'border-bottom: 2px dashed #000;' +
+		'}'
+	);
+}
 CKEDITOR.plugins.add( 'rkpi', {
     icons: 'about',
     lang: 'en',

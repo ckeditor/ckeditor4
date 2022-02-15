@@ -3,6 +3,13 @@ CKEDITOR.config.extraAllowedContent = 'span(highlight)';
 
 CKEDITOR.config.coreStyle = {name: 'highlight', element: 'span', attributes: {'class': 'highlight'}};
 
+if(!window.isWYSIWYG) {
+	CKEDITOR.addCss(
+		'.highlight {' +
+		'background-color: #DCDCDC;' +
+		'}'
+	);
+}
 
 CKEDITOR.plugins.add('highlight', {
 	icons: 'about',
@@ -32,12 +39,12 @@ CKEDITOR.plugins.add('highlight', {
 		editor.ui.addButton('Highlight', {
 			label: 'Insert Highlight',
 			command: 'insertHighlight',
-			toolbar: 'colors',
 			icon: this.path + 'icons/highlight.svg'
 		});
 
 		// Listen to style changes
 		var style = new CKEDITOR.style(CKEDITOR.config.coreStyle);
+
 		editor.attachStyleStateChange(style, function (state) {
 			!editor.readOnly && editor.getCommand('insertHighlight').setState(state);
 			var highlightElements = document.querySelectorAll('.highlight');

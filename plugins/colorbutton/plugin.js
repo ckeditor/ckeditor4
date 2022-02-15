@@ -216,6 +216,9 @@
 							automaticColor = '#ffffff';
 						}
 
+						var chosenColor = window.chosenColor;
+						if(!chosenColor) chosenColor = automaticColor;
+
 						// if (config.colorButton_enableAutomatic) {
 						// 	panelBlock.element.findOne('#' + colorBoxId).setStyle('background-color', automaticColor);
 						// }
@@ -261,9 +264,10 @@
 							action:'openAngularDialog',
 							editorInstance: editor.name,
 							angularDialog: 'getColor',
+							currentColor: chosenColor,
 							extraData: cssProperty,
 							activeTrigger: 'ckeditorPlugin',
-							activeTriggerIndex: null
+							activeTriggerIndex: null,
 						}
 						window.postMessage(dataMassage, "*");
 
@@ -287,22 +291,24 @@
 					return colorStyleDefinition;
 				}
 
-				function createClickFunction(color, isFromAngular, buttonType) {
+				function createClickFunction(color, isFromAngular, buttonType, editorName) {
 					if (isFromAngular && buttonType === history.cssProperty) {
+						editor = CKEDITOR.instances[editorName];
 						editor.focus();
 						editor.fire('saveSnapshot');
-						if (color === 'removeStyle') {
+						if (color === 'reset-color') {
 							editor.removeStyle(defaultColorStyle);
-						} else {
+						} else if (color) {
 							setColor(color && color, color, history);
 						}
 					}
-					return CKEDITOR.tools.addFunction(function addClickFn(color, colorName) {
-						editor.focus();
-						editor.fire('saveSnapshot');
-						setColor(color && color, colorName, history);
-					});
+					// return CKEDITOR.tools.addFunction(function addClickFn(color, colorName) {
+					// 	editor.focus();
+					// 	editor.fire('saveSnapshot');
+					// 	setColor(color && color, colorName, history);
+					// });
 				}
+
 
 				function setColor(color, colorName, colorHistory) {
 					var colorStyleVars = {};
@@ -340,7 +346,9 @@
 							var isFromAngular = true;
 							var color = event.data.value;
 							var buttonType = event.data.buttonType;
-							createClickFunction(color, isFromAngular, buttonType);
+							var editorName = event.data.editorInstance;
+							window.chosenColor = color;
+							createClickFunction(color, isFromAngular, buttonType, editorName);
 						}
 					}
 				});

@@ -14,7 +14,7 @@
 }
 
 .cke {
-	max-width: 1000px;
+	max-width: 870px;
 }
 
 .cke_chrome {
@@ -66,11 +66,11 @@
 .cke_inner .cke_combo_on a.cke_combo_button, .cke_inner .cke_combo_off a.cke_combo_button:hover, .cke_inner .cke_combo_off a.cke_combo_button:focus, .cke_inner .cke_combo_off a.cke_combo_button:active {
 	border: none;
 	background: none;
+	padding: 0;
+	margin: 0;
 }
 
 .cke_inner .cke_toolbox, .cke_inner .cke_toolbar, .cke_inner .cke_combo, .cke_inner .cke_combo_button {
-	width: 100%;
-	height: 100%;
 	float: none;
 }
 
@@ -83,6 +83,7 @@
 	display: inline-flex;
 	align-items: center;
 	width: auto;
+	height: 48px;
 	padding: 10px 14px;
 	box-sizing: border-box;
 	border-right: 1px solid #EEEEEE;
@@ -108,7 +109,7 @@
 	float: none;
 	border-radius: 4px;
 	padding: 4px 5px;
-	margin-right: 20px;
+	margin-right: 12px;
 	background: none;
 	cursor: pointer;
 }
@@ -139,6 +140,10 @@
 	background-size: 100%;
 	margin: 0;
 	margin-left: 8px;
+}
+
+.cke_button__textcolor .cke_button_arrow, .cke_button__bgcolor .cke_button_arrow {
+	display: none;
 }
 
 .cke_inner .cke_toolbar .cke_toolgroup .cke_button:after {
@@ -173,6 +178,7 @@
 	height: auto;
 	width: auto;
 	line-height: 1;
+	margin-right: 0;
 }
 
 .cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_open .cke_combo_arrow {
@@ -194,6 +200,7 @@
 	text-transform: uppercase;
 	padding: 6px 16px;
 	font-family: "Open Sans";
+	font-size: 14px;
 }
 
 .cke_panel_block .cke_panel_list .cke_panel_listItem a {
@@ -203,20 +210,20 @@
 }
 
 .cke_panel_block .cke_panel_list .cke_panel_listItem a:hover {
-	background: none;
-}
-
-.cke_panel_block .cke_panel_list .cke_panel_listItem a:hover * {
-	color: #FB177E;
+	background: #F7F9FC;
 }
 
 .cke_panel_block .cke_panel_list .cke_panel_listItem.cke_selected a {
-	background: none;
+	background: #F7F9FC;
 	outline: none;
 }
 
-.cke_panel_block .cke_panel_list .cke_panel_listItem.cke_selected a * {
-	color: #FB177E;
+.cke_panel_block .cke_emoji-panel {
+	height: 330px;
+}
+
+.cke_panel_block .cke_emoji-status_description {
+	font-size: 16px;
 }
 
 .cke_notification_warning {
@@ -252,7 +259,7 @@
 	background: none;
 	padding: 23px 19px;
 	font-weight: 600;
-	font-size: 24px;
+	font-size: 18px;
 	line-height: 1;
 	font-family: Open Sans;
 }
@@ -275,7 +282,7 @@
 	display: flex;
 	font-family: Open Sans;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 1;
 	text-transform: uppercase;
 	color: #91A1B9;
@@ -394,6 +401,10 @@
 	display: none !important;
 }
 
+.cke_panel:not(.cke_combopanel, .cke_emoji-panel) {
+	display: none !important;
+}
+
 .extraData {
 	display: flex;
 	margin-bottom: 20px;
@@ -424,18 +435,31 @@
 	border: 1px solid #edf1f7;
 }
 
+.editor-basic .cke_inner .cke_toolbar {
+	padding: 5px;
+	height: 30px;
+	margin-bottom: 11px;
+}
+.editor-basic .cke_inner .cke_toolbar:last-child {
+	margin-bottom: 0;
+}
 .editor-basic .cke_inner .cke_top {
 	box-shadow: none;
 	border-bottom: 1px solid #edf1f7;
+	padding: 10px 10px 5px;
 }
 
 .editor-basic .cke_inner .cke_contents {
-	padding: 20px;
+	padding: 0;
 }
 
 .editor-basic .cke_inner .cke_toolbar .cke_toolgroup .cke_button {
 	flex: 20px;
-	margin-right: 10px;
+	margin-right: 3px;
+}
+
+.editor-basic .cke_inner .cke_toolbar .cke_toolgroup .cke_button:last-child {
+	margin-right: 0;
 }
 
 .editor-basic .cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon {
@@ -449,7 +473,7 @@
 
 .editor-basic .cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_text {
 	font-size: 12px;
-	width: 167px;
+	padding: 0;
 }
 
 .editor-basic .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Formatting Styles"] .cke_combo_text {
@@ -549,6 +573,44 @@
 .cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__strike_icon {
 	background: url(images/strike.svg) no-repeat center !important;
 	background-size: contain !important;
+	width: 24px;
+	height: 24px;
 }
 
-/*# sourceMappingURL=storydoc.css.map */
+.cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Line Height"] .cke_combo_text {
+	background: url(images/linehight.svg) no-repeat center !important;
+	background-size: contain !important;
+	font-size: 0 !important;
+	width: 22px;
+	height: 22px;
+	padding: 0;
+	cursor: pointer;
+}
+
+.cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Text Size"] .cke_combo_text {
+
+	background: url(images/fontSize.svg) no-repeat center !important;
+	background-size: contain !important;
+	font-size: 0 !important;
+	width: 22px;
+	height: 22px;
+	padding: 0;
+	cursor: pointer;
+}
+
+.editor-basic .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Text Size"] .cke_combo_text, .editor-basic .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Line Height"] .cke_combo_text {
+	width: 18px;
+	height: 18px;
+}
+
+.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__toolbarswitch_icon.bigToolbar {
+	background: url(images/closeToolbar.svg) no-repeat center !important;
+	background-size: contain !important;
+	width: 18px;
+}
+
+.editor-basic .cke_toolbar .cke_toolgroup .cke_button .cke_button__toolbarswitch_icon.bigToolbar {
+	width: 11px;
+}
+
+
