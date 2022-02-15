@@ -141,14 +141,14 @@
 
 		};
 
-		/**
+		/*
 		 * A range of cursors which represent a trunk of characters which try to
 		 * match, it has the same length as the pattern  string.
 		 *
 		 * **Note:** This class isn't accessible from global scope.
 		 *
 		 * @private
-		 * @class CKEDITOR.plugins.find.characterRange
+		 * @class characterRange
 		 * @constructor Creates a characterRange class instance.
 		 */
 		var characterRange = function( characterWalker, rangeLength ) {
@@ -162,7 +162,7 @@
 		};
 
 		characterRange.prototype = {
-			/**
+			/*
 			 * Translate this range to {@link CKEDITOR.dom.range}.
 			 */
 			toDomRange: function() {
@@ -185,7 +185,7 @@
 				return range;
 			},
 
-			/**
+			/*
 			 * Reflect the latest changes from dom range.
 			 */
 			updateFromDomRange: function( domRange ) {
@@ -212,7 +212,7 @@
 				return this._.isMatched;
 			},
 
-			/**
+			/*
 			 * Hightlight the current matched chunk of text.
 			 */
 			highlight: function() {
@@ -241,7 +241,7 @@
 				this.updateFromDomRange( range );
 			},
 
-			/**
+			/*
 			 * Remove highlighted find result.
 			 */
 			removeHighlight: function() {
