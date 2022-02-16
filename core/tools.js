@@ -679,8 +679,13 @@
 		 * @returns {String} The modified string without the boundary spaces.
 		 */
 		trim: ( function() {
-			// We are not using \s because we don't want "non-breaking spaces" to be caught.
-			var trimRegex = /(?:^[ \t\n\r]+)|(?:[ \t\n\r]+$)/g;
+			// Range of unicode spaces
+			var unicodeSpaces = '\u0020\u00a0\u1680\u202f\u205f\u3000\u2000-\u200a',
+				emptyChars = '\t\n\r',
+				trimChars = unicodeSpaces + emptyChars;
+
+			var trimRegex = new RegExp( '(?:^[' + trimChars + ']+)|(?:[' + trimChars + ']+$)', 'g' );
+
 			return function( str ) {
 				return str.replace( trimRegex, '' );
 			};
