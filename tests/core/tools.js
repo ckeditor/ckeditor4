@@ -151,14 +151,6 @@
 			assert.areSame( number +  3, CKEDITOR.tools.getNextNumber() );
 		},
 
-		test_trim1: function() {
-			assert.areSame( 'test', CKEDITOR.tools.trim( '    test   ' ) );
-		},
-
-		test_trim2: function() {
-			assert.areSame( 'test', CKEDITOR.tools.trim( ' \n \t  test\n  \t ' ) );
-		},
-
 		test_ltrim1: function() {
 			assert.areSame( 'test   ', CKEDITOR.tools.ltrim( '    test   ' ) );
 		},
