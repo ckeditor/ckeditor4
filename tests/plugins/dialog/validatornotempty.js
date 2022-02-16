@@ -38,7 +38,7 @@ bender.test( {
 	},
 
 	'test notEmptyValidator returns true for string with spaces only': function() {
-		assert.isTrue( this.notEmptyValidator( '   ' ) );
+		assert.areSame( this.notEmptyValidator( '   ' ), this.msg );
 	},
 
 	'test notEmptyValidator returns error message with multiple calls': function() {
@@ -48,75 +48,71 @@ bender.test( {
 	},
 
 	'test notEmptyValidator returns true for unicode u0020 SPACE ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u0020' ) );
+		assert.areSame( this.notEmptyValidator( '\u0020' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u00A0 NO-BREAK SPACE': function() {
-		assert.isTrue( this.notEmptyValidator( '\u00A0' ) );
+		assert.areSame( this.notEmptyValidator( '\u00A0' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u1680 OGHAM SPACE MARK': function() {
-		assert.isTrue( this.notEmptyValidator( '\u1680' ) );
+		assert.areSame( this.notEmptyValidator( '\u1680' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2000 EN QUAD': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2000' ) );
+		assert.areSame( this.notEmptyValidator( '\u2000' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2001 EM QUAD': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2001' ) );
+		assert.areSame( this.notEmptyValidator( '\u2001' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u02002 EN SPACE': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2002' ) );
+		assert.areSame( this.notEmptyValidator( '\u2002' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2003 EM SPACE ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2003' ) );
+		assert.areSame( this.notEmptyValidator( '\u2003' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2004 THREE-PER-EM SPACE ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2004' ) );
+		assert.areSame( this.notEmptyValidator( '\u2004' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2005 FOUR-PER-EM SPACE ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2005' ) );
+		assert.areSame( this.notEmptyValidator( '\u2005' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2006 SIX-PER-EM SPACE ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2006' ) );
+		assert.areSame( this.notEmptyValidator( '\u2006' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2007 FIGURE SPACE ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2007' ) );
+		assert.areSame( this.notEmptyValidator( '\u2007' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2008 PUNCTUATION SPACE': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2008' ) );
-	},
-
-	'test notEmptyValidator returns true for unicode u00A0 ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u00A0' ) );
+		assert.areSame( this.notEmptyValidator( '\u2008' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2009 THIN SPACE ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u2009' ) );
+		assert.areSame( this.notEmptyValidator( '\u2009' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u2000A HAIR SPACE': function() {
-		assert.isTrue( this.notEmptyValidator( '\u200A' ) );
+		assert.areSame( this.notEmptyValidator( '\u200A' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u202F NARROW NO-BREAK SPACE': function() {
-		assert.isTrue( this.notEmptyValidator( '\u202F' ) );
+		assert.areSame( this.notEmptyValidator( '\u202F' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u205F MEDIUM MATHEMATICAL SPACE': function() {
-		assert.isTrue( this.notEmptyValidator( '\u205F' ) );
+		assert.areSame( this.notEmptyValidator( '\u205F' ), this.msg );
 	},
 
 	'test notEmptyValidator returns true for unicode u3000 IDEOGRAPHIC SPACE ': function() {
-		assert.isTrue( this.notEmptyValidator( '\u3000' ) );
+		assert.areSame( this.notEmptyValidator( '\u3000' ), this.msg );
 	}
 } );
 
