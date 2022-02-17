@@ -680,8 +680,14 @@
 		 */
 		trim: ( function() {
 			// We are not using \s because we don't want "non-breaking spaces" to be caught.
-			var trimRegex = /(?:^[ \t\n\r]+)|(?:[ \t\n\r]+$)/g;
-			return function( str ) {
+			var trimCharacters = ' \t\n\r';
+
+			return function( str, characters ) {
+				if ( characters && typeof characters === 'string' ) {
+					trimCharacters = characters;
+				}
+
+				var trimRegex = new RegExp( '(?:^[' + trimCharacters + ']+)|(?:[' + trimCharacters + ']+$)', 'g' );
 				return str.replace( trimRegex, '' );
 			};
 		} )(),
