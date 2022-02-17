@@ -6,12 +6,16 @@
 	var tests = {
 		'test trim leave empty string if contains only spaces': function() {
 			assert.areSame( '', CKEDITOR.tools.trim( '   ' ), 'Trim does not remove spaces only.' );
+		},
+
+		'test trim removes custom characters': function() {
+			assert.areSame( 'test', CKEDITOR.tools.trim( 'abc test abc', ' abc' ) );
 		}
 	};
 
 	createTrimTest( '   ', 'both side spaces', false );
 	createTrimTest( '\r', 'carret feed', false );
-	createTrimTest( ' \n \t  ', 'mixed spaces, tabs, new line' );
+	createTrimTest( ' \n \t  ', 'mixed spaces, tabs, new line', false );
 	createTrimTest( '\u0020', 'space u0020', false );
 
 	createTrimTest( '\u00A0', 'non breakable space u00A0', true );
