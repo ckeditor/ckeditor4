@@ -1,120 +1,50 @@
-<head>
-	<link rel="stylesheet" href="_assets/multiselectfix.css">
-</head>
-<body>
+<div id="editor"></div>
+<button id="openDialogButton" disabled>Open dialog</button>
 
-	<div id="editor"></div>
-
-	<script>
-		CKEDITOR.plugins.add( 'test', {
-			requires: 'widget',
-			init: function(editor) {
-				editor.addCommand( 'mydialog', new CKEDITOR.dialogCommand( 'mydialog' ) );
-				if ( editor.contextMenu ) {
-					editor.addMenuGroup( 'mygroup', 10 );
-					editor.addMenuItem( 'My Dialog', {
-						label: 'Open dialog',
-						command: 'mydialog',
-						group: 'mygroup'
-					} );
-					editor.contextMenu.addListener( function( element ) {
-						return { 'My Dialog': CKEDITOR.TRISTATE_OFF };
-					} );
-				}
-				CKEDITOR.dialog.add( 'mydialog', function(api){
-					return {
-						title: 'Sample dialog for plugin test',
-						minWidth: 390,
-						minHeight: 130,
-						contents: [
-						{
-							id: 'tab1',
-							label: 'Label',
-							title: 'Title',
-							expand: true,
-							padding: 0,
-							elements: [
-							{
-								type: 'hbox',
-								children: [
-								{
-									type: 'select',
-									id: 'fruitSelect',
-									label: 'Select some fruit',
-									multiple: true,
-									items: fruitArray,
-									size: fruitArray.length,
-									style: 'height:100%',
-									onChange: function() {
-										const fruitSelectList = this.getInputElement().$;
-										const selectedFruits = document.querySelectorAll(`#${fruitSelectList.id} option:checked`);
-										const fruitVals = Array.from(selectedFruits).map(el => el.value);
-										const veggieSelectList = this.getDialog().getContentElement("tab1", "veggieSelect").getInputElement().$;
-										const selectedVeggies = document.querySelectorAll(`#${veggieSelectList.id} option:checked`);
-										const veggieVals = Array.from(selectedVeggies).map(el => el.value);
-										document.getElementById('shoppingbasket').innerText = fruitVals.concat(veggieVals).join(', ');
-									}
-								},
-								{
-									type: 'select',
-									id: 'veggieSelect',
-									label: 'Select some veggies',
-									multiple: true,
-									items: veggieArray,
-									size: veggieArray.length,
-									style: 'height:100%',
-									onChange: function() {
-										const veggieSelectList = this.getInputElement().$;
-										const selectedVeggies = document.querySelectorAll(`#${veggieSelectList.id} option:checked`);
-										const veggieVals = Array.from(selectedVeggies).map(el => el.value);
-										const fruitSelectList = this.getDialog().getContentElement("tab1", "fruitSelect").getInputElement().$;
-										const selectedFruits = document.querySelectorAll(`#${fruitSelectList.id} option:checked`);
-										const fruitVals = Array.from(selectedFruits).map(el => el.value);
-										document.getElementById('shoppingbasket').innerText = fruitVals.concat(veggieVals).join(', ');
-									}
-								},
-								{
-									type: 'html',
-									html: '<p>Shopping basket:</p><div style="border:1px solid Green;height: 50px;background-color:lightgreen;color:darkgreen;font-weight:bold;border-radius:12px;padding:8px;white-space: normal;word-break: break-word;" id="shoppingbasket"></div>'
-								}
-								]
-							}
-							]
-						}
-						],
-						onShow: function() {
-							this.setupContent();
-						}
-					}
-				});
+<script>
+	function addDialog() {
+		CKEDITOR.dialog.add( 'mydialog', function() {
+			var fruitArray = [
+				[ 'Apples' ],
+				[ 'Bananas' ],
+				[ 'Cherries' ]
+			];
+			return {
+				title: 'Sample dialog for plugin test',
+				contents: [ {
+					id: 'tab1',
+					label: 'Label',
+					title: 'Title',
+					elements: [ {
+						type: 'hbox',
+						children: [ {
+							type: 'select',
+							id: 'fruitSelect',
+							label: 'Select some fruit',
+							multiple: true,
+							items: fruitArray,
+							size: fruitArray.length,
+							style: 'height:100%'
+						} ]
+					} ]
+				} ]
 			}
 		});
+	}
 
-		var editor = CKEDITOR.replace( 'editor', {
-			skin: 'kama',
-			extraPlugins: 'test',
-			toolbarGroups: [
-				{ name: 'basicstyles',	groups: [ 'basicstyles' ] }
-			]
-		} );
+	var dialogButton = CKEDITOR.document.getById( 'openDialogButton' );
+	dialogButton.on( 'click', function() {
+		editor.openDialog( 'mydialog' );
+	})
 
-		const fruitArray = [
-			['Apples'],
-			['Bananas'],
-			['Cherries'],
-			['Grapefruit'],
-			['Pears'],
-			['Strawberries']
-		];
-		const veggieArray = [
-			['Beets'],
-			['Brussel sprouts'],
-			['Carrots'],
-			['Cucumbers'],
-			['Lettuce'],
-			['Tomatoes']
-		];
+	var editor = CKEDITOR.replace( 'editor', {
+		skin: 'kama',
+		on: {
+			instanceReady: function( evt ) {
+				addDialog();
+				dialogButton.removeAttribute( 'disabled' );
+			}
+		}
+	} );
 
-	</script>
-
-</body>
+</script>
