@@ -8,6 +8,7 @@ CKEditor 4 Changelog
 Other changes:
 
 * [#5087](https://github.com/ckeditor/ckeditor4/issues/5087): Deprecated jQuery API calls in jQuery adapter were replaced by undeprecated ones. Thanks to [Fran Boon](https://github.com/flavour)!
+* [#5044](https://github.com/ckeditor/ckeditor4/issues/5044): Fixed: Lack of style for selected items in unfocused multiselection list. Thanks to [John R. D'Orazio](https://github.com/JohnRDOrazio)!
 
 ## CKEditor 4.17.2
 

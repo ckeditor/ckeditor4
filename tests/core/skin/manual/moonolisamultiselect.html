@@ -1,0 +1,50 @@
+<div id="editor"></div>
+<button id="openDialogButton" disabled>Open dialog</button>
+
+<script>
+	function addDialog() {
+		CKEDITOR.dialog.add( 'mydialog', function() {
+			var fruitArray = [
+				[ 'Apples' ],
+				[ 'Bananas' ],
+				[ 'Cherries' ]
+			];
+			return {
+				title: 'Sample dialog for plugin test',
+				contents: [ {
+					id: 'tab1',
+					label: 'Label',
+					title: 'Title',
+					elements: [ {
+						type: 'hbox',
+						children: [ {
+							type: 'select',
+							id: 'fruitSelect',
+							label: 'Select some fruit',
+							multiple: true,
+							items: fruitArray,
+							size: fruitArray.length,
+							style: 'height:100%'
+						} ]
+					} ]
+				} ]
+			}
+		});
+	}
+
+	var dialogButton = CKEDITOR.document.getById( 'openDialogButton' );
+	dialogButton.on( 'click', function() {
+		editor.openDialog( 'mydialog' );
+	})
+
+	var editor = CKEDITOR.replace( 'editor', {
+		skin: 'moono-lisa',
+		on: {
+			instanceReady: function( evt ) {
+				addDialog();
+				dialogButton.removeAttribute( 'disabled' );
+			}
+		}
+	} );
+
+</script>
