@@ -671,26 +671,17 @@
 		/**
 		 * Removes spaces from the start and the end of a string. The following
 		 * characters are removed: space, tab, line break, line feed.
-		 * If second argument is passed - it will be used instead of the default one.
-		 * The second argument is used as a regular expression characters range.
 		 *
 		 *		alert( CKEDITOR.tools.trim( '  example ' ); // 'example'
-		 *		alert( CKEDITOR.tools.trim( 'abc example abc', 'abc ' ); // 'example'
 		 *
 		 * @method
 		 * @param {String} str The text from which the spaces will be removed.
-		 * @param {String} characters The characters to use instead of the default trimming characters.
 		 * @returns {String} The modified string without the boundary spaces.
 		 */
 		trim: ( function() {
-			return function( str, characters ) {
-				// We are not using \s because we don't want "non-breaking spaces" to be caught.
-				var trimCharacters = ' \t\n\r';
-				if ( characters && typeof characters === 'string' ) {
-					trimCharacters = characters;
-				}
-
-				var trimRegex = new RegExp( '(?:^[' + trimCharacters + ']+)|(?:[' + trimCharacters + ']+$)', 'g' );
+			// We are not using \s because we don't want "non-breaking spaces" to be caught.
+			var trimRegex = /(?:^[ \t\n\r]+)|(?:[ \t\n\r]+$)/g;
+			return function( str ) {
 				return str.replace( trimRegex, '' );
 			};
 		} )(),
