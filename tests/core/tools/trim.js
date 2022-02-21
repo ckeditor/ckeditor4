@@ -6,11 +6,8 @@
 	var tests = {
 		'test trim leave empty string if contains only spaces': function() {
 			assert.areSame( '', CKEDITOR.tools.trim( '   ' ), 'Trim does not remove spaces only.' );
-		},
-
-		'test trim removes custom characters': function() {
-			assert.areSame( 'test', CKEDITOR.tools.trim( 'abc test abc', ' abc' ) );
 		}
+
 	};
 
 	createTrimTest( '   ', 'both side spaces', false );
