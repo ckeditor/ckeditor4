@@ -3298,7 +3298,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			notEmpty: function( msg ) {
 				return function() {
 					var value = this && this.getValue ? this.getValue() : arguments[ 0 ];
-					return CKEDITOR.tools.trim( value, '\u0020\u00a0\u1680\u202f\u205f\u3000\u2000-\u200a \t\n\r' ).length > 0 ? true : msg;
+					var trimCharacters = '\u0020\u00a0\u1680\u202f\u205f\u3000\u2000-\u200a\s';
+
+					var trimRegex = new RegExp( '^[' + trimCharacters + ']+|[' + trimCharacters + ']+$', 'g' );
+					return value.replace( trimRegex, '' ).length > 0 ? true : msg;
 				};
 			},
 
