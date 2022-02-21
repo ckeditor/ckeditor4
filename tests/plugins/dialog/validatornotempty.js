@@ -41,10 +41,16 @@ bender.test( {
 		assert.areSame( this.notEmptyValidator( '   ' ), this.msg );
 	},
 
-	'test notEmptyValidator returns error message with multiple calls': function() {
+	'test notEmptyValidator returns true called multiple times on not empty value': function() {
 		var value = 'a';
 		this.notEmptyValidator( value );
 		assert.isTrue( this.notEmptyValidator( value ) );
+	},
+
+	'test notEmptyValidator returns error msg called multiple times on empty value': function() {
+		var value = '   ';
+		this.notEmptyValidator( value );
+		assert.areSame( this.notEmptyValidator( value ), this.msg );
 	},
 
 	'test notEmptyValidator returns error message for unicode u0020 SPACE ': function() {
