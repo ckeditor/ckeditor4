@@ -3296,13 +3296,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * @returns {Function} Validation function.
 			 */
 			notEmpty: function( msg ) {
-				var trimCharacters = '\u0020\u00a0\u1680\u202f\u205f\u3000\u2000-\u200a\s',
+				var trimCharacters = '\\u0020\\u00a0\\u1680\\u202f\\u205f\\u3000\\u2000-\\u200a\\s',
 					trimRegex = new RegExp( '^[' + trimCharacters + ']+|[' + trimCharacters + ']+$', 'g' );
 
 				return function() {
 					var value = this && this.getValue ? this.getValue() : arguments[ 0 ];
 
-					return value.replace( trimRegex, '' ).length > 0 ? true : msg;
+					return value.replace( trimRegex, '' ).length > 0 || msg;
 				};
 			},
 
