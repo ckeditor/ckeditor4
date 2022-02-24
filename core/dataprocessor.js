@@ -55,7 +55,7 @@
  *
  * While the editor is able to handle non-HTML data (like BBCode), it can only
  * handle HTML data at runtime. The role of the data processor is to transform
- * the HTML data containined by the editor into a specific data format through
+ * the HTML data contained by the editor into a specific data format through
  * this function.
  *
  *		// Tranforming into BBCode data, with a custom BBCode data processor available.
