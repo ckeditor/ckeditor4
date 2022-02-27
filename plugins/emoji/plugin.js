@@ -8,7 +8,7 @@
 
 	var stylesLoaded = false,
 		arrTools = CKEDITOR.tools.array,
-		htmlEncode = CKEDITOR.tools.htmlEncode,
+		htmlEncode = CKEDITOR.tools.htmlEncodeAttr,
 		EmojiDropdown = CKEDITOR.tools.createClass( {
 			$: function( editor, plugin ) {
 				var lang = this.lang = editor.lang.emoji,
