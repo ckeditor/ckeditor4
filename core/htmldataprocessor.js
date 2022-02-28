@@ -57,7 +57,7 @@
 
 			// Before we start protecting markup, make sure there are no externally injected
 			// protection keywords.
-			data = removeReservedKeywords( data, randomNumber );
+			data = removeReservedKeywords( data );
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
