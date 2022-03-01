@@ -191,6 +191,12 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 							'border-bottom: 1px solid #AAA;' +
 							'margin: 5px 0px 15px;' +
 						'}' +
+						'.cke_accessibility_legend h3' +
+						'{' +
+							'font-size: 20px;' +
+							'border-bottom: 1px solid #AAA;' +
+							'margin: 5px 0px 15px;' +
+						'}' +
 						'.cke_accessibility_legend dl' +
 						'{' +
 							'margin-left: 5px;' +
