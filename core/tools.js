@@ -971,7 +971,8 @@
 		 * @returns {Number/String} A number representing the length in pixels or a string with a percentage value.
 		 */
 		convertToPx: ( function() {
-			var calculator;
+			var calculator,
+				boundingClientRect;
 
 			return function( cssLength ) {
 				if ( !calculator ) {
@@ -990,7 +991,9 @@
 					}
 
 					calculator.setStyle( 'width', cssLength );
-					ret = calculator.$.clientWidth;
+					boundingClientRect = calculator.getClientRect();
+
+					ret = Math.round( boundingClientRect.width );
 
 					if ( isNegative ) {
 						return -ret;
