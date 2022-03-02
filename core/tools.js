@@ -992,7 +992,9 @@
 
 					calculator.setStyle( 'width', cssLength );
 					boundingClientRect = calculator.$.getBoundingClientRect();
-					ret = Math.round( boundingClientRect.width );
+
+					// IE does not return width in client rect, so we need to fallback to clientWidth.
+					ret = Math.round( boundingClientRect.width ) || calculator.$.clientWidth;
 
 					if ( isNegative ) {
 						return -ret;
