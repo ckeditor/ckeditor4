@@ -145,7 +145,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			' style="position:absolute" role="presentation">' +
 			'<tr><td role="presentation">' +
 			'<div class="cke_dialog_body" role="presentation">' +
-				'<div id="cke_dialog_title_{id}" aria-level="2" class="cke_dialog_title" role="heading"></div>' +
+				'<h2 id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></h2>' +
 				'<a id="cke_dialog_close_button_{id}" class="cke_dialog_close_button" href="javascript:void(0)" title="{closeTitle}" role="button"><span class="cke_label">X</span></a>' +
 				'<div id="cke_dialog_tabs_{id}" class="cke_dialog_tabs" role="tablist"></div>' +
 				'<table class="cke_dialog_contents" role="presentation">' +
