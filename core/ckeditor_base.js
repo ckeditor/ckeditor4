@@ -64,6 +64,8 @@ if ( !window.CKEDITOR ) {
 			 *
 			 *		alert( CKEDITOR.rnd ); // e.g. 319
 			 *
+			 * **Note** This method is not cryptographically secure. Do not use it in a secure-sensitive environment.
+			 *
 			 * @property {Number}
 			 */
 			rnd: Math.floor( Math.random() * ( 999 /*Max*/ - 100 /*Min*/ + 1 ) ) + 100 /*Min*/,
