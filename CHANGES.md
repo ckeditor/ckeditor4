@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 **Highlights:**
 
-[Web Spell Checker](https://webspellchecker.com/) ended support of WebSpellChecker Dialog December 31st, 2021. This means the plugin is not be supported any longer. Therefore, we decided to deprecate and remove WebSpellChecker Dialog plugin from CKEditor 4 presets.
+[Web Spell Checker](https://webspellchecker.com/) ended support of WebSpellChecker Dialog December 31st, 2021. This means the plugin is not supported any longer. Therefore, we decided to deprecate and remove WebSpellChecker Dialog plugin from CKEditor 4 presets.
 
 We strongly encourage everyone to choose one of the other available spellchecking solutions - [Spell Check As You Type (SCAYT)](https://ckeditor.com/cke4/addon/scayt) or [WProofreader](https://ckeditor.com/cke4/addon/wproofreader).
 
