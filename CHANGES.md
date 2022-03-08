@@ -1,7 +1,13 @@
 CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.17.3
+## CKEditor 4.18.0
+
+**Highlights:**
+
+[Web Spell Checker](https://webspellchecker.com/) ended support of WebSpellChecker Dialog December 31st, 2021. This means the plugin is not be supported any longer. Therefore, we decided to deprecate and remove WebSpellChecker Dialog plugin from CKEditor 4 presets.
+
+We strongly encourage everyone to choose one of the other available spellchecking solutions - [Spell Check As You Type (SCAYT)](https://ckeditor.com/cke4/addon/scayt) or [WProofreader](https://ckeditor.com/cke4/addon/wproofreader).
 
 Fixed issues:
 
@@ -9,6 +15,7 @@ Fixed issues:
 
 Other changes:
 
+* [#5093](https://github.com/ckeditor/ckeditor4/issues/5093): Deprecated and removed WebSpellChecker Dialog from presets.
 * [#5087](https://github.com/ckeditor/ckeditor4/issues/5087): Deprecated jQuery API calls in jQuery adapter were replaced by undeprecated ones. Thanks to [Fran Boon](https://github.com/flavour)!
 * [#5044](https://github.com/ckeditor/ckeditor4/issues/5044): Fixed: Lack of style for selected items in unfocused multiselection list. Thanks to [John R. D'Orazio](https://github.com/JohnRDOrazio)!
 
