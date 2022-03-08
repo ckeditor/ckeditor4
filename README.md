@@ -62,6 +62,23 @@ A "release ready" working copy of your development code will be built in the new
 `dev/builder/release/` folder. An Internet connection is necessary to run the
 builder, for its first time at least.
 
+## Testing Changes in Local
+
+Here are steps on how to locally test your code changes in this repo.
+
+**Note** :- Here, the example steps are added in context to its integration with [Candidate Site](http://github.com/interviewstreet/candidate-site-frontend). This example can be extended to other repositories as well. 
+
+1. Clone this repo 
+2. `cd` into the directory and enter the build command (`./dev/builder/build.sh`) in the root of the folder, a new release will be created in `ckeditor-dev/dev/builder/release/` and the name of the new release folder name is `ckeditor`
+3. Make sure you are in the root of this directory and enter the command to serve the newly released folder through your localhost
+`python3 -m http.server <port> -d ./dev/builder/release/` 
+4. Replace `<port>` with the port you want to serve in localhost. e.g. `3333`
+5. Replace `CKEDITOR_CDN_URL` from hackerrank cdn to your localhost url. Example: 
+`export const CKEDITOR_CDN_URL = 'http://localhost:<port>/ckeditor/ckeditor.js';` which will be present in a file similar to [this](https://github.com/interviewstreet/candidate-site-frontend/blob/master/src/shared/constants.js) in your respective repositories.
+6. Make sure your devspace is running and, open a page in your private node where you get to see the editor(served from your localhost) in action. 
+
+**Note** :- After making any code changes, you need to follow the above steps, starting from step-2 and for each change you made, follow one iteration of the above steps.
+
 ## Testing Environment
 
 Read more on how to set up the environment and execute tests in the [CKEditor 4 Testing Environment](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_tests.html) guide.
