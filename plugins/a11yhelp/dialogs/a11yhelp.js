@@ -114,7 +114,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	function buildHelpContents() {
 		var pageTpl = '<div class="cke_accessibility_legend" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
 				'<span id="' + id + '_arialbl" class="cke_voice_label">' + lang.contents + ' </span>',
-			sectionTpl = '<h1>%1</h1><dl>%2</dl>',
+			sectionTpl = '<h3>%1</h3><dl>%2</dl>',
 			itemTpl = '<dt>%1</dt><dd>%2</dd>';
 
 		var pageHtml = [],
@@ -186,6 +186,12 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 							'white-space:normal;' +
 						'}' +
 						'.cke_accessibility_legend h1' +
+						'{' +
+							'font-size: 20px;' +
+							'border-bottom: 1px solid #AAA;' +
+							'margin: 5px 0px 15px;' +
+						'}' +
+						'.cke_accessibility_legend h3' +
 						'{' +
 							'font-size: 20px;' +
 							'border-bottom: 1px solid #AAA;' +
