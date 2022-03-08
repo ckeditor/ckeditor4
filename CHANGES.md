@@ -1,6 +1,17 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.6
+
+- [#7](https://github.com/interviewstreet/ckeditor-dev/pull/7): 
+  - Accessibility changes: better heading hierarchy
+  - JIRA: [DEL-2257](https://hackerrank.atlassian.net/browse/DEL-2256)
+- [#8](https://github.com/interviewstreet/ckeditor-dev/pull/8): 
+  - Accessibility changes: Istruction heading changed from div to h2
+  - JIRA: [DEL-2256](https://hackerrank.atlassian.net/browse/DEL-2257)
+- [#9](https://github.com/interviewstreet/ckeditor-dev/pull/9): 
+  - Improved documentation for testing ckeditor changes locally 
+
 ## CKEditor 4.11.4.5
 
 Fixes:
