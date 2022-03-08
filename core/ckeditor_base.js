@@ -64,8 +64,11 @@ if ( !window.CKEDITOR ) {
 			 *
 			 *		alert( CKEDITOR.rnd ); // e.g. 319
 			 *
-			 * **Note** This method is not cryptographically secure. Do not use it in a secure-sensitive environment.
+			 * Generated integer is not cryptographically secure. It has been deprecated to
+			 * prevent using it in a security-sensitive context by accident.
+			 * Use `window.crypto.getRandomValues()` native browser method instead.
 			 *
+			 * @deprecated 4.18.0
 			 * @property {Number}
 			 */
 			rnd: Math.floor( Math.random() * ( 999 /*Max*/ - 100 /*Min*/ + 1 ) ) + 100 /*Min*/,
