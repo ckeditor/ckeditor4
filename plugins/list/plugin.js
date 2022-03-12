@@ -855,12 +855,14 @@
 			// Register the toolbar button.
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'NumberedList', {
+					isToggle: true,
 					label: editor.lang.list.numberedlist,
 					command: 'numberedlist',
 					directional: true,
 					toolbar: 'list,10'
 				} );
 				editor.ui.addButton( 'BulletedList', {
+					isToggle: true,
 					label: editor.lang.list.bulletedlist,
 					command: 'bulletedlist',
 					directional: true,
