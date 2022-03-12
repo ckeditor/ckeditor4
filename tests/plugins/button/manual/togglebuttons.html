@@ -1,0 +1,72 @@
+<style>
+	table {
+		margin-top: 20px;
+	}
+	td, th {
+		padding: 10px;
+		text-align: center;
+	}
+	tbody th {
+		font-weight: normal;
+	}
+</style>
+<div id="editor">
+	<p>Whatever</p>
+</div>
+<table border="1">
+	<thead>
+		<tr>
+			<th scope="col">Button</th>
+			<th scope="col"><code>[aria-pressed]</code> value</th>
+		</tr>
+	</thead>
+	<tbody id="states"></tbody>
+</table>
+
+<script>
+	( function() {
+		CKEDITOR.replace( 'editor', {
+			language: 'en',
+			plugins: [
+				'toolbar',
+				'wysiwygarea',
+				'basicstyles',
+				'bidi',
+				'blockquote',
+				// 'colorbutton'
+				'copyformatting',
+				'justify',
+				// 'language',
+				'list',
+				// 'maximize',
+				'sourcearea',
+			],
+			removeButtons: 'Indent,Outdent',
+			on: {
+				instanceReady: function( evt ) {
+					var editor = evt.editor;
+
+					editor.on( 'afterCommandExec', renderButtonStates );
+					editor.on( 'selectionChange', renderButtonStates );
+					editor.on( 'mode', renderButtonStates );
+					CKEDITOR.document.findOne( '.cke_top' ).on( 'mouseup', renderButtonStates );
+
+					renderButtonStates();
+				}
+			}
+		} );
+
+		function renderButtonStates() {
+			var buttons = CKEDITOR.document.find( '.cke_toolbar .cke_button' ).toArray(),
+				statesContainer = CKEDITOR.document.getById( 'states' ),
+				statesHtml = CKEDITOR.tools.array.map( buttons, function( button ) {
+					var currentState = button.getAttribute( 'aria-pressed' ),
+						buttonLabel = button.findOne( '.cke_button_label' ).getHtml();
+
+					return '<tr><th scope="row">' + buttonLabel + '</th><td>' + currentState + '</td></tr>';
+				} ).join( '' );
+
+				statesContainer.setHtml( statesHtml );
+		}
+	} )();
+</script>
