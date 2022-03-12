@@ -3,7 +3,7 @@
 
 bender.editor = {
 	config: {
-		toolbar: [ [ 'custom_btn', 'disabled_btn', 'haspopup_btn', 'arrow_btn' ] ],
+		toolbar: [ [ 'custom_btn', 'disabled_btn', 'haspopup_btn', 'arrow_btn', 'toggle_btn' ] ],
 		on: {
 			'pluginsLoaded': function( evt ) {
 				var editor = evt.editor;
@@ -21,6 +21,11 @@ bender.editor = {
 
 				editor.ui.addButton( 'arrow_btn', {
 					label: 'arrow button'
+				} );
+
+				editor.ui.addButton( 'toggle_btn', {
+					label: 'toggle button',
+					isToggle: true
 				} );
 			}
 		}
@@ -83,6 +88,53 @@ bender.test( {
 
 		this.assertAttribtues( expectedAttributes, button );
 		assert.areEqual( 'arrow button', label.getText(), 'innerText of label doesn\'t match' );
+	},
+
+	// (#2444)
+	'test toggle button initial state': function() {
+		var button = this.getUiItem( 'toggle_btn' ),
+			expectedAttributes = {
+				'aria-pressed': 'false'
+			};
+
+		this.assertAttribtues( expectedAttributes, button );
+	},
+
+	// (#2444)
+	'test toggle button state after switching on': function() {
+		var button = this.getUiItem( 'toggle_btn' ),
+			expectedAttributes = {
+				'aria-pressed': 'true'
+			};
+
+		button.setState( CKEDITOR.TRISTATE_ON );
+
+		this.assertAttribtues( expectedAttributes, button );
+	},
+
+	// (#2444)
+	'test toggle button state after switching off': function() {
+		var button = this.getUiItem( 'toggle_btn' ),
+			expectedAttributes = {
+				'aria-pressed': 'false'
+			};
+
+		button.setState( CKEDITOR.TRISTATE_OFF );
+
+		this.assertAttribtues( expectedAttributes, button );
+	},
+
+	// (#2444)
+	'test toggle button state after disabling while being switched on': function() {
+		var button = this.getUiItem( 'toggle_btn' ),
+			expectedAttributes = {
+				'aria-pressed': 'false'
+			};
+
+		button.setState( CKEDITOR.TRISTATE_ON );
+		button.setState( CKEDITOR.TRISTATE_DISABLED );
+
+		this.assertAttribtues( expectedAttributes, button );
 	},
 
 	// Asserts that button has given attributes, with given values.
