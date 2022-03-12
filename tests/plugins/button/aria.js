@@ -1,5 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: button,toolbar */
+/* bender-include: _helpers/buttontools.js */
+/* global buttonTools */
 
 bender.editor = {
 	config: {
@@ -33,33 +35,23 @@ bender.editor = {
 };
 
 bender.test( {
-	setUp: function() {
-		// Standard aria attributes for button element.
-		this.typicalButtonAttributes = {
-			'aria-disabled': 'false',
-			'role': 'button',
-			'aria-haspopup': 'false',
-			'aria-labelledby': /^cke_\d+_label$/
-		};
-	},
-
 	'test default button attributes': function() {
-		var btn = this.getUiItem( 'custom_btn' ),
-			expectedAttributes = this.typicalButtonAttributes;
+		var btn = buttonTools.getUiItem( this.editor, 'custom_btn' ),
+			expectedAttributes = buttonTools.typicalButtonAttributes;
 
-		this.assertAttribtues( expectedAttributes, btn );
+		buttonTools.assertAttribtues( expectedAttributes, btn );
 	},
 
 	'test disabled button': function() {
-		var btn = this.getUiItem( 'disabled_btn' ),
-			expectedAttributes = this.typicalButtonAttributes;
+		var btn = buttonTools.getUiItem( this.editor, 'disabled_btn' ),
+			expectedAttributes = buttonTools.typicalButtonAttributes;
 
 		expectedAttributes[ 'aria-disabled' ] = 'true';
-		this.assertAttribtues( expectedAttributes, btn );
+		buttonTools.assertAttribtues( expectedAttributes, btn );
 	},
 
 	'test button label': function() {
-		var btn = this.getButtonDomElement( this.getUiItem( 'custom_btn' ) ),
+		var btn = buttonTools.getButtonDomElement( buttonTools.getUiItem( this.editor, 'custom_btn' ) ),
 			label = CKEDITOR.document.getById( btn.getAttribute( 'aria-labelledby' ) );
 
 		assert.isTrue( !!label, 'Label element not found' );
@@ -68,14 +60,14 @@ bender.test( {
 
 	// WAI-ARIA 1.1 has added new values for aria-haspopup property (#2072).
 	'test aria-haspopup': function() {
-		var btn = this.getUiItem( 'haspopup_btn' ),
+		var btn = buttonTools.getUiItem( this.editor, 'haspopup_btn' ),
 			btnEl = CKEDITOR.document.getById( btn._.id );
 		assert.areEqual( btnEl.getAttribute( 'aria-haspopup' ), 'menu' );
 	},
 
 	// (#421)
 	'test button label with arrow': function() {
-		var button = this.getUiItem( 'arrow_btn' ),
+		var button = buttonTools.getUiItem( this.editor, 'arrow_btn' ),
 			expectedAttributes = {
 				'aria-expanded': 'true'
 			};
@@ -83,50 +75,50 @@ bender.test( {
 		button.hasArrow = true;
 		button.setState( CKEDITOR.TRISTATE_ON );
 
-		var buttonEl = this.getButtonDomElement( button ),
+		var buttonEl = buttonTools.getButtonDomElement( button ),
 			label = CKEDITOR.document.getById( buttonEl.getAttribute( 'aria-labelledby' ) );
 
-		this.assertAttribtues( expectedAttributes, button );
+		buttonTools.assertAttribtues( expectedAttributes, button );
 		assert.areEqual( 'arrow button', label.getText(), 'innerText of label doesn\'t match' );
 	},
 
 	// (#2444)
 	'test toggle button initial state': function() {
-		var button = this.getUiItem( 'toggle_btn' ),
+		var button = buttonTools.getUiItem( this.editor, 'toggle_btn' ),
 			expectedAttributes = {
 				'aria-pressed': 'false'
 			};
 
-		this.assertAttribtues( expectedAttributes, button );
+		buttonTools.assertAttribtues( expectedAttributes, button );
 	},
 
 	// (#2444)
 	'test toggle button state after switching on': function() {
-		var button = this.getUiItem( 'toggle_btn' ),
+		var button = buttonTools.getUiItem( this.editor, 'toggle_btn' ),
 			expectedAttributes = {
 				'aria-pressed': 'true'
 			};
 
 		button.setState( CKEDITOR.TRISTATE_ON );
 
-		this.assertAttribtues( expectedAttributes, button );
+		buttonTools.assertAttribtues( expectedAttributes, button );
 	},
 
 	// (#2444)
 	'test toggle button state after switching off': function() {
-		var button = this.getUiItem( 'toggle_btn' ),
+		var button = buttonTools.getUiItem( this.editor, 'toggle_btn' ),
 			expectedAttributes = {
 				'aria-pressed': 'false'
 			};
 
 		button.setState( CKEDITOR.TRISTATE_OFF );
 
-		this.assertAttribtues( expectedAttributes, button );
+		buttonTools.assertAttribtues( expectedAttributes, button );
 	},
 
 	// (#2444)
 	'test toggle button state after disabling while being switched on': function() {
-		var button = this.getUiItem( 'toggle_btn' ),
+		var button = buttonTools.getUiItem( this.editor, 'toggle_btn' ),
 			expectedAttributes = {
 				'aria-pressed': 'false'
 			};
@@ -134,42 +126,6 @@ bender.test( {
 		button.setState( CKEDITOR.TRISTATE_ON );
 		button.setState( CKEDITOR.TRISTATE_DISABLED );
 
-		this.assertAttribtues( expectedAttributes, button );
-	},
-
-	// Asserts that button has given attributes, with given values.
-	// Expected attribute value may be a regexp.
-	// @param {Object} expectedAttributes
-	// @param {CKEDITOR.ui.button} button UI button to be tested.
-	assertAttribtues: function( expectedAttributes, button ) {
-		var buttonElement = this.getButtonDomElement( button ),
-			expectedValue,
-			attributeValue;
-
-		for ( var attrName in expectedAttributes ) {
-			assert.isTrue( buttonElement.hasAttribute( attrName ), 'Button HTML element does not contain ' + attrName + ' attribute.' );
-
-			expectedValue = expectedAttributes[ attrName ];
-			attributeValue = buttonElement.getAttribute( attrName );
-
-			if ( expectedValue instanceof RegExp )
-				assert.isTrue( expectedValue.test( attributeValue ), 'Attribute ' + attrName + ' did not matched expected ' + expectedValue + ' regex' );
-			else
-				assert.areSame( expectedValue, attributeValue, 'Invalid value for attribute ' + attrName + '.' );
-		}
-	},
-
-	// Returns button object.
-	// @param {String} name Name of the button in ui.
-	// @return {CKEDITOR.ui.button}
-	getUiItem: function( name ) {
-		return this.editor.ui.get( name );
-	},
-
-	// Returns html element for given menu.
-	// @param {CKEDITOR.ui.button} uiButton
-	// @return {CKEDITOR.dom.element}
-	getButtonDomElement: function( uiButton ) {
-		return CKEDITOR.document.getById( uiButton._.id );
+		buttonTools.assertAttribtues( expectedAttributes, button );
 	}
 } );
