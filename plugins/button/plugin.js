@@ -14,7 +14,8 @@
 		' aria-labelledby="{id}_label"' +
 		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasArrow}"' +
-		' aria-disabled="{ariaDisabled}"';
+		' aria-disabled="{ariaDisabled}"' +
+		'{toggleHtml}';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -51,7 +52,10 @@
 	( CKEDITOR.env.hc ? '&#9660;' : '' ) +
 		'</span>';
 
+	var templateToggle = ' aria-pressed="false"';
+
 	var btnArrowTpl = CKEDITOR.addTemplate( 'buttonArrow', templateArrow ),
+		toggleBtnTpl = CKEDITOR.addTemplate( 'toggleButton', templateToggle ),
 		btnTpl = CKEDITOR.addTemplate( 'button', template );
 
 	CKEDITOR.plugins.add( 'button', {
@@ -81,6 +85,7 @@
 		CKEDITOR.tools.extend( this, definition,
 		// Set defaults.
 		{
+			isToggle: definition.isToggle || false,
 			title: definition.label,
 			click: definition.click ||
 			function( editor ) {
@@ -308,7 +313,8 @@
 				focusFn: focusFn,
 				clickFn: clickFn,
 				style: CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), overridePath, this.iconOffset ),
-				arrowHtml: this.hasArrow ? btnArrowTpl.output() : ''
+				arrowHtml: this.hasArrow ? btnArrowTpl.output() : '',
+				toggleHtml: this.isToggle ? toggleBtnTpl.output() : ''
 			};
 
 			btnTpl.output( params, output );
@@ -337,14 +343,11 @@
 				element.setState( state, 'cke_button' );
 				element.setAttribute( 'aria-disabled', state == CKEDITOR.TRISTATE_DISABLED );
 
-				if ( !this.hasArrow ) {
-					// Note: aria-pressed attribute should not be added to menuButton instances. (https://dev.ckeditor.com/ticket/11331)
-					if ( state === CKEDITOR.TRISTATE_ON ) {
-						element.setAttribute( 'aria-pressed', true );
-					} else {
-						element.removeAttribute( 'aria-pressed' );
-					}
-				} else {
+				if ( this.isToggle && !this.hasArrow ) {
+					// Note: aria-pressed attribute should not be added to menuButton instances. (https://dev.ckeditor.com/ticket/11331).
+					// Do not remove the attribute, set its value (#2444).
+					element.setAttribute( 'aria-pressed', state === CKEDITOR.TRISTATE_ON );
+				} else if ( this.hasArrow ) {
 					// Indicates that menu button is opened (#421).
 					element.setAttribute( 'aria-expanded', state == CKEDITOR.TRISTATE_ON );
 				}
@@ -437,6 +440,8 @@
 	 * 		} )
 	 * @param {String/Boolean} definition.hasArrow If Boolean, it indicates whether the button should have a dropdown. If a string, it acts
 	 * as a value of the button's `aria-haspopup` attribute. Since **4.11.0** it supports the string as a value.
+	 * @param {Boolean} [definition.isToggle=false] Indicates if the button should be treated as a toggle one
+	 * (button that can be switched on and off, e.g. the "Bold" button). This option is supported since the **4.18.1** version.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );
