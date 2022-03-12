@@ -242,6 +242,7 @@
 			editor.addCommand( 'blockquote', commandObject );
 
 			editor.ui.addButton && editor.ui.addButton( 'Blockquote', {
+				isToggle: true,
 				label: editor.lang.blockquote.toolbar,
 				command: 'blockquote',
 				toolbar: 'blocks,10'
