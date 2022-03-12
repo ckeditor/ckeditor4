@@ -1,0 +1,44 @@
+<p><code>[aria-pressed]</code> value: <span id="aria-pressed-value">editor is loading…</span></p>
+<div id="editor">
+	<p>Whatever</p>
+</div>
+
+<script>
+	( function() {
+		CKEDITOR.replace( 'editor', {
+			toolbar: [ [ 'toggleButton' ] ],
+			on: {
+				pluginsLoaded: function( evt ) {
+					evt.editor.addCommand( 'toggleButton', {
+						exec: function() {
+							if ( this.state === CKEDITOR.TRISTATE_OFF ) {
+								this.setState( CKEDITOR.TRISTATE_ON );
+							} else {
+								this.setState( CKEDITOR.TRISTATE_OFF );
+							}
+
+							renderButtonState();
+						}
+					} );
+
+					evt.editor.ui.addButton( 'toggleButton', {
+						label: 'Toggle button',
+						icon: 'Link',
+						isToggle: true,
+						command: 'toggleButton'
+					} );
+				},
+
+				instanceReady: renderButtonState
+			}
+		} );
+
+		function renderButtonState() {
+			var button = CKEDITOR.document.findOne( '.cke_button__togglebutton' ),
+				stateIndicator = CKEDITOR.document.getById( 'aria-pressed-value' ),
+				currentState = button.getAttribute( 'aria-pressed' )
+
+			stateIndicator.setHtml( currentState );
+		}
+	} )();
+</script>
