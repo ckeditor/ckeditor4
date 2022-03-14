@@ -1,34 +1,7 @@
-/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
- */
-
-/**
- * @fileOverview  Plugin that changes the toolbar and maximizes the editor
- *                for the big toolbar.
- *
- *                You need a custom config to define the small and big toolbars.
- *                Also the maximize plug-in is needed but not the maximize button.
- *                For this plugin you should use the 'Toolbarswitch' button instead.
- *
- *                CKEDITOR.replace('sometextcomponentname', {
- *               		customConfig: '/...custom_ckeditor_config.js'
- *               		toolbar: 'yoursmalltoolbarname',
- *               		smallToolbar: 'yoursmalltoolbarname',
- *               		maximizedToolbar: 'yourbigtoolbarname' });
- *
- *                Requires:
- *                - Maximize plugin. But not the button that goes with it.
- *                - All toolbars used in the ckeditor instance have to use the 'Toolbarswitch' button instead.
- *                - A custom config to define the small and big toolbars.
- *                - function CKeditor_OnComplete(ckEditorInstance){ ... your own custom code or leave empty... }
- *                  This was added to the plugin for those that wrap the ckeditor in other java script to shield
- *                  the rest of their code from ckeditor version particularities.
- *                - jQuery
- */
-
-
 function switchMe(editor, callback) {
+
+	window.isToolbarChange = true;
+	window.editorInstance = editor;
 
 	var toolbarSize = editor.config.toolbarStatus;
 	var toolbarStatus = '';
@@ -72,18 +45,13 @@ function switchMe(editor, callback) {
 			if (callback) {
 				callback.call(null, e);
 			}
-			if (editor.config.toolbarStatus === 'maximizedToolbar') {
-				document.querySelector('.cke_button__toolbarswitch_icon').classList.add('bigToolbar');
-			}
-			else {
-				document.querySelector('.cke_button__toolbarswitch_icon').classList.remove('bigToolbar');
-			}
 			//add notification to editor
 			var notifications_area = document.querySelector('.cke_notifications_area');
 			if (notifications_area !== null) {
 				notifications_area.innerHTML = '';
 			}
 			warnings = checkEditorValidation(editor, variable, counterElement, notificationsElement);
+			window.editorInstance = editor;
 		});
 		editor.on('change', function () {
 			var notifications_area = document.querySelector('.cke_notifications_area');
@@ -92,56 +60,59 @@ function switchMe(editor, callback) {
 			}
 			warnings = checkEditorValidation(editor, variable, counterElement, notificationsElement);
 			trackCKEditorsChange(editor, elementTrigger, elementTriggerIndex, variable, false);
+			window.editorInstance = editor;
 		});
-		editor.on('blur', function () {
-			trackCKEditorsChange(editor, elementTrigger, elementTriggerIndex, variable, true);
-		});
-	} else {
-		CKEDITOR.replace(editorUniqId, customConfig);
-		editor = CKEDITOR.instances[editorUniqId];
-		editor.on('instanceReady', function (e) {
-			CKeditor_OnComplete(e.editor);
-			if (callback) {
-				callback.call(null, e);
-			}
-			if (editor.config.toolbarStatus === 'maximizedToolbar') {
-				document.querySelector('.cke_button__toolbarswitch_icon').classList.add('bigToolbar');
-			}
-			else {
-				document.querySelector('.cke_button__toolbarswitch_icon').classList.remove('bigToolbar');
-			}
+		editor.on('afterCommandExec', function () {
+			window.isToolbarChange = true;
+			window.editorInstance = editor;
 		});
 	}
+	// else {
+	// when using toolbarswitch on angular ckeditor
+	// 	CKEDITOR.replace(editorUniqId, customConfig);
+	// 	editor = CKEDITOR.instances[editorUniqId];
+	// 	editor.on('instanceReady', function (e) {
+	// 		CKeditor_OnComplete(e.editor);
+	// 		if (callback) {
+	// 			callback.call(null, e);
+	// 		}
+	// 		if (editor.config.toolbarStatus === 'maximizedToolbar') {
+	// 			document.querySelector('.cke_button__toolbarswitch_icon').classList.add('bigToolbar');
+	// 		} else {
+	// 			document.querySelector('.cke_button__toolbarswitch_icon').classList.remove('bigToolbar');
+	// 		}
+	// 	});
+	// }
 }
 
 function checkEditorValidation(editor, variable, counterElement, notificationsElement) {
 	if (variable.type !== 'editor-basic') return null;
 	var textLength = getEditorTextLength(editor.getData());
-	if (variable.validation.max) {
+	if (variable.validation.max && counterElement) {
 		counterElement.innerHTML = textLength + '/' + variable.validation.max;
 	}
-	if (textLength > 0) {
-		warnings = getWarnings(variable, textLength);
-		if (warnings !== null) {
-			notificationsElement.innerText = '👉' + warnings;
-			notificationsElement.classList.add('error');
-			counterElement.classList.add('error');
-		} else {
-			notificationsElement.innerText = '';
-			notificationsElement.classList.remove('error');
-			counterElement.classList.remove('error');
-		}
+	var warnings = getWarnings(variable, textLength);
+	if (warnings !== null) {
+		notificationsElement.innerText = '👉' + warnings;
+		notificationsElement.classList.add('error');
+		counterElement.classList.add('error');
+	} else {
+		notificationsElement.innerText = '';
+		notificationsElement.classList.remove('error');
+		counterElement.classList.remove('error');
 	}
 	return warnings;
 }
 
 function getWarnings(variable, textLength) {
-
+	if (textLength === 0 && variable.validation && variable.validation.required) {
+		return ' This field is required';
+	}
 	if (variable.validation && variable.validation.max && textLength >= +variable.validation.max) {
-		return "Recommended max text length: " + variable.validation.max + "characters";
+		return ' Recommended max text length: '+ variable.validation.max + 'characters';
 	}
 	if (variable.validation && variable.validation.min && textLength <= +variable.validation.min) {
-		return "Recommended min text length " + variable.validation.min + "characters";
+		return ' Recommended min text length: '+ variable.validation.min + 'characters';
 	}
 	return null;
 }
@@ -164,7 +135,7 @@ function trackCKEditorsChange(editor, activeTrigger, activeTriggerIndex, variabl
 		action: action,
 		activeTrigger: activeTrigger,
 		activeTriggerIndex: activeTriggerIndex,
-		variable: variable.name,
+		variable: variable,
 		value: value,
 		saveChanges: saveChanges
 	}
@@ -187,14 +158,13 @@ CKEDITOR.plugins.add('toolbarswitch', {
 				});
 			}
 		}
-
 		var command = editor.addCommand('toolbarswitch', commandFunction);
 		command.modes = {wysiwyg: 1, source: 1};
 		command.canUndo = false;
 		command.readOnly = 1;
 
 		editor.ui.addButton && editor.ui.addButton('Toolbarswitch', {
-			label: lang.toolbarswitch.toolbarswitch,
+			label: editor.config.toolbarStatus,
 			command: 'toolbarswitch',
 			toolbar: 'tools,10',
 			icon: this.path + 'icons/toolbarswitch.svg'

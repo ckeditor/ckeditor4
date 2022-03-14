@@ -7,14 +7,17 @@ window.addEventListener('message', function (event) {
 			var editorInstance = event.data.editor;
 			var selectedEditor = CKEDITOR.instances[editorInstance];
 			var displayText = event.data.value;
-			var tag = selectedEditor.document.createElement('span', {
-				attributes: {
-					'class': 'fast-versioning'
-				}
-			});
-			tag.setAttribute('contentEditable', false);
-			tag.setHtml(displayText);
-			selectedEditor.insertElement(tag);
+			if(displayText) {
+				var tag = selectedEditor.document.createElement('span', {
+					attributes: {
+						'class': 'fast-versioning'
+					}
+				});
+				tag.setAttribute('contentEditable', false);
+				tag.setHtml(displayText);
+				selectedEditor.insertElement(tag);
+			}
+			selectedEditor.focus();
 		}
 	}
 });
@@ -40,14 +43,17 @@ if (!window.isWYSIWYG) {
 		subscription = window.ckeditorSubscriber.subscribe(function (data) {
 			var selectedEditor = data.editor;
 			var displayText = data.value;
-			var tag = selectedEditor.document.createElement('span', {
-				attributes: {
-					'class': 'fast-versioning'
-				}
-			});
-			tag.setAttribute('contentEditable', false);
-			tag.setHtml(displayText);
-			selectedEditor.insertElement(tag);
+			if(displayText) {
+				var tag = selectedEditor.document.createElement('span', {
+					attributes: {
+						'class': 'fast-versioning'
+					}
+				});
+				tag.setAttribute('contentEditable', false);
+				tag.setHtml(displayText);
+				selectedEditor.insertElement(tag);
+			}
+			selectedEditor.focus();
 		});
 	}
 

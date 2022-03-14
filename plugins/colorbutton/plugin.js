@@ -216,8 +216,8 @@
 							automaticColor = '#ffffff';
 						}
 
-						var chosenColor = window.chosenColor;
-						if(!chosenColor) chosenColor = automaticColor;
+						// var color = editor.tools.color(automaticColor);
+						var chosenColor = '#' + normalizeColor(automaticColor);
 
 						// if (config.colorButton_enableAutomatic) {
 						// 	panelBlock.element.findOne('#' + colorBoxId).setStyle('background-color', automaticColor);
@@ -327,6 +327,10 @@
 						colorHistory.addColor(color.substr(1).toUpperCase());
 						// renumberElements(panelBlock);
 					}
+				}
+
+				function getChosenColor(automaticColor) {
+					return new CKEDITOR.tools.color(automaticColor);
 				}
 
 				function renumberElements(panel) {
