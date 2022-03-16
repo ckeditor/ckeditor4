@@ -66,7 +66,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 	var cssLength = CKEDITOR.tools.cssLength,
 		defaultDialogDefinition,
-		currentCover;
+		currentCover,
+		stylesLoaded = false;
 
 	function focusActiveTab( dialog ) {
 		dialog._.tabBarMode = true;
@@ -3496,24 +3497,23 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			return dialog;
 		}
 	} );
+
+	CKEDITOR.plugins.add( 'dialog', {
+		requires: 'dialogui',
+		init: function( editor ) {
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'styles/dialog.css' );
+				stylesLoaded = true;
+			}
+
+			editor.on( 'doubleclick', function( evt ) {
+				if ( evt.data.dialog )
+					editor.openDialog( evt.data.dialog );
+			}, null, null, 999 );
+		}
+	} );
 } )();
 
-var stylesLoaded = false;
-
-CKEDITOR.plugins.add( 'dialog', {
-	requires: 'dialogui',
-	init: function( editor ) {
-		if ( !stylesLoaded ) {
-			CKEDITOR.document.appendStyleSheet( this.path + 'styles/dialog.css' );
-			stylesLoaded = true;
-		}
-
-		editor.on( 'doubleclick', function( evt ) {
-			if ( evt.data.dialog )
-				editor.openDialog( evt.data.dialog );
-		}, null, null, 999 );
-	}
-} );
 
 // Dialog related configurations.
 

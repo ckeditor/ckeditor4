@@ -1,0 +1,30 @@
+<textarea name="editor1">
+	Paste here:
+</textarea>
+<hr />
+<textarea name="editor2">
+	Paste here:
+</textarea>
+<hr />
+<textarea name="editor3">
+	Paste here:
+</textarea>
+
+<script type="text/javascript">
+	if ( !CKEDITOR.env.webkit || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'divarea',
+		enterMode: CKEDITOR.ENTER_BR
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		enterMode: CKEDITOR.ENTER_BR
+	} );
+
+	CKEDITOR.inline( 'editor3', {
+		enterMode: CKEDITOR.ENTER_BR
+	} );
+</script>

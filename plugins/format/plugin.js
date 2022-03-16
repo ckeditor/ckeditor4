@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -66,6 +66,9 @@ CKEDITOR.plugins.add( 'format', {
 
 				var style = styles[ value ],
 					elementPath = editor.elementPath();
+
+				// (#3649)
+				editor.fire( 'stylesRemove', { type: CKEDITOR.STYLE_BLOCK } );
 
 				// Always apply style, do not allow to toggle it by clicking on corresponding list item (#584).
 				if ( !style.checkActive( elementPath, editor ) ) {

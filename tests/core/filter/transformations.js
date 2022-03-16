@@ -429,15 +429,136 @@
 				assertToHtml( editor, '<h1 style="margin:10px">A</h1>',
 					'<h1 style="margin-left:10px; margin-top:10px">A</h1>',
 					'margin shortcut 1 member' );
+
 				assertToHtml( editor, '<h1 style="margin:20px 10px">A</h1>',
 					'<h1 style="margin-left:10px; margin-top:20px">A</h1>',
 					'margin shortcut 2 members' );
+
 				assertToHtml( editor, '<h1 style="margin:1px 2px 3px">A</h1>',
 					'<h1 style="margin-left:2px; margin-top:1px">A</h1>',
 					'margin shortcut 3 members' );
+
 				assertToHtml( editor, '<h1 style="margin:1px 2px 3px 4px">A</h1>',
 					'<h1 style="margin-left:4px; margin-top:1px">A</h1>',
 					'margin shortcut 4 members' );
+			} );
+		},
+
+		// (#1330)
+		'test unitless margin transformations': function() {
+			bender.editorBot.create( {
+				name: 'test_unitless_margin_transformations',
+				config: {
+					allowedContent: 'h1{margin*}'
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.filter.addTransformations( [
+					[ 'h1: splitMarginShorthand' ]
+				] );
+
+				assertToHtml( editor, '<h1 style="margin:0">A</h1>',
+					'<h1 style="margin-bottom:0; margin-left:0; margin-right:0; margin-top:0">A</h1>',
+					'margin shortcut 1 member with 0' );
+
+				assertToHtml( editor, '<h1 style="margin:auto">A</h1>',
+					'<h1 style="margin-bottom:auto; margin-left:auto; margin-right:auto; margin-top:auto">A</h1>',
+					'margin shortcut 1 member with auto' );
+
+				assertToHtml( editor, '<h1 style="margin:0 auto">A</h1>',
+					'<h1 style="margin-bottom:0; margin-left:auto; margin-right:auto; margin-top:0">A</h1>',
+					'margin shortcut 2 members with 0 and auto' );
+
+				assertToHtml( editor, '<h1 style="margin:10px auto 0">A</h1>',
+					'<h1 style="margin-bottom:0; margin-left:auto; margin-right:auto; margin-top:10px">A</h1>',
+					'margin shortcut 3 members with 0 and auto' );
+
+				assertToHtml( editor, '<h1 style="margin:0 0 12px 0">A</h1>',
+					'<h1 style="margin-bottom:12px; margin-left:0; margin-right:0; margin-top:0">A</h1>',
+					'margin shortcut 4 members with 0' );
+
+				assertToHtml( editor, '<h1 style="margin:0 auto 2pt 30%">A</h1>',
+					'<h1 style="margin-bottom:2pt; margin-left:30%; margin-right:auto; margin-top:0">A</h1>',
+					'margin shortcut 4 members with 0' );
+			} );
+		},
+
+		// Check for regressions in handling invalid values (#1330).
+		'test (partially) invalid margin transformations': function() {
+			bender.editorBot.create( {
+				name: 'test_partially_invalid_margin_transformations',
+				config: {
+					allowedContent: 'h1{margin*}'
+				}
+			}, function( bot ) {
+				// IE removes any invalid styles when CSS value is invalid.
+				if ( CKEDITOR.env.ie ) {
+					assert.ignore();
+				}
+
+				var editor = bot.editor;
+
+				editor.filter.addTransformations( [
+					[ 'h1: splitMarginShorthand' ]
+				] );
+
+				assertToHtml( editor, '<h1 style="margin:10px invalid">A</h1>',
+					'<h1 style="margin-bottom:10px; margin-left:10px; margin-right:10px; margin-top:10px">A</h1>',
+					'margin shortcut 2 members with 1 invalid value' );
+
+				assertToHtml( editor, '<h1 style="margin:20px invalid 15px">A</h1>',
+					'<h1 style="margin-bottom:20px; margin-left:15px; margin-right:15px; margin-top:20px">A</h1>',
+					'margin shortcut 3 members with 1 invalid value' );
+
+				assertToHtml( editor, '<h1 style="margin:20px invalid invalid">A</h1>',
+					'<h1 style="margin-bottom:20px; margin-left:20px; margin-right:20px; margin-top:20px">A</h1>',
+					'margin shortcut 3 members with 2 invalid values' );
+
+				assertToHtml( editor, '<h1 style="margin:20px 10px invalid invalid">A</h1>',
+					'<h1 style="margin-bottom:20px; margin-left:10px; margin-right:10px; margin-top:20px">A</h1>',
+					'margin shortcut 4 members with 2 invalid values' );
+
+				assertToHtml( editor, '<h1 style="margin:foo bar 5px baz">A</h1>',
+					'<h1 style="margin-bottom:5px; margin-left:5px; margin-right:5px; margin-top:5px">A</h1>',
+					'margin shortcut 4 members with 3 invalid values' );
+			} );
+		},
+
+		// Check for regressions in handling invalid values (#1330).
+		'test invalid margin transformations': function() {
+			bender.editorBot.create( {
+				name: 'test_invalid_margin_transformations',
+				config: {
+					allowedContent: 'h1{margin*}'
+				}
+			}, function( bot ) {
+				// IE removes any invalid styles when CSS value is invalid.
+				if ( CKEDITOR.env.ie ) {
+					assert.ignore();
+				}
+
+				var editor = bot.editor;
+
+				editor.filter.addTransformations( [
+					[ 'h1: splitMarginShorthand' ]
+				] );
+
+				assertToHtml( editor, '<h1 style="margin:invalid">A</h1>',
+					'<h1 style="margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px">A</h1>',
+					'margin shortcut 1 member with all invalid value' );
+
+				assertToHtml( editor, '<h1 style="margin:invalid1 invalid2">A</h1>',
+					'<h1 style="margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px">A</h1>',
+					'margin shortcut 2 members with all invalid value' );
+
+				assertToHtml( editor, '<h1 style="margin:foo bar baz">A</h1>',
+					'<h1 style="margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px">A</h1>',
+					'margin shortcut 3 members with all invalid value' );
+
+				assertToHtml( editor, '<h1 style="margin:foo bar baz bax">A</h1>',
+					'<h1 style="margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px">A</h1>',
+					'margin shortcut 4 members with all invalid value' );
 			} );
 		},
 

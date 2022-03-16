@@ -46,6 +46,10 @@ other files.
 /* Styles for notifications. */
 @import url("notification.css");
 
+/* Additional styles of StoryDoc */
+@import url("storydoc.css");
+
+
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
    editor creates it with visibility:hidden. Here, we restore the UI visibility. */

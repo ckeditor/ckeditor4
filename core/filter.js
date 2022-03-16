@@ -2233,7 +2233,7 @@
 		},
 
 		/**
-		 * Converts the shorthand form of the `margin` style to seperate styles.
+		 * Converts the shorthand form of the `margin` style to separate styles.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
@@ -2242,7 +2242,7 @@
 				return;
 			}
 
-			var widths = element.styles.margin.match( /(\-?[\.\d]+\w+)/g ) || [ '0px' ];
+			var widths = element.styles.margin.match( /(auto|0|(?:\-?[\.\d]+(?:\w+|%)))/g ) || [ '0px' ];
 			switch ( widths.length ) {
 				case 1:
 					mapStyles( [ 0, 0, 0, 0 ] );
@@ -2261,10 +2261,10 @@
 			delete element.styles.margin;
 
 			function mapStyles( map ) {
-				element.styles['margin-top'] = widths[ map[0] ];
-				element.styles['margin-right'] = widths[ map[1] ];
-				element.styles['margin-bottom'] = widths[ map[2] ];
-				element.styles['margin-left'] = widths[ map[3] ];
+				element.styles[ 'margin-top' ] = widths[ map[ 0 ] ];
+				element.styles[ 'margin-right' ] = widths[ map[ 1 ] ];
+				element.styles[ 'margin-bottom' ] = widths[ map[ 2 ] ];
+				element.styles[ 'margin-left' ] = widths[ map[ 3 ] ];
 			}
 		},
 

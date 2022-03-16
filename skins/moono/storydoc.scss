@@ -1,0 +1,452 @@
+/* FONTS
+   ========================================================================== */
+/* Open Sans */
+
+@font-face {
+  font-family: "Open Sans";
+  src: url(fonts/OpenSans/OpenSans-Regular.ttf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url(fonts/OpenSans/OpenSans-Bold.ttf);
+  font-weight: 500;
+}
+
+
+.cke {
+  max-width: 1000px;
+}
+
+.cke_chrome {
+  border: none;
+}
+
+
+.cke_editable {
+  min-height: 50px;
+  padding: 10px;
+  cursor: auto !important;
+  border: 2px dashed transparent;
+
+  &:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	background: linear-gradient(to right, #FB177E 50%, transparent 0%) top/35px 2px repeat-x, linear-gradient(#FB177E 50%, transparent 0%) right/2px 35px repeat-y, linear-gradient(to right, #FB177E 50%, transparent 0%) bottom/35px 2px repeat-x, linear-gradient(#FB177E 50%, transparent 0%) left/2px 35px repeat-y;
+	border-radius: 1px;
+  }
+
+  &:hover {
+	&:after {
+	  opacity: 1;
+	}
+  }
+  &.cke_focus {
+	cursor: text !important;
+	border-color: #fa187e;
+	outline: none;
+	&:after {
+	  display: none;
+	}
+  }
+
+}
+
+.cke_inner {
+  .cke_top {
+	display: flex;
+	align-items: center;
+	background: #fff;
+	box-shadow: 0px 1px 4px rgba(46, 59, 88, 0.08);
+	border-radius: 4px;
+	padding: 10px;
+  }
+
+  .cke_combo_on a.cke_combo_button, .cke_combo_off a.cke_combo_button:hover, .cke_combo_off a.cke_combo_button:focus, .cke_combo_off a.cke_combo_button:active {
+	border: none;
+	background: none;
+  }
+
+  .cke_toolbox, .cke_toolbar, .cke_combo, .cke_combo_button {
+	width: 100%;
+	height: 100%;
+	float: none;
+  }
+
+  .cke_toolbox {
+	display: flex;
+	flex-wrap: wrap;
+  }
+
+  .cke_toolbar {
+	display: inline-flex;
+	align-items: center;
+	width: auto;
+	padding: 10px 14px;
+	box-sizing: border-box;
+	border-right: 1px solid #EEEEEE;
+
+	&.cke_toolbar_last {
+	  border-right: none;
+	}
+
+	.cke_toolgroup {
+	  display: flex;
+	  align-items: center;
+	  float: none;
+	  padding: 0;
+
+	  .cke_button {
+		display: inline-flex;
+		flex: 40px;
+		align-items: center;
+		height: auto;
+		border: none;
+		float: none;
+		border-radius: 4px;
+		padding: 4px 5px;
+		margin-right: 20px;
+		background: none;
+		cursor: pointer;
+
+		&:hover {
+		  background: #EDF1F7;
+		}
+
+		&.cke_button_on {
+		  background: #D6DDEC;
+		}
+
+		.cke_button_icon {
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  width: 22px;
+		  height: 22px;
+		  background-position: center !important;
+		  background-size: contain !important;
+		}
+
+		.cke_button_arrow {
+		  border: none;
+		  width: 12px;
+		  height: 8px;
+		  background: url(images/angle_down.svg) no-repeat center;
+		  background-size: 100%;
+		  margin: 0;
+		  margin-left: 8px;
+		}
+
+		&:after {
+		  display: none;
+		}
+
+		&:last-child {
+		  margin: 0;
+		}
+	  }
+	}
+
+	.cke_combo {
+	  margin-bottom: 0;
+
+	  &:after {
+		display: none;
+	  }
+
+	  .cke_combo_button {
+		padding: 0;
+		display: flex;
+		align-items: center;
+
+		.cke_combo_text {
+		  font-size: 20px;
+		}
+
+		.cke_combo_open {
+		  display: inline-flex;
+		  height: auto;
+		  width: auto;
+		  line-height: 1;
+
+		  .cke_combo_arrow {
+			border: none;
+			width: 12px;
+			height: 8px;
+			background: url(images/angle_down.svg) no-repeat center;
+			background-size: 100%;
+			margin: 0;
+		  }
+		}
+
+		&[title="Formatting Styles"] {
+		  .cke_combo_text {
+			font-weight: 800;
+			width: 100px;
+		  }
+		}
+	  }
+	}
+  }
+}
+
+.cke_panel_block {
+  .cke_panel_grouptitle {
+	background: #F7F9FC;
+	text-transform: uppercase;
+	padding: 6px 16px;
+	font-family: "Open Sans";
+  }
+
+  .cke_panel_list {
+	.cke_panel_listItem {
+	  a {
+		font-family: "Open Sans";
+		font-size: 18px;
+		font-weight: bold;
+
+		&:hover {
+		  background: none;
+
+		  * {
+			color: #FB177E;
+		  }
+		}
+	  }
+
+	  &.cke_selected {
+		a {
+		  background: none;
+		  outline: none;
+
+		  * {
+			color: #FB177E;
+		  }
+		}
+	  }
+	}
+  }
+}
+
+
+.cke_notification_warning {
+  background: rgba(237, 241, 247, 0.7);
+  border: 1px solid #EDF1F7;
+  border-radius: 4px;
+  width: auto;
+  max-width: 400px;
+  padding: 8px;
+  .cke_notification_message {
+	font-size: 16px;
+	line-height: 24px;
+	a.cke_notification_close {
+	  opacity: 1;
+	}
+  }
+}
+
+
+.cke_dialog {
+  width: 496px;
+  .cke_dialog_body {
+	box-shadow: 0px 4px 60px rgb(46 59 88 / 20%);
+	border-radius: 4px;
+	.cke_dialog_title {
+	  display: flex;
+	  align-items: center;
+	  background: none;
+	  padding: 23px 19px;
+	  font-weight: 600;
+	  font-size: 24px;
+	  line-height: 1;
+	  font-family: Open Sans;
+	}
+	.cke_dialog_contents {
+	  width: 100%;
+	  max-width: 100%;
+	  box-sizing: border-box;
+	  .cke_dialog_contents_body {
+		padding: 24px;
+		a.cke_dialog_close_button {
+		  opacity: 1;
+		}
+		.cke_dialog_ui_labeled_label {
+		  display: flex;
+		  font-family: Open Sans;
+		  font-weight: bold;
+		  font-size: 18px;
+		  line-height: 1;
+		  text-transform: uppercase;
+		  color: #91A1B9;
+		  margin-bottom: 12px;
+		}
+		.cke_dialog_ui_input_text {
+		  margin-bottom: 10px;
+		  input.cke_dialog_ui_input_text {
+			background: #F7F9FC;
+			border: 1px solid #E4E9F2;
+			box-sizing: border-box;
+			border-radius: 4px;
+			height: 40px;
+			font-family: Open Sans;
+			font-weight: 600;
+			font-size: 18px;
+			line-height: 1;
+			color: #222B45;
+		  }
+		}
+		.cke_dialog_ui_input_select {
+		  background: #F7F9FC;
+		  border: 1px solid #E4E9F2;
+		  box-sizing: border-box;
+		  border-radius: 4px;
+		  height: 40px;
+		  font-family: Open Sans;
+		  font-weight: 600;
+		  font-size: 18px;
+		  line-height: 1;
+		  color: #222B45;
+		}
+		.cke_dialog_ui_radio_input {
+		  width: 18px;
+		  height: 18px;
+		  outline: none !important;
+		  position: relative;
+		  top: 2px;
+		  + label {
+			font-size: 18px;
+		  }
+		}
+	  }
+	  .cke_dialog_footer {
+		background: rgb(237 241 247 / 20%);
+		box-shadow: 0px 1px 4px rgb(46 59 88 / 8%);
+		border-radius: 0px 0px 6px 6px;
+		overflow: hidden;
+		.cke_resizer_ltr {
+		  display: none;
+		}
+		.cke_dialog_footer_buttons {
+		  display: flex;
+		  width: 100%;
+		  margin: 0;
+		  tbody {
+			width: 100%;
+			.cke_dialog_ui_hbox {
+			  display: flex;
+			  flex-flow: row-reverse;
+			  width: 100%;
+			  max-width: 100%;
+			  margin: 0;
+			  justify-content: space-between;
+			  padding: 24px;
+			  box-sizing: border-box;
+			  position: relative;
+			  z-index: 1;
+			  td {
+				a.cke_dialog_ui_button_cancel {
+				  display: flex;
+				  align-items: center;
+				  border: none;
+				  background: none;
+				  color: #2E3B58;
+				  height: 100%;
+				  .cke_dialog_ui_button {
+					font-size: 18px;
+					font-weight: bold;
+					color: #2E3B58;
+					font-family: Open Sans;
+				  }
+				}
+				a.cke_dialog_ui_button_ok {
+				  display: flex;
+				  align-items: center;
+				  background: linear-gradient(90deg, #56108F 0%, #8A3DBB 100%);
+				  border-radius: 4px;
+				  border: none;
+				  padding: 12px 20px;
+				  .cke_dialog_ui_button {
+					font-size: 18px;
+					font-weight: bold;
+					color: #fff;
+					font-family: Open Sans;
+				  }
+				}
+			  }
+			}
+		  }
+		}
+	  }
+	}
+  }
+}
+
+
+.extraData {
+  display: flex;
+  margin-bottom: 20px;
+  opacity: 0;
+  .editorCharCounter {
+	display: inline-flex;
+	margin-right: 10px;
+  }
+  .editorNotifications {
+	display: inline-flex;
+	opacity: 0;
+	&.error {
+	  opacity: 1;
+	}
+  }
+}
+.cke_focus + .extraData {
+  opacity: 1;
+}
+
+
+.editor-basic {
+  .cke {
+	max-width: 100%;
+	background-color: #f7f9fc;
+	border: 1px solid #edf1f7;
+  }
+  .cke_inner {
+	.cke_top {
+	  box-shadow: none;
+	  border-bottom: 1px solid #edf1f7;
+	}
+	.cke_contents {
+	  padding: 20px;
+	}
+	.cke_toolbar {
+	  .cke_toolgroup .cke_button {
+		flex: 20px;
+		margin-right: 10px;
+		.cke_button_icon {
+		  width: 14px;
+		  height: 14px;
+		}
+		.cke_button_arrow {
+		  width: 9px;
+		}
+	  }
+	  .cke_combo .cke_combo_button {
+		.cke_combo_text {
+		  font-size: 12px;
+		}
+		&[title="Formatting Styles"] .cke_combo_text {
+		  font-size: 12px;
+		  width: auto;
+		}
+	  }
+	}
+  }
+  .cke_panel_block .cke_panel_list .cke_panel_listItem a {
+	font-size: 14px;
+  }
+}

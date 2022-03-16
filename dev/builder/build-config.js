@@ -28,6 +28,7 @@ var CKBUILDER_CONFIG = {
 		'.jshintrc',
 		'less',
 		'.mailmap',
+		'.nvmrc',
 		'node_modules',
 		'package.json',
 		'README.md',

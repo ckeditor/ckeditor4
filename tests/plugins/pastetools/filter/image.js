@@ -15,46 +15,116 @@
 	var RTF = [
 			'{\\pict\\picscalex100\\picscaley100\\piccropl0\\piccropr0\\piccropt0\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc}',
 			'{\\*\\shppict{\\pict{\\*\\picprop{\\sp{\\sn wzDescription}{\\sv }}{\\sp{\\sn wzName}{\\sv }}}\\picscalex19\\picscaley19\\piccropl0\\piccropr0\\piccropt0' +
-			'\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc }}{\\nonshppict{\\pict{\\*\\picprop{'
+			'\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc }}{\\nonshppict{\\pict{\\*\\picprop{',
+			'{\\pict\\picscalex100\\picscaley100\\piccropl0\\piccropr0\\piccropt0\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\emfblip d76df8e7aefc}'
 		];
 
 	var tests = {
-		'test image filter should transform 1st type of rtf data': function() {
-			var editor = this.editor,
-				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
+		'test image filter should transform 1st type of rtf data': ptTools.createFilterTest( {
+			html: '<img src="file://foo" />',
+			rtf: RTF[ 0 ],
+			expected: '<img src="data:image/png;base64,12345678" />'
+		} ),
 
-			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
+		'test image filer should transform 2nd type of rtf data': ptTools.createFilterTest( {
+			html: '<img src="file://foo" />',
+			rtf: RTF[ 1 ],
+			expected: '<img src="data:image/png;base64,12345678" />'
+		} ),
+
+		'test image filter should not transform non-file images': ptTools.createFilterTest( {
+			html: '<img src="http://example.com/img.png" />',
+			rtf: RTF[ 0 ],
+			expected: '<img src="http://example.com/img.png" />'
+		} ),
+
+		'test image filer should raise an error for unsupported image format': function() {
+			var editor = this.editor,
+					filtersPaths = [
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
+					],
+					spy = sinon.spy( CKEDITOR, 'error' );
+
+			return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="file://foo" />',
-						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
+						inputRtf = RTF[ 2 ],
+						actual = imageFilter( inputHtml, editor, inputRtf ),
+						spyCall = spy.getCall( 0 ),
+						expectedSpyArguments = [
+							'pastetools-unsupported-image',
+							{
+								type: 'image/emf',
+								index: 0
+							}
+						];
 
-					assert.areSame( '<img src="data:image/png;base64,12345678" />', actual );
+					spy.restore();
+
+					assert.areSame( inputHtml, actual, 'html output' );
+					assert.areSame( 1, spy.callCount, 'errors raised' );
+					objectAssert.areDeepEqual( expectedSpyArguments, spyCall.args );
 				} );
 		},
 
-		'test image filer should transform 2nd type of rtf data': function() {
+		'test image filer should raise an error if there are more images in RTF than in HTML': function() {
 			var editor = this.editor,
-				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
+					filtersPaths = [
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
+					],
+					spy = sinon.spy( CKEDITOR, 'error' );
 
-			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
+			return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="file://foo" />',
-						actual = imageFilter( inputHtml, editor, RTF[ 1 ] );
+						inputRtf = RTF[ 0 ] + RTF[ 2 ],
+						actual = imageFilter( inputHtml, editor, inputRtf ),
+						spyCall = spy.getCall( 0 ),
+						expectedSpyArguments = [
+							'pastetools-failed-image-extraction',
+							{
+								rtf: 2,
+								html: 1
+							}
+						];
 
-					assert.areSame( '<img src="data:image/png;base64,12345678" />', actual );
+					spy.restore();
+
+					assert.areSame( inputHtml, actual, 'html output' );
+					assert.areSame( 1, spy.callCount, 'errors raised' );
+					objectAssert.areDeepEqual( expectedSpyArguments, spyCall.args );
 				} );
 		},
 
-		'test image filter should not transform non-file images': function() {
+		'test image filer should raise an error if there are more images in HTML than in RTF': function() {
 			var editor = this.editor,
-				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
+					filtersPaths = [
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js',
+						CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js'
+					],
+					spy = sinon.spy( CKEDITOR, 'error' );
 
-			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
+			return ptTools.asyncLoadFilters( filtersPaths, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
-					var inputHtml = '<img src="http://example.com/img.png" />',
-						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
+					var inputHtml = '<img src="file://foo" /><img src="file://bar" />',
+						inputRtf = RTF[ 0 ],
+						actual = imageFilter( inputHtml, editor, inputRtf ),
+						spyCall = spy.getCall( 0 ),
+						expectedSpyArguments = [
+							'pastetools-failed-image-extraction',
+							{
+								rtf: 1,
+								html: 2
+							}
+						];
 
-					assert.areSame( '<img src="http://example.com/img.png" />', actual );
+					spy.restore();
+
+					assert.areSame( inputHtml, actual, 'html output' );
+					assert.areSame( 1, spy.callCount, 'errors raised' );
+					objectAssert.areDeepEqual( expectedSpyArguments, spyCall.args );
 				} );
 		}
 	};

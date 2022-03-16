@@ -306,27 +306,27 @@ CKEDITOR.skin.chameleon = ( function() {
 // Actually, it is not required to provide icons at all.
 //
 // (function() {
-//		// The available icons. This list must match the file names (without
-//		// extension) available inside the "icons" folder.
-//		var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
-//			'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
-//			'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
-//			'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
-//			'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
-//			'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
-//			'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
-//			'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
-//			'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
-//			'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
-//			'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
-//			'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
-//			'textcolor,textfield-rtl,textfield,uicolor,underline,undo-rtl,undo,unlink' ).split( ',' );
+// 		// The available icons. This list must match the file names (without
+// 		// extension) available inside the "icons" folder.
+// 		var icons = ( 'bgcolor, textcolorabout,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
+// 			'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
+// 			'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
+// 			'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
+// 			'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
+// 			'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
+// 			'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
+// 			'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
+// 			'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
+// 			'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
+// 			'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
+// 			'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
+// 			'textcolor,textfield-rtl,textfield,uicolor,underline,undo-rtl,undo,unlink' ).split( ',' );
 //
-//		var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) );
+// 		var iconsFolder = CKEDITOR.getUrl(CKEDITOR.skin.path() + 'icons/');
 //
-//		for ( var i = 0; i < icons.length; i++ ) {
-//			CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );
-//		}
+// 		for ( var i = 0; i < icons.length; i++ ) {
+// 			CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.svg' );
+// 		}
 // })();
 
 // %REMOVE_END%

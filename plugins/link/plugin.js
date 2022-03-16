@@ -51,6 +51,8 @@
 			var allowed = 'a[!href]',
 				required = 'a[href]';
 
+      allowed = allowed.replace( ']', ',data-analytics-click-event,target]' );
+
 			if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'advanced' ) ) {
 				allowed = allowed.replace( ']', ',accesskey,charset,dir,id,lang,name,rel,tabindex,title,type,download]{*}(*)' );
 			}
@@ -79,12 +81,14 @@
 				editor.ui.addButton( 'Link', {
 					label: editor.lang.link.toolbar,
 					command: 'link',
-					toolbar: 'links,10'
+					toolbar: 'links,10',
+					icon: this.path + 'icons/link.svg'
 				} );
 				editor.ui.addButton( 'Unlink', {
 					label: editor.lang.link.unlink,
 					command: 'unlink',
-					toolbar: 'links,20'
+					toolbar: 'links,20',
+					icon: this.path + 'icons/unlink.svg'
 				} );
 				editor.ui.addButton( 'Anchor', {
 					label: editor.lang.link.anchor.toolbar,
@@ -474,7 +478,10 @@
 				emailMatch,
 				anchorMatch,
 				urlMatch,
+        eventName = ( element && ( element.data( 'eventName' ) || element.getAttribute( 'data-analytics-click-event' ) ) ) || '',
 				telMatch;
+
+      if(eventName) retval.eventName = eventName;
 
 			if ( javascriptMatch ) {
 				if ( emailProtection == 'encode' ) {
@@ -627,12 +634,15 @@
 			var emailProtection = editor.config.emailProtection || '',
 				set = {};
 
+      if(data.eventName) {
+        set['data-analytics-click-event'] = data.eventName;
+      }
 			// Compose the URL.
 			switch ( data.type ) {
 				case 'url':
-					var protocol = ( data.url && data.url.protocol !== undefined ) ? data.url.protocol : 'http://',
+					var protocol = ( data.url && data.url.protocol !== undefined ) ? data.url.protocol : 'https://',
 						url = ( data.url && CKEDITOR.tools.trim( data.url.url ) ) || '';
-
+            // patched to always be true, so no protocol effect.
 					set[ 'data-cke-saved-href' ] = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
 					break;
 
@@ -916,7 +926,7 @@
 		 * @member CKEDITOR.config
 		 * @since 4.13.0
 		 */
-		linkDefaultProtocol: 'http://'
+		linkDefaultProtocol: 'https://'
 
 		/**
 		 * Whether JavaScript code is allowed as a `href` attribute in an anchor tag.

@@ -1,0 +1,34 @@
+<textarea name="editor1">
+	<p>Type here: </p>
+</textarea>
+<hr />
+<textarea name="editor2">
+	<p>Type here: </p>
+</textarea>
+<hr />
+<p>Native textarea:</p>
+<textarea id="native" rows="10" cols="40" style="font-size: 16px;">
+Type here:
+</textarea>
+
+<script type="text/javascript">
+	if ( !CKEDITOR.env.webkit || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'divarea'
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		on: {
+			// Set the native textarea font-family to the same as inline editor
+			// to ease the comparison.
+			instanceReady: function( evt ) {
+				var fontFamily = evt.editor.container.getComputedStyle( 'font-family' );
+
+				CKEDITOR.document.getById( 'native' ).setStyle( 'font-family', fontFamily );
+			}
+		}
+	} );
+</script>

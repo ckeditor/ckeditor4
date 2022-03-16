@@ -98,8 +98,8 @@ CKEDITOR.dialog.add( 'rkpi', function( editor ) {
             editor.insertElement( tag );
           }
 
-    			this.hide();
-
+    	 this.hide();
+		  if (typeof window.initRKPIObserver === 'function') window.initRKPIObserver();
         },
         contents: [
             {
