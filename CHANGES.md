@@ -31,9 +31,9 @@ Fixed issues:
 Other changes:
 
 * [#5093](https://github.com/ckeditor/ckeditor4/issues/5093): Deprecated and removed WebSpellChecker Dialog from presets.
-* [#5127](https://github.com/ckeditor/ckeditor4/issues/5127): Deprecated [`CKEDITOR.rnd`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-rnd) property to discourage using it in security-sensitive context.
-* [#5087](https://github.com/ckeditor/ckeditor4/issues/5087): Deprecated jQuery API calls in jQuery adapter were replaced by undeprecated ones. Thanks to [Fran Boon](https://github.com/flavour)!
-* [#5087](https://github.com/ckeditor/ckeditor4/issues/5128): Improved [Emoji](https://ckeditor.com/cke4/addon/emoji) definitions encoding set by [`config.emoji_emojiListUrl`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_emojiListUrl) configuration option.
+* [#5127](https://github.com/ckeditor/ckeditor4/issues/5127): Deprecated [`CKEDITOR.rnd`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-rnd) property to discourage using it in a security-sensitive context.
+* [#5087](https://github.com/ckeditor/ckeditor4/issues/5087): Improved jQuery adapter by replacing deprecated jQuery API with existing counterparts. Thanks to [Fran Boon](https://github.com/flavour)!
+* [#5128](https://github.com/ckeditor/ckeditor4/issues/5128): Improved [Emoji](https://ckeditor.com/cke4/addon/emoji) definitions encoding set by [`config.emoji_emojiListUrl`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_emojiListUrl) configuration option.
 
 ## CKEditor 4.17.2
 
