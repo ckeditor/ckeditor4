@@ -3,21 +3,37 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.18.0
 
+**Security Updates:**
+
+* Fixed XSS vulnerability in the core module reported by GitHub Security Lab team member [Kevin Backhouse](https://github.com/kevinbackhouse).
+
+	Issue summary: The vulnerability allowed to inject malformed HTML bypassing content sanitization, which could result in executing JavaScript code. See [CVE-2022-24728](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-4fc4-4p5g-6w89) for more details.
+
+* Fixed Regular expression Denial of Service (ReDoS) vulnerability in dialog plugin discovered by the CKEditor 4 team during our regular security audit.
+
+	Issue summary: The vulnerability allowed to abuse a dialog input validator regular expression, which could cause a significant performance drop resulting in a browser tab freeze. See [CVE-2022-24729](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-f6rf-9m92-x2hh) for more details.
+
+You can read more details in the relevant security advisory and [contact us](security@cksource.com) if you have more questions.
+
+**An upgrade is highly recommended!**
+
 **Highlights:**
 
-[Web Spell Checker](https://webspellchecker.com/) ended support of WebSpellChecker Dialog December 31st, 2021. This means the plugin is not supported any longer. Therefore, we decided to deprecate and remove WebSpellChecker Dialog plugin from CKEditor 4 presets.
+[Web Spell Checker](https://webspellchecker.com/) ended support of WebSpellChecker Dialog on December 31st, 2021. This means the plugin is not supported any longer. Therefore, we decided to deprecate and remove the WebSpellChecker Dialog plugin from CKEditor 4 presets.
 
 We strongly encourage everyone to choose one of the other available spellchecking solutions - [Spell Check As You Type (SCAYT)](https://ckeditor.com/cke4/addon/scayt) or [WProofreader](https://ckeditor.com/cke4/addon/wproofreader).
 
 Fixed issues:
 
 * [#5097](https://github.com/ckeditor/ckeditor4/issues/5097): [Chrome] Fixed: Incorrect conversion of points to pixels while using [`CKEDITOR.tools.convertToPx()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx).
+* [#5044](https://github.com/ckeditor/ckeditor4/issues/5044): Fixed: `select` elements with `multiple` attribute have incorrect styling. Thanks to [John R. D'Orazio](https://github.com/JohnRDOrazio)!
 
 Other changes:
 
 * [#5093](https://github.com/ckeditor/ckeditor4/issues/5093): Deprecated and removed WebSpellChecker Dialog from presets.
+* [#5127](https://github.com/ckeditor/ckeditor4/issues/5127): Deprecated [`CKEDITOR.rnd`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-rnd) property to discourage using it in security-sensitive context.
 * [#5087](https://github.com/ckeditor/ckeditor4/issues/5087): Deprecated jQuery API calls in jQuery adapter were replaced by undeprecated ones. Thanks to [Fran Boon](https://github.com/flavour)!
-* [#5044](https://github.com/ckeditor/ckeditor4/issues/5044): Fixed: Lack of style for selected items in unfocused multiselection list. Thanks to [John R. D'Orazio](https://github.com/JohnRDOrazio)!
+* [#5087](https://github.com/ckeditor/ckeditor4/issues/5128): Improved custom [Emoji](https://ckeditor.com/cke4/addon/emoji) definitions set using [`config.emoji_emojiListUrl`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_emojiListUrl) configuration option.
 
 ## CKEditor 4.17.2
 
@@ -62,11 +78,11 @@ Fixed issues:
 
 * Fixed XSS vulnerability in the core module reported by [William Bowling](https://github.com/wbowling).
 
-	Issue summary: The vulnerability allowed to inject malformed comments HTML bypassing content sanitization, which could result in executing JavaScript code. See [security advisory](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-7h26-63m7-qhf2) for more details.
+	Issue summary: The vulnerability allowed to inject malformed comments HTML bypassing content sanitization, which could result in executing JavaScript code. See [CVE-2021-41165](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-7h26-63m7-qhf2) for more details.
 
 * Fixed XSS vulnerability in the core module reported by [Maurice Dauer](https://twitter.com/laytonctf).
 
-	Issue summary: The vulnerability allowed to inject malformed HTML bypassing content sanitization, which could result in executing JavaScript code. See [security advisory](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-pvmx-g8h5-cprj) for more details.
+	Issue summary: The vulnerability allowed to inject malformed HTML bypassing content sanitization, which could result in executing JavaScript code. See [CVE-2021-41164](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-pvmx-g8h5-cprj) for more details.
 
 You can read more details in the relevant security advisory and [contact us](security@cksource.com) if you have more questions.
 
@@ -128,15 +144,15 @@ Other Changes:
 
 * Fixed XSS vulnerability in the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin reported by [Anton Subbotin](https://github.com/skavans).
 
-	Issue summary: The vulnerability allowed to abuse paste functionality using malformed HTML, which could result in injecting arbitrary HTML into the editor. See [security advisory](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-7889-rm5j-hpgg) for more details.
+	Issue summary: The vulnerability allowed to abuse paste functionality using malformed HTML, which could result in injecting arbitrary HTML into the editor. See [CVE-2021-32809](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-7889-rm5j-hpgg) for more details.
 
 * Fixed XSS vulnerability in the [Widget](https://ckeditor.com/cke4/addon/widget) plugin reported by [Anton Subbotin](https://github.com/skavans).
 
-	Issue summary: The vulnerability allowed to abuse undo functionality using malformed [Widget](https://ckeditor.com/cke4/addon/widget) HTML, which could result in executing JavaScript code. See [security advisory](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-6226-h7ff-ch6c) for more details.
+	Issue summary: The vulnerability allowed to abuse undo functionality using malformed [Widget](https://ckeditor.com/cke4/addon/widget) HTML, which could result in executing JavaScript code. See [CVE-2021-32808](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-6226-h7ff-ch6c) for more details.
 
 * Fixed XSS vulnerability in the [Fake Objects](https://ckeditor.com/cke4/addon/fakeobjects) plugin reported by [Mika Kulmala](https://github.com/kulmik).
 
-	Issue summary: The vulnerability allowed to inject malformed [Fake Objects](https://ckeditor.com/cke4/addon/fakeobjects) HTML, which could result in executing JavaScript code. See [security advisory](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-m94c-37g6-cjhc) for more details.
+	Issue summary: The vulnerability allowed to inject malformed [Fake Objects](https://ckeditor.com/cke4/addon/fakeobjects) HTML, which could result in executing JavaScript code. See [CVE-2021-37695](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-m94c-37g6-cjhc) for more details.
 
 You can read more details in the relevant security advisory and [contact us](security@cksource.com) if you have more questions.
 
