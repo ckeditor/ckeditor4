@@ -1,6 +1,10 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.19.0 [IN DEVELOPMENT]
+
+## CKEditor 4.18.1 [IN DEVELOPMENT]
+
 ## CKEditor 4.18.0
 
 **Security Updates:**
