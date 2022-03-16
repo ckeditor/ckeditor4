@@ -5,11 +5,11 @@ CKEditor 4 Changelog
 
 **Security Updates:**
 
-* Fixed XSS vulnerability in the core module reported by GitHub Security Lab team member [Kevin Backhouse](https://github.com/kevinbackhouse).
+* Fixed an XSS vulnerability in the core module reported by GitHub Security Lab team member [Kevin Backhouse](https://github.com/kevinbackhouse).
 
-	Issue summary: The vulnerability allowed to inject malformed HTML bypassing content sanitization, which could result in executing JavaScript code. See [CVE-2022-24728](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-4fc4-4p5g-6w89) for more details.
+	Issue summary: The vulnerability allowed to inject malformed HTML bypassing content sanitization, which could result in executing a JavaScript code. See [CVE-2022-24728](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-4fc4-4p5g-6w89) for more details.
 
-* Fixed Regular expression Denial of Service (ReDoS) vulnerability in dialog plugin discovered by the CKEditor 4 team during our regular security audit.
+* Fixed a Regular expression Denial of Service (ReDoS) vulnerability in dialog plugin discovered by the CKEditor 4 team during our regular security audit.
 
 	Issue summary: The vulnerability allowed to abuse a dialog input validator regular expression, which could cause a significant performance drop resulting in a browser tab freeze. See [CVE-2022-24729](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-f6rf-9m92-x2hh) for more details.
 
@@ -19,21 +19,21 @@ You can read more details in the relevant security advisory and [contact us](sec
 
 **Highlights:**
 
-[Web Spell Checker](https://webspellchecker.com/) ended support of WebSpellChecker Dialog on December 31st, 2021. This means the plugin is not supported any longer. Therefore, we decided to deprecate and remove the WebSpellChecker Dialog plugin from CKEditor 4 presets.
+[Web Spell Checker](https://webspellchecker.com/) ended support for WebSpellChecker Dialog on December 31st, 2021. This means the plugin is not supported any longer. Therefore, we decided to deprecate and remove the WebSpellChecker Dialog plugin from CKEditor 4 presets.
 
 We strongly encourage everyone to choose one of the other available spellchecking solutions - [Spell Check As You Type (SCAYT)](https://ckeditor.com/cke4/addon/scayt) or [WProofreader](https://ckeditor.com/cke4/addon/wproofreader).
 
 Fixed issues:
 
 * [#5097](https://github.com/ckeditor/ckeditor4/issues/5097): [Chrome] Fixed: Incorrect conversion of points to pixels while using [`CKEDITOR.tools.convertToPx()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx).
-* [#5044](https://github.com/ckeditor/ckeditor4/issues/5044): Fixed: `select` elements with `multiple` attribute have incorrect styling. Thanks to [John R. D'Orazio](https://github.com/JohnRDOrazio)!
+* [#5044](https://github.com/ckeditor/ckeditor4/issues/5044): Fixed: `select` elements with `multiple` attribute had incorrect styling. Thanks to [John R. D'Orazio](https://github.com/JohnRDOrazio)!
 
 Other changes:
 
 * [#5093](https://github.com/ckeditor/ckeditor4/issues/5093): Deprecated and removed WebSpellChecker Dialog from presets.
-* [#5127](https://github.com/ckeditor/ckeditor4/issues/5127): Deprecated [`CKEDITOR.rnd`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-rnd) property to discourage using it in a security-sensitive context.
-* [#5087](https://github.com/ckeditor/ckeditor4/issues/5087): Improved jQuery adapter by replacing deprecated jQuery API with existing counterparts. Thanks to [Fran Boon](https://github.com/flavour)!
-* [#5128](https://github.com/ckeditor/ckeditor4/issues/5128): Improved [Emoji](https://ckeditor.com/cke4/addon/emoji) definitions encoding set by [`config.emoji_emojiListUrl`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_emojiListUrl) configuration option.
+* [#5127](https://github.com/ckeditor/ckeditor4/issues/5127): Deprecated the [`CKEDITOR.rnd`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-rnd) property to discourage using it in a security-sensitive context.
+* [#5087](https://github.com/ckeditor/ckeditor4/issues/5087): Improved the jQuery adapter by replacing a deprecated jQuery API with existing counterparts. Thanks to [Fran Boon](https://github.com/flavour)!
+* [#5128](https://github.com/ckeditor/ckeditor4/issues/5128): Improved the [Emoji](https://ckeditor.com/cke4/addon/emoji) definitions encoding set by the [`config.emoji_emojiListUrl`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_emojiListUrl) configuration option.
 
 ## CKEditor 4.17.2
 
