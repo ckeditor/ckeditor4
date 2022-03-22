@@ -253,7 +253,7 @@
 		bender.tools.selection.setWithHtml( editor, '<p>Paste image here:{}</p>' );
 		bend.assertPaste( {
 			type: mimeType,
-			expected: '<p>Paste image here:^</p>',
+			expected: '<p>Paste image here:^@</p>',
 			callback: function() {
 				notificationSpy.restore();
 				assert.areSame( 0, notificationSpy.callCount,
