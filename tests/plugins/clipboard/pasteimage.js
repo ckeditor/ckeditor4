@@ -245,7 +245,7 @@
 	function assertNotificationWithCustomImageType( editor, bend, mimeType ) {
 		var notificationSpy = sinon.spy( editor, 'showNotification' );
 
-		CKEDITOR.plugins.clipboard.setSupportedImageMIMEType( [ mimeType ] );
+		CKEDITOR.plugins.clipboard.setIgnoredImageMimeType( [ mimeType ] );
 
 		FileReader.setFileMockType( mimeType );
 		FileReader.setReadResult( 'load' );
@@ -253,9 +253,7 @@
 		bender.tools.selection.setWithHtml( editor, '<p>Paste image here:{}</p>' );
 		bend.assertPaste( {
 			type: mimeType,
-			expected: '<p>Paste image here:<img data-cke-saved-src="data:' +
-				mimeType + ';base64,fileMockBase64=" src="data:' +
-				mimeType + ';base64,fileMockBase64=" />^@</p>',
+			expected: '<p>Paste image here:^</p>',
 			callback: function() {
 				notificationSpy.restore();
 				assert.areSame( 0, notificationSpy.callCount,
