@@ -1710,6 +1710,8 @@
 					} );
 				}
 			}, interval );
+
+			CKEDITOR.config.delayIfDetached_cancelInterval( clearInterval( intervalId ) );
 		}
 	};
 
@@ -2374,6 +2376,25 @@ CKEDITOR.config.delayIfDetached = false;
  * @member CKEDITOR.config
  */
 CKEDITOR.config.delayIfDetached_callback = undefined;
+
+/**
+ * The function that allows canceling interval editor verification started during default delayed editor creation.
+ *
+ *		// Store the reference to the cancelation function.
+ *		var cancelAwaitingForEditor;
+ *
+ *		config.delayIfDetached_cancelInterval = function( cancelationFunction ) {
+ *			cancelAwaitingForEditor = cancelationFunction;
+ *		};
+ *
+ *		// Cancel awaiting by calling `cancelAwaitingForEditor()` whenever you choose (e.g. on button click).
+ *		cancelAwaitingForEditor ();
+ *
+ * @since 4.18.1
+ * @cfg {Function} [delayIfDetached_cancelInterval = undefined]
+ * @member CKEDITOR.config
+*/
+CKEDITOR.config.delayIfDetached_cancelInterval = undefined;
 
 /**
  * The amount of time (in milliseconds) between consecutive checks whether editor's target element is attached to DOM.
