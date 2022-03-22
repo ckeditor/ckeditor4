@@ -121,7 +121,7 @@
 		windowsBitmapExtension = [ 'bmp', 'dib' ],
 		tiffExtensions = [ 'tif', 'tiff' ],
 		xBitmapExtension = [ 'xbm' ],
-		imageMIMETypes = {
+		imageMimeTypes = {
 			'image/jpeg': [ 'jpg', 'jpeg' ,'jpe', 'jif', 'jfi', 'jfif', 'pjpeg', 'pjp' ],
 			'image/x-icon': [ 'ico', 'cur' ],
 			'image/apng': [ 'apng' ],
@@ -190,11 +190,19 @@
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					// Allow both dragging and dropping and pasting images as base64 (#4681).
 					if ( !data && isFileData( evt, dataTransfer ) ) {
-						var file = dataTransfer.getFile( 0 );
+						var file = dataTransfer.getFile( 0 ),
+							defaultSupportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ];
 
-						if ( !isSupportedImageType( file ) ) {
-							if ( isImageType( file ) ) {
-								var unsupportedTypeMsg = createNotificationMessage( CKEDITOR.plugins.clipboard.supportedImageMIMETypes );
+						// Check if the current file type is supported by the default supported types.
+						// We need to check only the image types as other file types require an additional file uploader. (#5095)
+						if ( !isSupportedImageMimeType( file, defaultSupportedImageTypes ) ) {
+							var supportedMimeTypes = CKEDITOR.plugins.clipboard.ignoredImageMimeTypes.concat( defaultSupportedImageTypes );
+
+							// Only default supported image type should be converted into the base64.
+							// For other cases just
+							if ( isImageType( file ) && !isSupportedImageMimeType( file, supportedMimeTypes ) ) {
+								var unsupportedTypeMsg = createNotificationMessage( supportedMimeTypes );
+
 								editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
 							}
 
@@ -234,24 +242,22 @@
 
 			function isImageType( file ) {
 				var mimeType = file.type,
-					mimeTypes = CKEDITOR.tools.object.keys( imageMIMETypes );
+					mimeTypes = CKEDITOR.tools.object.keys( imageMimeTypes );
 
 				if ( CKEDITOR.tools.array.indexOf( mimeTypes, mimeType ) !== -1 ) {
 					return true;
 				}
 
 				var fileType = name.match( /[^.]*$/i )[ 0 ],
-					types = CKEDITOR.tools.object.values( imageMIMETypes );
+					types = CKEDITOR.tools.object.values( imageMimeTypes );
 
 				return CKEDITOR.tools.array.some( types, function( type ) {
 					return CKEDITOR.tools.array.indexOf( type, fileType ) !== -1;
 				} );
 			}
 
-			function isSupportedImageType( file ) {
-				var mimeType = file.type,
-					supportedImageTypes = CKEDITOR.plugins.clipboard.supportedImageMIMETypes;
-
+			function isSupportedImageMimeType( file, supportedImageTypes ) {
+				var mimeType = file.type;
 
 				if ( CKEDITOR.tools.array.indexOf( supportedImageTypes, mimeType ) !== -1 ) {
 					return true;
@@ -263,7 +269,7 @@
 
 				// Check if image type such as 'webp' is supported.
 				return CKEDITOR.tools.array.some( supportedImageTypes, function( mimeType ) {
-					var types = CKEDITOR.tools.object.values( imageMIMETypes[ mimeType ] );
+					var types = CKEDITOR.tools.object.values( imageMimeTypes[ mimeType ] );
 					if ( CKEDITOR.tools.array.indexOf( types, fileType ) !== -1 ) {
 						return true;
 					}
@@ -1806,7 +1812,23 @@
 		 */
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
 
-		supportedImageMIMETypes: [ 'image/png', 'image/jpeg', 'image/gif' ],
+		/**
+		 * Array of ignored MIME image types.
+		 *
+		 * Available MIME type:
+		 * `image/jpeg`, `image/x-icon`, `image/apng`, `image/webp`,
+		 * `image/png`, `image/gif`, `image/svg`, `image/vnd.ms-photo`,
+		 * `image/bmp`, `image/x-bmp`,
+		 * `image/jpm`, `image/jpx`, `image/jp2`,
+		 * `image/xbm`, `image/xbitmap`,
+		 * `image/jxr`, `image/tiff-fx`, `image/tiff`,
+		 * `image/avif`, `image/heif`, `image/heic`'
+		 *
+		 * @since 4.18.1
+		 * @readonly
+		 * @property {Array}
+		 */
+		ignoredImageMimeTypes: [],
 
 		/**
 		 * Adds a new paste button to the editor.
@@ -2418,33 +2440,24 @@
 		},
 
 		/**
-		 * Adds support MIME image types. Useful when using a custom file uploader.
-		 * Custom file uploader can support `image/webp` which is not supported by standard editor.
-		 * Available MIME type:
-		 * `image/jpeg`, `image/x-icon`, `image/apng`, `image/webp`,
-		 * `image/png`, `image/gif`, `image/svg`, `image/vnd.ms-photo`,
-		 * `image/bmp`, `image/x-bmp`,
-		 * `image/jpm`, `image/jpx`, `image/jp2`,
-		 * `image/xbm`, `image/xbitmap`,
-		 * `image/jxr`, `image/tiff-fx`, `image/tiff`,
-		 * `image/avif`, `image/heif`, `image/heic`'
+		 * Adds ignored MIME image types.
 		 *
-		 *		CKEDITOR.plugins.clipboard.setSupportedImageMIMEType( [ 'image/webp', 'image/jp2' ] )
+		 *		CKEDITOR.plugins.clipboard.setIgnoredImageMimeType( [ 'image/webp', 'image/jp2' ] )
 		 *
 		 * @since 4.18.1
-		 * @param {Array} types list of supported MIME image type.
+		 * @param {Array} types array of ignored MIME image types.
 		 *
 		 */
-		setSupportedImageMIMEType: function( types ) {
+		setIgnoredImageMimeType: function( types ) {
 			var self = this;
 
 			CKEDITOR.tools.array.forEach( types, function( type ) {
-				var imageMIMETypeKeys = CKEDITOR.tools.object.keys( imageMIMETypes ),
-					isMIMETypeExist = CKEDITOR.tools.indexOf( self.supportedImageMIMETypes, type ) !== -1,
-					isSupportedImageMIMEType = CKEDITOR.tools.indexOf( imageMIMETypeKeys, type ) !== -1;
+				var imageMimeTypeKeys = CKEDITOR.tools.object.keys( imageMimeTypes ),
+					isMIMETypeExist = CKEDITOR.tools.indexOf( self.ignoredImageMimeTypes, type ) !== -1,
+					isSupportedImageMimeType = CKEDITOR.tools.indexOf( imageMimeTypeKeys, type ) !== -1;
 
-				if ( !isMIMETypeExist && isSupportedImageMIMEType ) {
-					self.supportedImageMIMETypes.push( type );
+				if ( !isMIMETypeExist && isSupportedImageMimeType ) {
+					self.ignoredImageMimeTypes.push( type );
 				}
 			} );
 		}
