@@ -198,8 +198,6 @@
 						if ( !isSupportedImageMimeType( file, defaultSupportedImageTypes ) ) {
 							var supportedMimeTypes = CKEDITOR.plugins.clipboard.ignoredImageMimeTypes.concat( defaultSupportedImageTypes );
 
-							// Only default supported image type should be converted into the base64.
-							// For other cases just
 							if ( isImageType( file ) && !isSupportedImageMimeType( file, supportedMimeTypes ) ) {
 								var unsupportedTypeMsg = createNotificationMessage( supportedMimeTypes );
 
@@ -248,7 +246,7 @@
 					return true;
 				}
 
-				var fileType = name.match( /[^.]*$/i )[ 0 ],
+				var fileType = file.name.match( /[^.]*$/i )[ 0 ],
 					types = CKEDITOR.tools.object.values( imageMimeTypes );
 
 				return CKEDITOR.tools.array.some( types, function( type ) {
@@ -263,13 +261,13 @@
 					return true;
 				}
 
-				// Some of MIME types on IE are not supported and
-				// they are visible as empty string. This case need an different treatment.
+				// Some of MIME types on IE are not supported.
+				// They are visible as empty string. This case need an different treatment.
 				var fileType = file.name.match( /[^.]*$/i )[ 0 ];
 
 				// Check if image type such as 'webp' is supported.
-				return CKEDITOR.tools.array.some( supportedImageTypes, function( mimeType ) {
-					var types = CKEDITOR.tools.object.values( imageMimeTypes[ mimeType ] );
+				return CKEDITOR.tools.array.some( supportedImageTypes, function( imageType ) {
+					var types = CKEDITOR.tools.object.values( imageMimeTypes[ imageType ] );
 					if ( CKEDITOR.tools.array.indexOf( types, fileType ) !== -1 ) {
 						return true;
 					}
