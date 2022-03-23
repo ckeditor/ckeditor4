@@ -1711,7 +1711,9 @@
 				}
 			}, interval );
 
-			CKEDITOR.config.delayIfDetached_cancelInterval( clearInterval( intervalId ) );
+			if ( CKEDITOR.config.delayIfDetached_cancelInterval ) {
+				CKEDITOR.config.delayIfDetached_cancelInterval( clearInterval( intervalId ) );
+			}
 		}
 	};
 
