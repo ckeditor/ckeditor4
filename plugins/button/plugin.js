@@ -52,10 +52,7 @@
 	( CKEDITOR.env.hc ? '&#9660;' : '' ) +
 		'</span>';
 
-	var templateToggle = ' aria-pressed="false"';
-
 	var btnArrowTpl = CKEDITOR.addTemplate( 'buttonArrow', templateArrow ),
-		toggleBtnTpl = CKEDITOR.addTemplate( 'toggleButton', templateToggle ),
 		btnTpl = CKEDITOR.addTemplate( 'button', template );
 
 	CKEDITOR.plugins.add( 'button', {
@@ -314,7 +311,7 @@
 				clickFn: clickFn,
 				style: CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), overridePath, this.iconOffset ),
 				arrowHtml: this.hasArrow ? btnArrowTpl.output() : '',
-				toggleHtml: this.isToggle ? toggleBtnTpl.output() : ''
+				toggleHtml: this.isToggle ? 'aria-pressed="false"' : ''
 			};
 
 			btnTpl.output( params, output );
