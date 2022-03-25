@@ -11,7 +11,7 @@
 1. Move the focus back to the button.
 
 	**Expected** Screen reader announces the button as togglable and currently switched on/pressed.
-1. Activate the button via keyboarf
+1. Activate the button via the keyboard.
 1. Move the focus back to the button.
 
 	**Expected** Screen reader announces the button as togglable and currently switched off/unpressed.
