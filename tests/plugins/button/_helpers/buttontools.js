@@ -17,15 +17,19 @@ window.buttonTools = {
 			attributeValue;
 
 		for ( var attrName in expectedAttributes ) {
-			assert.isTrue( buttonElement.hasAttribute( attrName ), 'Button HTML element does not contain ' + attrName + ' attribute.' );
+			assert.isTrue( buttonElement.hasAttribute( attrName ), 'Button HTML element does not contain ' +
+				attrName + ' attribute.' );
 
 			expectedValue = expectedAttributes[ attrName ];
 			attributeValue = buttonElement.getAttribute( attrName );
 
-			if ( expectedValue instanceof RegExp )
-				assert.isTrue( expectedValue.test( attributeValue ), 'Attribute ' + attrName + ' did not matched expected ' + expectedValue + ' regex' );
-			else
+			if ( expectedValue instanceof RegExp ) {
+				assert.isTrue( expectedValue.test( attributeValue ), 'Attribute ' + attrName +
+					' did not matched expected ' + expectedValue + ' regex' );
+			}
+			else {
 				assert.areSame( expectedValue, attributeValue, 'Invalid value for attribute ' + attrName + '.' );
+			}
 		}
 	},
 
