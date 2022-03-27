@@ -430,15 +430,12 @@
 	position: absolute;
 	bottom: -5px;
 	left: 0;
-	background: #fff;
-	z-index: 1;
 }
 
 .extraData .editorCharCounter {
 	display: inline-flex;
 	margin-right: 10px;
 	font-size: 11px;
-	line-height: 24px;
 }
 
 .extraData .editorNotifications {
@@ -495,7 +492,6 @@
 	width: 14px;
 	height: 14px;
 	transform: scale(1);
-	-webkit-transform:scale(1,1);
 }
 
 .editor-basic .cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_arrow {
@@ -662,7 +658,7 @@
 	font-size: 20px;
 }
 
-@media screen and (min-width: 1190px) and (max-width: 1900px),
+@media screen and (min-width: 1199px) and (max-width: 1900px),
 (min-width: 1930px) {
 	.cke {
 		max-width: 970px;
@@ -692,23 +688,9 @@
 	}
 	.cke_dialog .cke_dialog_body {
 		transform: scale(0.7);
-		-webkit-transform:scale(0.7, 0.7);
 	}
 	.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_arrow {
 		width: 12px;
 		height: 8px;
 	}
-}
-
-.item__text-inner .extraData, .tab__main-content .extraData, .step__desc .extraData {
-	bottom: -15px;
-}
-.title .extraData, .column-heading .extraData, .cover__text .extraData, .content .extraData, .anim-list-item .extraData {
-	bottom: -25px;
-}
-.main__content .extraData {
-	bottom: -30px;
-}
-.media__item .content .extraData {
-	bottom: -40px;
 }
