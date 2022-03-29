@@ -15,8 +15,6 @@
 			var editor = this.editor;
 
 			editor.focus();
-			var sel = editor.getSelection();
-			sel.removeAllRanges();
 			editor.fire( 'key', {
 				domEvent: {
 					getKey: function() {
