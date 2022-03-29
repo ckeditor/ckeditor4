@@ -1,0 +1,17 @@
+<div id="editor"></div>
+<button id="createEditorBtn">Create editor</button>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		var createEditorBtn = document.getElementById( 'createEditorBtn' );
+
+		createEditorBtn.addEventListener( 'click', function() {
+			CKEDITOR.replace( 'editor' );
+			createEditorBtn.setAttribute( 'disabled', true );
+		} )
+	} )();
+</script>
