@@ -2910,7 +2910,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
-			if ( this.document.getSelection !== undefined ) {
+			if ( document.getSelection !== undefined ) {
 				return function( isAbsolute ) {
 					// We need to create native range so we can call native getClientRects.
 					var range = this.root.getDocument().$.createRange(),
