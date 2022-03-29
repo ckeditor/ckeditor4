@@ -28,8 +28,7 @@
 			modes: { wysiwyg: 1 },
 			exec: function( editor ) {
 				if ( editor.editable().hasFocus ) {
-					var sel = editor.getSelection(),
-						path = new CKEDITOR.dom.elementPath( sel.getCommonAncestor(), sel.root ),
+					var path = editor.elementPath(),
 						cell;
 
 					if ( ( cell = path.contains( { td: 1, th: 1 }, 1 ) ) ) {
@@ -65,9 +64,7 @@
 						} else if ( next ) {
 							next = new CKEDITOR.dom.element( next );
 							resultRange.moveToElementEditStart( next );
-							// Avoid selecting empty block makes the cursor blind.
-							if ( !( resultRange.checkStartOfBlock() && resultRange.checkEndOfBlock() ) )
-								resultRange.selectNodeContents( next );
+							resultRange.selectNodeContents( next );
 						} else {
 							return true;
 						}
