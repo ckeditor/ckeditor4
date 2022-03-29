@@ -14,4 +14,4 @@
 
 * The focus is outside the editor.
 
-3. Repeat above steps for different combinations like: adding cells, moving focus backwards etc.
+3. Repeat above steps for inline editor and different combinations, like: adding cells, moving focus backwards etc.
