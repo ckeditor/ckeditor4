@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, maximize
 
 1. Wait for editor to fully load.
-1. Check the info about the "Maximize" button that is rendered inside the editor
+1. Check the info about the "Maximize" button that is rendered inside the editor.
 
 	**Expected** The "Is pressed" equals `false` and "Label" equals "Maximize".
 
