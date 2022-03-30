@@ -342,7 +342,7 @@
 
 				if ( this.isToggle && !this.hasArrow ) {
 					// Note: aria-pressed attribute should not be added to menuButton instances. (https://dev.ckeditor.com/ticket/11331).
-					// Do not remove the attribute, set its value (#2444).
+					// For other buttons, do not remove the attribute, instead set its value (#2444).
 					element.setAttribute( 'aria-pressed', state === CKEDITOR.TRISTATE_ON );
 				} else if ( this.hasArrow ) {
 					// Indicates that menu button is opened (#421).
