@@ -15,7 +15,7 @@
 		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasArrow}"' +
 		' aria-disabled="{ariaDisabled}"' +
-		'{toggleHtml}';
+		'{toggleAriaHtml}';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -311,7 +311,7 @@
 				clickFn: clickFn,
 				style: CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), overridePath, this.iconOffset ),
 				arrowHtml: this.hasArrow ? btnArrowTpl.output() : '',
-				toggleHtml: this.isToggle ? 'aria-pressed="false"' : ''
+				toggleAriaHtml: this.isToggle ? 'aria-pressed="false"' : ''
 			};
 
 			btnTpl.output( params, output );

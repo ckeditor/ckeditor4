@@ -38,14 +38,14 @@
 	var tests = {
 		'test default button attributes': function() {
 			var btn = buttonTools.getUiItem( this.editor, 'custom_btn' ),
-				expectedAttributes = buttonTools.typicalButtonAttributes;
+				expectedAttributes = buttonTools.buttonStandardAriaAttributes;
 
 			buttonTools.assertAttributes( expectedAttributes, btn );
 		},
 
 		'test disabled button': function() {
 			var btn = buttonTools.getUiItem( this.editor, 'disabled_btn' ),
-				expectedAttributes = buttonTools.typicalButtonAttributes;
+				expectedAttributes = buttonTools.buttonStandardAriaAttributes;
 
 			expectedAttributes[ 'aria-disabled' ] = 'true';
 			buttonTools.assertAttributes( expectedAttributes, btn );

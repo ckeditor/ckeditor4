@@ -1,6 +1,6 @@
 window.buttonTools = {
 	// Standard aria attributes for button element.
-	typicalButtonAttributes: {
+	buttonStandardAriaAttributes: {
 		'aria-disabled': 'false',
 		'role': 'button',
 		'aria-haspopup': 'false',
