@@ -5,6 +5,14 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.18.1 [IN DEVELOPMENT]
 
+New features:
+
+* [#2444](https://github.com/ckeditor/ckeditor4/issues/2444): Togglable toolbar buttons are now exposed as toggle buttons in the browser's accessibility tree.
+
+Fixed Issues:
+
+* [#4543](https://github.com/ckeditor/ckeditor4/issues/4543): The selected states of toolbar buttons are not announced by screen readers.
+
 ## CKEditor 4.18.0
 
 **Security Updates:**
