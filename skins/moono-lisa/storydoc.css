@@ -431,37 +431,30 @@
 	top:99.5%;
 	left: 0;
 	color: #2E3B58;
-	background: rgba(237, 241, 247, 0.7);
 	border: 1px solid #EDF1F7;
+	padding: 2px 0 2px 7px;
 	border-radius: 4px;
-	padding: 2px 7px;
+	background: rgba(237, 241, 247, 0.7);
 	z-index: 1;
 	height: auto;
 	overflow: hidden;
 }
 .cke_editable.cke_focus + .extraData {
-	display: flex;
+	display: inline-flex;
+	align-items: center;
 	opacity: 1;
 }
 
 .extraData .editorCharCounter {
-	display: inline-flex;
-	margin-right: 10px;
-	font-size: 11px;
-	line-height: 24px;
+	display: none;
+	margin-right: 7px;
 }
 
 .extraData .editorNotifications {
-	display: inline-flex;
-	opacity: 0;
-}
-
-.extraData .editorNotifications.editor-error {
-	opacity: 1;
+	margin-right: 7px;
 }
 .extraData .editorNotifications.editor-error.required {
 	color: red;
-	font-size: 11px;
 }
 
 
