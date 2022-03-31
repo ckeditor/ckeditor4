@@ -661,7 +661,7 @@
 	font-size: 20px;
 }
 
-@media screen and (min-width: 1199px) and (max-width: 1900px),
+@media screen and (min-width: 1190px) and (max-width: 1900px),
 (min-width: 1930px) {
 	.cke {
 		max-width: 970px;
