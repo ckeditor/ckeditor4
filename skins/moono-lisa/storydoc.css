@@ -424,14 +424,24 @@
 }
 
 .extraData {
-	display: flex;
+	display: none;
 	margin-bottom: 0;
 	opacity: 0;
 	position: absolute;
-	bottom: -5px;
+	top:99.5%;
 	left: 0;
-	background: #fff;
+	color: #2E3B58;
+	background: rgba(237, 241, 247, 0.7);
+	border: 1px solid #EDF1F7;
+	border-radius: 4px;
+	padding: 2px 7px;
 	z-index: 1;
+	height: auto;
+	overflow: hidden;
+}
+.cke_editable.cke_focus + .extraData {
+	display: flex;
+	opacity: 1;
 }
 
 .extraData .editorCharCounter {
@@ -454,9 +464,6 @@
 	font-size: 11px;
 }
 
-.cke_focus + .extraData {
-	opacity: 1;
-}
 
 .editor-basic .cke {
 	max-width: 100%;
@@ -696,17 +703,4 @@
 		width: 12px;
 		height: 8px;
 	}
-}
-
-.item__text-inner .extraData, .tab__main-content .extraData, .step__desc .extraData {
-	bottom: -15px;
-}
-.title .extraData, .column-heading .extraData, .cover__text .extraData, .content .extraData, .anim-list-item .extraData {
-	bottom: -25px;
-}
-.main__content .extraData {
-	bottom: -30px;
-}
-.media__item .content .extraData {
-	bottom: -40px;
 }
