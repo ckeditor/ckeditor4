@@ -1,0 +1,24 @@
+<h2>Editable</h2>
+<div id="editable">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<p>
+	<button>Behold as I am the button!</button>
+</p>
+
+<h2>Read-only</h2>
+<div id="readonly">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<p>
+	<button>Behold as I am the button!</button>
+</p>
+
+<script>
+	CKEDITOR.replace( 'editable' );
+	CKEDITOR.replace( 'readonly', {
+		readOnly: true
+	} );
+</script>
