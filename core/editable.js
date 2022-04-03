@@ -533,6 +533,9 @@
 			 */
 			setReadOnly: function( isReadOnly ) {
 				this.setAttribute( 'contenteditable', !isReadOnly );
+
+				// Update also aria-readonly attribute (#1904).
+				this.setAttribute( 'aria-readonly', String( isReadOnly ) );
 			},
 
 			/**
