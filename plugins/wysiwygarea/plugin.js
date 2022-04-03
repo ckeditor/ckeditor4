@@ -597,6 +597,11 @@
 					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
+					// Remove ARIA attributes during getting data for full-page editing (#4052).
+					if ( fullPage ) {
+						data = data.replace( '<body role="textbox" aria-multiline="true"', '<body ' );
+					}
+
 					data = editor.dataProcessor.toDataFormat( data );
 
 					if ( xmlDeclaration )
