@@ -521,6 +521,9 @@
 							data = data.replace( /<body[^>]*>/, '$&<!-- cke-content-start -->'  );
 					}
 
+					// Add ARIA attributes (#4052).
+					data = data.replace( /<body/, '<body role="textbox" aria-multiline="true" ' );
+
 					// The script that launches the bootstrap logic on 'domReady', so the document
 					// is fully editable even before the editing iframe is fully loaded (https://dev.ckeditor.com/ticket/4455).
 					var bootstrapCode =
