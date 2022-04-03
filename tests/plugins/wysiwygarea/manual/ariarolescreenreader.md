@@ -4,9 +4,10 @@
 
 **Note:** This test is intended for screen readers.
 
-1. Focus the editor.
+1. Focus the first editor.
 
 	**Expected** The screen reader announces that the user is inside an editable field.
+1. Repeat the test for the second editor.
 
 Sample screen readers' outputs (essential part bolded):
 
