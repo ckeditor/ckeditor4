@@ -60,6 +60,7 @@
 			} );
 		},
 
+		// (#4052)
 		'test editor has correct role and multiline attributes': function() {
 			bender.editorBot.create( {
 				name: 'editor-role-multiline',
@@ -68,15 +69,16 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					body = editor.document.findOne( 'body' ),
-					roleAttribute = body.getAttribute( 'role' ),
-					multineAttribute = body.getAttribute( 'aria-multiline' );
+					editable = editor.editable(),
+					roleAttribute = editable.getAttribute( 'role' ),
+					multineAttribute = editable.getAttribute( 'aria-multiline' );
 
 				assert.areSame( 'textbox', roleAttribute );
 				assert.areSame( 'true', multineAttribute );
 			} );
 		},
 
+		// (#4052)
 		'test editor has correct role and multiline attributes (full-page editing)': function() {
 			bender.editorBot.create( {
 				name: 'editor-role-multiline-fullpage',
@@ -86,12 +88,29 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					body = editor.document.findOne( 'body' ),
-					roleAttribute = body.getAttribute( 'role' ),
-					multineAttribute = body.getAttribute( 'aria-multiline' );
+					editable = editor.editable(),
+					roleAttribute = editable.getAttribute( 'role' ),
+					multineAttribute = editable.getAttribute( 'aria-multiline' );
 
 				assert.areSame( 'textbox', roleAttribute );
 				assert.areSame( 'true', multineAttribute );
+			} );
+		},
+
+		'test editor has correct [tabindex] attribute value': function() {
+			bender.editorBot.create( {
+				name: 'editor-tabindex',
+				config: {
+					plugins: 'wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					editable = editor.editable(),
+					tabindexAttribute = editable.getAttribute( 'tabindex' ),
+					// Firefox should not have this attribute (https://bugzilla.mozilla.org/show_bug.cgi?id=1483828).
+					expectedValue = CKEDITOR.env.gecko ? null : '0';
+
+				assert.areSame( expectedValue, tabindexAttribute );
 			} );
 		}
 	} );
