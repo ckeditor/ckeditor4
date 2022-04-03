@@ -524,6 +524,12 @@
 					// Add ARIA attributes (#4052).
 					data = data.replace( /<body/, '<body role="textbox" aria-multiline="true" ' );
 
+					// Add [tabindex=0] for the editor (#1904).
+					// Can't do it in Firefox due to https://bugzilla.mozilla.org/show_bug.cgi?id=1483828.
+					if ( !CKEDITOR.env.gecko ) {
+						data = data.replace( '<body', '<body tabindex="0" ' );
+					}
+
 					// The script that launches the bootstrap logic on 'domReady', so the document
 					// is fully editable even before the editing iframe is fully loaded (https://dev.ckeditor.com/ticket/4455).
 					var bootstrapCode =
