@@ -58,6 +58,21 @@
 				assert.areSame( 1, fired, 'event was fired once' );
 				assert.isNull( describedBy, 'iframe does not have aria-describedby attribute' );
 			} );
+		},
+
+		'test editor has correct role and multiline attributes': function() {
+			bender.editorBot.create( {
+				name: 'editor-role-multiline',
+				plugins: 'wysiwygarea'
+			}, function( bot ) {
+				var editor = bot.editor,
+					body = editor.document.findOne( 'body' ),
+					roleAttribute = body.getAttribute( 'role' ),
+					multineAttribute = body.getAttribute( 'aria-multiline' );
+
+				assert.areSame( 'textbox', roleAttribute );
+				assert.areSame( 'true', multineAttribute );
+			} );
 		}
 	} );
 } )();
