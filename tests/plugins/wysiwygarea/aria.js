@@ -63,7 +63,27 @@
 		'test editor has correct role and multiline attributes': function() {
 			bender.editorBot.create( {
 				name: 'editor-role-multiline',
-				plugins: 'wysiwygarea'
+				config: {
+					plugins: 'wysiwygarea'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					body = editor.document.findOne( 'body' ),
+					roleAttribute = body.getAttribute( 'role' ),
+					multineAttribute = body.getAttribute( 'aria-multiline' );
+
+				assert.areSame( 'textbox', roleAttribute );
+				assert.areSame( 'true', multineAttribute );
+			} );
+		},
+
+		'test editor has correct role and multiline attributes (full-page editing)': function() {
+			bender.editorBot.create( {
+				name: 'editor-role-multiline-fullpage',
+				config: {
+					plugins: 'wysiwygarea',
+					fullPage: true
+				}
 			}, function( bot ) {
 				var editor = bot.editor,
 					body = editor.document.findOne( 'body' ),
