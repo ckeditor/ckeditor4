@@ -191,17 +191,41 @@
 					// Allow both dragging and dropping and pasting images as base64 (#4681).
 					if ( !data && isFileData( evt, dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 ),
-							defaultSupportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ];
+							defaultSupportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
+							isDisabledNotification = CKEDITOR.plugins.clipboard.ignoreUnsupportedMimeTypeNotification,
+							additionalSupportedMimeTypes = CKEDITOR.plugins.clipboard.supportedMimeTypes,
+							ignoredImageMimeTypes = CKEDITOR.plugins.clipboard.ignoredImageMimeTypes;
 
 						// Check if the current file type is supported by the default supported types.
 						// We need to check only the image types as other file types require an additional file uploader. (#5095)
-						if ( !isSupportedImageMimeType( file, defaultSupportedImageTypes ) ) {
-							var supportedMimeTypes = CKEDITOR.plugins.clipboard.ignoredImageMimeTypes.concat( defaultSupportedImageTypes );
+						if ( !isSupportedMimeType( file, defaultSupportedImageTypes ) ) {
+							var ignoredMimeTypes = defaultSupportedImageTypes
+								.concat( additionalSupportedMimeTypes )
+								.concat( ignoredImageMimeTypes );
 
-							if ( isImageType( file ) && !isSupportedImageMimeType( file, supportedMimeTypes ) ) {
-								var unsupportedTypeMsg = createNotificationMessage( supportedMimeTypes );
+							// Do not show notifications when they are turned off. (#5095)
+							if ( isDisabledNotification ) {
+								return;
+							}
 
-								editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
+							// Display notification for any extensions that are not supported by default. (#5095)
+							if ( additionalSupportedMimeTypes.length === 0 && ignoredImageMimeTypes.length === 0 ) {
+								displayNotification( defaultSupportedImageTypes );
+								return;
+							}
+
+							// Display notification for extension other than defaults + added by user. (#5095)
+							if ( !isImageType( file ) && !isSupportedMimeType( file, ignoredMimeTypes ) ) {
+								displayNotification( ignoredMimeTypes );
+								return;
+							}
+
+							// Display notification for all non-supported images. (#5095)
+							if ( isImageType( file ) && !isSupportedMimeType( file, ignoredMimeTypes ) ) {
+								var ignoredMimeTypes = defaultSupportedImageTypes.concat( ignoredMimeTypes );
+
+								displayNotification( ignoredMimeTypes );
+								return;
 							}
 
 							return;
@@ -238,6 +262,12 @@
 				}, null, null, 1 );
 			}
 
+			function displayNotification( supportedImageTypes ) {
+				var unsupportedTypeMsg = createNotificationMessage( supportedImageTypes );
+
+				editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
+			}
+
 			function isImageType( file ) {
 				var mimeType = file.type,
 					mimeTypes = CKEDITOR.tools.object.keys( imageMimeTypes );
@@ -254,24 +284,26 @@
 				} );
 			}
 
-			function isSupportedImageMimeType( file, supportedImageTypes ) {
+			function isSupportedMimeType( file, supportedTypes ) {
 				var mimeType = file.type;
 
-				if ( CKEDITOR.tools.array.indexOf( supportedImageTypes, mimeType ) !== -1 ) {
+				if ( CKEDITOR.tools.array.indexOf( supportedTypes, mimeType ) !== -1 ) {
 					return true;
 				}
 
-				// Some of MIME types on IE are not supported.
-				// They are visible as empty string. This case need an different treatment.
-				var fileType = file.name.match( /[^.]*$/i )[ 0 ];
+				if ( isImageType( file ) ) {
+					// Some of image MIME types on IE are not supported.
+					// They are visible as empty string. This case need an different treatment.
+					var fileType = file.name.match( /[^.]*$/i )[ 0 ];
 
-				// Check if image type such as 'webp' is supported.
-				return CKEDITOR.tools.array.some( supportedImageTypes, function( imageType ) {
-					var types = CKEDITOR.tools.object.values( imageMimeTypes[ imageType ] );
-					if ( CKEDITOR.tools.array.indexOf( types, fileType ) !== -1 ) {
-						return true;
-					}
-				} );
+					// Check if image type such as 'webp' is supported.
+					return CKEDITOR.tools.array.some( supportedTypes, function( imageType ) {
+						var types = CKEDITOR.tools.object.values( imageMimeTypes[ imageType ] );
+						if ( CKEDITOR.tools.array.indexOf( types, fileType ) !== -1 ) {
+							return true;
+						}
+					} );
+				}
 			}
 
 			// Prepare content for unsupported image type notification (#4750).
@@ -1811,6 +1843,14 @@
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
 
 		/**
+		 * Array of supported MIME types.
+		 *
+		 * @since 4.18.1
+		 * @property {Array}
+		 */
+		supportedMimeTypes: [],
+
+		/**
 		 * Array of ignored MIME image types.
 		 *
 		 * Available MIME type:
@@ -1823,10 +1863,17 @@
 		 * `image/avif`, `image/heif`, `image/heic`'
 		 *
 		 * @since 4.18.1
-		 * @readonly
 		 * @property {Array}
 		 */
 		ignoredImageMimeTypes: [],
+
+		/**
+		 * Disable notification for every unsupported file type.
+		 *
+		 * @since 4.18.1
+		 * @property {Boolean}
+		 */
+		ignoreUnsupportedMimeTypeNotification: false,
 
 		/**
 		 * Adds a new paste button to the editor.
