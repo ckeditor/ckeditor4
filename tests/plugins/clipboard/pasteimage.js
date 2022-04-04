@@ -77,7 +77,7 @@
 		// (#4750)
 		'test pasting unsupported image type shows notification': function() {
 			var editor = this.editor,
-				expectedMsgRegex  = prepareNotificationRegex( this.editor.lang.clipboard.fileFormatNotSupportedNotification ),
+				expectedMsgRegex = prepareNotificationRegex( this.editor.lang.clipboard.fileFormatNotSupportedNotification ),
 				expectedDuration = editor.config.clipboard_notificationDuration,
 				notificationSpy = sinon.spy( editor, 'showNotification' );
 
@@ -229,6 +229,98 @@
 			assertNotificationWithCustomImageType( this.editor, this, 'image/heic' );
 		},
 
+		// (#5095)
+		'test pasting `application/pdf` type will not show notification when custom type will be allowed': function() {
+			var notificationSpy = sinon.spy( this.editor, 'showNotification' ),
+				mimeType = 'application/pdf';
+
+			CKEDITOR.plugins.clipboard.supportedMimeTypes = [ mimeType ];
+
+			FileReader.setFileMockType( mimeType );
+			FileReader.setReadResult( 'load' );
+
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
+			this.assertPaste( {
+				type: mimeType,
+				expected: '<p>Paste image here:^@</p>',
+				callback: function() {
+						notificationSpy.restore();
+						assert.areSame( 0, notificationSpy.callCount,
+							'Notification should not be displayed when type ' + mimeType + ' is added as supported' );
+						CKEDITOR.plugins.clipboard.supportedMimeTypes = [];
+					}
+			} );
+		},
+
+		// (#5095)
+		'test pasting `application/pdf` type will display a notification when custom type is not allowed': function() {
+			var notificationSpy = sinon.spy( this.editor, 'showNotification' ),
+				mimeType = 'application/pdf';
+
+			CKEDITOR.plugins.clipboard.supportedMimeTypes = [ 'text/css' ];
+
+			FileReader.setFileMockType( mimeType );
+			FileReader.setReadResult( 'load' );
+
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
+			this.assertPaste( {
+				type: mimeType,
+				expected: '<p>Paste image here:^@</p>',
+				callback: function() {
+						notificationSpy.restore();
+						assert.areSame( 1, notificationSpy.callCount,
+							'Notification should be displayed when type ' + mimeType + ' is not added as supported' );
+						CKEDITOR.plugins.clipboard.supportedMimeTypes = [];
+					}
+			} );
+		},
+
+		// (#5095)
+		'test set ignoreUnsupportedMimeTypeNotification as true will prevent notification for being displayed for any custom MIME types': function() {
+			var notificationSpy = sinon.spy( this.editor, 'showNotification' ),
+				mimeTypes = [ 'application/pdf', 'image/webp', 'image/avif', 'text/css', 'text/html', 'video/mp4' ];
+
+			CKEDITOR.plugins.clipboard.ignoreUnsupportedMimeTypeNotification = true;
+
+			for ( var i = 0; i < mimeTypes.length; i++ ) {
+				FileReader.setFileMockType( mimeTypes[ i ] );
+				FileReader.setReadResult( 'load' );
+
+				bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
+				this.assertPaste( {
+					type: mimeTypes[ i ],
+					expected: '<p>Paste image here:^@</p>',
+					callback: function() {
+							notificationSpy.restore();
+							assert.areSame( 0, notificationSpy.callCount,
+								'Notification for ' + mimeTypes[ i ] + ' MIME type should not be displayed when unsupported file type notification is off' );
+							CKEDITOR.plugins.clipboard.ignoreUnsupportedMimeTypeNotification = false;
+						}
+				} );
+			}
+		},
+
+		'test display notification for non-supported image type': function() {
+		var notificationSpy = sinon.spy( this.editor, 'showNotification' ),
+				mimeType = 'image/webp';
+
+			CKEDITOR.plugins.clipboard.supportedMimeTypes = [ 'text/css' ];
+
+			FileReader.setFileMockType( mimeType );
+			FileReader.setReadResult( 'load' );
+
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
+			this.assertPaste( {
+				type: mimeType,
+				expected: '<p>Paste image here:^@</p>',
+				callback: function() {
+						notificationSpy.restore();
+						assert.areSame( 1, notificationSpy.callCount,
+							'Notification for ' + mimeType + ' MIME type should be displayed' );
+					}
+			} );
+		},
+
 		assertPaste: function( options ) {
 			assertImagePaste( this.editor, options );
 		}
@@ -255,10 +347,11 @@
 			type: mimeType,
 			expected: '<p>Paste image here:^@</p>',
 			callback: function() {
-				notificationSpy.restore();
-				assert.areSame( 0, notificationSpy.callCount,
-					'Notification should not be shown when type ' + mimeType + ' is added as supported' );
-			}
+					notificationSpy.restore();
+					assert.areSame( 0, notificationSpy.callCount,
+						'Notification should not be shown when type ' + mimeType + ' is added as supported' );
+					CKEDITOR.plugins.clipboard.ignoredImageMimeTypes = [];
+				}
 		} );
 	}
 } )();

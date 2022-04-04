@@ -222,9 +222,9 @@
 
 							// Display notification for all non-supported images. (#5095)
 							if ( isImageType( file ) && !isSupportedMimeType( file, ignoredMimeTypes ) ) {
-								var ignoredMimeTypes = defaultSupportedImageTypes.concat( ignoredMimeTypes );
+								var ignoredTypes = defaultSupportedImageTypes.concat( ignoredMimeTypes );
 
-								displayNotification( ignoredMimeTypes );
+								displayNotification( ignoredTypes );
 								return;
 							}
 
