@@ -86,6 +86,7 @@ CKEDITOR.plugins.add('fastversioning', {
 					}
 
 					window.postMessage(dataMassage, "*");
+					window.isToolbarChange = true;
 				}
 				else {
 					window.showFastVersioningDialog(editor);

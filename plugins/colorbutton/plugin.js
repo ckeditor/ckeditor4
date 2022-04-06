@@ -270,7 +270,7 @@
 							activeTriggerIndex: null,
 						}
 						window.postMessage(dataMassage, "*");
-
+						window.isToolbarChange = true;
 						return automaticColor;
 					}
 				});

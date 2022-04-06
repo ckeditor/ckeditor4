@@ -424,18 +424,31 @@
 }
 
 .extraData {
-	display: flex;
+	display: none;
 	margin-bottom: 0;
 	opacity: 0;
 	position: absolute;
-	bottom: -5px;
+	top:99.5%;
 	left: 0;
+	color: #2E3B58;
+	background: rgba(237, 241, 247, 0.7);
+	border: 1px solid #EDF1F7;
+	border-radius: 4px;
+	padding: 2px 7px;
+	z-index: 1;
+	height: auto;
+	overflow: hidden;
+}
+.cke_editable.cke_focus + .extraData {
+	display: flex;
+	opacity: 1;
 }
 
 .extraData .editorCharCounter {
 	display: inline-flex;
 	margin-right: 10px;
 	font-size: 11px;
+	line-height: 24px;
 }
 
 .extraData .editorNotifications {
@@ -451,9 +464,6 @@
 	font-size: 11px;
 }
 
-.cke_focus + .extraData {
-	opacity: 1;
-}
 
 .editor-basic .cke {
 	max-width: 100%;
@@ -658,7 +668,7 @@
 	font-size: 20px;
 }
 
-@media screen and (min-width: 1199px) and (max-width: 1900px),
+@media screen and (min-width: 1190px) and (max-width: 1900px),
 (min-width: 1930px) {
 	.cke {
 		max-width: 970px;
