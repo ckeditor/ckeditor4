@@ -41,7 +41,6 @@ function switchMe(editor, callback) {
 		var notificationsElement = document.querySelector('.' + editorUniqId + '-notification');
 
 		editor.on('instanceReady', function (e) {
-			CKeditor_OnComplete(e.editor);
 			if (callback) {
 				callback.call(null, e);
 			}
@@ -50,7 +49,7 @@ function switchMe(editor, callback) {
 			if (notifications_area !== null) {
 				notifications_area.innerHTML = '';
 			}
-			warnings = checkEditorValidation(editor, variable, counterElement, notificationsElement);
+			warnings = window.checkEditorValidation(editor, variable, counterElement, notificationsElement);
 			window.editorInstance = editor;
 		});
 		editor.on('change', function () {
@@ -58,8 +57,8 @@ function switchMe(editor, callback) {
 			if (notifications_area !== null) {
 				notifications_area.innerHTML = '';
 			}
-			warnings = checkEditorValidation(editor, variable, counterElement, notificationsElement);
-			trackCKEditorsChange(editor, elementTrigger, elementTriggerIndex, variable, false);
+			warnings = window.checkEditorValidation(editor, variable, counterElement, notificationsElement);
+			window.trackCKEditorsChange(editor, elementTrigger, elementTriggerIndex, variable, false);
 			window.editorInstance = editor;
 		});
 		editor.on('afterCommandExec', function () {
@@ -83,64 +82,6 @@ function switchMe(editor, callback) {
 	// 		}
 	// 	});
 	// }
-}
-
-function checkEditorValidation(editor, variable, counterElement, notificationsElement) {
-	if (variable.type !== 'editor-basic') return null;
-	var textLength = getEditorTextLength(editor.getData());
-	if (variable.validation.max && counterElement) {
-		counterElement.innerHTML = textLength + '/' + variable.validation.max;
-	}
-	var warnings = getWarnings(variable, textLength);
-	if (warnings !== null) {
-		notificationsElement.innerText = '👉' + warnings;
-		notificationsElement.classList.add('error');
-		counterElement.classList.add('error');
-	} else {
-		notificationsElement.innerText = '';
-		notificationsElement.classList.remove('error');
-		counterElement.classList.remove('error');
-	}
-	return warnings;
-}
-
-function getWarnings(variable, textLength) {
-	if (textLength === 0 && variable.validation && variable.validation.required) {
-		return ' This field is required';
-	}
-	if (variable.validation && variable.validation.max && textLength >= +variable.validation.max) {
-		return ' Recommended max text length: '+ variable.validation.max + 'characters';
-	}
-	if (variable.validation && variable.validation.min && textLength <= +variable.validation.min) {
-		return ' Recommended min text length: '+ variable.validation.min + 'characters';
-	}
-	return null;
-}
-
-function getEditorTextLength(editorData) {
-	var el = document.createElement('div');
-	el.innerHTML = editorData;
-	txtLength = el.innerText.length;
-	return txtLength;
-}
-
-function trackCKEditorsChange(editor, activeTrigger, activeTriggerIndex, variable, saveChanges) {
-
-	var action = 'editorChanges';
-	var value = '';
-
-	value = editor.getData();
-
-	var dataMassage = {
-		action: action,
-		activeTrigger: activeTrigger,
-		activeTriggerIndex: activeTriggerIndex,
-		variable: variable,
-		value: value,
-		saveChanges: saveChanges
-	}
-	window.postMessage(dataMassage, "*");
-
 }
 
 CKEDITOR.plugins.add('toolbarswitch', {
@@ -171,7 +112,3 @@ CKEDITOR.plugins.add('toolbarswitch', {
 		});
 	}
 });
-
-
-function CKeditor_OnComplete() {
-};
