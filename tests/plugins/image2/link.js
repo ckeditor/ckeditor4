@@ -296,7 +296,7 @@
 		// -- Link bare with data ---------------------------
 
 		'test link bare widget (widget.setData): inline, none': function() {
-			// (#3761, #5115)
+			// (#3716, #5115)
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 9 ) {
 				assert.ignore();
 			}
