@@ -121,9 +121,10 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			addListener( 'abort', function() {
 				callback( null );
 			} );
-
+			
+			var queryStringSeparator = (src.indexOf('?') > -1) ? '&' : '?';
 			image.setAttribute( 'src',
-				( config.baseHref || '' ) + src + '?' + Math.random().toString( 16 ).substring( 2 ) );
+				( config.baseHref || '' ) + src + queryStringSeparator + Math.random().toString( 16 ).substring( 2 ) );
 		};
 	}
 
