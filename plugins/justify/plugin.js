@@ -226,21 +226,25 @@
 
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'JustifyLeft', {
+					isToggle: true,
 					label: editor.lang.common.alignLeft,
 					command: 'justifyleft',
 					toolbar: 'align,10'
 				} );
 				editor.ui.addButton( 'JustifyCenter', {
+					isToggle: true,
 					label: editor.lang.common.center,
 					command: 'justifycenter',
 					toolbar: 'align,20'
 				} );
 				editor.ui.addButton( 'JustifyRight', {
+					isToggle: true,
 					label: editor.lang.common.alignRight,
 					command: 'justifyright',
 					toolbar: 'align,30'
 				} );
 				editor.ui.addButton( 'JustifyBlock', {
+					isToggle: true,
 					label: editor.lang.common.justify,
 					command: 'justifyblock',
 					toolbar: 'align,40'

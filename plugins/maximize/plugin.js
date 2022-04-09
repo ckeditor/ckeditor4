@@ -248,17 +248,6 @@
 
 					this.toggleState();
 
-					// Toggle button label.
-					var button = this.uiItems[ 0 ];
-					// Only try to change the button if it exists (https://dev.ckeditor.com/ticket/6166)
-					if ( button ) {
-						var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize.maximize : lang.maximize.minimize;
-						var buttonNode = CKEDITOR.document.getById( button._.id );
-						buttonNode.getChild( 1 ).setHtml( label );
-						buttonNode.setAttribute( 'title', label );
-						buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' ); // jshint ignore:line
-					}
-
 					// Restore selection and scroll position in editing area.
 					if ( editor.mode == 'wysiwyg' ) {
 						if ( savedSelection ) {
@@ -289,6 +278,7 @@
 			} );
 
 			editor.ui.addButton && editor.ui.addButton( 'Maximize', {
+				isToggle: true,
 				label: lang.maximize.maximize,
 				command: 'maximize',
 				toolbar: 'tools,10'

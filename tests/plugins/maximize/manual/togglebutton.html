@@ -1,0 +1,27 @@
+<div id="editor"></div>
+
+<script>
+	( function() {
+		CKEDITOR.replace( 'editor', {
+			language: 'en',
+			toolbar: [ [ 'Maximize' ] ],
+			extraAllowedContent: 'b',
+			on: {
+				instanceReady: renderButtonState,
+				afterCommandExec: renderButtonState
+			}
+		} );
+
+		function renderButtonState( evt ) {
+			var editor = evt.editor,
+				button = CKEDITOR.document.findOne( '.cke_button__maximize' ),
+				buttonLabelElement = button.findOne( '.cke_button_label' ),
+				isPressed = button.getAttribute( 'aria-pressed' ),
+				label = buttonLabelElement.getHtml(),
+				statusHtml = '<p>Is pressed: <b>' + isPressed + '</b>' +
+					'<p>Label: <b>' + label + '</b>'
+
+			editor.setData( statusHtml );
+		}
+	} )();
+</script>

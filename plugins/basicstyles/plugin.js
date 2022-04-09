@@ -37,6 +37,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				// Register the button, if the button plugin is loaded.
 				if ( editor.ui.addButton ) {
 					editor.ui.addButton( buttonName, {
+						isToggle: true,
 						label: buttonLabel,
 						command: commandName,
 						toolbar: 'basicstyles,' + ( order += 10 )

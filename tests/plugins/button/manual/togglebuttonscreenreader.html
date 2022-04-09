@@ -1,0 +1,29 @@
+<div id="editor">
+	<p>Whatever</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		toolbar: [ [ 'toggleButton' ] ],
+		on: {
+			pluginsLoaded: function( evt ) {
+				evt.editor.addCommand( 'toggleButton', {
+					exec: function() {
+						if ( this.state === CKEDITOR.TRISTATE_OFF ) {
+							this.setState( CKEDITOR.TRISTATE_ON );
+						} else {
+							this.setState( CKEDITOR.TRISTATE_OFF );
+						}
+					}
+				} );
+
+				evt.editor.ui.addButton( 'toggleButton', {
+					label: 'Sample button',
+					icon: 'Link',
+					isToggle: true,
+					command: 'toggleButton'
+				} );
+			}
+		}
+	} );
+</script>

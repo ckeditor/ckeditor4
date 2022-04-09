@@ -225,6 +225,7 @@
 
 				if ( editor.ui.addButton ) {
 					editor.ui.addButton( buttonName, {
+						isToggle: true,
 						label: buttonLabel,
 						command: commandName,
 						toolbar: 'bidi,' + order
