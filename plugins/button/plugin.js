@@ -438,7 +438,7 @@
 	 * @param {String/Boolean} definition.hasArrow If Boolean, it indicates whether the button should have a dropdown. If a string, it acts
 	 * as a value of the button's `aria-haspopup` attribute. Since **4.11.0** it supports the string as a value.
 	 * @param {Boolean} [definition.isToggle=false] Indicates if the button should be treated as a toggle one
-	 * (button that can be switched on and off, e.g. the "Bold" button). This option is supported since the **4.18.1** version.
+	 * (button that can be switched on and off, e.g. the "Bold" button). This option is supported since the **4.19.0** version.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );
