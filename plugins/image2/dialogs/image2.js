@@ -122,7 +122,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				callback( null );
 			} );
 			
-			var queryStringSeparator = (src.indexOf('?') > -1) ? '&' : '?';
+			var queryStringSeparator = src.indexOf( '?' ) !== -1 ? '&' : '?';
 			image.setAttribute( 'src',
 				( config.baseHref || '' ) + src + queryStringSeparator + Math.random().toString( 16 ).substring( 2 ) );
 		};
