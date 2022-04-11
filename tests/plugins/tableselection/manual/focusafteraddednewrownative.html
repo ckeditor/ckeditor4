@@ -1,0 +1,45 @@
+<div id="editor1" contenteditable="true">
+	<table border="1" width="500px">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<br>
+<h2>Inline Editor</h2>
+
+<div id="editor2" contenteditable="true">
+	<table border="1" width="500px">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.inline( 'editor2', {
+		extraPlugins: 'floatingspace'
+	} );
+</script>
