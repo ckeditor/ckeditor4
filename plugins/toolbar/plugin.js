@@ -11,7 +11,6 @@
 ( function() {
 	var toolbox = function() {
 			this.toolbars = [];
-			this.focusCommandExecuted = false;
 		};
 
 	toolbox.prototype.focus = function() {
@@ -32,8 +31,6 @@
 
 			exec: function( editor ) {
 				if ( editor.toolbox ) {
-					editor.toolbox.focusCommandExecuted = true;
-
 					// Make the first button focus accessible for IE. (https://dev.ckeditor.com/ticket/3417)
 					// Adobe AIR instead need while of delay.
 					if ( CKEDITOR.env.ie || CKEDITOR.env.air ) {
