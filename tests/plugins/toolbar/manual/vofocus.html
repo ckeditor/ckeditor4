@@ -3,5 +3,9 @@
 </div>
 
 <script>
+	if ( !CKEDITOR.env.iOS ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor' );
 </script>
