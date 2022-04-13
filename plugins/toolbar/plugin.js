@@ -282,13 +282,6 @@
 
 								itemObj.toolbar = toolbarObj;
 								itemObj.onkey = itemKeystroke;
-
-								// Fix for https://dev.ckeditor.com/ticket/3052:
-								// Prevent JAWS from focusing the toolbar after document load.
-								itemObj.onfocus = function() {
-									if ( !editor.toolbox.focusCommandExecuted )
-										editor.focus();
-								};
 							}
 
 							if ( pendingSeparator ) {
