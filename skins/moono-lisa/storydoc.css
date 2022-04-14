@@ -99,7 +99,7 @@
 	align-items: center;
 	width: auto;
 	height: 100%;
-	padding: 10px 7px;
+	padding: 0 4px;
 	box-sizing: border-box;
 	border-right: 1px solid #EEEEEE;
 }
@@ -180,9 +180,12 @@
 }
 
 .cke_inner .cke_toolbar .cke_combo .cke_combo_button {
-	padding: 0;
+	padding: 0 5px;
 	display: flex;
 	align-items: center;
+}
+#editorToolbar .cke_inner .cke_toolbar .cke_combo .cke_combo_button:hover {
+	padding: 0 5px;
 }
 
 .cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_text {
@@ -208,12 +211,16 @@
 	margin: 0;
 	cursor: pointer;
 }
-
+#editorToolbar .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Formatting Styles"] {
+	min-width: 142px;
+	padding: 0 5px;
+}
 .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Formatting Styles"] .cke_combo_text {
 	font-weight: 800;
 	width: auto;
 	cursor: pointer;
 	overflow: visible;
+	padding: 0 5px;
 }
 
 .cke_panel_block .cke_panel_grouptitle {
@@ -678,33 +685,42 @@
 .cke_panel_block .cke_emoji-panel .cke_emoji-search input {
 	font-size: 20px;
 }
-
-@media screen and (min-width: 1190px) and (max-width: 1900px),
-(min-width: 1930px) {
+@media screen and (max-width: 1240px) {
+	.cke_inner .cke_top {
+		padding: 0 35px;
+	}
 	.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon, .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Text Size"] .cke_combo_text {
-		width: 20px;
-		height: 20px;
-	}
-	.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__justifycenter_icon, .cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon.cke_button__highlight_icon,
-	.cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Line Height"] .cke_combo_text, .cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__bidiltr_icon,
-	.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__bidirtl_icon, .cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__bulletedlist_icon,
-	.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__numberedlist_icon, .cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon.cke_button__fastversioning_icon,
-	.cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Text Size"] .cke_combo_text{
-		width: 25px;
-		height: 25px;
-	}
-	.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon.cke_button__animated.numbers_icon, .cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__emojipanel_icon {
-		width: 23px;
-		height: 23px;
-	}
-
-	.cke .cke_toolbar .cke_toolgroup .cke_button .cke_button__strike_icon {
 		width: 24px;
 		height: 24px;
 	}
+	.cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Line Height"] .cke_combo_text {
+		width: 22px;
+	}
+	.cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_text {
+		font-size: 18px;
+	}
+	#editorToolbar .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Formatting Styles"] {
+		min-width: 112px;
+		padding: 0 5px;
+	}
+	.cke_inner .cke_toolbar .cke_toolgroup .cke_button {
+		margin-right: 0;
+		padding: 0 6px;
+	}
+	.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_arrow {
+		width: 12px;
+		height: 8px;
+	}
+}
+@media screen and (min-width: 1241px) and (max-width: 1900px),
+(min-width: 1930px) {
+	.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon, .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Text Size"] .cke_combo_text {
+		width: 25px;
+		height: 25px;
+	}
 	.cke_inner .cke_toolbar .cke_toolgroup .cke_button {
 		padding: 4px 5px;
-		margin-right: 6px;
+		margin-right: 5px;
 	}
 	.cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_text {
 		font-size: 22px;
@@ -719,19 +735,16 @@
 }
 @media screen and (min-width: 1330px) {
 	.cke_inner .cke_toolbar {
-		padding: 0 14px;
+		padding: 0 10px;
 	}
 }
 @media screen and (min-width: 1430px) {
 	.cke_inner .cke_toolbar {
-		padding: 0 18px;
+		padding: 0 13px;
 	}
 }
 
 @media screen and (min-width: 1600px) {
-	.cke_inner .cke_toolbar {
-		padding: 0 21px;
-	}
 	.cke_inner .cke_toolbar .cke_toolgroup .cke_button {
 		margin-right: 14px;
 	}
