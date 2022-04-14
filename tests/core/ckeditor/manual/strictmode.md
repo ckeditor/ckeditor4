@@ -3,8 +3,6 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles
 
 1. Open dev console.
-2. Click "Create editor" button.
-3. Wait until editor initialize.
 
 **Expected** There are no errors in the console.
 

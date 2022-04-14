@@ -1,5 +1,4 @@
 <div id="editor"></div>
-<button id="createEditorBtn">Create editor</button>
 
 <script>
 	( function() {
@@ -7,11 +6,6 @@
 			return bender.ignore();
 		}
 
-		var createEditorBtn = document.getElementById( 'createEditorBtn' );
-
-		createEditorBtn.addEventListener( 'click', function() {
-			CKEDITOR.replace( 'editor' );
-			createEditorBtn.setAttribute( 'disabled', true );
-		} )
+		CKEDITOR.replace( 'editor' );
 	} )();
 </script>
