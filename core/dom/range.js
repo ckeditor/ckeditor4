@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+'use strict';
+
 /**
  * Represents a delimited piece of content in a DOM Document.
  * It is contiguous in the sense that it can be characterized as selecting all
@@ -176,7 +178,6 @@ CKEDITOR.dom.range = function( root ) {
 	//   param (see range.deleteContents or range.extractContents).
 	//   See comments in mergeAndUpdate because this is lots of fun too.
 	function execContentsAction( range, action, docFrag, mergeThen, cloneId ) {
-		'use strict';
 
 		range.optimizeBookmark();
 
@@ -2910,7 +2911,6 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
-			'use strict';
 			if ( document.getSelection !== undefined ) {
 				return function( isAbsolute ) {
 					// We need to create native range so we can call native getClientRects.
