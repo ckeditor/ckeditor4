@@ -115,35 +115,8 @@
 
 ( function() {
 	var clipboardIdDataType,
-		jpeg2000Extensions = [ 'jp2', 'j2k', 'jpf', 'jpm', 'jpg2', 'j2c', 'jpc', 'jpx' ],
-		heifExtensions = [ 'heif', 'heifs', 'heic', 'avci', 'avcs', 'avif', 'avifs' ],
-		jpegXRExtensions = [ 'jxr', 'hdp', 'wdp' ],
-		windowsBitmapExtension = [ 'bmp', 'dib' ],
-		tiffExtensions = [ 'tif', 'tiff' ],
-		xBitmapExtension = [ 'xbm' ],
-		imageMimeTypes = {
-			'image/jpeg': [ 'jpg', 'jpeg' ,'jpe', 'jif', 'jfi', 'jfif', 'pjpeg', 'pjp' ],
-			'image/x-icon': [ 'ico', 'cur' ],
-			'image/apng': [ 'apng' ],
-			'image/webp': [ 'webp' ],
-			'image/png': [ 'png' ],
-			'image/gif': [ 'gif' ],
-			'image/svg': [ 'svg' ],
-			'image/vnd.ms-photo': jpegXRExtensions,
-			'image/bmp': windowsBitmapExtension,
-			'image/x-bmp': windowsBitmapExtension,
-			'image/jpm': jpeg2000Extensions,
-			'image/jpx': jpeg2000Extensions,
-			'image/jp2': jpeg2000Extensions,
-			'image/xbm': xBitmapExtension,
-			'image/xbitmap': xBitmapExtension,
-			'image/jxr': jpegXRExtensions,
-			'image/tiff-fx': tiffExtensions,
-			'image/tiff': tiffExtensions,
-			'image/avif': heifExtensions,
-			'image/heif': heifExtensions,
-			'image/heic': heifExtensions
-		};
+		// jscs:disable maximumLineLength
+		imageExtensions = [ 'png', 'gif', 'jpg', 'svg', 'webp', 'apng', 'ico', 'cur', 'jpeg' ,'jpe', 'jif', 'jfi', 'jfif', 'pjpeg', 'pjp', 'xbm', 'tif', 'tiff', 'jp2', 'j2k', 'jpf', 'jpm', 'jpg2', 'j2c', 'jpc', 'jpx', 'heif', 'heifs', 'heic', 'avci', 'avcs', 'avif', 'avifs', 'jxr', 'hdp', 'wdp', 'bmp', 'dib' ];
 
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
@@ -189,121 +162,87 @@
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					// Allow both dragging and dropping and pasting images as base64 (#4681).
-					if ( !data && isFileData( evt, dataTransfer ) ) {
-						var file = dataTransfer.getFile( 0 ),
-							defaultSupportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
-							isDisabledNotification = CKEDITOR.plugins.clipboard.ignoreUnsupportedMimeTypeNotification,
-							additionalSupportedMimeTypes = CKEDITOR.plugins.clipboard.supportedMimeTypes,
-							ignoredImageMimeTypes = CKEDITOR.plugins.clipboard.ignoredImageMimeTypes;
+					if ( data && !isFileData( evt, dataTransfer ) ) {
+						return;
+					}
 
-						// Check if the current file type is supported by the default supported types.
-						// We need to check only the image types as other file types require an additional file uploader. (#5095)
-						if ( !isSupportedMimeType( file, defaultSupportedImageTypes ) ) {
-							var ignoredMimeTypes = defaultSupportedImageTypes
-								.concat( additionalSupportedMimeTypes )
-								.concat( ignoredImageMimeTypes );
+					var file = dataTransfer.getFile( 0 ),
+						defaultSupportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
+						isDisabledNotification = editor.config.clipboard_disableNotification || false,
+						isIgnoredNotificationForImages = editor.config.clipboard_ignoreNotificationsForImages || false,
+						isIgnoredNotificationForNonImages = editor.config.clipboard_ignoreNotificationsForNonImages || false,
+						ignoredNotificationFileExtensions = editor.config.clipboard_ignoreNotificationsForExtensions || [];
 
-							// Do not show notifications when they are turned off. (#5095)
-							if ( isDisabledNotification ) {
-								return;
-							}
+					//Check if the current file type is supported by the default supported types.
+					// We need to check only the image types as other file types require an additional file uploader. (#5095)
+					if ( CKEDITOR.tools.indexOf( defaultSupportedImageTypes, file.type ) === -1 ) {
 
-							// Display notification for any extensions that are not supported by default. (#5095)
-							if ( additionalSupportedMimeTypes.length === 0 && ignoredImageMimeTypes.length === 0 ) {
-								displayNotification( defaultSupportedImageTypes );
-								return;
-							}
-
-							// Display notification for extension other than defaults + added by user. (#5095)
-							if ( !isImageType( file ) && !isSupportedMimeType( file, ignoredMimeTypes ) ) {
-								displayNotification( ignoredMimeTypes );
-								return;
-							}
-
-							// Display notification for all non-supported images. (#5095)
-							if ( isImageType( file ) && !isSupportedMimeType( file, ignoredMimeTypes ) ) {
-								var ignoredTypes = defaultSupportedImageTypes.concat( ignoredMimeTypes );
-
-								displayNotification( ignoredTypes );
-								return;
-							}
-
+						// Do not show notifications when they are turned off. (#5095)
+						if ( isDisabledNotification ) {
 							return;
 						}
 
-						var fileReader = new FileReader();
+						var fileExtension = file.name.match( /[^.]*$/i )[ 0 ],
+							isImage = isImageType( fileExtension );
 
-						// Convert image file to img tag with base64 image.
-						fileReader.addEventListener( 'load', function() {
-							evt.data.dataValue = '<img src="' + fileReader.result + '" />';
-							editor.fire( 'paste', evt.data );
-						}, false );
+						// Disable notifications for all non image extensions. (#5095)
+						if ( !isImage && isIgnoredNotificationForNonImages ) {
+							return;
+						}
 
-						// Proceed with normal flow if reading file was aborted.
-						fileReader.addEventListener( 'abort', function() {
-							// (#4681)
-							setCustomIEEventAttribute( evt );
-							editor.fire( 'paste', evt.data );
-						}, false );
+						// Disable notifications for every image extensions that are not supported by default. (#5095)
+						if ( isImage && isIgnoredNotificationForImages ) {
+							return;
+						}
 
-						// Proceed with normal flow if reading file failed.
-						fileReader.addEventListener( 'error', function() {
-							// (#4681)
-							setCustomIEEventAttribute( evt );
-							editor.fire( 'paste', evt.data );
-						}, false );
+						// Disable notification for specific file extensions like '.zip, .webp' etc. (#5095)
+						if ( CKEDITOR.tools.indexOf( ignoredNotificationFileExtensions, fileExtension ) !== -1 ) {
+							return;
+						}
 
-						fileReader.readAsDataURL( file );
+						displayNotification( defaultSupportedImageTypes );
 
-						latestId = dataObj.dataTransfer.id;
-
-						evt.stop();
+						return;
 					}
+
+					var fileReader = new FileReader();
+
+					// Convert image file to img tag with base64 image.
+					fileReader.addEventListener( 'load', function() {
+						evt.data.dataValue = '<img src="' + fileReader.result + '" />';
+						editor.fire( 'paste', evt.data );
+					}, false );
+
+					// Proceed with normal flow if reading file was aborted.
+					fileReader.addEventListener( 'abort', function() {
+						// (#4681)
+						setCustomIEEventAttribute( evt );
+						editor.fire( 'paste', evt.data );
+					}, false );
+
+					// Proceed with normal flow if reading file failed.
+					fileReader.addEventListener( 'error', function() {
+						// (#4681)
+						setCustomIEEventAttribute( evt );
+						editor.fire( 'paste', evt.data );
+					}, false );
+
+					fileReader.readAsDataURL( file );
+
+					latestId = dataObj.dataTransfer.id;
+
+					evt.stop();
 				}, null, null, 1 );
+			}
+
+			function isImageType( fileExtension ) {
+				return CKEDITOR.tools.indexOf( imageExtensions, fileExtension ) !== -1;
 			}
 
 			function displayNotification( supportedImageTypes ) {
 				var unsupportedTypeMsg = createNotificationMessage( supportedImageTypes );
 
 				editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
-			}
-
-			function isImageType( file ) {
-				var mimeType = file.type,
-					mimeTypes = CKEDITOR.tools.object.keys( imageMimeTypes );
-
-				if ( CKEDITOR.tools.array.indexOf( mimeTypes, mimeType ) !== -1 ) {
-					return true;
-				}
-
-				var fileType = file.name.match( /[^.]*$/i )[ 0 ],
-					types = CKEDITOR.tools.object.values( imageMimeTypes );
-
-				return CKEDITOR.tools.array.some( types, function( type ) {
-					return CKEDITOR.tools.array.indexOf( type, fileType ) !== -1;
-				} );
-			}
-
-			function isSupportedMimeType( file, supportedTypes ) {
-				var mimeType = file.type;
-
-				if ( CKEDITOR.tools.array.indexOf( supportedTypes, mimeType ) !== -1 ) {
-					return true;
-				}
-
-				if ( isImageType( file ) ) {
-					// Some of image MIME types on IE are not supported.
-					// They are visible as empty string. This case need an different treatment.
-					var fileType = file.name.match( /[^.]*$/i )[ 0 ];
-
-					// Check if image type such as 'webp' is supported.
-					return CKEDITOR.tools.array.some( supportedTypes, function( imageType ) {
-						var types = CKEDITOR.tools.object.values( imageMimeTypes[ imageType ] );
-						if ( CKEDITOR.tools.array.indexOf( types, fileType ) !== -1 ) {
-							return true;
-						}
-					} );
-				}
 			}
 
 			// Prepare content for unsupported image type notification (#4750).
@@ -2482,29 +2421,6 @@
 		 */
 		preventDefaultDropOnElement: function( element ) {
 			element && element.on( 'dragover', preventDefaultSetDropEffectToNone );
-		},
-
-		/**
-		 * Adds ignored MIME image types.
-		 *
-		 *		CKEDITOR.plugins.clipboard.setIgnoredImageMimeType( [ 'image/webp', 'image/jp2' ] )
-		 *
-		 * @since 4.18.1
-		 * @param {Array} types array of ignored MIME image types.
-		 *
-		 */
-		setIgnoredImageMimeType: function( types ) {
-			var self = this;
-
-			CKEDITOR.tools.array.forEach( types, function( type ) {
-				var imageMimeTypeKeys = CKEDITOR.tools.object.keys( imageMimeTypes ),
-					isMIMETypeExist = CKEDITOR.tools.indexOf( self.ignoredImageMimeTypes, type ) !== -1,
-					isSupportedImageMimeType = CKEDITOR.tools.indexOf( imageMimeTypeKeys, type ) !== -1;
-
-				if ( !isMIMETypeExist && isSupportedImageMimeType ) {
-					self.ignoredImageMimeTypes.push( type );
-				}
-			} );
 		}
 	};
 
@@ -3642,3 +3558,43 @@ CKEDITOR.config.clipboard_notificationDuration = 10000;
  * @member CKEDITOR.config
  */
 CKEDITOR.config.clipboard_handleImages = true;
+
+/**
+ *	clipboard_disableNotification
+ *
+ *		config.clipboard_disableNotification = true;
+ *
+ * @since 4.19.0
+ * @cfg {Boolean} [clipboard_disableNotification=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ *	clipboard_ignoreNotificationsForImages
+ *
+ *		config.clipboard_ignoreNotificationsForImages = true;
+ *
+ * @since 4.19.0
+ * @cfg {Boolean} [clipboard_ignoreNotificationsForImages=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ *	clipboard_ignoreNotificationsForNonImages
+ *
+ *		config.clipboard_ignoreNotificationsForNonImages = true;
+ *
+ * @since 4.19.0
+ * @cfg {Boolean} [clipboard_ignoreNotificationsForNonImages=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ *	clipboard_ignoreNotificationsForExtensions
+ *
+ *		config.clipboard_ignoreNotificationsForExtensions = [ 'zip', 'pdf', 'webp' ];
+ *
+ * @since 4.19.0
+ * @cfg {Array} [clipboard_ignoreNotificationsForExtensions=[]]
+ * @member CKEDITOR.config
+ */
