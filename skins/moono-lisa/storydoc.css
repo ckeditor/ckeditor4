@@ -129,6 +129,8 @@
 	margin-right: 12px;
 	background: none;
 	cursor: pointer;
+	position: relative;
+	top: 2px;
 }
 
 .cke_inner .cke_toolbar .cke_toolgroup .cke_button:hover {
@@ -637,8 +639,8 @@
 	background: url(images/linehight.svg) no-repeat center !important;
 	background-size: contain !important;
 	font-size: 0 !important;
-	width: 34px;
-	height: 34px;
+	width: 27px;
+	height: 27px;
 	padding: 0;
 	cursor: pointer;
 }
@@ -715,6 +717,10 @@
 @media screen and (min-width: 1241px) and (max-width: 1900px),
 (min-width: 1930px) {
 	.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon, .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Text Size"] .cke_combo_text {
+		width: 25px;
+		height: 25px;
+	}
+	.cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Text Size"] .cke_combo_text {
 		width: 25px;
 		height: 25px;
 	}
