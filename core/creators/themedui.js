@@ -480,9 +480,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 				' dir="{langDir}"' +
 				' lang="{langCode}"' +
 				' role="application"' +
-				( editor.title ? ' aria-labelledby="cke_{name}_arialbl"' : '' ) +
+				( editor.applicationTitle ? ' aria-labelledby="cke_{name}_arialbl"' : '' ) +
 				'>' +
-				( editor.title ? '<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' : '' ) +
+				( editor.applicationTitle ? '<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' : '' ) +
 				'<{outerEl} class="cke_inner cke_reset" role="presentation">' +
 					'{topHtml}' +
 					'<{outerEl} id="{contentId}" class="cke_contents cke_reset" role="presentation"></{outerEl}>' +
@@ -495,7 +495,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			name: name,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
-			voiceLabel: editor.title,
+			voiceLabel: editor.applicationTitle,
 			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
 			contentId: editor.ui.spaceId( 'contents' ),
 			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',
