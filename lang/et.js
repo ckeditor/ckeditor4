@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'et' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Rikkalik tekstiredaktor',
 	editorPanel: 'Rikkaliku tekstiredaktori paneel',
 

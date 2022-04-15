@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'ro' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Editor de text îmbogățit',
 	editorPanel: 'Panoul editorului de text îmbogățit',
 

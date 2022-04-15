@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'es' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Editor de Texto Enriquecido',
 	editorPanel: 'Panel del Editor de Texto Enriquecido',
 

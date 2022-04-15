@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'ar' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'محرر النص الغني',
 	editorPanel: 'لائحة محرر النص المنسق',
 

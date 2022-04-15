@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'cs' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Textový editor',
 	editorPanel: 'Panel textového editoru',
 

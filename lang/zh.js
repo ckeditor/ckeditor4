@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'zh' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'RTF 編輯器',
 	editorPanel: 'RTF 編輯器面板',
 

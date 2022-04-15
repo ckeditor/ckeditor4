@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'el' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Επεξεργαστής Πλούσιου Κειμένου',
 	editorPanel: 'Πίνακας Επεξεργαστή Πλούσιου Κειμένου',
 

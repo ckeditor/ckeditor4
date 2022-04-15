@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'vi' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Bộ soạn thảo văn bản có định dạng',
 	editorPanel: 'Bảng điều khiển Rich Text Editor',
 

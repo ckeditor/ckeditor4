@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'lv' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Bagātinātā teksta redaktors',
 	editorPanel: 'Bagātinātā teksta redaktora panelis',
 

@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'fa' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'ویرایش‌گر متن غنی',
 	editorPanel: 'پنل ویرایشگر متن غنی',
 

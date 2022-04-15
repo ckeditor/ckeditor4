@@ -18,6 +18,7 @@
  */
 CKEDITOR.lang[ 'tr' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Zengin Metin Editörü',
 	editorPanel: 'Zengin Metin Editör Paneli',
 

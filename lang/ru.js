@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'ru' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Визуальный текстовый редактор',
 	editorPanel: 'Визуальный редактор текста',
 

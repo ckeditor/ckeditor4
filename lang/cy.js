@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'cy' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Golygydd Testun Cyfoethog',
 	editorPanel: 'Panel Golygydd Testun Cyfoethog',
 

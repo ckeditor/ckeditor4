@@ -18,6 +18,7 @@
  */
 CKEDITOR.lang[ 'de-ch' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'WYSIWYG-Editor',
 	editorPanel: 'WYSIWYG-Editor-Leiste',
 

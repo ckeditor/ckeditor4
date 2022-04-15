@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'km' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'ឧបករណ៍​សរសេរ​អត្ថបទ​សម្បូរ​បែប',
 	editorPanel: 'ផ្ទាំង​ឧបករណ៍​សរសេរ​អត្ថបទ​សម្បូរ​បែប',
 
