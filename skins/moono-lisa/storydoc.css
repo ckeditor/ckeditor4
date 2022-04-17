@@ -181,13 +181,13 @@
 	display: none;
 }
 
-.cke_inner .cke_toolbar .cke_combo .cke_combo_button {
+.cke .cke_inner .cke_toolbar .cke_combo .cke_combo_button {
 	padding: 0 5px;
 	display: flex;
 	align-items: center;
 }
-#editorToolbar .cke_inner .cke_toolbar .cke_combo .cke_combo_button:hover {
-	padding: 0 5px;
+.cke .cke_inner .cke_toolbar .cke_combo a.cke_combo_button:hover {
+	padding: 0 5px !important;
 }
 
 .cke_inner .cke_toolbar .cke_combo .cke_combo_button .cke_combo_text {
@@ -474,15 +474,19 @@
 .extraData .editorCharCounter {
 	display: none;
 	margin-right: 7px;
+	font-size: 16px;
 }
 
 .extraData .editorNotifications {
 	margin-right: 7px;
+	font-size: 16px;
 }
 .extraData .editorNotifications.editor-error.required {
 	color: red;
 }
-
+.main__title .extraData {
+	left: 15px;
+}
 
 .editor-basic .cke {
 	max-width: 100%;
@@ -739,18 +743,36 @@
 		height: 8px;
 	}
 }
+@media screen and (min-width: 1241px) {
+	.cke_inner .cke_toolbar {
+		padding: 0 8px;
+	}
+}
 @media screen and (min-width: 1330px) {
 	.cke_inner .cke_toolbar {
 		padding: 0 10px;
 	}
 }
-@media screen and (min-width: 1430px) {
+@media screen and (min-width: 1350px) {
 	.cke_inner .cke_toolbar {
-		padding: 0 13px;
+		padding: 0 11px;
+	}
+}
+@media screen and (min-width: 1400px) {
+	.cke_inner .cke_toolbar {
+		padding: 0 12px;
+	}
+}
+@media screen and (min-width: 1500px) {
+	.cke_inner .cke_toolbar {
+		padding: 0 17px;
 	}
 }
 
-@media screen and (min-width: 1600px) {
+@media screen and (min-width: 1590px) {
+	.cke_inner .cke_toolbar {
+		padding: 0 20px;
+	}
 	.cke_inner .cke_toolbar .cke_toolgroup .cke_button {
 		margin-right: 14px;
 	}
