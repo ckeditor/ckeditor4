@@ -774,9 +774,6 @@
 }
 
 @media screen and (min-width: 1590px) {
-	.cke_inner .cke_toolbar {
-		padding: 0 20px;
-	}
 	.cke_inner .cke_toolbar .cke_toolgroup .cke_button {
 		margin-right: 14px;
 	}
