@@ -17,6 +17,10 @@
 	border: none;
 }
 
+.cke_screen_reader_only {
+	display:none;
+}
+
 .cke_editable {
 	min-height: 50px;
 	padding: 0 5px;
