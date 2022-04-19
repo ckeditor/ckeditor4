@@ -138,30 +138,31 @@
 			assertPasteFile( editor, this, 'image/webp', 1 );
 		},
 
-		assertPaste: function( options ) {
-			assertImagePaste( options.editor, options );
-		}
+		// assertPaste: function( options ) {
+			// assertImagePaste( options.editor, options );
+		// }
 	};
 
 	function assertPasteFile( editor, bend, fileType, expectedNotificationCount ) {
-		var notificationSpy = sinon.spy( editor, 'showNotification' );
+		var notificationSpy = sinon.spy( editor, 'showNotification' ),
+			options = {
+				editor: editor,
+				type: fileType,
+				expected: '<p>Paste file here:^@</p>',
+				callback: function() {
+					notificationSpy.restore();
+
+					assert.areSame( expectedNotificationCount, notificationSpy.callCount,
+						'Expected notification call count is incorrect' );
+				}
+			};
 
 		FileReader.setFileMockType( fileType );
 		FileReader.setReadResult( 'load' );
 
 		bender.tools.selection.setWithHtml( editor, '<p>Paste file here:{}</p>' );
 
-		bend.assertPaste( {
-			editor: editor,
-			type: fileType,
-			expected: '<p>Paste file here:^@</p>',
-			callback: function() {
-				notificationSpy.restore();
-
-				assert.areSame( expectedNotificationCount, notificationSpy.callCount,
-					'Expected notification call count is incorrect' );
-			}
-		} );
+		assertImagePaste( editor, options );
 	}
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
