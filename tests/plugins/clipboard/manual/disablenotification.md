@@ -14,5 +14,4 @@
 
 **Unexpected** Notification with "This file format is not supported." message is still displayed.
 
-3. Repeat above steps for the inline editor and `paste` method.
-**Note** You need to refresh page before testing the inline editor.
+3. Click `Set defaults` button and repeat above steps for the inline editor and `paste` method.
