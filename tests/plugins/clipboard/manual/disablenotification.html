@@ -1,0 +1,39 @@
+<h2>Classic editor</h2>
+
+<button id="disableNotifications" style="margin-bottom: 20px">Disable notifications</button>
+<button id="setDefault" style="margin-bottom: 20px">Set defaults</button>
+
+<div id="editor">
+	<p>Drag and drop image here.</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true" style="border:1px solid #000000">
+	<p>Drag and drop image here.</p>
+</div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+			language: 'en'
+		} ),
+		inline = CKEDITOR.inline( 'inline', {
+			language: 'en'
+		} );
+
+	editor.on( 'loaded', function() {
+		if( !CKEDITOR.plugins.clipboard.isFileApiSupported || bender.tools.env.mobile ){
+			return bender.ignore();
+		}
+
+		var btnDisable = document.getElementById( 'disableNotifications' );
+		var btnDefault = document.getElementById( 'setDefault' );
+
+		btnDisable.addEventListener( 'click', function() {
+			CKEDITOR.config.clipboard_disableNotification = true;
+		} );
+
+		btnDefault.addEventListener( 'click', function() {
+			CKEDITOR.config.clipboard_disableNotification = false;
+		} );
+	} );
+</script>
