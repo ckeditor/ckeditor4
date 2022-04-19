@@ -117,7 +117,7 @@
 		// (#4750)
 		'test dropping unsupported image type shows notification': function() {
 			var dropEvt = bender.tools.mockDropEvent(),
-				imageType = 'image/webp',
+				imageType = 'application/pdf',
 				expectedData = '<p class="p">Paste image here:</p>',
 				expectedMsgRegex  = prepareNotificationRegex( this.editor.lang.clipboard.fileFormatNotSupportedNotification ),
 				expectedDuration = this.editor.config.clipboard_notificationDuration,

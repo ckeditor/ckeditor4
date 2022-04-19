@@ -75,18 +75,18 @@
 		},
 
 		// (#4750)
-		'test pasting unsupported image type shows notification': function() {
+		'test pasting unsupported file type shows notification': function() {
 			var editor = this.editor,
-				expectedMsgRegex = prepareNotificationRegex( this.editor.lang.clipboard.fileFormatNotSupportedNotification ),
+				expectedMsgRegex  = prepareNotificationRegex( this.editor.lang.clipboard.fileFormatNotSupportedNotification ),
 				expectedDuration = editor.config.clipboard_notificationDuration,
 				notificationSpy = sinon.spy( editor, 'showNotification' );
 
-			FileReader.setFileMockType( 'image/webp' );
+			FileReader.setFileMockType( 'application/pdf' );
 			FileReader.setReadResult( 'load' );
 
 			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
 			this.assertPaste( {
-				type: 'image/webp',
+				type: 'application/pdf',
 				expected: '<p>Paste image here:^@</p>',
 				callback: function() {
 					notificationSpy.restore();
@@ -139,188 +139,6 @@
 			} );
 		},
 
-		// (#5095)
-		'test pasting `image/x-icon` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/x-icon' );
-		},
-
-		// (#5095)
-		'test pasting `image/apng` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/apng' );
-		},
-
-		// (#5095)
-		'test pasting `image/webp` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/webp' );
-		},
-
-		// (#5095)
-		'test pasting `image/svg` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/svg' );
-		},
-
-		// (#5095)
-		'test pasting `image/vnd.ms-photo` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/vnd.ms-photo' );
-		},
-
-		// (#5095)
-		'test pasting `image/bmp` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/bmp' );
-		},
-
-		// (#5095)
-		'test pasting `image/x-bmp` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/x-bmp' );
-		},
-
-		// (#5095)
-		'test pasting `image/jpm` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/jpm' );
-		},
-
-		// (#5095)
-		'test pasting `image/jpx` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/jpx' );
-		},
-
-		// (#5095)
-		'test pasting `image/jp2` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/jp2' );
-		},
-
-		// (#5095)
-		'test pasting `image/xbm` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/xbm' );
-		},
-
-		// (#5095)
-		'test pasting `image/xbitmap` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/xbitmap' );
-		},
-
-		// (#5095)
-		'test pasting `image/jxr` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/jxr' );
-		},
-
-		// (#5095)
-		'test pasting `image/tiff-fx` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/tiff-fx' );
-		},
-
-		// (#5095)
-		'test pasting `image/tiff` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/tiff' );
-		},
-
-		// (#5095)
-		'test pasting `image/avif` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/avif' );
-		},
-
-		// (#5095)
-		'test pasting `image/heif` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/heif' );
-		},
-
-		// (#5095)
-		'test pasting `image/heic` type will not show notification when custom type will be allowed': function() {
-			assertNotificationWithCustomImageType( this.editor, this, 'image/heic' );
-		},
-
-		// (#5095)
-		'test pasting `application/pdf` type will not show notification when custom type will be allowed': function() {
-			var notificationSpy = sinon.spy( this.editor, 'showNotification' ),
-				mimeType = 'application/pdf';
-
-			CKEDITOR.plugins.clipboard.supportedMimeTypes = [ mimeType ];
-
-			FileReader.setFileMockType( mimeType );
-			FileReader.setReadResult( 'load' );
-
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
-			this.assertPaste( {
-				type: mimeType,
-				expected: '<p>Paste image here:^@</p>',
-				callback: function() {
-						notificationSpy.restore();
-						assert.areSame( 0, notificationSpy.callCount,
-							'Notification should not be displayed when type ' + mimeType + ' is added as supported' );
-						CKEDITOR.plugins.clipboard.supportedMimeTypes = [];
-					}
-			} );
-		},
-
-		// (#5095)
-		'test pasting `application/pdf` type will display a notification when custom type is not allowed': function() {
-			var notificationSpy = sinon.spy( this.editor, 'showNotification' ),
-				mimeType = 'application/pdf';
-
-			CKEDITOR.plugins.clipboard.supportedMimeTypes = [ 'text/css' ];
-
-			FileReader.setFileMockType( mimeType );
-			FileReader.setReadResult( 'load' );
-
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
-			this.assertPaste( {
-				type: mimeType,
-				expected: '<p>Paste image here:^@</p>',
-				callback: function() {
-						notificationSpy.restore();
-						assert.areSame( 1, notificationSpy.callCount,
-							'Notification should be displayed when type ' + mimeType + ' is not added as supported' );
-						CKEDITOR.plugins.clipboard.supportedMimeTypes = [];
-					}
-			} );
-		},
-
-		// (#5095)
-		'test set ignoreUnsupportedMimeTypeNotification as true will prevent notification for being displayed for any custom MIME types': function() {
-			var notificationSpy = sinon.spy( this.editor, 'showNotification' ),
-				mimeTypes = [ 'application/pdf', 'image/webp', 'image/avif', 'text/css', 'text/html', 'video/mp4' ];
-
-			CKEDITOR.plugins.clipboard.ignoreUnsupportedMimeTypeNotification = true;
-
-			for ( var i = 0; i < mimeTypes.length; i++ ) {
-				FileReader.setFileMockType( mimeTypes[ i ] );
-				FileReader.setReadResult( 'load' );
-
-				bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
-				this.assertPaste( {
-					type: mimeTypes[ i ],
-					expected: '<p>Paste image here:^@</p>',
-					callback: function() {
-							notificationSpy.restore();
-							assert.areSame( 0, notificationSpy.callCount,
-								'Notification for ' + mimeTypes[ i ] + ' MIME type should not be displayed when unsupported file type notification is off' );
-							CKEDITOR.plugins.clipboard.ignoreUnsupportedMimeTypeNotification = false;
-						}
-				} );
-			}
-		},
-
-		'test display notification for non-supported image type': function() {
-		var notificationSpy = sinon.spy( this.editor, 'showNotification' ),
-				mimeType = 'image/webp';
-
-			CKEDITOR.plugins.clipboard.supportedMimeTypes = [ 'text/css' ];
-
-			FileReader.setFileMockType( mimeType );
-			FileReader.setReadResult( 'load' );
-
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
-			this.assertPaste( {
-				type: mimeType,
-				expected: '<p>Paste image here:^@</p>',
-				callback: function() {
-						notificationSpy.restore();
-						assert.areSame( 1, notificationSpy.callCount,
-							'Notification for ' + mimeType + ' MIME type should be displayed' );
-					}
-			} );
-		},
-
 		assertPaste: function( options ) {
 			assertImagePaste( this.editor, options );
 		}
@@ -331,27 +149,5 @@
 			regexp = '^' + notification.replace( /\$\{formats\}/g, formatsGroup ) + '$';
 
 		return new RegExp( regexp, 'gi' );
-	}
-
-	// (#5095)
-	function assertNotificationWithCustomImageType( editor, bend, mimeType ) {
-		var notificationSpy = sinon.spy( editor, 'showNotification' );
-
-		CKEDITOR.plugins.clipboard.setIgnoredImageMimeType( [ mimeType ] );
-
-		FileReader.setFileMockType( mimeType );
-		FileReader.setReadResult( 'load' );
-
-		bender.tools.selection.setWithHtml( editor, '<p>Paste image here:{}</p>' );
-		bend.assertPaste( {
-			type: mimeType,
-			expected: '<p>Paste image here:^@</p>',
-			callback: function() {
-					notificationSpy.restore();
-					assert.areSame( 0, notificationSpy.callCount,
-						'Notification should not be shown when type ' + mimeType + ' is added as supported' );
-					CKEDITOR.plugins.clipboard.ignoredImageMimeTypes = [];
-				}
-		} );
 	}
 } )();
