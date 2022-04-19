@@ -136,17 +136,12 @@
 			editor.config.clipboard_ignoreNotificationsForImages = false;
 
 			assertPasteFile( editor, this, 'image/webp', 1 );
-		},
-
-		// assertPaste: function( options ) {
-			// assertImagePaste( options.editor, options );
-		// }
+		}
 	};
 
 	function assertPasteFile( editor, bend, fileType, expectedNotificationCount ) {
 		var notificationSpy = sinon.spy( editor, 'showNotification' ),
 			options = {
-				editor: editor,
 				type: fileType,
 				expected: '<p>Paste file here:^@</p>',
 				callback: function() {
