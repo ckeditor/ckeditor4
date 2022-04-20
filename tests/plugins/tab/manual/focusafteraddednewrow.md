@@ -4,15 +4,15 @@
 
 1. Press the right mouse button inside a cell to open the context menu and add a new row.
 **Note** Do not change the focus after adding a new row.
-2. Press `TAB` key.
+2. Press the `TAB` key.
 
 **Expected**
 
-* The focus of the table cell have moved to the next cell.
+* The focus of the table cell has moved to the next cell.
 
 **Unexpected**
 
 * The focus is outside the editor.
 
 
-3. Repeat above steps for the inline editor and different combinations, like: adding cells, moving focus backwards etc.
+3. Repeat the above steps for the inline editor and different combinations, like adding cells, moving focus backward, etc.
