@@ -213,10 +213,10 @@
 			}
 
 			function shouldDisplayNotification( file ) {
-				var isNotificationDisabled = editor.config.clipboard_disableNotification || false,
-					isNotificationIgnoredForImages = editor.config.clipboard_ignoreNotificationsForImages || false,
-					isNotificationIgnoredForNonImages = editor.config.clipboard_ignoreNotificationsForNonImages || false,
-					ignoredNotificationFileExtensions = editor.config.clipboard_ignoreNotificationsForExtensions || [];
+				var isNotificationDisabled = editor.config.clipboard_disableNotification,
+					isNotificationIgnoredForImages = editor.config.clipboard_ignoreNotificationsForImages,
+					isNotificationIgnoredForNonImages = editor.config.clipboard_ignoreNotificationsForNonImages,
+					ignoredNotificationFileExtensions = editor.config.clipboard_ignoreNotificationsForExtensions;
 
 				// Do not show notifications when they are turned off. (#5095)
 				if ( isNotificationDisabled ) {
@@ -3548,6 +3548,7 @@ CKEDITOR.config.clipboard_handleImages = true;
  * @cfg {Boolean} [clipboard_disableNotification=false]
  * @member CKEDITOR.config
  */
+CKEDITOR.config.clipboard_disableNotification = false;
 
 /**
  * Disable notification only for all unsupported image extensions when using paste or drag and drop.
@@ -3558,6 +3559,7 @@ CKEDITOR.config.clipboard_handleImages = true;
  * @cfg {Boolean} [clipboard_ignoreNotificationsForImages=false]
  * @member CKEDITOR.config
  */
+CKEDITOR.config.clipboard_ignoreNotificationsForImages = false;
 
 /**
  * Disable notification only for all unsupported extensions different than images.
@@ -3569,6 +3571,7 @@ CKEDITOR.config.clipboard_handleImages = true;
  * @cfg {Boolean} [clipboard_ignoreNotificationsForNonImages=false]
  * @member CKEDITOR.config
  */
+CKEDITOR.config.clipboard_ignoreNotificationsForNonImages = false;
 
 /**
  * Disable notification only for specific extensions when using paste or drag and drop.
@@ -3579,3 +3582,4 @@ CKEDITOR.config.clipboard_handleImages = true;
  * @cfg {Array} [clipboard_ignoreNotificationsForExtensions=[]]
  * @member CKEDITOR.config
  */
+CKEDITOR.config.clipboard_ignoreNotificationsForExtensions = [];
