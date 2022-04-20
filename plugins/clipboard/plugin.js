@@ -160,7 +160,7 @@
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					// Allow both dragging and dropping and pasting images as base64 (#4681).
-					if ( data && !isFileData( evt, dataTransfer ) ) {
+					if ( data || !isFileData( evt, dataTransfer ) ) {
 						return;
 					}
 
