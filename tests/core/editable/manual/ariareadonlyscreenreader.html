@@ -15,11 +15,15 @@
 
 <script>
 	CKEDITOR.replace( 'divarea', {
+		langauge: 'en',
 		extraPlugins: 'divarea',
 		readOnly: true
 	} );
 	CKEDITOR.inline( 'inline-config', {
+		langauge: 'en',
 		readOnly: true
 	}  );
-	CKEDITOR.inline( 'inline-attribute' );
+	CKEDITOR.inline( 'inline-attribute', {
+		langauge: 'en'
+	} );
 </script>
