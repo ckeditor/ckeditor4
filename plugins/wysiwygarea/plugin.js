@@ -522,7 +522,11 @@
 					}
 
 					// Add ARIA attributes (#4052).
-					data = data.replace( /<body/, '<body role="textbox" aria-multiline="true" ' );
+					data = data.replace( /<body/, '<body role="textbox" aria-multiline="true"' );
+
+					if ( editor.title ) {
+						data = data.replace( /<body/, '<body aria-label="' + editor.title + '"' );
+					}
 
 					// Add [tabindex=0] for the editor (#1904).
 					// Can't do it in Firefox due to https://bugzilla.mozilla.org/show_bug.cgi?id=1483828.
