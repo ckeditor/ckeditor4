@@ -28,11 +28,11 @@
 		var buttonDisable = document.getElementById( 'disableNotifications' );
 		var buttonDefault = document.getElementById( 'defaultNotifications' );
 
-		btnDisable.addEventListener( 'click', function() {
+		buttonDisable.addEventListener( 'click', function() {
 			CKEDITOR.config.clipboard_disableNotification = true;
 		} );
 
-		btnDefault.addEventListener( 'click', function() {
+		buttonDefault.addEventListener( 'click', function() {
 			CKEDITOR.config.clipboard_disableNotification = false;
 		} );
 	} );
