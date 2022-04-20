@@ -58,13 +58,16 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					container = editor.container,
+					frame = container.findOne( 'iframe' ),
 					expectedApplicationLabel = createApplicationLabel( editor ),
 					actualApplicationLabel = container.findOne( '#cke_wysiwygarea_arialbl' ).getHtml(),
 					expectedEditorLabel = createEditorLabel( editor ),
-					actualEditorLabel = container.findOne( 'iframe' ).getAttribute( 'title' );
+					actualEditorLabel = frame.getAttribute( 'title' ),
+					actualBodyLabel = frame.getFrameDocument().findOne( 'body' ).getAttribute( 'aria-label' );
 
 				assert.areSame( expectedApplicationLabel, actualApplicationLabel, 'Application label is incorrect' );
 				assert.areSame( expectedEditorLabel, actualEditorLabel, 'Editor label is incorrect' );
+				assert.areSame( expectedEditorLabel, actualBodyLabel, 'Editor\'s body label is incorrect' );
 			} );
 		}
 	} );
