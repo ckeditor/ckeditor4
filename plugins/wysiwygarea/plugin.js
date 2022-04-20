@@ -525,7 +525,8 @@
 					data = data.replace( /<body/, '<body role="textbox" aria-multiline="true"' );
 
 					if ( editor.title ) {
-						data = data.replace( /<body/, '<body aria-label="' + editor.title + '"' );
+						data = data.replace( /<body/, '<body aria-label="' +
+							CKEDITOR.tools.htmlEncodeAttr( editor.title ) + '"' );
 					}
 
 					// Add [tabindex=0] for the editor (#1904).
