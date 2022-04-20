@@ -3540,7 +3540,7 @@ CKEDITOR.config.clipboard_notificationDuration = 10000;
 CKEDITOR.config.clipboard_handleImages = true;
 
 /**
- * Disable notification for all unsupported extensions when using paste or drag&drop.
+ * Disable notification for all unsupported extensions when using paste or drag and drop.
  *
  *		config.clipboard_disableNotification = true;
  *
@@ -3550,7 +3550,7 @@ CKEDITOR.config.clipboard_handleImages = true;
  */
 
 /**
- * Disable notification only for all unsupported image extensions when using paste or drag&drop.
+ * Disable notification only for all unsupported image extensions when using paste or drag and drop.
  *
  *		config.clipboard_ignoreNotificationsForImages = true;
  *
@@ -3561,7 +3561,7 @@ CKEDITOR.config.clipboard_handleImages = true;
 
 /**
  * Disable notification only for all unsupported extensions different than images.
- * when using paste or drag&drop.
+ * when using paste or drag and drop.
  *
  *		config.clipboard_ignoreNotificationsForNonImages = true;
  *
@@ -3571,7 +3571,7 @@ CKEDITOR.config.clipboard_handleImages = true;
  */
 
 /**
- * Disable notification only for specific extensions when using paste or drag&drop.
+ * Disable notification only for specific extensions when using paste or drag and drop.
  *
  *		config.clipboard_ignoreNotificationsForExtensions = [ 'zip', 'pdf', 'webp' ];
  *
