@@ -16,13 +16,8 @@
 
 	editorParent.removeChild( editorElement );
 
-	function storeCancelFunction( cancelCreation ) {
-		cancelCreationFunction = cancelCreation;
-	}
-
-	CKEDITOR.replace( editorElement, {
+	cancelCreationFunction = CKEDITOR.replace( editorElement, {
 		delayIfDetached: true,
-		delayIfDetached_cancelInterval: storeCancelFunction
 	} );
 
 	cancelButton.on( 'click', function() {
