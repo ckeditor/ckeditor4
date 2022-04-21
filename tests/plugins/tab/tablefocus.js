@@ -1,4 +1,5 @@
 /* bender-tags: editor */
+/* bender-ckeditor-plugins: tableselection */
 
 ( function() {
 	'use strict';
