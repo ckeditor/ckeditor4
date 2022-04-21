@@ -26,7 +26,7 @@
 	 * @param {Object/String} element The DOM element or its ID.
 	 * @param {Object} [instanceConfig] The specific configurations to apply to this editor instance.
 	 * See {@link CKEDITOR.config}.
-	 * @returns {CKEDITOR.editor} The editor instance created.
+	 * @returns {CKEDITOR.editor/Function/null} The editor instance or function to cancel creation or null.
 	 */
 	CKEDITOR.inline = function( element, instanceConfig ) {
 		element = CKEDITOR.editor._getEditorElement( element );

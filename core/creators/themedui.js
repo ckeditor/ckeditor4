@@ -33,7 +33,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * @param {Object} [config] The specific configuration to apply to this
 	 * editor instance. Configuration set here will override the global CKEditor settings
 	 * (see {@link CKEDITOR.config}).
-	 * @returns {CKEDITOR.editor} The editor instance created.
+	 * @returns {CKEDITOR.editor/Function/null} The editor instance or function to cancel creation or null.
 	 */
 	CKEDITOR.replace = function( element, config ) {
 		return createInstance( element, config, null, CKEDITOR.ELEMENT_MODE_REPLACE );
@@ -63,7 +63,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * editor instance. Configuration set here will override the global CKEditor settings
 	 * (see {@link CKEDITOR.config}).
 	 * @param {String} [data] Since 3.3. Initial value for the instance.
-	 * @returns {CKEDITOR.editor} The editor instance created.
+	 * @returns {CKEDITOR.editor/Function/null} The editor instance or function to cancel creation or null.
 	 */
 	CKEDITOR.appendTo = function( element, config, data ) {
 		return createInstance( element, config, data, CKEDITOR.ELEMENT_MODE_APPENDTO );
