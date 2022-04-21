@@ -345,8 +345,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		// (#4461)
 		if ( CKEDITOR.editor.shouldDelayEditorCreation( element, config ) ) {
-			CKEDITOR.editor.initializeDelayedEditorCreation( element, config, 'replace' );
-			return null;
+			return CKEDITOR.editor.initializeDelayedEditorCreation( element, config, 'replace' );
 		}
 
 		// Create the editor instance.
