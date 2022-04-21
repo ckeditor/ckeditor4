@@ -44,7 +44,7 @@ var detachedTests = ( function() {
 					delayIfDetached: true
 				} );
 
-				assert.areSame( typeof editor, 'function', 'Editor should return function that allows to cancel creation. ' + assertMessage );
+				assert.areSame( 'function', typeof editor, 'Editor should return function that allows to cancel creation. ' + assertMessage );
 
 				editorParent.append( editorElement );
 			},

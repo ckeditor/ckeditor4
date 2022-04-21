@@ -37,8 +37,7 @@
 
 		// (#4461)
 		if ( CKEDITOR.editor.shouldDelayEditorCreation( element, instanceConfig ) ) {
-			CKEDITOR.editor.initializeDelayedEditorCreation( element, instanceConfig, 'inline' );
-			return null;
+			return CKEDITOR.editor.initializeDelayedEditorCreation( element, instanceConfig, 'inline' );
 		}
 
 		var textarea = element.is( 'textarea' ) ? element : null,
