@@ -1,7 +1,7 @@
 <h2>Classic editor</h2>
 
 <button id="disableNotifications" style="margin-bottom: 20px">Ignore notification for .jp2 extension</button>
-<button id="setDefault" style="margin-bottom: 20px">Set defaults</button>
+<button id="defaultNotifications" style="margin-bottom: 20px">Set defaults</button>
 
 <div id="editor">
 	<p>Drag and drop image here.</p>
@@ -25,14 +25,14 @@
 			return bender.ignore();
 		}
 
-		var btnDisable = document.getElementById( 'disableNotifications' );
-		var btnDefault = document.getElementById( 'setDefault' );
+		var buttonDisable = document.getElementById( 'disableNotifications' );
+		var buttonDefault = document.getElementById( 'defaultNotifications' );
 
-		btnDisable.addEventListener( 'click', function() {
+		buttonDisable.addEventListener( 'click', function() {
 			CKEDITOR.config.clipboard_ignoreNotificationsForExtensions = [ 'jp2' ];
 		} );
 
-		btnDefault.addEventListener( 'click', function() {
+		buttonDefault.addEventListener( 'click', function() {
 			CKEDITOR.config.clipboard_ignoreNotificationsForExtensions = [];
 		} );
 	} );
