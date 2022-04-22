@@ -11,6 +11,7 @@ Fixed Issues:
 
 * [#4543](https://github.com/ckeditor/ckeditor4/issues/4543): Toolbar buttons toggle state is not correctly announced by screen readers.
 * [#3394](https://github.com/ckeditor/ckeditor4/issues/3394): Fixed: [Enhanced image](https://ckeditor.com/cke4/addon/image2) plugin dialog is not supporting URL with query string parameters. Thanks to [Simon Urli](https://github.com/surli)!
+* [#4904](https://github.com/ckeditor/ckeditor4/issues/4904): Fixed: Selection in table via keyboard is broken after adding new table row.
 
 ## CKEditor 4.18.0
 
