@@ -74,7 +74,7 @@
 								assert.areEqual( '<h1>^I am a title</h1><p>I am a text</p>', bot.htmlWithSelection(),
 									'Editor data has been replaced by the template.' );
 							} );
-						}, 100 );
+						}, 800 );
 					}, 100 );
 					wait();
 				} );
@@ -105,7 +105,7 @@
 								assert.areEqual( '<p>Lorem ipsum</p><h1>I am a title</h1><p>I am a text^</p>',
 									bot.htmlWithSelection(), 'Template has been inserted.' );
 							} );
-						}, 100 );
+						}, 800 );
 					}, 100 );
 
 					wait();
@@ -173,7 +173,7 @@
 								assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state,
 									'Dialog state after inserting template is back to idle' );
 							} );
-						}, 100 );
+						}, 800 );
 					}, 100 );
 
 					wait();
