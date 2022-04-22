@@ -29,7 +29,7 @@
 			exec: function( editor ) {
 				if ( editor.editable().hasFocus ) {
 					var sel = editor.getSelection(),
-						path = new CKEDITOR.dom.elementPath( sel.getCommonAncestor(), sel.root ),
+						path = new CKEDITOR.dom.elementPath( sel.getStartElement(), sel.root ),
 						cell;
 
 					if ( ( cell = path.contains( { td: 1, th: 1 }, 1 ) ) ) {
