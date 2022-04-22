@@ -1,0 +1,11 @@
+<div id="editor"></div>
+
+<script>
+	( function() {
+		if ( bender.tools.env.mobile ) {
+			return bender.ignore();
+		}
+
+		CKEDITOR.replace( 'editor' );
+	} )();
+</script>
