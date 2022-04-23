@@ -23,10 +23,35 @@
 	 * If you do so, an additional `<div>` element with editable content will be created
 	 * directly after the `<textarea>` element and the `<textarea>` element will be hidden.
 	 *
+	 * Since 4.17 this function also supports {@glink features/delayed_creation Delayed Editor Creation} feature
+	 * allowing to postpone editor initialization.
+	 *
+	 * Since 4.19 if the editor has been configured to use {@glink features/delayed_creation Delayed Editor Creation}
+	 * feature and the editor has not been initialized yet, this function will return a handle allowing
+	 * to cancel interval set by {@link CKEDITOR.config#delayIfDetached} and
+	 * {@link CKEDITOR.config#delayIfDetached_interval} options.
+	 *
+	 * ```javascript
+	 * var cancelInterval = CKEDITOR.inline( 'editor', {
+	 * 	delayIfDetached: true,
+	 * 	delayIfDetached_interval: 50 // Default value, you can skip that option.
+	 * } );
+	 *
+	 * cancelInterval(); // Cancel editor initialization if needed.
+	 * ```
+	 *
+	 * It's recommended to use this function to prevent potential memory leaks. Use it if you know
+	 * that the editor host element will never be attached to the DOM. As an example, execute cancel handle
+	 * in your component cleanup logic (e.g. `onDestroy` lifecycle methods in popular frontend frameworks).
+	 *
+	 * Read more about this feature in the {@glink features/delayed_creation documentation}.
+	 *
 	 * @param {Object/String} element The DOM element or its ID.
 	 * @param {Object} [instanceConfig] The specific configurations to apply to this editor instance.
 	 * See {@link CKEDITOR.config}.
-	 * @returns {CKEDITOR.editor/Function/null} The editor instance or function to cancel creation or null.
+	 * @returns {CKEDITOR.editor/Function/null} The editor instance or function to cancel creation.
+	 * If {@glink features/delayed_creation Delayed Editor Creation} feature has not been set and
+	 * element is missing in DOM, this function will return `null`.
 	 */
 	CKEDITOR.inline = function( element, instanceConfig ) {
 		element = CKEDITOR.editor._getEditorElement( element );
