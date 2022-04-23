@@ -155,6 +155,10 @@
 	/**
 	 * Calls the {@link CKEDITOR#inline `CKEDITOR.inline()`} method for all page elements with the `contenteditable` attribute set to
 	 * `true` that are allowed in the {@link CKEDITOR.dtd#$editable} object.
+	 *
+	 * Since 4.17 this function also supports {@glink features/delayed_creation Delayed Editor Creation} feature
+	 * allowing to postpone editor initialization.
+	 * Read more about this feature in the {@glink features/delayed_creation documentation}.
 	 */
 	CKEDITOR.inlineAll = function() {
 		var el,
