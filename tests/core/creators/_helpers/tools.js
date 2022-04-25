@@ -49,6 +49,34 @@ var detachedTests = ( function() {
 				editorParent.append( editorElement );
 			},
 
+			test_delayed_editor_creation_is_cancelable: function() {
+				var editorElement = CKEDITOR.document.getById( createHtmlForEditor() ),
+					editorParent = editorElement.getParent();
+
+				editorElement.remove();
+
+				var cancelationCallback = CKEDITOR[ creatorFunction ]( editorElement, {
+					delayIfDetached: true,
+					delayIfDetached_interval: 50
+				} );
+
+				cancelationCallback();
+
+				// Attach the spy after cancelation to prevent unexpected invocations while test is waiting to fullfil.
+				var spyIsDetached = sinon.spy( editorElement, 'isDetached' );
+
+				CKEDITOR.tools.setTimeout( function() {
+					resume( function() {
+						assert.areSame( 0, spyIsDetached.callCount, 'The isDetached method should not be called after cancelation. ' + assertMessage );
+						spyIsDetached.restore();
+					} );
+				}, 150 );
+
+				editorParent.append( editorElement );
+
+				wait();
+			},
+
 			test_delay_editor_creation_with_default_interval_strategy_until_target_element_attach_to_DOM: function() {
 				var editorElement = CKEDITOR.document.getById( createHtmlForEditor() ),
 					editorParent = editorElement.getParent();
