@@ -1,0 +1,25 @@
+<div id="editor">
+	<p>
+		<span style="font-size: 16px"
+			><span style="font-family: Courier New, Courier, monospace"
+				>hello, world!<br /><br /><br /></span
+		></span>
+	</p>
+</div>
+
+<script>
+	CKEDITOR.config.shiftLineBreak = function( currentNode ) {
+		if ( currentNode.hasClass( 'filling-br') ) {
+			return;
+		}
+
+		var br =  new CKEDITOR.htmlParser.element( 'br' );
+
+		br.addClass( 'filling-br');
+
+		return br;
+	}
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'br(filling-br)'
+	} );
+</script>
