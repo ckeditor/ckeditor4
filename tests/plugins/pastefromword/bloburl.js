@@ -75,7 +75,7 @@
 
 	function generateTestsForFixtures() {
 		var testsFilesNames = [
-				'comandeer.jpg',
+				'ckeditor.jpg',
 				'ckeditor.png',
 				'ckeditor.gif'
 			];
