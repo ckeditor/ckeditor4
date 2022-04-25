@@ -9,6 +9,11 @@ function parseHtml( raw, parent ) {
 }
 
 bender.test( {
+	setUp: function() {
+		// Restore default option.
+		CKEDITOR.config.shiftLineBreak = true;
+	},
+
 	test_parser_1: function() {
 		assert.areSame( '<p><b>2</b> Test</p><table><tr><td>1</td><td>3</td></tr></table>',
 						parseHtml( '<table><tr><td>1</td><p><b>2</b> Test</p><td>3</td></tr></table>' ) );
@@ -400,5 +405,51 @@ bender.test( {
 		fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<p>A<b>B<i>C</i></b></p>' );
 		fragment.writeChildrenHtml( writer, filter, true );
 		assert.areSame( '<p x="1">A<b x="1">B<i x="1">C</i></b></p><div x="1">X</div>', writer.getHtml( true ) );
+	},
+
+	// (#4986)
+	'test shiftLineBreak = false': function() {
+		CKEDITOR.config.shiftLineBreak = false;
+		var html = '<p><strong>hello, world!<br /><br /></strong></p>';
+		assert.areSame( html, parseHtml( html ) );
+	},
+
+	// (#4986)
+	'test shiftLineBreak = callback returning false': function() {
+		CKEDITOR.config.shiftLineBreak = function() {
+			return false;
+		};
+		var html = '<p><strong>hello, world!<br /><br /></strong></p>';
+		assert.areSame( html, parseHtml( html ) );
+	},
+
+	// (#4986)
+	'test shiftLineBreak = callback returning true': function() {
+		CKEDITOR.config.shiftLineBreak = function() {
+			return true;
+		};
+
+		assert.areSame( '<p><strong>hello, world!</strong><br /><br /></p>',
+			parseHtml( '<p><strong>hello, world!<br /><br /></strong></p>' ) );
+	},
+
+	// (#4986)
+	'test shiftLineBreak = callback returning text node': function() {
+		CKEDITOR.config.shiftLineBreak = function() {
+			return new CKEDITOR.htmlParser.text( '&nbsp;' );
+		};
+
+		assert.areSame( '<p><strong>hello, world!<br /><br />&nbsp;</strong></p>',
+			parseHtml( '<p><strong>hello, world!<br /><br /></strong></p>' ) );
+	},
+
+	// (#4986)
+	'test shiftLineBreak = callback returning element node': function() {
+		CKEDITOR.config.shiftLineBreak = function() {
+			return new CKEDITOR.htmlParser.element( 'br' );
+		};
+
+		assert.areSame( '<p><strong>hello, world!<br /><br /><br /></strong></p>',
+			parseHtml( '<p><strong>hello, world!<br /><br /></strong></p>' ) );
 	}
 } );
