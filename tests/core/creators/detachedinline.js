@@ -8,7 +8,7 @@
 	'use strict';
 
 	var tests = detachedTests.appendTests( 'inline', {
-		'test CKEDITOR.inlineAll() doesnt call the shouldDelayEditorCreation() function when elements are detached': function() {
+		'test CKEDITOR.inlineAll() does not call the shouldDelayEditorCreation() function when elements are detached': function() {
 			var inlineSpy = sinon.spy( CKEDITOR.editor, 'shouldDelayEditorCreation' ),
 				editableParent = CKEDITOR.document.getById( 'inlineEditableParent' );
 
