@@ -144,18 +144,18 @@ CKEDITOR.htmlParser.fragment = function() {
 		}
 
 		function shiftBRsPosition() {
-			var shiftLineBreak = CKEDITOR.config.shiftLineBreak;
+			var shiftLineBreaks = CKEDITOR.config.shiftLineBreaks;
 
-			if ( shiftLineBreak === true || !pendingBRs.length ) {
+			if ( shiftLineBreaks === true || !pendingBRs.length ) {
 				return;
 			}
 
-			if ( typeof shiftLineBreak !== 'function' ) {
+			if ( typeof shiftLineBreaks !== 'function' ) {
 				sendPendingBRs();
 				return;
 			}
 
-			var result = shiftLineBreak( pendingBRs[ pendingBRs.length - 1 ] );
+			var result = shiftLineBreaks( pendingBRs[ pendingBRs.length - 1 ] );
 
 			if ( result === true ) {
 				return;
@@ -685,7 +685,7 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * orphaned styling markers. This logic can be changed by disabling shifting line breaks or providing
 	 * a custom function allowing to conditionally choose proper behavior.
 	 *
-	 * * `shiftLineBreak = true`
+	 * * `shiftLineBreaks = true`
 	 *
 	 * Shift line breaks outside inline element:
 	 *
@@ -695,18 +695,18 @@ CKEDITOR.htmlParser.fragment = function() {
 	 *
 	 * 		<p><strong>hello, world!</strong><br><br></p>
 	 *
-	 * * `shiftLineBreak = false`
+	 * * `shiftLineBreaks = false`
 	 *
 	 * Keep line breaks inside inline element:
 	 *
 	 * 		<p><strong>hello, world!<br><br></strong></p>
 	 *
-	 * * `shiftLineBreak = customFunction`
+	 * * `shiftLineBreaks = customFunction`
 	 *
 	 * Provide a callback function allowing to decide if break line should be shifted:
 	 *
 	 * ```javascript
-	 * CKEDITOR.config.shiftLineBreak = function() {
+	 * CKEDITOR.config.shiftLineBreaks = function() {
 	 *		if ( condition ) {
 	 * 			// Shift line break outside element.
 	 *	 		return true;
@@ -723,7 +723,7 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * able to place caret after break lines:
 	 *
 	 * ```javascript
-	 * CKEDITOR.config.shiftLineBreak = function() {
+	 * CKEDITOR.config.shiftLineBreaks = function() {
 	 * 		// Append `nbsp;` character at the end.
 	 * 		return new CKEDITOR.htmlParser.text( '&nbsp;' );
 	 * }
@@ -733,9 +733,9 @@ CKEDITOR.htmlParser.fragment = function() {
 	 *
 	 * 		<p><strong>hello, world!<br><br>&nbsp;</strong></p>
 	 *
-	 * @cfg {Boolean|Function} [shiftLineBreak=true]
+	 * @cfg {Boolean|Function} [shiftLineBreaks=true]
 	 * @member CKEDITOR.config
 	 */
 
-	CKEDITOR.config.shiftLineBreak = true;
+	CKEDITOR.config.shiftLineBreaks = true;
 } )();

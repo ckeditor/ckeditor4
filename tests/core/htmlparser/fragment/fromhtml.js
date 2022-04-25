@@ -11,7 +11,7 @@ function parseHtml( raw, parent ) {
 bender.test( {
 	setUp: function() {
 		// Restore default option.
-		CKEDITOR.config.shiftLineBreak = true;
+		CKEDITOR.config.shiftLineBreaks = true;
 	},
 
 	test_parser_1: function() {
@@ -408,15 +408,15 @@ bender.test( {
 	},
 
 	// (#4986)
-	'test shiftLineBreak = false': function() {
-		CKEDITOR.config.shiftLineBreak = false;
+	'test shiftLineBreaks = false': function() {
+		CKEDITOR.config.shiftLineBreaks = false;
 		var html = '<p><strong>hello, world!<br /><br /></strong></p>';
 		assert.areSame( html, parseHtml( html ) );
 	},
 
 	// (#4986)
-	'test shiftLineBreak = callback returning false': function() {
-		CKEDITOR.config.shiftLineBreak = function() {
+	'test shiftLineBreaks = callback returning false': function() {
+		CKEDITOR.config.shiftLineBreaks = function() {
 			return false;
 		};
 		var html = '<p><strong>hello, world!<br /><br /></strong></p>';
@@ -424,8 +424,8 @@ bender.test( {
 	},
 
 	// (#4986)
-	'test shiftLineBreak = callback returning true': function() {
-		CKEDITOR.config.shiftLineBreak = function() {
+	'test shiftLineBreaks = callback returning true': function() {
+		CKEDITOR.config.shiftLineBreaks = function() {
 			return true;
 		};
 
@@ -434,8 +434,8 @@ bender.test( {
 	},
 
 	// (#4986)
-	'test shiftLineBreak = callback returning text node': function() {
-		CKEDITOR.config.shiftLineBreak = function() {
+	'test shiftLineBreaks = callback returning text node': function() {
+		CKEDITOR.config.shiftLineBreaks = function() {
 			return new CKEDITOR.htmlParser.text( '&nbsp;' );
 		};
 
@@ -444,8 +444,8 @@ bender.test( {
 	},
 
 	// (#4986)
-	'test shiftLineBreak = callback returning element node': function() {
-		CKEDITOR.config.shiftLineBreak = function() {
+	'test shiftLineBreaks = callback returning element node': function() {
+		CKEDITOR.config.shiftLineBreaks = function() {
 			return new CKEDITOR.htmlParser.element( 'br' );
 		};
 
