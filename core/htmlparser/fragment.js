@@ -677,11 +677,11 @@ CKEDITOR.htmlParser.fragment = function() {
 	};
 
 	/**
-	 * Indicates if break lines (`br`) should be moved outside inline elements.
+	 * Indicates if line breaks (`br`) should be moved outside inline elements.
 	 *
 	 * By default, all children `br` elements, placed at the end of an inline element,
 	 * are shifted outside that element. Shifted elements are attached at the end of the parent block element.
-	 * It allows to produce more clean HTML output without abundance of
+	 * It allows producing more clean HTML output without an abundance of
 	 * orphaned styling markers. This logic can be changed by disabling shifting line breaks or providing
 	 * a custom function allowing to conditionally choose proper behavior.
 	 *
