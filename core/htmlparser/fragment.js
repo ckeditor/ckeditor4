@@ -143,6 +143,35 @@ CKEDITOR.htmlParser.fragment = function() {
 				addElement( pendingBRs.shift(), currentNode );
 		}
 
+		function shiftBRsPosition() {
+			var shiftLineBreak = CKEDITOR.config.shiftLineBreak;
+
+			if ( shiftLineBreak === true || !pendingBRs.length ) {
+				return;
+			}
+
+			if ( typeof shiftLineBreak !== 'function' ) {
+				sendPendingBRs();
+				return;
+			}
+
+			var result = shiftLineBreak( pendingBRs[ pendingBRs.length - 1 ] );
+
+			if ( result === true ) {
+				return;
+			}
+
+			sendPendingBRs();
+
+			if ( result instanceof CKEDITOR.htmlParser.text ) {
+				currentNode.add( result );
+			}
+
+			if ( result instanceof CKEDITOR.htmlParser.element ) {
+				addElement( result, currentNode );
+			}
+		}
+
 		// Rtrim empty spaces on block end boundary. (https://dev.ckeditor.com/ticket/3585)
 		function removeTailWhitespace( element ) {
 			if ( element._.isBlockLike && element.name != 'pre' && element.name != 'textarea' ) {
@@ -380,8 +409,11 @@ CKEDITOR.htmlParser.fragment = function() {
 
 				currentNode = candidate;
 
-				if ( candidate._.isBlockLike )
+				if ( candidate._.isBlockLike ) {
 					sendPendingBRs();
+				} else {
+					shiftBRsPosition();
+				}
 
 				addElement( candidate, candidate.parent );
 
@@ -643,4 +675,67 @@ CKEDITOR.htmlParser.fragment = function() {
 			return context || {};
 		}
 	};
+
+	/**
+	 * Indicates if break lines (`br`) should be moved outside inline elements.
+	 *
+	 * By default, all children `br` elements, placed at the end of an inline element,
+	 * are shifted outside that element. Shifted elements are attached at the end of the parent block element.
+	 * It allows to produce more clean HTML output without abundance of
+	 * orphaned styling markers. This logic can be changed by disabling shifting line breaks or providing
+	 * a custom function allowing to conditionally choose proper behavior.
+	 *
+	 * * `shiftLineBreak = true`
+	 *
+	 * Shift line breaks outside inline element:
+	 *
+	 * 		<p><strong>hello, world!<br><br></strong></p>
+	 *
+	 * becomes:
+	 *
+	 * 		<p><strong>hello, world!</strong><br><br></p>
+	 *
+	 * * `shiftLineBreak = false`
+	 *
+	 * Keep line breaks inside inline element:
+	 *
+	 * 		<p><strong>hello, world!<br><br></strong></p>
+	 *
+	 * * `shiftLineBreak = customFunction`
+	 *
+	 * Provide a callback function allowing to decide if break line should be shifted:
+	 *
+	 * ```javascript
+	 * CKEDITOR.config.shiftLineBreak = function() {
+	 *		if ( condition ) {
+	 * 			// Shift line break outside element.
+	 *	 		return true;
+	 * 		}
+	 *		// Keep line break inside element.
+	 * 		return false;
+	 * }
+	 * ```
+	 *
+	 * You can also decide to return {@link CKEDITOR.htmlParser.text} or {@link CKEDITOR.htmlParser.element}
+	 * node that will be attached **at the end of the last `br` node** inside inline element.
+	 *
+	 * As an example, you may want to add additional `nbsp;` filler to make sure that a user will be
+	 * able to place caret after break lines:
+	 *
+	 * ```javascript
+	 * CKEDITOR.config.shiftLineBreak = function() {
+	 * 		// Append `nbsp;` character at the end.
+	 * 		return new CKEDITOR.htmlParser.text( '&nbsp;' );
+	 * }
+	 * ```
+	 *
+	 * resulting in:
+	 *
+	 * 		<p><strong>hello, world!<br><br>&nbsp;</strong></p>
+	 *
+	 * @cfg {Boolean|Function} [shiftLineBreak=true]
+	 * @member CKEDITOR.config
+	 */
+
+	CKEDITOR.config.shiftLineBreak = true;
 } )();
