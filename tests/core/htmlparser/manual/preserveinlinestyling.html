@@ -8,6 +8,11 @@
 </div>
 
 <script>
+	// IE allows to set cursor position exactly in BR tag.
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.config.shiftLineBreak = function( currentNode ) {
 		if ( currentNode.hasClass( 'filling-br') ) {
 			return;

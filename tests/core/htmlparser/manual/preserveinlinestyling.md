@@ -3,8 +3,8 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, sourcearea, stylescombo, font
 
 1. Toggle source area.
-2. Place cursor at the end of the editable area.
-3. Type some text.
+1. Place cursor at the end of the editable area.
+1. Type some text.
 
 ## Expected
 
