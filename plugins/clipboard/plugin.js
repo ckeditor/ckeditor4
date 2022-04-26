@@ -460,9 +460,11 @@
 		// Because of FF bug we need to use this hack, otherwise cursor is hidden
 		// or it is not possible to move it (https://dev.ckeditor.com/ticket/12420).
 		// Also, check that editor.toolbox exists, because the toolbar plugin might not be loaded (https://dev.ckeditor.com/ticket/13305).
+		// And don't forget to put focus back into the editor (#4855)!
 		if ( CKEDITOR.env.gecko && data.method == 'drop' && editor.toolbox ) {
 			editor.once( 'afterPaste', function() {
 				editor.toolbox.focus();
+				editor.focus();
 			} );
 		}
 
