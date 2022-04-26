@@ -608,11 +608,6 @@
 				// Allow removal of empty paragraphs (#1572).
 				startElement = sel.getStartElement();
 
-				// Prevent removal of the body element. (#5125)
-				if ( startElement.getName() === 'body' || isWidget( startElement.getFirst() ) ) {
-					return;
-				}
-
 				if ( isEmptyBlock( startElement ) && isDeleteAction( keystroke ) ) {
 					startElement.remove();
 
@@ -633,7 +628,8 @@
 		function isEmptyElement( element ) {
 			var text = element.$.textContent === undefined ? element.$.innerText : element.$.textContent;
 
-			return text === '';
+			// Check if the element does not contain a widget to prevent removal of the body element. (#5125)
+			return text === '' && !isWidget( element.getFirst() );
 		}
 
 		function isEmptyBlock( block ) {
