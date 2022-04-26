@@ -608,6 +608,11 @@
 				// Allow removal of empty paragraphs (#1572).
 				startElement = sel.getStartElement();
 
+				// Prevent removal of the body element. (#5125)
+				if ( startElement.getName() === 'body' || isWidget( startElement.getFirst() ) ) {
+					return;
+				}
+
 				if ( isEmptyBlock( startElement ) && isDeleteAction( keystroke ) ) {
 					startElement.remove();
 
