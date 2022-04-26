@@ -124,9 +124,20 @@
 		// jscs:enable maximumLineLength
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
+
+		dragAndDropMatchers: [],
+
+		addDragAndDropMatcher: function( matcher ) {
+			this.dragAndDropMatchers.push( matcher );
+		},
+
 		init: function( editor ) {
 			var filterType,
 				filtersFactory = filtersFactoryFactory( editor );
+
+			this.addDragAndDropMatcher( function() {
+				return CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) === -1;
+			} );
 
 			if ( editor.config.forcePasteAsPlainText ) {
 				filterType = 'plain-text';
@@ -152,7 +163,6 @@
 			var isImagePasteSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported;
 			if ( isImagePasteSupported && editor.config.clipboard_handleImages ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
-					unsupportedTypeMsg = createNotificationMessage( supportedImageTypes ),
 					latestId;
 
 				editor.on( 'paste', function( evt ) {
@@ -164,10 +174,12 @@
 					// Allow both dragging and dropping and pasting images as base64 (#4681).
 					if ( !data && isFileData( evt, dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
+						// File of type XXX is not supported.
+						var unsupportedTypeMsg = createNotificationMessage( file.type );
+						var matchesDragAndDropFile = this.dragAndDropMatchers.some( matcher => matcher( file.type ) );
 
-						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) === -1 ) {
+						if ( !matchesDragAndDropFile ) {
 							editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
-
 							return;
 						}
 

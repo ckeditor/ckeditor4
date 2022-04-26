@@ -174,6 +174,14 @@
 			// Plugins which support all file type has lower priority than plugins which support specific types.
 			priority = def.supportedTypes ? 10 : 20;
 
+		editor.plugins.clipboard.addDragAndDropMatcher( function( fileType ) {
+			if ( !def.supportedTypes ) {
+				return true;
+			}
+
+			return fileTools.isTypeSupported( fileType, def.supportedTypes );
+		} );
+
 		if ( def.fileToElement ) {
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
