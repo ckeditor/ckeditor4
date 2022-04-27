@@ -713,6 +713,30 @@ var testsForMultipleEditor = {
 				editor.setReadOnly( false );
 				assert.areSame( '<p class="p">foo</p>', editor.getData(), 'after drop' );
 			} );
+		},
+
+		// (#4855)
+		'test if focus is inside the editor after the drop': function( editor ) {
+			var bot = bender.editorBots[ editor.name ],
+				evt = bender.tools.mockDropEvent(),
+				editable = editor.editable();
+
+			bot.setHtmlWithSelection( '<p class="p">Lorem ipsum sit amet.</p>' );
+			editor.resetUndo();
+
+			evt.$.dataTransfer.setData( 'Text', 'dolor' );
+
+			drop( editor, evt, {
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+				expectedText: 'dolor',
+				expectedHtml: '',
+				expectedDataType: 'text',
+				expectedDataValue: 'dolor'
+			}, null, function() {
+				assert.areSame( editable, editor.focusManager.currentActive, 'Focus is inside the editable' );
+			} );
 		}
 	},
 	testsForOneEditor = {

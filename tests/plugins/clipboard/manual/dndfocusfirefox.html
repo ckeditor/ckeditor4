@@ -1,0 +1,30 @@
+<p>You can drag me!</p>
+
+<h2>Iframe-based editor</h2>
+<div id="iframe">
+	<p>Drop something inside me!</p>
+</div>
+
+<h2>Div-based editor</h2>
+<div id="div">
+	<p>Drop something inside me!</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable>
+	<p>Drop something inside me!</p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'iframe' );
+	CKEDITOR.replace( 'div', {
+		extraPlugins: 'divarea'
+	} );
+	CKEDITOR.inline( 'inline', {
+		extraPlugins: 'floatingspace'
+	} );
+</script>

@@ -1,0 +1,11 @@
+<div id="editor">
+	<p>I am the editor!</p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.iOS ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>
