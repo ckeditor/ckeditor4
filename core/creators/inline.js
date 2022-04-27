@@ -49,7 +49,7 @@
 	 * @param {Object/String} element The DOM element or its ID.
 	 * @param {Object} [instanceConfig] The specific configurations to apply to this editor instance.
 	 * See {@link CKEDITOR.config}.
-	 * @returns {CKEDITOR.editor/Function/null} The editor instance or function to cancel creation.
+	 * @returns {CKEDITOR.editor/Function/null} The editor instance or a cancelation function.
 	 * If {@glink features/delayed_creation Delayed Editor Creation} feature has not been set and
 	 * element is missing in DOM, this function will return `null`.
 	 */

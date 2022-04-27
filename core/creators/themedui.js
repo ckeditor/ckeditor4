@@ -56,7 +56,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * @param {Object} [config] The specific configuration to apply to this
 	 * editor instance. Configuration set here will override the global CKEditor settings
 	 * (see {@link CKEDITOR.config}).
-	 * @returns {CKEDITOR.editor/Function/null} The editor instance or function to cancel creation.
+	 * @returns {CKEDITOR.editor/Function/null} The editor instance or a cancelation function.
 	 * If {@glink features/delayed_creation Delayed Editor Creation} feature has not been set and
 	 * element is missing in DOM, this function will return `null`.
 	 */
@@ -103,6 +103,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * It's recommended to use this function to prevent potential memory leaks. Use it if you know
 	 * that the editor host element will never be attached to the DOM. As an example, execute cancel handle
 	 * in your component cleanup logic (e.g. `onDestroy` lifecycle methods in popular frontend frameworks).
+	 *
 	 * Read more about this feature in the {@glink features/delayed_creation documentation}.
 	 *
 	 * @param {Object/String} element The DOM element, its ID, or name.
@@ -110,7 +111,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * editor instance. Configuration set here will override the global CKEditor settings
 	 * (see {@link CKEDITOR.config}).
 	 * @param {String} [data] Since 3.3. Initial value for the instance.
-	 * @returns {CKEDITOR.editor/Function/null} The editor instance or function to cancel creation.
+	 * @returns {CKEDITOR.editor/Function/null} The editor instance or a cancelation function.
 	 * If {@glink features/delayed_creation Delayed Editor Creation} feature has not been set and
 	 * element is missing in DOM, this function will return `null`.
 	 */
@@ -159,7 +160,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *
 	 * Since 4.17 this function also supports {@glink features/delayed_creation Delayed Editor Creation} feature
 	 * allowing to postpone editor initialization.
-	 *
 	 * Read more about this feature in the {@glink features/delayed_creation documentation}.
 	 *
 	 * @param {String} [className] The `<textarea>` class name.
