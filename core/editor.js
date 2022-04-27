@@ -1905,18 +1905,16 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * loaded with this config. This may adversely affect accessibility as screen reader users will be unable
  * to distinguish particular editor instances and navigate between them.
  *
- * **Note:** Setting `config.title = false` may also impair accessibility in a similar way.
+ * **Note:** Setting `config.applicationTitle = false` may also impair accessibility in a similar way.
  *
  * **Note:** Please do not confuse this property with {@link CKEDITOR.editor#name}
  * which identifies the instance in the {@link CKEDITOR#instances} literal.
  *
- *		// Sets the application title to 'My WYSIWYG'. The original title of the element (if it exists)
- *		// will be restored once the editor instance is destroyed.
- *		config.title = 'My WYSIWYG';
+ *		// Sets the application title to 'My WYSIWYG'.
+ *		config.applicationTitle = 'My WYSIWYG';
  *
- *		// Do not touch the title. If the element already has a title, it remains unchanged.
- *		// Also if no `title` attribute exists, nothing new will be added.
- *		config.title = false;
+ *		// Do not add the application title.
+ *		config.applicationTitle = false;
  *
  * See also:
  *
