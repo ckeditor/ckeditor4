@@ -6,18 +6,18 @@
 
 1. Focus the editor.
 
-	**Expected** The editor is correctly announced ("Editor hublabubla").
+	**Expected** The editor is correctly announced.
 
 	**Unexpected** The editor is incorrectly announced or not announced at all.
 
 Sample announcements for the `iframe`-based editor:
 
-* VoiceOver: "edit text, &lt;content and selection info&gt;. Editor, wysiwygarea, group"
-* NVDA: "Rich Text Editor, wysiwygarea, Editor, wysiwygarea frame, Editor, wysiwygarea document editable"
-* JAWS: "Editor, wysiwygarea frame, editor, wysiwygarea edit &lt;content&gt; type and text"
+* VoiceOver+Chrome: "Editor, wysiwygarea edit text, &lt;content and selection info&gt;. Editor, wysiwygarea, group"
+* NVDA+Firefox: "Rich Text Editor, wysiwygarea, Editor, wysiwygarea frame, Editor, wysiwygarea document editable"
+* JAWS+Firefox: "Editor, wysiwygarea frame, editor, wysiwygarea edit &lt;content&gt; type and text"
 
 Sample announcements for the `div`-based editor:
 
-* VoiceOver: "Editor, divarea edit text &lt;content&gt;. Rich Text Editor, divarea, application."
-* NVDA: "Rich Text Editor, divarea, Editor, divarea edit multi line"
-* JAWS: "Editor, divarea edit, contains text, type and text"
+* VoiceOver+Chrome: "Editor, divarea edit text &lt;content&gt;. Rich Text Editor, divarea, application."
+* NVDA+Firefox: "Rich Text Editor, divarea, Editor, divarea edit multi line"
+* JAWS+Firefox: "Editor, divarea edit, contains text, type and text"

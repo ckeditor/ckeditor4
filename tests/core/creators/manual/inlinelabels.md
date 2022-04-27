@@ -6,11 +6,11 @@
 
 1. Focus the editor.
 
-	**Expected** The editor is correctly announced ("Editor hublabubla").
+	**Expected** The editor is correctly announced ("Editor foo").
 
 	**Unexpected** The editor is incorrectly announced or not announced at all.
 1. Press <kbd>Alt</kbd>+<kbd>F10</kbd> to focus the toolbar.
 
-	**Expected** The toolbar is correctly announced (first button info followed by "Rich Text Editor hublabubla").
+	**Expected** The toolbar is correctly announced (first button info followed by "Rich Text Editor foo").
 
 	**Unexpected** The info about the editor is not included in the announcement.
