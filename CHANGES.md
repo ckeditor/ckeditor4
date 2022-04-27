@@ -14,6 +14,7 @@ Fixed Issues:
 * [#3394](https://github.com/ckeditor/ckeditor4/issues/3394): Fixed: [Enhanced image](https://ckeditor.com/cke4/addon/image2) plugin dialog is not supporting URL with query string parameters. Thanks to [Simon Urli](https://github.com/surli)!
 * [#4904](https://github.com/ckeditor/ckeditor4/issues/4904): Fixed: Selection in table via keyboard is broken after adding new table row.
 * [#5049](https://github.com/ckeditor/ckeditor4/issues/5049): Fixed: Editor fails in strict mode.
+* [#4855](https://github.com/ckeditor/ckeditor4/issues/4855): [iOS] Fixed: Focusing toolbar buttons with an enabled VoiceOver screen reader causes moving browser focus into an editable area and interrupts button functionality.
 
 API changes:
 
