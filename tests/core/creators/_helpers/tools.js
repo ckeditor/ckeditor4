@@ -15,7 +15,7 @@ var detachedTests = ( function() {
 						delayIfDetached_callback: function() {}
 					} );
 
-				assert.isNotNull( editor, 'Editor should be created immediately on not detached element, even if config allows a delay. ' + assertMessage );
+				assert.isTrue( editor instanceof CKEDITOR.editor, 'Editor should be created immediately on not detached element, even if config allows a delay. ' + assertMessage );
 			},
 
 			test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false: function() {
@@ -24,14 +24,14 @@ var detachedTests = ( function() {
 						delayIfDetached: false
 					} );
 
-				assert.isNotNull( editor, 'Editor should be created immediately on not detached element, despite config delay option. ' + assertMessage );
+				assert.isTrue( editor instanceof CKEDITOR.editor, 'Editor should be created immediately on not detached element, despite config delay option. ' + assertMessage );
 			},
 
 			test_editor_without_config_is_created_immediately_on_not_detached_element: function() {
 				var editorElement = CKEDITOR.document.getById( createHtmlForEditor() ),
 					editor = CKEDITOR[ creatorFunction ]( editorElement );
 
-				assert.isNotNull( editor, 'Editor should be created immediately with default config options. ' + assertMessage );
+				assert.isTrue( editor instanceof CKEDITOR.editor, 'Editor should be created immediately with default config options. ' + assertMessage );
 			},
 
 			test_delay_editor_creation_if_target_element_is_detached: function() {
@@ -40,13 +40,14 @@ var detachedTests = ( function() {
 
 				editorElement.remove();
 
-				var editor = CKEDITOR[ creatorFunction ]( editorElement, {
+				var cancel = CKEDITOR[ creatorFunction ]( editorElement, {
 					delayIfDetached: true
 				} );
 
-				assert.areSame( 'function', typeof editor, 'Editor should return function that allows to cancel creation. ' + assertMessage );
+				assert.areSame( 'function', typeof cancel, 'Editor should return function that allows to cancel creation. ' + assertMessage );
 
 				editorParent.append( editorElement );
+				cancel();
 			},
 
 			test_delayed_editor_creation_is_cancelable: function() {
@@ -55,20 +56,21 @@ var detachedTests = ( function() {
 
 				editorElement.remove();
 
-				var cancelationCallback = CKEDITOR[ creatorFunction ]( editorElement, {
+				var cancel = CKEDITOR[ creatorFunction ]( editorElement, {
 					delayIfDetached: true,
 					delayIfDetached_interval: 50
 				} );
 
-				cancelationCallback();
+				// Make sure that editor is canceled to test if callback works properly.
+				cancel();
 
-				// Attach the spy after cancelation to prevent unexpected invocations while test is waiting to fullfil.
-				var spyIsDetached = sinon.spy( editorElement, 'isDetached' );
+				// Use spy to check if editor has been initialized despite being canceled.
+				var creatorSpy = sinon.spy( CKEDITOR, creatorFunction );
 
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
-						assert.areSame( 0, spyIsDetached.callCount, 'The isDetached method should not be called after cancelation. ' + assertMessage );
-						spyIsDetached.restore();
+						assert.areSame( 0, creatorSpy.callCount, 'Creator function should not be called. ' + assertMessage );
+						creatorSpy.restore();
 					} );
 				}, 150 );
 
@@ -236,7 +238,7 @@ var detachedTests = ( function() {
 
 				editorElement.remove();
 
-				CKEDITOR[ creatorFunction ]( editorElement, {
+				var cancel = CKEDITOR[ creatorFunction ]( editorElement, {
 					delayIfDetached: true,
 					delayIfDetached_interval: 50
 				} );
@@ -246,6 +248,7 @@ var detachedTests = ( function() {
 						editorElementParent.append( editorElement );
 						assert.isTrue( spyIsDetached.callCount > 2, 'There should be at least three calls of isDetached(). ' + assertMessage );
 						spyIsDetached.restore();
+						cancel();
 					} );
 				}, 200 );
 
