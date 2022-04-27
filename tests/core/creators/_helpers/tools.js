@@ -5,6 +5,8 @@
 var detachedTests = ( function() {
 	function appendTests( creatorFunction, tests ) {
 
+		var assertMessage = 'Creator function used: ' + creatorFunction;
+
 		return CKEDITOR.tools.extend( tests, {
 			test_editor_is_created_immediately_on_not_detached_element_even_with_delay_config: function() {
 				var editorElement = CKEDITOR.document.getById( createHtmlForEditor() ),
@@ -13,7 +15,7 @@ var detachedTests = ( function() {
 						delayIfDetached_callback: function() {}
 					} );
 
-				assert.isNotNull( editor, 'Editor should be created immediately on not detached element, even if config allows a delay. Creator function used: ' + creatorFunction );
+				assert.isTrue( editor instanceof CKEDITOR.editor, 'Editor should be created immediately on not detached element, even if config allows a delay. ' + assertMessage );
 			},
 
 			test_editor_is_created_immediately_on_not_detached_element_with_delayIfDetached_config_set_as_false: function() {
@@ -22,14 +24,14 @@ var detachedTests = ( function() {
 						delayIfDetached: false
 					} );
 
-				assert.isNotNull( editor, 'Editor should be created immediately on not detached element, despite config delay option. Creator function used: ' + creatorFunction );
+				assert.isTrue( editor instanceof CKEDITOR.editor, 'Editor should be created immediately on not detached element, despite config delay option. ' + assertMessage );
 			},
 
 			test_editor_without_config_is_created_immediately_on_not_detached_element: function() {
 				var editorElement = CKEDITOR.document.getById( createHtmlForEditor() ),
 					editor = CKEDITOR[ creatorFunction ]( editorElement );
 
-				assert.isNotNull( editor, 'Editor should be created immediately with default config options. Creator function used: ' + creatorFunction );
+				assert.isTrue( editor instanceof CKEDITOR.editor, 'Editor should be created immediately with default config options. ' + assertMessage );
 			},
 
 			test_delay_editor_creation_if_target_element_is_detached: function() {
@@ -38,13 +40,43 @@ var detachedTests = ( function() {
 
 				editorElement.remove();
 
-				var editor = CKEDITOR[ creatorFunction ]( editorElement, {
+				var cancel = CKEDITOR[ creatorFunction ]( editorElement, {
 					delayIfDetached: true
 				} );
 
-				assert.isNull( editor, 'Editor should not be created on detached element, if config allows a delay. Creator function used: ' + creatorFunction );
+				assert.areSame( 'function', typeof cancel, 'Editor should return function that allows to cancel creation. ' + assertMessage );
 
 				editorParent.append( editorElement );
+				cancel();
+			},
+
+			test_delayed_editor_creation_is_cancelable: function() {
+				var editorElement = CKEDITOR.document.getById( createHtmlForEditor() ),
+					editorParent = editorElement.getParent();
+
+				editorElement.remove();
+
+				var cancel = CKEDITOR[ creatorFunction ]( editorElement, {
+					delayIfDetached: true,
+					delayIfDetached_interval: 50
+				} );
+
+				// Make sure that editor is canceled to test if callback works properly.
+				cancel();
+
+				// Use spy to check if editor has been initialized despite being canceled.
+				var creatorSpy = sinon.spy( CKEDITOR, creatorFunction );
+
+				CKEDITOR.tools.setTimeout( function() {
+					resume( function() {
+						assert.areSame( 0, creatorSpy.callCount, 'Creator function should not be called. ' + assertMessage );
+						creatorSpy.restore();
+					} );
+				}, 150 );
+
+				editorParent.append( editorElement );
+
+				wait();
 			},
 
 			test_delay_editor_creation_with_default_interval_strategy_until_target_element_attach_to_DOM: function() {
@@ -58,7 +90,7 @@ var detachedTests = ( function() {
 					on: {
 						instanceReady: function() {
 							resume( function() {
-								assert.pass( 'Editor was created. Creator function used: ' + creatorFunction );
+								assert.pass( 'Editor was created. ' + assertMessage );
 							} );
 						}
 					}
@@ -84,7 +116,7 @@ var detachedTests = ( function() {
 					on: {
 						instanceReady: function() {
 							resume( function() {
-								assert.pass( 'Editor was created from custom callback. Creator function used: ' + creatorFunction );
+								assert.pass( 'Editor was created from custom callback. ' + assertMessage );
 							} );
 						}
 					}
@@ -120,18 +152,18 @@ var detachedTests = ( function() {
 									secondCallData = spyWarn.secondCall.args[ 0 ].data,
 									expectedMethod = 'interval - ' + CKEDITOR.config.delayIfDetached_interval + ' ms';
 
-								assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with interval. Creator function used: ' + creatorFunction );
-								assert.areEqual( expectedMethod , firstCallData.additionalData.method, 'First editor warn method should be interval with time. Creator function used: ' + creatorFunction );
+								assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with interval. ' + assertMessage );
+								assert.areEqual( expectedMethod , firstCallData.additionalData.method, 'First editor warn method should be interval with time. ' + assertMessage );
 
 								assert.areEqual(
 									'editor-delayed-creation-success',
 									secondCallData.errorCode,
-									'Second editor warn should be about success editor creation with interval. Creator function used: ' + creatorFunction
+									'Second editor warn should be about success editor creation with interval. ' + assertMessage
 								);
 								assert.areEqual(
 									expectedMethod,
 									secondCallData.additionalData.method,
-									'Second editor warn method should be interval with time. Creator function used: ' + creatorFunction
+									'Second editor warn method should be interval with time. ' + assertMessage
 								);
 
 								CKEDITOR.removeListener( 'log', spyWarn );
@@ -170,18 +202,18 @@ var detachedTests = ( function() {
 								var firstCallData = spyWarn.firstCall.args[ 0 ].data,
 									secondCallData = spyWarn.secondCall.args[ 0 ].data;
 
-								assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with callback. Creator function used: ' + creatorFunction );
-								assert.areEqual( 'callback' , firstCallData.additionalData.method, 'First editor warn method should be \'callback\'. Creator function used: ' + creatorFunction );
+								assert.areEqual( 'editor-delayed-creation', firstCallData.errorCode, 'First editor warn should be about creation delay with callback. ' + assertMessage );
+								assert.areEqual( 'callback' , firstCallData.additionalData.method, 'First editor warn method should be \'callback\'. ' + assertMessage );
 
 								assert.areEqual(
 									'editor-delayed-creation-success',
 									secondCallData.errorCode,
-									'Second editor warn should be about success editor creation with callback. Creator function used: ' + creatorFunction
+									'Second editor warn should be about success editor creation with callback. ' + assertMessage
 								);
 								assert.areEqual(
 									'callback',
 									secondCallData.additionalData.method,
-									'Second editor warn method should be \'callback\'. Creator function used: ' + creatorFunction
+									'Second editor warn method should be \'callback\'. ' + assertMessage
 								);
 
 								CKEDITOR.removeListener( 'log', spyWarn );
@@ -206,7 +238,7 @@ var detachedTests = ( function() {
 
 				editorElement.remove();
 
-				CKEDITOR[ creatorFunction ]( editorElement, {
+				var cancel = CKEDITOR[ creatorFunction ]( editorElement, {
 					delayIfDetached: true,
 					delayIfDetached_interval: 50
 				} );
@@ -214,8 +246,9 @@ var detachedTests = ( function() {
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
 						editorElementParent.append( editorElement );
-						assert.isTrue( spyIsDetached.callCount > 2, 'There should be at least three calls of isDetached(). Creator function used: ' + creatorFunction );
+						assert.isTrue( spyIsDetached.callCount > 2, 'There should be at least three calls of isDetached(). ' + assertMessage );
 						spyIsDetached.restore();
+						cancel();
 					} );
 				}, 200 );
 

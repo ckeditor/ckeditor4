@@ -8,7 +8,7 @@
 	'use strict';
 
 	var tests = detachedTests.appendTests( 'replace', {
-		'test CKEDITOR.replaceAll() doesnt call the shouldDelayEditorCreation() function when elements are detached': function() {
+		'test CKEDITOR.replaceAll() does not call the shouldDelayEditorCreation() function when elements are detached': function() {
 			var textarea = CKEDITOR.document.getById( 'ta1' ),
 				replaceSpy = sinon.spy( CKEDITOR.editor, 'shouldDelayEditorCreation' );
 

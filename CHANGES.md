@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 New features:
 
 * [#2444](https://github.com/ckeditor/ckeditor4/issues/2444): Togglable toolbar buttons are now exposed as toggle buttons in the browser's accessibility tree.
+* [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): Added an option allowing to cancel [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature as a function handle to editor creators ([`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo)).
 
 Fixed Issues:
 
@@ -14,6 +15,9 @@ Fixed Issues:
 * [#4904](https://github.com/ckeditor/ckeditor4/issues/4904): Fixed: Selection in table via keyboard is broken after adding new table row.
 * [#5049](https://github.com/ckeditor/ckeditor4/issues/5049): Fixed: Editor fails in strict mode.
 
+API changes:
+
+* [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): [`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo) functions are now returning a handle function allowing to cancel [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature.
 ## CKEditor 4.18.0
 
 **Security Updates:**

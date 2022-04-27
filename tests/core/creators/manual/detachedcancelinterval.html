@@ -1,0 +1,30 @@
+<button id="cancelButton">Cancel creation</button>
+<button id="attachButton">Attach editor to parent</button>
+
+<div>
+	<div id="editor">
+		<p>Do I look like an editor? If so, the test failed!</p>
+	</div>
+</div>
+
+<script>
+	var editorElement = document.getElementById( 'editor' ),
+		attachButton = CKEDITOR.document.getById( 'attachButton' ),
+		cancelButton = CKEDITOR.document.getById( 'cancelButton' ),
+		editorParent = editorElement.parentNode,
+		cancelCreationFunction;
+
+	editorParent.removeChild( editorElement );
+
+	cancelCreationFunction = CKEDITOR.replace( editorElement, {
+		delayIfDetached: true,
+	} );
+
+	cancelButton.on( 'click', function() {
+		cancelCreationFunction();
+	} );
+
+	attachButton.on( 'click', function() {
+		editorParent.appendChild( editorElement );
+	} );
+</script>
