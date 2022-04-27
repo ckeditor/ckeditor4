@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 New features:
 
 * [#2444](https://github.com/ckeditor/ckeditor4/issues/2444): Togglable toolbar buttons are now exposed as toggle buttons in the browser's accessibility tree.
+* [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): Added an option to cancel [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature as a function handle to editor creators ([`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo)).
 
 Fixed Issues:
 
