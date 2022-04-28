@@ -174,12 +174,16 @@
 			// Plugins which support all file type has lower priority than plugins which support specific types.
 			priority = def.supportedTypes ? 10 : 20;
 
-		editor.plugins.clipboard.addDragAndDropMatcher( function( fileType ) {
+		editor.plugins.clipboard.addSupportedClipboardMatcher( function( fileExtension ) {
 			if ( !def.supportedTypes ) {
 				return true;
 			}
 
-			return fileTools.isTypeSupported( fileType, def.supportedTypes );
+			// Split regex from `/image\/(jpeg|png|gif|bmp)/` to `(jpeg|png|gif|bmp)` and match supportedTypes by extension
+			// because IE contains empty `file.type` in cases like. 'image/webp'. (#5095)
+			var supportedFileExtensionsRegex = new RegExp( def.supportedTypes.toString().match( /\((.*?)\)/g ) );
+
+			return supportedFileExtensionsRegex.test( fileExtension );
 		} );
 
 		if ( def.fileToElement ) {
