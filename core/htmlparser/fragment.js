@@ -679,6 +679,8 @@ CKEDITOR.htmlParser.fragment = function() {
 	/**
 	 * Indicates if line breaks (`br`) should be moved outside inline elements.
 	 *
+	 * **Note:** This is a global configuration that applies to all instances.
+	 *
 	 * By default, all children `br` elements, placed at the end of an inline element,
 	 * are shifted outside that element. Shifted elements are attached at the end of the parent block element.
 	 * It allows producing more clean HTML output without an abundance of
