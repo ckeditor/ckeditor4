@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, uploadfile, clipboard, floatingspace, toolbar, sourcearea
 
-1. Drag and drop, into the editor, file in a format unsupported by the editor eg. [JPEG2000](_assets/logo.jp2).
+1. Drag and drop, into the editor, file in a format unsupported by the editor eg. [JPEG2000](../_assets/logo.jp2).
 
 **Expected** File should be placed in the editable as a link.
 
