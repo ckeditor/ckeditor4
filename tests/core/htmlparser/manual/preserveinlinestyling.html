@@ -14,13 +14,13 @@
 	}
 
 	CKEDITOR.config.shiftLineBreaks = function( currentNode ) {
-		if ( currentNode.hasClass( 'filling-br') ) {
+		if ( currentNode.hasClass( 'filling-br' ) ) {
 			return;
 		}
 
 		var br =  new CKEDITOR.htmlParser.element( 'br' );
 
-		br.addClass( 'filling-br');
+		br.addClass( 'filling-br' );
 
 		return br;
 	}

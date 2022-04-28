@@ -697,13 +697,13 @@ CKEDITOR.htmlParser.fragment = function() {
 	 *
 	 * * `shiftLineBreaks = false`
 	 *
-	 * Keep line breaks inside inline element:
+	 * Keep line breaks inside an inline element:
 	 *
 	 * 		<p><strong>hello, world!<br><br></strong></p>
 	 *
 	 * * `shiftLineBreaks = customFunction`
 	 *
-	 * Provide a callback function allowing to decide if break line should be shifted:
+	 * Provide a callback function allowing to decide if a line break should be shifted:
 	 *
 	 * ```javascript
 	 * CKEDITOR.config.shiftLineBreaks = function() {
@@ -719,13 +719,13 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * You can also decide to return {@link CKEDITOR.htmlParser.text} or {@link CKEDITOR.htmlParser.element}
 	 * node that will be attached **at the end of the last `br` node** inside inline element.
 	 *
-	 * As an example, you may want to add additional `nbsp;` filler to make sure that a user will be
+	 * As an example, you may want to add an additional `nbsp;` filler to make sure that a user will be
 	 * able to place caret after break lines:
 	 *
 	 * ```javascript
 	 * CKEDITOR.config.shiftLineBreaks = function() {
-	 * 		// Append `nbsp;` character at the end.
-	 * 		return new CKEDITOR.htmlParser.text( '&nbsp;' );
+	 * 	// Append `nbsp;` character at the end.
+	 * 	return new CKEDITOR.htmlParser.text( '&nbsp;' );
 	 * }
 	 * ```
 	 *
@@ -733,7 +733,7 @@ CKEDITOR.htmlParser.fragment = function() {
 	 *
 	 * 		<p><strong>hello, world!<br><br>&nbsp;</strong></p>
 	 *
-	 * @cfg {Boolean|Function} [shiftLineBreaks=true]
+	 * @cfg {Boolean/Function} [shiftLineBreaks=true]
 	 * @member CKEDITOR.config
 	 */
 
