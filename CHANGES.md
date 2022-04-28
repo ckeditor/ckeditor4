@@ -7,6 +7,7 @@ New features:
 
 * [#2444](https://github.com/ckeditor/ckeditor4/issues/2444): Togglable toolbar buttons are now exposed as toggle buttons in the browser's accessibility tree.
 * [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): Added an option allowing to cancel [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature as a function handle to editor creators ([`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo)).
+* [#4986](https://github.com/ckeditor/ckeditor4/issues/4986): Added [`config.shiftLineBreaks`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-shiftLineBreaks) allowing to preserve inline elements formatting on shift enter.
 
 Fixed Issues:
 
