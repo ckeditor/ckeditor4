@@ -1,17 +1,14 @@
 @bender-tags: 4.19.0, feature, 4986
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, sourcearea, stylescombo, font
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, sourcearea, stylescombo, font, elementspath
 
 1. Toggle source area.
-1. Place cursor at the end of the editable area.
-1. Type some text.
+2. Place cursor at the end of the editable area.
 
-## Expected
+**Expected** There are exactly 3 visual line breaks.
 
-* Typed text keeps formatting of the previous paragraph.
-* There are exactly 3 visual line breaks.
+3. Type some text.
 
-## Unexpected
+**Expected** Typed text keeps formatting of the previous paragraph.
 
-* Typed text has no formatting.
-* There is more or less visual line breaks.
+**Note** You can also use elementspath to see whether a selection is placed inside `span` styling elements.
