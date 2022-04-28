@@ -4,7 +4,7 @@
 
 **Note:** Make sure the notification was closed/disappeared after the step which shows it.
 
-1. Drag and drop, into the editor, file in a format unsupported by the editor eg. [JPEG2000](_assets/logo.jp2).
+1. Drag and drop, into the editor, file in a format unsupported by the editor eg. [JPEG2000](../_assets/logo.jp2).
 
 **Expected** Notification with "File of type .XXX is not supported." message is displayed.
 

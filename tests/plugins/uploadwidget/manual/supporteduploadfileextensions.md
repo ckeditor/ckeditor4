@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, uploadwidget, floatingspace, toolbar, sourcearea
 
-1. Drag and drop, [JPEG2000](_assets/logo.jp2) into the editor.
+1. Drag and drop, [JPEG2000](../_assets/logo.jp2) into the editor.
 
 **Unexpected** Nothing happens.
 
