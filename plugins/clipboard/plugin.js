@@ -124,20 +124,15 @@
 		// jscs:enable maximumLineLength
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
+		supportedClipboardMatchers: [],
 
-		dragAndDropMatchers: [],
-
-		addDragAndDropMatcher: function( matcher ) {
-			this.dragAndDropMatchers.push( matcher );
+		addSupportedClipboardMatcher: function( matcher ) {
+			this.supportedClipboardMatchers.push( matcher );
 		},
 
 		init: function( editor ) {
 			var filterType,
 				filtersFactory = filtersFactoryFactory( editor );
-
-			this.addDragAndDropMatcher( function() {
-				return CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) === -1;
-			} );
 
 			if ( editor.config.forcePasteAsPlainText ) {
 				filterType = 'plain-text';
@@ -162,8 +157,7 @@
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			var isImagePasteSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported;
 			if ( isImagePasteSupported && editor.config.clipboard_handleImages ) {
-				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
-					latestId;
+				var latestId;
 
 				editor.on( 'paste', function( evt ) {
 					var dataObj = evt.data,
@@ -172,59 +166,82 @@
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					// Allow both dragging and dropping and pasting images as base64 (#4681).
-					if ( !data && isFileData( evt, dataTransfer ) ) {
-						var file = dataTransfer.getFile( 0 );
-						// File of type XXX is not supported.
-						var unsupportedTypeMsg = createNotificationMessage( file.type );
-						var matchesDragAndDropFile = this.dragAndDropMatchers.some( matcher => matcher( file.type ) );
+					if ( data || !isFileData( evt, dataTransfer ) ) {
+						return;
+					}
 
-						if ( !matchesDragAndDropFile ) {
-							editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
-							return;
+					var file = dataTransfer.getFile( 0 ),
+						// Get file extension from name in IE when file.type is empty eg. 'image/webp'. (#5095)
+						fileExtension = file.type.split( '/' )[ 1 ] || file.name.match( /[^.]*$/i )[ 0 ];
+
+					if ( isFileExtensionSupported( fileExtension ) ) {
+						// (#5095)
+						if ( shouldDisplayNotification( fileExtension ) ) {
+							displayNotification( fileExtension );
 						}
 
-						var fileReader = new FileReader();
-
-						// Convert image file to img tag with base64 image.
-						fileReader.addEventListener( 'load', function() {
-							evt.data.dataValue = '<img src="' + fileReader.result + '" />';
-							editor.fire( 'paste', evt.data );
-						}, false );
-
-						// Proceed with normal flow if reading file was aborted.
-						fileReader.addEventListener( 'abort', function() {
-							// (#4681)
-							setCustomIEEventAttribute( evt );
-							editor.fire( 'paste', evt.data );
-						}, false );
-
-						// Proceed with normal flow if reading file failed.
-						fileReader.addEventListener( 'error', function() {
-							// (#4681)
-							setCustomIEEventAttribute( evt );
-							editor.fire( 'paste', evt.data );
-						}, false );
-
-						fileReader.readAsDataURL( file );
-
-						latestId = dataObj.dataTransfer.id;
-
-						evt.stop();
+						return;
 					}
+
+					var fileReader = new FileReader();
+
+					// Convert image file to img tag with base64 image.
+					fileReader.addEventListener( 'load', function() {
+						evt.data.dataValue = '<img src="' + fileReader.result + '" />';
+						editor.fire( 'paste', evt.data );
+					}, false );
+
+					// Proceed with normal flow if reading file was aborted.
+					fileReader.addEventListener( 'abort', function() {
+						// (#4681)
+						setCustomIEEventAttribute( evt );
+						editor.fire( 'paste', evt.data );
+					}, false );
+
+					// Proceed with normal flow if reading file failed.
+					fileReader.addEventListener( 'error', function() {
+						// (#4681)
+						setCustomIEEventAttribute( evt );
+						editor.fire( 'paste', evt.data );
+					}, false );
+
+					fileReader.readAsDataURL( file );
+
+					latestId = dataObj.dataTransfer.id;
+
+					evt.stop();
 				}, null, null, 1 );
 			}
 
-			// Prepare content for unsupported image type notification (#4750).
-			function createNotificationMessage( imageTypes ) {
-				var humanReadableImageTypes = CKEDITOR.tools.array.map( imageTypes, function( imageType ) {
-					var splittedMimeType = imageType.split( '/' ),
-						imageFormat = splittedMimeType[ 1 ].toUpperCase();
+			function isFileExtensionSupported( fileType ) {
+				var defaultSupportedTypes = [ 'png', 'jpeg', 'gif' ];
 
-					return imageFormat;
-				} ).join( ', ' ),
+				return CKEDITOR.tools.indexOf( defaultSupportedTypes, fileType ) === -1;
+			}
 
-				message = editor.lang.clipboard.fileFormatNotSupportedNotification.
-					replace( /\${formats\}/g, humanReadableImageTypes );
+			function shouldDisplayNotification( fileExtension ) {
+				var clipboardMatchers = editor.plugins.clipboard.supportedClipboardMatchers,
+					isFileExtensionSupported = CKEDITOR.tools.array.some( clipboardMatchers, function( matcher ) {
+						return matcher( fileExtension );
+					} );
+
+				if ( isFileExtensionSupported ) {
+					return;
+				}
+
+				return true;
+			}
+
+			function displayNotification( fileExtension ) {
+				var unsupportedTypeMsg = createNotificationMessage( fileExtension );
+
+				editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
+			}
+
+			// Prepare content for unsupported file extension notification (#4750).
+			function createNotificationMessage( fileExtension ) {
+				var message = editor.lang.clipboard.fileFormatNotSupportedNotification.
+					replace( /\${extension\}/g, fileExtension );
 
 				return message;
 			}
