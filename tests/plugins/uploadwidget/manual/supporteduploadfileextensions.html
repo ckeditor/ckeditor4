@@ -1,0 +1,30 @@
+<div id="editor1"></div>
+
+<h2>Inline Editor</h2>
+
+<div id="editor2" contenteditable="true" style="border:1px solid"></div>
+
+<script>
+	CKEDITOR.plugins.add( 'uploadplugin', {
+		requires: 'uploadwidget',
+		init: function( editor ) {
+			CKEDITOR.fileTools.addUploadWidget( editor, 'uploadplugin', {
+				supportedTypes: /image\/(jp2)/,
+			} );
+		}
+	} );
+
+	var config = {
+		language: 'en',
+		extraPlugins: 'uploadplugin',
+		language: 'en',
+		on: {
+			instanceReady: function( evt ) {
+				bender.tools.ignoreUnsupportedEnvironment( 'uploadimage' );
+			},
+		}
+	};
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.inline( 'editor2', config );
+</script>
