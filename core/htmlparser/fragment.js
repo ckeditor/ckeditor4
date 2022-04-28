@@ -707,12 +707,12 @@ CKEDITOR.htmlParser.fragment = function() {
 	 *
 	 * ```javascript
 	 * CKEDITOR.config.shiftLineBreaks = function() {
-	 *		if ( condition ) {
-	 * 			// Shift line break outside element.
-	 *	 		return true;
-	 * 		}
-	 *		// Keep line break inside element.
-	 * 		return false;
+	 * 	if ( condition ) {
+	 * 		// Shift line break outside element.
+	 * 		return true;
+	 * 	}
+	 * 	// Keep line break inside element.
+	 * 	return false;
 	 * }
 	 * ```
 	 *
