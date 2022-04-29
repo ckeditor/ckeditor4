@@ -176,16 +176,18 @@
 
 		if ( editor.plugins && editor.plugins.clipboard ) {
 			// Add callback as matcher in clipboard plugin to check if notification should be displayed. (#5095)
-			editor.plugins.clipboard.addSupportedClipboardMatcher( function( fileExtension ) {
+			editor.plugins.clipboard.addSupportedClipboardMatcher( function( file ) {
+				// Allow any file type in case no type is defined. (#5095)
 				if ( !def.supportedTypes ) {
 					return true;
 				}
 
-				// Split regex from `/image\/(jpeg|png|gif|bmp)/` or `/image\/png/` to `(jpeg|png|gif|bmp)` or `image`
-				// and match supportedTypes by extension, because IE contains empty `file.type` in cases like. 'image/webp'. (#5095)
-				var supportedFileExtensionsRegex = new RegExp( def.supportedTypes.toString().match( /\((.*?)\)/g ) );
+				// In case the type does not exist, take the extension and compare it with the existing regex. (#5095)
+				if ( !file.type ) {
+					return fileTools.isExtensionSupported( file, def.supportedTypes );
+				}
 
-				return supportedFileExtensionsRegex.test( fileExtension );
+				return fileTools.isTypeSupported( file, def.supportedTypes );
 			} );
 		}
 
