@@ -1,0 +1,30 @@
+<div id="editor">
+	<p>
+		<span style="font-size: 16px"
+			><span style="font-family: Courier New, Courier, monospace"
+				>hello, world!<br /><br /><br /></span
+		></span>
+	</p>
+</div>
+
+<script>
+	// IE allows to set cursor position exactly in BR tag.
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.config.shiftLineBreaks = function( currentNode ) {
+		if ( currentNode.hasClass( 'filling-br' ) ) {
+			return;
+		}
+
+		var br =  new CKEDITOR.htmlParser.element( 'br' );
+
+		br.addClass( 'filling-br' );
+
+		return br;
+	}
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'br(filling-br)'
+	} );
+</script>
