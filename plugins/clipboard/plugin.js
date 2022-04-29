@@ -172,11 +172,15 @@
 
 					var file = dataTransfer.getFile( 0 ),
 						// Get file extension from name in IE when file.type is empty eg. 'image/webp'. (#5095)
-						fileExtension = file.type.split( '/' )[ 1 ] || file.name.match( /[^.]*$/i )[ 0 ];
+						fileExtension = file.name.match( /(?<=\.)[^.]*$/i ) || '';
+
+					if ( fileExtension !== '' ) {
+						fileExtension = fileExtension[ 0 ];
+					}
 
 					if ( isFileExtensionSupported( fileExtension ) ) {
 						// (#5095)
-						if ( shouldDisplayNotification( fileExtension ) ) {
+						if ( shouldDisplayNotification( file ) ) {
 							displayNotification( fileExtension );
 						}
 
@@ -219,10 +223,10 @@
 				return CKEDITOR.tools.indexOf( defaultSupportedTypes, fileType ) === -1;
 			}
 
-			function shouldDisplayNotification( fileExtension ) {
+			function shouldDisplayNotification( file ) {
 				var clipboardMatchers = editor.plugins.clipboard.supportedClipboardMatchers,
 					isFileExtensionSupported = CKEDITOR.tools.array.some( clipboardMatchers, function( matcher ) {
-						return matcher( fileExtension );
+						return matcher( file );
 					} );
 
 				if ( isFileExtensionSupported ) {
@@ -240,10 +244,12 @@
 
 			// Prepare content for unsupported file extension notification (#4750).
 			function createNotificationMessage( fileExtension ) {
-				var message = editor.lang.clipboard.fileFormatNotSupportedNotification.
-					replace( /\${extension\}/g, fileExtension );
+				if ( fileExtension === '' ) {
+					return editor.lang.clipboard.fileWithoutFormatNotSupportedNotification;
+				}
 
-				return message;
+				return editor.lang.clipboard.fileFormatNotSupportedNotification.
+					replace( /\${extension\}/g, fileExtension );
 			}
 
 			// Only dataTransfer objects containing only file should be considered
