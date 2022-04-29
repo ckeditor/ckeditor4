@@ -232,7 +232,7 @@
 
 			// Prepare content for unsupported file extension notification (#4750).
 			function createNotificationMessage( fileType ) {
-				if ( fileType === '' ) {
+				if ( !fileType ) {
 					return editor.lang.clipboard.fileWithoutFormatNotSupportedNotification;
 				}
 
