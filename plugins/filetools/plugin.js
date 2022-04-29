@@ -871,19 +871,6 @@
 		},
 
 		/**
-		 * TODO: add description
-		 */
-		isExtensionSupported: function( file, supportedTypes ) {
-			var fileExtension = file.name.match( /(?<=\.)[^.]*$/i ) || '';
-
-			if ( fileExtension !== '' ) {
-				fileExtension = fileExtension[ 0 ];
-			}
-
-			return !!fileExtension.match( supportedTypes );
-		},
-
-		/**
 		 * Feature detection indicating whether the current browser supports methods essential to send files over an XHR request.
 		 *
 		 * @since 4.9.0

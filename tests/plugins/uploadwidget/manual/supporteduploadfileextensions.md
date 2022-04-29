@@ -4,9 +4,9 @@
 
 1. Drag and drop, [JPEG2000](../_assets/logo.jp2) into the editor.
 
-**Unexpected** Nothing happens.
+**Expected** Nothing happens.
 
-**Expected** Notification with "File of type .jp2 is not supported." message is displayed.
+**Unexpected** Notification with "File of type image/jp2 is not supported." message is displayed.
 
 2. Repeat step `1` for the paste method.
 

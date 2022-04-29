@@ -68,7 +68,12 @@
 				registered: {}
 			},
 			lang: {},
-			config: {}
+			config: {},
+			plugins: {
+				clipboard: {
+					addNotificationFileMatcher: function noop() {}
+				}
+			}
 		};
 
 		editor.uploadRepository = new CKEDITOR.fileTools.uploadRepository( editor );

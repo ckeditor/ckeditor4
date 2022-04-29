@@ -174,22 +174,15 @@
 			// Plugins which support all file type has lower priority than plugins which support specific types.
 			priority = def.supportedTypes ? 10 : 20;
 
-		if ( editor.plugins && editor.plugins.clipboard ) {
-			// Add callback as matcher in clipboard plugin to check if notification should be displayed. (#5095)
-			editor.plugins.clipboard.addSupportedClipboardMatcher( function( file ) {
-				// Allow any file type in case no type is defined. (#5095)
-				if ( !def.supportedTypes ) {
-					return true;
-				}
+		// Add callback as matcher in clipboard plugin to check if notification should be displayed. (#5095)
+		editor.plugins.clipboard.addNotificationFileMatcher( function( file ) {
+			// Allow any file type in case no type is defined.
+			if ( !def.supportedTypes ) {
+				return true;
+			}
 
-				// In case the type does not exist, take the extension and compare it with the existing regex. (#5095)
-				if ( !file.type ) {
-					return fileTools.isExtensionSupported( file, def.supportedTypes );
-				}
-
-				return fileTools.isTypeSupported( file, def.supportedTypes );
-			} );
-		}
+			return fileTools.isTypeSupported( file, def.supportedTypes );
+		} );
 
 		if ( def.fileToElement ) {
 			editor.on( 'paste', function( evt ) {
