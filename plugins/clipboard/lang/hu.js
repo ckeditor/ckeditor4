@@ -11,5 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hu', {
 	pasteNotification: 'Nyomja meg a %1 gombot a beillesztéshez. A böngésző nem támogatja a beillesztést az eszköztárról vagy a menüből.',
 	pasteArea: 'Beillesztési terület',
 	pasteMsg: 'Illessze be a tartalmat az alábbi mezőbe, és nyomja meg az OK-t.',
-	fileFormatNotSupportedNotification: 'This file format is not supported. You can try with one of the supported formats: ${formats}.' // MISSING
+	fileFormatNotSupportedNotification: 'File in the format ${formats} is not supported.', // MISSING
+	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

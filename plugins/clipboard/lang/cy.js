@@ -11,5 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'cy', {
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Ardal Gludo',
 	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
-	fileFormatNotSupportedNotification: 'This file format is not supported. You can try with one of the supported formats: ${formats}.' // MISSING
+	fileFormatNotSupportedNotification: 'File in the format ${formats} is not supported.', // MISSING
+	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );
