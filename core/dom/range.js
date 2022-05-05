@@ -1483,7 +1483,7 @@ CKEDITOR.dom.range = function( root ) {
 							} else {
 								// If we are in the middle on text node and there are only whitespaces
 								// till the end of block, we should enlarge element.
-								if ( onlyWhiteSpaces( container, offset, boundary, siblingText ) )
+								if ( onlyWhiteSpaces( container, offset, boundary ) )
 									enlargeable = container.getParent();
 							}
 						}
