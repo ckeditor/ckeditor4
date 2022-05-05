@@ -6,7 +6,7 @@
 		uploadUrl: '%BASE_PATH%',
 		on: {
 			instanceReady: function( evt ) {
-				bender.tools.ignoreUnsupportedEnvironment( 'uploadfile' );
+				bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
 
 				CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
 					this.responseData = {};
