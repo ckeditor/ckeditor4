@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'en', {
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.',
 	pasteArea: 'Paste Area',
 	pasteMsg: 'Paste your content inside the area below and press OK.',
-	fileFormatNotSupportedNotification: 'File in the format ${formats} is not supported.',
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.',
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.'
 } );

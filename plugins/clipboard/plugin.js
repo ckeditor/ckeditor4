@@ -1748,8 +1748,8 @@
 		 *
 		 * ```javascript
 		 * CKEDITOR.plugins.clipboard.addFileMatcher( editor, function( file ) {
-		 * 		var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ];
-		 * 		return CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) !== -1;
+		 * 	var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ];
+		 * 	return CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) !== -1;
 		 * } );
 		 * ```
 		 *
