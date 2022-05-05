@@ -1400,7 +1400,10 @@
 
 				editable.changeAttr( 'role', 'textbox' );
 				editable.changeAttr( 'aria-multiline', 'true' ); // (#1034)
-				editable.changeAttr( 'aria-label', ariaLabel );
+
+				if ( ariaLabel ) {
+					editable.changeAttr( 'aria-label', ariaLabel );
+				}
 
 				if ( ariaLabel )
 					editable.changeAttr( 'title', ariaLabel );
