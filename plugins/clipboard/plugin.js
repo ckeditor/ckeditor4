@@ -1741,10 +1741,10 @@
 	 */
 	CKEDITOR.plugins.clipboard = {
 		/**
-		 * Adds a file matcher verifying if it should be supported via clipboard operations.
+		 * Adds a file matcher verifying if a file should be supported via clipboard operations.
 		 *
-		 * In the case of pasting or dragging and dropping unsupported file,
-		 * clipboard plugin will show notification informing user that a given file type is not supported.
+		 * In the case of pasting or dragging and dropping unsupported files,
+		 * the clipboard plugin will show a notification informing a user that a given file type is not supported.
 		 *
 		 * ```javascript
 		 * CKEDITOR.plugins.clipboard.addFileMatcher( editor, function( file ) {
@@ -1753,8 +1753,9 @@
 		 * } );
 		 * ```
 		 *
-		 * **Note:** This feature won't cancel `paste` event in the case of unsupported file. It's integrator responsibility
-		 * to properly handle incorrect files (e.g. by verifying if the file should be indeed uploaded via upload integrations).
+		 * **Note:** This feature won't cancel the `paste` event in the case of an unsupported file.
+		 * It's the integrator's responsibility to properly handle incorrect files
+		 * (e.g. by verifying if the file should be indeed uploaded via upload integrations).
 		 *
 		 * @since 4.19.0
 		 * @param {CKEDITOR.editor} editor The editor instance.
