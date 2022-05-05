@@ -269,7 +269,7 @@
 				}
 
 				return editor.lang.clipboard.fileFormatNotSupportedNotification.
-					replace( /\${format\}/g, fileType );
+					replace( /\${format\}/g, '<em>' + fileType + '</em>' );
 			}
 
 			// Only dataTransfer objects containing only file should be considered
