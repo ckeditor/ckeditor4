@@ -1,0 +1,30 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="wysiwygarea">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="divarea">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<script>( function() {
+	CKEDITOR.replace( 'wysiwygarea', {
+		skin: 'moono-lisa'
+	} );
+
+	CKEDITOR.replace( 'divarea', {
+		skin: 'moono-lisa',
+		extraPlugins: 'divarea'
+	} );
+
+	CKEDITOR.inline( 'inline', {
+		skin: 'moono-lisa'
+	} );
+} )();
+</script>
