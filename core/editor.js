@@ -1895,8 +1895,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
 /**
  * Customizes the {@link CKEDITOR.editor#applicationTtle human-readable title} of the application for this
- * editor. This title is used as a label for the whole website's region containing editor with its toolbars and other
- * UI parts. This title impacts various
+ * editor. This title is used as a label for the whole website's region containing the editor with its toolbars and other
+ * UI parts. Application title impacts various
  * [accessibility aspects](#!/guide/dev_a11y-section-announcing-the-editor-on-the-page),
  * e.g. it is commonly used by screen readers for distinguishing editor instances and for navigation.
  * Accepted values are a string or `false`.
