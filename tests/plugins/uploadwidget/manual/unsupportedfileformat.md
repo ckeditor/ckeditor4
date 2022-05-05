@@ -9,5 +9,3 @@
 **Unexpected** Nothing happens.
 
 2. Repeat step `1` for the paste method.
-
-3. Repeat the above steps for the inline editor.

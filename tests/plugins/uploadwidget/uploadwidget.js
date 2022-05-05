@@ -71,7 +71,7 @@
 			config: {},
 			plugins: {
 				clipboard: {
-					addNotificationFileMatcher: function noop() {}
+					addFileMatcher: function() {}
 				}
 			}
 		};

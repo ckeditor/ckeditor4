@@ -1,13 +1,9 @@
-<div id="editor1"></div>
-
-<h2>Inline Editor</h2>
-
-<div id="editor2" contenteditable="true" style="border:1px solid"></div>
+<div id="editor"></div>
 
 <script>
-	var config = {
+	CKEDITOR.replace( 'editor', {
 		language: 'en',
-		uploadUrl: 'http://foo/upload',
+		uploadUrl: '%BASE_PATH%',
 		on: {
 			instanceReady: function( evt ) {
 				bender.tools.ignoreUnsupportedEnvironment( 'uploadfile' );
@@ -17,8 +13,5 @@
 				};
 			},
 		}
-	};
-
-	CKEDITOR.replace( 'editor1', config );
-	CKEDITOR.inline( 'editor2', config );
+	} );
 </script>

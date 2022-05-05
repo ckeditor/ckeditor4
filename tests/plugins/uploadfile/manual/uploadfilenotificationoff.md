@@ -6,8 +6,4 @@
 
 **Expected** File should be placed in the editable as a link.
 
-**Unexpected** Notification with "File of type .XXX is not supported." message is displayed.
-
-2. Repeat step `1` for the paste method.
-
-3. Repeat the above steps for the inline editor.
+**Unexpected** Notification with "File in the format [file format] is not supported." message is displayed.

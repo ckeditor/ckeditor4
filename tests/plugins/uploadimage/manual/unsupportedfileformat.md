@@ -6,10 +6,8 @@
 
 1. Drag and drop, into the editor, file in a format unsupported by the editor eg. [JPEG2000](../_assets/logo.jp2).
 
-**Expected** Notification with "File of type .XXX is not supported." message is displayed.
+**Expected** Notification with "File in the format [file format] is not supported." message is displayed.
 
 **Unexpected** Nothing happens.
 
 2. Repeat step `1` for the paste method.
-
-3. Repeat the above steps for the inline editor.
