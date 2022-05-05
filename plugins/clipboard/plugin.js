@@ -124,7 +124,9 @@
 		// jscs:enable maximumLineLength
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
-		supportedFileMatchers: [],
+
+		// File matchers registered by CKEDITOR.plugins.clipboard#addFileMatcher method.
+		_supportedFileMatchers: [],
 
 		init: function( editor ) {
 			var filterType,
@@ -150,12 +152,11 @@
 
 			// Handle file paste for modern browsers except IE<10, as it does not support
 			// custom MIME types in clipboard (#4612).
-			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			var isFilePasteSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isFileApiSupported,
 				latestId;
-			// File matcher will be used by clipboard base64 handler below (#5095).
-			this.addNotificationFileMatcher( testImageBase64Support );
 
+			// Display notification for unsupported file types (#5095).
+			CKEDITOR.plugins.clipboard.addFileMatcher( editor, testImageBase64Support );
 			editor.on( 'paste', function( evt ) {
 				if ( !isFilePasteSupported ) {
 					return;
@@ -165,21 +166,43 @@
 					data = dataObj.dataValue,
 					dataTransfer = dataObj.dataTransfer;
 
-				// If data empty check for file inside data transfer. https://dev.ckeditor.com/ticket/16705
+				// Only handle files if there is no data value provided that should take precedence over files.
+				if ( data ) {
+					return;
+				}
+
+				var unsupportedFileTypes = [];
+				for ( var i = 0; i < dataTransfer.getFilesCount(); i++ ) {
+					var file = dataTransfer.getFile( i );
+
+					if ( !isFileTypeSupported( file ) ) {
+						unsupportedFileTypes.push( file.type );
+					}
+				}
+
+				displayUnsupportedFileTypesNotification( unsupportedFileTypes );
+			}, null, null, 1 );
+
+			// Convert image file (if present) to base64 string.
+			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
+			editor.on( 'paste', function( evt ) {
+				if ( !isFilePasteSupported || !editor.config.clipboard_handleImages ) {
+					return;
+				}
+
+				var dataObj = evt.data,
+					data = dataObj.dataValue,
+					dataTransfer = dataObj.dataTransfer;
+
+				// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
+				// Allow both dragging and dropping and pasting images as base64 (#4681).
 				if ( data || !isFileData( evt, dataTransfer ) ) {
 					return;
 				}
 
 				var file = dataTransfer.getFile( 0 );
 
-				// (#5095)
-				if ( !isFileTypeSupported( file ) ) {
-					displayUnsupportedFileTypeNotification( file.type );
-					return;
-				}
-
-				// Convert image file (if present) to base64 string.
-				if ( !editor.config.clipboard_handleImages || !testImageBase64Support( file ) ) {
+				if ( !testImageBase64Support( file ) ) {
 					return;
 				}
 
@@ -218,15 +241,24 @@
 			}
 
 			function isFileTypeSupported( file ) {
-				var clipboardMatchers = editor.plugins.clipboard.supportedFileMatchers;
+				var clipboardMatchers = editor.plugins.clipboard._supportedFileMatchers;
 				return CKEDITOR.tools.array.some( clipboardMatchers, function( matcher ) {
 					return matcher( file );
 				} );
 			}
 
-			function displayUnsupportedFileTypeNotification( fileType ) {
-				var unsupportedTypeMsg = createNotificationMessage( fileType );
+			function displayUnsupportedFileTypesNotification( fileTypes ) {
+				if ( !fileTypes.length ) {
+					return;
+				}
 
+				fileTypes = CKEDITOR.tools.array.unique( fileTypes );
+				// Make sure to remove unknown file types.
+				fileTypes = CKEDITOR.tools.array.filter( fileTypes, function( fileType ) {
+					return !!CKEDITOR.tools.trim( fileType );
+				} );
+
+				var unsupportedTypeMsg = createNotificationMessage( fileTypes.join( ', ' ) );
 				editor.showNotification( unsupportedTypeMsg, 'info', editor.config.clipboard_notificationDuration );
 			}
 
@@ -454,10 +486,6 @@
 					editor.openDialog( 'paste', evt.data );
 				}, 0 );
 			} );
-		},
-
-		addNotificationFileMatcher: function( matcher ) {
-			this.supportedFileMatchers.push( matcher );
 		}
 	} );
 
@@ -1712,6 +1740,29 @@
 	 * @class CKEDITOR.plugins.clipboard
 	 */
 	CKEDITOR.plugins.clipboard = {
+		/**
+		 * Adds a file matcher verifying if it should be supported via clipboard operations.
+		 *
+		 * In the case of pasting or dragging and dropping unsupported file,
+		 * clipboard plugin will show notification informing user that a given file type is not supported.
+		 *
+		 * ```javascript
+		 * CKEDITOR.plugins.clipboard.addFileMatcher( editor, function( file ) {
+		 * 		var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ];
+		 * 		return CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) !== -1;
+		 * } );
+		 * ```
+		 *
+		 * **Note:** This feature won't cancel `paste` event in the case of unsupported file. It's integrator responsibility
+		 * to properly handle incorrect files (e.g. by verifying if the file should be indeed uploaded via upload integrations).
+		 *
+		 * @since 4.19.0
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {Function} matcher File matcher.
+		 */
+		addFileMatcher: function( editor, matcher ) {
+			editor.plugins.clipboard._supportedFileMatchers.push( matcher );
+		},
 		/**
 		 * It returns `true` if the environment allows to set the data on copy or cut manually. This value is `false` in:
 		 * * Internet Explorer &mdash; because this browser shows the security dialog window when the script tries to set clipboard data.

@@ -175,7 +175,7 @@
 			priority = def.supportedTypes ? 10 : 20;
 
 		// Add callback as matcher in clipboard plugin to check if notification should be displayed. (#5095)
-		editor.plugins.clipboard.addNotificationFileMatcher( function( file ) {
+		CKEDITOR.plugins.clipboard.addFileMatcher( editor, function( file ) {
 			// Allow any file type in case no type is defined.
 			if ( !def.supportedTypes ) {
 				return true;
