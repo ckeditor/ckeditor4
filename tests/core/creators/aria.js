@@ -129,6 +129,74 @@
 				assert.areSame( labelWithSpecialCharacters, actualEditorLabel, 'Editor label is incorrect' );
 				assert.areSame( labelWithSpecialCharacters, actualBodyLabel, 'Editor\'s body label is incorrect' );
 			} );
+		},
+
+		'test labels disabled (inline)': function() {
+			bender.editorBot.create( {
+				creator: 'inline',
+				name: 'inline-disabled',
+				config: {
+					// They are needed for the floating toolbar to appear.
+					plugins: 'floatingspace,toolbar',
+					language: 'en',
+					title: false,
+					applicationTitle: false
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					container = editor.container,
+					actualApplicationLabel = CKEDITOR.document.findOne( '#cke_inline-disabled' ).
+						getAttribute( 'aria-labelledby' ),
+					actualEditorLabel = container.getAttribute( 'aria-label' );
+
+				assert.isNull( actualApplicationLabel, 'Application label is incorrect' );
+				assert.isNull( actualEditorLabel, 'Editor label is incorrect' );
+			} );
+		},
+
+		'test labels disabled (divarea)': function() {
+			bender.editorBot.create( {
+				creator: 'replace',
+				name: 'divarea-disabled',
+				config: {
+					plugins: 'divarea',
+					language: 'en',
+					title: false,
+					applicationTitle: false
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					container = editor.container,
+					actualApplicationLabel = container.getAttribute( 'aria-labelledby' ),
+					actualEditorLabel = container.findOne( '.cke_editable' ).getAttribute( 'aria-label' );
+
+				assert.isNull( actualApplicationLabel, 'Application label is incorrect' );
+				assert.isNull( actualEditorLabel, 'Editor label is incorrect' );
+			} );
+		},
+
+		'test labels disabled (wysiwygarea)': function() {
+			bender.editorBot.create( {
+				creator: 'replace',
+				name: 'wysiwygarea-disabled',
+				config: {
+					plugins: 'wysiwygarea',
+					language: 'en',
+					title: false,
+					applicationTitle: false
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					container = editor.container,
+					frame = container.findOne( 'iframe' ),
+					actualApplicationLabel = container.getAttribute( 'aria-labelledby' ),
+					actualEditorLabel = frame.getAttribute( 'title' ),
+					actualBodyLabel = frame.getFrameDocument().findOne( 'body' ).getAttribute( 'aria-label' );
+
+				assert.isNull( actualApplicationLabel, 'Application label is incorrect' );
+				assert.isNull( actualEditorLabel, 'Editor label is incorrect' );
+				assert.isNull( actualBodyLabel, 'Editor\'s body label is incorrect' );
+			} );
 		}
 	} );
 
