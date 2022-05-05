@@ -10,7 +10,7 @@
 		"benderjs-yui": "^0.3.2",
 		"benderjs-yui-beautified": "0.1.2",
 		"cksource-samples-framework": "^1.0.1",
-		"grunt": "^1.0.1",
+		"grunt": "^1.5.2",
 		"grunt-contrib-concat": "^2.0.0",
 		"grunt-contrib-imagemin": "^4.0.0",
 		"grunt-contrib-jshint": "^3.2.0",
