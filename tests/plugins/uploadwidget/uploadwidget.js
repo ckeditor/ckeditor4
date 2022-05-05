@@ -71,7 +71,7 @@
 			config: {},
 			plugins: {
 				clipboard: {
-					addFileMatcher: function() {}
+					_supportedFileMatchers: []
 				}
 			}
 		};

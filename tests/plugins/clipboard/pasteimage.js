@@ -145,7 +145,7 @@
 	} );
 
 	function prepareNotificationRegex( notification ) {
-		var formatsGroup = '[a-z\/]+',
+		var formatsGroup = '<em>[a-z/]+<\/em>',
 			regexp = '^' + notification.replace( /\$\{format\}/g, formatsGroup ) + '$';
 
 		return new RegExp( regexp, 'gi' );
