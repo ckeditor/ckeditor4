@@ -194,3 +194,18 @@ Special outer level classes used in this file:
 
 	box-sizing: border-box;
 }
+
+/* Add focus indicator (#5145). */
+.cke_focus .cke_contents, .cke_focus.cke_editable {
+	outline: 2px #000 solid;
+}
+
+/* Slightly move the outline away from the text in inline editables (#5145). */
+.cke_focus.cke_editable {
+	outline-offset: 5px;
+}
+
+/* Brutal hack to ensure that outline is correctly visible on bottom of the editable (#5145). */
+.cke_bottom {
+	top: 2px;
+}
