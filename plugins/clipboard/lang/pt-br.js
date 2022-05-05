@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pt-br', {
 	pasteNotification: 'Pressione %1 para colar. Seu navegador não permite colar pelos botões da barra de tarefas ou pelo menu de contexto.',
 	pasteArea: 'Área para Colar',
 	pasteMsg: 'Cole o conteúdo na área abaixo e pressione OK.',
-	fileFormatNotSupportedNotification: 'File in the format ${formats} is not supported.', // MISSING
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

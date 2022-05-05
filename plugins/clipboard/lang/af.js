@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'af', {
 	pasteNotification: 'Druk %1 om by te voeg. You leser ondersteun nie die toolbar knoppie of inoud kieslysie opsie nie. ',
 	pasteArea: 'Area byvoeg',
 	pasteMsg: 'Voeg jou inhoud in die gebied onder by en druk OK',
-	fileFormatNotSupportedNotification: 'File in the format ${formats} is not supported.', // MISSING
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

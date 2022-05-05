@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'lv', {
 	pasteNotification: 'Nospied %1 lai ielīmētu. Tavs pārlūks neatbalsta ielīmēšanu ar rīkjoslas pogām vai uznirstošās izvēlnes opciju.',
 	pasteArea: 'Ielīmēšanas zona',
 	pasteMsg: 'Ielīmē saturu zemāk esošajā laukā un nospied OK.',
-	fileFormatNotSupportedNotification: 'File in the format ${formats} is not supported.', // MISSING
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

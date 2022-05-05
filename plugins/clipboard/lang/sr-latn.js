@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sr-latn', {
 	pasteNotification: '"Pritisnite taster %1 za lepljenje. Vaš pretraživač ne dozvoljava lepljenje iz alatne trake ili menia.',
 	pasteArea: 'Prostor za lepljenje',
 	pasteMsg: 'Nalepite sadržaj u sledeći prostor i pritisnite taster OK.',
-	fileFormatNotSupportedNotification: 'File in the format ${formats} is not supported.', // MISSING
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );
