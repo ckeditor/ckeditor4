@@ -1259,7 +1259,9 @@ CKEDITOR.dom.range = function( root ) {
 		 * @param {Boolean} [excludeBrs=false] Whether include line-breaks when expanding.
 		 */
 		enlarge: function( unit, excludeBrs ) {
-			var leadingWhitespaceRegex = new RegExp( /[^\s\ufeff]/ );
+			var leadingWhitespaceRegex = new RegExp( /[^\s\ufeff]/ ),
+				siblingText,
+				boundary;
 
 			switch ( unit ) {
 				case CKEDITOR.ENLARGE_INLINE:
@@ -1273,7 +1275,7 @@ CKEDITOR.dom.range = function( root ) {
 
 					// Get the common ancestor.
 					var commonAncestor = this.getCommonAncestor();
-					var boundary = this.root;
+					boundary = this.root;
 
 					// For each boundary
 					//		a. Depending on its position, find out the first node to be checked (a sibling) or,
@@ -1290,7 +1292,6 @@ CKEDITOR.dom.range = function( root ) {
 					// is available before it.
 					var needsWhiteSpace = false;
 					var isWhiteSpace;
-					var siblingText;
 
 					// Process the start boundary.
 
@@ -1523,7 +1524,7 @@ CKEDITOR.dom.range = function( root ) {
 
 								// Check if there are not whitespace characters till the end of editable.
 								// If so stop expanding.
-								if ( !onlyWhiteSpaces( sibling, 0, boundary, siblingText ) )
+								if ( !onlyWhiteSpaces( sibling, 0, boundary ) )
 									sibling = null;
 
 								isWhiteSpace = /^[\s\ufeff]/.test( siblingText );
@@ -1726,7 +1727,7 @@ CKEDITOR.dom.range = function( root ) {
 			//  - <p>foo[ bar</p>        - will return false,
 			//  - <p><b>foo[ </b>bar</p> - will return false,
 			//  - <p>foo[ <b></b></p>    - will return false.
-			function onlyWhiteSpaces( startContainer, startOffset, boundary, siblingText ) {
+			function onlyWhiteSpaces( startContainer, startOffset, boundary ) {
 				// We need to enlarge range if there is white space at the end of the block,
 				// because it is not displayed in WYSIWYG mode and user can not select it. So
 				// "<p>foo[bar] </p>" should be changed to "<p>foo[bar ]</p>". On the other hand
