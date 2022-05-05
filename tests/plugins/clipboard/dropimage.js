@@ -197,7 +197,7 @@
 
 	function prepareNotificationRegex( notification ) {
 		var formatsGroup = '<em>[a-z/]+<\/em>',
-			regexp = '^' + notification.replace( /\$\{format\}/g, formatsGroup ) + '$';
+			regexp = '^' + notification.replace( /\$\{formats\}/g, formatsGroup ) + '$';
 
 		return new RegExp( regexp, 'gi' );
 	}
