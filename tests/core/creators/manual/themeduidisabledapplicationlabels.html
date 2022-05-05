@@ -1,0 +1,21 @@
+<h2><code>Iframe</code>-based</h2>
+<div id="wysiwygarea">
+	<p>Lorem ipsum dolor sit amet</p>
+</div>
+
+<h2><code>Div</code>-based</h2>
+<div id="divarea">
+	<p>Lorem ipsum dolor sit amet</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'wysiwygarea', {
+		language: 'en',
+		applicationTitle: false
+	} );
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'divarea',
+		language: 'en',
+		applicationTitle: false
+	} );
+</script>
