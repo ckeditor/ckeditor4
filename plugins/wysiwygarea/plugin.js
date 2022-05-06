@@ -416,7 +416,7 @@
 				CKEDITOR.tools.setTimeout( onDomReady, 0, this, win );
 			}, this );
 
-			this._.docTitle = this.getWindow().getFrame().getAttribute( 'title' );
+			this._.docTitle = this.getWindow().getFrame().getAttribute( 'title' ) || '&nbsp;';
 		},
 
 		base: CKEDITOR.editable,
