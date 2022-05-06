@@ -2,11 +2,11 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, uploadwidget, floatingspace, toolbar, sourcearea
 
-1. Drag and drop, [JPEG2000](../_assets/logo.jp2) into the editor.
+1. Drag and drop, [WEBP](../_assets/logo.webp) into the editor.
 
 **Expected** Nothing happens.
 
-**Unexpected** Notification with "File in the format image/jp2 is not supported." message is displayed.
+**Unexpected** Notification with "File in the format image/webp is not supported." message is displayed.
 
 2. Repeat step `1` for the paste method.
 

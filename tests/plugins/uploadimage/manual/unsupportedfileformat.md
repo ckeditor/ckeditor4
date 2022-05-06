@@ -4,7 +4,7 @@
 
 **Note:** Make sure the notification was closed/disappeared after the step which shows it.
 
-1. Drag and drop, into the editor, file in a format unsupported by the editor eg. [JPEG2000](../_assets/logo.jp2).
+1. Drag and drop, into the editor, file in a format unsupported by the editor eg. [WEBP](../_assets/logo.webp).
 
 **Expected** Notification with "File in the format [file format] is not supported." message is displayed.
 
