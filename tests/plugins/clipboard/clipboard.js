@@ -46,5 +46,18 @@ bender.test( {
 
 		editor.editable().fire( 'copy', new CKEDITOR.dom.event( {} ) );
 		assert.areSame( 'Some', CKEDITOR.plugins.clipboard.copyCutData.getData( 'text/html' ) );
+	},
+
+	'test add new file matcher': function() {
+		var editor = this.editor,
+			clipboardMatchers = editor.plugins.clipboard._supportedFileMatchers;
+
+		assert.areSame( clipboardMatchers.length, 1, 'The default clipboard image matcher should exist' );
+
+		CKEDITOR.plugins.clipboard.addFileMatcher( editor, function() {
+			return true;
+		} );
+
+		assert.areSame( clipboardMatchers.length, 2, 'Clipboard matcher should be added' );
 	}
 } );
