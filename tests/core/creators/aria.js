@@ -61,15 +61,18 @@
 				var editor = bot.editor,
 					container = editor.container,
 					frame = container.findOne( 'iframe' ),
+					frameDocument = frame.getFrameDocument(),
 					expectedApplicationLabel = createApplicationLabel( editor ),
 					actualApplicationLabel = container.findOne( '#cke_wysiwygarea_arialbl' ).getHtml(),
 					expectedEditorLabel = createEditorLabel( editor ),
 					actualEditorLabel = frame.getAttribute( 'title' ),
-					actualBodyLabel = frame.getFrameDocument().findOne( 'body' ).getAttribute( 'aria-label' );
+					actualBodyLabel = frameDocument.findOne( 'body' ).getAttribute( 'aria-label' ),
+					actualTitleLabel = frameDocument.findOne( 'title' ).getHtml();
 
 				assert.areSame( expectedApplicationLabel, actualApplicationLabel, 'Application label is incorrect' );
 				assert.areSame( expectedEditorLabel, actualEditorLabel, 'Editor label is incorrect' );
 				assert.areSame( expectedEditorLabel, actualBodyLabel, 'Editor\'s body label is incorrect' );
+				assert.areSame( expectedEditorLabel, actualTitleLabel, 'Editor\'s title label is incorrect' );
 			} );
 		},
 
@@ -189,13 +192,16 @@
 				var editor = bot.editor,
 					container = editor.container,
 					frame = container.findOne( 'iframe' ),
+					frameDocument = frame.getFrameDocument(),
 					actualApplicationLabel = container.getAttribute( 'aria-labelledby' ),
 					actualEditorLabel = frame.getAttribute( 'title' ),
-					actualBodyLabel = frame.getFrameDocument().findOne( 'body' ).getAttribute( 'aria-label' );
+					actualBodyLabel = frameDocument.findOne( 'body' ).getAttribute( 'aria-label' ),
+					actualTitleLabel = frameDocument.findOne( 'title' ).getHtml();
 
 				assert.isNull( actualApplicationLabel, 'Application label is incorrect' );
 				assert.isNull( actualEditorLabel, 'Editor label is incorrect' );
 				assert.isNull( actualBodyLabel, 'Editor\'s body label is incorrect' );
+				assert.areSame( '&nbsp;', actualTitleLabel, 'Editor\'s title label is incorrect' );
 			} );
 		}
 	} );

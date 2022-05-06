@@ -13,8 +13,8 @@
 Sample announcements for the `iframe`-based editor:
 
 * VoiceOver+Chrome: "Frame. edit text. &lt;content and selection info&gt;"
-* NVDA+Firefox: "Rich Text Editor, wysiwygarea, null document editable"
-* JAWS+Firefox: "Rich Text Editor, wysiwygarea, frame, null edit &lt;content&gt; type and text"
+* NVDA+Firefox: "Rich Text Editor, wysiwygarea, document editable"
+* JAWS+Firefox: "Rich Text Editor, wysiwygarea, frame, edit &lt;content&gt; type and text"
 
 Sample announcements for the `div`-based editor:
 
