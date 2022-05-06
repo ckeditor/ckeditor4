@@ -25,7 +25,7 @@
 	var pasteFiles = imageBaseFeaturesTools.pasteFiles,
 		tests = {
 		setUp: function() {
-			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}
 		},
@@ -72,7 +72,6 @@
 
 		'test notification should not be displayed when paste event do not contain files': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				expectedMsgRegex = '',
 				file = [];
 
 			pasteFiles( editor, file );
@@ -80,8 +79,6 @@
 			resume( function() {
 				notificationSpy.restore();
 				assert.areSame( 0, notificationSpy.callCount, 'Notification should not be be called' );
-				assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
-					'The notification should not exist' );
 			}, 50 );
 
 			wait();
