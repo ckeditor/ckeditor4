@@ -84,6 +84,21 @@
 			wait();
 		},
 
+		'test notification should not be displayed when paste event contains also dataValue': function( editor ) {
+			var notificationSpy = sinon.spy( editor, 'showNotification' ),
+				file = [ { name: 'test.webp', type: 'image/webp' } ],
+				dataValue = '<p>I should take precedence over files!</p>';
+
+			pasteFiles( editor, file, dataValue );
+
+			resume( function() {
+				notificationSpy.restore();
+				assert.areSame( 0, notificationSpy.callCount, 'Notification should not be be called' );
+			}, 50 );
+
+			wait();
+		},
+
 		'test showing notification for unsupported file types': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
 				expectedMsgRegex = 'Files in <em>image/cke, image/cks</em> formats are not supported',
