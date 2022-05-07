@@ -1,6 +1,11 @@
 <div id="editor"></div>
 
 <script>
+	// Internet Explorer can't properly recognize newer MIME types.
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.plugins.add( 'uploadplugin', {
 		requires: 'uploadwidget',
 		init: function( editor ) {
