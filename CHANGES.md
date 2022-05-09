@@ -7,7 +7,7 @@ New features:
 
 * [#2444](https://github.com/ckeditor/ckeditor4/issues/2444): Togglable toolbar buttons are now exposed as toggle buttons in the browser's accessibility tree.
 * [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): Added an option allowing to cancel the [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature as a function handle for editor creators ([`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo)).
-* [#4986](https://github.com/ckeditor/ckeditor4/issues/4986): Added [`config.shiftLineBreaks`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-shiftLineBreaks) allowing to preserve inline elements formatting then the `shift`+`enter` keystroke is used.
+* [#4986](https://github.com/ckeditor/ckeditor4/issues/4986): Added [`config.shiftLineBreaks`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-shiftLineBreaks) allowing to preserve inline elements formatting when the `shift`+`enter` keystroke is used.
 * [#2445](https://github.com/ckeditor/ckeditor4/issues/2445): Added [`config.applicationTitle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-applicationTitle) configuration option allowing to customize or disable the editor's application region label. This option, combined with [`config.title`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-title), gives much better control over the editor's labels read by screen readers.
 
 Fixed Issues:
