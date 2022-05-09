@@ -21,7 +21,7 @@ Fixed Issues:
 API changes:
 
 * [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): [`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo) functions are now returning a handle function allowing to cancel [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature.
-* [#5095](https://github.com/ckeditor/ckeditor4/issues/5095): Added [CKEDITOR.plugins.clipboard.addFileMatcher](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard.html#method-addFileMatcher) function allowing to define supported file formats by the [clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin. Unsupported file format will result in notification that it cannot be dropped or pasted into the editor.
+* [#5095](https://github.com/ckeditor/ckeditor4/issues/5095): Added [CKEDITOR.plugins.clipboard.addFileMatcher](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard.html#method-addFileMatcher) function allowing to define supported file formats by the [clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin. Unsupported file format will result in notification that a file cannot be dropped or pasted into the editor.
 
 ## CKEditor 4.18.0
 
