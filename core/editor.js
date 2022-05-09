@@ -424,7 +424,8 @@
 
 	function loadLang( editor ) {
 		CKEDITOR.lang.load( editor.config.language, editor.config.defaultLanguage, function( languageCode, lang ) {
-			var configTitle = editor.config.title;
+			var configTitle = editor.config.title,
+				configApplicationTitle = editor.config.applicationTitle;
 
 			/**
 			 * The code for the language resources that have been loaded
@@ -462,6 +463,21 @@
 			 * @property {String/Boolean}
 			 */
 			editor.title = typeof configTitle == 'string' || configTitle === false ? configTitle : [ editor.lang.editor, editor.name ].join( ', ' );
+
+			/**
+			 * Indicates the human-readable title of this editor's application (the website's region
+			 * that contains the editor and its whole UI). Although this is a read-only property,
+			 * it can be initialized with {@link CKEDITOR.config#applicationTitle}.
+			 *
+			 * **Note:** Please do not confuse this property with {@link CKEDITOR.editor#name editor.name}
+			 * which identifies the instance in the {@link CKEDITOR#instances} literal.
+			 *
+			 * @since 4.19.0
+			 * @readonly
+			 * @property {String/Boolean}
+			 */
+			editor.applicationTitle = typeof configApplicationTitle == 'string' || configApplicationTitle === false ?
+				configApplicationTitle : [ editor.lang.application, editor.name ].join( ', ' );
 
 			if ( !editor.config.contentsLangDirection ) {
 				// Fallback to either the editable element direction or editor UI direction depending on creators.
@@ -1867,12 +1883,48 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		config.title = false;
  *
  * See also:
- *
- * * CKEDITOR.editor#name
  * * CKEDITOR.editor#title
+ * * CKEDITOR.editor#name
+ * * CKEDITOR.editor#applicationTitle
+ * * CKEDITOR.config#applicationTitle
  *
  * @since 4.2.0
  * @cfg {String/Boolean} [title=based on editor.name]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Customizes the {@link CKEDITOR.editor#applicationTtle human-readable title} of the application for this
+ * editor. This title is used as a label for the whole website's region containing the editor with its toolbars and other
+ * UI parts. Application title impacts various
+ * [accessibility aspects](#!/guide/dev_a11y-section-announcing-the-editor-on-the-page),
+ * e.g. it is commonly used by screen readers for distinguishing editor instances and for navigation.
+ * Accepted values are a string or `false`.
+ *
+ * **Note:** When `config.applicationTitle` is set globally, the same value will be applied to all editor instances
+ * loaded with this config. This may adversely affect accessibility as screen reader users will be unable
+ * to distinguish particular editor instances and navigate between them.
+ *
+ * **Note:** Setting `config.applicationTitle = false` may also impair accessibility in a similar way.
+ *
+ * **Note:** Please do not confuse this property with {@link CKEDITOR.editor#name}
+ * which identifies the instance in the {@link CKEDITOR#instances} literal.
+ *
+ *		// Sets the application title to 'My WYSIWYG'.
+ *		config.applicationTitle = 'My WYSIWYG';
+ *
+ *		// Do not add the application title.
+ *		config.applicationTitle = false;
+ *
+ * See also:
+ *
+ * * CKEDITOR.editor#applicationTitle
+ * * CKEDITOR.editor#name
+ * * CKEDITOR.editor#title
+ * * CKEDITOR.config#title
+ *
+ * @since 4.19.0
+ * @cfg {String/Boolean} [applicationTitle=based on editor.name]
  * @member CKEDITOR.config
  */
 

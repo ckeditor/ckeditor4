@@ -18,6 +18,7 @@
  */
 CKEDITOR.lang[ 'ku' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'سەرنووسەی دەقی تەواو',
 	editorPanel: 'بڕگەی سەرنووسەی دەقی تەواو',
 

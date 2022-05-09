@@ -18,6 +18,7 @@
  */
 CKEDITOR.lang[ 'ug' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'تەھرىرلىگۈچ',
 	editorPanel: 'مول تېكست تەھرىرلىگۈچ تاختىسى',
 

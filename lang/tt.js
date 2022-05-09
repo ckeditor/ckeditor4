@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'tt' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Форматлаулы текст өлкәсе',
 	editorPanel: 'Rich Text Editor panel', // MISSING
 

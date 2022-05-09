@@ -18,6 +18,7 @@
  */
 CKEDITOR.lang[ 'si' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'පොහොසත් වචන සංස්කරණ',
 	editorPanel: 'Rich Text Editor panel', // MISSING
 

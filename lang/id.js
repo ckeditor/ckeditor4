@@ -18,6 +18,7 @@
  */
 CKEDITOR.lang[ 'id' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Rich Text Editor',
 	editorPanel: 'Panel Rich Text Editor',
 

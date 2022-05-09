@@ -1,0 +1,29 @@
+<h2>Divarea</h2>
+<div id="divarea">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<h2>Inline (via config)</h2>
+<div id="inline-config" contenteditable="true">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<h2>Inline (via attribute)</h2>
+<div id="inline-attribute" contenteditable="false">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'divarea', {
+		langauge: 'en',
+		extraPlugins: 'divarea',
+		readOnly: true
+	} );
+	CKEDITOR.inline( 'inline-config', {
+		langauge: 'en',
+		readOnly: true
+	}  );
+	CKEDITOR.inline( 'inline-attribute', {
+		langauge: 'en'
+	} );
+</script>

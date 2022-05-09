@@ -12,10 +12,6 @@
 		return editable.isInline() ? editable : editor.window.getFrame();
 	}
 
-	function getVoiceLabel( editor ) {
-		return CKEDITOR.document.getById( 'cke_' + editor.name + '_arialbl' );
-	}
-
 	function assertTitle( expected, editor, msg ) {
 		assert.areSame(
 			expected,
@@ -38,17 +34,6 @@
 				assert.isFalse( element.hasAttribute( 'title' ), 'Title attribute set on editable of ' + editor.name );
 		} else {
 			assert.isTrue( !!~element.getAttribute( 'title' ).indexOf( editor.title ), 'editor.title used as an attribute of editable of ' + editor.name );
-		}
-	}
-
-	function assertVoiceLabelIsBasedOnTitle( editor ) {
-		var element = getVoiceLabel( editor );
-
-		if ( !editor.title ) {
-			assert.isNull( element, 'editor: ' + editor.name );
-		} else {
-			assert.isNotNull( element, 'editor: ' + editor.name + ' - element' );
-			assert.areSame( editor.title, element.getText(), 'editor: ' + editor.name + ' - value' );
 		}
 	}
 
@@ -210,12 +195,6 @@
 		'test editor.title transferred to editable element': function() {
 			for ( var i in this.editors )
 				assertTitleSetOnEditable( this.editors[ i ] );
-		},
-
-		'test voice label have properly set title': function() {
-			for ( var i in this.editors ) {
-				assertVoiceLabelIsBasedOnTitle( this.editors[ i ] );
-			}
 		},
 
 		'test restore title after instance is destroyed': function() {

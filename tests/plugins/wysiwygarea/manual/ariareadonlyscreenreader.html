@@ -1,0 +1,26 @@
+<h2>Classic</h2>
+<div id="classic">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<h2>Full-page</h2>
+<div id="fullpage">
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'classic', {
+		language: 'en',
+		readOnly: true
+	} );
+
+	CKEDITOR.replace( 'fullpage', {
+		language: 'en',
+		readOnly: true,
+		fullPage: true
+	} );
+</script>

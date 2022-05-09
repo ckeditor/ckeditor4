@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'sk' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Editor formátovaného textu',
 	editorPanel: 'Panel editora formátovaného textu',
 

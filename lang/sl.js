@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'sl' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Urejevalnik obogatenega besedila',
 	editorPanel: 'Plošča urejevalnika obogatenega besedila',
 

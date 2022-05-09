@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'hu' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'HTML szerkesztő',
 	editorPanel: 'HTML szerkesztő panel',
 

@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'oc' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Editor de tèxte enriquit',
 	editorPanel: 'Tablèu de bòrd de l\'editor de tèxte enriquit',
 

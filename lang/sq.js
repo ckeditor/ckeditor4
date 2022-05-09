@@ -18,6 +18,7 @@
  */
 CKEDITOR.lang[ 'sq' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Redaktues i Pasur Teksti',
 	editorPanel: 'Paneli i redaktuesit të tekstit të plotë',
 

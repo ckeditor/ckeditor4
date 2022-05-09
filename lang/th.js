@@ -19,7 +19,8 @@
  */
 CKEDITOR.lang[ 'th' ] = {
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	application: 'Rich Text Editor', // MISSING
+	editor: 'Editor', // MISSING
 	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.

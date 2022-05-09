@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'ko' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: '리치 텍스트 편집기',
 	editorPanel: '리치 텍스트 편집기 패널',
 

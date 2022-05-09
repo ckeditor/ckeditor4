@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'af' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'Woordverwerker',
 	editorPanel: 'Woordverwerkerpaneel',
 

@@ -19,6 +19,7 @@
  */
 CKEDITOR.lang[ 'gu' ] = {
 	// ARIA description.
+	application: 'Rich Text Editor', // MISSING
 	editor: 'રીચ ટેક્ષ્ત્ એડીટર',
 	editorPanel: 'વધુ વિકલ્પ વાળુ એડિટર',
 

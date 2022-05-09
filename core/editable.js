@@ -532,7 +532,10 @@
 			 * @param {Boolean} isReadOnly
 			 */
 			setReadOnly: function( isReadOnly ) {
-				this.setAttribute( 'contenteditable', !isReadOnly );
+				this.setAttribute( 'contenteditable', String( !isReadOnly ) );
+
+				// Update also aria-readonly attribute (#1904).
+				this.setAttribute( 'aria-readonly', String( isReadOnly ) );
 			},
 
 			/**
@@ -1397,7 +1400,10 @@
 
 				editable.changeAttr( 'role', 'textbox' );
 				editable.changeAttr( 'aria-multiline', 'true' ); // (#1034)
-				editable.changeAttr( 'aria-label', ariaLabel );
+
+				if ( ariaLabel ) {
+					editable.changeAttr( 'aria-label', ariaLabel );
+				}
 
 				if ( ariaLabel )
 					editable.changeAttr( 'title', ariaLabel );
