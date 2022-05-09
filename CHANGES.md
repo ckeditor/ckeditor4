@@ -14,10 +14,10 @@ Fixed Issues:
 
 * [#4543](https://github.com/ckeditor/ckeditor4/issues/4543): Fixed: Toolbar buttons toggle state is not correctly announced by screen readers lacking information if a feature is on/off.
 * [#4052](https://github.com/ckeditor/ckeditor4/issues/4052): Fixed: Editor labels are read incorrectly by screen readers due to invalid editor control type for [Iframe Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) editors.
-* [#1904](https://github.com/ckeditor/ckeditor4/issues/1904): Fixed: Screen readers are not announcing read-only editor state due to missing proper aria-labels.
-* [#4904](https://github.com/ckeditor/ckeditor4/issues/4904): Fixed: Selection in table via keyboard is broken after adding new table row.
+* [#1904](https://github.com/ckeditor/ckeditor4/issues/1904): Fixed: Screen readers are not announcing read-only editor state.
+* [#4904](https://github.com/ckeditor/ckeditor4/issues/4904): Fixed: Table cell selection and navigation by TAB key behavior is inconsistent after adding a new row.
 * [#3394](https://github.com/ckeditor/ckeditor4/issues/3394): Fixed: [Enhanced image](https://ckeditor.com/cke4/addon/image2) plugin dialog is not supporting URL with query string parameters. Thanks to [Simon Urli](https://github.com/surli)!
-* [#5049](https://github.com/ckeditor/ckeditor4/issues/5049): Fixed: Editor fails in strict mode.
+* [#5049](https://github.com/ckeditor/ckeditor4/issues/5049): Fixed: The editor fails in strict mode due to not following `use strict` directives in a core editor module.
 * [#5095](https://github.com/ckeditor/ckeditor4/issues/5095): Fixed: The [clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin shows notification about unsupported file format when a file type is different than `jpg`, `gif`, `png`, not respecting [supported types](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#property-supportedTypes) by the [Upload Widget](https://ckeditor.com/cke4/addon/uploadwidget) plugin.
 * [#4855](https://github.com/ckeditor/ckeditor4/issues/4855): [iOS] Fixed: Focusing toolbar buttons with an enabled VoiceOver screen reader causes moving browser focus into an editable area and interrupts button functionality.
 
