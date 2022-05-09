@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sk', {
 	pasteNotification: 'Stlačte %1 na vloženie. Váš prehliadač nepodporuje vloženie prostredníctvom tlačidla v nástrojovej lište alebo voľby v kontextovom menu.',
 	pasteArea: 'Miesto pre vloženie',
 	pasteMsg: 'Vložte svoj obsah do nasledujúcej oblasti a stlačte OK.',
-	fileFormatNotSupportedNotification: 'Tento formát súboru nie je podporovaný. Môžete to skúsiť s jedným z podporovaných formátov: ${formats}.',
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );
