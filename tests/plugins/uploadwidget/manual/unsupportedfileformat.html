@@ -1,0 +1,17 @@
+<div id="editor"></div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		language: 'en',
+		uploadUrl: '%BASE_PATH%',
+		on: {
+			instanceReady: function( evt ) {
+				bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
+
+				CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
+					this.responseData = {};
+				};
+			},
+		}
+	} );
+</script>

@@ -1,0 +1,27 @@
+<div id="editor"></div>
+
+<script>
+	// Internet Explorer can't properly recognize newer MIME types.
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.plugins.add( 'uploadplugin', {
+		requires: 'uploadwidget',
+		init: function( editor ) {
+			CKEDITOR.fileTools.addUploadWidget( editor, 'uploadplugin', {
+				supportedTypes: /image\/(webp)/,
+			} );
+		}
+	} );
+
+	CKEDITOR.replace( 'editor', {
+		language: 'en',
+		extraPlugins: 'uploadplugin',
+		on: {
+			instanceReady: function( evt ) {
+				bender.tools.ignoreUnsupportedEnvironment( 'uploadimage' );
+			},
+		}
+	} );
+</script>

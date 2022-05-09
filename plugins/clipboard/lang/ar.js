@@ -11,5 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ar', {
 	pasteNotification: 'اضغط %1 للصق. اللصق عن طريق شريط الادوات او القائمة غير مدعوم من المتصفح المستخدم من قبلك.',
 	pasteArea: 'منطقة اللصق',
 	pasteMsg: 'الصق المحتوى بداخل المساحة المخصصة ادناه ثم اضغط على OK',
-	fileFormatNotSupportedNotification: 'This file format is not supported. You can try with one of the supported formats: ${formats}.' // MISSING
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
+	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

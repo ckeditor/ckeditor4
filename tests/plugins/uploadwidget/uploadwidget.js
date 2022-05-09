@@ -68,7 +68,12 @@
 				registered: {}
 			},
 			lang: {},
-			config: {}
+			config: {},
+			plugins: {
+				clipboard: {
+					_supportedFileMatchers: []
+				}
+			}
 		};
 
 		editor.uploadRepository = new CKEDITOR.fileTools.uploadRepository( editor );

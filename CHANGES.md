@@ -15,11 +15,14 @@ Fixed Issues:
 * [#3394](https://github.com/ckeditor/ckeditor4/issues/3394): Fixed: [Enhanced image](https://ckeditor.com/cke4/addon/image2) plugin dialog is not supporting URL with query string parameters. Thanks to [Simon Urli](https://github.com/surli)!
 * [#4904](https://github.com/ckeditor/ckeditor4/issues/4904): Fixed: Selection in table via keyboard is broken after adding new table row.
 * [#5049](https://github.com/ckeditor/ckeditor4/issues/5049): Fixed: Editor fails in strict mode.
+* [#5095](https://github.com/ckeditor/ckeditor4/issues/5095): Fixed: The [clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin shows notification about unsupported file format when a file type is different than `jpg`, `gif`, `png`, not respecting [supported types](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#property-supportedTypes) by the [Upload Widget](https://ckeditor.com/cke4/addon/uploadwidget) plugin.
 * [#4855](https://github.com/ckeditor/ckeditor4/issues/4855): [iOS] Fixed: Focusing toolbar buttons with an enabled VoiceOver screen reader causes moving browser focus into an editable area and interrupts button functionality.
 
 API changes:
 
 * [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): [`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo) functions are now returning a handle function allowing to cancel [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature.
+* [#5095](https://github.com/ckeditor/ckeditor4/issues/5095): Added [CKEDITOR.plugins.clipboard.addFileMatcher](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard.html#method-addFileMatcher) function allowing to define supported file formats by the [clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin. Unsupported file format will result in notification that a file cannot be dropped or pasted into the editor.
+
 ## CKEditor 4.18.0
 
 **Security Updates:**

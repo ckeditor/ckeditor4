@@ -11,5 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'bg', {
 	pasteNotification: 'Натиснете %1 за да вмъкнете. Вашият браузър не поддържа поставяне с бутон от лентата с инструменти или от контекстното меню.',
 	pasteArea: 'Зона за поставяне',
 	pasteMsg: 'Поставете съдържанието в зоната отдолу и натиснете OK.',
-	fileFormatNotSupportedNotification: 'This file format is not supported. You can try with one of the supported formats: ${formats}.' // MISSING
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
+	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

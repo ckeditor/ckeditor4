@@ -11,5 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'gl', {
 	pasteNotification: 'Prema %1 para pegar. O seu navegador non admite pegar co botón da barra de ferramentas ou coa opción do menú contextual.',
 	pasteArea: 'Zona de pegado',
 	pasteMsg: 'Pegue o contido dentro da área de abaixo e prema Aceptar.',
-	fileFormatNotSupportedNotification: 'This file format is not supported. You can try with one of the supported formats: ${formats}.' // MISSING
+	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
+	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );
