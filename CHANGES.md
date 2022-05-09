@@ -8,13 +8,13 @@ New features:
 * [#2444](https://github.com/ckeditor/ckeditor4/issues/2444): Togglable toolbar buttons are now exposed as toggle buttons in the browser's accessibility tree.
 * [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): Added an option allowing to cancel [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature as a function handle to editor creators ([`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo)).
 * [#4986](https://github.com/ckeditor/ckeditor4/issues/4986): Added [`config.shiftLineBreaks`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-shiftLineBreaks) allowing to preserve inline elements formatting on shift enter.
+* [#2445](https://github.com/ckeditor/ckeditor4/issues/2445): Added [`config.applicationTitle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-applicationTitle) configuration option allowing to customize or disable editor's application region label. This option combined with [`config.title`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-title) gives much better control over editor's labels read by screen readers.
 
 Fixed Issues:
 
 * [#4543](https://github.com/ckeditor/ckeditor4/issues/4543): Fixed: Toolbar buttons toggle state is not correctly announced by screen readers lacking information if a feature is on/off.
 * [#4052](https://github.com/ckeditor/ckeditor4/issues/4052): Fixed: Editor labels are read incorrectly by screen readers due to invalid editor control type for [Iframe Editing Area](https://ckeditor.com/cke4/addon/wysiwygarea) editors.
 * [#1904](https://github.com/ckeditor/ckeditor4/issues/1904): Fixed: Screen readers are not announcing read-only editor state due to missing proper aria-labels.
-* [#2445](https://github.com/ckeditor/ckeditor4/issues/2445): Fixed: The same editor's label is read several times by screen readers when focusing an editor.
 * [#4904](https://github.com/ckeditor/ckeditor4/issues/4904): Fixed: Selection in table via keyboard is broken after adding new table row.
 * [#3394](https://github.com/ckeditor/ckeditor4/issues/3394): Fixed: [Enhanced image](https://ckeditor.com/cke4/addon/image2) plugin dialog is not supporting URL with query string parameters. Thanks to [Simon Urli](https://github.com/surli)!
 * [#5049](https://github.com/ckeditor/ckeditor4/issues/5049): Fixed: Editor fails in strict mode.
@@ -25,7 +25,7 @@ API changes:
 
 * [#4641](https://github.com/ckeditor/ckeditor4/issues/4641): [`CKEDITOR.replace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-replace), [`CKEDITOR.inline`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-inline), [`CKEDITOR.appendTo`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#method-appendTo) functions are now returning a handle function allowing to cancel [Delayed Editor Creation](https://ckeditor.com/docs/ckeditor4/latest/features/delayed_creation.html) feature.
 * [#5095](https://github.com/ckeditor/ckeditor4/issues/5095): Added [CKEDITOR.plugins.clipboard.addFileMatcher](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard.html#method-addFileMatcher) function allowing to define supported file formats by the [clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin. Unsupported file format will result in notification that a file cannot be dropped or pasted into the editor.
-* [#2445](https://github.com/ckeditor/ckeditor4/issues/2445): Added [`config.applicationTitle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-applicationTitle) alongside [`CKEDITOR.editor#applicationTitle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#property-title) to allow customizing editor's application region label.
+* [#2445](https://github.com/ckeditor/ckeditor4/issues/2445): Added [`config.applicationTitle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-applicationTitle) alongside [`CKEDITOR.editor#applicationTitle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#property-applicationTitle) to allow customizing editor's application region label.
 
 ## CKEditor 4.18.0
 
