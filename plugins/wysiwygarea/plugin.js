@@ -416,7 +416,8 @@
 				CKEDITOR.tools.setTimeout( onDomReady, 0, this, win );
 			}, this );
 
-			this._.docTitle = this.getWindow().getFrame().getAttribute( 'title' ) || '&nbsp;';
+			// In case of lack of the title attribute, use non-breaking space.
+			this._.docTitle = this.getWindow().getFrame().getAttribute( 'title' ) || '\xa0';
 		},
 
 		base: CKEDITOR.editable,
