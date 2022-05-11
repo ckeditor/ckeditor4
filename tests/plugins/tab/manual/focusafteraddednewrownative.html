@@ -38,8 +38,11 @@
 
 	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 
-	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'tableselection'
+	} );
 	CKEDITOR.inline( 'editor2', {
-		extraPlugins: 'floatingspace'
+		extraPlugins: 'floatingspace',
+		removePlugins: 'tableselection'
 	} );
 </script>
