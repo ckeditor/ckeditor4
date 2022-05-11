@@ -41,6 +41,17 @@
 				baseHref: '/foo/bar/404/',
 				allowedContent: true
 			}
+		},
+		editor_customLabel: {
+			name: 'editor-customLabel',
+			creator: 'replace',
+			config: {
+				docType: '',
+				contentsLangDirection: 'ltr',
+				fullPage: true,
+				contentsCss: [],
+				title: 'custom'
+			}
 		}
 	};
 
@@ -91,6 +102,17 @@
 					// Common problem - ACF :P
 					assert.isTrue( base.getParent().hasAttribute( 'foo' ), 'attribute was not lost' );
 				}
+			} );
+		},
+
+		// (#5190)
+		'test get data from full-page editor with custom one word label': function() {
+			var bot = this.editorBots.editor_customLabel;
+			bender.tools.testInputOut( 'fullpage1', function( source, expected ) {
+				bot.setData( source, function() {
+					assert.areSame( bender.tools.compatHtml( expected ),
+						bot.getData( true ).replace( removeStyle, '' ) );	// remove styles from data
+				} );
 			} );
 		}
 	} );

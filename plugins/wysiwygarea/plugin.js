@@ -613,11 +613,11 @@
 					// Remove ARIA attributes during getting data for full-page editing (#1904, #4052).
 					if ( fullPage ) {
 						data = data
-							.replace( /<body(.*?)role="textbox"/, '<body$1' )
-							.replace( /<body(.*?)aria-multiline="true"/, '<body$1' )
-							.replace( /<body(.*?)tabindex="0"/, '<body$1' )
-							.replace( /<body(.*?)aria-label="(.+?)"/, '<body$1' )
-							.replace( /<body(.*?)aria-readonly="(?:true|false)"/, '<body$1' );
+							.replace( /<body(.*?)role="?textbox"?/i, '<body$1' )
+							.replace( /<body(.*?)aria-multiline="?true"?/i, '<body$1' )
+							.replace( /<body(.*?)tabindex="?0"?/i, '<body$1' )
+							.replace( /<body(.*?)aria-label="(.+?)"/i, '<body$1' )
+							.replace( /<body(.*?)aria-readonly="?(?:true|false)"?/i, '<body$1' );
 					}
 
 					data = editor.dataProcessor.toDataFormat( data );
