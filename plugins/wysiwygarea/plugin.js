@@ -417,6 +417,7 @@
 			}, this );
 
 			// In case of lack of the title attribute, use non-breaking space.
+			// It needs to be as a raw character because HTML entity can cause issues in IE.
 			this._.docTitle = this.getWindow().getFrame().getAttribute( 'title' ) || '\xa0';
 		},
 
