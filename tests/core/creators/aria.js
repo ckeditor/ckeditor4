@@ -201,7 +201,13 @@
 				assert.isNull( actualApplicationLabel, 'Application label is incorrect' );
 				assert.isNull( actualEditorLabel, 'Editor label is incorrect' );
 				assert.isNull( actualBodyLabel, 'Editor\'s body label is incorrect' );
-				assert.areSame( '&nbsp;', actualTitleLabel, 'Editor\'s title label is incorrect' );
+
+				try {
+					assert.areSame( '&nbsp;', actualTitleLabel, 'Editor\'s title label is incorrect' );
+				} catch ( e ) {
+					// IE8 can represent the title as a raw character.
+					assert.areSame( '\xa0', actualTitleLabel, 'Editor\'s title label is incorrect' );
+				}
 			} );
 		}
 	} );
