@@ -205,7 +205,7 @@
 				try {
 					assert.areSame( '&nbsp;', actualTitleLabel, 'Editor\'s title label is incorrect' );
 				} catch ( e ) {
-					// Some browsers (I'm looking at you, IE8…) can represent the title as a raw character.
+					// IE8 can represent the title as a raw character.
 					assert.areSame( '\xa0', actualTitleLabel, 'Editor\'s title label is incorrect' );
 				}
 			} );
