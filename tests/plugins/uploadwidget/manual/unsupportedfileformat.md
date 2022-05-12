@@ -4,7 +4,7 @@
 
 1. Drag and drop file without extension. [logo](../_assets/logo) into the editor.
 
-**Expected** Notification with "File is not supported." message is displayed.
+**Expected** Notification with "The file format is not supported." message is displayed.
 
 **Unexpected** Nothing happens.
 

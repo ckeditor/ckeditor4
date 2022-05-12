@@ -52,7 +52,7 @@
 
 		'test showing proper notification for file without type': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				notificationMessage = 'File is not supported.',
+				notificationMessage = 'The file format is not supported.',
 				file = [ { name: 'test1.xyz', type: '' } ];
 
 			pasteFiles( editor, file );

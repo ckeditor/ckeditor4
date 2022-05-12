@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'en', {
 	pasteArea: 'Paste Area',
 	pasteMsg: 'Paste your content inside the area below and press OK.',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.',
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.'
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.'
 } );

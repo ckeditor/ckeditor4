@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fa', {
 	pasteArea: 'محل چسباندن',
 	pasteMsg: 'محتوای خود را در ناحیه زیر قرار دهید و OK را فشار دهید',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

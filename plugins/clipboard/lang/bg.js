@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'bg', {
 	pasteArea: 'Зона за поставяне',
 	pasteMsg: 'Поставете съдържанието в зоната отдолу и натиснете OK.',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

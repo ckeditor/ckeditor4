@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ro', {
 	pasteArea: 'Suprafața de adăugare',
 	pasteMsg: 'Adaugă conținutul tău înăuntru zonei de mai jos și apasă OK.',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

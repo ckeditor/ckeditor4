@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sr-latn', {
 	pasteArea: 'Prostor za lepljenje',
 	pasteMsg: 'Nalepite sadržaj u sledeći prostor i pritisnite taster OK.',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

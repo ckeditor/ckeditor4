@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'zh', {
 	pasteArea: '貼上區',
 	pasteMsg: '請將您的內容貼於下方區域中並按下「OK」。',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

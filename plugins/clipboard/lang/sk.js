@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sk', {
 	pasteArea: 'Miesto pre vloženie',
 	pasteMsg: 'Vložte svoj obsah do nasledujúcej oblasti a stlačte OK.',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

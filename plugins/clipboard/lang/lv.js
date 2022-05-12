@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'lv', {
 	pasteArea: 'Ielīmēšanas zona',
 	pasteMsg: 'Ielīmē saturu zemāk esošajā laukā un nospied OK.',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

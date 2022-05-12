@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pl', {
 	pasteArea: 'Miejsce do wklejenia treści',
 	pasteMsg: 'Wklej treść do obszaru poniżej i naciśnij OK.',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

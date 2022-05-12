@@ -12,5 +12,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	pasteArea: 'ناوچەی لکاندن',
 	pasteMsg: 'ناوەڕۆکەکەت لەم پانتایی خوارەوە بلکێنە',
 	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );
