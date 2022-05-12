@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ro', {
 	pasteNotification: 'Apasă %1 pentru adăugare. Navigatorul (browser) tău nu suportă adăugarea din clipboard cu butonul din toolbar sau cu opțiunea din meniul contextual.',
 	pasteArea: 'Suprafața de adăugare',
 	pasteMsg: 'Adaugă conținutul tău înăuntru zonei de mai jos și apasă OK.',
-	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported', // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

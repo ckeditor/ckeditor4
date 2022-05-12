@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	pasteNotification: 'کلیک بکە لەسەر %1 بۆ لکاندنی. وێبگەڕەکەت پشتیوانی لکاندن ناکات بە دوگمەی تولامراز یان ئامرازی ناوەڕۆکی لیستە -  کلیکی دەستی ڕاست. ',
 	pasteArea: 'ناوچەی لکاندن',
 	pasteMsg: 'ناوەڕۆکەکەت لەم پانتایی خوارەوە بلکێنە',
-	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported', // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'et', {
 	pasteNotification: 'Asetamiseks vajuta %1. Sinu brauser ei toeta asetamist tööriistariba nupu või kontekstimenüü valikuga.',
 	pasteArea: 'Asetamise ala',
 	pasteMsg: 'Aseta sisu alumisse kasti ja vajuta OK nupule.',
-	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported', // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'de', {
 	pasteNotification: 'Drücken Sie %1 zum Einfügen. Ihr Browser unterstützt nicht das Einfügen über den Knopf in der Toolbar oder dem Kontextmenü.',
 	pasteArea: 'Einfügebereich',
 	pasteMsg: 'Fügen Sie den Inhalt in den unteren Bereich ein und drücken Sie OK.',
-	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported', // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );
