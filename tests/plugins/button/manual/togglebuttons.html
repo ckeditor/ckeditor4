@@ -47,6 +47,7 @@
 		function renderButtonStates() {
 			var buttons = CKEDITOR.document.find( '.cke_toolbar .cke_button' ).toArray(),
 				tableContainer = CKEDITOR.document.getById( 'table' ),
+				// Create the entire table in JS (#5200).
 				tableHtml = '<table border="1">' +
 					'<thead>' +
 						'<tr>' +
