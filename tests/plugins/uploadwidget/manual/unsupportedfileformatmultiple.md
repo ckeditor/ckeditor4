@@ -4,7 +4,7 @@
 
 1. Drag and drop both files [logo.webp](../_assets/logo.webp) and [logo.svg](../_assets/logo.svg) into the editor.
 
-**Expected** Notification with "File in the format image/svg+xml, image/webp is not supported." message is displayed.
+**Expected** Notification with "The image/svg+xml, image/webp file format(s) are not supported." message is displayed.
 
 **Unexpected** Nothing happens or one of the file formats is missing.
 

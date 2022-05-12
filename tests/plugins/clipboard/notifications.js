@@ -32,7 +32,7 @@
 
 		'test showing notification for unsupported file types should emphasize file type': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				notificationMessage = 'The <em>image/webp</em> file format(s) are not supported',
+				notificationMessage = 'The <em>image/webp</em> file format(s) are not supported.',
 				file = [ { name: 'test.webp', type: 'image/webp' } ];
 
 			pasteFiles( editor, file );
@@ -101,7 +101,7 @@
 
 		'test showing notification for unsupported file types': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				notificationMessage = 'The <em>image/cke, image/cks</em> file format(s) are not supported',
+				notificationMessage = 'The <em>image/cke, image/cks</em> file format(s) are not supported.',
 				files = [
 					{ name: 'test1.cke', type: 'image/cke' },
 					{ name: 'test2.cks', type: 'image/cks' }
@@ -124,7 +124,7 @@
 
 		'test showing notification for unsupported file types should not contain repeated types': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				notificationMessage = 'The <em>image/webp</em> file format(s) are not supported',
+				notificationMessage = 'The <em>image/webp</em> file format(s) are not supported.',
 				files = [
 					{ name: 'test1.webp', type: 'image/webp' },
 					{ name: 'test2.webp', type: 'image/webp' }
@@ -147,7 +147,7 @@
 
 		'test notification should contain only information about unsupported file types': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				notificationMessage = 'The <em>application/pdf</em> file format(s) are not supported',
+				notificationMessage = 'The <em>application/pdf</em> file format(s) are not supported.',
 				files = [
 					{ name: 'supported.png', type: 'image/png' },
 					{ name: 'unsupported.pdf', type: 'application/pdf' }

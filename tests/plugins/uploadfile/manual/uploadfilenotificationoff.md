@@ -6,4 +6,4 @@
 
 **Expected** File should be placed in the editable as a link.
 
-**Unexpected** Notification with "File in the format [file format] is not supported." message is displayed.
+**Unexpected** Notification with "The [file format] file format(s) are not supported." message is displayed.
