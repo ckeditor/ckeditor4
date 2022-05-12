@@ -13,16 +13,7 @@
 <div id="editor">
 	<p>Whatever</p>
 </div>
-<table border="1">
-	<thead>
-		<tr>
-			<th scope="col">Button</th>
-			<th scope="col"><code>[aria-pressed]</code> value</th>
-		</tr>
-	</thead>
-	<tbody id="states"></tbody>
-</table>
-
+<div id="table"></div>
 <script>
 	( function() {
 		CKEDITOR.replace( 'editor', {
@@ -55,7 +46,16 @@
 
 		function renderButtonStates() {
 			var buttons = CKEDITOR.document.find( '.cke_toolbar .cke_button' ).toArray(),
-				statesContainer = CKEDITOR.document.getById( 'states' ),
+				tableContainer = CKEDITOR.document.getById( 'table' ),
+				tableHtml = '<table border="1">' +
+					'<thead>' +
+						'<tr>' +
+							'<th scope="col">Button</th>' +
+							'<th scope="col"><code>[aria-pressed]</code> value</th>' +
+						'</tr>' +
+					'</thead>' +
+					'<tbody>{states}</tbody>' +
+				'</table>',
 				statesHtml = CKEDITOR.tools.array.map( buttons, function( button ) {
 					var currentState = button.getAttribute( 'aria-pressed' ),
 						buttonLabel = button.findOne( '.cke_button_label' ).getHtml();
@@ -63,7 +63,8 @@
 					return '<tr><th scope="row">' + buttonLabel + '</th><td>' + currentState + '</td></tr>';
 				} ).join( '' );
 
-				statesContainer.setHtml( statesHtml );
+				tableHtml = tableHtml.replace( '{states}', statesHtml );
+				tableContainer.setHtml( tableHtml );
 		}
 	} )();
 </script>
