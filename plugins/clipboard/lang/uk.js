@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'uk', {
 	pasteNotification: 'Натисніть %1, щоб вставити. Ваш браузер не підтримує вставку за допомогою кнопки панелі інструментів або пункту контекстного меню.',
 	pasteArea: 'Область вставки',
 	pasteMsg: 'Вставте вміст у область нижче та натисніть OK.',
-	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

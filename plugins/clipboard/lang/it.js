@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'it', {
 	pasteNotification: 'Premere %1 per incollare. Il tuo browser non permette di incollare tramite il pulsante della barra degli strumenti o tramite la voce del menu contestuale.',
 	pasteArea: 'Area dove incollare',
 	pasteMsg: 'Incollare il proprio contenuto all\'interno dell\'area sottostante e premere OK.',
-	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
-	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported.', // MISSING
+	fileWithoutFormatNotSupportedNotification: 'The file format is not supported.' // MISSING
 } );

@@ -32,7 +32,7 @@
 
 		'test showing notification for unsupported file types should emphasize file type': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				expectedMsgRegex = 'Files in <em>image/webp</em> formats are not supported',
+				notificationMessage = 'The <em>image/webp</em> file format(s) are not supported.',
 				file = [ { name: 'test.webp', type: 'image/webp' } ];
 
 			pasteFiles( editor, file );
@@ -41,7 +41,7 @@
 				notificationSpy.restore();
 
 				assert.areSame( 1, notificationSpy.callCount, 'Notification should be called once' );
-				assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
+				assert.areSame( notificationMessage, notificationSpy.getCall( 0 ).args[ 0 ],
 					'The notification has incorrect message' );
 				assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
 					'The notification type is incorrect' );
@@ -52,7 +52,7 @@
 
 		'test showing proper notification for file without type': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				expectedMsgRegex = 'File is not supported.',
+				notificationMessage = 'The file format is not supported.',
 				file = [ { name: 'test1.xyz', type: '' } ];
 
 			pasteFiles( editor, file );
@@ -61,7 +61,7 @@
 				notificationSpy.restore();
 
 				assert.areSame( 1, notificationSpy.callCount, 'Notification should be called once' );
-				assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
+				assert.areSame( notificationMessage, notificationSpy.getCall( 0 ).args[ 0 ],
 					'The notification has incorrect message' );
 				assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
 					'The notification type is incorrect' );
@@ -101,7 +101,7 @@
 
 		'test showing notification for unsupported file types': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				expectedMsgRegex = 'Files in <em>image/cke, image/cks</em> formats are not supported',
+				notificationMessage = 'The <em>image/cke, image/cks</em> file format(s) are not supported.',
 				files = [
 					{ name: 'test1.cke', type: 'image/cke' },
 					{ name: 'test2.cks', type: 'image/cks' }
@@ -113,7 +113,7 @@
 				notificationSpy.restore();
 
 				assert.areSame( 1, notificationSpy.callCount, 'Notification should be called once' );
-				assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
+				assert.areSame( notificationMessage, notificationSpy.getCall( 0 ).args[ 0 ],
 					'The notification has incorrect message' );
 				assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
 					'The notification type is incorrect' );
@@ -124,7 +124,7 @@
 
 		'test showing notification for unsupported file types should not contain repeated types': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				expectedMsgRegex = 'Files in <em>image/webp</em> formats are not supported',
+				notificationMessage = 'The <em>image/webp</em> file format(s) are not supported.',
 				files = [
 					{ name: 'test1.webp', type: 'image/webp' },
 					{ name: 'test2.webp', type: 'image/webp' }
@@ -136,7 +136,7 @@
 				notificationSpy.restore();
 
 				assert.areSame( 1, notificationSpy.callCount, 'Notification should be called once' );
-				assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
+				assert.areSame( notificationMessage, notificationSpy.getCall( 0 ).args[ 0 ],
 					'The notification has incorrect message' );
 				assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
 					'The notification type is incorrect' );
@@ -147,7 +147,7 @@
 
 		'test notification should contain only information about unsupported file types': function( editor ) {
 			var notificationSpy = sinon.spy( editor, 'showNotification' ),
-				expectedMsgRegex = 'Files in <em>application/pdf</em> formats are not supported',
+				notificationMessage = 'The <em>application/pdf</em> file format(s) are not supported.',
 				files = [
 					{ name: 'supported.png', type: 'image/png' },
 					{ name: 'unsupported.pdf', type: 'application/pdf' }
@@ -159,7 +159,7 @@
 				notificationSpy.restore();
 
 				assert.areSame( 1, notificationSpy.callCount, 'Notification should be called once' );
-				assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
+				assert.areSame( notificationMessage, notificationSpy.getCall( 0 ).args[ 0 ],
 					'The notification has incorrect message' );
 				assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
 					'The notification type is incorrect' );

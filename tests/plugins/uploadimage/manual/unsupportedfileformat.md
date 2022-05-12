@@ -6,7 +6,7 @@
 
 1. Drag and drop, into the editor, file in a format unsupported by the editor eg. [WEBP](../_assets/logo.webp).
 
-**Expected** Notification with "File in the format [file format] is not supported." message is displayed.
+**Expected** Notification with "The [file format] file format(s) are not supported." message is displayed.
 
 **Unexpected** Nothing happens.
 
