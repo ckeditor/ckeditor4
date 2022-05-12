@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sq', {
 	pasteNotification: 'Shtyp %1 për të hedhur tekstin. Shfletuesi juaj nuk mbështetë hedhjen me pullë shiriti ose alternativën e menysë kontekstuale.',
 	pasteArea: 'Hapësira e Hedhjes',
 	pasteMsg: 'Hidh përmbajtjen brenda hapësirës më poshtë dhe shtyp MIRË.',
-	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

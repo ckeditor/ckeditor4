@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fa', {
 	pasteNotification: '1% را فشاردهید تا قرار داده شود. مرورگر شما از قراردهی با دکمه نوارابزار یا گزینه منوی زمینه پشتیبانی نمیکند',
 	pasteArea: 'محل چسباندن',
 	pasteMsg: 'محتوای خود را در ناحیه زیر قرار دهید و OK را فشار دهید',
-	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

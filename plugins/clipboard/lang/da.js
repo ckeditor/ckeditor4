@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'da', {
 	pasteNotification: 'Tryk %1 for at sætte ind. Din browser understøtter ikke indsættelse med værktøjslinje knappen eller kontekst menuen.',
 	pasteArea: 'Indsættelses område',
 	pasteMsg: 'Indsæt dit indhold i området nedenfor og tryk OK.',
-	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );

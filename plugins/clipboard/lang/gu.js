@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'gu', {
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'પેસ્ટ કરવાની જગ્યા',
 	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
-	fileFormatNotSupportedNotification: 'Files in ${formats} formats are not supported.', // MISSING
+	fileFormatNotSupportedNotification: 'The ${formats} file format(s) are not supported', // MISSING
 	fileWithoutFormatNotSupportedNotification: 'File is not supported.' // MISSING
 } );
