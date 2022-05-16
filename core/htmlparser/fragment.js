@@ -628,7 +628,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		},
 
 		/**
-		 * Execute callback on each node (of given type) in this document fragment.
+		 * Execute callback on each node (of a given type) in this document fragment.
 		 *
 		 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<p>foo<b>bar</b>bom</p>' );
 		 *		fragment.forEach( function( node ) {
@@ -693,7 +693,7 @@ CKEDITOR.htmlParser.fragment = function() {
 	 *
 	 * 		<p><strong>hello, world!<br><br></strong></p>
 	 *
-	 * becomes:
+	 * will become:
 	 *
 	 * 		<p><strong>hello, world!</strong><br><br></p>
 	 *
@@ -718,10 +718,10 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * }
 	 * ```
 	 *
-	 * You can also decide to return {@link CKEDITOR.htmlParser.text} or {@link CKEDITOR.htmlParser.element}
-	 * node that will be attached **at the end of the last `br` node** inside inline element.
+	 * You can also decide to return the {@link CKEDITOR.htmlParser.text} or {@link CKEDITOR.htmlParser.element}
+	 * node that will be attached **at the end of the last `br` node** inside an inline element.
 	 *
-	 * As an example, you may want to add an additional `nbsp;` filler to make sure that a user will be
+	 * As an example, you may want to add an additional `&nbsp;` filler to make sure that a user will be
 	 * able to place caret after break lines:
 	 *
 	 * ```javascript

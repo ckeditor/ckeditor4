@@ -470,7 +470,7 @@
 			 * it can be initialized with {@link CKEDITOR.config#applicationTitle}.
 			 *
 			 * **Note:** Please do not confuse this property with {@link CKEDITOR.editor#name editor.name}
-			 * which identifies the instance in the {@link CKEDITOR#instances} literal.
+			 * which identifies the literal instance in the {@link CKEDITOR#instances}.
 			 *
 			 * @since 4.19.0
 			 * @readonly
@@ -1894,7 +1894,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Customizes the {@link CKEDITOR.editor#applicationTtle human-readable title} of the application for this
+ * Customizes the {@link CKEDITOR.editor#applicationTitle human-readable title} of the application for this
  * editor. This title is used as a label for the whole website's region containing the editor with its toolbars and other
  * UI parts. Application title impacts various
  * [accessibility aspects](#!/guide/dev_a11y-section-announcing-the-editor-on-the-page),
@@ -1910,7 +1910,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * **Note:** Please do not confuse this property with {@link CKEDITOR.editor#name}
  * which identifies the instance in the {@link CKEDITOR#instances} literal.
  *
- *		// Sets the application title to 'My WYSIWYG'.
+ *		// Set the application title to 'My WYSIWYG'.
  *		config.applicationTitle = 'My WYSIWYG';
  *
  *		// Do not add the application title.
