@@ -13,7 +13,7 @@
 	 *
 	 * **Note:** If the DOM element for which inline editing is being enabled does not have
 	 * the `contenteditable` attribute set to `true` or the {@link CKEDITOR.config#readOnly `config.readOnly`}
-	 * configuration option is set to `false`, the editor will start in read-only mode.
+	 * configuration option is set to `true`, the editor will start in read-only mode.
 	 *
 	 *		<div contenteditable="true" id="content">...</div>
 	 *		...
@@ -23,12 +23,12 @@
 	 * If you do so, an additional `<div>` element with editable content will be created
 	 * directly after the `<textarea>` element and the `<textarea>` element will be hidden.
 	 *
-	 * Since 4.17 this function also supports {@glink features/delayed_creation Delayed Editor Creation} feature
-	 * allowing to postpone editor initialization.
+	 * Since 4.17 this function also supports the {@glink features/delayed_creation Delayed Editor Creation} feature
+	 * allowing to postpone the editor initialization.
 	 *
-	 * Since 4.19 if the editor has been configured to use {@glink features/delayed_creation Delayed Editor Creation}
+	 * Since 4.19 if the editor has been configured to use the {@glink features/delayed_creation Delayed Editor Creation}
 	 * feature and the editor has not been initialized yet, this function will return a handle allowing
-	 * to cancel interval set by {@link CKEDITOR.config#delayIfDetached} and
+	 * to cancel the interval set by the {@link CKEDITOR.config#delayIfDetached} and
 	 * {@link CKEDITOR.config#delayIfDetached_interval} options.
 	 *
 	 * ```javascript
@@ -40,7 +40,7 @@
 	 * cancelInterval(); // Cancel editor initialization if needed.
 	 * ```
 	 *
-	 * It's recommended to use this function to prevent potential memory leaks. Use it if you know
+	 * It is recommended to use this function to prevent potential memory leaks. Use it if you know
 	 * that the editor host element will never be attached to the DOM. As an example, execute cancel handle
 	 * in your component cleanup logic (e.g. `onDestroy` lifecycle methods in popular frontend frameworks).
 	 *
@@ -49,7 +49,7 @@
 	 * @param {Object/String} element The DOM element or its ID.
 	 * @param {Object} [instanceConfig] The specific configurations to apply to this editor instance.
 	 * See {@link CKEDITOR.config}.
-	 * @returns {CKEDITOR.editor/Function/null} The editor instance or a cancelation function.
+	 * @returns {CKEDITOR.editor/Function/null} The editor instance or a cancellation function.
 	 * If {@glink features/delayed_creation Delayed Editor Creation} feature has not been set and
 	 * element is missing in DOM, this function will return `null`.
 	 */
@@ -156,8 +156,8 @@
 	 * Calls the {@link CKEDITOR#inline `CKEDITOR.inline()`} method for all page elements with the `contenteditable` attribute set to
 	 * `true` that are allowed in the {@link CKEDITOR.dtd#$editable} object.
 	 *
-	 * Since 4.17 this function also supports {@glink features/delayed_creation Delayed Editor Creation} feature
-	 * allowing to postpone editor initialization.
+	 * Since 4.17 this function also supports the {@glink features/delayed_creation Delayed Editor Creation} feature
+	 * allowing to postpone the editor initialization.
 	 * Read more about this feature in the {@glink features/delayed_creation documentation}.
 	 */
 	CKEDITOR.inlineAll = function() {

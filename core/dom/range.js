@@ -1358,7 +1358,7 @@ CKEDITOR.dom.range = function( root ) {
 							sibling = enlargeable.getPrevious();
 						}
 
-						// Check all sibling nodes preceeding the enlargeable
+						// Check all sibling nodes preceding the enlargeable
 						// node. The node wil lbe enlarged only if none of them
 						// blocks it.
 						while ( sibling ) {

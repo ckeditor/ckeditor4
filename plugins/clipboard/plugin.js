@@ -1741,9 +1741,9 @@
 	 */
 	CKEDITOR.plugins.clipboard = {
 		/**
-		 * Adds a file matcher verifying if a file should be supported via clipboard operations.
+		 * Adds a file matcher verifying whether a file should be supported via clipboard operations.
 		 *
-		 * In the case of pasting or dragging and dropping unsupported files,
+		 * In case of pasting or dragging and dropping unsupported files,
 		 * the clipboard plugin will show a notification informing a user that a given file type is not supported.
 		 *
 		 * ```javascript
@@ -1753,8 +1753,8 @@
 		 * } );
 		 * ```
 		 *
-		 * **Note:** This feature won't cancel the `paste` event in the case of an unsupported file.
-		 * It's the integrator's responsibility to properly handle incorrect files
+		 * **Note:** This feature will not cancel the `paste` event in case of an unsupported file.
+		 * It is the integrator's responsibility to properly handle incorrect files
 		 * (e.g. by verifying if the file should be indeed uploaded via upload integrations).
 		 *
 		 * @since 4.19.0
@@ -1765,7 +1765,7 @@
 			editor.plugins.clipboard._supportedFileMatchers.push( matcher );
 		},
 		/**
-		 * It returns `true` if the environment allows to set the data on copy or cut manually. This value is `false` in:
+		 * It returns `true` if the environment allows setting the data on copy or cut manually. This value is `false` in:
 		 * * Internet Explorer &mdash; because this browser shows the security dialog window when the script tries to set clipboard data.
 		 * * Older iOS (below version 13) &mdash; because custom data is not saved to clipboard there.
 		 *
