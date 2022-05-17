@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'el', {
 	title: 'Διεπαφή Επιλογής Χρωμάτων',
-	options: 'Color Options', // MISSING
-	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	options: 'Επιλογές χρωμάτων',
+	highlight: 'Επισήμανση',
+	selected: 'Επιλεγμένο Χρώμα',
 	predefined: 'Προκαθορισμένα σύνολα χρωμάτων',
 	config: 'Επικολλήστε αυτό το κείμενο στο αρχείο config.js'
 } );

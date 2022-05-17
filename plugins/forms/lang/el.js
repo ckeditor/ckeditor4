@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		size: 'Μέγεθος',
 		lines: 'γραμμές',
 		chkMulti: 'Να επιτρέπονται οι πολλαπλές επιλογές',
-		required: 'Required', // MISSING
+		required: 'Απαιτείται',
 		opText: 'Κείμενο',
 		opValue: 'Τιμή',
 		btnAdd: 'Προσθήκη',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		value: 'Τιμή',
 		charWidth: 'Πλάτος Χαρακτήρων',
 		maxChars: 'Μέγιστοι χαρακτήρες',
-		required: 'Required', // MISSING
+		required: 'Απαιτείται',
 		type: 'Τύπος',
 		typeText: 'Κείμενο',
 		typePass: 'Κωδικός',

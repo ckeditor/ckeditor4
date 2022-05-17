@@ -80,11 +80,11 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		align: 'Align',
 		left: 'Left', // MISSING
 		right: 'Right', // MISSING
-		center: 'Center', // MISSING
+		center: 'Centre',
 		justify: 'Justify', // MISSING
 		alignLeft: 'Align Left', // MISSING
 		alignRight: 'Align Right', // MISSING
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Align Centre',
 		alignTop: 'Top',
 		alignMiddle: 'Middle',
 		alignBottom: 'Bottom',

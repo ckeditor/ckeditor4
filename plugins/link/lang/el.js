@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	anchorName: 'Βάσει του Ονόματος Άγκυρας',
 	charset: 'Κωδικοποίηση Χαρακτήρων Προσαρτημένης Πηγής',
 	cssClasses: 'Κλάσεις Φύλλων Στυλ',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Εξαγκασμένη Λήψη',
+	displayText: 'Κείμενο Εμφάνισης',
 	emailAddress: 'Διεύθυνση E-mail',
 	emailBody: 'Κείμενο Μηνύματος',
 	emailSubject: 'Θέμα Μηνύματος',
@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	noAnchors: '(Δεν υπάρχουν άγκυρες στο κείμενο)',
 	noEmail: 'Εισάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου',
 	noUrl: 'Εισάγετε την τοποθεσία (URL) του συνδέσμου',
-	noTel: 'Please type the phone number', // MISSING
+	noTel: 'Γράψτε τον αριθμό τηλεφώνου',
 	other: '<άλλο>',
-	phoneNumber: 'Phone number', // MISSING
+	phoneNumber: 'Αριθμός τηλεφώνου',
 	popupDependent: 'Εξαρτημένο (Netscape)',
 	popupFeatures: 'Επιλογές Αναδυόμενου Παραθύρου',
 	popupFullScreen: 'Πλήρης Οθόνη (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	toAnchor: 'Άγκυρα σε αυτήν τη σελίδα',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Τηλέφωνο',
 	toolbar: 'Σύνδεσμος',
 	type: 'Τύπος Συνδέσμου',
 	unlink: 'Αφαίρεση Συνδέσμου',

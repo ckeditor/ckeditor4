@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
 		F0F8FF: 'Alice Blue',
 		E6E6FA: 'Ελαφρός Ιώδες',
 		FFF: 'Λευκό',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
+		'1ABC9C': 'Έντονο Κυανό',
+		'2ECC71': 'Σμαραγδί',
+		'3498DB': 'Φωτεινό Μπλε',
+		'9B59B6': 'Αμέθυστος',
+		'4E5F70': 'Γκριζωπό Μπλε',
+		'F1C40F': 'Ζωντανό Κίτρινο',
+		'16A085': 'Σκοτεινό Κυανό',
+		'27AE60': 'Σκοτεινό Σμαραγδί',
+		'2980B9': 'Έντονο Μπλε',
+		'8E44AD': 'Σκοτεινό Βιολετί',
+		'2C3E50': 'Αποκορρεσμένο Μπλε',
 		'F39C12': 'Πορτοκαλί',
 		'E67E22': 'Καροτί',
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
+		'E74C3C': 'Απαλό Κόκκινο',
+		'ECF0F1': 'Φωτεινό Ασημί',
+		'95A5A6': 'Φωτεινό Γκριζωπό Κυανό',
+		'DDD': 'Φωτεινό Γκρι',
+		'D35400': 'Κολοκυθί',
+		'C0392B': 'Έντονο Κόκκινο',
 		'BDC3C7': 'Αργυρό',
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'7F8C8D': 'Γκριζωπό Κυανό',
+		'999': 'Σκοτεινό Γκρι'
 	},
 	more: 'Περισσότερα Χρώματα…',
 	panelTitle: 'Χρώματα',

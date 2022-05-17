@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'el', {
 	title: 'Ιδιότητες Εικόνας',
 	uploadTab: 'Αποστολή',
 	urlMissing: 'Λείπει το πηγαίο URL της εικόνας.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Το εναλλακτικό κείμενο λείπει.'
 } );

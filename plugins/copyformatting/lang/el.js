@@ -5,9 +5,9 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'copyformatting', 'el', {
 	label: 'Αντιγραφή Μορφοποίησης',
 	notification: {
-		copied: 'Formatting copied', // MISSING
-		applied: 'Formatting applied', // MISSING
-		canceled: 'Formatting canceled', // MISSING
-		failed: 'Formatting failed. You cannot apply styles without copying them first.' // MISSING
+		copied: 'Αντιγραφή μορφοποίησης',
+		applied: 'Εφαρμογή μορφοποίησης',
+		canceled: 'Ακύρωση μορφοποίησης',
+		failed: 'Η μορφοποίηση απέτυχε. Δεν μπορείτε να εφαρμόσετε στυλ πριν τα αντιγράψετε.'
 	}
 } );
