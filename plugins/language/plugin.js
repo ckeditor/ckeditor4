@@ -11,12 +11,14 @@
 
 ( function() {
 
-	var allowedContent = 'span[!lang,!dir]',
-		requiredContent = 'span[lang,dir]';
+	var allowedContent = 'span[!lang,dir]',
+		requiredContent = 'span[lang]';
 
 	CKEDITOR.plugins.add( 'language', {
 		requires: 'menubutton',
+		// jscs:disable maximumLineLength
 		lang: 'ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sr,sr-latn,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -37,7 +39,6 @@
 				contextSensitive: true,
 				exec: function( editor, languageId ) {
 					var item = items[ 'language_' + languageId ];
-
 					if ( item )
 						editor[ item.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( item.style );
 				},
@@ -46,6 +47,37 @@
 						CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				}
 			} );
+
+			// Add missing proper `dir` attribute when <span> element has only `lang` attribute (#5085).
+			editor.on( 'toHtml', function( evt ) {
+				var elements = evt.data.dataValue.children,
+					langElements = [];
+
+				CKEDITOR.tools.array.forEach( elements, function( element ) {
+					var spans = element.find( 'span', true );
+
+					if ( !spans ) {
+						return;
+					}
+
+					CKEDITOR.tools.array.forEach( spans, function( span ) {
+						if ( span.attributes.lang && ( !span.attributes.dir || span.attributes.dir === '' ) ) {
+							langElements.push( span );
+						}
+					} );
+				} );
+
+				if ( langElements.length > 0 ) {
+					CKEDITOR.tools.array.forEach( langElements, function( element ) {
+						var rtlLanguages = CKEDITOR.tools.object.keys( CKEDITOR.lang.rtl ),
+							isRtlLanguage = CKEDITOR.tools.array.indexOf( rtlLanguages, element.attributes.lang ) !== -1,
+							dirAttribute = isRtlLanguage ? 'rtl' : 'ltr';
+
+						element.attributes.dir = dirAttribute;
+					} );
+				}
+
+			}, null, null, 10 );
 
 			// Parse languagesConfigStrings, and create items entry for each lang.
 			for ( i = 0; i < languagesConfigStrings.length; i++ ) {
