@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: language,toolbar,removeformat */
+/* bender-ckeditor-plugins: language,toolbar,removeformat,sourcearea */
 
 ( function() {
 	'use strict';
@@ -10,7 +10,7 @@
 		}
 	};
 
-	bender.test( {
+	var tests = {
 		// Helper method to return text (or html code) wrapped with html tag, containing given lang and dir (if any).
 		//
 		// @param {String} codeToWrap
@@ -145,5 +145,54 @@
 			this.editor.execCommand( 'removeFormat' );
 			assert.beautified.html( '<p><span dir="ltr" lang="fr">Lorem ipsum dolor somit</span></p>', this.editor.getData(), 'Span element with atrributes should not be removed.' );
 		}
-	} );
+	},
+	testLanguages = getTests();
+
+	bender.test( testLanguages );
+
+	function getTests() {
+		var rtlLanguages = CKEDITOR.tools.object.keys( CKEDITOR.lang.rtl ),
+			languages = CKEDITOR.tools.object.keys( CKEDITOR.lang.languages );
+
+		var langTests = CKEDITOR.tools.array.reduce( languages, function( tests, language ) {
+			var test = {},
+				isRtlLanguage = CKEDITOR.tools.array.indexOf( rtlLanguages, language  ) !== -1,
+				direction = isRtlLanguage ? 'rtl' : 'ltr',
+				testName = 'test add proper missing \'dir\' attribute when language is ' +
+					direction.toUpperCase() + ' type (' + language + ')';
+
+			test[ testName ] = createTest( language, direction );
+
+			return CKEDITOR.tools.object.merge( tests, test );
+		}, {} );
+
+		return CKEDITOR.tools.object.merge( tests, langTests );
+	}
+
+	function createTest( language, direction ) {
+		return function() {
+			var editor = this.editor,
+				dir = direction === 'rtl' ? 'rtl' : 'ltr';
+
+			editor.setMode( 'source', function() {
+				resume( function() {
+					editor.editable().setValue( '<p>foo <span lang="' + language + '">bar</span></p>' );
+					editor.setMode( 'wysiwyg', function() {
+						resume( function() {
+							var expected = '<p>foo <span lang="' + language + '" dir="' + dir + '">bar</span></p>';
+
+							assert.areSame(
+								editor.editable().getData(), expected,
+								'The value of dir attribute for ' + language + ' language is incorrect.'
+							);
+						}, 50 );
+					} );
+
+					wait();
+					editor.setData( '' );
+				} );
+			} );
+			wait();
+		};
+	}
 } )();
