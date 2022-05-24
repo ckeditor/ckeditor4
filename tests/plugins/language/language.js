@@ -144,6 +144,56 @@
 			);
 			this.editor.execCommand( 'removeFormat' );
 			assert.beautified.html( '<p><span dir="ltr" lang="fr">Lorem ipsum dolor somit</span></p>', this.editor.getData(), 'Span element with atrributes should not be removed.' );
+		},
+
+		'test coerces a correct value when the \'dir\' attribute is empty in RTL language': function() {
+			var editor = this.editor,
+				language = 'ar';
+
+			editor.setMode( 'source', function() {
+				resume( function() {
+					editor.editable().setValue( '<p>foo <span lang="' + language + '" dir="">bar</span></p>' );
+					editor.setMode( 'wysiwyg', function() {
+						resume( function() {
+							var expected = '<p>foo <span lang="' + language + '" dir="rtl">bar</span></p>';
+
+							assert.areSame(
+								editor.editable().getData(), expected,
+								'The value of dir attribute for ' + language + ' language is incorrect.'
+							);
+						}, 50 );
+					} );
+
+					wait();
+					editor.setData( '' );
+				} );
+			} );
+			wait();
+		},
+
+		'test coerces a correct value when the \'dir\' attribute is empty in LTR language': function() {
+			var editor = this.editor,
+				language = 'en';
+
+			editor.setMode( 'source', function() {
+				resume( function() {
+					editor.editable().setValue( '<p>foo <span lang="' + language + '" dir="">bar</span></p>' );
+					editor.setMode( 'wysiwyg', function() {
+						resume( function() {
+							var expected = '<p>foo <span lang="' + language + '" dir="ltr">bar</span></p>';
+
+							assert.areSame(
+								editor.editable().getData(), expected,
+								'The value of dir attribute for ' + language + ' language is incorrect.'
+							);
+						}, 50 );
+					} );
+
+					wait();
+					editor.setData( '' );
+				} );
+			} );
+			wait();
 		}
 	},
 	testLanguages = getTests();
