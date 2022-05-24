@@ -39,6 +39,7 @@
 				contextSensitive: true,
 				exec: function( editor, languageId ) {
 					var item = items[ 'language_' + languageId ];
+
 					if ( item )
 						editor[ item.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( item.style );
 				},
