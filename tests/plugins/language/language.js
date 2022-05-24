@@ -155,7 +155,13 @@
 					editor.editable().setValue( '<p>foo <span lang="' + language + '" dir="">bar</span></p>' );
 					editor.setMode( 'wysiwyg', function() {
 						resume( function() {
-							var expected = '<p>foo <span lang="' + language + '" dir="rtl">bar</span></p>';
+							var expected = '';
+
+							if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ) {
+								expected = '<p>foo <span dir="rtl" lang="' + language + '">bar</span></p>';
+							} else {
+								expected = '<p>foo <span lang="' + language + '" dir="rtl">bar</span></p>';
+							}
 
 							assert.areSame(
 								editor.editable().getData(), expected,
@@ -180,7 +186,13 @@
 					editor.editable().setValue( '<p>foo <span lang="' + language + '" dir="">bar</span></p>' );
 					editor.setMode( 'wysiwyg', function() {
 						resume( function() {
-							var expected = '<p>foo <span lang="' + language + '" dir="ltr">bar</span></p>';
+							var expected = '';
+
+							if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ) {
+								expected = '<p>foo <span dir="ltr" lang="' + language + '">bar</span></p>';
+							} else {
+								expected = '<p>foo <span lang="' + language + '" dir="ltr">bar</span></p>';
+							}
 
 							assert.areSame(
 								editor.editable().getData(), expected,
@@ -229,7 +241,13 @@
 					editor.editable().setValue( '<p>foo <span lang="' + language + '">bar</span></p>' );
 					editor.setMode( 'wysiwyg', function() {
 						resume( function() {
-							var expected = '<p>foo <span lang="' + language + '" dir="' + dir + '">bar</span></p>';
+							var expected = '';
+
+							if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ) {
+								expected = '<p>foo <span dir="' + dir + '" lang="' + language + '">bar</span></p>';
+							} else {
+								expected = '<p>foo <span lang="' + language + '" dir="' + dir + '">bar</span></p>';
+							}
 
 							assert.areSame(
 								editor.editable().getData(), expected,
