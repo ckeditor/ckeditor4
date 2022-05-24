@@ -54,6 +54,10 @@
 					langElements = [];
 
 				CKEDITOR.tools.array.forEach( elements, function( element ) {
+					if ( !element.find ) {
+						return;
+					}
+
 					var spans = element.find( 'span', true );
 
 					if ( !spans ) {
