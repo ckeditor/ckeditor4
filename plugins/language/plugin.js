@@ -51,9 +51,10 @@
 
 			// Add missing proper `dir` attribute when <span> element has only `lang` attribute (#5085).
 			editor.on( 'toHtml', function( evt ) {
-				var langElements = evt.data.dataValue.find( 'span', function( element ) {
-						return element.attributes.lang && ( !element.attributes.dir || element.attributes.dir === '' );
-					} );
+				var langElements = evt.data.dataValue.find( function( child ) {
+					return child.name === 'span' &&
+						child.attributes.lang && ( !child.attributes.dir || child.attributes.dir === '' );
+				}, true );
 
 				if ( langElements.length === 0 ) {
 					return;
