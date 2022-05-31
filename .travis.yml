@@ -55,7 +55,7 @@ jobs:
         # Setup bender test runner
         - cd ..
         - pwd
-        - git clone https://github.com/ckeditor/ckeditor4-benderjs-runner.git --branch update-deps --single-branch
+        - git clone https://github.com/ckeditor/ckeditor4-benderjs-runner.git --branch development --single-branch
         - cd ckeditor4-benderjs-runner
         - npm i
       script:
@@ -95,7 +95,7 @@ jobs:
         # Setup bender test runner
         - cd ..
         - pwd
-        - git clone https://github.com/ckeditor/ckeditor4-benderjs-runner.git --branch update-deps --single-branch
+        - git clone https://github.com/ckeditor/ckeditor4-benderjs-runner.git --branch development --single-branch
         - cd ckeditor4-benderjs-runner
         - npm i
       script:
