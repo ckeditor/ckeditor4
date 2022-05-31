@@ -51,36 +51,21 @@
 
 			// Add missing proper `dir` attribute when <span> element has only `lang` attribute (#5085).
 			editor.on( 'toHtml', function( evt ) {
-				var elements = evt.data.dataValue.children,
-					langElements = [];
-
-				CKEDITOR.tools.array.forEach( elements, function( element ) {
-					if ( !element.find ) {
-						return;
-					}
-
-					var spans = element.find( 'span', true );
-
-					if ( !spans ) {
-						return;
-					}
-
-					CKEDITOR.tools.array.forEach( spans, function( span ) {
-						if ( span.attributes.lang && ( !span.attributes.dir || span.attributes.dir === '' ) ) {
-							langElements.push( span );
-						}
+				var langElements = evt.data.dataValue.find( 'span', function( element ) {
+						return element.attributes.lang && ( !element.attributes.dir || element.attributes.dir === '' );
 					} );
-				} );
 
-				if ( langElements.length > 0 ) {
-					CKEDITOR.tools.array.forEach( langElements, function( element ) {
-						var rtlLanguages = CKEDITOR.tools.object.keys( CKEDITOR.lang.rtl ),
-							isRtlLanguage = CKEDITOR.tools.array.indexOf( rtlLanguages, element.attributes.lang ) !== -1,
-							dirAttribute = isRtlLanguage ? 'rtl' : 'ltr';
-
-						element.attributes.dir = dirAttribute;
-					} );
+				if ( langElements.length === 0 ) {
+					return;
 				}
+
+				CKEDITOR.tools.array.forEach( langElements, function( element ) {
+					var rtlLanguages = CKEDITOR.tools.object.keys( CKEDITOR.lang.rtl ),
+						isRtlLanguage = CKEDITOR.tools.array.indexOf( rtlLanguages, element.attributes.lang ) !== -1,
+						dirAttribute = isRtlLanguage ? 'rtl' : 'ltr';
+
+					element.attributes.dir = dirAttribute;
+				} );
 
 			}, null, null, 10 );
 
