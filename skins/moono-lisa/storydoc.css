@@ -26,6 +26,7 @@
 	padding: 0 5px;
 	cursor: auto !important;
 	outline: 2px dashed transparent;
+	overflow: auto;
 }
 #editorToolbar {
 	position: fixed;
