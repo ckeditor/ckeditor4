@@ -663,7 +663,7 @@
 		 * @param {Function} func The function to be executed.
 		 * @param {Number} [milliseconds=0] The amount of time (in milliseconds) to wait
 		 * to fire the function execution.
-		 * @returns
+		 * @returns {Function}
 		 */
 		debounce: function( func, milliseconds ) {
 			var timeout;
