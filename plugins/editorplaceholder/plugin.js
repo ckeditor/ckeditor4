@@ -21,13 +21,12 @@
 				return;
 			}
 
-			bindPlaceholderEvents( editor, [
-				'contentDom',
-				'focus',
-				'blur',
-				'change'
-			] );
+			bindPlaceholderEvent( editor, 'contentDom' );
+			bindPlaceholderEvent( editor, 'focus' );
+			bindPlaceholderEvent( editor, 'blur' );
 
+			// Debounce placeholder when typing to improve performance (#5184).
+			bindPlaceholderEvent( editor, 'change', editor.config.editorplaceholder_delay );
 		}
 	} );
 
@@ -58,10 +57,14 @@
 			'}'
 	};
 
-	function bindPlaceholderEvents( editor, events ) {
-		CKEDITOR.tools.array.forEach( events, function( event ) {
-			editor.on( event, togglePlaceholder, null, { editor: editor } );
-		} );
+	function bindPlaceholderEvent( editor, eventName, delay ) {
+		var toggleFn = togglePlaceholder;
+
+		if ( delay ) {
+			toggleFn = CKEDITOR.tools.debounce( togglePlaceholder, delay );
+		}
+
+		editor.on( eventName, toggleFn, null, { editor: editor } );
 	}
 
 	function isEditorEmpty( editor ) {
@@ -95,6 +98,18 @@
 
 		editable.setAttribute( ATTRIBUTE_NAME, placeholder );
 	}
+
+	/**
+	 * The delay in milliseconds before the placeholder is toggled when changing editor's text.
+	 *
+	 * The main purpose of this option is to improve performance when typing in the editor, so
+	 * that the placeholder is not updated every time the user types a character.
+	 *
+	 * @cfg {String} [editorplaceholder_delay=150]
+	 * @since 4.19.1
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.editorplaceholder_delay = 150;
 
 	/**
 	 * The text that will be used as a placeholder inside the editor.
