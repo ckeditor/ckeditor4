@@ -1248,6 +1248,52 @@
 				var expectedPosition = html.indexOf( expectedHref );
 				assert.isTrue( expectedPosition > -1, 'Built HTML does not contains expected hrefs with timestamp' );
 			} );
+		},
+
+		// (#5184)
+		'test debounce is called only once after multiple function calls': function() {
+			var spy = sinon.spy(),
+				timer = sinon.useFakeTimers(),
+				debouncedFn = CKEDITOR.tools.debounce( spy, 100 );
+
+			timer.tick( 50 );
+
+			debouncedFn();
+			debouncedFn();
+			debouncedFn();
+
+			timer.tick( 50 );
+
+			debouncedFn();
+			debouncedFn();
+			debouncedFn();
+
+			// Calling debounced function resets timer, so we have to use the original delay.
+			timer.tick( 100 );
+			timer.restore();
+
+			assert.isTrue( spy.calledOnce );
+		},
+
+		// (#5184)
+		'test debounce uses proper caller context': function() {
+			var timer = sinon.useFakeTimers(),
+				context = {},
+				debouncedFn = CKEDITOR.tools.debounce( someFunc, 100 );
+
+			// Change function context.
+			debouncedFn = debouncedFn.bind( context );
+
+			debouncedFn();
+
+			timer.tick( 100 );
+			timer.restore();
+
+			assert.isTrue( context.called );
+
+			function someFunc() {
+				this.called = true;
+			}
 		}
 	} );
 } )();
