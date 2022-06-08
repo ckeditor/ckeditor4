@@ -260,9 +260,11 @@
 							// selectColor(panelBlock, finalColor);
 						}
 
+						var editorInstance = window.editorInstance ? window.editorInstance.name :  editor.name;
+
 						var dataMassage = {
 							action:'openAngularDialog',
-							editorInstance: editor.name,
+							editorInstance: editorInstance,
 							angularDialog: 'getColor',
 							currentColor: chosenColor,
 							extraData: cssProperty,
