@@ -280,6 +280,7 @@
 
 .cke_dialog {
 	width: 666px;
+	transform: scale(0.8);
 }
 
 .cke_dialog .cke_dialog_body {
@@ -724,6 +725,9 @@
 }
 @media screen and (min-width: 1241px) and (max-width: 1900px),
 (min-width: 1930px) {
+	.cke_dialog {
+		transform: scale(1.2);
+	}
 	.cke_inner .cke_toolbar .cke_toolgroup .cke_button .cke_button_icon, .cke_inner .cke_toolbar .cke_combo .cke_combo_button[title="Text Size"] .cke_combo_text {
 		width: 25px;
 		height: 25px;
