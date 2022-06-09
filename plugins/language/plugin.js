@@ -49,27 +49,6 @@
 				}
 			} );
 
-			// Add missing proper `dir` attribute when <span> element has only `lang` attribute (#5085).
-			editor.on( 'toHtml', function( evt ) {
-				var langElements = evt.data.dataValue.find( function( child ) {
-					return child.name === 'span' &&
-						child.attributes.lang && ( !child.attributes.dir || child.attributes.dir === '' );
-				}, true );
-
-				if ( langElements.length === 0 ) {
-					return;
-				}
-
-				CKEDITOR.tools.array.forEach( langElements, function( element ) {
-					var rtlLanguages = CKEDITOR.tools.object.keys( CKEDITOR.lang.rtl ),
-						isRtlLanguage = CKEDITOR.tools.array.indexOf( rtlLanguages, element.attributes.lang ) !== -1,
-						dirAttribute = isRtlLanguage ? 'rtl' : 'ltr';
-
-					element.attributes.dir = dirAttribute;
-				} );
-
-			}, null, null, 10 );
-
 			// Parse languagesConfigStrings, and create items entry for each lang.
 			for ( i = 0; i < languagesConfigStrings.length; i++ ) {
 				parts = languagesConfigStrings[ i ].split( ':' );
@@ -127,6 +106,24 @@
 				requiredContent: requiredContent,
 				toolbar: 'bidi,30',
 				command: 'language',
+				contentTransformations: [
+					[
+						// Add missing proper `dir` attribute when <span> element has only `lang` attribute (#5085).
+						{
+							element: 'span',
+							left: function( element ) {
+								return element.attributes.lang && ( !element.attributes.dir || element.attributes.dir === '' );
+							},
+							right: function( element ) {
+								var rtlLanguages = CKEDITOR.tools.object.keys( CKEDITOR.lang.rtl ),
+									isRtlLanguage = CKEDITOR.tools.array.indexOf( rtlLanguages, element.attributes.lang ) !== -1,
+									dirAttribute = isRtlLanguage ? 'rtl' : 'ltr';
+
+								element.attributes.dir = dirAttribute;
+							}
+						}
+					]
+				],
 				onMenu: function() {
 					var activeItems = {},
 						currentLanguagedElement = plugin.getCurrentLangElement( editor );
