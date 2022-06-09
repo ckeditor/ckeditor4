@@ -155,18 +155,12 @@
 					editor.editable().setValue( '<p>foo <span lang="' + language + '" dir="">bar</span></p>' );
 					editor.setMode( 'wysiwyg', function() {
 						resume( function() {
-							var expected = '';
+							var expected = '<p>foo <span dir="rtl" lang="' + language + '">bar</span></p>';
 
-							if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ) {
-								expected = '<p>foo <span dir="rtl" lang="' + language + '">bar</span></p>';
-							} else {
-								expected = '<p>foo <span lang="' + language + '" dir="rtl">bar</span></p>';
-							}
-
-							assert.areSame(
-								editor.editable().getData(), expected,
-								'The value of dir attribute for ' + language + ' language is incorrect.'
-							);
+							bender.assert.beautified.html( expected, editor.getData(), {
+								sortAttributes: true,
+								message: 'The value of dir attribute for ' + language + ' language is incorrect.'
+							} );
 						}, 50 );
 					} );
 
@@ -186,18 +180,12 @@
 					editor.editable().setValue( '<p>foo <span lang="' + language + '" dir="">bar</span></p>' );
 					editor.setMode( 'wysiwyg', function() {
 						resume( function() {
-							var expected = '';
+							var expected = '<p>foo <span dir="ltr" lang="' + language + '">bar</span></p>';
 
-							if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ) {
-								expected = '<p>foo <span dir="ltr" lang="' + language + '">bar</span></p>';
-							} else {
-								expected = '<p>foo <span lang="' + language + '" dir="ltr">bar</span></p>';
-							}
-
-							assert.areSame(
-								editor.editable().getData(), expected,
-								'The value of dir attribute for ' + language + ' language is incorrect.'
-							);
+							bender.assert.beautified.html( expected, editor.getData(), {
+								sortAttributes: true,
+								message: 'The value of dir attribute for ' + language + ' language is incorrect.'
+							} );
 						}, 50 );
 					} );
 
@@ -241,18 +229,12 @@
 					editor.editable().setValue( '<p>foo <span lang="' + language + '">bar</span></p>' );
 					editor.setMode( 'wysiwyg', function() {
 						resume( function() {
-							var expected = '';
+							var expected = '<p>foo <span dir="' + dir + '" lang="' + language + '">bar</span></p>';
 
-							if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ) {
-								expected = '<p>foo <span dir="' + dir + '" lang="' + language + '">bar</span></p>';
-							} else {
-								expected = '<p>foo <span lang="' + language + '" dir="' + dir + '">bar</span></p>';
-							}
-
-							assert.areSame(
-								editor.editable().getData(), expected,
-								'The value of dir attribute for ' + language + ' language is incorrect.'
-							);
+							bender.assert.beautified.html( expected, editor.getData(), {
+								sortAttributes: true,
+								message: 'The value of dir attribute for ' + language + ' language is incorrect.'
+							} );
 						}, 50 );
 					} );
 
