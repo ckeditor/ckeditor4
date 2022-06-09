@@ -5,6 +5,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.19.1 [IN DEVELOPMENT]
 
+Fixed Issues:
+
+* [#5125](https://github.com/ckeditor/ckeditor4/issues/5125): Fixed: Deleting a widget with disabled [autoParagraph](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autoParagraph) by the keyboard `backspace` key removes editor editable area and crash it.
+
 ## CKEditor 4.19.0
 
 New features:

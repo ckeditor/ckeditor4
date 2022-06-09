@@ -1,0 +1,31 @@
+<div id="editor1">
+	<img src="data:,"/>deleteme
+</div>
+
+<h2>Inline editor</h2>
+
+<div id="editor2" contenteditable="true" style="border: 1px solid">
+	<img src="data:,"/>deleteme
+</div>
+
+<script>
+	CKEDITOR.plugins.add( 'simple-image-widget', {
+		init: function( editor ) {
+			editor.widgets.add( 'simple-image-widget', {
+				upcast: function( element, data ) {
+					return element.name.toLowerCase() === 'img';
+				}
+			} );
+		}
+	} );
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'simple-image-widget',
+		autoParagraph: false
+	} );
+
+	CKEDITOR.inline( 'editor2', {
+		extraPlugins: 'simple-image-widget, floatingspace',
+		autoParagraph: false
+	} );
+</script>
