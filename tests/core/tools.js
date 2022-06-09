@@ -1111,6 +1111,20 @@
 			} );
 		},
 
+		// (#5158)
+		'test convertToPx works after calculator element was removed': function() {
+			var firstResult = CKEDITOR.tools.convertToPx( '10px' );
+			// Based on convertToPx implementation
+			// calculator is the last element under `body` after `convertToPx` invocation.
+			var bodyChildren = CKEDITOR.document.getBody().getChildren(),
+				calculator = bodyChildren.getItem( bodyChildren.count() - 1 );
+
+			calculator.remove();
+
+			var result = CKEDITOR.tools.convertToPx( '10px' );
+			assert.areSame( firstResult, result, 'convertToPx returns different values when helper calculator was removed' );
+		},
+
 		'test bind without context and without arguments': function() {
 			var testSpy = sinon.spy(),
 				bindedFn = CKEDITOR.tools.bind( testSpy );
