@@ -1,4 +1,4 @@
-﻿/* bender-tags: editor */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -1122,7 +1122,8 @@
 			calculator.remove();
 
 			var result = CKEDITOR.tools.convertToPx( '10px' );
-			assert.areSame( firstResult, result, 'convertToPx returns different values when helper calculator was removed' );
+			assert.areSame( firstResult, result, 'convertToPx() returns different values when helper calculator was removed.' );
+			assert.areSame( result, 10, 'calculator was not properly attached to DOM.' );
 		},
 
 		'test bind without context and without arguments': function() {
