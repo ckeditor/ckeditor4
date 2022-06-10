@@ -44,6 +44,29 @@
 			} );
 		},
 
+		// This test case fail if performed later in this suite (#5188).
+		'test navigation highlights proper section when scrolls': function() {
+			var bot = this.editorBot;
+
+			waitForEmoji( bot.editor, function() {
+				bot.panel( 'EmojiPanel', function( panel ) {
+					var doc = panel._.iframe.getFrameDocument(),
+						testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' );
+
+					testElement.scrollIntoView( true );
+
+					// Scroll event is throttled that's why we need wait a little bit.
+					CKEDITOR.tools.setTimeout( function() {
+						resume( function() {
+							panel.hide();
+							assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
+						} );
+					}, 160 );
+					wait();
+				} );
+			} );
+		},
+
 		'test emoji dropdown has proper components': function() {
 			var bot = this.editorBot;
 
@@ -152,28 +175,6 @@
 					} finally {
 						panel.hide();
 					}
-				} );
-			} );
-		},
-
-		'test navigation highlights proper section when scrolls': function() {
-			var bot = this.editorBot;
-
-			waitForEmoji( bot.editor, function() {
-				bot.panel( 'EmojiPanel', function( panel ) {
-					var doc = panel._.iframe.getFrameDocument(),
-						testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' );
-
-					testElement.scrollIntoView( true );
-
-					// Scroll event is throttled that's why we need wait a little bit.
-					CKEDITOR.tools.setTimeout( function() {
-						resume( function() {
-							panel.hide();
-							assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
-						} );
-					}, 160 );
-					wait();
 				} );
 			} );
 		},
