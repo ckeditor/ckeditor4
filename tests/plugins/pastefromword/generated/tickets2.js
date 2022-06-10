@@ -57,7 +57,6 @@
 		customFilters: [
 			pfwTools.filters.span
 		],
-		// Ignores safari due to #5113.
-		ignoreAll: CKEDITOR.env.safari || bender.tools.env.mobile || ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 )
+		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile
 	} ) );
 } )();
