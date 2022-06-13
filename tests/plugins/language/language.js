@@ -194,6 +194,44 @@
 				} );
 			} );
 			wait();
+		},
+
+		'test focus on lang element should toggle ON language button in LTR language': function() {
+			bender.editorBot.create( {
+				name: 'editor_lang_ltr',
+				config: {
+					plugins: 'language,toolbar',
+					allowedContent: true
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					inputHtml = '<p><span lang="fr">Sa^lut</span></p>',
+					expectedButtonState = 1;
+
+				bot.setHtmlWithSelection( inputHtml );
+
+				var languageButtonState = editor.ui.get( 'Language' ).getState();
+				assert.areSame( expectedButtonState, languageButtonState );
+			} );
+		},
+
+		'test focus on lang element should toggle ON language button in RTL language': function() {
+			bender.editorBot.create( {
+				name: 'editor_lang_rtl',
+				config: {
+					plugins: 'language,toolbar',
+					allowedContent: true
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					inputHtml = '<p><span lang="ar">أ^هلاً</span></p>',
+					expectedButtonState = 1;
+
+				bot.setHtmlWithSelection( inputHtml );
+
+				var languageButtonState = editor.ui.get( 'Language' ).getState();
+				assert.areSame( expectedButtonState, languageButtonState );
+			} );
 		}
 	},
 	testLanguages = getTests();
