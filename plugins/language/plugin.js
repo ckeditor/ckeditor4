@@ -161,7 +161,7 @@
 				for ( var i = 0; i < activePath.length; i++ ) {
 					pathMember = activePath[ i ];
 
-					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
+					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'lang' ) )
 						ret = pathMember;
 				}
 			}
