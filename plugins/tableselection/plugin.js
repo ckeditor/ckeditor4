@@ -922,7 +922,7 @@
 			if ( CKEDITOR.tools.array.indexOf( cmds, evt.data.name ) !== -1 ) {
 				callback( editor, evt.data );
 			}
-		} );
+		}, null, null, 9 );
 	}
 
 	/**
