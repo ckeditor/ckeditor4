@@ -1,4 +1,4 @@
-@bender-tags: 4.19.1, feature, 5085
+@bender-tags: 4.19.1, bug, 5085
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, language, format
 
