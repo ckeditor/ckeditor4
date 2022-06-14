@@ -1585,4 +1585,49 @@
 	</table>
 </textarea>
 
+<textarea id="merge-rowspanned-cells">
+	<table>
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td rowspan="3">[&nbsp;]</td>
+				<td>[1]</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>[1]</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>[1]</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="2" rowspan="3">&nbsp;1<br />1<br />1</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
 <div id="playground"></div>
