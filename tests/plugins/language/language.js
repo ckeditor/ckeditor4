@@ -196,7 +196,7 @@
 			wait();
 		},
 
-		'test focus on lang element should toggle ON language button in LTR language': function() {
+		'test selection on lang element should toggle ON language button in LTR language': function() {
 			bender.editorBot.create( {
 				name: 'editor_lang_ltr',
 				config: {
@@ -206,7 +206,7 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					inputHtml = '<p><span lang="fr">Sa^lut</span></p>',
-					expectedButtonState = 1;
+					expectedButtonState = CKEDITOR.TRISTATE_ON;
 
 				bot.setHtmlWithSelection( inputHtml );
 
@@ -215,7 +215,7 @@
 			} );
 		},
 
-		'test focus on lang element should toggle ON language button in RTL language': function() {
+		'test selection on lang element should toggle ON language button in RTL language': function() {
 			bender.editorBot.create( {
 				name: 'editor_lang_rtl',
 				config: {
@@ -225,7 +225,7 @@
 			}, function( bot ) {
 				var editor = bot.editor,
 					inputHtml = '<p><span lang="ar">أ^هلاً</span></p>',
-					expectedButtonState = 1;
+					expectedButtonState = CKEDITOR.TRISTATE_ON;
 
 				bot.setHtmlWithSelection( inputHtml );
 
