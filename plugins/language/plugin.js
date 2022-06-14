@@ -11,12 +11,14 @@
 
 ( function() {
 
-	var allowedContent = 'span[!lang,!dir]',
-		requiredContent = 'span[lang,dir]';
+	var allowedContent = 'span[!lang,dir]',
+		requiredContent = 'span[lang]';
 
 	CKEDITOR.plugins.add( 'language', {
 		requires: 'menubutton',
+		// jscs:disable maximumLineLength
 		lang: 'ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sr,sr-latn,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -104,6 +106,24 @@
 				requiredContent: requiredContent,
 				toolbar: 'bidi,30',
 				command: 'language',
+				contentTransformations: [
+					[
+						// Add missing proper `dir` attribute when <span> element has only `lang` attribute (#5085).
+						{
+							element: 'span',
+							left: function( element ) {
+								return element.attributes.lang && ( !element.attributes.dir || element.attributes.dir === '' );
+							},
+							right: function( element ) {
+								var rtlLanguages = CKEDITOR.tools.object.keys( CKEDITOR.lang.rtl ),
+									isRtlLanguage = CKEDITOR.tools.array.indexOf( rtlLanguages, element.attributes.lang ) !== -1,
+									dirAttribute = isRtlLanguage ? 'rtl' : 'ltr';
+
+								element.attributes.dir = dirAttribute;
+							}
+						}
+					]
+				],
 				onMenu: function() {
 					var activeItems = {},
 						currentLanguagedElement = plugin.getCurrentLangElement( editor );
@@ -141,7 +161,7 @@
 				for ( var i = 0; i < activePath.length; i++ ) {
 					pathMember = activePath[ i ];
 
-					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
+					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'lang' ) )
 						ret = pathMember;
 				}
 			}

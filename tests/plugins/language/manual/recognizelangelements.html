@@ -1,0 +1,19 @@
+<h2>LTR</h2>
+<textarea name="editor1">
+	<p><span lang="fr">Salut</span>.</p>
+</textarea>
+
+<h2>RTL</h2>
+<textarea name="editor2">
+	<p><span lang="ar">أهلاً</span>.</p>
+</textarea>
+
+<script>
+	var config = {
+		allowedContent: true,
+		language: 'en'
+	};
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.replace( 'editor2', config );
+</script>
