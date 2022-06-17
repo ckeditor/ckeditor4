@@ -140,7 +140,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut', // MISSING
+		keyboardShortcut: 'Atalho de teclado',
 
 		optionDefault: 'Padrão'
 	}
