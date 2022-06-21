@@ -1282,7 +1282,7 @@
 				debouncedFn = CKEDITOR.tools.debounce( someFunc, 100 );
 
 			// Change function context.
-			debouncedFn = debouncedFn.bind( context );
+			debouncedFn = CKEDITOR.tools.bind( debouncedFn, context );
 
 			debouncedFn();
 

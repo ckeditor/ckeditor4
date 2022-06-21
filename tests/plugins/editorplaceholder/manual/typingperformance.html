@@ -1,0 +1,19 @@
+<a href="%BASE_PATH%_assets/performance_image.jpg">Link to image</a>
+
+<h2>Placeholder</h2>
+<div id="editor1"></div>
+
+<h2>No placeholder</h2>
+<div id="editor2"></div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'editorplaceholder' );
+
+	CKEDITOR.replace( 'editor1', {
+		editorplaceholder: 'Type something...'
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		removePlugins: 'editorplaceholder'
+	} );
+</script>
