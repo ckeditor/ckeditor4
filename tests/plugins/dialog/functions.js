@@ -5,7 +5,7 @@ var validator = {};
 
 bender.test( {
 	// (#4449)
-	'test functions allows properly compose validators': function() {
+	'test functions returns error message if inner validator fails': function() {
 		var errorMsg = 'error!';
 		validator.notEmptyNumberValidator = CKEDITOR.dialog.validate.functions(
 			CKEDITOR.dialog.validate.notEmpty( 'Value is required.' ),

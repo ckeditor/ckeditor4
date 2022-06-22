@@ -3249,12 +3249,17 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					if ( i < args.length && typeof args[ i ] == 'number' )
 						relation = args[ i ];
 
-					var passed = ( relation == CKEDITOR.VALIDATE_AND ? true : false );
+					var passed = ( relation == CKEDITOR.VALIDATE_AND ? true : false ),
+						isValid;
+
 					for ( i = 0; i < functions.length; i++ ) {
+						// Do not confuse `true` with `truthy` not empty message (#4449).
+						isValid = functions[ i ]( value ) === true;
+
 						if ( relation == CKEDITOR.VALIDATE_AND )
-							passed = passed && functions[ i ]( value );
+							passed = passed && isValid;
 						else
-							passed = passed || functions[ i ]( value );
+							passed = passed || isValid;
 					}
 
 					return !passed ? msg : true;
