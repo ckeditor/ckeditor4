@@ -24,6 +24,10 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 
 	CKEDITOR.replace( 'editor' );
