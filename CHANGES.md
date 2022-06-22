@@ -10,7 +10,7 @@ Fixed Issues:
 * [#5125](https://github.com/ckeditor/ckeditor4/issues/5125): Fixed: Deleting a widget with disabled [autoParagraph](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autoParagraph) by the keyboard `backspace` key removes editor editable area and crash it.
 * [#5135](https://github.com/ckeditor/ckeditor4/issues/5135): Fixed: [`checkbox.setValue`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_dialog_checkbox.html#method-setValue) and [`radio.setValue`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_dialog_radio.html#method-setValue) methods are not chainable as stated in documentation. Thanks to [Jordan Bradford](https://github.com/LordPachelbel)!
 * [#5085](https://github.com/ckeditor/ckeditor4/issues/5085): Fixed: [Language](https://ckeditor.com/cke4/addon/language) plugin removes the element marking the text in foreign language if this element does not have an information about text direction.
-
+* [#4284](https://github.com/ckeditor/ckeditor4/issues/4284): Fixed: [Tableselection](https://ckeditor.com/cke4/addon/tableselection) Merging cells with a rowspan was throwing error and did not create undo step.
 
 ## CKEditor 4.19.0
 

@@ -262,6 +262,30 @@
 				bot.setHtmlWithSelection( source );
 				assert.beautified.html( expected, bot.getData( true ) );
 			} );
+		},
+
+		'test merge cells with a rowspan should create undo step': function() {
+			bender.editorBot.create( {
+				name: 'editor_merge_rowspanned_cells',
+				config: {
+					plugins: 'undo,table,tableselection'
+				}
+			}, function( bot ) {
+				bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+				var editor = bot.editor;
+
+				bender.tools.testInputOut( 'merge-rowspanned-cells', function( source, expected ) {
+					bot.setHtmlWithSelection( source );
+					bot.execCommand( 'cellMerge' );
+
+					var output = bot.getData( true ),
+						undo = editor.getCommand( 'undo' );
+
+					assert.areSame( bender.tools.compatHtml( expected ), output );
+					assert.isTrue( undo.state === CKEDITOR.TRISTATE_OFF );
+				} );
+			} );
 		}
 	} );
 } )();

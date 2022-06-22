@@ -1,0 +1,34 @@
+<div id="editor">
+	<table border="1" cellspacing="1" cellpadding="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td rowspan="3">&nbsp;</td>
+				<td>1</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>1</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>1</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
+	CKEDITOR.replace( 'editor' );
+</script>
