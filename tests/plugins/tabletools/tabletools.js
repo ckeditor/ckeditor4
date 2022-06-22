@@ -265,7 +265,6 @@
 		},
 
 		'test merge cells with a rowspan should create undo step': function() {
-
 			bender.editorBot.create( {
 				name: 'editor_merge_rowspanned_cells',
 				config: {
@@ -282,8 +281,6 @@
 
 					var output = bot.getData( true ),
 						undo = editor.getCommand( 'undo' );
-
-					output = output.replace( /\u00a0/g, '&nbsp;' );
 
 					assert.areSame( bender.tools.compatHtml( expected ), output );
 					assert.isTrue( undo.state === CKEDITOR.TRISTATE_OFF );
