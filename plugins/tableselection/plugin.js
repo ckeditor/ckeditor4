@@ -921,7 +921,10 @@
 		editor.on( 'afterCommandExec', function( evt ) {
 			if ( CKEDITOR.tools.array.indexOf( cmds, evt.data.name ) !== -1 ) {
 				callback( editor, evt.data );
+
 			}
+		// This listener is connected with undo plugin listener and require a higher priority
+		// than the listener in undo plugin to create a correct undo step (#4284).
 		}, null, null, 9 );
 	}
 
