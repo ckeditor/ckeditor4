@@ -530,7 +530,11 @@
 						editor.fire( 'paste', {
 							method: 'paste',
 							dataValue: '',
-							dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer( { files: targetElement.$.files } )
+							dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer( {
+								files: targetElement.$.files,
+								// Add missing content type (#5234).
+								types: [ 'Files' ]
+							} )
 						} );
 					}
 				} );
