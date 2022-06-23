@@ -1,0 +1,20 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line.</p>
+
+<div id="classic"></div>
+<div id="inline" contenteditable="true">
+	<p>test</p>
+</div>
+
+<script>
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+	var commonConfig = {
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL
+		};
+
+	CKEDITOR.replace( 'classic', commonConfig );
+	CKEDITOR.inline( 'inline', CKEDITOR.tools.extend( {
+		extraPlugins: 'sourcedialog'
+	}, commonConfig ) );
+</script>
