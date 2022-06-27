@@ -656,6 +656,33 @@
 		},
 
 		/**
+		 * Returns a new debounced version of the passed function that will postpone
+		 * its execution until the given milliseconds have elapsed since the last time it was invoked.
+		 *
+		 * @since 4.19.1
+		 * @param {Function} func The function to be executed.
+		 * @param {Number} [milliseconds=0] The amount of time (in milliseconds) to wait
+		 * to fire the function execution.
+		 * @returns {Function}
+		 */
+		debounce: function( func, milliseconds ) {
+			var timeout;
+
+			return function() {
+				var context = this,
+					args = arguments;
+
+				var later = function() {
+					timeout = null;
+					func.apply( context, args );
+				};
+
+				clearTimeout( timeout );
+				timeout = setTimeout( later, milliseconds );
+			};
+		},
+
+		/**
 		 * Creates a {@link CKEDITOR.tools.buffers.throttle throttle buffer} instance.
 		 *
 		 * See the {@link CKEDITOR.tools.buffers.throttle#method-input input method's} documentation for example listings.

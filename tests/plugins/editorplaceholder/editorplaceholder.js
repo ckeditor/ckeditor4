@@ -127,9 +127,9 @@
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			editor.fire( 'change' );
-
-			assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			fireChange( editor, function() {
+				assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			} );
 		} );
 	};
 
@@ -146,9 +146,73 @@
 			// setHtml is used to prevent unnecessary focusing of the editor
 			// as focus can make the test false positive (it changes placeholder state).
 			editable.setHtml( '<p>Test</p>' );
+
+			fireChange( editor, function() {
+				assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			} );
+		} );
+	};
+
+	// (#5184)
+	tests[ 'test placeholder change event triggers placeholder toggle after a delay' ] = function() {
+		bender.editorBot.create( {
+			name: 'change_event3',
+			config: {
+				editorplaceholder: 'Some placeholder'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				editable = editor.editable();
+
+			// setHtml is used to prevent unnecessary focusing of the editor
+			// as focus can make the test false positive (it changes placeholder state).
+			editable.setHtml( '<p>Test</p>' );
+
+			var timer = sinon.useFakeTimers();
+
 			editor.fire( 'change' );
 
-			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			timer.tick( editor.config.editorplaceholder_delay - 1 );
+
+			assert.isTrue( editable.hasAttribute( 'data-cke-editorplaceholder' ),
+					"Placeholder shouldn't be visible until reaching delay" );
+
+			timer.tick( 1 );
+
+			assert.isFalse( editable.hasAttribute( 'data-cke-editorplaceholder' ),
+					'Placeholder should be hidden after delay' );
+
+			timer.restore();
+		} );
+	};
+
+	// (#5184)
+	tests[ 'test placeholder should be toggled once right after a delay' ] = function() {
+		bender.editorBot.create( {
+			name: 'change_event4',
+			config: {
+				editorplaceholder: 'Some placeholder'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				editable = editor.editable();
+
+			// setHtml is used to prevent unnecessary focusing of the editor
+			// as focus can make the test false positive (it changes placeholder state).
+			editable.setHtml( '<p>Test</p>' );
+
+			var editableSpy = sinon.spy( editable, 'removeAttribute' );
+
+			editor.fire( 'change' );
+			editor.fire( 'change' );
+			editor.fire( 'change' );
+
+			wait( function() {
+				editableSpy.restore();
+
+				assert.isTrue( editableSpy.calledOnce );
+				assert.isTrue( editableSpy.calledWith( 'data-cke-editorplaceholder' ) );
+			}, editor.config.editorplaceholder_delay );
 		} );
 	};
 
@@ -276,9 +340,9 @@
 				evt.data.dataValue = '';
 			}, null, null, 16 );
 
-			editor.fire( 'change' );
-
-			assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			fireChange( editor, function() {
+				assert.isTrue( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			} );
 		} );
 	};
 
@@ -300,9 +364,9 @@
 				evt.data.dataValue = startupData;
 			}, null, null, 16 );
 
-			editor.fire( 'change' );
-
-			assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			fireChange( editor, function() {
+				assert.isFalse( editor.editable().hasAttribute( 'data-cke-editorplaceholder' ) );
+			} );
 		} );
 	};
 
@@ -318,6 +382,12 @@
 		};
 
 		window.addEventListener( 'error', benderScope.runtimeErrorListener );
+	}
+
+	function fireChange( editor, callback ) {
+		editor.fire( 'change' );
+
+		wait( callback, editor.config.editorplaceholder_delay );
 	}
 
 }() );
