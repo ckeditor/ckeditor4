@@ -1,4 +1,4 @@
-﻿/* bender-tags: editor */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -1109,6 +1109,22 @@
 			CKEDITOR.tools.array.forEach( conversionArray, function( item ) {
 				assert.areSame( item.output, CKEDITOR.tools.convertToPx( item.input ), 'Value ' + item.input + ' should be converted to ' + item.output );
 			} );
+		},
+
+		// (#5158)
+		'test convertToPx works after calculator element was removed': function() {
+			// Attach calculator element to the DOM.
+			CKEDITOR.tools.convertToPx( '10px' );
+
+			// Based on convertToPx implementation
+			// calculator is the last element under `body` after `convertToPx` invocation.
+			var bodyChildren = CKEDITOR.document.getBody().getChildren(),
+				calculator = bodyChildren.getItem( bodyChildren.count() - 1 );
+
+			calculator.remove();
+
+			var result = CKEDITOR.tools.convertToPx( '10px' );
+			assert.areEqual( 10, result );
 		},
 
 		'test bind without context and without arguments': function() {
