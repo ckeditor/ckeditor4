@@ -12,7 +12,7 @@ Fixed Issues:
 * [#5085](https://github.com/ckeditor/ckeditor4/issues/5085): Fixed: [Language](https://ckeditor.com/cke4/addon/language) plugin removes the element marking the text in foreign language if this element does not have an information about text direction.
 * [#4284](https://github.com/ckeditor/ckeditor4/issues/4284): Fixed: [Tableselection](https://ckeditor.com/cke4/addon/tableselection) Merging cells with a rowspan was throwing error and did not create undo step.
 * [#5184](https://github.com/ckeditor/ckeditor4/issues/5184): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/wysiwygarea) plugin degredates typing performance.
-* [#5158](https://github.com/ckeditor/ckeditor4/issues/5158): Fixed: [tools.convertToPx()](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) gives invalid results in case helper calculator element was deleted from the DOM.
+* [#5158](https://github.com/ckeditor/ckeditor4/issues/5158): Fixed: [`tools.convertToPx`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) gives invalid results in case helper calculator element was deleted from the DOM.
 
 API changes:
 
