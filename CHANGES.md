@@ -13,6 +13,7 @@ Fixed Issues:
 * [#4284](https://github.com/ckeditor/ckeditor4/issues/4284): Fixed: [Tableselection](https://ckeditor.com/cke4/addon/tableselection) Merging cells with a rowspan was throwing error and did not create undo step.
 * [#5184](https://github.com/ckeditor/ckeditor4/issues/5184): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/wysiwygarea) plugin degredates typing performance.
 * [#5158](https://github.com/ckeditor/ckeditor4/issues/5158): Fixed: [`CKEDITOR.tools#convertToPx()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) gives invalid results in case helper calculator element was deleted from the DOM.
+* [#5234](https://github.com/ckeditor/ckeditor4/issues/5234): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) Upload file by using toolbar easyimage button was impossible.
 
 API changes:
 
