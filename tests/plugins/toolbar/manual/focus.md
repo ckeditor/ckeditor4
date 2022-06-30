@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, elementspath
 
 1. Focus the editor.
-2.  Focus toolbar by pressing `ALT + F10`.
+2. Focus toolbar by pressing `ALT + F10`.
 
 **Expected:** Toolbar is focused.
 
