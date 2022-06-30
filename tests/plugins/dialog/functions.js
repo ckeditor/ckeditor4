@@ -95,7 +95,6 @@ bender.test( {
 
 } );
 
-
 function setupValueGetter( value, context ) {
 	context.getValue = function() {
 		return value;
