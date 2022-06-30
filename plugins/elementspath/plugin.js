@@ -151,6 +151,9 @@
 					case 32: // SPACE
 						onClick( elementIndex );
 						return false;
+					case CKEDITOR.ALT + 121: // ALT + F10 (#438).
+						editor.execCommand( 'toolbarFocus' );
+						return false;
 				}
 				return true;
 			} );
