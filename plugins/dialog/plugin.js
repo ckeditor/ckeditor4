@@ -3246,24 +3246,30 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 						i++;
 					}
 
-					if ( i < args.length && typeof args[ i ] == 'number' )
+					if ( i < args.length && typeof args[ i ] == 'number' ) {
 						relation = args[ i ];
-
-					var passed = ( relation == CKEDITOR.VALIDATE_AND ? true : false ),
-						isValid;
-
-					for ( i = 0; i < functions.length; i++ ) {
-						// Do not confuse `true` with `truthy` not empty message (#4449).
-						isValid = functions[ i ]( value ) === true;
-
-						if ( relation == CKEDITOR.VALIDATE_AND )
-							passed = passed && isValid;
-						else
-							passed = passed || isValid;
 					}
+
+					var passed = runValidators( functions, relation, value );
 
 					return !passed ? msg : true;
 				};
+
+				function runValidators( functions, relation, value ) {
+					var passed = ( relation == CKEDITOR.VALIDATE_AND ? true : false );
+
+					for ( var i = 0; i < functions.length; i++ ) {
+						// Do not confuse `true` with `truthy` not empty error message (#4449).
+						var doesValidationPassed = functions[ i ]( value ) === true;
+
+						if ( relation == CKEDITOR.VALIDATE_AND )
+							passed = passed && doesValidationPassed;
+						else
+							passed = passed || doesValidationPassed;
+					}
+
+					return passed;
+				}
 			},
 
 			/**
