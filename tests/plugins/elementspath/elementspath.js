@@ -54,10 +54,11 @@
 			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 			var pathUIPart = editor.ui.space( 'path' ).getFirst();
 
-			bender.tools.fireElementEventHandler( pathUIPart, 'onkeydown', {
+			pathUIPart.fireEventHandler( 'keydown', {
 				keyCode: F10,
 				altKey: true
 			} );
+
 			commandSpy.restore();
 			assert.isTrue( commandSpy.calledWith( 'toolbarFocus' ) );
 		},
@@ -70,7 +71,9 @@
 			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 			var pathUIPart = editor.ui.space( 'path' ).getFirst();
 
-			bender.tools.fireElementEventHandler( pathUIPart, 'onkeydown', { keyCode: ESC } );
+			pathUIPart.fireEventHandler( 'keydown', {
+				keyCode: ESC
+			} );
 
 			focusSpy.restore();
 			assert.isTrue( focusSpy.calledOnce );

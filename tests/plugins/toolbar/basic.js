@@ -137,7 +137,7 @@ bender.test( {
 		this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 
 		// ALT + F11
-		bender.tools.fireElementEventHandler( toolboxUIPart, 'onkeydown', {
+		toolboxUIPart.fireEventHandler( 'keydown', {
 			keyCode: F11,
 			altKey: true
 		} );
@@ -154,7 +154,7 @@ bender.test( {
 
 		this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 
-		bender.tools.fireElementEventHandler( toolboxUIPart, 'onkeydown', {
+		toolboxUIPart.fireEventHandler( 'keydown', {
 			keyCode: ESC
 		} );
 
