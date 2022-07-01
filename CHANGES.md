@@ -10,10 +10,10 @@ Fixed Issues:
 * [#5125](https://github.com/ckeditor/ckeditor4/issues/5125): Fixed: Deleting a widget with disabled [autoParagraph](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autoParagraph) by the keyboard `backspace` key removes editor editable area and crash it.
 * [#5135](https://github.com/ckeditor/ckeditor4/issues/5135): Fixed: [`checkbox.setValue`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_dialog_checkbox.html#method-setValue) and [`radio.setValue`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_dialog_radio.html#method-setValue) methods are not chainable as stated in documentation. Thanks to [Jordan Bradford](https://github.com/LordPachelbel)!
 * [#5085](https://github.com/ckeditor/ckeditor4/issues/5085): Fixed: [Language](https://ckeditor.com/cke4/addon/language) plugin removes the element marking the text in foreign language if this element does not have an information about text direction.
-* [#4284](https://github.com/ckeditor/ckeditor4/issues/4284): Fixed: [Tableselection](https://ckeditor.com/cke4/addon/tableselection) Merging cells with a rowspan was throwing error and did not create undo step.
+* [#4284](https://github.com/ckeditor/ckeditor4/issues/4284): Fixed: [Tableselection](https://ckeditor.com/cke4/addon/tableselection) Merging cells with a rowspan throws unexpected error does not create undo step.
 * [#5184](https://github.com/ckeditor/ckeditor4/issues/5184): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/wysiwygarea) plugin degredates typing performance.
 * [#5158](https://github.com/ckeditor/ckeditor4/issues/5158): Fixed: [`CKEDITOR.tools#convertToPx()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) gives invalid results in case helper calculator element was deleted from the DOM.
-* [#5234](https://github.com/ckeditor/ckeditor4/issues/5234): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) Upload file by using toolbar easyimage button was impossible.
+* [#5234](https://github.com/ckeditor/ckeditor4/issues/5234): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) can't be uploaded using toolbar button.
 * [#438](https://github.com/ckeditor/ckeditor4/issues/438): Fixed: It is impossible to navigate to the [elementspath](https://ckeditor.com/cke4/addon/elementspath) from the [toolbar](https://ckeditor.com/cke4/addon/toolbar) by keyboard and vice versa.
 
 API changes:
