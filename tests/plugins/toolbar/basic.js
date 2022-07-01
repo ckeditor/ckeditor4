@@ -33,6 +33,9 @@ bender.editor = {
 	}
 };
 
+var F11 = 122,
+	ESC = 27;
+
 bender.test( {
 	'test toolbar': function() {
 		assert.isNotNull( this.editor.ui.space( 'toolbox' ) );
@@ -123,5 +126,39 @@ bender.test( {
 				assert.areSame( resizeData[ 0 ].outerHeight, resizeData[ 2 ].outerHeight, 'Height should properly restore to same value.' );
 			}
 		);
+	},
+
+	// (#438)
+	'test focusing elements path': function() {
+		var editor = this.editor,
+			commandSpy = sinon.spy( editor, 'execCommand' ),
+			toolboxUIPart = editor.ui.space( 'toolbox' ).findOne( '.cke_button' );
+
+		this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
+
+		// ALT + F11
+		toolboxUIPart.fireEventHandler( 'keydown', {
+			keyCode: F11,
+			altKey: true
+		} );
+
+		commandSpy.restore();
+		assert.isTrue( commandSpy.calledWith( 'elementsPathFocus' ) );
+	},
+
+	// (#438)
+	'test focusing editor': function() {
+		var editor = this.editor,
+			focusSpy = sinon.spy( editor, 'focus' ),
+			toolboxUIPart = editor.ui.space( 'toolbox' ).findOne( '.cke_button' );
+
+		this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
+
+		toolboxUIPart.fireEventHandler( 'keydown', {
+			keyCode: ESC
+		} );
+
+		focusSpy.restore();
+		assert.isTrue( focusSpy.calledOnce );
 	}
 } );

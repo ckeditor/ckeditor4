@@ -1,9 +1,12 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: elementspath */
+/* bender-ckeditor-plugins: elementspath, toolbar, basicstyles */
 /* global elementspathTestsTools */
 
 ( function() {
 	'use strict';
+
+	var F10 = 121,
+		ESC = 27;
 
 	// Elements path feature is only available in themed UI creators.
 	bender.editor = { creator: 'replace' };
@@ -41,6 +44,39 @@
 				assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Element draggable attribute value.' );
 				assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'Element ondragstart attribute value.' );
 			} );
+		},
+
+		// (#438)
+		'test focusing toolbar': function() {
+			var editor = this.editor,
+				commandSpy = sinon.spy( editor, 'execCommand' );
+
+			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
+			var pathUIPart = editor.ui.space( 'path' ).getFirst();
+
+			pathUIPart.fireEventHandler( 'keydown', {
+				keyCode: F10,
+				altKey: true
+			} );
+
+			commandSpy.restore();
+			assert.isTrue( commandSpy.calledWith( 'toolbarFocus' ) );
+		},
+
+		// (#438)
+		'test focusing editor': function() {
+			var editor = this.editor,
+				focusSpy = sinon.spy( editor, 'focus' );
+
+			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
+			var pathUIPart = editor.ui.space( 'path' ).getFirst();
+
+			pathUIPart.fireEventHandler( 'keydown', {
+				keyCode: ESC
+			} );
+
+			focusSpy.restore();
+			assert.isTrue( focusSpy.calledOnce );
 		}
 	} );
 } )();
