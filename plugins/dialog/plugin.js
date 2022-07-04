@@ -3262,10 +3262,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 						// Do not confuse `true` with `truthy` not empty error message (#4449).
 						var doesValidationPassed = functions[ i ]( value ) === true;
 
-						if ( relation == CKEDITOR.VALIDATE_AND )
+						if ( relation == CKEDITOR.VALIDATE_AND ) {
 							passed = passed && doesValidationPassed;
-						else
+						} else {
 							passed = passed || doesValidationPassed;
+						}
 					}
 
 					return passed;
