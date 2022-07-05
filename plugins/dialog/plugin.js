@@ -3279,7 +3279,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Checks if a dialog UI element value meets the regex condition.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validate.regex( 'error!', /^\d*$/ )( '123' ) // true
+			 * CKEDITOR.dialog.validate.regex( /^\d*$/, 'error!' )( '123' ) // true
 			 * CKEDITOR.dialog.validate.regex( 'error!' )( '123.321' ) // error!
 			 * ```
 			 *
