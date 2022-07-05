@@ -77,7 +77,7 @@ bender.test( {
 
 	'test validator regex should accept passed argument': function() {
 		var result = CKEDITOR.dialog.validate.regex( /^\d*$/, errorMsg )( '123' );
-		var negativeResult = CKEDITOR.dialog.validate.regex( errorMsg )( '123.321' );
+		var negativeResult = CKEDITOR.dialog.validate.regex( /^\d*$/, errorMsg )( '123.321' );
 
 		assert.isTrue( result );
 		assert.areSame( errorMsg, negativeResult );

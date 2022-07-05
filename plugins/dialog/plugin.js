@@ -3280,7 +3280,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 *
 			 * ```javascript
 			 * CKEDITOR.dialog.validate.regex( /^\d*$/, 'error!' )( '123' ) // true
-			 * CKEDITOR.dialog.validate.regex( 'error!' )( '123.321' ) // error!
+			 * CKEDITOR.dialog.validate.regex( /^\d*$/, 'error!' )( '123.321' ) // error!
 			 * ```
 			 *
 			 * @param {RegExp} regex Regular expression used to validate the value.
