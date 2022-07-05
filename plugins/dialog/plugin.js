@@ -3229,7 +3229,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					// as argument in addition to this.getValue(), so that it is possible to
 					// combine validate functions together to make more sophisticated
 					// validators.
-					var value = this && this.getValue ? this.getValue() : args[ 0 ];
+					var value = this && this.getValue ? this.getValue() : arguments[ 0 ];
 
 					var msg,
 						relation = CKEDITOR.VALIDATE_AND,
