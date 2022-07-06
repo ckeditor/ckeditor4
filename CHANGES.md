@@ -16,14 +16,13 @@ Fixed Issues:
 * [#5234](https://github.com/ckeditor/ckeditor4/issues/5234): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) can't be uploaded using toolbar button.
 * [#438](https://github.com/ckeditor/ckeditor4/issues/438): Fixed: It is impossible to navigate to the [elementspath](https://ckeditor.com/cke4/addon/elementspath) from the [toolbar](https://ckeditor.com/cke4/addon/toolbar) by keyboard and vice versa.
 * [#4449](https://github.com/ckeditor/ckeditor4/issues/4449): Fixed: [`dialog.validate#functions`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-functions) incorrectly composes functions that returns an optional error message, like e.g. [`dialog.validate.number`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-number) due to unnecessary return type coercion.
-* [#4473](https://github.com/ckeditor/ckeditor4/issues/4473): Fix: [dialog.validate methods](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html) does not accept parameter value. Affected validators:
-	* [equals](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-equals)
-	* [notEqual](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-notEqual)
-	* [cssLength](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-cssLength)
-	* [htmlLength](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-htmlLength)
-	* [inlineStyle](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-inlineStyle)
-The issue originated in [dialog.validate.functions](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-functions) method that didn't properly propagate parameter value to validator and has been also patched.
-
+* [#4473](https://github.com/ckeditor/ckeditor4/issues/4473): Fixed: [dialog.validate](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html) methods does not accept parameter value. The issue originated in [dialog.validate.functions](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-functions) method that did not properly propagate parameter value to validator. Affected validators:
+	* [`functions`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-functions)
+	* [`equals`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-equals)
+	* [`notEqual`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-notEqual)
+	* [`cssLength`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-cssLength)
+	* [`htmlLength`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-htmlLength)
+	* [`inlineStyle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-inlineStyle)
 
 API changes:
 
