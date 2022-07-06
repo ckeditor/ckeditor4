@@ -3292,7 +3292,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 */
 			regex: function( regex, msg ) {
 				return this.functions( function( val ) {
-					return !regex.test( val ) ? msg : true;
+					return regex.test( val );
 				}, msg );
 			},
 
@@ -3312,7 +3312,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					var trimCharacters = '\\u0020\\u00a0\\u1680\\u202f\\u205f\\u3000\\u2000-\\u200a\\s',
 						trimRegex = new RegExp( '^[' + trimCharacters + ']+|[' + trimCharacters + ']+$', 'g' );
 
-					return val.replace( trimRegex, '' ).length > 0 || msg;
+					return val.replace( trimRegex, '' ).length > 0;
 				}, msg );
 			},
 
