@@ -3239,10 +3239,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 						i;
 
 					for ( i = 0; i < args.length; i++ ) {
-						if ( typeof args[ i ] == 'function' )
+						if ( typeof args[ i ] == 'function' ) {
 							functions.push( args[ i ] );
-						else
+						} else {
 							break;
+						}
 					}
 
 					if ( i < args.length && typeof args[ i ] == 'string' ) {
