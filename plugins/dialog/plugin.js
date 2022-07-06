@@ -3212,6 +3212,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * 	'error!'
 			 * );
 			 * ```
+			 * **Note:** validation functions should return `true` value for successful validation. Since 4.19.1
+			 * this method does not coerce return type to boolean.
 			 *
 			 * @param {Function...} validators Validation functions which will be composed into a single validator.
 			 * @param {String} [msg] Error message returned by the composed validation function.
