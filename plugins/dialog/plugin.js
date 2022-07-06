@@ -3291,14 +3291,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * @returns {Function} Validation function.
 			 */
 			regex: function( regex, msg ) {
-				/*
-				 * Can be greatly shortened by deriving from functions validator if code size
-				 * turns out to be more important than performance.
-				 */
-				return function() {
-					var value = this && this.getValue ? this.getValue() : arguments[ 0 ];
-					return !regex.test( value ) ? msg : true;
-				};
+				return this.functions( function( val ) {
+					return !regex.test( val ) ? msg : true;
+				}, msg );
 			},
 
 			/**
@@ -3313,14 +3308,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * @returns {Function} Validation function.
 			 */
 			notEmpty: function( msg ) {
-				var trimCharacters = '\\u0020\\u00a0\\u1680\\u202f\\u205f\\u3000\\u2000-\\u200a\\s',
-					trimRegex = new RegExp( '^[' + trimCharacters + ']+|[' + trimCharacters + ']+$', 'g' );
+				return this.functions( function( val ) {
+					var trimCharacters = '\\u0020\\u00a0\\u1680\\u202f\\u205f\\u3000\\u2000-\\u200a\\s',
+						trimRegex = new RegExp( '^[' + trimCharacters + ']+|[' + trimCharacters + ']+$', 'g' );
 
-				return function() {
-					var value = this && this.getValue ? this.getValue() : arguments[ 0 ];
-
-					return value.replace( trimRegex, '' ).length > 0 || msg;
-				};
+					return val.replace( trimRegex, '' ).length > 0 || msg;
+				}, msg );
 			},
 
 			/**
