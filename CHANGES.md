@@ -11,12 +11,18 @@ Fixed Issues:
 * [#5135](https://github.com/ckeditor/ckeditor4/issues/5135): Fixed: [`checkbox.setValue`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_dialog_checkbox.html#method-setValue) and [`radio.setValue`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_dialog_radio.html#method-setValue) methods are not chainable as stated in documentation. Thanks to [Jordan Bradford](https://github.com/LordPachelbel)!
 * [#5085](https://github.com/ckeditor/ckeditor4/issues/5085): Fixed: [Language](https://ckeditor.com/cke4/addon/language) plugin removes the element marking the text in foreign language if this element does not have an information about text direction.
 * [#4284](https://github.com/ckeditor/ckeditor4/issues/4284): Fixed: [Tableselection](https://ckeditor.com/cke4/addon/tableselection) Merging cells with a rowspan throws unexpected error and does not create undo step.
-* [#5184](https://github.com/ckeditor/ckeditor4/issues/5184): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/wysiwygarea) plugin degredates typing performance.
+* [#5184](https://github.com/ckeditor/ckeditor4/issues/5184): Fixed: [Editor Placeholder](https://ckeditor.com/cke4/addon/wysiwygarea) plugin degradates typing performance.
 * [#5158](https://github.com/ckeditor/ckeditor4/issues/5158): Fixed: [`CKEDITOR.tools#convertToPx()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) gives invalid results in case helper calculator element was deleted from the DOM.
 * [#5234](https://github.com/ckeditor/ckeditor4/issues/5234): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) can't be uploaded using toolbar button.
 * [#438](https://github.com/ckeditor/ckeditor4/issues/438): Fixed: It is impossible to navigate to the [elementspath](https://ckeditor.com/cke4/addon/elementspath) from the [toolbar](https://ckeditor.com/cke4/addon/toolbar) by keyboard and vice versa.
 * [#4449](https://github.com/ckeditor/ckeditor4/issues/4449): Fixed: [`dialog.validate#functions`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-functions) incorrectly composes functions that returns an optional error message, like e.g. [`dialog.validate.number`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-number) due to unnecessary return type coercion.
-
+* [#4473](https://github.com/ckeditor/ckeditor4/issues/4473): Fixed: [dialog.validate](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html) methods does not accept parameter value. The issue originated in [dialog.validate.functions](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-functions) method that did not properly propagate parameter value to validator. Affected validators:
+	* [`functions`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-functions)
+	* [`equals`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-equals)
+	* [`notEqual`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-notEqual)
+	* [`cssLength`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-cssLength)
+	* [`htmlLength`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-htmlLength)
+	* [`inlineStyle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-inlineStyle)
 
 API changes:
 

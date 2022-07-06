@@ -6,11 +6,11 @@ bender.test( {
 		var testValue = 'value',
 			stubValidator = sinon.stub().returns( true );
 
-		validateFunctions( testValue, [
+		CKEDITOR.dialog.validate.functions(
 			stubValidator,
 			stubValidator,
 			stubValidator
-		] );
+		)( testValue );
 
 		assert.areSame( stubValidator.callCount, 3, 'Validator should be called 3 times.' );
 		assert.isTrue( stubValidator.calledWith( testValue ), 'Validator should be called with "' + testValue + '".' );
@@ -19,11 +19,11 @@ bender.test( {
 	'test functions returns true if all inner validators returns true - joined with default VALIDATE_AND': function() {
 		var stubValidator = sinon.stub().returns( true );
 
-		var result = validateFunctions( 'any value', [
+		var result = CKEDITOR.dialog.validate.functions(
 			stubValidator,
 			stubValidator,
 			stubValidator
-		] );
+		)( 'any value' );
 
 		assert.isTrue( result );
 	},
@@ -34,11 +34,11 @@ bender.test( {
 			stubFalseValidator = sinon.stub().returns( 'error message' ),
 			errorMsg = 'error!';
 
-		var result = validateFunctions( 'any value', [
+		var result = CKEDITOR.dialog.validate.functions(
 			stubTrueValidator,
 			stubFalseValidator,
 			errorMsg
-		] );
+		)( 'any value' );
 
 		assert.areSame( errorMsg, result );
 	},
@@ -47,12 +47,12 @@ bender.test( {
 		var stubTrueValidator = sinon.stub().returns( true ),
 			stubFalseValidator = sinon.stub().returns( false );
 
-		var result = validateFunctions( 'any value', [
+		var result = CKEDITOR.dialog.validate.functions(
 			stubTrueValidator,
 			stubFalseValidator,
 			'error message',
 			CKEDITOR.VALIDATE_OR
-		] );
+		)( 'any value' );
 
 		assert.isTrue( result );
 	},
@@ -61,26 +61,27 @@ bender.test( {
 		var stubFalseValidator = sinon.stub().returns( 'error message' ),
 			errorMsg = 'error!';
 
-		var result = validateFunctions( 'any value', [
+		var result = CKEDITOR.dialog.validate.functions(
 			stubFalseValidator,
 			stubFalseValidator,
 			errorMsg,
 			CKEDITOR.VALIDATE_OR
-		] );
+		)( 'any value' );
 
 		assert.areSame( errorMsg, result );
+	},
+
+	'test functions favor getValue context method instead of value parameter': function() {
+		var stubValidator = sinon.stub().returns( true ),
+			context = {
+				getValue: function() {
+					return 'getValue';
+				}
+			};
+
+		CKEDITOR.dialog.validate.functions( stubValidator ).call( context, 'value' );
+
+		assert.areSame( stubValidator.callCount, 1, 'Validator should be called once.' );
+		assert.isTrue( stubValidator.calledWith( 'getValue' ), 'Validator should use "getValue" value.' );
 	}
 } );
-
-function validateFunctions( value, functions ) {
-	// Use that validator context to stub `getValue` method.
-	var context = {
-		getValue: function() {
-			return value;
-		}
-	};
-
-	var validator = CKEDITOR.dialog.validate.functions.apply( null, functions );
-
-	return validator.apply( context );
-}
