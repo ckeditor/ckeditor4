@@ -3256,7 +3256,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				};
 
 				function runValidators( functions, relation, value ) {
-					var passed = ( relation == CKEDITOR.VALIDATE_AND ? true : false );
+					var passed = relation == CKEDITOR.VALIDATE_AND;
 
 					for ( var i = 0; i < functions.length; i++ ) {
 						// Do not confuse `true` with `truthy` not empty error message (#4449).
