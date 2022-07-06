@@ -1,42 +1,29 @@
 /* bender-tags: editor, dialog */
 /* bender-ckeditor-plugins: dialog */
 
-var validator = {};
-
 bender.test( {
-	tearDown: function() {
-		validator.composedValidator = null;
-		validator.getValue = null;
-	},
-
 	'test functions invoke all passed validators joined with default VALIDATE_AND with value': function() {
 		var testValue = 'value',
 			stubValidator = sinon.stub().returns( true );
 
-		validator.composedValidator = CKEDITOR.dialog.validate.functions(
+		validateFunctions( testValue, [
 			stubValidator,
 			stubValidator,
 			stubValidator
-		);
+		] );
 
-		setupValueGetter( testValue, validator );
-		validator.composedValidator();
-
-		assert.areSame( stubValidator.callCount, 3 );
-		assert.isTrue( stubValidator.calledWith( testValue ) );
+		assert.areSame( stubValidator.callCount, 3, 'Validator should be called 3 times.' );
+		assert.isTrue( stubValidator.calledWith( testValue ), 'Validator should be called with "' + testValue + '".' );
 	},
 
 	'test functions returns true if all inner validators returns true - joined with default VALIDATE_AND': function() {
 		var stubValidator = sinon.stub().returns( true );
 
-		validator.composedValidator = CKEDITOR.dialog.validate.functions(
+		var result = validateFunctions( 'any value', [
 			stubValidator,
 			stubValidator,
 			stubValidator
-		);
-
-		setupValueGetter( 'any value', validator );
-		var result = validator.composedValidator();
+		] );
 
 		assert.isTrue( result );
 	},
@@ -47,14 +34,11 @@ bender.test( {
 			stubFalseValidator = sinon.stub().returns( 'error message' ),
 			errorMsg = 'error!';
 
-		validator.composedValidator = CKEDITOR.dialog.validate.functions(
+		var result = validateFunctions( 'any value', [
 			stubTrueValidator,
 			stubFalseValidator,
 			errorMsg
-		);
-
-		setupValueGetter( 'any value', validator );
-		var result = validator.composedValidator();
+		] );
 
 		assert.areSame( errorMsg, result );
 	},
@@ -63,15 +47,12 @@ bender.test( {
 		var stubTrueValidator = sinon.stub().returns( true ),
 			stubFalseValidator = sinon.stub().returns( false );
 
-		validator.composedValidator = CKEDITOR.dialog.validate.functions(
+		var result = validateFunctions( 'any value', [
 			stubTrueValidator,
 			stubFalseValidator,
 			'error message',
 			CKEDITOR.VALIDATE_OR
-		);
-
-		setupValueGetter( 'any value', validator );
-		var result = validator.composedValidator();
+		] );
 
 		assert.isTrue( result );
 	},
@@ -80,23 +61,26 @@ bender.test( {
 		var stubFalseValidator = sinon.stub().returns( 'error message' ),
 			errorMsg = 'error!';
 
-		validator.composedValidator = CKEDITOR.dialog.validate.functions(
+		var result = validateFunctions( 'any value', [
 			stubFalseValidator,
 			stubFalseValidator,
 			errorMsg,
 			CKEDITOR.VALIDATE_OR
-		);
-
-		setupValueGetter( 'any value', validator );
-		var result = validator.composedValidator();
+		] );
 
 		assert.areSame( errorMsg, result );
 	}
-
 } );
 
-function setupValueGetter( value, context ) {
-	context.getValue = function() {
-		return value;
+function validateFunctions( value, functions ) {
+	// Use that validator context to stub `getValue` method.
+	var context = {
+		getValue: function() {
+			return value;
+		}
 	};
+
+	var validator = CKEDITOR.dialog.validate.functions.apply( null, functions );
+
+	return validator.apply( context );
 }
