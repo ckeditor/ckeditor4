@@ -557,6 +557,61 @@
 		}
 
 		var lang = editor.lang.find;
+		function execFindOrReplace( dialog, type ) {
+			if ( !dialog ) {
+				return;
+			}
+
+			if ( type === 'find' ) {
+				if ( !finder.find(
+					dialog.getValueOf( 'find', 'txtFindFind' ),
+					dialog.getValueOf( 'find', 'txtFindCaseChk' ),
+					dialog.getValueOf( 'find', 'txtFindWordChk' ),
+					dialog.getValueOf( 'find', 'txtFindCyclic' )
+				) ) {
+					alert( lang.notFoundMsg ); // jshint ignore:line
+				}
+			}
+
+			if ( type === 'findInReplace' ) {
+				if ( !finder.find(
+					dialog.getValueOf( 'replace', 'txtFindReplace' ),
+					dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
+					dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
+					dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
+				) ) {
+					alert( lang.notFoundMsg ); // jshint ignore:line
+				}
+			}
+
+			if ( type === 'replace' ) {
+				if ( !finder.replace(
+					dialog,
+					dialog.getValueOf( 'replace', 'txtFindReplace' ),
+					dialog.getValueOf( 'replace', 'txtReplace' ),
+					dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
+					dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
+					dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
+				) ) {
+					alert( lang.notFoundMsg ); // jshint ignore:line
+				}
+			}
+
+			if ( type === 'replaceAll' ) {
+				while ( finder.replace(
+					dialog,
+					dialog.getValueOf( 'replace', 'txtFindReplace' ),
+					dialog.getValueOf( 'replace', 'txtReplace' ),
+					dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
+					dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
+					false,
+					true
+				) ) {
+
+				}
+			}
+		}
+
 		return {
 			title: lang.title,
 			resizable: CKEDITOR.DIALOG_RESIZE_NONE,
@@ -591,14 +646,7 @@
 							}
 
 							var dialog = this.getDialog();
-							if ( !finder.find(
-								dialog.getValueOf( 'find', 'txtFindFind' ),
-								dialog.getValueOf( 'find', 'txtFindCaseChk' ),
-								dialog.getValueOf( 'find', 'txtFindWordChk' ),
-								dialog.getValueOf( 'find', 'txtFindCyclic' )
-							) ) {
-								alert( lang.notFoundMsg ); // jshint ignore:line
-							}
+							execFindOrReplace( dialog, 'find' );
 						}
 					},
 					{
@@ -609,15 +657,7 @@
 						label: lang.find,
 						onClick: function() {
 							var dialog = this.getDialog();
-
-							if ( !finder.find(
-								dialog.getValueOf( 'find', 'txtFindFind' ),
-								dialog.getValueOf( 'find', 'txtFindCaseChk' ),
-								dialog.getValueOf( 'find', 'txtFindWordChk' ),
-								dialog.getValueOf( 'find', 'txtFindCyclic' )
-							) ) {
-								alert( lang.notFoundMsg ); // jshint ignore:line
-							}
+							execFindOrReplace( dialog, 'find' );
 						}
 					} ]
 				},
@@ -673,14 +713,7 @@
 							}
 
 							var dialog = this.getDialog();
-							if ( !finder.find(
-								dialog.getValueOf( 'replace', 'txtFindReplace' ),
-								dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
-								dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
-								dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
-							) ) {
-								alert( lang.notFoundMsg ); // jshint ignore:line
-							}
+							execFindOrReplace( dialog, 'findInReplace' );
 						}
 					},
 					{
@@ -691,16 +724,7 @@
 						label: lang.replace,
 						onClick: function() {
 							var dialog = this.getDialog();
-							if ( !finder.replace(
-								dialog,
-								dialog.getValueOf( 'replace', 'txtFindReplace' ),
-								dialog.getValueOf( 'replace', 'txtReplace' ),
-								dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
-								dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
-								dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
-							) ) {
-								alert( lang.notFoundMsg ); // jshint ignore:line
-							}
+							execFindOrReplace( dialog, 'replace' );
 						}
 					} ]
 				},
@@ -722,16 +746,7 @@
 							}
 
 							var dialog = this.getDialog();
-							if ( !finder.replace(
-								dialog,
-								dialog.getValueOf( 'replace', 'txtFindReplace' ),
-								dialog.getValueOf( 'replace', 'txtReplace' ),
-								dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
-								dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
-								dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
-							) ) {
-								alert( lang.notFoundMsg ); // jshint ignore:line
-							}
+							execFindOrReplace( dialog, 'replace' );
 						}
 					},
 					{
@@ -753,17 +768,7 @@
 								finder.matchRange = null;
 							}
 							editor.fire( 'saveSnapshot' );
-							while ( finder.replace(
-								dialog,
-								dialog.getValueOf( 'replace', 'txtFindReplace' ),
-								dialog.getValueOf( 'replace', 'txtReplace' ),
-								dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
-								dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
-								false,
-								true
-							) ) {
-
-							}
+							execFindOrReplace( dialog, 'replaceAll' );
 
 							if ( finder.replaceCounter ) {
 								alert( lang.replaceSuccessMsg.replace( /%1/, finder.replaceCounter ) ); // jshint ignore:line
