@@ -13,6 +13,8 @@ bender.editor = {
 	}
 };
 
+var ENTER_KEY = 13;
+
 window.alert = function() {};
 
 bender.test( {
@@ -379,8 +381,61 @@ bender.test( {
 	// (#4987)
 	'test space separator: IDEOGRAPHIC SPACE': function() {
 		assertSpaceSeparator( this.editorBot, '\u3000', 'IDEOGRAPHIC SPACE' );
-	}
+	},
 
+	// (#5022)
+	'test find dialog with searching pattern by using Enter key': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>test</p>' );
+		bot.dialog( 'find', function( dialog ) {
+			dialog.setValueOf( 'find', 'txtFindFind', 'test' );
+
+			dialog.getContentElement( 'find', 'txtFindFind' )
+				.getInputElement()
+				.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ENTER_KEY } ) );
+
+			assert.areSame( '<p><span title="highlight">test</span></p>', bot.getData( true ) );
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	// (#5022)
+	'test replace dialog with searching pattern by using Enter key': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>test</p>' );
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'test' );
+
+			dialog.getContentElement( 'replace', 'txtFindReplace' )
+				.getInputElement()
+				.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ENTER_KEY } ) );
+
+			assert.areSame( '<p><span title="highlight">test</span></p>', bot.getData( true ) );
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	// (#5022)
+	'test replace dialog with replacing pattern by using Enter key': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>test</p>' );
+
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'test' );
+			dialog.setValueOf( 'replace', 'txtReplace', 'replaced' );
+
+			var txtReplaceInput = dialog.getContentElement( 'replace', 'txtReplace' ).getInputElement();
+
+			txtReplaceInput.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ENTER_KEY } ) );
+			txtReplaceInput.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: ENTER_KEY } ) );
+
+			dialog.getButton( 'cancel' ).click();
+			assert.areSame( '<p>replaced</p>', bot.getData() );
+		} );
+	}
 } );
 
 function assertSpaceSeparator( bot, unicode, name, expectedHtmlEntities ) {
