@@ -582,7 +582,24 @@
 						label: lang.findWhat,
 						isChanged: false,
 						labelLayout: 'horizontal',
-						accessKey: 'F'
+						accessKey: 'F',
+						onKeyDown: function( evt ) {
+							var keystroke = evt.data.getKeystroke();
+
+							if ( keystroke !== 13 ) {
+								return;
+							}
+
+							var dialog = this.getDialog();
+							if ( !finder.find(
+								dialog.getValueOf( 'find', 'txtFindFind' ),
+								dialog.getValueOf( 'find', 'txtFindCaseChk' ),
+								dialog.getValueOf( 'find', 'txtFindWordChk' ),
+								dialog.getValueOf( 'find', 'txtFindCyclic' )
+							) ) {
+								alert( lang.notFoundMsg ); // jshint ignore:line
+							}
+						}
 					},
 					{
 						type: 'button',
@@ -592,6 +609,7 @@
 						label: lang.find,
 						onClick: function() {
 							var dialog = this.getDialog();
+
 							if ( !finder.find(
 								dialog.getValueOf( 'find', 'txtFindFind' ),
 								dialog.getValueOf( 'find', 'txtFindCaseChk' ),
@@ -646,7 +664,24 @@
 						label: lang.findWhat,
 						isChanged: false,
 						labelLayout: 'horizontal',
-						accessKey: 'F'
+						accessKey: 'F',
+						onKeyDown: function( evt ) {
+							var keystroke = evt.data.getKeystroke();
+
+							if ( keystroke !== 13 ) {
+								return;
+							}
+
+							var dialog = this.getDialog();
+							if ( !finder.find(
+								dialog.getValueOf( 'replace', 'txtFindReplace' ),
+								dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
+								dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
+								dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
+							) ) {
+								alert( lang.notFoundMsg ); // jshint ignore:line
+							}
+						}
 					},
 					{
 						type: 'button',
@@ -678,7 +713,26 @@
 						label: lang.replaceWith,
 						isChanged: false,
 						labelLayout: 'horizontal',
-						accessKey: 'R'
+						accessKey: 'R',
+						onKeyDown: function( evt ) {
+							var keystroke = evt.data.getKeystroke();
+
+							if ( keystroke !== 13 ) {
+								return;
+							}
+
+							var dialog = this.getDialog();
+							if ( !finder.replace(
+								dialog,
+								dialog.getValueOf( 'replace', 'txtFindReplace' ),
+								dialog.getValueOf( 'replace', 'txtReplace' ),
+								dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
+								dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
+								dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
+							) ) {
+								alert( lang.notFoundMsg ); // jshint ignore:line
+							}
+						}
 					},
 					{
 						type: 'button',
