@@ -15,6 +15,7 @@
 		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasArrow}"' +
 		' aria-disabled="{ariaDisabled}"' +
+		'{hasArrowAriaHtml}' +
 		'{toggleAriaHtml}';
 
 	// Some browsers don't cancel key events in the keydown but in the
@@ -311,6 +312,7 @@
 				clickFn: clickFn,
 				style: CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), overridePath, this.iconOffset ),
 				arrowHtml: this.hasArrow ? btnArrowTpl.output() : '',
+				hasArrowAriaHtml: this.hasArrow ? ' aria-expanded="false"' : '',
 				toggleAriaHtml: this.isToggle ? 'aria-pressed="false"' : ''
 			};
 
@@ -344,9 +346,6 @@
 					// Note: aria-pressed attribute should not be added to menuButton instances. (https://dev.ckeditor.com/ticket/11331).
 					// For other buttons, do not remove the attribute, instead set its value (#2444).
 					element.setAttribute( 'aria-pressed', state === CKEDITOR.TRISTATE_ON );
-				} else if ( this.hasArrow ) {
-					// Indicates that menu button is opened (#421).
-					element.setAttribute( 'aria-expanded', state == CKEDITOR.TRISTATE_ON );
 				}
 
 				return true;
