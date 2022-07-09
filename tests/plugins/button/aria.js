@@ -6,7 +6,7 @@
 ( function() {
 	bender.editor = {
 		config: {
-			toolbar: [ [ 'custom_btn', 'disabled_btn', 'haspopup_btn', 'arrow_btn', 'toggle_btn' ] ],
+			toolbar: [ [ 'custom_btn', 'disabled_btn', 'haspopup_btn', 'arrow_btn', 'toggle_btn', 'arrow2_btn' ] ],
 			on: {
 				'pluginsLoaded': function( evt ) {
 					var editor = evt.editor;
@@ -29,6 +29,11 @@
 					editor.ui.addButton( 'toggle_btn', {
 						label: 'toggle button',
 						isToggle: true
+					} );
+
+					editor.ui.addButton( 'arrow2_btn', {
+						label: 'arrow button 2',
+						hasArrow: true
 					} );
 				}
 			}
@@ -68,10 +73,7 @@
 
 		// (#421)
 		'test button label with arrow': function() {
-			var button = buttonTools.getUiItem( this.editor, 'arrow_btn' ),
-				expectedAttributes = {
-					'aria-expanded': 'true'
-				};
+			var button = buttonTools.getUiItem( this.editor, 'arrow_btn' );
 
 			button.hasArrow = true;
 			button.setState( CKEDITOR.TRISTATE_ON );
@@ -79,9 +81,18 @@
 			var buttonEl = buttonTools.getButtonDomElement( button ),
 				label = CKEDITOR.document.getById( buttonEl.getAttribute( 'aria-labelledby' ) );
 
-			buttonTools.assertAttributes( expectedAttributes, button );
 			assert.areEqual( 'arrow button', label.getText(), 'innerText of label doesn\'t match' );
-		}
+		},
+
+		// (#5144)
+		'test button label with arrow has [aria-expanded] attribute added with the default value of false':
+			function() {
+				var button = buttonTools.getUiItem( this.editor, 'arrow2_btn' ),
+					buttonElement = buttonTools.getButtonDomElement( button ),
+					ariaExpanded = buttonElement.getAttribute( 'aria-expanded' );
+
+				assert.areEqual( 'false', ariaExpanded, '[aria-expanded] value is incorrect' );
+			}
 	};
 
 	CKEDITOR.tools.extend( tests, buttonTools.createAriaPressedTests( 'test_editor', [ 'toggle_btn' ] ) );
