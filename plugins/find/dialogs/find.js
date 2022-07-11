@@ -559,54 +559,6 @@
 		var lang = editor.lang.find,
 			ENTER_KEY = 13;
 
-		function execFind( dialog ) {
-			if ( !finder.find(
-				dialog.getValueOf( 'find', 'txtFindFind' ),
-				dialog.getValueOf( 'find', 'txtFindCaseChk' ),
-				dialog.getValueOf( 'find', 'txtFindWordChk' ),
-				dialog.getValueOf( 'find', 'txtFindCyclic' )
-			) ) {
-				alert( lang.notFoundMsg ); // jshint ignore:line
-			}
-
-		}
-
-		function execFindInReplace( dialog ) {
-			if ( !finder.find(
-				dialog.getValueOf( 'replace', 'txtFindReplace' ),
-				dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
-				dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
-				dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
-			) ) {
-				alert( lang.notFoundMsg ); // jshint ignore:line
-			}
-		}
-
-		function execReplace( dialog ) {
-			if ( !finder.replace(
-				dialog,
-				dialog.getValueOf( 'replace', 'txtFindReplace' ),
-				dialog.getValueOf( 'replace', 'txtReplace' ),
-				dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
-				dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
-				dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
-			) ) {
-				alert( lang.notFoundMsg ); // jshint ignore:line
-			}
-		}
-
-		function execReplaceAll( dialog ) {
-			while ( finder.replace(
-				dialog,
-				dialog.getValueOf( 'replace', 'txtFindReplace' ),
-				dialog.getValueOf( 'replace', 'txtReplace' ),
-				dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
-				dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
-				false,
-				true
-			) ) {}
-		}
-
 		return {
 			title: lang.title,
 			resizable: CKEDITOR.DIALOG_RESIZE_NONE,
@@ -878,6 +830,54 @@
 				}
 			}
 		};
+
+		function execFind( dialog ) {
+			if ( !finder.find(
+				dialog.getValueOf( 'find', 'txtFindFind' ),
+				dialog.getValueOf( 'find', 'txtFindCaseChk' ),
+				dialog.getValueOf( 'find', 'txtFindWordChk' ),
+				dialog.getValueOf( 'find', 'txtFindCyclic' )
+			) ) {
+				alert( lang.notFoundMsg ); // jshint ignore:line
+			}
+
+		}
+
+		function execFindInReplace( dialog ) {
+			if ( !finder.find(
+				dialog.getValueOf( 'replace', 'txtFindReplace' ),
+				dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
+				dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
+				dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
+			) ) {
+				alert( lang.notFoundMsg ); // jshint ignore:line
+			}
+		}
+
+		function execReplace( dialog ) {
+			if ( !finder.replace(
+				dialog,
+				dialog.getValueOf( 'replace', 'txtFindReplace' ),
+				dialog.getValueOf( 'replace', 'txtReplace' ),
+				dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
+				dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
+				dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
+			) ) {
+				alert( lang.notFoundMsg ); // jshint ignore:line
+			}
+		}
+
+		function execReplaceAll( dialog ) {
+			while ( finder.replace(
+				dialog,
+				dialog.getValueOf( 'replace', 'txtFindReplace' ),
+				dialog.getValueOf( 'replace', 'txtReplace' ),
+				dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ),
+				dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
+				false,
+				true
+			) ) {}
+		}
 
 		function createTextNodeWithPreservedSpaces( editor, text ) {
 			var textWithPreservedSpaces = text.replace( consecutiveWhitespaceRegex,
