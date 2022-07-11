@@ -25,7 +25,7 @@ Fixed Issues:
 	* [`inlineStyle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-inlineStyle)
 * [#5147](https://github.com/ckeditor/ckeditor4/issues/5147): Fixed: [Accessibility Help](https://ckeditor.com/cke4/addon/a11yhelp) dialog does not contain info about focus being moved back to the editing area upon leaving dialogs.
 * [#5144](https://github.com/ckeditor/ckeditor4/issues/5144): Fixed: [Menu buttons](https://ckeditor.com/cke4/addon/menubutton) and [panel buttons](https://ckeditor.com/cke4/addon/panelbutton) incorrectly indicates the open status of their associated pop-up menus in the browser's accessibility tree.
-
+* [#5022](https://github.com/ckeditor/ckeditor4/issues/5022): Fixed: [Find and Replace](https://ckeditor.com/cke4/addon/find) does not respond to the `Enter` key.
 
 API changes:
 
