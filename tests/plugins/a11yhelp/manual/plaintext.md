@@ -1,10 +1,10 @@
 @bender-tags: bug, 4.7.1, trac16980, feature
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea,a11yhelp,pastetext
+@bender-ckeditor-plugins: wysiwygarea, a11yhelp, pastetext
 
 ### Scenario:
 
-1. Focus the edtior.
+1. Focus the editor.
 1. Open Accessibility Help using `ALT+0` hotkey.
 1. Scroll down to `Commands` section.
 
