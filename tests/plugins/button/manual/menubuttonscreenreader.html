@@ -1,0 +1,20 @@
+<div id="editor">
+	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum blanditiis ullam natus veniam dolore,
+		nobis vitae tenetur inventore consequuntur fugit sunt doloremque officiis esse repellendus laboriosam.
+		Itaque nesciunt iste dolorum.</p>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		plugins: [
+			'toolbar',
+			'wysiwygarea',
+			'language',
+			'colorbutton'
+		]
+	} );
+</script>

@@ -1,0 +1,64 @@
+<style>
+	table {
+		margin-top: 20px;
+	}
+	td, th {
+		padding: 10px;
+		text-align: center;
+	}
+	tbody th {
+		font-weight: normal;
+	}
+</style>
+<div id="editor">
+	<p>Whatever</p>
+</div>
+<div id="table"></div>
+<script>
+	( function() {
+		CKEDITOR.replace( 'editor', {
+			language: 'en',
+			plugins: [
+				'toolbar',
+				'wysiwygarea',
+				'colorbutton',
+				'emoji',
+				'language'
+			],
+			on: {
+				instanceReady: function( evt ) {
+					var editor = evt.editor,
+						toolbarArea = CKEDITOR.document.findOne( '.cke_top' );
+
+					// Due to inability to actually detect when menus are opened,
+					// the periodic update is used instead.
+					setInterval( renderButtonStates, 250 );
+				}
+			}
+		} );
+
+		function renderButtonStates() {
+			var buttons = CKEDITOR.document.find( '.cke_toolbar .cke_button' ).toArray(),
+				tableContainer = CKEDITOR.document.getById( 'table' ),
+				// Create the entire table in JS (#5200).
+				tableHtml = '<table border="1">' +
+					'<thead>' +
+						'<tr>' +
+							'<th scope="col">Button</th>' +
+							'<th scope="col"><code>[aria-expanded]</code> value</th>' +
+						'</tr>' +
+					'</thead>' +
+					'<tbody>{states}</tbody>' +
+				'</table>',
+				statesHtml = CKEDITOR.tools.array.map( buttons, function( button ) {
+					var currentState = button.getAttribute( 'aria-expanded' ),
+						buttonLabel = button.findOne( '.cke_button_label' ).getHtml();
+
+					return '<tr><th scope="row">' + buttonLabel + '</th><td>' + currentState + '</td></tr>';
+				} ).join( '' );
+
+				tableHtml = tableHtml.replace( '{states}', statesHtml );
+				tableContainer.setHtml( tableHtml );
+		}
+	} )();
+</script>

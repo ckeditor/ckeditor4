@@ -8,6 +8,7 @@ CKEDITOR.plugins.add( 'menubutton', {
 	onLoad: function() {
 		var clickFn = function( editor ) {
 				var _ = this._,
+					buttonElement = CKEDITOR.document.getById( _.id ),
 					menu = _.menu;
 
 				// Do nothing if this button is disabled.
@@ -34,6 +35,9 @@ CKEDITOR.plugins.add( 'menubutton', {
 						var modes = this.command ? editor.getCommand( this.command ).modes : this.modes;
 						this.setState( !modes || modes[ editor.mode ] ? _.previousState : CKEDITOR.TRISTATE_DISABLED );
 						_.on = 0;
+
+						// Indicates that menu button is closed (#421, #5144).
+						buttonElement.setAttribute( 'aria-expanded', 'false' );
 					}, this );
 
 					// Initialize the menu items at this point.
@@ -43,6 +47,9 @@ CKEDITOR.plugins.add( 'menubutton', {
 
 				this.setState( CKEDITOR.TRISTATE_ON );
 				_.on = 1;
+
+				// Indicates that menu button is open (#421, #5144).
+				buttonElement.setAttribute( 'aria-expanded', 'true' );
 
 				// This timeout is needed to give time for the panel get focus
 				// when JAWS is running. (https://dev.ckeditor.com/ticket/9842)
