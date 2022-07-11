@@ -6,13 +6,13 @@
 2. In `Find what:` input type `foo`.
 3. Press `Enter` key.
 
-**Expected:** The pattern has been founded and the searched text is highlighted on the editable.
+**Expected:** The pattern was found.
 
 **Unexpected:** Nothing happened.
 
 4. In `Replace with:` input type `test`.
 5. Press `Enter` key.
 
-**Expected:** The pattern has been replaced.
+**Expected:** The pattern was replaced.
 
 **Unexpected:** Nothing happened.
