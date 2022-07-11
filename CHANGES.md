@@ -23,6 +23,7 @@ Fixed Issues:
 	* [`cssLength`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-cssLength)
 	* [`htmlLength`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-htmlLength)
 	* [`inlineStyle`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_validate.html#method-inlineStyle)
+* [#5147](https://github.com/ckeditor/ckeditor4/issues/5147): Fixed: [Accessibility Help](https://ckeditor.com/cke4/addon/a11yhelp) dialog does not contain info about focus being moved back to the editing area upon leaving dialogs.
 
 API changes:
 
