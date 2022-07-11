@@ -6,6 +6,6 @@
 
 1. Focus the edtior.
 1. Open Accessibility Help using `ALT+0` hotkey.
-1. Check `Editor Toolbar` section.
+1. Check `Editor Dialog` section.
 
 	**Expected** The section contains info about focus moving to the editing area after leaving the dialog with ESC key.
