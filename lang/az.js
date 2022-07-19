@@ -19,8 +19,8 @@
  */
 CKEDITOR.lang[ 'az' ] = {
 	// ARIA description.
-	application: 'Rich Text Editor', // MISSING
-	editor: 'Mətn Redaktoru',
+	application: 'Rich Text Redaktoru',
+	editor: 'Redaktor',
 	editorPanel: 'Mətn Redaktorun Paneli',
 
 	// Common messages and labels.
