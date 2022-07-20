@@ -117,7 +117,9 @@
 			return false;
 		}
 
-		if ( range.endOffset === 0 ) {
+		var isInList = range.endContainer.is && range.endContainer.is( 'li' );
+
+		if ( range.endOffset === 0 && !isInList )  {
 			return true;
 		}
 
@@ -125,7 +127,7 @@
 			endsInText = isText( range.endContainer ),
 			limit = startsInText ? range.startContainer.getLength() : range.startContainer.getChildCount();
 
-		return range.startOffset === limit || startsInText ^ endsInText;
+		return !isInList && ( range.startOffset === limit || startsInText ^ endsInText );
 	}
 
 	// Prevent infinite recurrency when the browser does not allow the expected selection.
