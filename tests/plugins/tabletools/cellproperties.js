@@ -151,6 +151,21 @@
 			assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog is in editing mode.' );
 		} ),
 
+		// (#5084)
+		'test cell data type has td name and does not have scope attribute': doTest( 'table-cell-data', function( dialog ) {
+			dialog.setValueOf( 'info', 'cellType', 'td' );
+		} ),
+
+		// (#5084)
+		'test cell column header type has th name and have scope attribute set to col': doTest( 'table-cell-thc', function( dialog ) {
+			dialog.setValueOf( 'info', 'cellType', 'thc' );
+		} ),
+
+		// (#5084)
+		'test cell row header type has th name and have scope attribute set to row': doTest( 'table-cell-thr', function( dialog ) {
+			dialog.setValueOf( 'info', 'cellType', 'thr' );
+		} ),
+
 		// https://dev.ckeditor.com/ticket/16893
 		'test allowedContent rule': function() {
 			bender.editorBot.create( {

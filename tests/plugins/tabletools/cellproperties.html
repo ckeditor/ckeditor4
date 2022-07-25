@@ -435,3 +435,57 @@
 </textarea>
 
 <textarea id="required"></textarea>
+
+<textarea id="table-cell-data">
+	<table>
+		<tbody>
+			<tr>
+				<th scope="col">[aa]</th>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-cell-thc">
+	<table>
+		<tbody>
+			<tr>
+				<td>[aa]</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<th scope="col">aa</th>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-cell-thr">
+	<table>
+		<tbody>
+			<tr>
+				<td>[aa]</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<th scope="row">aa</th>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
