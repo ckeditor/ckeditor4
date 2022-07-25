@@ -119,18 +119,51 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			{
 				type: 'select',
 				id: 'cellType',
-				requiredContent: 'th',
+				requiredContent: 'th[scope]',
 				label: langCell.cellType,
 				'default': 'td',
 				items: [
 					[ langCell.data, 'td' ],
-					[ langCell.header, 'th' ]
+					[ langCell.columnHeader, 'thc' ],
+					[ langCell.rowHeader, 'thr' ]
 				],
 				setup: setupCells( function( selectedCell ) {
+					var scope = selectedCell.getAttribute( 'scope' );
+
+					if ( scope === undefined ) {
+						return 'td';
+					} else {
+						if ( scope === 'row' ) {
+							return 'thr';
+						} else if ( scope === 'col' ) {
+							return 'thc';
+						}
+					}
 					return selectedCell.getName();
 				} ),
 				commit: function( selectedCell ) {
-					selectedCell.renameNode( this.getValue() );
+					var nameToProps = {
+						'td': {
+							name: 'td'
+						},
+						'thc': {
+							name: 'th',
+							scope: 'col'
+						},
+						'thr': {
+							name: 'th',
+							scope: 'row'
+						}
+					},
+					selectedProps = nameToProps[ this.getValue() ];
+
+					selectedCell.renameNode( selectedProps.name );
+
+					if ( selectedProps.scope ) {
+						selectedCell.setAttribute( 'scope', selectedProps.scope );
+					} else {
+						selectedCell.removeAttribute( 'scope' );
+					}
 				}
 			},
 			createSpacer( 'th' ),
