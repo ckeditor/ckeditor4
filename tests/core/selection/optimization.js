@@ -64,7 +64,7 @@
 		// (#4931) do not expect optimization in list
 		'test selection optimization case 8': testSelection( {
 			initial: '<ul><li>[foo</li><li>]bar</li></ul>',
-			expected: '<ul><li>[foo</li><li>]@bar</li></ul>'
+			expected: '<ul><li>[foo@</li><li>]bar</li></ul>'
 		} ),
 
 		'test selection optimization case 9': testSelection( {
