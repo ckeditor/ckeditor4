@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 		bgColor: '背景顏色',
 		borderColor: '框線顏色',
 		data: '資料',
-		header: '頁首',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: '是',
 		no: '否',
 		invalidWidth: '儲存格寬度必須為數字。',

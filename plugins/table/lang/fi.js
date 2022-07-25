@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'fi', {
 		bgColor: 'Taustan väri',
 		borderColor: 'Reunan väri',
 		data: 'Data',
-		header: 'Ylätunniste',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Kyllä',
 		no: 'Ei',
 		invalidWidth: 'Solun leveyden täytyy olla numero.',

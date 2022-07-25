@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'si', {
 		bgColor: 'පසුබිම් වර්ණය',
 		borderColor: 'මායිම් ',
 		data: 'Data', // MISSING
-		header: 'ශීර්ෂක',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'ඔව්',
 		no: 'නැත',
 		invalidWidth: 'කොටු පළල සංඛ්‍ය්ත්මක වටිනාකමක් විය යුතුය',

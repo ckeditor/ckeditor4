@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'cs', {
 		bgColor: 'Barva pozadí',
 		borderColor: 'Barva okraje',
 		data: 'Data',
-		header: 'Hlavička',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Ano',
 		no: 'Ne',
 		invalidWidth: 'Šířka buňky musí být číslo.',

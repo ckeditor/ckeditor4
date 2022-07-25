@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'sl', {
 		bgColor: 'Barva ozadja',
 		borderColor: 'Barva obrobe',
 		data: 'Podatki',
-		header: 'Glava',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Da',
 		no: 'Ne',
 		invalidWidth: 'Širina celice mora biti število.',

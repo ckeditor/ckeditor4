@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'vi', {
 		bgColor: 'Màu nền',
 		borderColor: 'Màu viền',
 		data: 'Dữ liệu',
-		header: 'Đầu đề',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Có',
 		no: 'Không',
 		invalidWidth: 'Chiều rộng của ô phải là một số nguyên.',

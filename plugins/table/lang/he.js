@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'he', {
 		bgColor: 'צבע רקע',
 		borderColor: 'צבע מסגרת',
 		data: 'מידע',
-		header: 'כותרת',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'כן',
 		no: 'לא',
 		invalidWidth: 'שדה רוחב התא חייב להיות מספר.',

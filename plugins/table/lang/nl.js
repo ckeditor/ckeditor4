@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'nl', {
 		bgColor: 'Achtergrondkleur',
 		borderColor: 'Randkleur',
 		data: 'Gegevens',
-		header: 'Kop',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Ja',
 		no: 'Nee',
 		invalidWidth: 'De celbreedte moet een getal zijn.',

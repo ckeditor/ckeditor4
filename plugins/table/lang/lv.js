@@ -26,7 +26,8 @@ CKEDITOR.plugins.setLang( 'table', 'lv', {
 		bgColor: 'Fona krāsa',
 		borderColor: 'Rāmja krāsa',
 		data: 'Dati',
-		header: 'Virsraksts',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Jā',
 		no: 'Nē',
 		invalidWidth: 'Šūnas platumam jābūt skaitlim',
