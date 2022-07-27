@@ -130,16 +130,14 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				setup: setupCells( function( selectedCell ) {
 					var scope = selectedCell.getAttribute( 'scope' );
 
-					if ( scope === undefined ) {
-						return 'td';
-					} else {
-						if ( scope === 'row' ) {
+					switch ( scope ) {
+						case 'row':
 							return 'thr';
-						} else if ( scope === 'col' ) {
+						case 'col':
 							return 'thc';
-						}
+						default:
+							return 'td';
 					}
-					return selectedCell.getName();
 				} ),
 				commit: function( selectedCell ) {
 					var nameToProps = {
