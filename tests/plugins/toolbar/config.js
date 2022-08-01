@@ -90,7 +90,34 @@
 					'<p><strong>A</strong><em>B</em>C</p><p>D</p><ol><li>E</li></ol>',
 					'<p><strong>A</strong><em>B</em>C</p><p>D</p><ol><li>E</li></ol>' );
 			} );
+		},
+
+		// (#5122)
+		'test config.removeButtons accepts array of buttons': function() {
+			bender.editorBot.create( {
+				name: 'editor-5122',
+				config: {
+					plugins: [ 'toolbar', 'wysiwygarea', 'basicstyles' ],
+					removeButtons: [ 'Bold', 'Italic' ]
+				}
+			},
+			function( bot ) {
+				var editor = bot.editor,
+					basicStyleGroup = getToolbarGroup( editor, 'basicstyles' );
+
+				assert.isTrue( comp( [ 'underline', 'strike', 'subscript', 'superscript' ], basicStyleGroup ) );
+
+				bot.assertInputOutput(
+					'<p><strong>A</strong><em>B</em><sup>C</sup></p>',
+					'<p>AB<sup>C</sup></p>',
+					'<p>AB<sup>C</sup></p>' );
+			} );
 		}
 	} );
 
+	function getToolbarGroup( editor, name ) {
+		return CKEDITOR.tools.array.find( editor.toolbar, function( group ) {
+			return group.name === name;
+		} );
+	}
 } )();
