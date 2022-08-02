@@ -157,6 +157,11 @@
 		} ),
 
 		// (#5084)
+		'test cell data type has th name and does not have scope attribute': doTest( 'table-cell-th', function( dialog ) {
+			dialog.setValueOf( 'info', 'cellType', 'th' );
+		} ),
+
+		// (#5084)
 		'test cell column header type has th name and have scope attribute set to col': doTest( 'table-cell-thc', function( dialog ) {
 			dialog.setValueOf( 'info', 'cellType', 'thc' );
 		} ),
