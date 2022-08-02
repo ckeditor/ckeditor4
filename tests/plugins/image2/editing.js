@@ -33,6 +33,12 @@
 	}
 
 	bender.test( {
+		tearDown: function() {
+			if ( CKEDITOR.dialog._.currentTop ) {
+				CKEDITOR.dialog._.currentTop.hide();
+			}
+		},
+
 		'test edit inline widget with global command': function() {
 
 			assertWidgetDialog( this.editorBot, 'image', widgetsHtml, 'x', {
@@ -241,6 +247,62 @@
 					}
 
 					wait();
+				} );
+			} );
+		},
+
+		// (#5219)
+		'test "Lock ratio" should be locked by default': function() {
+			bender.editorBot.create( {
+				name: 'editor_defaultlockratio',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2'
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var lockBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_locked' ).getItem( 0 );
+
+					assert.isFalse( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was not locked' );
+				} );
+			} );
+		},
+
+		// (#5219)
+		'test "Lock ratio" should be unlocked if config.image2_defaultLockRatio is set to false': function() {
+			bender.editorBot.create( {
+				name: 'editor_defaultlockratio_false',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2',
+					image2_defaultLockRatio: false
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var lockBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_locked' ).getItem( 0 );
+
+					assert.isTrue( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was not unlocked' );
+				} );
+			} );
+		},
+
+		// (#5219)
+		'test "Lock ratio" should be locked if config.image2_defaultLockRatio is set to true': function() {
+			bender.editorBot.create( {
+				name: 'editor_defaultlockratio_true',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2',
+					image2_defaultLockRatio: true
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var lockBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_locked' ).getItem( 0 );
+
+					assert.isFalse( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was not locked' );
 				} );
 			} );
 		}
