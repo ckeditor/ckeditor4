@@ -8,24 +8,32 @@
 
 **Expected** Cell has `Data` type.
 
-2. Change cell type to `Column Header`.
+2. Change cell type to `Header`.
+
+**Expected** Cell has `th` type and do not have `scope` attribute.
+
+3. Right click at recent cell, and select `Cell` -> `Cell Properties`.
+
+**Expected** Cell has `Header` type.
+
+4. Change cell type to `Column Header`.
 
 **Expected** Cell has `th` type and `scope` attribute set on `col`.
 
-3. Right click at any cell, and select `Cell` -> `Cell Properties`.
+5. Right click at recent cell, and select `Cell` -> `Cell Properties`.
 
 **Expected** Cell has `Column Header` type.
 
-4. Change cell type to `Row Header`.
+6. Change cell type to `Row Header`.
 
 **Expected** Cell has `th` type and `scope` attribute set on `row`.
 
-5. Right click at any cell, and select `Cell` -> `Cell Properties`.
+7. Right click at recent cell, and select `Cell` -> `Cell Properties`.
 
 **Expected** Cell has `Row Header` type.
 
-6. Change cell type to `Data`.
+8. Change cell type to `Data`.
 
 **Expected** Cell has `td` type and do not have `scope` attribute.
 
-7. Play with cell types and verify if they type matches expectations from the above.
+9. Play with cell types and verify if they type matches expectations from the above.
