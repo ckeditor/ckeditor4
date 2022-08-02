@@ -23,7 +23,8 @@
 			'</figure>',
 		imgs = [
 			{ url: '%BASE_PATH%_assets/logo.png', width: '163', height: '61' },
-			{ url: '%BASE_PATH%_assets/large.jpg', width: '1008', height: '550' }
+			{ url: '%BASE_PATH%_assets/large.jpg', width: '1008', height: '550' },
+			{ url: '%BASE_PATH%_assets/lena.jpg', width: '200', height: '200' }
 		],
 		downloadImage = bender.tools.downloadImage;
 
@@ -303,6 +304,35 @@
 					var lockBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_locked' ).getItem( 0 );
 
 					assert.isFalse( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was not locked' );
+				} );
+			} );
+		},
+
+		// (#5219)
+		'test "Lock ratio" should not change after loading image': function() {
+			bender.editorBot.create( {
+				name: 'editor_defaultlockratio_imageloaded',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2',
+					image2_defaultLockRatio: false
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var lockBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_locked' ).getItem( 0 ),
+						lenaImg = imgs[ 2 ];
+
+					dialog.setValueOf( 'info', 'src', lenaImg.url );
+					downloadImage( lenaImg.url, onDownload );
+
+					function onDownload() {
+						resume( function() {
+							assert.isTrue( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was not unlocked' );
+						} );
+					}
+
+					wait();
 				} );
 			} );
 		}
