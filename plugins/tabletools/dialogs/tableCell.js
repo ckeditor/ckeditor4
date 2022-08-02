@@ -124,11 +124,17 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				'default': 'td',
 				items: [
 					[ langCell.data, 'td' ],
+					[ langCell.header, 'th' ],
 					[ langCell.columnHeader, 'thc' ],
 					[ langCell.rowHeader, 'thr' ]
 				],
 				setup: setupCells( function( selectedCell ) {
-					var scope = selectedCell.getAttribute( 'scope' );
+					var cellName = selectedCell.getName(),
+						scope = selectedCell.getAttribute( 'scope' );
+
+					if ( cellName === 'td' ) {
+						return 'td';
+					}
 
 					switch ( scope ) {
 						case 'row':
@@ -136,13 +142,16 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						case 'col':
 							return 'thc';
 						default:
-							return 'td';
+							return 'th';
 					}
 				} ),
 				commit: function( selectedCell ) {
 					var nameToProps = {
 						'td': {
 							name: 'td'
+						},
+						'th': {
+							name: 'th'
 						},
 						'thc': {
 							name: 'th',
