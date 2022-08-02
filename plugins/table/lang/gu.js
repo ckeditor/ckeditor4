@@ -26,6 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'gu', {
 		bgColor: 'પાછાળનો રંગ',
 		borderColor: 'બોર્ડેર રંગ',
 		data: 'સ્વીકૃત માહિતી',
+		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'હા',

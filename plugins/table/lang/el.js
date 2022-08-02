@@ -26,6 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'el', {
 		bgColor: 'Χρώμα Φόντου',
 		borderColor: 'Χρώμα Περιγράμματος',
 		data: 'Δεδομένα',
+		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'Ναι',

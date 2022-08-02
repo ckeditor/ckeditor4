@@ -26,6 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'pl', {
 		bgColor: 'Kolor tła',
 		borderColor: 'Kolor obramowania',
 		data: 'Dane',
+		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'Tak',

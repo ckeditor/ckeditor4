@@ -26,6 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'oc', {
 		bgColor: 'Color de rèireplan',
 		borderColor: 'Color de bordadura',
 		data: 'Donadas',
+		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'Òc',

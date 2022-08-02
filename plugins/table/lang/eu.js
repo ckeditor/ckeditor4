@@ -26,6 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'eu', {
 		bgColor: 'Atzeko planoaren kolorea',
 		borderColor: 'Ertzaren kolorea',
 		data: 'Data',
+		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'Bai',

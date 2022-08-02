@@ -26,6 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'et', {
 		bgColor: 'Tausta värv',
 		borderColor: 'Äärise värv',
 		data: 'Andmed',
+		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'Jah',
