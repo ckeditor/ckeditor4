@@ -308,9 +308,11 @@
 
 				var mathJaxConfig = editor.config.mathJaxConfig || {};
 
+				// disable math menu
 				if ( mathJaxConfig.showMathMenu === undefined )
 					mathJaxConfig.showMathMenu = false;
 
+				// disable messages
 				if ( mathJaxConfig.messageStyle === undefined )
 					mathJaxConfig.messageStyle = 'none';
 
@@ -320,7 +322,7 @@
 								'<meta charset="utf-8">' +
 								'<script type="text/x-mathjax-config">' +
 
-									// MathJax configuration, disable messages.
+									// MathJax configuration
 									'MathJax.Hub.Config( ' +
 										JSON.stringify(mathJaxConfig) +
 									' );' +
