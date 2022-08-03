@@ -308,10 +308,10 @@
 
 				var mathJaxConfig = editor.config.mathJaxConfig || {};
 
-				if ( !mathJaxConfig.showMathMenu )
+				if ( mathJaxConfig.showMathMenu === undefined )
 					mathJaxConfig.showMathMenu = false;
 
-				if ( !mathJaxConfig.messageStyle )
+				if ( mathJaxConfig.messageStyle === undefined )
 					mathJaxConfig.messageStyle = 'none';
 
 				doc.write( '<!DOCTYPE html>' +
