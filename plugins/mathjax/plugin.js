@@ -305,6 +305,10 @@
 				// and call insertBefore on such element then IE9 will see crash.
 				if ( CKEDITOR.env.ie )
 					iFrame.removeAttribute( 'src' );
+				
+				var mathJaxConfig = editor.config.mathJaxConfig || {};
+				if ( !mathJaxConfig.showMathMenu ) mathJaxConfig.showMathMenu = false;
+				if ( !mathJaxConfig.messageStyle ) mathJaxConfig.messageStyle = 'none';
 
 				doc.write( '<!DOCTYPE html>' +
 							'<html>' +
@@ -313,10 +317,9 @@
 								'<script type="text/x-mathjax-config">' +
 
 									// MathJax configuration, disable messages.
-									'MathJax.Hub.Config( {' +
-										'showMathMenu: false,' +
-										'messageStyle: "none"' +
-									'} );' +
+									'MathJax.Hub.Config( ' +
+										JSON.stringify(mathJaxConfig) +
+									' );' +
 
 									// Get main CKEDITOR form parent.
 									'function getCKE() {' +
