@@ -305,10 +305,14 @@
 				// and call insertBefore on such element then IE9 will see crash.
 				if ( CKEDITOR.env.ie )
 					iFrame.removeAttribute( 'src' );
-				
+
 				var mathJaxConfig = editor.config.mathJaxConfig || {};
-				if ( !mathJaxConfig.showMathMenu ) mathJaxConfig.showMathMenu = false;
-				if ( !mathJaxConfig.messageStyle ) mathJaxConfig.messageStyle = 'none';
+
+				if ( !mathJaxConfig.showMathMenu )
+					mathJaxConfig.showMathMenu = false;
+
+				if ( !mathJaxConfig.messageStyle )
+					mathJaxConfig.messageStyle = 'none';
 
 				doc.write( '<!DOCTYPE html>' +
 							'<html>' +
