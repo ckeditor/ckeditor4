@@ -119,6 +119,7 @@
 
 		var isInList = range.endContainer.is && range.endContainer.is( 'li' );
 
+		// Prevent optimization in lists (#4931).
 		if ( range.endOffset === 0 && !isInList )  {
 			return true;
 		}
