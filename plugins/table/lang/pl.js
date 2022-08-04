@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'pl', {
 		borderColor: 'Kolor obramowania',
 		data: 'Dane',
 		header: 'Nagłówek',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Tak',
 		no: 'Nie',
 		invalidWidth: 'Szerokość komórki musi być liczbą.',

@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'tr', {
 		borderColor: 'Çerçeve Rengi',
 		data: 'Veri',
 		header: 'Başlık',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Evet',
 		no: 'Hayır',
 		invalidWidth: 'Hücre genişliği sayı olmalıdır.',

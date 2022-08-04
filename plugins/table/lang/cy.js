@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'cy', {
 		borderColor: 'Lliw Ymyl',
 		data: 'Data',
 		header: 'Pennyn',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Ie',
 		no: 'Na',
 		invalidWidth: 'Mae\'n rhaid i led y gell fod yn rhif.',

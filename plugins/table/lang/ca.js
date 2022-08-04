@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'ca', {
 		borderColor: 'Color de la vora',
 		data: 'Dades',
 		header: 'Capçalera',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Sí',
 		no: 'No',
 		invalidWidth: 'L\'amplada de cel·la ha de ser un nombre.',

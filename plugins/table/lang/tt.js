@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'tt', {
 		borderColor: 'Чик төсе',
 		data: 'Мәгълүмат',
 		header: 'Башлык',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Әйе',
 		no: 'Юк',
 		invalidWidth: 'Cell width must be a number.', // MISSING
