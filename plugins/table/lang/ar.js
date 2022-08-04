@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'ar', {
 		bgColor: 'لون الخلفية',
 		borderColor: 'لون الحدود',
 		data: 'بيانات',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'عنوان',
 		yes: 'نعم',
 		no: 'لا',
 		invalidWidth: 'عرض الخلية يجب أن يكون عدداً.',

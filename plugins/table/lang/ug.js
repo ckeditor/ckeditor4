@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'ug', {
 		bgColor: 'تەگلىك رەڭگى',
 		borderColor: 'گىرۋەك رەڭگى',
 		data: 'سانلىق مەلۇمات',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'جەدۋەل باشى',
 		yes: 'ھەئە',
 		no: 'ياق',
 		invalidWidth: 'كاتەكچە كەڭلىكى چوقۇم سان بولىدۇ',

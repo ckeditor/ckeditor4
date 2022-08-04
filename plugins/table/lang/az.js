@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'az', {
 		bgColor: 'Doldurma rəngi',
 		borderColor: 'Sərhədin rəngi',
 		data: 'Məlumatlar',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Başlıq',
 		yes: 'Bəli',
 		no: 'Xeyr',
 		invalidWidth: 'Xanasın eni rəqəm olmalıdır.',

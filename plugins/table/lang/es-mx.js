@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'es-mx', {
 		bgColor: 'Color de fondo',
 		borderColor: 'Color de borde',
 		data: 'Datos',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Encabezado',
 		yes: 'Si',
 		no: 'No',
 		invalidWidth: 'El ancho de la celda debe ser un número entero.',

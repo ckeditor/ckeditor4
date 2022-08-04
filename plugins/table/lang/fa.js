@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'fa', {
 		bgColor: 'رنگ زمینه',
 		borderColor: 'رنگ خطوط',
 		data: 'اطلاعات',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'سرنویس',
 		yes: 'بله',
 		no: 'خیر',
 		invalidWidth: 'عرض سلول باید یک عدد باشد.',

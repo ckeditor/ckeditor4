@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'gl', {
 		bgColor: 'Cor do fondo',
 		borderColor: 'Cor do bordo',
 		data: 'Datos',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Cabeceira',
 		yes: 'Si',
 		no: 'Non',
 		invalidWidth: 'O largo da cela debe ser un número.',

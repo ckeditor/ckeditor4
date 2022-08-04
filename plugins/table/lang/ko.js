@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'ko', {
 		bgColor: '배경색',
 		borderColor: '테두리 색',
 		data: '자료',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: '머릿칸',
 		yes: '예',
 		no: '아니오',
 		invalidWidth: '셀 너비는 숫자여야 합니다.',

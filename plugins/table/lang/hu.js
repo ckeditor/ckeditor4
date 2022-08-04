@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'hu', {
 		bgColor: 'Háttér színe',
 		borderColor: 'Keret színe',
 		data: 'Adat',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Fejléc',
 		yes: 'Igen',
 		no: 'Nem',
 		invalidWidth: 'A szélesség mezőbe csak számokat írhat.',

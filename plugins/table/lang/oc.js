@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'oc', {
 		bgColor: 'Color de rèireplan',
 		borderColor: 'Color de bordadura',
 		data: 'Donadas',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Entèsta',
 		yes: 'Òc',
 		no: 'Non',
 		invalidWidth: 'La largor de la cellula deu èsser un nombre.',

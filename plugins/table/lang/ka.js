@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'ka', {
 		bgColor: 'ფონის ფერი',
 		borderColor: 'ჩარჩოს ფერი',
 		data: 'მონაცემები',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'სათაური',
 		yes: 'დიახ',
 		no: 'არა',
 		invalidWidth: 'უჯრის სიგანე რიცხვით უნდა იყოს წარმოდგენილი.',

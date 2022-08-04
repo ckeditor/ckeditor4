@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'eu', {
 		bgColor: 'Atzeko planoaren kolorea',
 		borderColor: 'Ertzaren kolorea',
 		data: 'Data',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Goiburua',
 		yes: 'Bai',
 		no: 'Ez',
 		invalidWidth: 'Gelaxkaren zabalera zenbaki bat izan behar da.',

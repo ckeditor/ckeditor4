@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'ja', {
 		bgColor: '背景色',
 		borderColor: 'ボーダーカラー',
 		data: 'テーブルデータ (td)',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'ヘッダ',
 		yes: 'はい',
 		no: 'いいえ',
 		invalidWidth: 'セル幅は数値で入力してください。',

@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'th', {
 		bgColor: 'Background Color',
 		borderColor: 'Border Color',
 		data: 'Data',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Header',
 		yes: 'Yes',
 		no: 'No',
 		invalidWidth: 'Cell width must be a number.',

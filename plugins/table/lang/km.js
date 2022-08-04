@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'km', {
 		bgColor: 'ពណ៌​ផ្ទៃ​ក្រោយ',
 		borderColor: 'ពណ៌​បន្ទាត់​ស៊ុម',
 		data: 'ទិន្នន័យ',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'ក្បាល',
 		yes: 'ព្រម',
 		no: 'ទេ',
 		invalidWidth: 'ទទឹង​ក្រឡា​ត្រូវ​តែ​ជា​លេខ។',

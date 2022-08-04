@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'eo', {
 		bgColor: 'Fonkoloro',
 		borderColor: 'Borderkoloro',
 		data: 'Datenoj',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Supra paĝotitolo',
 		yes: 'Jes',
 		no: 'No',
 		invalidWidth: 'Ĉellarĝo devas esti nombro.',

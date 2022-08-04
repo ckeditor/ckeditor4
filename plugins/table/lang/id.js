@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'id', {
 		bgColor: 'Warna Latar Belakang',
 		borderColor: 'Warna Batasan',
 		data: 'Data',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Header',
 		yes: 'Ya',
 		no: 'Tidak',
 		invalidWidth: 'Lebar sel harus sebuah angka.',

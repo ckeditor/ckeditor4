@@ -26,8 +26,7 @@ CKEDITOR.plugins.setLang( 'table', 'uk', {
 		bgColor: 'Колір фону',
 		borderColor: 'Колір рамки',
 		data: 'Дані',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		header: 'Заголовок',
 		yes: 'Так',
 		no: 'Ні',
 		invalidWidth: 'Ширина комірки повинна бути цілим числом.',
