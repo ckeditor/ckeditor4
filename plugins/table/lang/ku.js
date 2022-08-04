@@ -26,7 +26,6 @@ CKEDITOR.plugins.setLang( 'table', 'ku', {
 		bgColor: 'ڕەنگی پاشبنەما',
 		borderColor: 'ڕەنگی پەراوێز',
 		data: 'داتا',
-		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'بەڵێ',

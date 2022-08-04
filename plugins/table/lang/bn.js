@@ -26,7 +26,6 @@ CKEDITOR.plugins.setLang( 'table', 'bn', {
 		bgColor: 'পৃষ্ঠতলের রং',
 		borderColor: 'Border Color',
 		data: 'Data',
-		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'Yes',

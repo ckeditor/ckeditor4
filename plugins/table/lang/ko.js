@@ -26,7 +26,6 @@ CKEDITOR.plugins.setLang( 'table', 'ko', {
 		bgColor: '배경색',
 		borderColor: '테두리 색',
 		data: '자료',
-		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: '예',

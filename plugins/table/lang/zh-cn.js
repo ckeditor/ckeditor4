@@ -26,7 +26,6 @@ CKEDITOR.plugins.setLang( 'table', 'zh-cn', {
 		bgColor: '背景颜色',
 		borderColor: '边框颜色',
 		data: '数据',
-		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: '是',

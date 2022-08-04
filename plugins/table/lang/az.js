@@ -26,7 +26,6 @@ CKEDITOR.plugins.setLang( 'table', 'az', {
 		bgColor: 'Doldurma rəngi',
 		borderColor: 'Sərhədin rəngi',
 		data: 'Məlumatlar',
-		header: 'Header', // MISSING
 		columnHeader: 'Column Header', // MISSING
 		rowHeader: 'Row Header', // MISSING
 		yes: 'Bəli',
