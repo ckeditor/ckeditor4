@@ -415,9 +415,10 @@
 	} );
 
 	function getToolbarConfig( editor ) {
-		var removeButtons = getRemoveButtonsConfig( editor.config.removeButtons );
+		var removeButtons = getRemoveButtons( editor.config.removeButtons );
 
-		function getRemoveButtonsConfig( config ) {
+		// (#5122)
+		function getRemoveButtons( config ) {
 			if ( config && typeof config === 'string' ) {
 				return config.split( ',' );
 			}
