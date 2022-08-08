@@ -7,7 +7,7 @@
 	**Expected** The "Lock ratio" is unlocked.
 
 	**Unexpected** The "Lock ratio" is locked.
-1. Paste any image URL (e.g. `%BASE_PATH%/_assets/logo.png`).
+1. Paste any image URL (e.g. `%BASE_PATH%_assets/logo.png`).
 
 	**Expected** The "Lock ratio" is unlocked.
 
