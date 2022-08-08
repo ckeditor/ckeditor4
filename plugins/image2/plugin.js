@@ -378,8 +378,10 @@
 						width: image.getAttribute( 'width' ) || '',
 						height: image.getAttribute( 'height' ) || '',
 
-						// Lock ratio should respect the value of the config.image2_defaultLockRatio (#5219).
-						lock: editor.config.image2_defaultLockRatio
+						// Lock ratio should respect the value of the config.image2_defaultLockRatio.
+						// If the variable is not set, then it defaults to true (#5219).
+						lock: editor.config.image2_defaultLockRatio !== undefined ?
+							editor.config.image2_defaultLockRatio : true
 					};
 
 				// If we used 'a' in widget#parts definition, it could happen that
@@ -1784,10 +1786,11 @@ CKEDITOR.config.image2_captionedClass = 'image';
 
 /**
  * Indicates the default state of the "Lock ratio" switch in the image dialog.
- * If set to `true`, the ratio will be locked. Otherwise, it will be unlocked.
+ * If set to `true`, the ratio will be locked. If set to `false`, it will be unlocked.
+ * If the value is not set at all, the "Lock ratio" switch will indicate
+ * if the image has preserved aspect ratio upon loading.
  *
  * @since 4.20.0
- * @cfg {String} [image2_defaultLockRatio=true]
+ * @cfg {Boolean} [image2_defaultLockRatio]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.image2_defaultLockRatio = true;
