@@ -24,7 +24,8 @@
 		imgs = [
 			{ url: '%BASE_PATH%_assets/logo.png', width: '163', height: '61' },
 			{ url: '%BASE_PATH%_assets/large.jpg', width: '1008', height: '550' },
-			{ url: '%BASE_PATH%_assets/lena.jpg', width: '200', height: '200' }
+			{ url: '%BASE_PATH%_assets/lena.jpg', width: '200', height: '200' },
+			{ url: 'nonexistent.png' }
 		],
 		downloadImage = bender.tools.downloadImage;
 
@@ -309,7 +310,7 @@
 		},
 
 		// (#5219)
-		'test "Lock ratio" should not change after loading image': function() {
+		'test "Lock ratio" should not change after loading image (defaultLockRatio set)': function() {
 			bender.editorBot.create( {
 				name: 'editor_defaultlockratio_imageloaded',
 				creator: 'inline',
@@ -329,6 +330,92 @@
 					function onDownload() {
 						resume( function() {
 							assert.isTrue( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was not unlocked' );
+						} );
+					}
+
+					wait();
+				} );
+			} );
+		},
+
+		// (#5219)
+		'test "Lock ratio" should reflect image\'s aspect ratio (defaultLockRatio omitted, correct image)': function() {
+			bender.editorBot.create( {
+				name: 'editor_defaultlockratio_imageloaded_default_correct',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2'
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var lockBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_locked' ).getItem( 0 ),
+						lenaImg = imgs[ 2 ];
+
+					dialog.setValueOf( 'info', 'src', lenaImg.url );
+					downloadImage( lenaImg.url, onDownload );
+
+					function onDownload() {
+						resume( function() {
+							assert.isFalse( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was unlocked' );
+						} );
+					}
+
+					wait();
+				} );
+			} );
+		},
+
+		// (#5219)
+		'test "Lock ratio" should reflect image\'s aspect ratio (defaultLockRatio omitted, incorrect image)': function() {
+			bender.editorBot.create( {
+				name: 'editor_defaultlockratio_imageloaded_default_incorrect',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2'
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var lockBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_locked' ).getItem( 0 ),
+						nonExistentImg = imgs[ 3 ];
+
+					dialog.setValueOf( 'info', 'src', nonExistentImg.url );
+					downloadImage( nonExistentImg.url, onDownload );
+
+					function onDownload() {
+						resume( function() {
+							assert.isTrue( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was locked' );
+						} );
+					}
+
+					wait();
+				} );
+			} );
+		},
+
+		// (#5219)
+		'test "Lock ratio" should not change if the button was clicked by the user': function() {
+			bender.editorBot.create( {
+				name: 'editor_lockratio_click',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2'
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var lockBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_locked' ).getItem( 0 ),
+						lenaImg = imgs[ 2 ];
+
+					lockBtn.$.click();
+
+					dialog.setValueOf( 'info', 'src', lenaImg.url );
+					downloadImage( lenaImg.url, onDownload );
+
+					function onDownload() {
+						resume( function() {
+							assert.isTrue( lockBtn.hasClass( 'cke_btn_unlocked' ), 'Lock ratio was locked' );
 						} );
 					}
 
