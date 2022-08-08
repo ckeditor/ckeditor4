@@ -2,9 +2,10 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles
 
-1. Open the console.
+1. Open the browser console.
 
-	**Expected** There are no errors in the console.
+**Expected** There are no errors in the console.
+	
 1. Look at the editor's toolbar.
 
-	**Expected** There are no "Bold" and "Italic" buttons.
+**Expected** There are no "Bold" and "Italic" buttons.
