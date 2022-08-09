@@ -5,6 +5,10 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+API changes:
+
+* [#5122](https://github.com/ckeditor/ckeditor4/issues/5122): Added ability to provide a list of buttons as an array to the [`config.removeButtons`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removeButtons) config variable.
+
 ## CKEditor 4.19.2 [IN DEVELOPMENT]
 
 Fixed Issues:
