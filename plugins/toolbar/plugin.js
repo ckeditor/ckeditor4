@@ -782,7 +782,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  * config.removeButtons = 'Underline,JustifyCenter';
  * ```
  *
- * From version 4.20.0 you can also pass an array of button names:
+ * Since version 4.20.0 you can also pass an array of button names:
  *
  * ```javascript
  * config.removeButtons = [ 'Underline', 'JustifyCenter' ];
