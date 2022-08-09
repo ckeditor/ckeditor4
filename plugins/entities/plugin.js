@@ -106,8 +106,33 @@
 			}
 
 			function getEntity( character ) {
-				return config.entities_processNumerical == 'force' || !entitiesTable[ character ] ? '&#' + character.charCodeAt( 0 ) + ';'
+				return config.entities_processNumerical == 'force' || !entitiesTable[ character ] ? '&#' + getCodePoint( character ) + ';'
 				: entitiesTable[ character ];
+			}
+
+			// (#4941)
+			function getCodePoint( character ) {
+				if ( !CKEDITOR.env.ie ) {
+					return character.codePointAt( 0 );
+				}
+
+				// IE does not support codePointAt.
+				var code = character.charCodeAt( 0 );
+				if ( code < 0xD800 || code > 0xDFFF ) {
+					return code;
+				}
+
+				var highSurrogate = code;
+				var lowSurrogate = character.charCodeAt( 1 );
+
+				// Check if high and lead surrogate are in the range.
+				if ( !( highSurrogate >= 0xD800 && highSurrogate <= 0xDBFF && lowSurrogate >= 0xDC00 && lowSurrogate <= 0xDFFF ) ) {
+					return code;
+				}
+
+				// Reverse mapping from a surrogate pair to a Unicode code point.
+				// Unicode 3.0.0 Chapter 3.7 Surrogate Pairs.
+				return ( highSurrogate - 0xD800 ) * 0x400 + lowSurrogate - 0xDC00 + 0x10000;
 			}
 
 			var dataProcessor = editor.dataProcessor,
@@ -143,7 +168,9 @@
 				if ( config.entities && config.entities_processNumerical )
 					entitiesRegex = '[^ -~]|' + entitiesRegex;
 
-				entitiesRegex = new RegExp( entitiesRegex, 'g' );
+
+				// IE does not support unicode option in the Regex constructor (#4941).
+				entitiesRegex = CKEDITOR.env.ie ? new RegExp( entitiesRegex, 'g' ) : new RegExp( entitiesRegex, 'gu' );
 
 				// Decode entities that the browsers has transformed
 				// at first place.
