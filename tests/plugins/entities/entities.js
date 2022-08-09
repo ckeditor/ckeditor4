@@ -82,5 +82,21 @@ bender.test( {
 		bot.setData( inputHtml, function() {
 			assert.areEqual( expectedHtml, editor.getData() );
 		} );
+	},
+
+	// (#4941)
+	'test entitles_processNumerical correct encode HTML entity': function() {
+		if ( CKEDITOR.env.ie ) {
+			assert.ignore();
+		}
+
+		var inputHtml = '<p>👍</p>',
+			expectedHtml = '<p>&#128077;</p>',
+			editor = this.editor,
+			bot = this.editorBot;
+
+		bot.setData( inputHtml, function() {
+			assert.areEqual( expectedHtml, editor.getData() );
+		} );
 	}
 } );
