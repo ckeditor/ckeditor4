@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'ro', {
 		borderColor: 'Culoare bordură',
 		data: 'Data',
 		header: 'Antet',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Da',
 		no: 'Nu',
 		invalidWidth: 'Lățimea celulei trebuie să fie un număr.',

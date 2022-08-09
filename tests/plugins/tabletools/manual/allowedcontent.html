@@ -57,6 +57,7 @@
 		eventName = CKEDITOR.env.ie && CKEDITOR.env.version === 8 ? 'click' : 'change',
 		editor;
 
+	//Create checkboxes
 	for ( var key in cellPropMap ) {
 		var name = cellPropMap[ key ],
 			additionalInfo = name === 'colordialog' ? '<br> Adds button for picking color next to border and background color options.' : '';
@@ -104,7 +105,9 @@
 		switch ( rule ) {
 			case 'th':
 				if ( state ) {
-					allowedContent.th = true;
+					allowedContent.th = {
+						attributes: [ 'scope' ]
+					}
 				} else {
 					delete allowedContent.th;
 				}
@@ -126,7 +129,7 @@
 		} );
 
 		// We need to recreate editor, because filter is caching checks.
-		editor.destroy();
+		editor.destroy( true );
 	}
 
 	function addRemoveRule( rule, state, arr ) {

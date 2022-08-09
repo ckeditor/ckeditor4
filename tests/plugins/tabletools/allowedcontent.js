@@ -10,7 +10,7 @@
 			wordWrap: [ 'td', 'styles', 'white-space' ],
 			hAlign: [ 'td', 'styles', 'text-align' ],
 			vAlign: [ 'td', 'styles', 'vertical-align' ],
-			cellType: [ 'th' ],
+			cellType: [ 'th', 'attributes', 'scope' ],
 			rowSpan: [ 'td', 'attributes', 'rowspan' ],
 			colSpan: [ 'td', 'attributes', 'colspan' ],
 			bgColor: [ 'td', 'styles', 'background-color' ],
@@ -19,7 +19,7 @@
 		extraAllowedContentList = [],
 		tests = {
 			'test dialog required content': function( editor, bot ) {
-				bot.setData( '<table><tbody><tr><td>Cell</td></tr></tbody></table>', function() {
+				bot.setData( '<table><tbody><tr><td>Cell</td><th>HeaderCell</th></tr></tbody></table>', function() {
 					var rng = new CKEDITOR.dom.range( editor.document );
 					rng.setStart( editor.editable().findOne( 'td' ), CKEDITOR.POSITION_AFTER_START );
 					rng.select();

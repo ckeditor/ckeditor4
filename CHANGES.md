@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.20.0 [IN DEVELOPMENT]
 
+New Features:
+
+* [#5084](https://github.com/ckeditor/ckeditor4/issues/5084): Introduce new types of table cells – "Column Header" and "Row Header" due to added support for `scope` attribute.
+
 Fixed Issues:
 
 API changes:

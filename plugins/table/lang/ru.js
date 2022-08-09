@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'ru', {
 		borderColor: 'Цвет границ',
 		data: 'Данные',
 		header: 'Заголовок',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Да',
 		no: 'Нет',
 		invalidWidth: 'Ширина ячейки должна быть числом.',

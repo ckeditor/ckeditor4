@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'el', {
 		borderColor: 'Χρώμα Περιγράμματος',
 		data: 'Δεδομένα',
 		header: 'Κεφαλίδα',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Ναι',
 		no: 'Όχι',
 		invalidWidth: 'Το πλάτος του κελιού πρέπει να είναι αριθμός.',

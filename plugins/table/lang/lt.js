@@ -27,6 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'lt', {
 		borderColor: 'Rėmelio spalva',
 		data: 'Data',
 		header: 'Antraštė',
+		columnHeader: 'Column Header', // MISSING
+		rowHeader: 'Row Header', // MISSING
 		yes: 'Taip',
 		no: 'Ne',
 		invalidWidth: 'Reikšmė turi būti skaičius.',
