@@ -112,27 +112,7 @@
 
 			// (#4941)
 			function getCodePoint( character ) {
-				if ( !CKEDITOR.env.ie ) {
-					return character.codePointAt( 0 );
-				}
-
-				// IE does not support codePointAt.
-				var code = character.charCodeAt( 0 );
-				if ( code < 0xD800 || code > 0xDFFF ) {
-					return code;
-				}
-
-				var highSurrogate = code;
-				var lowSurrogate = character.charCodeAt( 1 );
-
-				// Check if high and lead surrogate are in the range.
-				if ( !( highSurrogate >= 0xD800 && highSurrogate <= 0xDBFF && lowSurrogate >= 0xDC00 && lowSurrogate <= 0xDFFF ) ) {
-					return code;
-				}
-
-				// Reverse mapping from a surrogate pair to a Unicode code point.
-				// Unicode 3.0.0 Chapter 3.7 Surrogate Pairs.
-				return ( highSurrogate - 0xD800 ) * 0x400 + lowSurrogate - 0xDC00 + 0x10000;
+				return CKEDITOR.env.ie ? character.charCodeAt( 0 ) : character.codePointAt( 0 );
 			}
 
 			var dataProcessor = editor.dataProcessor,
