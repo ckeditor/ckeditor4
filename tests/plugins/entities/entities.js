@@ -85,18 +85,112 @@ bender.test( {
 	},
 
 	// (#4941)
-	'test entitles_processNumerical correct encode HTML entity': function() {
+	'test entitles_processNumerical correct converts HTML entity to a numerical HTML entity': function() {
 		if ( CKEDITOR.env.ie ) {
 			assert.ignore();
 		}
 
-		var inputHtml = '<p>👍</p>',
-			expectedHtml = '<p>&#128077;</p>',
+		var inputHtml = '<p>👍😄😍💗</p>',
+			expectedHtml = '<p>&#128077;&#128516;&#128525;&#128151;</p>',
 			editor = this.editor,
 			bot = this.editorBot;
 
 		bot.setData( inputHtml, function() {
 			assert.areEqual( expectedHtml, editor.getData() );
+		} );
+	},
+
+	// (#4941)
+	'test entitles_processNumerical="true" and entities_greek="false" converts greek letters to numeric HTML entities': function() {
+		bender.editorBot.create( {
+			name: 'entities_true2',
+			config: {
+				entities_processNumerical: true,
+				entities_greek: false
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>αβγδεζηθικλμνξοπρστυφχψω</p>',
+				expectedHtml =  '<p>&#945;&#946;&#947;&#948;&#949;&#950;&#951;&#952;&#953;&#954;&#955;&#956;&#957;&#958;&#959;&#960;&#961;&#963;&#964;&#965;&#966;&#967;&#968;&#969;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
+	// (#4941)
+	'test entitles_processNumerical="true" and entities_latin="false" converts some of latin letters entities to numeric HTML entities': function() {
+		bender.editorBot.create( {
+			name: 'entities_true3',
+			config: {
+				entities_processNumerical: true,
+				entities_latin: false
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>&Agrave;&Aacute;&Icirc;&Iuml;&ETH;',
+				expectedHtml =  '<p>&#192;&#193;&#206;&#207;&#208;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
+	// (#4941)
+	'test entitles_processNumerical="force" converts entities to numerical HTML entity': function() {
+		bender.editorBot.create( {
+			name: 'entities_force',
+			config: {
+				entities_processNumerical: 'force'
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>&nbsp; &gt; &lt; &amp; &quot;</p>',
+				expectedHtml = '<p>&#160; &#62; &#60; &#38; &#34;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
+	// (#4941)
+	'test entitles_processNumerical="force" converts greek letters to numeric HTML entities': function() {
+		bender.editorBot.create( {
+			name: 'entities_force2',
+			config: {
+				entities_processNumerical: 'force',
+				entities_greek: true
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>αβγδεζηθικλμνξοπρστυφχψω</p>',
+				expectedHtml =  '<p>&#945;&#946;&#947;&#948;&#949;&#950;&#951;&#952;&#953;&#954;&#955;&#956;&#957;&#958;&#959;&#960;&#961;&#963;&#964;&#965;&#966;&#967;&#968;&#969;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
+	// (#4941)
+	'test entitles_processNumerical="force" converts latin entities to numerical HTML entity': function() {
+		bender.editorBot.create( {
+			name: 'entities_force3',
+			config: {
+				entities_processNumerical: 'force',
+				entities_latin: true
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>&Agrave;&Aacute;&Icirc;&Iuml;&ETH;',
+				expectedHtml =  '<p>&#192;&#193;&#206;&#207;&#208;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
 		} );
 	}
 } );
