@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, entities, sourcearea
 
-1. Open source mode.
+1. Open the source mode.
 
 **Expected** There is only one HTML entity `&#128077;`.
 
