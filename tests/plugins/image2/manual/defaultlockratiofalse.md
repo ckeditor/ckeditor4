@@ -1,8 +1,8 @@
 @bender-tags: 4.20.0, feature, 5219
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, image2
+@bender-ckeditor-plugins: wysiwygarea, toolbar, image2, floatingspace
 
-1. Move cursor to the "[Insert image here]" region and click the image button in the toolbar
+1. Move cursor to the "[Insert image here]" region and click the image button in the toolbar.
 
 	**Expected** The "Lock ratio" is unlocked.
 
@@ -18,3 +18,4 @@
 	**Expected** The "Lock ratio" is unlocked.
 
 	**Unexpected** The "Lock ratio" is locked.
+1. Repeat the procedure for all editors.

@@ -1,0 +1,30 @@
+<h2><code>iframe</code>-based editor</h2>
+<div id="iframe">
+	<p>[Insert image here]</p>
+</div>
+
+<h2><code>div</code>-based editor</h2>
+<div id="div">
+	<p>[Insert image here]</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<p>[Insert image here]</p>
+</div>
+
+<script>
+	( function() {
+		var defaultConfig = {
+			language: 'en',
+			image2_defaultLockRatio: true
+		};
+
+		CKEDITOR.replace( 'iframe', defaultConfig );
+		CKEDITOR.replace( 'div', CKEDITOR.tools.object.merge( defaultConfig, {
+			extraPlugins: 'divarea'
+		} ) );
+		CKEDITOR.inline( 'inline', defaultConfig );
+	} )();
+
+</script>
