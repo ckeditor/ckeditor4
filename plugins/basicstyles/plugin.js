@@ -101,6 +101,45 @@ CKEDITOR.plugins.add( 'basicstyles', {
 			[ CKEDITOR.CTRL + 73 /*I*/, 'italic' ],
 			[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ]
 		] );
+	},
+
+	afterInit: function( editor ) {
+		var subscriptCommand = editor.getCommand( 'subscript' );
+		var superscriptCommand = editor.getCommand( 'superscript' );
+
+		if ( subscriptCommand && superscriptCommand ) {
+			subscriptCommand.on( 'state', function() {
+				if ( superscriptCommand.state == CKEDITOR.TRISTATE_ON ) {
+					removeSubSup( 'sup' );
+					// superscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
+					// editor.selectionChange();
+				}
+			} );
+
+			superscriptCommand.on( 'state', function() {
+				if ( subscriptCommand.state == CKEDITOR.TRISTATE_ON ) {
+					removeSubSup( 'sub' );
+					// subscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
+					// editor.selectionChange();
+				}
+			} );
+		}
+
+		function removeSubSup( element ) {
+			var selection = editor.getSelection(),
+				range = selection.getRanges()[ 0 ],
+				style = new CKEDITOR.style( { element: element } );
+
+			style.removeFromRange( range, editor );
+
+			if ( element === 'sup' ) {
+				superscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
+			} else {
+				subscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
+			}
+
+			editor.selectionChange();
+		}
 	}
 } );
 
