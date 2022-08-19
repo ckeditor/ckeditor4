@@ -371,6 +371,7 @@
 			init: function() {
 				var helpers = CKEDITOR.plugins.image2,
 					image = this.parts.image,
+					legacyLockBehavior = this.ready ? helpers.checkHasNaturalRatio( image ) : true,
 					data = {
 						hasCaption: !!this.parts.caption,
 						src: image.getAttribute( 'src' ),
@@ -379,9 +380,10 @@
 						height: image.getAttribute( 'height' ) || '',
 
 						// Lock ratio should respect the value of the config.image2_defaultLockRatio.
-						// If the variable is not set, then it defaults to true (#5219).
+						// If the variable is not set, then it fallback to the legacy one
+						// (#5219, https://dev.ckeditor.com/ticket/10833).
 						lock: editor.config.image2_defaultLockRatio !== undefined ?
-							editor.config.image2_defaultLockRatio : true
+							editor.config.image2_defaultLockRatio : legacyLockBehavior
 					};
 
 				// If we used 'a' in widget#parts definition, it could happen that
