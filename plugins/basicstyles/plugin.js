@@ -107,32 +107,40 @@ CKEDITOR.plugins.add( 'basicstyles', {
 		var subscriptCommand = editor.getCommand( 'subscript' );
 		var superscriptCommand = editor.getCommand( 'superscript' );
 
+		// Prevent adding subscript and superscript only when both buttons exists. (#5215)
 		if ( subscriptCommand && superscriptCommand ) {
-			subscriptCommand.on( 'state', function() {
-				if ( superscriptCommand.state == CKEDITOR.TRISTATE_ON ) {
-					removeSubSup( 'sup' );
-					// superscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
-					// editor.selectionChange();
-				}
-			} );
-
-			superscriptCommand.on( 'state', function() {
-				if ( subscriptCommand.state == CKEDITOR.TRISTATE_ON ) {
-					removeSubSup( 'sub' );
-					// subscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
-					// editor.selectionChange();
+			editor.on( 'afterCommandExec', function( evt ) {
+				if ( evt.data.name === 'subscript' ) {
+					if ( superscriptCommand.state == CKEDITOR.TRISTATE_ON ) {
+						removeSubSup( 'sup' );
+					}
+				} else if ( evt.data.name === 'superscript' ) {
+					if ( subscriptCommand.state == CKEDITOR.TRISTATE_ON ) {
+						removeSubSup( 'sub' );
+					}
 				}
 			} );
 		}
 
-		function removeSubSup( element ) {
+		function removeSubSup( elementName ) {
 			var selection = editor.getSelection(),
 				range = selection.getRanges()[ 0 ],
-				style = new CKEDITOR.style( { element: element } );
+				style = new CKEDITOR.style( { element: elementName } );
 
-			style.removeFromRange( range, editor );
+			range.enlarge( CKEDITOR.ENLARGE_INLINE );
 
-			if ( element === 'sup' ) {
+			var walker = new CKEDITOR.dom.walker( range ),
+				element = range.startContainer;
+
+			// Remove all subscript or superscript style within the range.
+			while ( element ) {
+				if ( element.$.nodeName.toLowerCase() === elementName ) {
+					editor.removeStyle( style )
+				}
+				element = walker.next();
+			}
+
+			if ( elementName === 'sup' ) {
 				superscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
 			} else {
 				subscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
