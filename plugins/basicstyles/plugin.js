@@ -135,7 +135,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 			// Remove all subscript or superscript style within the range.
 			while ( element ) {
 				if ( element.$.nodeName.toLowerCase() === elementName ) {
-					editor.removeStyle( style )
+					editor.removeStyle( style );
 				}
 				element = walker.next();
 			}
