@@ -104,11 +104,12 @@ CKEDITOR.plugins.add( 'basicstyles', {
 	},
 
 	afterInit: function( editor ) {
-		var subscriptCommand = editor.getCommand( 'subscript' );
-		var superscriptCommand = editor.getCommand( 'superscript' );
+		var subscriptCommand = editor.getCommand( 'subscript' ),
+			superscriptCommand = editor.getCommand( 'superscript' ),
+			disallowAddSubSup = editor.config.coreStyles_disallowSubscriptSuperscript;
 
 		// Prevent adding subscript and superscript only when both buttons exists. (#5215)
-		if ( subscriptCommand && superscriptCommand ) {
+		if ( disallowAddSubSup && ( subscriptCommand && superscriptCommand ) ) {
 			editor.on( 'beforeCommandExec', function( evt ) {
 				if ( evt.data.name === 'subscript' ) {
 					// In case when superscript is active, we should remove it first.
@@ -242,3 +243,12 @@ CKEDITOR.config.coreStyles_subscript = { element: 'sub' };
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_superscript = { element: 'sup' };
+
+/**
+ * Disallow adding subscript and superscript on one element at the same time.
+ *
+ * @cfg
+ * @since 4.20.0
+ */
+
+CKEDITOR.config.coreStyles_disallowSubscriptSuperscript = false;
