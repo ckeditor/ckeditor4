@@ -1,0 +1,16 @@
+<div id="editor">
+	<p>foo bar</p>
+</div>
+
+<div id="inline" contenteditable="true">
+	<p>foo bar</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		lang: 'en'
+	} );
+	CKEDITOR.inline( 'inline', {
+		lang: 'en'
+	} );
+</script>
