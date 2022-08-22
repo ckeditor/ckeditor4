@@ -6,16 +6,14 @@ CKEditor 4 Changelog
 New Features:
 
 * [#5084](https://github.com/ckeditor/ckeditor4/issues/5084): Introduce new types of table cells – "Column Header" and "Row Header" due to added support for `scope` attribute.
+* [#5219](https://github.com/ckeditor/ckeditor4/issues/5219): Added the [`config.image2_defaultLockRatio`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-image2_defaultLockRatio) config variable to allow setting the default value of the "Lock ratio" option in the [Enhanced Image](https://ckeditor.com/cke4/addon/image2) dialog.
+
 
 Fixed Issues:
 
 API changes:
 
 * [#5122](https://github.com/ckeditor/ckeditor4/issues/5122): Added ability to provide a list of buttons as an array to the [`config.removeButtons`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removeButtons) config variable.
-
-## CKEditor 4.19.2 [IN DEVELOPMENT]
-
-Fixed Issues:
 
 ## CKEditor 4.19.1
 
