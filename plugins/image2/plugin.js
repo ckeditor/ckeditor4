@@ -371,6 +371,7 @@
 			init: function() {
 				var helpers = CKEDITOR.plugins.image2,
 					image = this.parts.image,
+					legacyLockBehavior = this.ready ? helpers.checkHasNaturalRatio( image ) : true,
 					data = {
 						hasCaption: !!this.parts.caption,
 						src: image.getAttribute( 'src' ),
@@ -378,8 +379,11 @@
 						width: image.getAttribute( 'width' ) || '',
 						height: image.getAttribute( 'height' ) || '',
 
-						// Lock ratio is on by default (https://dev.ckeditor.com/ticket/10833).
-						lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
+						// Lock ratio should respect the value of the config.image2_defaultLockRatio.
+						// If the variable is not set, then it fallback to the legacy one
+						// (#5219, https://dev.ckeditor.com/ticket/10833).
+						lock: editor.config.image2_defaultLockRatio !== undefined ?
+							editor.config.image2_defaultLockRatio : legacyLockBehavior
 					};
 
 				// If we used 'a' in widget#parts definition, it could happen that
@@ -1779,5 +1783,16 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  * @since 4.12.0
  * @cfg {Object.<String, Number/String>} [image2_maxSize]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Indicates the default state of the "Lock ratio" switch in the image dialog.
+ * If set to `true`, the ratio will be locked. If set to `false`, it will be unlocked.
+ * If the value is not set at all, the "Lock ratio" switch will indicate
+ * if the image has preserved aspect ratio upon loading.
+ *
+ * @since 4.20.0
+ * @cfg {Boolean} [image2_defaultLockRatio]
  * @member CKEDITOR.config
  */
