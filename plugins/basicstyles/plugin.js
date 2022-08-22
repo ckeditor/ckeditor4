@@ -109,44 +109,31 @@ CKEDITOR.plugins.add( 'basicstyles', {
 
 		// Prevent adding subscript and superscript only when both buttons exists. (#5215)
 		if ( subscriptCommand && superscriptCommand ) {
-			editor.on( 'afterCommandExec', function( evt ) {
+			editor.on( 'beforeCommandExec', function( evt ) {
 				if ( evt.data.name === 'subscript' ) {
-					if ( superscriptCommand.state == CKEDITOR.TRISTATE_ON ) {
-						removeSubSup( 'sup' );
+					// In case when superscript is active, we should remove it first.
+					if ( superscriptCommand.state === CKEDITOR.TRISTATE_ON ) {
+						editor.execCommand( 'superscript' );
+						// Lock snapshot to prevent adding additional undo step after removing superscript.
+						editor.fire( 'lockSnapshot' );
 					}
-				} else if ( evt.data.name === 'superscript' ) {
-					if ( subscriptCommand.state == CKEDITOR.TRISTATE_ON ) {
-						removeSubSup( 'sub' );
+				}
+
+				if ( evt.data.name === 'superscript' ) {
+					if ( subscriptCommand.state === CKEDITOR.TRISTATE_ON ) {
+						editor.execCommand( 'subscript' );
+						editor.fire( 'lockSnapshot' );
 					}
 				}
 			} );
-		}
 
-		function removeSubSup( elementName ) {
-			var selection = editor.getSelection(),
-				range = selection.getRanges()[ 0 ],
-				style = new CKEDITOR.style( { element: elementName } );
-
-			range.enlarge( CKEDITOR.ENLARGE_INLINE );
-
-			var walker = new CKEDITOR.dom.walker( range ),
-				element = range.startContainer;
-
-			// Remove all subscript or superscript style within the range.
-			while ( element ) {
-				if ( element.$.nodeName.toLowerCase() === elementName ) {
-					editor.removeStyle( style );
+			editor.on( 'afterCommandExec', function( evt ) {
+				// Unlock and save snapshot after subscript or superscript was added to create a undo step. (#5215)
+				if ( evt.data.name === 'subscript' || evt.data.name === 'superscript' ) {
+					editor.fire( 'unlockSnapshot' );
+					editor.fire( 'saveSnapshot' );
 				}
-				element = walker.next();
-			}
-
-			if ( elementName === 'sup' ) {
-				superscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
-			} else {
-				subscriptCommand.setState( CKEDITOR.TRISTATE_OFF );
-			}
-
-			editor.selectionChange();
+			} );
 		}
 	}
 } );
