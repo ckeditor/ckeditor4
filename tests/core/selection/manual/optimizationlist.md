@@ -1,6 +1,6 @@
 @bender-tags: selection, 4.20.0, bug, 4931
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, list, undo
+@bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, list, undo, selectall
 
 1. Select entire content via `Ctrl+A`.
 2. Delete content with backspace key.
