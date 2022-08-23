@@ -120,7 +120,11 @@
 		var isInList = range.endContainer.is && range.endContainer.is( 'li' );
 
 		// Prevent optimization in lists (#4931).
-		if ( range.endOffset === 0 && !isInList )  {
+		if ( isInList ) {
+			return false;
+		}
+
+		if ( range.endOffset === 0 )  {
 			return true;
 		}
 
@@ -128,7 +132,7 @@
 			endsInText = isText( range.endContainer ),
 			limit = startsInText ? range.startContainer.getLength() : range.startContainer.getChildCount();
 
-		return !isInList && ( range.startOffset === limit || startsInText ^ endsInText );
+		return range.startOffset === limit || startsInText ^ endsInText;
 	}
 
 	// Prevent infinite recurrency when the browser does not allow the expected selection.
