@@ -93,12 +93,11 @@ Simply clone it to any local directory and you are set.
 This repository contains the following branches:
 
   - **`master`** &ndash; Development of the upcoming minor release.
-  - **`major`** &ndash; Development of the upcoming major release.
   - **`stable`** &ndash; Latest stable release tag point (non-beta).
   - **`latest`** &ndash; Latest release tag point (including betas).
   - **`release/A.B.x`** (e.g. `4.0.x`, `4.1.x`) &ndash; Release freeze, tests and tagging. Hotfixing.
 
-Note that both `master` and `major` are under heavy development. Their code did not pass the release testing phase, though, so it may be unstable.
+Note that the `master` branch is under heavy development. Its code did not pass the release testing phase, though, so it may be unstable.
 
 Additionally, all releases have their respective tags in the following form: `4.4.0`, `4.4.1`, etc.
 
