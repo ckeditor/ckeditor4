@@ -100,7 +100,6 @@ bender.test( {
 		} );
 	},
 
-	// (#4941)
 	'test entitles_processNumerical="true" and entities_greek="false" converts greek letters to numeric HTML entities': function() {
 		bender.editorBot.create( {
 			name: 'entities_true2',
@@ -119,7 +118,6 @@ bender.test( {
 		} );
 	},
 
-	// (#4941)
 	'test entitles_processNumerical="true" and entities_latin="false" converts some of latin letters entities to numeric HTML entities': function() {
 		bender.editorBot.create( {
 			name: 'entities_true3',
@@ -138,7 +136,6 @@ bender.test( {
 		} );
 	},
 
-	// (#4941)
 	'test entitles_processNumerical="force" converts entities to numerical HTML entity': function() {
 		bender.editorBot.create( {
 			name: 'entities_force',
@@ -156,7 +153,6 @@ bender.test( {
 		} );
 	},
 
-	// (#4941)
 	'test entitles_processNumerical="force" converts greek letters to numeric HTML entities': function() {
 		bender.editorBot.create( {
 			name: 'entities_force2',
@@ -175,7 +171,6 @@ bender.test( {
 		} );
 	},
 
-	// (#4941)
 	'test entitles_processNumerical="force" converts latin entities to numerical HTML entity': function() {
 		bender.editorBot.create( {
 			name: 'entities_force3',
@@ -184,8 +179,79 @@ bender.test( {
 				entities_latin: true
 			}
 		}, function( bot ) {
-			var inputHtml = '<p>&Agrave;&Aacute;&Icirc;&Iuml;&ETH;',
+			var inputHtml = '<p>&Agrave;&Aacute;&Icirc;&Iuml;&ETH;</p>',
 				expectedHtml =  '<p>&#192;&#193;&#206;&#207;&#208;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
+	'test entitles_processNumerical="force" with filters off converts entities to numerical HTML entity': function() {
+		bender.editorBot.create( {
+			name: 'entities_force4',
+			config: {
+				entities_processNumerical: 'force',
+				allowedContent: true
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>&apos;&quot;&lt;&gt;&amp;</p>',
+				expectedHtml =  '<p>&#39;&#34;&#60;&#62;&#38;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
+	'test entities="false" and entities_processNumerical="force" converts entities to numerical HTML entity': function() {
+		bender.editorBot.create( {
+			name: 'entities_1',
+			config: {
+				entities_processNumerical: 'force',
+				entities: false
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>&lt;&gt;&amp;</p>',
+				expectedHtml = '<p>&#60;&#62;&#38;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
+	'test entities="false" leaves entities untouched': function() {
+		bender.editorBot.create( {
+			name: 'entities_2',
+			config: {
+				entities: false
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>&lt;&gt;&amp;</p>',
+				expectedHtml = '<p>&lt;&gt;&amp;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
+	'test entities="true" and entities_processNumerical="false" leaves entities untouched': function() {
+		bender.editorBot.create( {
+			name: 'entities_3',
+			config: {
+				entities_processNumerical: false,
+				entities: true
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>&lt;&gt;&amp;</p>',
+				expectedHtml = '<p>&lt;&gt;&amp;</p>',
 				editor = bot.editor;
 
 			bot.setData( inputHtml, function() {
