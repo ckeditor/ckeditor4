@@ -8,3 +8,4 @@
 	**Expected** The resizing cursor is in the right place.
 
 	**Unexpected** The resizing cursor is moved from the column's border.
+1. Repeat the procedure for all editors.
