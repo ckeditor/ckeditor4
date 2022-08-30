@@ -207,6 +207,29 @@ bender.test( {
 		} );
 	},
 
+	'test entitles_processNumerical="force" with removed filters should leave entities untouched': function() {
+		bender.editorBot.create( {
+			name: 'entities_force5',
+			config: {
+				entities_processNumerical: 'force',
+				allowedContent: true,
+				on: {
+					instanceReady: function() {
+						this.dataProcessor.htmlFilter = {};
+					}
+				}
+			}
+		}, function( bot ) {
+			var inputHtml = '<p>&lt;&gt;&amp;</p>',
+				expectedHtml = '<p>&lt;&gt;&amp;</p>',
+				editor = bot.editor;
+
+			bot.setData( inputHtml, function() {
+				assert.areEqual( expectedHtml, editor.getData() );
+			} );
+		} );
+	},
+
 	'test entities="false" and entities_processNumerical="force" converts entities to numerical HTML entity': function() {
 		bender.editorBot.create( {
 			name: 'entities_1',
