@@ -109,6 +109,16 @@ bender.editors = {
 		name: 'intable',
 		creator: 'inline'
 	},
+	inlineOverflow: {
+		name: 'inline-overflow',
+		creator: 'inline'
+	},
+	classicOverflow: {
+		name: 'classic-overflow',
+		config: {
+			width: 250
+		}
+	},
 	undo: {
 		name: 'undo'
 	}
@@ -301,6 +311,44 @@ bender.test( {
 				} );
 			}
 		} );
+
+		wait();
+	},
+
+	// (#4889)
+	'test pillars are resetted on scroll (inline)': function() {
+		var editor = this.editors.inlineOverflow,
+			editable = editor.editable(),
+			table = editable.findOne( 'table' );
+
+		init( table, editor );
+
+		editable.fire( 'scroll', {} );
+
+		setTimeout( function() {
+			resume( function() {
+				assert.areSame( null, table.getCustomData( '_cke_table_pillars' ) );
+			} );
+		}, 210 );
+
+		wait();
+	},
+
+	// (#4889)
+	'test pillars are resetted on scroll (classic)': function() {
+		var editor = this.editors.classicOverflow,
+			editable = editor.editable(),
+			table = editable.findOne( 'table' );
+
+		init( table, editor );
+
+		editor.document.fire( 'scroll', {} );
+
+		setTimeout( function() {
+			resume( function() {
+				assert.areSame( null, table.getCustomData( '_cke_table_pillars' ) );
+			} );
+		}, 210 );
 
 		wait();
 	}
