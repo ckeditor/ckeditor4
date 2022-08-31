@@ -1,0 +1,14 @@
+<div id="editor">
+	<p>👍</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		entities_processNumerical: true,
+		lang: 'en'
+	} );
+</script>

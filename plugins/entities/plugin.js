@@ -106,59 +106,69 @@
 			}
 
 			function getEntity( character ) {
-				return config.entities_processNumerical == 'force' || !entitiesTable[ character ] ? '&#' + character.charCodeAt( 0 ) + ';'
+				return config.entities_processNumerical == 'force' || !entitiesTable[ character ] ? '&#' + getCodePoint( character ) + ';'
 				: entitiesTable[ character ];
+			}
+
+			// (#4941)
+			function getCodePoint( character ) {
+				return CKEDITOR.env.ie ? character.charCodeAt( 0 ) : character.codePointAt( 0 );
 			}
 
 			var dataProcessor = editor.dataProcessor,
 				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 
-			if ( htmlFilter ) {
-				// Mandatory HTML basic entities.
-				var selectedEntities = [];
-
-				if ( config.basicEntities !== false )
-					selectedEntities.push( htmlbase );
-
-				if ( config.entities ) {
-					if ( selectedEntities.length )
-						selectedEntities.push( entities );
-
-					if ( config.entities_latin )
-						selectedEntities.push( latin );
-
-					if ( config.entities_greek )
-						selectedEntities.push( greek );
-
-					if ( config.entities_additional )
-						selectedEntities.push( config.entities_additional );
-				}
-
-				var entitiesTable = buildTable( selectedEntities.join( ',' ) );
-
-				// Create the Regex used to find entities in the text, leave it matches nothing if entities are empty.
-				var entitiesRegex = entitiesTable.regex ? '[' + entitiesTable.regex + ']' : 'a^';
-				delete entitiesTable.regex;
-
-				if ( config.entities && config.entities_processNumerical )
-					entitiesRegex = '[^ -~]|' + entitiesRegex;
-
-				entitiesRegex = new RegExp( entitiesRegex, 'g' );
-
-				// Decode entities that the browsers has transformed
-				// at first place.
-				var baseEntitiesTable = buildTable( [ htmlbase, 'shy' ].join( ',' ), true ),
-					baseEntitiesRegex = new RegExp( baseEntitiesTable.regex, 'g' );
-
-				htmlFilter.addRules( {
-					text: function( text ) {
-						return text.replace( baseEntitiesRegex, getChar ).replace( entitiesRegex, getEntity );
-					}
-				}, {
-					applyToAll: true,
-					excludeNestedEditable: true
-				} );
+			if ( !htmlFilter ) {
+				return;
 			}
+
+			// Mandatory HTML basic entities.
+			var selectedEntities = [];
+
+			if ( config.basicEntities !== false )
+				selectedEntities.push( htmlbase );
+
+			if ( config.entities ) {
+				if ( selectedEntities.length )
+					selectedEntities.push( entities );
+
+				if ( config.entities_latin )
+					selectedEntities.push( latin );
+
+				if ( config.entities_greek )
+					selectedEntities.push( greek );
+
+				if ( config.entities_additional )
+					selectedEntities.push( config.entities_additional );
+			}
+
+			var entitiesTable = buildTable( selectedEntities.join( ',' ) );
+
+			// Create the Regex used to find entities in the text, leave it matches nothing if entities are empty.
+			var entitiesRegex = entitiesTable.regex ? '[' + entitiesTable.regex + ']' : 'a^';
+			delete entitiesTable.regex;
+
+			if ( config.entities && config.entities_processNumerical ) {
+				entitiesRegex = '[^ -~]|' + entitiesRegex;
+			}
+
+
+			// IE does not support unicode option in the Regex constructor (#4941).
+			entitiesRegex = new RegExp( entitiesRegex, CKEDITOR.env.ie ? 'g' : 'gu' );
+
+			// Decode entities that the browsers has transformed
+			// at first place.
+			var baseEntitiesTable = buildTable( [ htmlbase, 'shy' ].join( ',' ), true ),
+				baseEntitiesRegex = new RegExp( baseEntitiesTable.regex, 'g' );
+
+			htmlFilter.addRules( {
+				text: function( text ) {
+					return text.replace( baseEntitiesRegex, getChar ).replace( entitiesRegex, getEntity );
+				}
+			}, {
+				applyToAll: true,
+				excludeNestedEditable: true
+			} );
 		}
 	} );
 } )();
