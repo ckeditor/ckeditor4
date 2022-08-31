@@ -14,6 +14,7 @@ Fixed Issues:
 API changes:
 
 * [#5122](https://github.com/ckeditor/ckeditor4/issues/5122): Added ability to provide a list of buttons as an array to the [`config.removeButtons`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removeButtons) config variable.
+* [#4941](https://github.com/ckeditor/ckeditor4/issues/4941): Fix: Some entities get wrongly encoded, when using [`entities_processNumerical = true`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-entities_processNumerical). Applied for not IE browsers.
 
 ## CKEditor 4.19.1
 
