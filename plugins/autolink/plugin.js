@@ -81,7 +81,7 @@
 				var link = new CKEDITOR.dom.element( 'a' ),
 					value = text.replace( /"/g, '%22' );
 
-				value = value.match( CKEDITOR.config.autolink_urlRegex ) ? value : 'mailto:' + value;
+				value = value.match( editor.config.autolink_urlRegex ) ? value : 'mailto:' + value;
 
 				link.setText( text );
 				link.setAttribute( 'href', value );

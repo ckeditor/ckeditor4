@@ -11,6 +11,9 @@ New Features:
 
 Fixed Issues:
 
+* [#5319](https://github.com/ckeditor/ckeditor4/issues/5319): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) option produces invalid links when configured directly using editor instance configuration. Thanks to [Aigars Zeiza](https://github.com/Zuzon)!
+
+
 API changes:
 
 * [#5122](https://github.com/ckeditor/ckeditor4/issues/5122): Added ability to provide a list of buttons as an array to the [`config.removeButtons`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removeButtons) config variable.
