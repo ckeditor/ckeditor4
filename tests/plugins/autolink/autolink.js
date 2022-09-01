@@ -18,8 +18,8 @@
 				allowedContent: true,
 				pasteFilter: null,
 				removePlugins: 'link',
-				autolink_urlRegex: /^https:\/\/foobar.com$/,
-				autolink_emailRegex: /^foo@foobar\.com$/
+				autolink_urlRegex: /^url:xxx.xxx$/,
+				autolink_emailRegex: /^mail:xxx$/
 			}
 		},
 		encodedDefault: {
@@ -161,10 +161,10 @@
 			}
 		},
 
-		// (#3156)
+		// (#3156, #5319)
 		'test valid URL link with optional regex': function() {
-			var pastedText = 'https://foobar.com',
-				expected = '<a href="' + pastedText + '">' + pastedText + '</a>';
+			var pastedText = 'url:xxx.xxx',
+				expected = '<a href="http://' + pastedText + '">' + pastedText + '</a>';
 
 			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
 		},
@@ -193,9 +193,9 @@
 			}
 		},
 
-		// (#3156)
+		// (#3156, #5319)
 		'test valid email link with optional regex': function() {
-			var pastedText = 'foo@foobar.com',
+			var pastedText = 'mail:xxx',
 				expected = '<a href="mailto:' + pastedText + '">' + pastedText + '</a>';
 
 			assertPasteEvent( this.editors.optionalParameters, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
