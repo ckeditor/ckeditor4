@@ -33,8 +33,9 @@
 
 						textarea.focus();
 					} else {
-						if ( editable.is( 'body' ) )
+						if ( editable.is( 'body' ) ) {
 							editor.document.$.execCommand( 'SelectAll', false, null );
+						}
 						else {
 							var range = editor.createRange();
 							range.selectNodeContents( editable );
@@ -48,6 +49,19 @@
 
 				},
 				canUndo: false
+			} );
+
+			editor.on( 'contentDom', function() {
+				var editable = editor.editable();
+				editable.attachListener( editable, 'keydown', function( evt ) {
+					if ( evt.data.getKeystroke() != CKEDITOR.CTRL + 65 ) {
+						return;
+					}
+
+					editor.execCommand( 'selectAll' );
+					evt.cancel();
+					evt.data.preventDefault();
+				} );
 			} );
 
 			editor.ui.addButton && editor.ui.addButton( 'SelectAll', {
