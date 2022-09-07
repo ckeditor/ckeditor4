@@ -5,7 +5,9 @@
 1. Select entire content via `Ctrl+A`.
 2. Delete content with backspace key.
 
-**Expected** The entire list is removed from the editor.
+**Expected** The entire list content is removed from the editor.
+
+**Note** It is possible that list styling was not removed, so the first list item punctuation is in the content.
 
 **Unexpected** There are list leftovers in the editor.
 
