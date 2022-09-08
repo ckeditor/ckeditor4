@@ -659,7 +659,8 @@
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					dataCallback: dataCallback,
-					textTestCallback: textTestCallback
+					textTestCallback: textTestCallback,
+					followingSpace: true
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );
@@ -669,6 +670,60 @@
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
 			assert.areEqual( '<p>item1&nbsp;foo</p>', editor.getData() );
+
+			ac.destroy();
+		},
+
+		// (#2008)
+		'test following space with output template is not doubled': function() {
+			// Ignore test due to IE issue (#2077).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: textTestCallback,
+					outputTemplate: '<strong>{name}</strong>',
+					followingSpace: true
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.beautified.html( '<p><strong>item1</strong>&nbsp;foo</p>', editable.getData() );
+
+			ac.destroy();
+		},
+
+		// (#2008)
+		'test following space with output template': function() {
+			// Ignore test due to IE issue (#2077).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: textTestCallback,
+					outputTemplate: '<strong>{name}</strong>',
+					followingSpace: true
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '^foo' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.beautified.html( '<p><strong>item1&nbsp;</strong>foo</p>', editable.getData() );
 
 			ac.destroy();
 		},
