@@ -28,7 +28,7 @@ CKEDITOR.addTemplates( 'default', {
 		image: 'template2.gif',
 		description: 'A template that defines two colums, each one with a title, and some text.',
 		html: '<table cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;" border="0">' +
-			'<tr style="display:block;">' +
+			'<tr style="display:table-row;">' +
 				 '<td style="width:50%;word-wrap:break-word;word-break:break-all;text-align:left; vertical-align:top;">' +
 					'Text 1' +
 				'</td>' +
