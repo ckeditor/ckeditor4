@@ -438,8 +438,9 @@
 			selection.selectRanges( [ this.model.range ] );
 			editor.insertHtml( this.getHtmlToInsert( item ), 'text' );
 
+			// Insert following space after accepting match (#2008).
 			if ( this.followingSpace ) {
-				insertSpaceAfterMatch( editor );
+				// insertFollowingSpace( editor );
 			}
 
 			editor.fire( 'saveSnapshot' );
@@ -1523,21 +1524,21 @@
 		return editor.window.getFrame().getParent();
 	}
 
-	function insertSpaceAfterMatch( editor ) {
-		var selection = editor.getSelection();
+	// function insertSpaceAfterMatch( editor ) {
+	// 	var selection = editor.getSelection();
 
-		var nextNode = selection.getRanges()[ 0 ].getNextNode( function( node ) {
-			return Boolean( node.type == CKEDITOR.NODE_TEXT && node.getText() );
-		} );
+	// 	var nextNode = selection.getRanges()[ 0 ].getNextNode( function( node ) {
+	// 		return Boolean( node.type == CKEDITOR.NODE_TEXT && node.getText() );
+	// 	} );
 
-		if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
-			var range = editor.createRange();
-			range.setStart( nextNode, 1 );
-			selection.selectRanges( [ range ] );
-		} else {
-			editor.insertHtml( '&nbsp;' );
-		}
-	}
+	// 	if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
+	// 		var range = editor.createRange();
+	// 		range.setStart( nextNode, 1 );
+	// 		selection.selectRanges( [ range ] );
+	// 	} else {
+	// 		editor.insertHtml( '&nbsp;' );
+	// 	}
+	// }
 
 	function encodeItem( item ) {
 		return CKEDITOR.tools.array.reduce( CKEDITOR.tools.object.keys( item ), function( cur, key ) {
@@ -1545,6 +1546,18 @@
 			return cur;
 		}, {} );
 	}
+
+	// function insertFollowingSpace( editor ) {
+	// 	var selection = editor.getSelection();
+
+	// 	if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
+	// 		var range = editor.createRange();
+	// 		range.setStart( nextNode, 1 );
+	// 		selection.selectRanges( [ range ] );
+	// 	} else {
+	// 		editor.insertHtml( '&nbsp;' );
+	// 	}
+	// }
 
 	/**
 	 * Abstract class describing the definition of the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin configuration.
