@@ -177,7 +177,7 @@
 		/**
 		 * Indicates if a following space should be added after inserted match into an editor.
 		 *
-		 * @since 4.12.0
+		 * @since 4.20.0
 		 * @readonly
 		 * @property {Boolean} [followingSpace]
 		 */
@@ -1689,5 +1689,10 @@
 	 * The {@link CKEDITOR.plugins.autocomplete Autocomplete} instance that matched the query.
 	 *
 	 * @property {CKEDITOR.plugins.autocomplete} autocomplete
+	 */
+
+	/**
+	 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
+	 * @property {Boolean} [followingSpace]
 	 */
 } )();

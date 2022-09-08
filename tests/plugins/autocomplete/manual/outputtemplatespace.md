@@ -1,4 +1,4 @@
-@bender-tags: 4.12.0, bug, 2008
+@bender-tags: 4.20.0, bug, 2008
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete, textmatch
 @bender-include: _helpers/utils.js
