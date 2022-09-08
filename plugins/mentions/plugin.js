@@ -113,7 +113,7 @@
 		 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
 		 * @property {Boolean} [followingSpace]
 		 * @readonly
-		 * @since 4.12.0
+		 * @since 4.20.0
 		 */
 		this.followingSpace = config.followingSpace;
 
@@ -186,7 +186,7 @@
 			}
 
 			// Do not proceed if a query is a part of word.
-			var prevChar = text[ match.index - 1];
+			var prevChar = text[ match.index - 1 ];
 			if ( prevChar !== undefined && !prevChar.match( /\s+/ ) ) {
 				return null;
 			}

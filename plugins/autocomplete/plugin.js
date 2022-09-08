@@ -1543,6 +1543,7 @@
 
 		if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
 			var range = editor.createRange();
+
 			range.setStart( nextNode, 0 );
 			range.setEnd( nextNode, 1 );
 			range.deleteContents();
@@ -1660,7 +1661,7 @@
 
 	/**
 	 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
-	 * @since 4.12.0
+	 * @since 4.20.0
 	 * @property {Boolean} [followingSpace]
 	 */
 
@@ -1689,10 +1690,5 @@
 	 * The {@link CKEDITOR.plugins.autocomplete Autocomplete} instance that matched the query.
 	 *
 	 * @property {CKEDITOR.plugins.autocomplete} autocomplete
-	 */
-
-	/**
-	 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
-	 * @property {Boolean} [followingSpace]
 	 */
 } )();
