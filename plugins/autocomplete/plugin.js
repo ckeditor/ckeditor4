@@ -1546,18 +1546,6 @@
 		}, {} );
 	}
 
-	// function insertFollowingSpace( editor ) {
-	// 	var selection = editor.getSelection();
-
-	// 	if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
-	// 		var range = editor.createRange();
-	// 		range.setStart( nextNode, 1 );
-	// 		selection.selectRanges( [ range ] );
-	// 	} else {
-	// 		editor.insertHtml( '&nbsp;' );
-	// 	}
-	// }
-
 	/**
 	 * Abstract class describing the definition of the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin configuration.
 	 *
