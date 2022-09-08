@@ -510,8 +510,7 @@
 
 						return { text: '@Annabelle', range: range };
 					},
-					dataCallback: dataCallback,
-					followingSpace: false
+					dataCallback: dataCallback
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '@Annabelle^' );
@@ -661,7 +660,8 @@
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					dataCallback: dataCallback,
-					textTestCallback: textTestCallback
+					textTestCallback: textTestCallback,
+					followingSpace: false
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );

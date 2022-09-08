@@ -175,7 +175,7 @@
 		this.throttle = config.throttle !== undefined ? config.throttle : 20;
 
 		/**
-		 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#followingSpace}.
+		 * Indicates if a following space should be added after inserted match into an editor.
 		 *
 		 * @property {Boolean} [followingSpace]
 		 */
@@ -1523,22 +1523,6 @@
 		return editor.window.getFrame().getParent();
 	}
 
-	// function insertSpaceAfterMatch( editor ) {
-	// 	var selection = editor.getSelection();
-
-	// 	var nextNode = selection.getRanges()[ 0 ].getNextNode( function( node ) {
-	// 		return Boolean( node.type == CKEDITOR.NODE_TEXT && node.getText() );
-	// 	} );
-
-	// 	if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
-	// 		var range = editor.createRange();
-	// 		range.setStart( nextNode, 1 );
-	// 		selection.selectRanges( [ range ] );
-	// 	} else {
-	// 		editor.insertHtml( '&nbsp;' );
-	// 	}
-	// }
-
 	function encodeItem( item ) {
 		return CKEDITOR.tools.array.reduce( CKEDITOR.tools.object.keys( item ), function( cur, key ) {
 			cur[ key ] = CKEDITOR.tools.htmlEncode( item[ key ] );
@@ -1656,6 +1640,11 @@
 	 */
 
 	/**
+	 * @inheritdoc CKEDITOR.plugins.mentions#followingSpace
+	 * @property {Boolean} [followingSpace]
+	 */
+
+	/**
 	 * Abstract class describing a set of properties that can be used to produce more adequate suggestion data based on the matched query.
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.matchInfo
@@ -1668,12 +1657,6 @@
 	 * {@link CKEDITOR.plugins.autocomplete.configDefinition#textTestCallback config.textTestCallback}.
 	 *
 	 * @property {String} query
-	 */
-
-	/**
-	 * Indicates if a following space should be added after inserted match into an editor.
-	 *
-	 * @property {Boolean} [followingSpace=true]
 	 */
 
 	/**
