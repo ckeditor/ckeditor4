@@ -1,0 +1,24 @@
+<div id="editor" >
+	<p> Hello &nbsp;world</p>
+</div>
+
+<script>
+
+	// Ignore test due to IE issue (#2077).
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
+					followingSpace: true
+				} );
+			}
+		}
+	} );
+</script>
