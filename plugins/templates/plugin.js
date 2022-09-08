@@ -21,7 +21,7 @@
 			var command = new CKEDITOR.command( editor, {
 				exec: function( editor ) {
 					var html = '<table cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;" border="0">' +
-						'<tr style="display:block;">' +
+						'<tr style="display:table-row;">' +
 						'<td style="width:50%;word-wrap:break-word;word-break:break-all;text-align:left; vertical-align:top;">' +
 						'' +
 						'</td>' +
