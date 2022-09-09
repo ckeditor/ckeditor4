@@ -14,6 +14,4 @@
 
 **Expected** There is only one step needed to back to enabled `subscript` button.
 
-**Unexpected** There is one more additional step needed to back to enabled `subscript` button.
-
 5. Repeat above steps for inline editor.
