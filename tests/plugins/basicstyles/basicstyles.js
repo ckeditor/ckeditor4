@@ -7,8 +7,6 @@ bender.editor = {
 	}
 };
 
-var isNotGeckoOrIe = !CKEDITOR.env.gecko && !CKEDITOR.env.ie;
-
 bender.test( {
 	'test apply range style across input element': function() {
 		var bot = this.editorBot;
@@ -29,13 +27,28 @@ bender.test( {
 		} );
 	},
 
+	'test applying subscript to the selected content': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>foo[bar]</p>' );
+		bot.execCommand( 'subscript' );
+
+		assert.beautified.html( '<p>foo<sub>bar</sub></p>', bot.editor.getData() );
+	},
+
+	'test applying superscript to the selected content': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>foo[bar]</p>' );
+		bot.execCommand( 'superscript' );
+
+		assert.beautified.html( '<p>foo<sup>bar</sup></p>', bot.editor.getData() );
+	},
+
 	// (#5215)
 	'test toggle subscript and superscript on selected text': function() {
 		bender.editorBot.create( {
-			name: 'editor-subsup1',
-			config: {
-				coreStyles_disallowSubscriptSuperscript: true
-			}
+			name: 'editor-subsup1'
 		}, function( bot ) {
 			var editor = bot.editor;
 
@@ -43,13 +56,13 @@ bender.test( {
 			editor.execCommand( 'subscript' );
 			assert.areSame(
 				'<p><sub>foo</sub> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There is no added subscript element' );
 
 			editor.execCommand( 'superscript' );
 			assert.areSame(
 				'<p><sup>foo</sup> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There both subscript and superscript elements' );
 		} );
 	},
@@ -57,25 +70,21 @@ bender.test( {
 	// (#5215)
 	'test properly toggle subscript and superscript on selected text with other basic styles': function() {
 		bender.editorBot.create( {
-			name: 'editor-subsup2',
-			config: {
-				coreStyles_disallowSubscriptSuperscript: true
-			}
+			name: 'editor-subsup2'
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			bot.setHtmlWithSelection( '<p>[foo] bar</p>' );
-			editor.execCommand( 'bold' );
+			bot.setHtmlWithSelection( '<p>[<strong>foo</strong>] bar</p>' );
 			editor.execCommand( 'subscript' );
 			assert.areSame(
 				'<p><sub><strong>foo</strong></sub> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There is no added subscript element' );
 
 			editor.execCommand( 'superscript' );
 			assert.areSame(
 				'<p><sup><strong>foo</strong></sup> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There both subscript and superscript elements' );
 		} );
 	},
@@ -85,8 +94,7 @@ bender.test( {
 		bender.editorBot.create( {
 			name: 'editor-subsup3',
 			config: {
-				extraPlugins: 'undo',
-				coreStyles_disallowSubscriptSuperscript: true
+				extraPlugins: 'undo'
 			}
 		}, function( bot ) {
 			var editor = bot.editor;
@@ -95,25 +103,25 @@ bender.test( {
 			editor.execCommand( 'subscript' );
 			assert.areSame(
 				'<p><sub>foo</sub> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There is no added subscript element' );
 
 			editor.execCommand( 'superscript' );
 			assert.areSame(
 				'<p><sup>foo</sup> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There both subscript and superscript elements' );
 
 			editor.execCommand( 'undo' );
 			assert.areSame(
 				'<p><sub>foo</sub> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'Undo step is incorrect' );
 
 			editor.execCommand( 'redo' );
 			assert.areSame(
 				'<p><sup>foo</sup> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'Redo step is incorrect' );
 
 		} );
@@ -122,10 +130,7 @@ bender.test( {
 	// (#5215)
 	'test toggle subscript and superscript not disappear selection': function() {
 		bender.editorBot.create( {
-			name: 'editor-subsup4',
-			config: {
-				coreStyles_disallowSubscriptSuperscript: true
-			}
+			name: 'editor-subsup4'
 		}, function( bot ) {
 			var editor = bot.editor;
 
@@ -133,13 +138,13 @@ bender.test( {
 			editor.execCommand( 'subscript' );
 			assert.areSame(
 				'<p><sub>foo</sub> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There is no added subscript element' );
 
 			editor.execCommand( 'superscript' );
 			assert.areSame(
 				'<p><sup>foo</sup> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There both subscript and superscript elements' );
 
 			var selection = editor.getSelection(),
@@ -153,10 +158,7 @@ bender.test( {
 	// (#5215)
 	'test toggle subscript and superscript contain only one active UI button': function() {
 		bender.editorBot.create( {
-			name: 'editor-subsup5',
-			config: {
-				coreStyles_disallowSubscriptSuperscript: true
-			}
+			name: 'editor-subsup5'
 		}, function( bot ) {
 			var editor = bot.editor;
 
@@ -164,14 +166,14 @@ bender.test( {
 			editor.execCommand( 'subscript' );
 			assert.areSame(
 				'<p><sub>foo</sub> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There is no added subscript element' );
 
 
 			editor.execCommand( 'superscript' );
 			assert.areSame(
 				'<p><sup>foo</sup> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There both subscript and superscript elements' );
 
 			var	subscriptButtonState = editor.ui.get( 'Subscript' ).getState(),
@@ -182,32 +184,11 @@ bender.test( {
 		} );
 	},
 
-	'test allow add subscript and superscript at the same time in the default editor config': function() {
+	'test allow add subscript and superscript at the same time when coreStyles_allowSubscriptSuperscript is ON': function() {
 		bender.editorBot.create( {
-			name: 'editor-subsup6'
-		}, function( bot ) {
-			var editor = bot.editor;
-
-			bot.setHtmlWithSelection( '<p>[foo] bar</p>' );
-			editor.execCommand( 'subscript' );
-			assert.areSame(
-				'<p><sub>foo</sub> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
-				'There is no added subscript element' );
-
-			editor.execCommand( 'superscript' );
-			assert.areSame(
-				'<p><sup><sub>foo</sub></sup> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
-				'There is no subscript and superscript element' );
-		} );
-	},
-
-	'test allow add subscript and superscript at the same time when coreStyles_disallowSubscriptSuperscript: false': function() {
-		bender.editorBot.create( {
-			name: 'editor-subsup7',
+			name: 'editor-subsup6',
 			config: {
-				coreStyles_disallowSubscriptSuperscript: false
+				coreStyles_allowSubscriptSuperscript: true
 			}
 		}, function( bot ) {
 			var editor = bot.editor;
@@ -216,13 +197,37 @@ bender.test( {
 			editor.execCommand( 'subscript' );
 			assert.areSame(
 				'<p><sub>foo</sub> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
 				'There is no added subscript element' );
 
 			editor.execCommand( 'superscript' );
 			assert.areSame(
 				'<p><sup><sub>foo</sub></sup> bar</p>',
-				editor.editable().getData( isNotGeckoOrIe ),
+				editor.editable().getData(),
+				'There is no subscript and superscript element' );
+		} );
+	},
+
+	'test disallow add subscript and superscript at the same time when coreStyles_allowSubscriptSuperscript is explicit OFF': function() {
+		bender.editorBot.create( {
+			name: 'editor-subsup7',
+			config: {
+				coreStyles_allowSubscriptSuperscript: false
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			bot.setHtmlWithSelection( '<p>[foo] bar</p>' );
+			editor.execCommand( 'subscript' );
+			assert.areSame(
+				'<p><sub>foo</sub> bar</p>',
+				editor.editable().getData(),
+				'There is no added subscript element' );
+
+			editor.execCommand( 'superscript' );
+			assert.areSame(
+				' <p><sup>foo</sup> bar</p>',
+				editor.editable().getData(),
 				'There is no subscript and superscript element' );
 		} );
 	}
