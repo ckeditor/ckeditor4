@@ -106,35 +106,36 @@ CKEDITOR.plugins.add( 'basicstyles', {
 	afterInit: function( editor ) {
 		var subscriptCommand = editor.getCommand( 'subscript' ),
 			superscriptCommand = editor.getCommand( 'superscript' ),
-			disallowAddSubSup = editor.config.coreStyles_disallowSubscriptSuperscript;
+			allowAddSubSup = editor.config.coreStyles_allowSubscriptSuperscript;
 
 		// Prevent adding subscript and superscript only when both buttons exists. (#5215)
-		if ( disallowAddSubSup && ( subscriptCommand && superscriptCommand ) ) {
-			editor.on( 'beforeCommandExec', function( evt ) {
-				if ( evt.data.name === 'subscript' ) {
-					// In case when superscript is active, we should remove it first.
-					if ( superscriptCommand.state === CKEDITOR.TRISTATE_ON ) {
-						editor.execCommand( 'superscript' );
-						// Lock snapshot to prevent adding additional undo step after removing superscript.
-						editor.fire( 'lockSnapshot' );
-					}
-				}
+		if ( allowAddSubSup || !( subscriptCommand && superscriptCommand ) ) {
+			return
+		}
 
-				if ( evt.data.name === 'superscript' ) {
-					if ( subscriptCommand.state === CKEDITOR.TRISTATE_ON ) {
-						editor.execCommand( 'subscript' );
-						editor.fire( 'lockSnapshot' );
-					}
-				}
-			} );
+		editor.on( 'beforeCommandExec', function( evt ) {
+			if ( evt.data.name === 'subscript' ) {
+				offActiveCommand( superscriptCommand );
+			}
 
-			editor.on( 'afterCommandExec', function( evt ) {
-				// Unlock and save snapshot after subscript or superscript was added to create a undo step. (#5215)
-				if ( evt.data.name === 'subscript' || evt.data.name === 'superscript' ) {
-					editor.fire( 'unlockSnapshot' );
-					editor.fire( 'saveSnapshot' );
-				}
-			} );
+			if ( evt.data.name === 'superscript' ) {
+				offActiveCommand( subscriptCommand );
+			}
+		} );
+
+		editor.on( 'afterCommandExec', function( evt ) {
+			// Unlock and save snapshot after subscript or superscript was added to create a undo step. (#5215)
+			if ( evt.data.name === 'subscript' || evt.data.name === 'superscript' ) {
+				editor.fire( 'unlockSnapshot' );
+				editor.fire( 'saveSnapshot' );
+			}
+		} );
+
+		function offActiveCommand( command ) {
+			if ( command.state === CKEDITOR.TRISTATE_ON ) {
+				command.exec( editor );
+				editor.fire( 'lockSnapshot' );
+			}
 		}
 	}
 } );
@@ -154,7 +155,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
  *			attributes: { 'class': 'Bold' }
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_bold={ element: 'strong', overrides: 'b' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_bold = { element: 'strong', overrides: 'b' };
@@ -172,7 +173,7 @@ CKEDITOR.config.coreStyles_bold = { element: 'strong', overrides: 'b' };
  *			attributes: { 'class': 'Italic' }
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_italic={ element: 'em', overrides: 'i' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_italic = { element: 'em', overrides: 'i' };
@@ -188,7 +189,7 @@ CKEDITOR.config.coreStyles_italic = { element: 'em', overrides: 'i' };
  *			attributes: { 'class': 'Underline' }
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_underline={ element: 'u' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_underline = { element: 'u' };
@@ -205,7 +206,7 @@ CKEDITOR.config.coreStyles_underline = { element: 'u' };
  *			overrides: 'strike'
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_strike={ element: 's', overrides: 'strike' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_strike = { element: 's', overrides: 'strike' };
@@ -222,7 +223,7 @@ CKEDITOR.config.coreStyles_strike = { element: 's', overrides: 'strike' };
  *			overrides: 'sub'
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_subscript={ element: 'sub' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_subscript = { element: 'sub' };
@@ -239,16 +240,17 @@ CKEDITOR.config.coreStyles_subscript = { element: 'sub' };
  *			overrides: 'sup'
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_superscript={ element: 'sup' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_superscript = { element: 'sup' };
 
 /**
- * Disallow adding subscript and superscript on one element at the same time.
+ * Allow setting subscript and superscript simultaneously on the same element.
  *
- * @cfg
+ * @cfg {Boolean} [coreStyles_allowSubscriptSuperscript=false]
  * @since 4.20.0
+ * @member CKEDITOR.config
  */
 
-CKEDITOR.config.coreStyles_disallowSubscriptSuperscript = false;
+CKEDITOR.config.coreStyles_allowSubscriptSuperscript = false;
