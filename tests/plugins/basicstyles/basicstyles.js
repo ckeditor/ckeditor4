@@ -226,7 +226,7 @@ bender.test( {
 
 			editor.execCommand( 'superscript' );
 			assert.areSame(
-				' <p><sup>foo</sup> bar</p>',
+				'<p><sup>foo</sup> bar</p>',
 				editor.editable().getData(),
 				'There is no subscript and superscript element' );
 		} );
