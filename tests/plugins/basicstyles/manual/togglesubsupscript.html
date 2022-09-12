@@ -1,0 +1,17 @@
+<div id="editor">
+	<p>foo bar</p>
+</div>
+
+<div id="inline" contenteditable="true">
+	<p>foo bar</p>
+</div>
+
+<script>
+	var cfg = {
+		lang: 'en',
+		coreStyles_disallowSubscriptSuperscript: true
+	}
+
+	CKEDITOR.replace( 'editor', cfg );
+	CKEDITOR.inline( 'inline', cfg );
+</script>

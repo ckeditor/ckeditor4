@@ -7,6 +7,7 @@ New Features:
 
 * [#5084](https://github.com/ckeditor/ckeditor4/issues/5084): Introduce new types of table cells – "Column Header" and "Row Header" due to added support for `scope` attribute.
 * [#5219](https://github.com/ckeditor/ckeditor4/issues/5219): Added the [`config.image2_defaultLockRatio`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-image2_defaultLockRatio) config variable to allow setting the default value of the "Lock ratio" option in the [Enhanced Image](https://ckeditor.com/cke4/addon/image2) dialog.
+* [#5215](https://github.com/ckeditor/ckeditor4/issues/5215): Added a new config option to allow setting subscript and superscript simultaneously on the same element.
 
 
 Fixed Issues:

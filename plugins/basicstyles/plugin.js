@@ -101,6 +101,42 @@ CKEDITOR.plugins.add( 'basicstyles', {
 			[ CKEDITOR.CTRL + 73 /*I*/, 'italic' ],
 			[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ]
 		] );
+	},
+
+	afterInit: function( editor ) {
+		var subscriptCommand = editor.getCommand( 'subscript' ),
+			superscriptCommand = editor.getCommand( 'superscript' ),
+			allowAddSubSup = editor.config.coreStyles_allowSubscriptSuperscript;
+
+		// Prevent adding subscript and superscript only when both buttons exists. (#5215)
+		if ( allowAddSubSup || !( subscriptCommand && superscriptCommand ) ) {
+			return
+		}
+
+		editor.on( 'beforeCommandExec', function( evt ) {
+			if ( evt.data.name === 'subscript' ) {
+				offActiveCommand( superscriptCommand );
+			}
+
+			if ( evt.data.name === 'superscript' ) {
+				offActiveCommand( subscriptCommand );
+			}
+		} );
+
+		editor.on( 'afterCommandExec', function( evt ) {
+			// Unlock and save snapshot after subscript or superscript was added to create a undo step. (#5215)
+			if ( evt.data.name === 'subscript' || evt.data.name === 'superscript' ) {
+				editor.fire( 'unlockSnapshot' );
+				editor.fire( 'saveSnapshot' );
+			}
+		} );
+
+		function offActiveCommand( command ) {
+			if ( command.state === CKEDITOR.TRISTATE_ON ) {
+				command.exec( editor );
+				editor.fire( 'lockSnapshot' );
+			}
+		}
 	}
 } );
 
@@ -119,7 +155,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
  *			attributes: { 'class': 'Bold' }
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_bold={ element: 'strong', overrides: 'b' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_bold = { element: 'strong', overrides: 'b' };
@@ -137,7 +173,7 @@ CKEDITOR.config.coreStyles_bold = { element: 'strong', overrides: 'b' };
  *			attributes: { 'class': 'Italic' }
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_italic={ element: 'em', overrides: 'i' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_italic = { element: 'em', overrides: 'i' };
@@ -153,7 +189,7 @@ CKEDITOR.config.coreStyles_italic = { element: 'em', overrides: 'i' };
  *			attributes: { 'class': 'Underline' }
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_underline={ element: 'u' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_underline = { element: 'u' };
@@ -170,7 +206,7 @@ CKEDITOR.config.coreStyles_underline = { element: 'u' };
  *			overrides: 'strike'
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_strike={ element: 's', overrides: 'strike' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_strike = { element: 's', overrides: 'strike' };
@@ -187,7 +223,7 @@ CKEDITOR.config.coreStyles_strike = { element: 's', overrides: 'strike' };
  *			overrides: 'sub'
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_subscript={ element: 'sub' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_subscript = { element: 'sub' };
@@ -204,7 +240,17 @@ CKEDITOR.config.coreStyles_subscript = { element: 'sub' };
  *			overrides: 'sup'
  *		};
  *
- * @cfg
+ * @cfg {Object} [coreStyles_superscript={ element: 'sup' }]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.coreStyles_superscript = { element: 'sup' };
+
+/**
+ * Allow setting subscript and superscript simultaneously on the same element.
+ *
+ * @cfg {Boolean} [coreStyles_allowSubscriptSuperscript=false]
+ * @since 4.20.0
+ * @member CKEDITOR.config
+ */
+
+CKEDITOR.config.coreStyles_allowSubscriptSuperscript = false;
