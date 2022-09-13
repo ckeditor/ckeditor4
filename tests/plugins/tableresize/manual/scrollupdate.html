@@ -1,0 +1,118 @@
+<h2>Inline editor</h2>
+<div id="inline" style="width: 250px; overflow: auto;" contenteditable="true">
+	<table border="1" style="width:500px">
+		<tr>
+			<td>Column 1</td>
+			<td>Column 2</td>
+			<td>Column 3</td>
+			<td>Column 4</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+	</table>
+</div>
+
+<h2><code>div-based</code> editor</h2>
+<div id="div" style="width: 250px; overflow: auto;" contenteditable="true">
+	<table border="1" style="width:500px">
+		<tr>
+			<td>Column 1</td>
+			<td>Column 2</td>
+			<td>Column 3</td>
+			<td>Column 4</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+	</table>
+</div>
+
+<h2><code>iframe</code>-based editor</h2>
+<div id="iframe" style="width: 250px; overflow: auto;" contenteditable="true">
+	<table border="1" style="width:500px">
+		<tr>
+			<td>Column 1</td>
+			<td>Column 2</td>
+			<td>Column 3</td>
+			<td>Column 4</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	CKEDITOR.inline( 'inline' );
+	CKEDITOR.replace( 'div', {
+		extraPlugins: 'divarea',
+		width: 250
+	} );
+	CKEDITOR.replace( 'iframe', {
+		width: 250
+	} );
+</script>
