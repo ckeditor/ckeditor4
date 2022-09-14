@@ -106,19 +106,32 @@ CKEDITOR.plugins.add( 'basicstyles', {
 	afterInit: function( editor ) {
 		var subscriptCommand = editor.getCommand( 'subscript' ),
 			superscriptCommand = editor.getCommand( 'superscript' ),
-			allowAddSubSup = editor.config.coreStyles_allowSubscriptSuperscript;
+			allowAddSubSup = editor.config.coreStyles_toggleSubSup;
 
 		// Prevent adding subscript and superscript only when both buttons exists. (#5215)
-		if ( allowAddSubSup || !( subscriptCommand && superscriptCommand ) ) {
-			return
+		if ( !allowAddSubSup || !( subscriptCommand && superscriptCommand ) ) {
+			return;
 		}
 
 		editor.on( 'beforeCommandExec', function( evt ) {
+			var areSubAndSupActive = subscriptCommand.state == CKEDITOR.TRISTATE_ON && superscriptCommand.state == CKEDITOR.TRISTATE_ON;
+
 			if ( evt.data.name === 'subscript' ) {
+				// If sub and superscript are enabled, disable only subscript.
+				if ( areSubAndSupActive ) {
+					disableSubSup( subscriptCommand, evt );
+					return;
+				}
+
 				offActiveCommand( superscriptCommand );
 			}
 
 			if ( evt.data.name === 'superscript' ) {
+				if ( areSubAndSupActive ) {
+					disableSubSup( superscriptCommand, evt );
+					return;
+				}
+
 				offActiveCommand( subscriptCommand );
 			}
 		} );
@@ -136,6 +149,11 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				command.exec( editor );
 				editor.fire( 'lockSnapshot' );
 			}
+		}
+
+		function disableSubSup( command, event ) {
+			command.exec( editor );
+			event.cancel();
 		}
 	}
 } );
@@ -248,9 +266,9 @@ CKEDITOR.config.coreStyles_superscript = { element: 'sup' };
 /**
  * Allow setting subscript and superscript simultaneously on the same element.
  *
- * @cfg {Boolean} [coreStyles_allowSubscriptSuperscript=false]
+ * @cfg {Boolean} [coreStyles_toggleSubSup=false]
  * @since 4.20.0
  * @member CKEDITOR.config
  */
 
-CKEDITOR.config.coreStyles_allowSubscriptSuperscript = false;
+CKEDITOR.config.coreStyles_toggleSubSup = false;
