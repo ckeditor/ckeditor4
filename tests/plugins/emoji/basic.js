@@ -239,6 +239,24 @@
 
 				assert.areEqual( element.getHtml(), '<span>😻</span> smiling_cat_face_with_heart-eyes' );
 			} );
+		},
+
+		// (#2008)
+		'test adding emoji via autocomplete adds following space after accepting match when followingSpace is ON': function( editor, bot ) {
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				editor._.emoji.autocomplete.followingSpace = true;
+
+				var editable = editor.editable();
+
+				bot.setHtmlWithSelection( '<p>:smiling_cat_face_with_heart-eyes^</p>' );
+				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
+
+				assert.beautified.html( '<p>😻&nbsp;</p>', editable.getData() );
+
+				editor._.emoji.autocomplete.followingSpace = false;
+			} );
+			emojiTools.clearAutocompleteModel( editor._.emoji.autocomplete );
 		}
 	};
 
