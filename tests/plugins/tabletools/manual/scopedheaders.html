@@ -1,0 +1,55 @@
+<h2>Scoped headers on</h2>
+<div id="editor1">
+	<table border="1">
+		<tr>
+			<th>Column 1</th>
+			<th>Column 2</th>
+		</tr>
+		<tr>
+			<td>Cell 1.2</td>
+			<td>Cell 2.2</td>
+		</tr>
+	</table>
+</div>
+
+<h2>Scoped headers off</h2>
+<div id="editor2">
+	<table border="1">
+		<tr>
+			<th>Column 1</th>
+			<th>Column 2</th>
+		</tr>
+		<tr>
+			<td>Cell 1.2</td>
+			<td>Cell 2.2</td>
+		</tr>
+	</table>
+</div>
+
+<h2>Scoped headers default</h2>
+<div id="editor3">
+	<table border="1">
+		<tr>
+			<th>Column 1</th>
+			<th>Column 2</th>
+		</tr>
+		<tr>
+			<td>Cell 1.2</td>
+			<td>Cell 2.2</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		tabletools_scopedHeaders: true,
+		language: 'en'
+	} );
+	CKEDITOR.replace( 'editor2', {
+		tabletools_scopedHeaders: false,
+		language: 'en'
+	} );
+	CKEDITOR.replace( 'editor3', {
+		language: 'en'
+	} );
+</script>
