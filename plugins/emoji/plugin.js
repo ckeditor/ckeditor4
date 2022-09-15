@@ -621,7 +621,8 @@
 						textTestCallback: getTextTestCallback(),
 						dataCallback: dataCallback,
 						itemTemplate: '<li data-id="{id}" class="cke_emoji-suggestion_item"><span>{symbol}</span> {name}</li>',
-						outputTemplate: '{symbol}'
+						outputTemplate: '{symbol}',
+						followingSpace: editor.config.emoji_followingSpace
 					} );
 				}
 
@@ -737,3 +738,13 @@
  * @cfg {String} [emoji_emojiListUrl='plugins/emoji/emoji.json']
  * @member CKEDITOR.config
  */
+
+/**
+ * Indicates if a following space should be added after inserted match into an editor.
+ *
+ * @since 4.20.0
+ * @cfg {Boolean} [emoji_followingSpace=false]
+ * @member CKEDITOR.config
+ */
+
+CKEDITOR.config.emoji_followingSpace = false;

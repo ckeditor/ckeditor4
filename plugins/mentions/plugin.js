@@ -110,6 +110,14 @@
 		this.cache = config.cache !== undefined ? config.cache : true;
 
 		/**
+		 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
+		 * @property {Boolean} [followingSpace]
+		 * @readonly
+		 * @since 4.20.0
+		 */
+		this.followingSpace = config.followingSpace;
+
+		/**
 		 * @inheritdoc CKEDITOR.plugins.mentions.configDefinition#throttle
 		 * @property {Number} [throttle=200]
 		 * @readonly
@@ -128,7 +136,8 @@
 			itemTemplate: config.itemTemplate,
 			outputTemplate: config.outputTemplate,
 			throttle: this.throttle,
-			itemsLimit: config.itemsLimit
+			itemsLimit: config.itemsLimit,
+			followingSpace: this.followingSpace
 		} );
 	}
 
@@ -177,7 +186,7 @@
 			}
 
 			// Do not proceed if a query is a part of word.
-			var prevChar = text[ match.index - 1];
+			var prevChar = text[ match.index - 1 ];
 			if ( prevChar !== undefined && !prevChar.match( /\s+/ ) ) {
 				return null;
 			}
@@ -450,5 +459,10 @@
 	/**
 	 * @inheritdoc CKEDITOR.plugins.autocomplete.configDefinition#itemsLimit
 	 * @property {Number} [itemsLimit]
+	 */
+
+	/**
+	 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
+	 * @property {Boolean} [followingSpace]
 	 */
 } )();

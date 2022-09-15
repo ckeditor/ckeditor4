@@ -622,6 +622,108 @@
 			wait();
 		},
 
+		// (#2008)
+		'test following space is inserted after accepting match': function() {
+			// Ignore test due to IE issue (#2077).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: textTestCallback,
+					followingSpace: true
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.areEqual( '<p>item1&nbsp;</p>', editor.getData() );
+
+			ac.destroy();
+		},
+
+		// (#2008)
+		'test following space is not doubled': function() {
+			// Ignore test due to IE issue (#2077).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: textTestCallback,
+					followingSpace: true
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.areEqual( '<p>item1&nbsp;foo</p>', editor.getData() );
+
+			ac.destroy();
+		},
+
+		// (#2008)
+		'test following space with output template is not doubled': function() {
+			// Ignore test due to IE issue (#2077).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: textTestCallback,
+					outputTemplate: '<strong>{name}</strong>',
+					followingSpace: true
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.beautified.html( '<p><strong>item1</strong>&nbsp;foo</p>', editable.getData() );
+
+			ac.destroy();
+		},
+
+		// (#2008)
+		'test following space with output template': function() {
+			// Ignore test due to IE issue (#2077).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: textTestCallback,
+					outputTemplate: '<strong>{name}</strong>',
+					followingSpace: true
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '^foo' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.beautified.html( '<p><strong>item1</strong>&nbsp;foo</p>', editable.getData() );
+
+			ac.destroy();
+		},
+
 		// (#2474)
 		'test editor change event': function() {
 			var editor = this.editors.standard,

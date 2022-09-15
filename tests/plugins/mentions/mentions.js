@@ -460,6 +460,32 @@
 			assert.areEqual( '<p><strong>@Anna Doe</strong></p>', editable.getData() );
 		},
 
+		// (#2008)
+		'test config options are passed to autocomplete': function() {
+			var spy = sinon.spy( CKEDITOR.plugins, 'autocomplete' ),
+				config = {
+					followingSpace: true,
+					itemsLimit: 12,
+					throttle: 120,
+					outputTemplate: '<strong>{name}</name>',
+					itemTemplate: '<li data-id={id}>{name}</li>'
+				};
+
+			this.createMentionsInstance( config );
+
+			spy.restore();
+
+			assert.isTrue( spy.calledWith( this.editor, sinon.match( compareConfig ) ) );
+
+			function compareConfig( val ) {
+				for ( var k in config ) {
+					assert.areEqual( config[ k ], val[ k ], 'Option: ' + k + ' should be passed to autocomplete.' );
+				}
+
+				return true;
+			}
+		},
+
 		createMentionsInstance: function( config ) {
 			this._mentions = new CKEDITOR.plugins.mentions( this.editor, config );
 			return this._mentions;
