@@ -334,7 +334,7 @@
 				return selection;
 			}
 
-			range = ranges[0];
+			range = ranges[ 0 ];
 			if ( range.collapsed || range.endOffset !== 0 ) {
 				return selection;
 			}
