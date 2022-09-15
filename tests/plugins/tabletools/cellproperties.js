@@ -6,10 +6,25 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editors = {
+		basic: {
+			name: 'basic'
+		},
+		scopedHeadersOn: {
+			name: 'scopedHeadersOn',
+			config: {
+				tabletools_scopedHeaders: true
+			}
+		},
+		scopedHeadersOff: {
+			name: 'scopedHeadersOff',
+			config: {
+				tabletools_scopedHeaders: false
+			}
+		}
+	};
 
 	bender.test( {
-
 		'test cell properties dialog (text selection)': doTest( 'table-1', function( dialog ) {
 				dialog.setValueOf( 'info', 'width', 100 );
 				dialog.setValueOf( 'info', 'height', 50 );
@@ -157,19 +172,56 @@
 		} ),
 
 		// (#5084)
-		'test cell data type has th name and does not have scope attribute': doTest( 'table-cell-th', function( dialog ) {
-			dialog.setValueOf( 'info', 'cellType', 'th' );
-		} ),
+		'test cell data type has th name and does not have scope attribute (default scopedHeaders)':
+			doTest( 'table-cell-th', function( dialog ) {
+				dialog.setValueOf( 'info', 'cellType', 'th' );
+			} ),
+
+		// (#5084)
+		'test cell data type has th name and does not have scope attribute (scopedHeaders=false)':
+			doTest( 'table-cell-th', function( dialog ) {
+				dialog.setValueOf( 'info', 'cellType', 'th' );
+			}, 'scopedHeadersOff' ),
+
+		// (#5084)
+		'test th is represented as an empty option which does not change the content (scopedHeaders=true)':
+			doTest( 'table-cell-th-ui', function( dialog ) {
+				var actualCellType = dialog.getValueOf( 'info', 'cellType' );
+
+				assert.areSame( '', actualCellType );
+
+				dialog.setValueOf( 'info', 'cellType', '' );
+			}, 'scopedHeadersOn' ),
+
+		// (#5084)
+		'test th is represented as a "Header" option which does not change the content (scopedHeaders=false)':
+			doTest( 'table-cell-th-ui', function( dialog ) {
+				var actualCellType = dialog.getValueOf( 'info', 'cellType' );
+
+				assert.areSame( 'th', actualCellType );
+
+				dialog.setValueOf( 'info', 'cellType', 'th' );
+			}, 'scopedHeadersOff' ),
+
+		// (#5084)
+		'test th is represented as a "Header" option which does not change the content (default scopedHeaders)':
+			doTest( 'table-cell-th-ui', function( dialog ) {
+				var actualCellType = dialog.getValueOf( 'info', 'cellType' );
+
+				assert.areSame( 'th', actualCellType );
+
+				dialog.setValueOf( 'info', 'cellType', 'th' );
+			} ),
 
 		// (#5084)
 		'test cell column header type has th name and have scope attribute set to col': doTest( 'table-cell-thc', function( dialog ) {
 			dialog.setValueOf( 'info', 'cellType', 'thc' );
-		} ),
+		}, 'scopedHeadersOn' ),
 
 		// (#5084)
 		'test cell row header type has th name and have scope attribute set to row': doTest( 'table-cell-thr', function( dialog ) {
 			dialog.setValueOf( 'info', 'cellType', 'thr' );
-		} ),
+		}, 'scopedHeadersOn' ),
 
 		// https://dev.ckeditor.com/ticket/16893
 		'test allowedContent rule': function() {
