@@ -7,11 +7,10 @@ New Features:
 
 * [#5084](https://github.com/ckeditor/ckeditor4/issues/5084): Introduce new types of table cells – "Column Header" and "Row Header" due to added support for `scope` attribute.
 * [#5219](https://github.com/ckeditor/ckeditor4/issues/5219): Added the [`config.image2_defaultLockRatio`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-image2_defaultLockRatio) config variable to allow setting the default value of the "Lock ratio" option in the [Enhanced Image](https://ckeditor.com/cke4/addon/image2) dialog.
-* [#5215](https://github.com/ckeditor/ckeditor4/issues/5215): Added a new config option to allow setting subscript and superscript simultaneously on the same element.
 * [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): Extended the [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins with a feature option that adds a space after accepted autocompletion match. See:
 	* [`configDefinition.followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_mentions_configDefinition.html#property-followingSpace) option for mentions plugin, and
 	* [`config.emoji_followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_followingSpace) option for emoji plugin.
-
+* [#5215](https://github.com/ckeditor/ckeditor4/issues/5215): Added the [`config.coreStyles_toggleSubSup`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-coreStyles_toggleSubSup) configuration option disallowing setting subscript and superscript simultaneously on the same element using UI buttons. This option is turned off by default.
 
 Fixed Issues:
 

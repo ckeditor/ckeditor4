@@ -1,7 +1,9 @@
+<h2>Classic editor</h2>
 <div id="editor">
 	<p>foo bar</p>
 </div>
 
+<h2>Inline editor</h2>
 <div id="inline" contenteditable="true">
 	<p>foo bar</p>
 </div>
@@ -9,7 +11,7 @@
 <script>
 	var cfg = {
 		lang: 'en',
-		coreStyles_disallowSubscriptSuperscript: true
+		coreStyles_toggleSubSup: true
 	}
 
 	CKEDITOR.replace( 'editor', cfg );

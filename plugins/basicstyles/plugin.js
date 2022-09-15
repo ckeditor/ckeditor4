@@ -104,39 +104,37 @@ CKEDITOR.plugins.add( 'basicstyles', {
 	},
 
 	afterInit: function( editor ) {
-		var subscriptCommand = editor.getCommand( 'subscript' ),
-			superscriptCommand = editor.getCommand( 'superscript' ),
-			allowAddSubSup = editor.config.coreStyles_allowSubscriptSuperscript;
-
-		// Prevent adding subscript and superscript only when both buttons exists. (#5215)
-		if ( allowAddSubSup || !( subscriptCommand && superscriptCommand ) ) {
-			return
+		// If disabled, sub and sub scripts can be applied to element simoultaneously.
+		// The rest of that code takes care of toggling both elements (#5215).
+		if ( !editor.config.coreStyles_toggleSubSup ) {
+			return;
 		}
 
-		editor.on( 'beforeCommandExec', function( evt ) {
-			if ( evt.data.name === 'subscript' ) {
-				offActiveCommand( superscriptCommand );
-			}
+		var subscriptCommand = editor.getCommand( 'subscript' ),
+			superscriptCommand = editor.getCommand( 'superscript' );
 
-			if ( evt.data.name === 'superscript' ) {
-				offActiveCommand( subscriptCommand );
-			}
-		} );
+		// Both commands are required for toggle operation.
+		if ( !subscriptCommand || !superscriptCommand ) {
+			return;
+		}
 
 		editor.on( 'afterCommandExec', function( evt ) {
-			// Unlock and save snapshot after subscript or superscript was added to create a undo step. (#5215)
-			if ( evt.data.name === 'subscript' || evt.data.name === 'superscript' ) {
-				editor.fire( 'unlockSnapshot' );
-				editor.fire( 'saveSnapshot' );
+			var commandName = evt.data.name;
+
+			if ( commandName !== 'subscript' && commandName !== 'superscript' ) {
+				return;
+			}
+
+			var executedCommand = commandName === 'subscript' ? subscriptCommand : superscriptCommand,
+				otherCommand = commandName === 'subscript' ? superscriptCommand : subscriptCommand;
+
+			// Disable the other command if both are enabled.
+			if ( executedCommand.state === CKEDITOR.TRISTATE_ON && otherCommand.state === CKEDITOR.TRISTATE_ON ) {
+				otherCommand.exec( editor );
+				// Merge undo images, so toggle operation is treated as a single undo step.
+				editor.fire( 'updateSnapshot' );
 			}
 		} );
-
-		function offActiveCommand( command ) {
-			if ( command.state === CKEDITOR.TRISTATE_ON ) {
-				command.exec( editor );
-				editor.fire( 'lockSnapshot' );
-			}
-		}
 	}
 } );
 
@@ -246,11 +244,14 @@ CKEDITOR.config.coreStyles_subscript = { element: 'sub' };
 CKEDITOR.config.coreStyles_superscript = { element: 'sup' };
 
 /**
- * Allow setting subscript and superscript simultaneously on the same element.
+ * Disallow setting subscript and superscript simultaneously on the same element using UI buttons.
  *
- * @cfg {Boolean} [coreStyles_allowSubscriptSuperscript=false]
+ * By default, you can apply subscript and superscript styles to the same element. Enabling that option
+ * will remove the superscript style when the subscript button is pressed and vice versa.
+ *
+ * @cfg {Boolean} [coreStyles_toggleSubSup=false]
  * @since 4.20.0
  * @member CKEDITOR.config
  */
 
-CKEDITOR.config.coreStyles_allowSubscriptSuperscript = false;
+CKEDITOR.config.coreStyles_toggleSubSup = false;
