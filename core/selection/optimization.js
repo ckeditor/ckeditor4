@@ -117,7 +117,10 @@
 			return false;
 		}
 
-		var isInList = range.endContainer.is && range.endContainer.is( 'li' );
+		// The endContainer might be a text inside li element (in IE8).
+		var isInList = range.endContainer.is ?
+			range.endContainer.is( 'li' ) :
+			range.endContainer.getParent().is && range.endContainer.getParent().is( 'li' );
 
 		// Prevent optimization in lists (#4931).
 		if ( isInList ) {
