@@ -1269,3 +1269,10 @@ CKEDITOR.tools.buildTableMap = function( table, startRow, startCell, endRow, end
 	}
 	return aMap;
 };
+
+/**
+ * @since 4.20.0
+ * @cfg [tabletools_scopedHeaders=false]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.tabletools_scopedHeaders = false;

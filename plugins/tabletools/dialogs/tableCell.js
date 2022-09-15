@@ -122,12 +122,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				requiredContent: 'th[scope]',
 				label: langCell.cellType,
 				'default': 'td',
-				items: [
-					[ langCell.data, 'td' ],
-					[ langCell.header, 'th' ],
-					[ langCell.columnHeader, 'thc' ],
-					[ langCell.rowHeader, 'thr' ]
-				],
+				items: getAvailableCellTypes( editor ),
 				setup: setupCells( function( selectedCell ) {
 					var cellName = selectedCell.getName(),
 						scope = selectedCell.getAttribute( 'scope' );
@@ -577,5 +572,20 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		} else if ( property == 'border-color' ) {
 			selectedCell.removeAttribute( 'borderColor' );
 		}
+	}
+
+	function getAvailableCellTypes( editor ) {
+		if ( editor.config.tabletools_scopedHeaders ) {
+			return [
+				[ langCell.data, 'td' ],
+				[ langCell.columnHeader, 'thc' ],
+				[ langCell.rowHeader, 'thr' ]
+			];
+		}
+
+		return [
+			[ langCell.data, 'td' ],
+			[ langCell.header, 'th' ]
+		];
 	}
 } );
