@@ -1271,10 +1271,7 @@ CKEDITOR.tools.buildTableMap = function( table, startRow, startCell, endRow, end
 };
 
 /**
- * Indicates if table header elements (`th`) needs the
- * [`scope` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#attr-scope).
- *
- * This config variable changes the available values of the "Cell Type" field inside the
+ * Changes the available values of the "Cell Type" field inside the
  * "Cell Properties" dialog. If it's set to `false` (the default value), the "Cell Type" field
  * will contain two options:
  *
@@ -1288,9 +1285,16 @@ CKEDITOR.tools.buildTableMap = function( table, startRow, startCell, endRow, end
  * * "Column Header",
  * * "Row Header".
  *
- * Additionally, if this config variable is set to `true` and there is a `th` element without the
+ * Column and row header options updates table headers (`th`) with the
+ * [`scope` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#attr-scope)
+ * that may improve accessibility experience in more complex tables. Read the
+ * [w3.org guide about using the scope attribute to associate header cells
+ * and data cells in data tables](https://www.w3.org/WAI/WCAG21/Techniques/html/H63)
+ * to learn more.
+ *
+ * If this config variable is set to `true` and there is a `th` element without the
  * `scope` attribute in the editor's content, its "Cell Type" value will be set to an empty value.
- * To fix this, the `th` element needs to be transformed to gain the `scope` attribute.
+ * To avoid that issue, tables with `th` elements need to be migrated.
  * The sample transformation that adds `[scope=col]` to all scopeless `th` elements is presented below:
  *
  * ```javascript
