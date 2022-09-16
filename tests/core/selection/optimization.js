@@ -61,9 +61,16 @@
 			expected: '<p>foo</p><p>^bar@</p><p>baz</p>'
 		} ),
 
+		// (#4931) do not expect optimization in list
 		'test selection optimization case 8': testSelection( {
 			initial: '<ul><li>[foo</li><li>]bar</li></ul>',
-			expected: '<ul><li>[foo]@</li><li>bar</li></ul>'
+			expected: '<ul><li>[foo@</li><li>]bar</li></ul>'
+		} ),
+
+		// (#4931)
+		'test selection optimization skips optimization if last list element is empty': testSelection( {
+			initial: '<ul><li>[foo</li><li>]</li></ul>',
+			expected: '<ul><li>[foo@</li><li>]</li></ul>'
 		} ),
 
 		'test selection optimization case 9': testSelection( {

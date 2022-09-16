@@ -1,0 +1,37 @@
+<h2>Iframe editor</h2>
+<div id="editor1">
+	<ol>
+		<li>1</li>
+		<li>2
+		<ol>
+			<li>1</li>
+		</ol>
+		</li>
+		<li>&nbsp;</li>
+	</ol>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="editor2">
+	<ol>
+		<li>1</li>
+		<li>2
+		<ol>
+			<li>1</li>
+		</ol>
+		</li>
+		<li>&nbsp;</li>
+	</ol>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea',
+	} );
+</script>

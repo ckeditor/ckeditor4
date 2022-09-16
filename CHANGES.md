@@ -17,6 +17,7 @@ Fixed Issues:
 * [#4889](https://github.com/ckeditor/ckeditor4/issues/4889): Fixed: Incorrect position of the [Table Resize](https://ckeditor.com/cke4/addon/tableresize) cursor after scrolling the editor horizontally.
 * [#5319](https://github.com/ckeditor/ckeditor4/issues/5319): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) option produces invalid links when configured directly using editor instance configuration. Thanks to [Aigars Zeiza](https://github.com/Zuzon)!
 * [#4941](https://github.com/ckeditor/ckeditor4/issues/4941): Fixed: Some entities get wrongly encoded when using [`entities_processNumerical = true`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-entities_processNumerical) configuration option.
+* [#4931](https://github.com/ckeditor/ckeditor4/issues/4931): Fixed: Selecting whole editor's content when there's only a list with an empty element at the end inside and deleting it does not delete all list items.
 
 
 API changes:
