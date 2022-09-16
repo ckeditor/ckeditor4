@@ -6,34 +6,20 @@
 
 1. Right click at any cell, and select `Cell` -> `Cell Properties`.
 
-**Expected** Cell has `Data` type.
+	**Expected** Cell has `Data` type.
+1. Change cell type to `Column Header`.
 
-2. Change cell type to `Header`.
+	**Expected** Cell has `th` type and `scope` attribute set on `col`.
+1. Right click at recent cell, and select `Cell` -> `Cell Properties`.
 
-**Expected** Cell has `th` type and do not have `scope` attribute.
+	**Expected** Cell has `Column Header` type.
+1. Change cell type to `Row Header`.
 
-3. Right click at recent cell, and select `Cell` -> `Cell Properties`.
+	**Expected** Cell has `th` type and `scope` attribute set on `row`.
+1. Right click at recent cell, and select `Cell` -> `Cell Properties`.
 
-**Expected** Cell has `Header` type.
+	**Expected** Cell has `Row Header` type.
+1. Change cell type to `Data`.
 
-4. Change cell type to `Column Header`.
-
-**Expected** Cell has `th` type and `scope` attribute set on `col`.
-
-5. Right click at recent cell, and select `Cell` -> `Cell Properties`.
-
-**Expected** Cell has `Column Header` type.
-
-6. Change cell type to `Row Header`.
-
-**Expected** Cell has `th` type and `scope` attribute set on `row`.
-
-7. Right click at recent cell, and select `Cell` -> `Cell Properties`.
-
-**Expected** Cell has `Row Header` type.
-
-8. Change cell type to `Data`.
-
-**Expected** Cell has `td` type and do not have `scope` attribute.
-
-9. Play with cell types and verify if they type matches expectations from the above.
+	**Expected** Cell has `td` type and do not have `scope` attribute.
+1. Play with cell types and verify if they type matches expectations from the above.
