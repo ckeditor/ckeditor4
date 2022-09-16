@@ -1,8 +1,12 @@
 /* exported doTest, assertChildren */
 
-function doTest( name, dialogCallback ) {
+function doTest( name, dialogCallback, editorName ) {
+	if ( !editorName ) {
+		editorName = 'basic';
+	}
+
 	return function() {
-		var bot = this.editorBot;
+		var bot = this.editorBots[ editorName ];
 
 		bender.tools.testInputOut( name, function( source, expected ) {
 			bot.setHtmlWithSelection( source );

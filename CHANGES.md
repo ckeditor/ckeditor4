@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [#5084](https://github.com/ckeditor/ckeditor4/issues/5084): Introduce new types of table cells – "Column Header" and "Row Header" due to added support for `scope` attribute.
+* [#5084](https://github.com/ckeditor/ckeditor4/issues/5084): Added the [`config.tabletools_scopedHeaders`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-tabletools_scopedHeaders) configuration option controlling the behaviour of table headers with and without the `[scope]` attribute.
 * [#5219](https://github.com/ckeditor/ckeditor4/issues/5219): Added the [`config.image2_defaultLockRatio`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-image2_defaultLockRatio) config variable to allow setting the default value of the "Lock ratio" option in the [Enhanced Image](https://ckeditor.com/cke4/addon/image2) dialog.
 * [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): Extended the [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins with a feature option that adds a space after accepted autocompletion match. See:
 	* [`configDefinition.followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_mentions_configDefinition.html#property-followingSpace) option for mentions plugin, and

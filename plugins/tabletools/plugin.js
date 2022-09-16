@@ -334,7 +334,7 @@
 				return selection;
 			}
 
-			range = ranges[0];
+			range = ranges[ 0 ];
 			if ( range.collapsed || range.endOffset !== 0 ) {
 				return selection;
 			}
@@ -1269,3 +1269,54 @@ CKEDITOR.tools.buildTableMap = function( table, startRow, startCell, endRow, end
 	}
 	return aMap;
 };
+
+/**
+ * Changes the available values of the "Cell Type" field inside the
+ * "Cell Properties" dialog. If it's set to `false` (the default value), the "Cell Type" field
+ * will contain two options:
+ *
+ * * "Data",
+ * * "Header".
+ *
+ * If the option is set to `true`, the "Cell Type" field in the "Cell Properties" dialog
+ * will contain three possible values:
+ *
+ * * "Data",
+ * * "Column Header",
+ * * "Row Header".
+ *
+ * Column and row header options updates table headers (`th`) with the
+ * [`scope` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#attr-scope)
+ * that may improve accessibility experience in more complex tables. Read the
+ * [w3.org guide about using the scope attribute to associate header cells
+ * and data cells in data tables](https://www.w3.org/WAI/WCAG21/Techniques/html/H63)
+ * to learn more.
+ *
+ * If this config variable is set to `true` and there is a `th` element without the
+ * `scope` attribute in the editor's content, its "Cell Type" value will be set to an empty value.
+ * To avoid that issue, tables with `th` elements need to be migrated.
+ * The sample transformation that adds `[scope=col]` to all scopeless `th` elements is presented below:
+ *
+ * ```javascript
+ * editor.filter.addTransformations( [
+ * 	[
+ * 		{
+ * 			element: 'th',
+ * 			left: function( el ) {
+ * 				return !el.attributes.scope;
+ * 			},
+ * 			right: function( el ) {
+ * 				el.attributes.scope = 'col';
+ * 			}
+ * 		}
+ * 	]
+ * ] );
+ * ```
+ *
+ * The transformation is added to the editor using {@link CKEDITOR.filter#addTransformations}.
+ *
+ * @since 4.20.0
+ * @cfg [tabletools_scopedHeaders=false]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.tabletools_scopedHeaders = false;
