@@ -88,6 +88,9 @@
 					this.replaceWith( '<img src="' + upload.url + '" ' +
 						'width="' + width + '" ' +
 						'height="' + height + '">' );
+					
+					// Fire change event in order to get updated content.
+					editor.fire('change');
 				}
 			} );
 
