@@ -12,13 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 		items: [
 			{
 			name: 'Barra degli strumenti Editor',
-			legend: 'Premere ${toolbarFocus} per passare alla barra degli strumenti. Usare TAB per spostarsi al gruppo successivo, MAIUSC+TAB per spostarsi a quello precedente. Usare FRECCIA DESTRA per spostarsi al pulsante successivo, FRECCIA SINISTRA per spostarsi a quello precedente. Premere SPAZIO o INVIO per attivare il pulsante della barra degli strumenti.'
+			legend: 'Premi ${toolbarFocus} per accedere alla barra degli strumenti. Passa al gruppo di barre degli strumenti successivo o precedente con TAB o MAIUSC+TAB. Passa al pulsante della barra degli strumenti successivo o precedente con FRECCIA DESTRA o FRECCIA SINISTRA. Premi SPAZIO o INVIO per attivare il pulsante della barra degli strumenti. Lo stato attivo verrà riportato all\'area di modifica dopo l\'attivazione del pulsante della barra degli strumenti.'
 		},
 
 			{
 			name: 'Finestra Editor',
 			legend:
-				'All\'interno di una finestra di dialogo, premi TAB per passare all\'elemento della finestra di dialogo successivo, premi MAIUSC+TAB per passare all\'elemento della finestra di dialogo precedente, premi INVIO per inviare la finestra di dialogo, premi ESC per annullare la finestra di dialogo. Quando una finestra di dialogo ha più schede, l\'elenco delle schede può essere raggiunto con ALT+F10 o con TAB come parte dell\'ordine di tabulazione della finestra di dialogo. Mentre l\'elenco delle schede è attivo, passa alla scheda successiva o precedente rispettivamente con FRECCIA DESTRA o SINISTRA. Premi ESC per annullare le modifiche e chiudere la finestra di dialogo. Lo stato attivo verrà spostato nuovamente all\'area di modifica dopo aver lasciato la finestra di dialogo.'
+				'All\'interno di una finestra di dialogo, premi TAB per passare all\'elemento della finestra di dialogo successivo, premi MAIUSC+TAB per passare all\'elemento della finestra di dialogo precedente, premi INVIO per inviare la finestra di dialogo, premi ESC per annullare la finestra di dialogo. Quando una finestra di dialogo ha più schede, l\'elenco delle schede può essere raggiunto con ALT+F10 o con TAB come parte dell\'ordine di tabulazione della finestra di dialogo. Mentre l\'elenco delle schede è attivo, passa alla scheda successiva o precedente rispettivamente con FRECCIA DESTRA o SINISTRA. Premi ESC per annullare le modifiche e chiudere la finestra di dialogo. Lo stato attivo verrà spostato nuovamente all\'area di modifica dopo aver lasciato la finestra di dialogo.' 
 		},
 
 			{

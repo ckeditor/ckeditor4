@@ -19,7 +19,7 @@
  */
 CKEDITOR.lang[ 'sr-latn' ] = {
 	// ARIA description.
-	application: 'Rich Text Editor', // MISSING
+	application: 'Uređivač bogatog teksta',
 	editor: 'Bogati uređivač teksta',
 	editorPanel: 'Bogati uređivač panel',
 

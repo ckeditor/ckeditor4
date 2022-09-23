@@ -27,8 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 		borderColor: '框線顏色',
 		data: '資料',
 		header: '頁首',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		columnHeader: '欄標題',
+		rowHeader: '列標題',
 		yes: '是',
 		no: '否',
 		invalidWidth: '儲存格寬度必須為數字。',
@@ -52,7 +52,7 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 	headersColumn: '第一列',
 	headersNone: '無',
 	headersRow: '第一行',
-	heightUnit: 'height unit', // MISSING
+	heightUnit: '高度單位',
 	invalidBorder: '框線大小必須是整數。',
 	invalidCellPadding: '儲存格邊距必須為正數。',
 	invalidCellSpacing: '儲存格間距必須為正數。',

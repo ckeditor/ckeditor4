@@ -27,8 +27,8 @@ CKEDITOR.plugins.setLang( 'table', 'sr', {
 		borderColor: 'Боја оквира',
 		data: 'Податак',
 		header: 'Наслов',
-		columnHeader: 'Column Header', // MISSING
-		rowHeader: 'Row Header', // MISSING
+		columnHeader: 'Заглавље колоне',
+		rowHeader: 'Заглавље реда',
 		yes: 'Да',
 		no: 'Не',
 		invalidWidth: 'У поље ширина можете уписати само бројеве.',

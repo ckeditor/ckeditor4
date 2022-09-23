@@ -12,13 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sr-latn', {
 		items: [
 			{
 			name: 'Alatke za uređivanje',
-			legend: 'Pritisnite ${toolbarFocus} da bi označili alatke. Do sledeće i prethodne grupe alatki možete doći sa tasterom  TAB i SHIFT+TAB. Do tastera sledeće i predthodne grupe alatki možete doći sa tasterima STRELICA LEVO i STRELICA DESNO. Pritisnite  SPACE ili ENTER da bi aktivirali taster alatki.'
+			legend: 'Pritisnite ${toolbarFocus} da biste prešli na traku sa alatkama. Pređite na sledeću i prethodnu grupu traka sa alatkama pomoću TAB i SHIFT+TAB. Pređite na sledeće i prethodno dugme na traci sa alatkama pomoću STRELICE NADESNO ili STRELICA NALEVO. Pritisnite SPACE ili ENTER da biste aktivirali dugme na traci sa alatkama. Nakon aktiviranja dugmeta na traci sa alatkama, fokus će biti pomeren nazad u oblast za uređivanje.'
 		},
 
 			{
 			name: 'Uređivač dijaloga',
 			legend:
-				'U prozoru dijalog pritisnite TAB da bi došli do sledećeg polja dijaloga, pritisnite ENTER za prihvatanje dijaloga, pritisnite ESC za odbijanje dijaloga. Kada dijalog ima više kartica, do njih možete doći pritiskom na ALT + F10 ili  TAB. Zatim sa TAB ili STRELICA  DESNO dolazite do naredne kartice.' 
+				'Unutar dijaloga pritisnite TAB da pređjete na sledeći element dijaloga, pritisnite SHIFT+TAB da pređjete na prethodni element dijaloga, pritisnite ENTER da pošaljete dijalog, pritisnite ESC da otkažete dijalog. Kada dijalog ima više kartica, do liste kartica se može doći ili sa ALT+F10 ili sa TAB kao deo redosleda tabulatora dijaloga. Sa fokusiranom listom kartica, pređjite na sledeću i prethodnu karticu pomoću STRELICE NADESNO, odnosno NALEVO. Pritisnite ESC da odbacite promene i zatvorite dijalog. Fokus će se vratiti na oblast za uređivanje nakon napuštanja dijaloga.' 
 		},
 
 			{
