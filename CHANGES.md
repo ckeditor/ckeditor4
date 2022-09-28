@@ -7,23 +7,23 @@ New Features:
 
 * [#5084](https://github.com/ckeditor/ckeditor4/issues/5084): Added the [`config.tabletools_scopedHeaders`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-tabletools_scopedHeaders) configuration option controlling the behaviour of table headers with and without the `[scope]` attribute.
 * [#5219](https://github.com/ckeditor/ckeditor4/issues/5219): Added the [`config.image2_defaultLockRatio`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-image2_defaultLockRatio) configuration option allowing to set the default value of the "Lock ratio" option in the [Enhanced Image](https://ckeditor.com/cke4/addon/image2) dialog.
-* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): Extended the [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins with a feature option that adds a space after accepted autocompletion match. See:
-	* [`configDefinition.followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_mentions_configDefinition.html#property-followingSpace) option for mentions plugin, and
-	* [`config.emoji_followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_followingSpace) option for emoji plugin.
-* [#5215](https://github.com/ckeditor/ckeditor4/issues/5215): Added the [`config.coreStyles_toggleSubSup`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-coreStyles_toggleSubSup) configuration option disallowing setting subscript and superscript simultaneously on the same element using UI buttons. This option is turned off by default.
+* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): Extended the [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins with a feature option that adds a space after an accepted autocompletion match. See:
+	* [`configDefinition.followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_mentions_configDefinition.html#property-followingSpace) option for the mentions plugin, and
+	* [`config.emoji_followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_followingSpace) option for the emoji plugin.
+* [#5215](https://github.com/ckeditor/ckeditor4/issues/5215): Added the [`config.coreStyles_toggleSubSup`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-coreStyles_toggleSubSup) configuration option which disallows setting the subscript and superscript on the same element simultaneously using UI buttons. This option is turned off by default.
 
 Fixed Issues:
 
 * [#4889](https://github.com/ckeditor/ckeditor4/issues/4889): Fixed: Incorrect position of the [Table Resize](https://ckeditor.com/cke4/addon/tableresize) cursor after scrolling the editor horizontally.
-* [#5319](https://github.com/ckeditor/ckeditor4/issues/5319): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) option produces invalid links when configured directly using the editor instance config. Thanks to [Aigars Zeiza](https://github.com/Zuzon)!
-* [#4941](https://github.com/ckeditor/ckeditor4/issues/4941): Fixed: Some entities get wrongly encoded when using [`entities_processNumerical = true`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-entities_processNumerical) configuration option.
-* [#4931](https://github.com/ckeditor/ckeditor4/issues/4931): Fixed: Selecting whole editor's content when there's only a list with an empty element at the end inside and deleting it does not delete all list items.
+* [#5319](https://github.com/ckeditor/ckeditor4/issues/5319): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) option produced invalid links when configured directly using the editor instance config. Thanks to [Aigars Zeiza](https://github.com/Zuzon)!
+* [#4941](https://github.com/ckeditor/ckeditor4/issues/4941): Fixed: Some entities got wrongly encoded when using [`entities_processNumerical = true`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-entities_processNumerical) configuration option.
+* [#4931](https://github.com/ckeditor/ckeditor4/issues/4931): Fixed: Selecting the whole editor content when there is only a list with an empty element at the end inside and deleting it did not delete all list items.
 
 
 API changes:
 
-* [#5122](https://github.com/ckeditor/ckeditor4/issues/5122): Added ability to provide a list of buttons as an array to the [`config.removeButtons`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removeButtons) config variable.
-* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): Added [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) [`followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_autocomplete_configDefinition.html#property-followingSpace) option that finishes accepted match with a space.
+* [#5122](https://github.com/ckeditor/ckeditor4/issues/5122): Added the ability to provide a list of buttons as an array to the [`config.removeButtons`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removeButtons) config variable.
+* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): Added [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) [`followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_autocomplete_configDefinition.html#property-followingSpace) option that finishes an accepted match with a space.
 
 ## CKEditor 4.19.1
 
