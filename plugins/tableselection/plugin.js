@@ -1149,6 +1149,21 @@
 				}
 			}
 
+			function getTableKeyUpListener( editor ) {
+				return function( evt ) {
+					var key = evt.data.getKey(),
+						selection = editor.getSelection();
+
+					// Handle only Tab key in table selection.
+					if ( key !== 9 || !selection.isInTable() ) {
+						return;
+					}
+
+					// Restore fake selection after pressing Tab (#4802).
+					restoreFakeSelection( editor );
+				};
+			}
+
 			function clearCellInRange( range ) {
 				var node = range.getEnclosedNode();
 
@@ -1172,6 +1187,7 @@
 			var editable = editor.editable();
 			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
 			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
+			editable.attachListener( editable, 'keyup', getTableKeyUpListener( editor ), null, null, -1 );
 		}
 	};
 
