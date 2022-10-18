@@ -158,7 +158,7 @@
 					contentTransformations: contentTransformations,
 
 					panel: {
-						css: CKEDITOR.skin.getPath( 'editor' ),
+						css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 						attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 					},
 
