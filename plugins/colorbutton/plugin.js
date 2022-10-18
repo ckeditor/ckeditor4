@@ -32,6 +32,7 @@
 					commandName: 'textColor',
 					title: lang.textColorTitle,
 					order: 10,
+					contentsCss: config.contentsCss,
 					contentTransformations: [
 						[
 							{
@@ -97,6 +98,7 @@
 					commandName: 'bgColor',
 					title: lang.bgColorTitle,
 					order: 20,
+					contentsCss: config.contentsCss,
 					contentTransformations: contentTransformations
 				} );
 			}
@@ -107,6 +109,7 @@
 					title = options.title,
 					order = options.order,
 					commandName = options.commandName,
+					contentsCss = options.contentsCss,
 					contentTransformations = options.contentTransformations || {},
 					style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 					colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
@@ -158,7 +161,7 @@
 					contentTransformations: contentTransformations,
 
 					panel: {
-						css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
+						css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( contentsCss ),
 						attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 					},
 
