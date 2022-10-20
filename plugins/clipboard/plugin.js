@@ -1489,7 +1489,7 @@
 				} else if ( type ) {
 					// Create filter based on rules (string or object).
 					const filter = new CKEDITOR.filter(editor, type);
-					const { pasteContentForms } = editor.config;
+					const pasteContentForms = editor.config.pasteContentForms;
 					if (pasteContentForms) {
 						filter.addContentForms(pasteContentForms);
 					}

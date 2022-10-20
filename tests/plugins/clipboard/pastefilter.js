@@ -45,6 +45,23 @@
 			}
 		},
 
+		editorCustomContentForm: {
+			name: 'editorCustom',
+			config: {
+				pasteFilter: 'p strong',
+				pasteContentForms: [
+					'strong', 
+					'b', [
+						'span',
+						function (el) {
+							return el.styles['font-weight'] === 'bold';
+						},
+					],
+				],
+				allowedContent: true
+			}
+		},
+
 		editorCustomObject: {
 			name: 'editorCustomObject',
 			config: {
@@ -85,6 +102,8 @@
 	var contents = {
 		listWithSpan: '<ul><li>he<span>fkdjfkdj</span>llo</li><li>moto</li></ul>',
 		various: '<div><h1>Header 1</h1><h3>Header <span>3</span></h3><p>Heeey</p></div>',
+		differentBold:
+			'<p>Normal Text <strong>Strong text</strong> <b>Bold B Text</b> <span style="font-weight:bold">Span Bold Text</span></p>',
 		classyAndStylish: '<h1 id="foo" class="ugly" style="background-color: red;">I am so classy and stylish :)</h1>'
 	};
 
@@ -280,6 +299,11 @@
 	createTest(
 		'test custom object', 'editorCustomObject', contents.various,
 		'<p>Header 1</p><h3>Header 3</h3><p>Heeey</p>'
+	);
+
+	createTest(
+		'test custom content form', 'editorCustomContentForm', contents.differentBold,
+		'<p>Normal Text <strong>Strong text</strong> <strong>Bold B Text</strong> <strong>Span Bold Text</strong></p>',
 	);
 
 	createTest(
