@@ -51,7 +51,8 @@
 				pasteFilter: 'p strong',
 				pasteContentForms: [
 					'strong', 
-					'b', [
+					'b',
+					[
 						'span',
 						function (el) {
 							return el.styles['font-weight'] === 'bold';
