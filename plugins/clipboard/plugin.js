@@ -1488,7 +1488,12 @@
 					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
 				} else if ( type ) {
 					// Create filter based on rules (string or object).
-					return new CKEDITOR.filter( editor, type );
+					const filter = new CKEDITOR.filter(editor, type);
+					const { pasteContentForms } = editor.config;
+					if (pasteContentForms) {
+						filter.addContentForms(pasteContentForms);
+					}
+					return filter;
 				}
 
 				return null;
@@ -3542,6 +3547,15 @@
  * @since 4.5.0
  * @readonly
  * @property {CKEDITOR.filter} [pasteFilter]
+ * @member CKEDITOR.editor
+ */
+
+ /**
+ * An array of {@link CKEDITOR.feature content forms} to be added to a custom `pastFilter`.
+ *
+ * @since 4.21.0
+ * @readonly
+ * @property {CKEDITOR.filter} [pasteContentForms]
  * @member CKEDITOR.editor
  */
 
