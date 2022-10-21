@@ -46,7 +46,7 @@
 		},
 
 		editorCustomContentForm: {
-			name: 'editorCustom',
+			name: 'editorCustomContentForm',
 			config: {
 				pasteFilter: 'p strong',
 				pasteContentForms: [
