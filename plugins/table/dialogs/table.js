@@ -204,7 +204,7 @@
 							for ( i = 0; i < theRow.getChildCount(); i++ ) {
 								var newCell = theRow.getChild( i );
 								// In case when header is replaced to td element,
-								// check if the replaced cell should contain a 'row' scope (#2996).
+								// check if the replaced cell should contain a 'row' scope (#2881).
 								if ( shouldReplaceThByTd( newCell, headers, i ) ) {
 									newCell.renameNode( 'td' );
 									newCell.removeAttribute( 'scope' );
