@@ -1,0 +1,12 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="iframe"></div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="div"></div>
+
+<script>
+	CKEDITOR.replace( 'iframe' );
+	CKEDITOR.replace( 'div', {
+		extraPlugins: 'divarea'
+	} );
+</script>
