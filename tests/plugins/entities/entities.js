@@ -197,8 +197,8 @@ bender.test( {
 				allowedContent: true
 			}
 		}, function( bot ) {
-			var inputHtml = '<p>&apos;&quot;&lt;&gt;&amp;</p>',
-				expectedHtml =  '<p>&#39;&#34;&#60;&#62;&#38;</p>',
+			var inputHtml = '<p>&quot;&lt;&gt;&amp;</p>',
+				expectedHtml =  '<p>&#34;&#60;&#62;&#38;</p>',
 				editor = bot.editor;
 
 			bot.setData( inputHtml, function() {
