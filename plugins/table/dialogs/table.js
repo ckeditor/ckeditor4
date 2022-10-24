@@ -54,6 +54,11 @@
 
 		var dialogadvtab = editor.plugins.dialogadvtab;
 
+
+		function shouldReplaceThByTd( cell, headers, index ) {
+			return cell.type == CKEDITOR.NODE_ELEMENT && ( !headers || index !== 0 );
+		}
+
 		return {
 			title: editor.lang.table.title,
 			minWidth: 310,
@@ -198,9 +203,13 @@
 							theRow = thead.getFirst();
 							for ( i = 0; i < theRow.getChildCount(); i++ ) {
 								var newCell = theRow.getChild( i );
-								if ( newCell.type == CKEDITOR.NODE_ELEMENT ) {
+								// In case when header is replaced to td element,
+								// check if the replaced cell should contain a 'row' scope (#2881).
+								if ( shouldReplaceThByTd( newCell, headers, i ) ) {
 									newCell.renameNode( 'td' );
 									newCell.removeAttribute( 'scope' );
+								} else {
+									newCell.setAttribute( 'scope', 'row' );
 								}
 							}
 
@@ -215,7 +224,13 @@
 						for ( row = 0; row < table.$.rows.length; row++ ) {
 							newCell = new CKEDITOR.dom.element( table.$.rows[ row ].cells[ 0 ] );
 							newCell.renameNode( 'th' );
-							newCell.setAttribute( 'scope', 'row' );
+
+							// If "both" is set, the first cell in table head should have scope "col"(#2996).
+							if ( headers === 'both' && row === 0 ) {
+								newCell.setAttribute( 'scope', 'col' );
+							} else {
+								newCell.setAttribute( 'scope', 'row' );
+							}
 						}
 					}
 

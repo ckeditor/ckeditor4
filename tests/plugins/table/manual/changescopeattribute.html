@@ -1,0 +1,67 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="iframe">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row"></th>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="div">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row"></th>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row"></th>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script>
+	CKEDITOR.replace( 'iframe', {
+		language: 'en'
+	} );
+	CKEDITOR.replace( 'div', {
+		extraPlugins: 'divarea',
+		language: 'en'
+	} );
+	CKEDITOR.inline( 'inline', {
+		extraPlugins: 'sourcedialog',
+		language: 'en'
+	} );
+</script>

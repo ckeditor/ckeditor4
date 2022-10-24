@@ -5,6 +5,9 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#2881](https://github.com/ckeditor/ckeditor4/issues/2881): Fixed: Changing table headers from "Both" to "First column" in the [Table](https://ckeditor.com/cke4/addon/table) dialog does not change the first column cell correctly.
+* [#2996](https://github.com/ckeditor/ckeditor4/issues/2996): Fixed: Table header "scope" attribute is incorrect for the "Headers: both" option in the [Table](https://ckeditor.com/cke4/addon/table) dialog.
+
 ## CKEditor 4.20
 
 New Features:
