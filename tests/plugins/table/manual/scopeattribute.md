@@ -1,7 +1,6 @@
 @bender-tags: 4.20.1, bug, 2996
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, table, sourcearea, elementspath, htmlwriter, tabletools, contextmenu
-@bender-include: helpers/utils.js
 
 1. Create 2x2 table with `both` headers option.
 2. Check the source code of table.

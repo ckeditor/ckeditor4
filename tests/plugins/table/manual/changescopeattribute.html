@@ -53,9 +53,15 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'iframe' );
-	CKEDITOR.replace( 'div', {
-		extraPlugins: 'divarea'
+	CKEDITOR.replace( 'iframe', {
+		language: 'en'
 	} );
-	CKEDITOR.inline( 'inline' );
+	CKEDITOR.replace( 'div', {
+		extraPlugins: 'divarea',
+		language: 'en'
+	} );
+	CKEDITOR.inline( 'inline', {
+		extraPlugins: 'sourcedialog',
+		language: 'en'
+	} );
 </script>
