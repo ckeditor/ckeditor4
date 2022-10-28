@@ -136,10 +136,20 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 				label: editor.lang.link.anchor.name,
 				required: true,
 				validate: function() {
-					if ( !this.getValue() ) {
+					var disallowedWhitespacesRegex = /[\u0020\u0009\u000c]/g,
+						content = this.getValue();
+
+					if ( !content ) {
 						alert( editor.lang.link.anchor.errorName ); // jshint ignore:line
 						return false;
 					}
+
+					// Disallow creating anchors with space characters (#4802).
+					if ( disallowedWhitespacesRegex.test( content ) ) {
+						alert( editor.lang.link.anchor.errorWhitespace ); // jshint ignore:line
+						return false;
+					}
+
 					return true;
 				}
 			} ]
