@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 		title: 'ღუზის პარამეტრები',
 		name: 'ღუზუს სახელი',
 		errorName: 'აკრიფეთ ღუზის სახელი',
+		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
 		remove: 'Remove Anchor'
 	},
 	anchorId: 'ელემენტის Id-თ',

@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 		title: 'لەڭگەرلىك نۇقتا ئۇلانما خاسلىقى',
 		name: 'لەڭگەرلىك نۇقتا ئاتى',
 		errorName: 'لەڭگەرلىك نۇقتا ئاتىنى كىرگۈزۈڭ',
+		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
 		remove: 'لەڭگەرلىك نۇقتا ئۆچۈر'
 	},
 	anchorId: 'لەڭگەرلىك نۇقتا ID سى بويىچە',

@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 		title: '錨點內容',
 		name: '錨點名稱',
 		errorName: '請輸入錨點名稱',
+		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
 		remove: '移除錨點'
 	},
 	anchorId: '依元件編號',
