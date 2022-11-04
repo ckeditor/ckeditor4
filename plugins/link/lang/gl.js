@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 		title: 'Propiedades da ancoraxe',
 		name: 'Nome da ancoraxe',
 		errorName: 'Escriba o nome da ancoraxe',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Retirar a ancoraxe'
 	},
 	anchorId: 'Polo ID do elemento',

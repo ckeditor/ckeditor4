@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 		title: 'Iezīmes uzstādījumi',
 		name: 'Iezīmes nosaukums',
 		errorName: 'Lūdzu norādiet iezīmes nosaukumu',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Noņemt iezīmi'
 	},
 	anchorId: 'Pēc elementa ID',

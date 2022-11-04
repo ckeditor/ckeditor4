@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 		title: 'Ιδιότητες άγκυρας',
 		name: 'Όνομα άγκυρας',
 		errorName: 'Παρακαλούμε εισάγετε όνομα άγκυρας',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Αφαίρεση Άγκυρας'
 	},
 	anchorId: 'Βάσει του Element Id',

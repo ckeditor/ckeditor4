@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 		title: 'Karakteristikat e Spirancës',
 		name: 'Emri i Spirancës',
 		errorName: 'Ju lutemi shkruani emrin e spirancës',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Largo Spirancën'
 	},
 	anchorId: 'Sipas ID-së së Elementit',

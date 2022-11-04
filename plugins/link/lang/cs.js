@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 		title: 'Vlastnosti záložky',
 		name: 'Název záložky',
 		errorName: 'Zadejte prosím název záložky',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Odstranit záložku'
 	},
 	anchorId: 'Podle Id objektu',

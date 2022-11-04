@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 		title: 'Зангуугийн шинж чанар',
 		name: 'Зангуугийн нэр',
 		errorName: 'Зангуугийн нэрийг оруулна уу',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Зангууг устгах'
 	},
 	anchorId: 'Элемэнтйн Id нэрээр',

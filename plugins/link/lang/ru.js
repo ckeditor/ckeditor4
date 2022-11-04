@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'ru', {
 		title: 'Свойства якоря',
 		name: 'Имя якоря',
 		errorName: 'Пожалуйста, введите имя якоря',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Удалить якорь'
 	},
 	anchorId: 'По идентификатору',

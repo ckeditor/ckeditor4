@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'cy', {
 		title: 'Priodweddau\'r Angor',
 		name: 'Enw\'r Angor',
 		errorName: 'Teipiwch enw\'r angor',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Tynnwch yr Angor'
 	},
 	anchorId: 'Gan Id yr Elfen',

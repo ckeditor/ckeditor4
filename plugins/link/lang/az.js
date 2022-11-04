@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'az', {
 		title: 'Xeşin seçimləri',
 		name: 'Xeşin adı',
 		errorName: 'Xeşin adı yanlışdır',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'Xeşin adı sil'
 	},
 	anchorId: 'ID görə',

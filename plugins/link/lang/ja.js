@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 		title: 'アンカーのプロパティ',
 		name: 'アンカー名',
 		errorName: 'アンカー名を入力してください。',
-		errorWhitespace: 'Anchor name cannot contain whitespaces', // MISSING
+		errorWhitespace: 'Anchor name cannot contain space character', // MISSING
 		remove: 'アンカーを削除'
 	},
 	anchorId: 'エレメントID',
