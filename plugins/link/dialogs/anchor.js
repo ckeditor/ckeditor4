@@ -136,7 +136,10 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 				label: editor.lang.link.anchor.name,
 				required: true,
 				validate: function() {
-					var disallowedWhitespacesRegex = /[\u0020\u0009\u000c]/g,
+					// W3C HTML 5.2 Recommendation; §3.2.5:
+					// The id attribute value must not contain any space characters (#5305).
+					// [ space, tabulation, line feed, new line, form feed, carriage return ]
+					var disallowedWhitespacesRegex = /[\u0020\u0009\u000a\u000c\u000d]/g,
 						content = this.getValue();
 
 					if ( !content ) {
@@ -144,7 +147,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 						return false;
 					}
 
-					// Disallow creating anchors with space characters (#4802).
+					// Disallow creating anchors with space characters (#5305).
 					if ( disallowedWhitespacesRegex.test( content ) ) {
 						alert( editor.lang.link.anchor.errorWhitespace ); // jshint ignore:line
 						return false;
