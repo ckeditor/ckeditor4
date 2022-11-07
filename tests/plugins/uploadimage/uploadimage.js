@@ -582,7 +582,9 @@
 
 			bender.editorBot.create( {
 				name: 'configerror_test',
-				extraPlugins: 'uploadimage'
+				config: {
+					extraPlugins: 'uploadimage'
+				}
 			}, function( bot ) {
 				spy.restore();
 
