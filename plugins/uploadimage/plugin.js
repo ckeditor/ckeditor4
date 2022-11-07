@@ -57,6 +57,7 @@
 				return;
 			}
 
+			// (#5333)
 			if ( editor.config.clipboard_handleImages ) {
 				editor.config.clipboard_handleImages = false;
 
