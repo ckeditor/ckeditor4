@@ -249,14 +249,18 @@
 			dialog.setValueOf( 'info', 'txtName', 'Foo' + unicode + 'bar' );
 			dialog.getButton( 'ok' ).click();
 
-			windowStub.restore();
+			resume( function() {
+				assert.areEqual( 1, windowStub.callCount );
+				assert.areEqual(
+					bot.editor.lang.link.anchor.errorWhitespace,
+					windowStub.args[ 0 ][ 0 ],
+					'Anchor containing' + name + 'space should not be added'
+				);
 
-			assert.areEqual( 1, windowStub.callCount );
-			assert.areEqual(
-				bot.editor.lang.link.anchor.errorWhitespace,
-				windowStub.args[ 0 ][ 0 ],
-				'Anchor containing' + name + 'space should not be added'
-			);
+				windowStub.restore();
+			}, 10 );
+
+			wait();
 		} );
 	}
 }() );
