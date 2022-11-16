@@ -57,6 +57,13 @@
 				return;
 			}
 
+			// (#5333)
+			if ( editor.config.clipboard_handleImages ) {
+				editor.config.clipboard_handleImages = false;
+
+				CKEDITOR.warn( 'clipboard-image-handling-disabled', { editor: editor.name, plugin: 'uploadimage' } );
+			}
+
 			// Handle images which are available in the dataTransfer.
 			fileTools.addUploadWidget( editor, 'uploadimage', {
 				supportedTypes: /image\/(jpeg|png|gif|bmp)/,

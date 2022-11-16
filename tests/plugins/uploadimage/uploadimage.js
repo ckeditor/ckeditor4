@@ -582,13 +582,109 @@
 
 			bender.editorBot.create( {
 				name: 'configerror_test',
-				extraPlugins: 'uploadimage'
+				config: {
+					extraPlugins: 'uploadimage'
+				}
 			}, function( bot ) {
 				spy.restore();
 
 				assert.areSame( 0, spy.callCount, 'CKEDITOR.error call count' );
 				assert.isFalse( !!bot.editor.widgets.registered.uploadimage, 'uploadimage widget' );
 			} );
+		},
+
+		// (#5333)
+		'test warning about disabling the clipboard image handling logic (default config value)': createHandlingImageWarnTest(
+			'clipboard-warning-default' ),
+
+		// (#5333)
+		'test warning about disabling the clipboard image handling logic (config value of true)': createHandlingImageWarnTest(
+			'clipboard-warning-true', true ),
+
+		// (#5333)
+		'test warning about disabling the clipboard image handling logic (config value of false)': createHandlingImageWarnTest(
+			'clipboard-warning-false', false ),
+
+		// (#5333)
+		'test original file name is preserved after the upload': function() {
+			bender.editorBot.create( {
+				name: 'clipboard-integration-original-file-name',
+				config: {
+					uploadUrl: '%BASE_PATH',
+					extraPlugins: 'uploadimage'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					imageName = 'test.png',
+					image = {
+						name: imageName,
+						type: 'image/png'
+					};
+
+				bot.setData( '', function() {
+					resumeAfter( editor, 'paste', function() {
+						var widget = CKEDITOR.tools.object.values( editor.widgets.instances )[ 0 ],
+							loader = widget._getLoader();
+
+						assert.areSame( imageName, loader.fileName, 'The name of the uploaded file' );
+					} );
+
+					pasteFilesWithFilesMimeType( editor, [ image ] );
+
+					wait();
+				} );
+			} );
 		}
 	} );
+
+	function createHandlingImageWarnTest( editorName, configValue ) {
+		return function() {
+			var spy = sinon.spy( CKEDITOR, 'warn' ),
+				editorConfig =  {
+					uploadUrl: '%BASE_PATH',
+					extraPlugins: 'uploadimage'
+				};
+
+			if ( configValue !== undefined ) {
+				editorConfig.clipboard_handleImages = configValue;
+			}
+
+			bender.editorBot.create( {
+				name: editorName,
+				config: editorConfig
+			}, function() {
+				var warnCall = spy.getCall( 0 ),
+					expectedWarnDetails = {
+						editor: editorName,
+						plugin: 'uploadimage'
+					};
+
+				spy.restore();
+
+				if ( configValue === false ) {
+					assert.areSame( 0, spy.callCount, 'CKEDITOR.warn call count' );
+				} else {
+					assert.areSame( 1, spy.callCount, 'CKEDITOR.warn call count' );
+					assert.areSame( 'clipboard-image-handling-disabled', warnCall.args[ 0 ],
+						'CKEDITOR.warn error code' );
+					objectAssert.areDeepEqual( expectedWarnDetails, warnCall.args[ 1 ], 'CKEDITOR.warn details' );
+				}
+			} );
+		};
+	}
+
+	function pasteFilesWithFilesMimeType( editor, files, pasteMethod ) {
+		var	nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer;
+
+		pasteMethod = pasteMethod || 'paste';
+		nativeData.files = files;
+		nativeData.types.push( 'Files' );
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		editor.fire( 'paste', {
+			dataTransfer: dataTransfer,
+			dataValue: ''
+		} );
+	}
 } )();

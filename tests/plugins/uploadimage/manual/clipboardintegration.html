@@ -1,0 +1,20 @@
+<p>Last dropped file: <span id="lastFile"></span></p>
+<div id="editor1"></div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		language: 'en',
+		imageUploadUrl: '%BASE_PATH%',
+		on: {
+			instanceReady: function( evt ) {
+				bender.tools.ignoreUnsupportedEnvironment( 'uploadimage' );
+
+				CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
+					CKEDITOR.document.getById( 'lastFile' ).setText( this.fileName );
+
+					this.responseData = {};
+				};
+			},
+		}
+	} );
+</script>
