@@ -32,7 +32,6 @@
 					commandName: 'textColor',
 					title: lang.textColorTitle,
 					order: 10,
-					contentsCss: config.contentsCss,
 					contentTransformations: [
 						[
 							{
@@ -98,7 +97,6 @@
 					commandName: 'bgColor',
 					title: lang.bgColorTitle,
 					order: 20,
-					contentsCss: config.contentsCss,
 					contentTransformations: contentTransformations
 				} );
 			}
@@ -109,7 +107,6 @@
 					title = options.title,
 					order = options.order,
 					commandName = options.commandName,
-					contentsCss = options.contentsCss,
 					contentTransformations = options.contentTransformations || {},
 					style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 					colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
@@ -161,7 +158,7 @@
 					contentTransformations: contentTransformations,
 
 					panel: {
-						css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( contentsCss ),
+						css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.colorButton_css ),
 						attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 					},
 
@@ -1010,3 +1007,14 @@ CKEDITOR.config.colorButton_historyRowLimit = 1;
  * @member CKEDITOR.config
  */
 CKEDITOR.config.colorButton_renderContentColors = true;
+
+/**
+ * Allows adding additional custom styles which will be applied when rendering colorbutton layout.
+ *
+ * 		config.colorButton_css = ['span.cke_colorbox { border-radius: 50%; }']
+ *
+ * 	@since 4.20.0
+ * 	@cfg {Array} [colorButton_css=[]]
+ * 	@member CKEDITOR.config
+ */
+CKEDITOR.config.colorButton_css = CKEDITOR.config.colorButton_css || [];
