@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'de', {
 		title: 'Ankereigenschaften',
 		name: 'Ankername',
 		errorName: 'Bitte geben Sie den Namen des Ankers ein',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Anker entfernen'
 	},
 	anchorId: 'Nach Elementkennung',

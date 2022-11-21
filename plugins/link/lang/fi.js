@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'fi', {
 		title: 'Ankkurin ominaisuudet',
 		name: 'Nimi',
 		errorName: 'Ankkurille on kirjoitettava nimi',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Poista ankkuri'
 	},
 	anchorId: 'Ankkurin ID:n mukaan',

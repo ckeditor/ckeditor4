@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'es', {
 		title: 'Propiedades de Referencia',
 		name: 'Nombre de la Referencia',
 		errorName: 'Por favor, complete el nombre de la Referencia',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Quitar Referencia'
 	},
 	anchorId: 'Por ID de elemento',

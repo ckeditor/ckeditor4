@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'hr', {
 		title: 'Svojstva sidra',
 		name: 'Ime sidra',
 		errorName: 'Molimo unesite ime sidra',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Ukloni sidro'
 	},
 	anchorId: 'Po Id elementa',

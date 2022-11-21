@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 		title: 'Egenskaper för ankarlänk',
 		name: 'Ankarnamn',
 		errorName: 'Var god ange ett ankarnamn',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Radera ankare'
 	},
 	anchorId: 'Efter element-id',

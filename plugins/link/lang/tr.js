@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 		title: 'Bağlantı Özellikleri',
 		name: 'Bağlantı Adı',
 		errorName: 'Lütfen bağlantı için ad giriniz',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Bağlantıyı Kaldır'
 	},
 	anchorId: 'Eleman Kimlik Numarası ile',

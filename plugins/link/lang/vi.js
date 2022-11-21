@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 		title: 'Thuộc tính điểm neo',
 		name: 'Tên của điểm neo',
 		errorName: 'Hãy nhập vào tên của điểm neo',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Xóa neo'
 	},
 	anchorId: 'Theo định danh thành phần',

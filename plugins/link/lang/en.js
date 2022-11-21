@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'en', {
 		title: 'Anchor Properties',
 		name: 'Anchor Name',
 		errorName: 'Please type the anchor name',
+		errorWhitespace: 'Anchor name cannot contain space characters',
 		remove: 'Remove Anchor'
 	},
 	anchorId: 'By Element Id',

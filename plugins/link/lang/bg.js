@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 		title: 'Настройки на котва',
 		name: 'Име на котва',
 		errorName: 'Моля въведете име на котвата',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Премахване на котва'
 	},
 	anchorId: 'По ID на елемент',

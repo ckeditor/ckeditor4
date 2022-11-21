@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 		title: 'Eginleikar fyri marknastein',
 		name: 'Heiti marknasteinsins',
 		errorName: 'Vinarliga rita marknasteinsins heiti',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Strika marknastein'
 	},
 	anchorId: 'Eftir element Id',

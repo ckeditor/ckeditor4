@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'no', {
 		title: 'Egenskaper for anker',
 		name: 'Ankernavn',
 		errorName: 'Vennligst skriv inn ankernavnet',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Fjern anker'
 	},
 	anchorId: 'Element etter ID',

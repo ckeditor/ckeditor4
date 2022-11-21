@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 		title: 'รายละเอียด Anchor',
 		name: 'ชื่อ Anchor',
 		errorName: 'กรุณาระบุชื่อของ Anchor',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Remove Anchor'
 	},
 	anchorId: 'ไอดี',

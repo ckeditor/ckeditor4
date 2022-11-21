@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 		title: 'ऐंकर प्रॉपर्टीज़',
 		name: 'ऐंकर का नाम',
 		errorName: 'ऐंकर का नाम टाइप करें',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Remove Anchor'
 	},
 	anchorId: 'ऍलीमॅन्ट Id से',

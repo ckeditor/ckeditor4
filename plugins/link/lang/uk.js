@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 		title: 'Властивості якоря',
 		name: 'Ім\'я якоря',
 		errorName: 'Будь ласка, вкажіть ім\'я якоря',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Прибрати якір'
 	},
 	anchorId: 'За ідентифікатором елементу',

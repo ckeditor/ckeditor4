@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 		title: 'خصائص الإشارة المرجعية',
 		name: 'اسم الإشارة المرجعية',
 		errorName: 'الرجاء كتابة اسم الإشارة المرجعية',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'إزالة الإشارة المرجعية'
 	},
 	anchorId: 'حسب رقم العنصر',

@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'fa', {
 		title: 'ویژگی​های لینک',
 		name: 'نام لینک',
 		errorName: 'لطفا نام لنگر را بنویسید',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'حذف لینک'
 	},
 	anchorId: 'با شناسهٴ المان',

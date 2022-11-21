@@ -1,0 +1,27 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="iframe">
+	<p>Foo</p>
+</div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="div">
+	<p>Foo</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<p>Foo</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'iframe', {
+		language: 'en'
+	} );
+	CKEDITOR.replace( 'div', {
+		extraPlugins: 'divarea',
+		language: 'en'
+	} );
+	CKEDITOR.inline( 'inline', {
+		language: 'en'
+	} );
+</script>

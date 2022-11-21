@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 		title: 'Якорь үзлекләре',
 		name: 'Якорь исеме',
 		errorName: 'Якорьнең исемен языгыз',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Якорьне бетерү'
 	},
 	anchorId: 'Элемент идентификаторы буенча',

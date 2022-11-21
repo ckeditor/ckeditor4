@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 		title: '锚点链接属性',
 		name: '锚点名称',
 		errorName: '请输入锚点名称',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: '删除锚点'
 	},
 	anchorId: '按锚点 ID',

@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 		title: 'Horgony tulajdonságai',
 		name: 'Horgony neve',
 		errorName: 'Kérem adja meg a horgony nevét',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Horgony eltávolítása'
 	},
 	anchorId: 'Azonosító szerint',

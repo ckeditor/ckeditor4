@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 		title: 'Proprietăţi ancoră',
 		name: 'Numele ancorei',
 		errorName: 'Vă rugăm scrieţi numele ancorei',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Elimină ancora'
 	},
 	anchorId: 'după Id-ul elementului',

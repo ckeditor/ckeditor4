@@ -136,10 +136,23 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 				label: editor.lang.link.anchor.name,
 				required: true,
 				validate: function() {
-					if ( !this.getValue() ) {
+					// https://html.spec.whatwg.org/multipage/dom.html#global-attributes
+					// The id attribute value must not contain any space characters (#5305).
+					// [ space, tabulation, line feed, new line, form feed, carriage return ]
+					var disallowedWhitespacesRegex = /[\u0020\u0009\u000a\u000c\u000d]/g,
+						content = this.getValue();
+
+					if ( !content ) {
 						alert( editor.lang.link.anchor.errorName ); // jshint ignore:line
 						return false;
 					}
+
+					// Disallow creating anchors with space characters (#5305).
+					if ( disallowedWhitespacesRegex.test( content ) ) {
+						alert( editor.lang.link.anchor.errorWhitespace ); // jshint ignore:line
+						return false;
+					}
+
 					return true;
 				}
 			} ]

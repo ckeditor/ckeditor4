@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 		title: 'Egenskaber for bogmærke',
 		name: 'Bogmærkenavn',
 		errorName: 'Indtast bogmærkenavn',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Fjern bogmærke'
 	},
 	anchorId: 'Efter element-Id',

@@ -207,6 +207,60 @@
 
 				assert.beautified.html( expected, editor.getData(), 'Prevent duplicated anchors failed in the ordered list with styled word' );
 			} );
+		},
+		// (#5305)
+		'test prevent adding anchor with SPACE character': function() {
+			assertWhitespaceAnchor( this.editorBot, '\u0020', 'SPACE' );
+		},
+
+		// (#5305)
+		'test prevent adding anchor with CHARACTER TABULATION character': function() {
+			assertWhitespaceAnchor( this.editorBot, '\u0009', 'CHARACTER TABULATION' );
+		},
+
+		// (#5305)
+		'test prevent adding anchor with FORM FEED character': function() {
+			assertWhitespaceAnchor( this.editorBot, '\u000c', 'FORM FEED' );
+		},
+
+		// (#5305)
+		'test add anchor with non-breaking space': function() {
+			var bot = this.editorBot,
+				windowStub = sinon.stub( window, 'alert' ),
+				template = '[<p>Simple text</p>]';
+
+			windowStub.restore();
+
+			bot.setHtmlWithSelection( template );
+			bot.dialog( 'anchor', function( dialog ) {
+				dialog.setValueOf( 'info', 'txtName', 'Foo\u00a0bar' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.areEqual( 0, windowStub.callCount );
+			} );
 		}
 	} );
+
+	function assertWhitespaceAnchor( bot, unicode, name ) {
+		var windowStub = sinon.stub( window, 'alert' );
+
+		bot.dialog( 'anchor', function( dialog ) {
+
+			dialog.setValueOf( 'info', 'txtName', 'Foo' + unicode + 'bar' );
+			dialog.getButton( 'ok' ).click();
+
+			resume( function() {
+				windowStub.restore();
+
+				assert.areEqual( 1, windowStub.callCount );
+				assert.areEqual(
+					bot.editor.lang.link.anchor.errorWhitespace,
+					windowStub.args[ 0 ][ 0 ],
+					'Anchor containing' + name + 'space should not be added'
+				);
+			}, 10 );
+
+			wait();
+		} );
+	}
 }() );

@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 		title: 'خاسیەتی لەنگەر',
 		name: 'ناوی لەنگەر',
 		errorName: 'تکایه ناوی لەنگەر بنووسه',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'لابردنی لەنگەر'
 	},
 	anchorId: 'بەپێی ناسنامەی توخم',

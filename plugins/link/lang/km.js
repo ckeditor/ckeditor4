@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 		title: 'លក្ខណៈ​យុថ្កា',
 		name: 'ឈ្មោះ​យុថ្កា',
 		errorName: 'សូម​បញ្ចូល​ឈ្មោះ​យុថ្កា',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'ដក​យុថ្កា​ចេញ'
 	},
 	anchorId: 'តាម ID ធាតុ',

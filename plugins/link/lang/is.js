@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 		title: 'Eigindi kaflamerkis',
 		name: 'Nafn bókamerkis',
 		errorName: 'Sláðu inn nafn bókamerkis!',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Remove Anchor'
 	},
 	anchorId: 'Eftir auðkenni einingar',

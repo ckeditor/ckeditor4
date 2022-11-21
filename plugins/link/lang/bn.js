@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'bn', {
 		title: 'নোঙর প্রোপার্টি',
 		name: 'নোঙরের নাম',
 		errorName: 'নোঙরের নাম টাইপ করুন',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Remove Anchor'
 	},
 	anchorId: 'নোঙরের আইডি দিয়ে',

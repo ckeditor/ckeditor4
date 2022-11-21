@@ -13,6 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'nl', {
 		title: 'Eigenschappen interne link',
 		name: 'Naam interne link',
 		errorName: 'Geef de naam van de interne link op',
+		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
 		remove: 'Interne link verwijderen'
 	},
 	anchorId: 'Op kenmerk interne link',
