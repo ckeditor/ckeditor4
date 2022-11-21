@@ -248,6 +248,37 @@
 					assert.areEqual( 'none', cover.getStyle( 'display' ), 'Dialog cover should not be visible' );
 				} );
 			} );
+		},
+
+		// (#5365)
+		'test dialog cover is placed under the parent dialog after closing the child dialog when the config.baseFloatZIndex is set': function() {
+			// This number needs to be greater than 1010 as such a value is a default z-index
+			// for dialogs in the dialog.css file.
+			var baseFloatZIndex = 12000;
+
+			bender.editorBot.create( {
+				name: 'test_editor_baseFloatZIndex',
+				config: {
+					extraPlugins: [ 'link', 'colordialog' ],
+					baseFloatZIndex: baseFloatZIndex
+				}
+			}, function( editorBot ) {
+				editorBot.dialog( 'link', function( parentDialog ) {
+					editorBot.dialog( 'colordialog', function( dialog ) {
+						var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' ),
+							parentDialogContainer = parentDialog._.element,
+							coverZIndex,
+							parentDialogContainerZIndex;
+
+						dialog.getButton( 'cancel' ).click();
+
+						coverZIndex = parseInt( cover.getStyle( 'z-index' ), 10 );
+						parentDialogContainerZIndex = parseInt( parentDialogContainer.getStyle( 'z-index' ), 10 );
+
+						assert.isTrue( parentDialogContainerZIndex > coverZIndex );
+					} );
+				} );
+			} );
 		}
 	} );
 
