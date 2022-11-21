@@ -250,14 +250,14 @@
 			dialog.getButton( 'ok' ).click();
 
 			resume( function() {
+				windowStub.restore();
+
 				assert.areEqual( 1, windowStub.callCount );
 				assert.areEqual(
 					bot.editor.lang.link.anchor.errorWhitespace,
 					windowStub.args[ 0 ][ 0 ],
 					'Anchor containing' + name + 'space should not be added'
 				);
-
-				windowStub.restore();
 			}, 10 );
 
 			wait();
