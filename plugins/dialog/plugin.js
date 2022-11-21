@@ -1125,10 +1125,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( !this._.parentDialog ) {
 				hideCover( this._.editor );
 			} else {
-				var parentElement = this._.parentDialog.getElement().getFirst();
-				var newZIndex = parseInt( parentElement.$.style.zIndex, 10 ) + Math.floor( this._.editor.config.baseFloatZIndex / 2 );
-				this._.parentDialog.getElement().setStyle( 'z-index', newZIndex);
-				parentElement.setStyle( 'z-index', newZIndex);
+				var parentElement = this._.parentDialog.getElement().getFirst(),
+					newZIndex = parseInt( parentElement.$.style.zIndex, 10 ) +
+						Math.floor( this._.editor.config.baseFloatZIndex / 2 );
+
+				this._.parentDialog.getElement().setStyle( 'z-index', newZIndex );
+				parentElement.setStyle( 'z-index', newZIndex );
 			}
 			CKEDITOR.dialog._.currentTop = this._.parentDialog;
 
