@@ -1,0 +1,83 @@
+<button id="press">Open Dialog</button>
+<div id="editor"></div>
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var editor = CKEDITOR.replace( 'editor' );
+
+	CKEDITOR.once( 'instanceLoaded', function() {
+		CKEDITOR.dialog.add( 'testDialog', function() {
+			return {
+				title: 'Test dialog',
+				contents: [
+					{
+						id: 'tab1',
+						label: 'Tab one',
+						elements: [
+							{
+								type: 'html',
+								id: 'field11',
+								html: 'foo'
+							},
+							{
+								type: 'radio',
+								id: 'radio1',
+								items: [
+									[ 'foo1', 'foo1' ],
+									[ 'bar2', 'bar2' ],
+									[ 'bar3', 'bar3' ],
+									[ 'bar4', 'bar4' ]
+								]
+							},
+							{
+								type: 'radio',
+								id: 'radio2',
+								items: [
+									[ 'foo5', 'foo5' ],
+									[ 'bar6', 'bar6' ],
+									[ 'bar7', 'bar7' ],
+									[ 'bar8', 'bar8' ]
+								]
+							},
+							{
+								type: 'radio',
+								id: 'radio3',
+								items: [
+									[ 'foo9', 'foo9' ],
+									[ 'bar10', 'bar10' ],
+								]
+							},
+							{
+								type: 'radio',
+								id: 'radio4',
+								items: [
+									[ 'foo11', 'foo11' ],
+								]
+							},
+							{
+								type: 'button',
+								id: 'busy',
+								label: 'Set dialog busy'
+							},
+							{
+								type: 'html',
+								id: 'field12',
+								html: 'foo'
+							}
+						]
+					}
+				]
+			}
+		} );
+
+		editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog', {
+			tabId: 'tab1'
+		} ) );
+	} );
+
+	document.getElementById( 'press' ).onclick = function() {
+		editor.execCommand( 'testDialog' );
+	};
+</script>
