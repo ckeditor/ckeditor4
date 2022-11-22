@@ -491,6 +491,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				}
 			} while ( offset && !focusList[ currentIndex ].isFocusable() );
 
+			// Get the correct index (#439).
+			currentIndex = getCurrentIndex( startIndex, currentIndex, offset );
+
 			focusList[ currentIndex ].focus();
 
 			// Select whole field content.
@@ -500,6 +503,150 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 		this.changeFocus = changeFocus;
 
+		function getCurrentIndex( startIndex, currentIndex, offset ) {
+			if ( startIndex < 0 ) {
+				startIndex = 0;
+			}
+
+			var dialogUiElements = me._.focusList,
+				direction = offset === 1 ? 'next' : 'prev',
+				isPreviousNodeInRadioGroup =
+					dialogUiElements[ startIndex ].role &&
+					dialogUiElements[ startIndex ].role === 'radiogroup',
+				isCurrentNodeInRadioGroup =
+					dialogUiElements[ currentIndex ].role &&
+					dialogUiElements[ currentIndex ].role === 'radiogroup';
+
+			// If the previous and the current element is not in the radio group or if the current
+			// element pointing outside the radio group the return the current index.
+			if (
+				( !isCurrentNodeInRadioGroup && !isPreviousNodeInRadioGroup ) ||
+				( !isCurrentNodeInRadioGroup && isPreviousNodeInRadioGroup )
+			) {
+				return currentIndex;
+			}
+
+			// If the current index points to the radio group, find the checked element and
+			// move focus to it.
+			if ( !isPreviousNodeInRadioGroup && isCurrentNodeInRadioGroup ) {
+				var radioGroup = getRadioGroup( currentIndex, direction ),
+					checkedItemIndex = getFocusedRadioGroupElement( radioGroup );
+
+				// If no radio button is checked then:
+				// When Tab was pressed, then select the first radio button.
+				// When Shift+Tab was pressed, then select the last radio button.
+				if ( checkedItemIndex === -1 ) {
+					checkedItemIndex = 0;
+					dialogUiElements[ currentIndex ].getInputElement().$.checked = true;
+				}
+
+				currentIndex = updateCurrentIndexBy( currentIndex, checkedItemIndex, direction );
+
+				return currentIndex;
+			}
+
+			// If the previous and the current element is in the radio group then find the
+			// new radio group and move focus to selected element.
+			if ( isPreviousNodeInRadioGroup && isCurrentNodeInRadioGroup ) {
+				var groupId = dialogUiElements[ startIndex ]
+					.getElement()
+					.getAscendant( 'table' )
+					.getId();
+
+				while ( isWithinTheSameRadioGroup( groupId, currentIndex ) ) {
+					currentIndex = updateCurrentIndex( currentIndex, direction );
+				}
+
+				var radioGroup = getRadioGroup( currentIndex, direction );
+
+				if ( radioGroup.length > 0 ) {
+					var checkedItemIndex = getFocusedRadioGroupElement( radioGroup );
+
+					if ( checkedItemIndex === -1 ) {
+						checkedItemIndex = 0;
+						dialogUiElements[ currentIndex ].getInputElement().$.checked = true;
+					}
+
+					currentIndex = updateCurrentIndexBy( currentIndex, checkedItemIndex, direction );
+				}
+			} else {
+				var radioGroupLength = dialogUiElements[ startIndex ].items.length;
+				// When focus is on radio button, Tab or Shift+Tab will exit the radio group or
+				// move to the next radio group.
+				for ( var i = 0; i < radioGroupLength - 1; i++ ) {
+					currentIndex = updateCurrentIndex( currentIndex, direction );
+				}
+			}
+
+			// When the current element is not focusable then depends on direction
+			// get the next or previous element.
+			if ( !dialogUiElements[ currentIndex ].isFocusable() ) {
+				while ( !dialogUiElements[ currentIndex ].isFocusable() ) {
+					currentIndex = updateCurrentIndex( currentIndex, direction );
+				}
+			}
+
+			return currentIndex;
+		}
+
+		function getRadioGroup( startIndex, direction ) {
+			var dialogUiElements = me._.focusList,
+				radioGroup = [],
+				length;
+
+			if ( dialogUiElements[ startIndex ].items ) {
+				length = dialogUiElements[ startIndex ].items.length;
+			}
+
+			if ( length === undefined ) {
+				return radioGroup;
+			}
+
+			for ( var i = 0; i < length; i++ ) {
+				radioGroup.push( dialogUiElements[ startIndex ] );
+				startIndex = updateCurrentIndex( startIndex, direction );
+			}
+
+			return radioGroup;
+		}
+
+		function getFocusedRadioGroupElement( radioGroup ) {
+			return CKEDITOR.tools.indexOf( radioGroup, function( element ) {
+				return element.getInputElement().$.checked;
+			} );
+		}
+
+		function updateCurrentIndex( index, direction ) {
+			var dialogUiElementsLength = me._.focusList.length;
+
+			if ( direction === 'next' ) {
+				return index + 1 < dialogUiElementsLength ? index + 1 : 0;
+			}
+
+			return index - 1 >= 0 ? index - 1 : dialogUiElementsLength - 1;
+		}
+
+		function updateCurrentIndexBy( currentIndex, value, direction ) {
+			if ( direction === 'next' ) {
+				return currentIndex + value;
+			}
+
+			return currentIndex - value;
+		}
+
+		function isWithinTheSameRadioGroup( groupId, index ) {
+			var dialogUiElements = me._.focusList,
+				element;
+
+			// Focusable elements like lock ratio in image2 dialog does not
+			// include getElement() method.
+			try {
+				element = dialogUiElements[ index ].getElement();
+			} catch ( e ) {
+				element = dialogUiElements[ index ].element;
+			}
+			return element && element.getAscendant( 'table' ).getId() === groupId;
+		}
 
 		function keydownHandler( evt ) {
 			// If I'm not the top dialog, ignore.
