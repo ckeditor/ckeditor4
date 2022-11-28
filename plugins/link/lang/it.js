@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'it', {
 		title: 'Proprietà ancora',
 		name: 'Nome ancora',
 		errorName: 'Inserici il nome dell\'ancora',
-		errorWhitespace: 'Anchor name cannot contain space characters', // MISSING
+		errorWhitespace: 'Il nome delle ancore non può contenere caratteri di spaziatura',
 		remove: 'Rimuovi l\'ancora'
 	},
 	anchorId: 'Per id elemento',

@@ -19,8 +19,8 @@
  */
 CKEDITOR.lang[ 'uk' ] = {
 	// ARIA description.
-	application: 'Rich Text Editor', // MISSING
-	editor: 'Текстовий редактор',
+	application: 'Розширений текстовий редактор',
+	editor: 'Редактор',
 	editorPanel: 'Панель розширеного текстового редактора',
 
 	// Common messages and labels.

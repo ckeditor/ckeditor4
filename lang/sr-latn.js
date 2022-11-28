@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'sr-latn' ] = {
 	// ARIA description.
 	application: 'Uređivač bogatog teksta',
-	editor: 'Bogati uređivač teksta',
+	editor: 'Uređivač ',
 	editorPanel: 'Bogati uređivač panel',
 
 	// Common messages and labels.
