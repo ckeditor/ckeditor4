@@ -3,7 +3,11 @@
 </div>
 
 <script>
-    CKEDITOR.replace( 'editor', {
-	    removeButtons: [ 'Bold', 'Italic' ]
-    } );
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		removeButtons: [ 'Bold', 'Italic' ]
+	} );
 </script>
