@@ -15,6 +15,10 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor', {
 		language: 'en',
 		tabletools_scopedHeaders: true

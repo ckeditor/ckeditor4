@@ -107,6 +107,10 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.inline( 'inline' );
 	CKEDITOR.replace( 'div', {
 		extraPlugins: 'divarea',
