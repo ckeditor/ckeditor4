@@ -653,7 +653,7 @@
 				name: editorName,
 				config: editorConfig
 			}, function() {
-				var warnCall = spy.getCall( 0 ),
+				var warnCalls = spy.args,
 					expectedWarnDetails = {
 						editor: editorName,
 						plugin: 'uploadimage'
@@ -661,13 +661,18 @@
 
 				spy.restore();
 
+				var isWarningOccurred = spy.calledWith( 'clipboard-image-handling-disabled', expectedWarnDetails );
+
 				if ( configValue === false ) {
-					assert.areSame( 0, spy.callCount, 'CKEDITOR.warn call count' );
+					assert.isFalse( isWarningOccurred, 'CKEDITOR.warn error code' );
 				} else {
-					assert.areSame( 1, spy.callCount, 'CKEDITOR.warn call count' );
-					assert.areSame( 'clipboard-image-handling-disabled', warnCall.args[ 0 ],
-						'CKEDITOR.warn error code' );
-					objectAssert.areDeepEqual( expectedWarnDetails, warnCall.args[ 1 ], 'CKEDITOR.warn details' );
+					assert.isTrue( isWarningOccurred, 'CKEDITOR.warn error code'  );
+
+					var warningDetails = CKEDITOR.tools.array.find( warnCalls, function( item ) {
+						return item[ 0 ] === 'clipboard-image-handling-disabled';
+					} );
+
+					objectAssert.areDeepEqual( expectedWarnDetails, warningDetails[ 1 ], 'CKEDITOR.warn details' );
 				}
 			} );
 		};
