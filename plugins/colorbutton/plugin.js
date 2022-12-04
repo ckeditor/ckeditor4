@@ -1010,8 +1010,9 @@ CKEDITOR.config.colorButton_renderContentColors = true;
 
 /**
  * Allows adding additional custom styles which will be applied when rendering colorbutton layout.
+ * Accepts array which can include both strings with CSS styles, or paths to *.css files.
  *
- * 		config.colorButton_css = ['span.cke_colorbox { border-radius: 50%; }']
+ * 		config.colorButton_css = ['span.cke_colorbox { border-radius: 50%; }','/path/to/stylesheet.css'];
  *
  * 	@since 4.20.0
  * 	@cfg {Array} [colorButton_css=[]]
