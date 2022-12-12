@@ -11,4 +11,4 @@ Check:
 
 * Moving focus outside the radio groups.
 
-* Properly moving focus to the previously saved position.
+* Properly moving focus to the previously checked position.
