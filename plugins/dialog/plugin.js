@@ -530,17 +530,17 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// move focus to it.
 			if ( !isPreviousNodeInRadioGroup && isCurrentNodeInRadioGroup ) {
 				var radioGroup = getRadioGroup( currentIndex, direction ),
-					checkedItemIndex = getFocusedRadioGroupElement( radioGroup );
+					focusedItemIndex = getFocusedRadioGroupElement( radioGroup );
 
 				// If no radio button is checked then:
-				// When Tab was pressed, then select the first radio button.
-				// When Shift+Tab was pressed, then select the last radio button.
-				if ( checkedItemIndex === -1 ) {
-					checkedItemIndex = 0;
-					dialogUiElements[ currentIndex ].getInputElement().$.checked = true;
+				// When Tab was pressed, then focus the first radio button.
+				// When Shift+Tab was pressed, then focus the last radio button.
+				if ( focusedItemIndex === -1 ) {
+					focusedItemIndex = 0;
+					dialogUiElements[ currentIndex ].getInputElement().$.focus();
 				}
 
-				currentIndex = updateCurrentIndexBy( currentIndex, checkedItemIndex, direction );
+				currentIndex = updateCurrentIndexBy( currentIndex, focusedItemIndex, direction );
 
 				return currentIndex;
 			}
@@ -560,14 +560,14 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				var radioGroup = getRadioGroup( currentIndex, direction );
 
 				if ( radioGroup.length > 0 ) {
-					var checkedItemIndex = getFocusedRadioGroupElement( radioGroup );
+					var focusedItemIndex = getFocusedRadioGroupElement( radioGroup );
 
-					if ( checkedItemIndex === -1 ) {
-						checkedItemIndex = 0;
-						dialogUiElements[ currentIndex ].getInputElement().$.checked = true;
+					if ( focusedItemIndex === -1 ) {
+						focusedItemIndex = 0;
+						dialogUiElements[ currentIndex ].getInputElement().$.focus();
 					}
 
-					currentIndex = updateCurrentIndexBy( currentIndex, checkedItemIndex, direction );
+					currentIndex = updateCurrentIndexBy( currentIndex, focusedItemIndex, direction );
 				}
 			} else {
 				var radioGroupLength = dialogUiElements[ startIndex ].items.length;
