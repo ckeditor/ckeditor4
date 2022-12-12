@@ -82,6 +82,12 @@
 		throw new Error( 'Invalid focus options: ' + JSON.stringify( options ) );
 	}
 
+	function getRadioGroupElement( dialog, options ) {
+		var radioGroup = dialog.getContentElement( options.tab, options.radioGroupId );
+
+		return radioGroup._.children[ options.radioElementNumber ];
+	}
+
 
 	var dialogTools = {
 		// Dialog definitions used in test cases.
@@ -291,6 +297,156 @@
 							]
 						}
 					],
+					singleRadioGroup: function() {
+						return {
+							title: 'Single page dialog with radio group',
+							contents: [
+								{
+									id: 'sp-test1',
+									elements: [
+										{
+											type: 'text',
+											id: 'sp-input1',
+											label: 'input 1'
+										},
+										{
+											type: 'radio',
+											id: 'radio1',
+											items: [
+												[ 'foo1', 'foo1' ],
+												[ 'bar2', 'bar2' ],
+												[ 'bar3', 'bar3' ],
+												[ 'bar4', 'bar4' ]
+											]
+										},
+										{
+											type: 'checkbox',
+											id: 'sp-input3',
+											label: 'input 3'
+										}
+									]
+								}
+							],
+							onLoad: onLoadHandler
+						};
+					},
+					multipleRadioGroup: function() {
+						return {
+							title: 'Single page dialog with radio groups',
+							contents: [
+								{
+									id: 'sp-test1',
+									elements: [
+										{
+											type: 'text',
+											id: 'sp-input1',
+											label: 'input 1'
+										},
+										{
+											type: 'radio',
+											id: 'radio1',
+											items: [
+												[ 'foo1', 'foo1' ],
+												[ 'bar2', 'bar2' ],
+												[ 'bar3', 'bar3' ],
+												[ 'bar4', 'bar4' ]
+											]
+										},
+										{
+											type: 'radio',
+											id: 'radio2',
+											items: [
+												[ 'foo5', 'foo5' ],
+												[ 'bar6', 'bar6' ],
+												[ 'bar7', 'bar7' ],
+												[ 'bar8', 'bar8' ]
+											]
+										},
+										{
+											type: 'checkbox',
+											id: 'sp-input3',
+											label: 'input 3'
+										}
+									]
+								}
+							],
+							onLoad: onLoadHandler
+						};
+					},
+					onLoad: onLoadHandler
+				};
+			},
+			singleRadioGroup: function() {
+				return {
+					title: 'Single page dialog with radio group',
+					contents: [
+						{
+							id: 'srg-test1',
+							elements: [
+								{
+									type: 'text',
+									id: 'srg-input1',
+									label: 'input 1'
+								},
+								{
+									type: 'radio',
+									id: 'srg-radio1',
+									items: [
+										[ 'foo1', 'foo1' ],
+										[ 'bar2', 'bar2' ],
+										[ 'bar3', 'bar3' ],
+										[ 'bar4', 'bar4' ]
+									]
+								},
+								{
+									type: 'checkbox',
+									id: 'srg-input3',
+									label: 'input 3'
+								}
+							]
+						}
+					],
+					onLoad: onLoadHandler
+				};
+			},
+			multipleRadioGroup: function() {
+				return {
+					title: 'Single page dialog with radio groups',
+					contents: [
+						{
+							id: 'mrg-test1',
+							elements: [
+								{
+									type: 'text',
+									id: 'mrg-input1',
+									label: 'input 1'
+								},
+								{
+									type: 'radio',
+									id: 'mrg-radio1',
+									items: [
+										[ 'foo1', 'foo1' ],
+										[ 'bar2', 'bar2' ],
+										[ 'bar3', 'bar3' ]
+									]
+								},
+								{
+									type: 'radio',
+									id: 'mrg-radio2',
+									items: [
+										[ 'foo4', 'foo4' ],
+										[ 'bar5', 'bar5' ],
+										[ 'bar6', 'bar6' ]
+									]
+								},
+								{
+									type: 'checkbox',
+									id: 'mrg-input3',
+									label: 'input 3'
+								}
+							]
+						}
+					],
 					onLoad: onLoadHandler
 				};
 			}
@@ -312,6 +468,10 @@
 					expectedFocusedElement = dialog.getButton( options.buttonName );
 				} else {
 					expectedFocusedElement = dialog.getContentElement( options.tab, options.elementId );
+				}
+
+				if ( options.radioGroupId ) {
+					expectedFocusedElement = getRadioGroupElement( dialog, options );
 				}
 
 				if ( !expectedFocusedElement ) {
@@ -397,10 +557,14 @@
 			CKEDITOR.dialog.add( 'singlePageDialog', this.definitions.singlePage );
 			CKEDITOR.dialog.add( 'multiPageDialog', this.definitions.multiPage );
 			CKEDITOR.dialog.add( 'hiddenPageDialog', this.definitions.hiddenPage );
+			CKEDITOR.dialog.add( 'singleRadioGroupDialog', this.definitions.singleRadioGroup );
+			CKEDITOR.dialog.add( 'multipleRadioGroupDialog', this.definitions.multipleRadioGroup );
 
 			editor.addCommand( 'singlePageDialog', new CKEDITOR.dialogCommand( 'singlePageDialog' ) );
 			editor.addCommand( 'multiPageDialog', new CKEDITOR.dialogCommand( 'multiPageDialog' ) );
 			editor.addCommand( 'hiddenPageDialog', new CKEDITOR.dialogCommand( 'hiddenPageDialog' ) );
+			editor.addCommand( 'singleRadioGroupDialog', new CKEDITOR.dialogCommand( 'singleRadioGroupDialog' ) );
+			editor.addCommand( 'multipleRadioGroupDialog', new CKEDITOR.dialogCommand( 'multipleRadioGroupDialog' ) );
 		},
 
 		// Closes all opened dialogs.
@@ -412,6 +576,19 @@
 
 				dialog = CKEDITOR.dialog.getCurrent();
 			}
+		},
+
+		checkRadioGroupElement: function( options ) {
+			return function( dialog ) {
+				var radioGroupElement = getRadioGroupElement( dialog, options );
+				radioGroupElement.getElement().$.checked = true;
+
+				if ( options.focusElement ) {
+					radioGroupElement.getElement().focus();
+				}
+
+				return dialog;
+			};
 		}
 	};
 
