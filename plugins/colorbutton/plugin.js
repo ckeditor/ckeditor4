@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -158,7 +158,7 @@
 					contentTransformations: contentTransformations,
 
 					panel: {
-						css: config.colorButton_contentsCss,
+						css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.colorButton_contentsCss ),
 						attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 					},
 
@@ -1017,7 +1017,7 @@ CKEDITOR.config.colorButton_renderContentColors = true;
  * ```
  *
  * @since 4.21.0
- * @cfg {String/String[]} [colorButton_contentsCss=CKEDITOR.skin.getPath( 'editor' )]
+ * @cfg {String/String[]} [colorButton_contentsCss]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.colorButton_contentsCss = [ CKEDITOR.skin.getPath( 'editor' ) ];
+CKEDITOR.config.colorButton_contentsCss = [];
