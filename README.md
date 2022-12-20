@@ -53,6 +53,9 @@ The development code contains the following main elements:
 
 ## Building a Release
 
+### Note:
+> While building this release on local, please make sure that your Nodejs version is not greater than 12. Otherwise, the generated release will have the ES6 code, and ES6 code breaks loading of some plugins like codesnippet.
+
 A release-optimized version of the development code can be easily created
 locally. The `dev/builder/build.sh` script can be used for that purpose:
 
@@ -66,16 +69,16 @@ builder, for its first time at least.
 
 Here are steps on how to locally test your code changes in this repo.
 
-**Note** :- Here, the example steps are added in context to its integration with [Candidate Site](http://github.com/interviewstreet/candidate-site-frontend). This example can be extended to other repositories as well. 
+**Note** :- Here, the example steps are added in context to its integration with [Candidate Site](http://github.com/interviewstreet/candidate-site-frontend). This example can be extended to other repositories as well.
 
-1. Clone this repo 
+1. Clone this repo
 2. `cd` into the directory and enter the build command (`./dev/builder/build.sh`) in the root of the folder, a new release will be created in `ckeditor-dev/dev/builder/release/` and the name of the new release folder name is `ckeditor`
 3. Make sure you are in the root of this directory and enter the command to serve the newly released folder through your localhost
-`python3 -m http.server <port> -d ./dev/builder/release/` 
+`python3 -m http.server <port> -d ./dev/builder/release/`
 4. Replace `<port>` with the port you want to serve in localhost. e.g. `3333`
-5. Replace `CKEDITOR_CDN_URL` from hackerrank cdn to your localhost url. Example: 
+5. Replace `CKEDITOR_CDN_URL` from hackerrank cdn to your localhost url. Example:
 `export const CKEDITOR_CDN_URL = 'http://localhost:<port>/ckeditor/ckeditor.js';` which will be present in a file similar to [this](https://github.com/interviewstreet/candidate-site-frontend/blob/master/src/shared/constants.js) in your respective repositories.
-6. Make sure your devspace is running and, open a page in your private node where you get to see the editor(served from your localhost) in action. 
+6. Make sure your devspace is running and, open a page in your private node where you get to see the editor(served from your localhost) in action.
 
 **Note** :- After making any code changes, you need to follow the above steps, starting from step-2 and for each change you made, follow one iteration of the above steps.
 

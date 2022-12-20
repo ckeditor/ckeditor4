@@ -243,7 +243,7 @@ CKEDITOR.skin.chameleon = ( function() {
 
 	return function( editor, part ) {
 		var uiColor = editor.uiColor,
-			baseColor = colorBrightness( uiColor, 0.4 ),
+			baseColor = colorBrightness( uiColor, 0 ),
 			// The following are CSS styles used in templates.
 			// Styles are generated according to current editor.uiColor.
 			templateStyles = {
