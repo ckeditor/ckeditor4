@@ -661,18 +661,19 @@
 
 				spy.restore();
 
-				var isWarningOccurred = spy.calledWith( 'clipboard-image-handling-disabled', expectedWarnDetails );
+				var warningCalled = spy.calledWith( 'clipboard-image-handling-disabled', expectedWarnDetails );
 
 				if ( configValue === false ) {
-					assert.isFalse( isWarningOccurred, 'CKEDITOR.warn error code' );
+					assert.isFalse( warningCalled, 'CKEDITOR.warn should not be called' );
 				} else {
-					assert.isTrue( isWarningOccurred, 'CKEDITOR.warn error code'  );
+					assert.isTrue( warningCalled, 'CKEDITOR.warn should be called' );
 
 					var warningDetails = CKEDITOR.tools.array.find( warnCalls, function( item ) {
 						return item[ 0 ] === 'clipboard-image-handling-disabled';
 					} );
 
-					objectAssert.areDeepEqual( expectedWarnDetails, warningDetails[ 1 ], 'CKEDITOR.warn details' );
+					objectAssert.areDeepEqual( expectedWarnDetails, warningDetails[ 1 ],
+						'CKEDITOR.warn should include proper details' );
 				}
 			} );
 		};
