@@ -1,7 +1,7 @@
-<div id="editor1"></div>
+<div id="editor"></div>
 
 <script>
-	CKEDITOR.replace('editor1', {
-		colorButton_css: ['span.cke_colorbox { border-radius: 50%; }','customstyle.css']
-	});
+	CKEDITOR.replace( 'editor', {
+		colorButton_contentsCss: [ CKEDITOR.skin.getPath( 'editor' ), '%TEST_DIR%_assets/customstyle.css' ]
+	} );
 </script>

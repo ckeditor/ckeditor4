@@ -158,7 +158,7 @@
 					contentTransformations: contentTransformations,
 
 					panel: {
-						css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.colorButton_css ),
+						css: config.colorButton_contentsCss,
 						attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 					},
 
@@ -1009,13 +1009,15 @@ CKEDITOR.config.colorButton_historyRowLimit = 1;
 CKEDITOR.config.colorButton_renderContentColors = true;
 
 /**
- * Allows adding additional custom styles which will be applied when rendering colorbutton layout.
- * Accepts array which can include both strings with CSS styles, or paths to *.css files.
+ * The CSS file(s) to be used to apply the style to the color button menu content.
  *
- * 		config.colorButton_css = ['span.cke_colorbox { border-radius: 50%; }','/path/to/stylesheet.css'];
+ * ```javascript
+ * config.colorButton_contentsCss = '/css/myfile.css';
+ * config.colorButton_contentsCss = [ '/css/myfile.css', '/css/anotherfile.css' ];
+ * ```
  *
- * 	@since 4.20.0
- * 	@cfg {Array} [colorButton_css=[]]
- * 	@member CKEDITOR.config
+ * @since 4.21.0
+ * @cfg {String[]} [colorButton_contentsCss=CKEDITOR.skin.getPath( 'editor' )]
+ * @member CKEDITOR.config
  */
-CKEDITOR.config.colorButton_css = CKEDITOR.config.colorButton_css || [];
+CKEDITOR.config.colorButton_contentsCss = [ CKEDITOR.skin.getPath( 'editor' ) ];
