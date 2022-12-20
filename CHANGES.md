@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 API changes:
 
-* [#5352](https://github.com/ckeditor/ckeditor4/issues/5352): Added the `colorButton_contentsCss` configuration option allowing to add custom CSS to the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) menu content. Thanks to [mihilion](https://github.com/mihilion)!
+* [#5352](https://github.com/ckeditor/ckeditor4/issues/5352): Added the [`colorButton_contentsCss`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_contentsCss) configuration option allowing to add custom CSS to the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) menu content. Thanks to [mihilion](https://github.com/mihilion)!
 
 ## CKEditor 4.20.1
 

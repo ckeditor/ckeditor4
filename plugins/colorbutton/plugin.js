@@ -1017,7 +1017,7 @@ CKEDITOR.config.colorButton_renderContentColors = true;
  * ```
  *
  * @since 4.21.0
- * @cfg {String[]} [colorButton_contentsCss=CKEDITOR.skin.getPath( 'editor' )]
+ * @cfg {String/String[]} [colorButton_contentsCss=CKEDITOR.skin.getPath( 'editor' )]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.colorButton_contentsCss = [ CKEDITOR.skin.getPath( 'editor' ) ];
