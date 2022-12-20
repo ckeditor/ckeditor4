@@ -1,4 +1,4 @@
-@bender-tags: feature, 5352, 4.20.0
+@bender-tags: feature, 5352, 4.21.0
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, sourcearea
 
@@ -7,11 +7,10 @@
 
 ### Expected:
 
-Custom style from string has been applied, and all color squares are now circles.
-Custom style from file has been applied, and outline around hovered color is a circle.
-
+All color squares are circles.
 
 ### Unexpected:
 
-Custom style from string has not been applied, and color squares have default square shape.
-Custom style from file has not been applied, and outline around hovered color is a square.
+Color squares have default square shape.
+
+3. Repeat steps 1-2 for **Background Color** button.
