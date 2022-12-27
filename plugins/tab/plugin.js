@@ -266,7 +266,7 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 };
 
 /**
- * Intructs the editor to add a number of spaces (`&nbsp;`) to the text when
+ * Instructs the editor to add a number of spaces (`&nbsp;`) to the text when
  * hitting the <kbd>Tab</kbd> key. If set to zero, the <kbd>Tab</kbd> key will be used to move the
  * cursor focus to the next element in the page, out of the editor focus.
  *
