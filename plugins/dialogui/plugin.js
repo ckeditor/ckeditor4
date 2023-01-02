@@ -475,9 +475,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 						if ( typeof inputDefinition.inputStyle != 'undefined' )
 							inputDefinition.style = inputDefinition.inputStyle;
 
-						// Make inputs of radio type focusable (https://dev.ckeditor.com/ticket/10866).
-						inputDefinition.keyboardFocusable = true;
-
 						children.push( new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes ) );
 
 						inputHtml.push( ' ' );
@@ -1249,6 +1246,31 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 		/** @class CKEDITOR.ui.dialog.radio */
 		CKEDITOR.ui.dialog.radio.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement(), {
+			focus: function() {
+				var me = this.selectParentTab(),
+				children = me._.children,
+				// Focus the first radio button in the group by default.
+				focusTarget = children[ 0 ];
+
+				// TODO Check if there is other way to update the focus index,
+				// we shouldn't operate on dialog internals.
+				me._.dialog._.currentFocusIndex = me.focusIndex;
+
+				for ( var i = 0; i < children.length; i++ ) {
+					var child = children[ i ];
+
+					if ( child.getInputElement().$.checked ) {
+						focusTarget = child;
+						break;
+					}
+				}
+
+				var element = focusTarget.getInputElement();
+
+				if ( element ) {
+					element.$.focus();
+				}
+			},
 			/**
 			 * Selects one of the radio buttons in this button group.
 			 *
@@ -1321,7 +1343,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 					}
 					return null;
 				}
-			}
+			},
+			keyboardFocusable: true
 		}, commonPrototype, true );
 
 		/** @class CKEDITOR.ui.dialog.file */
