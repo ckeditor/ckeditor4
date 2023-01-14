@@ -195,6 +195,8 @@
 	function handleRtfImages( html, rtf, imgTags ) {
 		var hexImages = extractFromRtf( rtf ),
 			newSrcValues,
+			newSrcIndexRegex = /image(\d+)\.[a-z]+$/,
+			newSrcIndex,
 			i;
 
 		if ( hexImages.length === 0 ) {
@@ -205,23 +207,29 @@
 			return createSrcWithBase64( img );
 		}, this );
 
-		if ( imgTags.length !== newSrcValues.length ) {
-			CKEDITOR.error( 'pastetools-failed-image-extraction', {
-				rtf: hexImages.length,
-				html: imgTags.length
-			} );
-
-			return html;
-		}
-
-		// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
 		for ( i = 0; i < imgTags.length; i++ ) {
 			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
 			if ( imgTags[ i ].indexOf( 'file://' ) === 0 ) {
-				if ( !newSrcValues[ i ] ) {
+				newSrcIndex = imgTags[ i ].match( newSrcIndexRegex );
+
+				if ( newSrcIndex ) {
+					// Word uses image file names in the format of imageN.png where N
+					// is the index of the file inside the RTF content.
+					// However, clipboard data starts numbering from 1, not 0.
+					// Due to that we need to substract that 1.
+					newSrcIndex = Number( newSrcIndex[ 1 ] ) - 1;
+				} else {
+					// LibreOffice, unfortunately, does not put the index in the file name.
+					// Due to that, we need to fallback to the old approach:
+					// hoping that images in HTML and RTF are in the same order.
+					newSrcIndex = i;
+				}
+
+
+				if ( !newSrcValues[ newSrcIndex ] ) {
 					CKEDITOR.error( 'pastetools-unsupported-image', {
-						type: hexImages[ i ].type,
-						index: i
+						type: hexImages[ newSrcIndex ] && hexImages[ newSrcIndex ].type || null,
+						index: newSrcIndex
 					} );
 
 					continue;
@@ -234,7 +242,7 @@
 				var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
 					imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
 
-				html = html.replace( imgRegex, '$1' + newSrcValues[ i ] );
+				html = html.replace( imgRegex, '$1' + newSrcValues[ newSrcIndex ] );
 			}
 		}
 
