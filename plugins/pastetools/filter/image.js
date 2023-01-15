@@ -195,8 +195,9 @@
 	function handleRtfImages( html, rtf, imgTags ) {
 		var hexImages = extractFromRtf( rtf ),
 			newSrcValues,
-			newSrcIndexRegex = /image(\d+)\.[a-z]+$/,
+			possibleNewSrcIndexes,
 			newSrcIndex,
+			currentImgTag,
 			i;
 
 		if ( hexImages.length === 0 ) {
@@ -208,17 +209,17 @@
 		}, this );
 
 		for ( i = 0; i < imgTags.length; i++ ) {
-			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-			if ( imgTags[ i ].indexOf( 'file://' ) === 0 ) {
-				newSrcIndex = imgTags[ i ].match( newSrcIndexRegex );
+			currentImgTag = imgTags[ i ];
 
-				if ( newSrcIndex ) {
-					// Word uses image file names in the format of imageN.png where N
-					// is the index of the file inside the RTF content.
-					// However, clipboard data starts numbering from 1, not 0.
-					// Due to that we need to substract that 1.
-					newSrcIndex = Number( newSrcIndex[ 1 ] ) - 1;
-				} else {
+			// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+			if ( currentImgTag.src && currentImgTag.src.indexOf( 'file://' ) === 0 ) {
+				possibleNewSrcIndexes = getPossibleNewSrcIndexes( currentImgTag );
+
+				do {
+					newSrcIndex = possibleNewSrcIndexes.shift();
+				} while ( possibleNewSrcIndexes.length > 0 && !newSrcValues[ newSrcIndex ] );
+
+				if ( newSrcIndex === undefined ) {
 					// LibreOffice, unfortunately, does not put the index in the file name.
 					// Due to that, we need to fallback to the old approach:
 					// hoping that images in HTML and RTF are in the same order.
@@ -239,14 +240,45 @@
 				// This regex ensures that we replace only HTML <img> tags.
 				// Oh, and there are also Windows paths that need to be escaped
 				// before passing to regex.
-				var escapedPath = imgTags[ i ].replace( /\\/g, '\\\\' ),
+				var escapedPath = currentImgTag.src.replace( /\\/g, '\\\\' ),
 					imgRegex = new RegExp( '(<img [^>]*src=["\']?)' + escapedPath );
 
 				html = html.replace( imgRegex, '$1' + newSrcValues[ newSrcIndex ] );
 			}
 		}
 
-		return html;
+		return removeVShapesAttributes( html );
+
+		function getPossibleNewSrcIndexes( imageData ) {
+			var newSrcIndexRegex = /image(\d+)\.[a-z]+$/,
+				ret = [],
+				vShapes,
+				src;
+
+			if ( imageData.vShapes ) {
+				vShapes = imageData.vShapes.match( newSrcIndexRegex );
+
+				if ( vShapes ) {
+					ret.push( vShapes[ 1 ] );
+				}
+			}
+
+			if ( imageData.src ) {
+				src = imageData.src.match( newSrcIndexRegex );
+
+				if ( src ) {
+					ret.push( src[ 1 ] );
+				}
+ 			}
+
+			return CKEDITOR.tools.array.map( ret, function( possibleIndex ) {
+				// Word uses image file names in the format of imageN.png where N
+				// is the index of the file inside the RTF content.
+				// However, clipboard data starts numbering from 1, not 0.
+				// Due to that we need to substract that 1.
+				return Number( possibleIndex ) - 1;
+			} );
+		}
 	}
 
 	function handleBlobImages( editor, html, imgTags ) {
@@ -274,7 +306,15 @@
 			} );
 		} );
 
-		return html;
+		return removeVShapesAttributes( html );
+	}
+
+	// As the processing of images takes place after filtering pasted content,
+	// we need to get rid of temporary attributes ourselves.
+	function removeVShapesAttributes( html ) {
+		var vShapesAttributeRegex = /data-cke-vshapes="[^"]+"/g;
+
+		return html.replace( vShapesAttributeRegex, '' );
 	}
 
 	function extractFromRtf( rtfContent ) {
@@ -379,12 +419,24 @@
 	}
 
 	function extractTagsFromHtml( html ) {
-		var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
+		var imgRegex = /<img[^>]+?>/g,
+			srcAttributeRegex = /src="([^"]+)"/,
+			vShapesAttributeRegex = /data-cke-vshapes="([^"]+)"/,
 			ret = [],
-			item;
+			src,
+			vShapes,
+			imageData,
+			image;
 
-		while ( item = regexp.exec( html ) ) {
-			ret.push( item[ 1 ] );
+		while ( image = imgRegex.exec( html ) ) {
+			src = image[ 0 ].match( srcAttributeRegex );
+			vShapes = image[ 0 ].match( vShapesAttributeRegex );
+			imageData = {
+				src: src && src[ 1 ],
+				vShapes: vShapes && vShapes[ 1 ]
+			};
+
+			ret.push( imageData );
 		}
 
 		return ret;

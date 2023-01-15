@@ -333,10 +333,10 @@
 						// 		b) In other cases, most probably there is no related `img` tag. We need to transform `v:shape` into `img` tag (IE8 integration).
 
 						var duplicate = false,
-							child = element.getFirst( 'v:imagedata' );
+							imageDataElement = element.getFirst( 'v:imagedata' );
 
 						// Path 1:
-						if ( child === null ) {
+						if ( imageDataElement === null ) {
 							shapeTagging( element );
 							return;
 						}
@@ -347,6 +347,7 @@
 							if ( child.name == 'img' && child.attributes &&
 								child.attributes[ 'v:shapes' ] == element.attributes.id ) {
 
+								child.attributes[ 'data-cke-vshapes' ] = imageDataElement.attributes.src;
 								duplicate = true;
 							}
 						}, true );
