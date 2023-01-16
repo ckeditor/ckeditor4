@@ -1266,12 +1266,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 					} );
 
 				// If focus was changed by using SHIFT + TAB key and the previous radio group
-				// does not checked any element then focus the last one in the current radio group.
-				// The 'isStartingNewLoop' matters because in the case when the dialog is shown and the
-				// first element is not focused the 'currentFocusIndex' is sets as the last element
-				// from the focus list by default and it can be treated as moving focus backwards
+				// does not have any checked element, focus the last one in the current radio group.
+				// The 'isStartingNewLoop' matters, because in the case when the dialog is shown and the
+				// first element is not focused, then, by default the 'currentFocusIndex' is sets as
+				// the last element from the focus list, and it can be treated as moving focus backwards,
 				// causing that the focus to be incorrectly set to the last element of the radio
-				// group instead of the first one.
+				// group, instead of the first one (#439).
 				if ( isUncheckedCurrentRadioGroup && isMovingBackwards && !isStartingNewLoop ) {
 					focusTarget = children[ children.length - 1 ];
 				}
