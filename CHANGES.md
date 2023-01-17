@@ -1,7 +1,7 @@
 CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.21.0
+## CKEditor 4.21.0 [IN DEVELOPMENT]
 
 API changes:
 
