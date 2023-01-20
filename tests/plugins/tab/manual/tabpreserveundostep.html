@@ -1,0 +1,20 @@
+<h2><code>Iframe</code>-based editor</h2>
+<div id="iframe"></div>
+
+<h2><code>Div</code>-based editor</h2>
+<div id="div"></div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true"></div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'iframe' );
+	CKEDITOR.replace( 'div', {
+		extraPlugins: 'divarea'
+	} );
+	CKEDITOR.inline( 'inline' );
+</script>
