@@ -201,6 +201,44 @@
 			} );
 		},
 
+		// (#3540)
+		'test initialization - startup data is used to populate the widget template': function() {
+			var editor = this.editor,
+				widgetDef = {
+					requiredContent: 'div(test)',
+					template: '<div class="test">{content}</div>',
+
+					upcast: function( element ) {
+						return element.name == 'div' && element.hasClass( 'test' );
+					},
+
+					defaults: {
+						content: 'default content'
+					}
+				},
+				expectedContent = 'hublabubla';
+
+			editor.widgets.add( 'teststartupdata', widgetDef );
+
+			editor.once( 'afterCommandExec', function() {
+				resume( function() {
+					var widget = editor.widgets.instances[ 0 ],
+						widgetContent = widget.element.getHtml();
+
+					assert.areSame( expectedContent, widgetContent );
+				} );
+			} );
+
+			editor.focus();
+			editor.execCommand( 'teststartupdata', {
+				startupData: {
+					content: expectedContent
+				}
+			} );
+
+			wait();
+		},
+
 		'test initialization - basic properties': function() {
 			var editor = this.editor,
 				regWidgetDef = editor.widgets.add( 'testinit5', {} ),
