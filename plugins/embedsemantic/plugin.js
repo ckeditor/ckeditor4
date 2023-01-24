@@ -82,7 +82,7 @@
 					ret.add( new CKEDITOR.htmlParser.text( this.data.url ) );
 
 					// Transfer widget classes from widget element back to data (https://dev.ckeditor.com/ticket/13199).
-					if ( element && element.attributes[ 'class' ] ) {
+					if ( element.attributes[ 'class' ] ) {
 						ret.attributes[ 'class' ] = element.attributes[ 'class' ];
 					}
 
