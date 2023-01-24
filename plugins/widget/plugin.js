@@ -2034,7 +2034,9 @@
 				} else if ( widgetDef.template ) {
 					// ... or create a brand-new widget from template.
 					var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
-						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ), editor.document ),
+						renderedTemplate = widgetDef.template.output( CKEDITOR.tools.object.merge( defaults,
+							commandData && commandData.startupData ) ),
+						element = CKEDITOR.dom.element.createFromHtml( renderedTemplate, editor.document ),
 						instance,
 						wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
 						temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() );
