@@ -477,6 +477,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 						var radioElement = new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes );
 
+						// Calling the click method on the focus is responsible for updating the
+						// current focused index in the dialog (#439).
 						radioElement.on( 'focus', function() {
 							me.click();
 						} );
@@ -1253,17 +1255,13 @@ CKEDITOR.plugins.add( 'dialogui', {
 		/** @class CKEDITOR.ui.dialog.radio */
 		CKEDITOR.ui.dialog.radio.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement(), {
 			focus: function() {
-				var me = this.selectParentTab(),
-					children = me._.children,
+				var children = this._.children,
 					// Focus the first radio button in the group by default.
 					focusTarget = children[ 0 ],
-					dialog = me._.dialog._,
-					currentFocusIndex = dialog.currentFocusIndex,
-					isMovingBackwards = currentFocusIndex > me.focusIndex,
-					isStartingNewLoop = currentFocusIndex === dialog.focusList.length - 1 && me.focusIndex === 0,
-					isUncheckedCurrentRadioGroup = CKEDITOR.tools.array.every( children, function( child ) {
-						return !child.getInputElement().$.checked;
-					} );
+					dialogInternal = this._.dialog._,
+					currentFocusIndex = dialogInternal.currentFocusIndex,
+					isMovingBackwards = currentFocusIndex > this.focusIndex,
+					isStartingNewLoop = currentFocusIndex === dialogInternal.focusList.length - 1 && this.focusIndex === 0;
 
 				// If focus was changed by using SHIFT + TAB key and the previous radio group
 				// does not have any checked element, focus the last one in the current radio group.
@@ -1272,11 +1270,13 @@ CKEDITOR.plugins.add( 'dialogui', {
 				// the last element from the focus list, and it can be treated as moving focus backwards,
 				// causing that the focus to be incorrectly set to the last element of the radio
 				// group, instead of the first one (#439).
-				if ( isUncheckedCurrentRadioGroup && isMovingBackwards && !isStartingNewLoop ) {
+				if ( isMovingBackwards && !isStartingNewLoop ) {
 					focusTarget = children[ children.length - 1 ];
 				}
 
-				me._.dialog._.currentFocusIndex = me.focusIndex;
+				// Set the dialog internal current focus index to the index of the current radio
+				// element from the focus list.
+				dialogInternal.currentFocusIndex = this.focusIndex;
 
 				for ( var i = 0; i < children.length; i++ ) {
 					var child = children[ i ];
@@ -1336,6 +1336,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 			click: function() {
 				var radioGroup = this.selectParentTab();
+				// Update currentFocusIndex after click on the given radio element. Otherwise, click
+				// will move the focus but the focus index will not be updated, causing moving the
+				// focus incorrectly based on the previous focus index while use Tab or Shift + Tab key (#439).
 				radioGroup._.dialog._.currentFocusIndex = radioGroup.focusIndex;
 			},
 			/**
