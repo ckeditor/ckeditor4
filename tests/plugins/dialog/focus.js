@@ -293,7 +293,7 @@
 				.then( assertFocusedTab( 'hp-test4' ) );
 		},
 
-		'test moving the focus from input field to the first element of the radio group by pressing TAB key when no elements from the radio group was selected': function() {
+		'test moving the focus from the input field to the first element of the radio group by pressing the TAB key when no elements from the radio group were selected': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singleRadioGroupDialog' )
@@ -349,7 +349,7 @@
 				} ) );
 		},
 
-		'test moving the focus from the last radio group item to the next dialog element by pressing TAB key': function() {
+		'test moving the focus from the last radio group item to the next dialog element by pressing the TAB key': function() {
 			var bot = this.editorBot;
 
 			if ( CKEDITOR.env.ie ) {
@@ -374,7 +374,7 @@
 				} ) );
 		},
 
-		'test moving the focus from the first focused radio group element to the first element from next radio group by pressing TAB key': function() {
+		'test moving the focus from the first focused radio group element to the first element from the next radio group by pressing the TAB key': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multipleRadioGroupDialog' )
@@ -453,7 +453,7 @@
 				} ) );
 		},
 
-		'test moving the focus from the checked radio group element to the previous checked element from the previous radio group by pressing SHIFT + TAB key': function() {
+		'test moving the focus from the checked radio group element to the previous checked element from the previously radio group by pressing SHIFT + TAB key': function() {
 			var bot = this.editorBot;
 
 			if ( CKEDITOR.env.ie ) {
