@@ -1,0 +1,138 @@
+<button id="press">Open Dialog</button>
+<div id="editor"></div>
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var editor = CKEDITOR.replace( 'editor' );
+
+	CKEDITOR.once( 'instanceLoaded', function() {
+		CKEDITOR.dialog.add( 'testDialog', function() {
+			return {
+				title: 'Test dialog',
+				contents: [
+					{
+						id: 'tab1',
+						label: 'Tab one',
+						elements: [
+							{
+								type: 'html',
+								id: 'field11',
+								html: 'foo'
+							},
+							{
+								type: 'radio',
+								id: 'radio1',
+								items: [
+									[ 'foo1_1', 'foo1_1' ],
+									[ 'bar1_2', 'bar1_2' ],
+									[ 'bar3', 'bar1_3' ],
+									[ 'bar1_4', 'bar1_4' ]
+								]
+							},
+							{
+								type: 'radio',
+								id: 'radio2',
+								items: [
+									[ 'foo1_5', 'foo1_5' ],
+									[ 'bar1_6', 'bar1_6' ],
+								]
+							},
+							{
+								type: 'radio',
+								id: 'radio3',
+								items: [
+									[ 'foo1_7', 'foo1_7' ],
+									[ 'foo1_8', 'foo1_8' ],
+									[ 'foo1_9', 'foo1_9' ],
+								]
+							},
+							{
+								type: 'button',
+								id: 'busy',
+								label: 'Set dialog busy'
+							},
+							{
+								type: 'html',
+								id: 'field12',
+								html: 'foo'
+							}
+						]
+					},
+					{
+						id: 'tab2',
+						label: 'Tab two',
+						elements: [
+							{
+								type: 'html',
+								id: 'field11',
+								html: 'foo2'
+							},
+							{
+								type: 'radio',
+								id: 'radio1',
+								items: [
+									[ 'foo2_1', 'foo2_1' ],
+									[ 'bar2_2', 'bar2_2' ],
+									[ 'bar2_3', 'bar2_3' ],
+									[ 'bar2_4', 'bar2_4' ]
+								]
+							},
+							{
+								type: 'radio',
+								id: 'radio2',
+								items: [
+									[ 'foo2_5', 'foo2_5' ],
+									[ 'bar2_6', 'bar2_6' ],
+								]
+							},
+							{
+								type: 'radio',
+								id: 'radio3',
+								items: [
+									[ 'foo2_7', 'foo2_7' ],
+									[ 'foo2_8', 'foo2_8' ],
+									[ 'foo2_9', 'foo2_9' ]
+								]
+							},
+							{
+								type: 'button',
+								id: 'busy',
+								label: 'Set dialog busy'
+							},
+							{
+								type: 'html',
+								id: 'field12',
+								html: 'foo2'
+							}
+						]
+					},
+					{
+						id: 'tab3',
+						label: 'tab three',
+						elements: [
+							{
+								type: 'radio',
+								id: 'radio1',
+								items: [
+									[ 'foo3_1', 'foo3_1' ],
+									[ 'foo3_2', 'foo3_2' ],
+									[ 'foo3_3', 'foo3_3' ],
+								]
+							}
+						]
+					}
+				]
+			}
+		} );
+
+		editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog', {
+			tabId: 'tab1'
+		} ) );
+	} );
+
+	document.getElementById( 'press' ).onclick = function() {
+		editor.execCommand( 'testDialog' );
+	};
+</script>
