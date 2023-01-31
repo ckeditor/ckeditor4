@@ -1335,11 +1335,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 				children[ 0 ].getElement().focus();
 			},
 			click: function() {
-				var radioGroup = this.selectParentTab();
 				// Update currentFocusIndex after click on the given radio element. Otherwise, click
 				// will move the focus but the focus index will not be updated, causing moving the
 				// focus incorrectly based on the previous focus index while use Tab or Shift + Tab key (#439).
-				radioGroup._.dialog._.currentFocusIndex = radioGroup.focusIndex;
+				this._.dialog._.currentFocusIndex = this.focusIndex;
 			},
 			/**
 			 * Defines the `onChange` event for UI element definitions.

@@ -7,13 +7,14 @@
 
 Check:
 
-* Moving focus between radio groups working properly.
+* Tab key will enter the radio group.
 
-* Moving focus outside the radio groups.
+* When Tab or Shift+Tab into a radio group, focus goes to the selected radio button. If none is selected, focus goes to the first radio button if Tab was pressed, or the last radio bottom if Shift+Tab was pressed.
 
-* Properly moving focus to the previously checked position.
+* When focus is on any radio button, Tab or Shift+Tab will exit the radio group.
 
-**Note** Correct focus behavior. <br>
-When the focus moves to the radio group by using the `Tab` key, it is checked whether any element has been previously selected, if so, the focus will be sen on this element, otherwise the focus will be set on the first element. <br><br>
-Changing the focus using `Shift + Tab` key is the same, the difference is to set the focus to the last element of the radio group in case when none is selected. <br><br>
-Setting the focus of the radio element with the cursor and changing the focus again with the `Tab` or `Shift + Tab` key, sets the focus to the next or previous element.
+* Up Arrow and Left Arrow moves focus to the previous radio button in the group, and selects that button. If focus is on the first item, then focus wraps to last item.
+
+* Down Arrow and Right Arrow moves focus to the next radio button in the group, and selects that button. If focus is on the last item, then focus wraps to first item.
+
+* Space selects the radio button with focus and de-selects other radio buttons in the group.
