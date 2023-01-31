@@ -1264,11 +1264,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 					isStartingNewLoop = currentFocusIndex === dialogInternal.focusList.length - 1 && this.focusIndex === 0;
 
 				// If focus was changed by using SHIFT + TAB key and the previous radio group
-				// does not have any checked element, focus the last one in the current radio group.
-				// The 'isStartingNewLoop' matters, because in the case when the dialog is shown and the
-				// first element is not focused, then, by default the 'currentFocusIndex' is sets as
-				// the last element from the focus list, and it can be treated as moving focus backwards,
-				// causing that the focus to be incorrectly set to the last element of the radio
+				// does not have any checked element, focus on the last one in the current radio group.
+				//
+				// When the dialog is shown and the first element is not focused,
+				// then, by default the 'currentFocusIndex' is set as
+				// the last element from the focus list, and it can be treated as moving focus backward,
+				// causing the focus to be incorrectly set to the last element of the radio
 				// group, instead of the first one (#439).
 				if ( isMovingBackwards && !isStartingNewLoop ) {
 					focusTarget = children[ children.length - 1 ];
@@ -1335,9 +1336,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 				children[ 0 ].getElement().focus();
 			},
 			click: function() {
-				// Update currentFocusIndex after click on the given radio element. Otherwise, click
+				// Update currentFocusIndex after clicking on the given radio element. Otherwise, click
 				// will move the focus but the focus index will not be updated, causing moving the
-				// focus incorrectly based on the previous focus index while use Tab or Shift + Tab key (#439).
+				// focus incorrectly based on the previous focus index while using Tab or Shift + Tab key (#439).
 				this._.dialog._.currentFocusIndex = this.focusIndex;
 			},
 			/**
