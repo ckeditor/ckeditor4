@@ -3060,9 +3060,9 @@
 						} );
 
 						// If widget did not have data-cke-widget attribute before upcasting remove it.
-						if ( widgetElement && widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' ) { 
+						if ( widgetElement && widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' ) {
 							delete widgetElement.attributes[ 'data-widget' ];
-							}
+						}
 					}
 				}
 				// Nested editable.
