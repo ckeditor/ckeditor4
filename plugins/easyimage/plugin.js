@@ -349,6 +349,8 @@
 							srcset: srcset,
 							sizes: '100vw'
 						} );
+
+						this.editor.fire( 'change' );
 					} );
 
 					this.on( 'uploadFailed', function() {
