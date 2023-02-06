@@ -15,6 +15,16 @@
 
 		// Apply listening to focus change on elements in dialog.
 		CKEDITOR.tools.array.forEach( dialog._.focusList, function( item ) {
+			if ( item.type === 'radio' ) {
+				CKEDITOR.tools.array.forEach( item._.children, function( radioElement ) {
+					radioElement.on( 'focus', function() {
+						dialog.fire( 'focusChange' );
+					}, null, null, 100000 );
+				} );
+
+				return;
+			}
+
 			item.on( 'focus', function() {
 				dialog.fire( 'focusChange' );
 			}, null, null, 100000 );
@@ -82,6 +92,11 @@
 		throw new Error( 'Invalid focus options: ' + JSON.stringify( options ) );
 	}
 
+	function getRadioGroupElement( dialog, options ) {
+		var radioGroup = dialog.getContentElement( options.tab, options.radioGroupId );
+
+		return radioGroup._.children[ options.radioElementIndex ];
+	}
 
 	var dialogTools = {
 		// Dialog definitions used in test cases.
@@ -293,6 +308,80 @@
 					],
 					onLoad: onLoadHandler
 				};
+			},
+			singleRadioGroup: function() {
+				return {
+					title: 'Single page dialog with radio group',
+					contents: [
+						{
+							id: 'srg-test1',
+							elements: [
+								{
+									type: 'text',
+									id: 'srg-input1',
+									label: 'input 1'
+								},
+								{
+									type: 'radio',
+									id: 'srg-radio1',
+									items: [
+										[ 'foo1', 'foo1' ],
+										[ 'bar2', 'bar2' ],
+										[ 'bar3', 'bar3' ],
+										[ 'bar4', 'bar4' ]
+									]
+								},
+								{
+									type: 'checkbox',
+									id: 'srg-input3',
+									label: 'input 3'
+								}
+							]
+						}
+					],
+					onLoad: onLoadHandler
+				};
+			},
+			multipleRadioGroup: function() {
+				return {
+					title: 'Single page dialog with radio groups',
+					contents: [
+						{
+							id: 'mrg-test1',
+							elements: [
+								{
+									type: 'text',
+									id: 'mrg-input1',
+									label: 'input 1'
+								},
+								{
+									type: 'radio',
+									id: 'mrg-radio1',
+									items: [
+										[ 'foo1', 'foo1' ],
+										[ 'bar2', 'bar2' ],
+										[ 'bar3', 'bar3' ]
+									]
+								},
+								{
+									type: 'radio',
+									id: 'mrg-radio2',
+									items: [
+										[ 'foo4', 'foo4' ],
+										[ 'bar5', 'bar5' ],
+										[ 'bar6', 'bar6' ]
+									]
+								},
+								{
+									type: 'checkbox',
+									id: 'mrg-input3',
+									label: 'input 3'
+								}
+							]
+						}
+					],
+					onLoad: onLoadHandler
+				};
 			}
 		},
 
@@ -305,8 +394,9 @@
 		// @param {String} [options.elementId] Dialog element ID on any given tab page.
 		assertFocusedElement: function( options ) {
 			return function( dialog ) {
-				var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
-				var expectedFocusedElement;
+				var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ],
+					expectedFocusedElement,
+					actualFocusedRadioGroupIndex;
 
 				if ( options.buttonName ) {
 					expectedFocusedElement = dialog.getButton( options.buttonName );
@@ -314,12 +404,24 @@
 					expectedFocusedElement = dialog.getContentElement( options.tab, options.elementId );
 				}
 
-				if ( !expectedFocusedElement ) {
+				if ( options.radioGroupId ) {
+					actualFocusedRadioGroupIndex = CKEDITOR.tools.array.indexOf( actualFocusedElement._.children, function( radioGroupElement ) {
+						return radioGroupElement.getInputElement().$ === document.activeElement;
+					} );
+				}
+
+				if ( !expectedFocusedElement && !options.radioGroupId ) {
 					assert.fail( 'Expected focused element cannot be found in the dialog.' );
 				}
 
-				assert.areEqual( expectedFocusedElement, actualFocusedElement,
-					'Element: "' + expectedFocusedElement.id + '" should be equal to currently focused element: "' + actualFocusedElement.id + '".' );
+				if ( options.radioGroupId ) {
+					assert.areEqual( actualFocusedElement.id, options.radioGroupId, 'Focused radio groups are different' );
+					assert.areEqual( actualFocusedRadioGroupIndex, options.radioElementIndex, 'Focused radio group index are not equal' );
+				} else {
+					assert.areEqual( expectedFocusedElement, actualFocusedElement,
+						'Element: "' + expectedFocusedElement.id + '" should be equal to currently focused element: "' + actualFocusedElement.id + '".' );
+				}
+
 
 				return dialog;
 			};
@@ -384,7 +486,6 @@
 						}
 						reject( new Error( 'Focus hasn\'t change for at least 5 seconds' ) );
 					}, 5000 );
-
 					changeFocus( dialog, options );
 				} );
 			};
@@ -397,10 +498,14 @@
 			CKEDITOR.dialog.add( 'singlePageDialog', this.definitions.singlePage );
 			CKEDITOR.dialog.add( 'multiPageDialog', this.definitions.multiPage );
 			CKEDITOR.dialog.add( 'hiddenPageDialog', this.definitions.hiddenPage );
+			CKEDITOR.dialog.add( 'singleRadioGroupDialog', this.definitions.singleRadioGroup );
+			CKEDITOR.dialog.add( 'multipleRadioGroupDialog', this.definitions.multipleRadioGroup );
 
 			editor.addCommand( 'singlePageDialog', new CKEDITOR.dialogCommand( 'singlePageDialog' ) );
 			editor.addCommand( 'multiPageDialog', new CKEDITOR.dialogCommand( 'multiPageDialog' ) );
 			editor.addCommand( 'hiddenPageDialog', new CKEDITOR.dialogCommand( 'hiddenPageDialog' ) );
+			editor.addCommand( 'singleRadioGroupDialog', new CKEDITOR.dialogCommand( 'singleRadioGroupDialog' ) );
+			editor.addCommand( 'multipleRadioGroupDialog', new CKEDITOR.dialogCommand( 'multipleRadioGroupDialog' ) );
 		},
 
 		// Closes all opened dialogs.
@@ -412,6 +517,19 @@
 
 				dialog = CKEDITOR.dialog.getCurrent();
 			}
+		},
+
+		checkRadioGroupElement: function( options ) {
+			return function( dialog ) {
+				var radioGroupElement = getRadioGroupElement( dialog, options );
+				radioGroupElement.getElement().$.checked = true;
+
+				if ( options.focusElement ) {
+					radioGroupElement.getElement().$.focus();
+				}
+
+				return dialog;
+			};
 		}
 	};
 

@@ -19,7 +19,8 @@
 		assertFocusedElement = window.dialogTools.assertFocusedElement,
 		assertFocusedTab = window.dialogTools.assertFocusedTab,
 		focusElement = window.dialogTools.focusElement,
-		assertTabsAriaAttribute = window.dialogTools.assertTabsAriaAttribute;
+		assertTabsAriaAttribute = window.dialogTools.assertTabsAriaAttribute,
+		checkRadioGroupElement = window.dialogTools.checkRadioGroupElement;
 
 	bender.editor = {
 		config: {
@@ -290,6 +291,197 @@
 				.then( assertFocusedTab( 'hp-test2' ) )
 				.then( focusElement( { key: KEYS.ARROW_RIGHT } ) )
 				.then( assertFocusedTab( 'hp-test4' ) );
+		},
+
+		'test moving the focus from the input field to the first element of the radio group by pressing the TAB key when no elements from the radio group were selected': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'singleRadioGroupDialog' )
+				.then( assertFocusedElement( {
+					tab: 'srg-test1',
+					elementId: 'srg-input1'
+				} ) )
+				.then( focusElement( { key: KEYS.TAB } ) )
+				.then( assertFocusedElement( {
+					tab: 'srg-test1',
+					radioGroupId: 'srg-radio1',
+					radioElementIndex: 0
+				} ) );
+		},
+
+		'test moving the focus to the last element of the radio group by pressing SHIFT + TAB key': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'singleRadioGroupDialog' )
+				.then( assertFocusedElement( {
+					tab: 'srg-test1',
+					elementId: 'srg-input1'
+				} ) )
+				.then( focusElement( { key: KEYS.TAB, shiftKey: true } ) )
+				.then( focusElement( { key: KEYS.TAB, shiftKey: true } ) )
+				.then( focusElement( { key: KEYS.TAB, shiftKey: true } ) )
+				.then( focusElement( { key: KEYS.TAB, shiftKey: true } ) )
+				.then( assertFocusedElement( {
+					tab: 'srg-test1',
+					radioGroupId: 'srg-radio1',
+					radioElementIndex: 3
+				} ) );
+		},
+
+		'test moving the focus from input field to previously checked radio group element by pressing TAB key': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'singleRadioGroupDialog' )
+				.then( assertFocusedElement( {
+					tab: 'srg-test1',
+					elementId: 'srg-input1'
+				} ) )
+				.then( checkRadioGroupElement( {
+					tab: 'srg-test1',
+					radioGroupId: 'srg-radio1',
+					radioElementIndex: 2
+				} ) )
+				.then( focusElement( { key: KEYS.TAB } ) )
+				.then( assertFocusedElement( {
+					tab: 'srg-test1',
+					radioGroupId: 'srg-radio1',
+					radioElementIndex: 2
+				} ) );
+		},
+
+		'test moving the focus from the last radio group item to the next dialog element by pressing the TAB key': function() {
+			var bot = this.editorBot;
+
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			return bot.asyncDialog( 'singleRadioGroupDialog' )
+				.then( assertFocusedElement( {
+					tab: 'srg-test1',
+					elementId: 'srg-input1'
+				} ) )
+				.then( checkRadioGroupElement( {
+					tab: 'srg-test1',
+					radioGroupId: 'srg-radio1',
+					radioElementIndex: 3,
+					focusElement: true
+				} ) )
+				.then( focusElement( { key: KEYS.TAB } ) )
+				.then( assertFocusedElement( {
+					tab: 'srg-test1',
+					elementId: 'srg-input3'
+				} ) );
+		},
+
+		'test moving the focus from the first focused radio group element to the first element from the next radio group by pressing the TAB key': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'multipleRadioGroupDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					elementId: 'mrg-input1'
+				} ) )
+				.then( focusElement( { key: KEYS.TAB } ) )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio1',
+					radioElementIndex: 0
+				} ) )
+				.then( focusElement( { key: KEYS.TAB } ) )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio2',
+					radioElementIndex: 0
+				} ) );
+		},
+
+		'test moving the focus from the first element of the second radio group to the last element from the previous radio group by pressing SHIFT + TAB key': function() {
+			var bot = this.editorBot;
+
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			return bot.asyncDialog( 'multipleRadioGroupDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					elementId: 'mrg-input1'
+				} ) )
+				.then( checkRadioGroupElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio2',
+					radioElementIndex: 0,
+					focusElement: true
+				} ) )
+				.then( focusElement( { key: KEYS.TAB, shiftKey: true } ) )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio1',
+					radioElementIndex: 2
+				} ) );
+		},
+
+		'test moving the focus from the previously checked radio group element to the next checked element from the next radio group by pressing TAB key': function() {
+			var bot = this.editorBot;
+
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			return bot.asyncDialog( 'multipleRadioGroupDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					elementId: 'mrg-input1'
+				} ) )
+				.then( checkRadioGroupElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio2',
+					radioElementIndex: 2
+				} ) )
+				.then( checkRadioGroupElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio1',
+					radioElementIndex: 1,
+					focusElement: true
+				} ) )
+				.then( focusElement( { key: KEYS.TAB } ) )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio2',
+					radioElementIndex: 2
+				} ) );
+		},
+
+		'test moving the focus from the checked radio group element to the previous checked element from the previously radio group by pressing SHIFT + TAB key': function() {
+			var bot = this.editorBot;
+
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			return bot.asyncDialog( 'multipleRadioGroupDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					elementId: 'mrg-input1'
+				} ) )
+				.then( checkRadioGroupElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio1',
+					radioElementIndex: 2
+				} ) )
+				.then( checkRadioGroupElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio2',
+					radioElementIndex: 1,
+					focusElement: true
+				} ) )
+				.then( focusElement( { key: KEYS.TAB, shiftKey: true } ) )
+				.then( assertFocusedElement( {
+					tab: 'mrg-test1',
+					radioGroupId: 'mrg-radio1',
+					radioElementIndex: 2
+				} ) );
 		}
 	};
 

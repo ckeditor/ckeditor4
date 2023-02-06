@@ -475,10 +475,15 @@ CKEDITOR.plugins.add( 'dialogui', {
 						if ( typeof inputDefinition.inputStyle != 'undefined' )
 							inputDefinition.style = inputDefinition.inputStyle;
 
-						// Make inputs of radio type focusable (https://dev.ckeditor.com/ticket/10866).
-						inputDefinition.keyboardFocusable = true;
+						var radioElement = new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes );
 
-						children.push( new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes ) );
+						// Calling the click method on the focus is responsible for updating the
+						// current focused index in the dialog (#439).
+						radioElement.on( 'focus', function() {
+							me.click();
+						} );
+
+						children.push( radioElement );
 
 						inputHtml.push( ' ' );
 
@@ -1249,6 +1254,42 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 		/** @class CKEDITOR.ui.dialog.radio */
 		CKEDITOR.ui.dialog.radio.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement(), {
+			focus: function() {
+				var children = this._.children,
+					// Focus the first radio button in the group by default.
+					focusTarget = children[ 0 ],
+					dialogInternal = this._.dialog._,
+					currentFocusIndex = dialogInternal.currentFocusIndex,
+					isMovingBackwards = currentFocusIndex > this.focusIndex,
+					isStartingNewLoop = currentFocusIndex === dialogInternal.focusList.length - 1 && this.focusIndex === 0;
+
+				// If focus was changed by using SHIFT + TAB key and the previous radio group
+				// does not have any checked element, focus on the last one in the current radio group.
+				//
+				// When the dialog is shown and the first element is not focused,
+				// then, by default the 'currentFocusIndex' is set as
+				// the last element from the focus list, and it can be treated as moving focus backward,
+				// causing the focus to be incorrectly set to the last element of the radio
+				// group, instead of the first one (#439).
+				if ( isMovingBackwards && !isStartingNewLoop ) {
+					focusTarget = children[ children.length - 1 ];
+				}
+
+				// Set the dialog internal current focus index to the index of the current radio
+				// element from the focus list.
+				dialogInternal.currentFocusIndex = this.focusIndex;
+
+				for ( var i = 0; i < children.length; i++ ) {
+					var child = children[ i ];
+
+					if ( child.getInputElement().$.checked ) {
+						focusTarget = child;
+						break;
+					}
+				}
+
+				focusTarget.focus();
+			},
 			/**
 			 * Selects one of the radio buttons in this button group.
 			 *
@@ -1294,7 +1335,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 				}
 				children[ 0 ].getElement().focus();
 			},
-
+			click: function() {
+				// Update currentFocusIndex after clicking on the given radio element. Otherwise, click
+				// will move the focus but the focus index will not be updated, causing moving the
+				// focus incorrectly based on the previous focus index while using Tab or Shift + Tab key (#439).
+				this._.dialog._.currentFocusIndex = this.focusIndex;
+			},
 			/**
 			 * Defines the `onChange` event for UI element definitions.
 			 *
@@ -1321,7 +1367,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 					}
 					return null;
 				}
-			}
+			},
+			keyboardFocusable: true
 		}, commonPrototype, true );
 
 		/** @class CKEDITOR.ui.dialog.file */
