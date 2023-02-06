@@ -95,8 +95,6 @@
 					this.replaceWith( '<img src="' + upload.url + '" ' +
 						'width="' + width + '" ' +
 						'height="' + height + '">' );
-
-					this.editor.fire( 'change' );
 				}
 			} );
 
