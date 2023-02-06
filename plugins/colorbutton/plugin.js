@@ -1016,7 +1016,7 @@ CKEDITOR.config.colorButton_renderContentColors = true;
  * config.colorButton_contentsCss = [ '/css/myfile.css', '/css/anotherfile.css' ];
  * ```
  *
- * @since 4.21.0
+ * @since 4.20.2
  * @cfg {String/String[]} [colorButton_contentsCss]
  * @member CKEDITOR.config
  */

@@ -1,16 +1,13 @@
 CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.21.0 [IN DEVELOPMENT]
-
-New features:
-
-* [#3540](https://github.com/ckeditor/ckeditor4/issues/3540): The [startup data](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html) passed to the widget's command is now used to also populate widget's template.
+## CKEditor 4.20.2 [IN DEVELOPMENT]
 
 Fixed Issues:
 
 * [#698](https://github.com/ckeditor/ckeditor4/issues/698): Fixed: The error is thrown after applying formatting to the widget with inline editable and switching to the source mode. Thanks to [Glen](https://github.com/glen-84)!
 * [#439](https://github.com/ckeditor/ckeditor4/issues/439): Fixed: Incorrect <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> navigation for radio buttons inside the dialog.
+* [#3540](https://github.com/ckeditor/ckeditor4/issues/3540): Fixed: The [startup data](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html) command data is not being passed to the widget to populate widget's template.
 
 API changes:
 
