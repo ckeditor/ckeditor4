@@ -24,7 +24,7 @@
 	function selectNextCellCommand( backward ) {
 		return {
 			editorFocus: false,
-			canUndo: false,
+			canUndo: true,
 			modes: { wysiwyg: 1 },
 			exec: function( editor ) {
 				if ( editor.editable().hasFocus ) {
