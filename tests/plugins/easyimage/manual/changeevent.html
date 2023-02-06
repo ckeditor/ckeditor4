@@ -1,0 +1,29 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<div id="editor">
+	<p>Drop image here:</p>
+</div>
+
+<div id="changes"></div>
+
+<script>
+	( function() {
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
+		var changeLog = CKEDITOR.document.getById( 'changes' ),
+			i = 0;
+
+		CKEDITOR.replace( 'editor', {
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL,
+			on: {
+				change: function( evt ) {
+					var change = CKEDITOR.dom.element.createFromHtml( '<p>Change #' + ( ++i ) + '</p>' );
+
+					changeLog.append( change );
+					console.log( 'change ' + i, evt.editor.getData() );
+				}
+			}
+		} );
+	} ) ();
+</script>
