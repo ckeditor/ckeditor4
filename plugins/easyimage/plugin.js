@@ -350,6 +350,8 @@
 							sizes: '100vw'
 						} );
 
+						// Ensure that replacing placeholder image with the final one
+						// ss considered a change of content (#5414).
 						this.editor.fire( 'change' );
 					} );
 
