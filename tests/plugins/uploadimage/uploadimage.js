@@ -634,6 +634,45 @@
 					wait();
 				} );
 			} );
+		},
+
+		// #5414
+		'test change event is fired after upload finishes': function() {
+			bender.editorBot.create( {
+				name: 'undo-integration-change-after-upload',
+				config: {
+					uploadUrl: '%BASE_PATH',
+					extraPlugins: 'uploadimage'
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					imageName = 'test.png',
+					image = {
+						name: imageName,
+						type: 'image/png'
+					},
+					loader;
+
+				bot.setData( '', function() {
+					editor.once( 'change', function( evt ) {
+						resume( function() {
+							var editorData = evt.editor.getData(),
+								containsUploadedImageUrl = editorData.indexOf( 'src="' + IMG_URL ) !== -1;
+
+							assert.isTrue( containsUploadedImageUrl );
+						} );
+					} );
+
+					pasteFilesWithFilesMimeType( editor, [ image ] );
+
+					loader = editor.uploadRepository.loaders[ 0 ];
+
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
+
+					wait();
+				} );
+			} );
 		}
 	} );
 
