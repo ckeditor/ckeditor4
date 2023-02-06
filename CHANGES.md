@@ -10,7 +10,7 @@ New features:
 Fixed Issues:
 
 * [#698](https://github.com/ckeditor/ckeditor4/issues/698): Fixed: The error is thrown after applying formatting to the widget with inline editable and switching to the source mode. Thanks to [Glen](https://github.com/glen-84)!
-* [#439](https://github.com/ckeditor/ckeditor4/issues/439): Fixed incorrect <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> navigation for radio buttons inside the dialog.
+* [#439](https://github.com/ckeditor/ckeditor4/issues/439): Fixed: Incorrect <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> navigation for radio buttons inside the dialog.
 
 API changes:
 
