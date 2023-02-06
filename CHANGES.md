@@ -7,6 +7,10 @@ New features:
 
 * [#3540](https://github.com/ckeditor/ckeditor4/issues/3540): The [startup data](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html) passed to the widget's command is now used to also populate widget's template.
 
+Fixed Issues:
+
+* [#698](https://github.com/ckeditor/ckeditor4/issues/698): Fixed: The error is thrown after applying formatting to the widget with inline editable and switching to the source mode. Thanks to [Glen](https://github.com/glen-84)!
+
 API changes:
 
 * [#5352](https://github.com/ckeditor/ckeditor4/issues/5352): Added the [`colorButton_contentsCss`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_contentsCss) configuration option allowing to add custom CSS to the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) menu content. Thanks to [mihilion](https://github.com/mihilion)!

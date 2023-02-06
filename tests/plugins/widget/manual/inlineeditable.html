@@ -1,0 +1,30 @@
+<div id="editor">
+	<strong><span>Test</span></strong>
+</div>
+
+<script>
+	( function() {
+		CKEDITOR.dtd.$editable.span = 1;
+
+		CKEDITOR.plugins.add( 'spanwidget', {
+			requires: 'widget',
+			init: function( editor )	{
+				editor.widgets.add( 'spanwidget', {
+					editables: {
+						content: {
+							selector: 'span'
+						}
+					},
+					upcast: function( element ) {
+						return element.name == 'span';
+					}
+				} );
+			}
+		} );
+
+		CKEDITOR.replace( 'editor', {
+			extraPlugins: 'spanwidget',
+			extraAllowedContent: 'span'
+		} );
+	} )();
+</script>

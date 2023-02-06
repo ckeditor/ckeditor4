@@ -3060,8 +3060,9 @@
 						} );
 
 						// If widget did not have data-cke-widget attribute before upcasting remove it.
-						if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
+						if ( widgetElement && widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' ) {
 							delete widgetElement.attributes[ 'data-widget' ];
+						}
 					}
 				}
 				// Nested editable.
@@ -3117,7 +3118,16 @@
 				if ( !retElement )
 					retElement = widgetElement;
 
-				toBe.wrapper.replaceWith( retElement );
+				// In some edge cases (especially applying formating
+				// at the boundary of the inline editable) the widget
+				// is going to be duplicated (split in half).
+				// In that case there won't be a retElement
+				// and we can safely remove such doppelganger widget (#698).
+				if ( retElement ) {
+					toBe.wrapper.replaceWith( retElement );
+				} else {
+					toBe.wrapper.remove();
+				}
 			}
 		}, null, null, 13 );
 
