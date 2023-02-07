@@ -1136,7 +1136,7 @@
 			} );
 		},
 
-		// #5414
+		// (#5414)
 		'test firing change after calling replaceWith() method': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,

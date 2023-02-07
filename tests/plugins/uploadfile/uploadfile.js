@@ -231,7 +231,7 @@ bender.test( {
 		assert.areSame( 'abort', loader.status, 'Loader status' );
 	},
 
-	// #5414
+	// (#5414)
 	'test firing change event after the upload finishes': function() {
 		var editor = this.editors.uploadfile,
 			uploads = editor.uploadRepository,

@@ -218,7 +218,7 @@
 				wait();
 			},
 
-			// #5414
+			// (#5414)
 			'test change event is fired after the upload finishes': function() {
 				var editor = this.editor,
 					listeners = this.listeners;

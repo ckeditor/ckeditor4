@@ -1,4 +1,4 @@
-@bender-tags: 4.20.2, 5414, bug
+@bender-tags: 4.20.2, bug, 5414
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, uploadimage, undo
 @bender-include: ../../uploadwidget/manual/_helpers/xhr.js
