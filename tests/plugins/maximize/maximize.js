@@ -203,7 +203,7 @@ bender.test( {
 		} );
 	},
 
-	// #(5396)
+	// (#5396)
 	'test maximize removes \'popstate\' event handler when editor instance is destroyed': function() {
 		bender.editorBot.create( {
 			name: 'editor_destroy_popstate',
@@ -223,7 +223,7 @@ bender.test( {
 		} );
 	},
 
-	// #(5396)
+	// (#5396)
 	'test maximize removes \'hashchange\' event handler when editor instance is destroyed': function() {
 		bender.editorBot.create( {
 			name: 'editor_destroy_hash',
@@ -244,8 +244,8 @@ bender.test( {
 		} );
 	},
 
-	// #(5396)
-	'test maximize leaves \'hashchange\' and \'popstate\' listeners when config.maximize_historyIntegration is set to off value': function() {
+	// (#5396)
+	'test maximize does not add \'hashchange\' and \'popstate\' listeners when config.maximize_historyIntegration is set to off value': function() {
 		bender.editorBot.create( {
 			name: 'editor_destroy_hash',
 			config: {
