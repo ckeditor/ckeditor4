@@ -118,6 +118,14 @@
 				editor.resize( viewPaneSize.width, viewPaneSize.height, null, true );
 			}
 
+			function handleHistoryApi() {
+				var command = editor.getCommand( 'maximize' );
+
+				if ( command.state === CKEDITOR.TRISTATE_ON ) {
+					command.exec();
+				}
+			}
+
 			// Retain state after mode switches.
 			var savedState = CKEDITOR.TRISTATE_OFF;
 
@@ -295,12 +303,11 @@
 				var historyEvent = editor.config.maximize_historyIntegration === CKEDITOR.HISTORY_NATIVE ?
 					'popstate' : 'hashchange';
 
-				mainWindow.on( historyEvent, function() {
-					var command = editor.getCommand( 'maximize' );
+				mainWindow.on( historyEvent, handleHistoryApi );
 
-					if ( command.state === CKEDITOR.TRISTATE_ON ) {
-						command.exec();
-					}
+				// Remove the history listener when destroying an editor instance (#5396).
+				editor.on( 'destroy', function() {
+					mainWindow.removeListener( historyEvent, handleHistoryApi );
 				} );
 			}
 		}
