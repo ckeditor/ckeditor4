@@ -201,5 +201,77 @@ bender.test( {
 			editor.execCommand( 'maximize' );
 			ckeWindow.fire( 'popstate' );
 		} );
+	},
+
+	// (#5396)
+	'test maximize removes \'popstate\' event handler when editor instance is destroyed': function() {
+		bender.editorBot.create( {
+			name: 'editor_destroy_popstate',
+			config: {
+				maximize_historyIntegration: CKEDITOR.HISTORY_NATIVE
+			}
+		}, function( bot ) {
+			var ckeWindow = CKEDITOR.document.getWindow(),
+				editor = bot.editor,
+				initialPopstateListenersLength = ckeWindow.getPrivate().events.popstate.listeners.length;
+
+			editor.destroy();
+
+			var popstateListenersLength = ckeWindow.getPrivate().events.popstate.listeners.length;
+
+			assert.areSame( initialPopstateListenersLength - 1, popstateListenersLength, 'the popstate listener should be removed' );
+		} );
+	},
+
+	// (#5396)
+	'test maximize removes \'hashchange\' event handler when editor instance is destroyed': function() {
+		bender.editorBot.create( {
+			name: 'editor_destroy_hash',
+			config: {
+				maximize_historyIntegration: CKEDITOR.HISTORY_HASH
+			}
+		}, function( bot ) {
+			var ckeWindow = CKEDITOR.document.getWindow(),
+				editor = bot.editor,
+				listeners = ckeWindow.getPrivate().events.hashchange.listeners,
+				initialHashchangeListenersLength = listeners.length;
+
+			editor.destroy();
+
+			var hashchangeListenersLength = listeners.length;
+
+			assert.areSame( initialHashchangeListenersLength - 1, hashchangeListenersLength, 'The hashchange listener be removed' );
+		} );
+	},
+
+	// (#5396)
+	'test maximize does not add \'hashchange\' and \'popstate\' listeners when config.maximize_historyIntegration is set to off value': function() {
+		bender.editorBot.create( {
+			name: 'editor_destroy_hash',
+			config: {
+				maximize_historyIntegration: CKEDITOR.HISTORY_OFF
+			}
+		}, function( bot ) {
+			var ckeWindow = CKEDITOR.document.getWindow(),
+				editor = bot.editor,
+				hashchangeListeners = ckeWindow.getPrivate().events.hashchange.listeners,
+				popstateListeners = ckeWindow.getPrivate().events.popstate.listeners,
+				initialHashchangeListenersLength = hashchangeListeners.length,
+				initialPopstateListenersLength = popstateListeners.length;
+
+			editor.destroy();
+
+			var hashchangeListenersLength = hashchangeListeners.length;
+			var popstateListenersLength = popstateListeners.length;
+
+			assert.areSame(
+				initialHashchangeListenersLength, hashchangeListenersLength,
+				'The hashchange listeners length should be equal with the initial length'
+			);
+			assert.areSame(
+				initialPopstateListenersLength, popstateListenersLength,
+				'The popstate listeners length should be equal with the initial length'
+			);
+		} );
 	}
 } );
