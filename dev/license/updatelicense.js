@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
+ * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -9,8 +9,8 @@ var fs = require( 'fs' ),
 	path = require( 'path' ),
 	execSync = require( 'child_process' ).execSync,
 	dirname = require( 'path' ).dirname,
-	OLD_COMPANY_NAME_REGEXP = /(\[|<a.+?>)?CKSource(\]\(.+?\)|<\/a>)?\s*?(?:-|&ndash;)? Frederico\s+Knabben/gi,
-	NEW_COMPANY_NAME_REPLACEMENT = '$1CKSource$2 Holding sp. z o.o',
+	OLD_COMPANY_NAME_REGEXP = /(\[|<a.+?>)?CKSource(\]\(.+?\)|<\/a>)?\s*?(?:-|&ndash;)? Holding/gi,
+	NEW_COMPANY_NAME_REPLACEMENT = '$1CKSource$2 Holding',
 	YEAR = new Date().getFullYear(),
 	ACCEPTED_FORMATS = [
 		'.css',
@@ -62,7 +62,7 @@ function updateLicenseBanner( filepath ) {
 		return;
 	}
 
-	console.log( 'Updating' + filepath );
+	console.log( 'Updating ' + filepath );
 
 	var data = fs.readFileSync( filepath, 'utf8' ),
 		bannerRegexp = /(Copyright.*\d{4}.*-.*)\d{4}(.*CKSource)/gi,
