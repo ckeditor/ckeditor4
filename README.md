@@ -134,6 +134,6 @@ Use the [CKEditor 4 GitHub issue page](https://github.com/ckeditor/ckeditor4/iss
 
 ### License
 
-Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
+Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
 
 For licensing, see LICENSE.md or [https://ckeditor.com/legal/ckeditor-oss-license](https://ckeditor.com/legal/ckeditor-oss-license)
