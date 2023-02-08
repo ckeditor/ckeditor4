@@ -349,6 +349,10 @@
 							srcset: srcset,
 							sizes: '100vw'
 						} );
+
+						// Ensure that replacing the placeholder image with the final one
+						// is considered a content change (#5414).
+						this.editor.fire( 'change' );
 					} );
 
 					this.on( 'uploadFailed', function() {

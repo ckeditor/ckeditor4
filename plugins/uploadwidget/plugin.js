@@ -359,6 +359,10 @@
 				} else {
 					editor.getSelection().selectBookmarks( bookmarks );
 				}
+
+				// Ensure that replacing the upload placeholder with the final
+				// uploaded element is considered a content change (#5414).
+				editor.fire( 'change' );
 			},
 
 			/**

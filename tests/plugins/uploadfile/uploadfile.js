@@ -229,5 +229,27 @@ bender.test( {
 		loader.abort();
 
 		assert.areSame( 'abort', loader.status, 'Loader status' );
+	},
+
+	// (#5414)
+	'test firing change event after the upload finishes': function() {
+		var editor = this.editors.uploadfile,
+			uploads = editor.uploadRepository,
+			loader = uploads.create( bender.tools.getTestTxtFile() );
+
+		this.editorBots.uploadfile.setData( '<span data-cke-upload-id="' + loader.id +
+			'" data-widget="uploadfile">...</span>', function() {
+			editor.once( 'change', function() {
+				resume( function() {
+					assert.sameData( '<p><a href="%BASE_PATH%_assets/sample.txt" target="_blank">name.txt</a></p>',
+						editor.getData() );
+				} );
+			} );
+
+			loader.url = '%BASE_PATH%_assets/sample.txt';
+			loader.changeStatus( 'uploaded' );
+
+			wait();
+		} );
 	}
 } );

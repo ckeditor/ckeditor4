@@ -1,0 +1,47 @@
+<h2>With <code>image</code> plugin</h2>
+<div id="image">
+	<p>Drop image here:</p>
+</div>
+
+<div id="changes-image"></div>
+
+<h2>With <code>image2</code> plugin</h2>
+<div id="image2">
+	<p>Drop image here:</p>
+</div>
+
+<div id="changes-image2"></div>
+
+<script>
+	( function() {
+		CKEDITOR.once( 'instanceReady', function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'uploadimage' );
+		} );
+
+		creatEditorWithChangelog( 'image', {
+			extraPlugins: 'image'
+		} );
+		creatEditorWithChangelog( 'image2', {
+			extraPlugins: 'image2'
+		} );
+
+		function creatEditorWithChangelog( editorId, userConfig ) {
+			var changeLog = CKEDITOR.document.getById( 'changes-' + editorId ),
+				i = 0,
+				commonConfig = {
+					uploadUrl: 'fakeUrl',
+						on: {
+							change: function( evt ) {
+								var change = CKEDITOR.dom.element.createFromHtml( '<p>Change #' + ( ++i ) + '</p>' );
+
+								changeLog.append( change );
+								console.log( 'change ' + i, evt.editor.getData() );
+							}
+						}
+					},
+				config = CKEDITOR.tools.object.merge( commonConfig, userConfig || {} );
+
+			CKEDITOR.replace( editorId, config );
+		}
+	} ) ();
+</script>

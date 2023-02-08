@@ -11,7 +11,8 @@
 		htmlMatchingOpts = {
 			compareSelection: true,
 			normalizeSelection: true
-		};
+		},
+		UPLOADED_MARKER = 'uploaded';
 
 	bender.editor = {
 		config: {
@@ -34,7 +35,7 @@
 			},
 
 			onUploaded: function() {
-				this.replaceWith( 'uploaded' );
+				this.replaceWith( UPLOADED_MARKER );
 			}
 		} );
 
@@ -1132,6 +1133,33 @@
 				loader.changeStatus( 'uploaded' );
 
 				assert.areSame( '<p><u>xxx</u></p>', editor.getData() );
+			} );
+		},
+
+		// (#5414)
+		'test firing change after calling replaceWith() method': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testChange' );
+
+			bot.setData( '<span data-cke-upload-id="' + loader.id + '" data-widget="testChange">...</span>', function() {
+				editor.once( 'change', function() {
+					resume( function() {
+						var editorContent = editor.getData(),
+							containsUploadedContent = editorContent.indexOf( UPLOADED_MARKER ) !== -1;
+
+						assert.isTrue( containsUploadedContent, 'The editor contains the marker of the uploaded widget' );
+					} );
+				} );
+
+				loader.changeStatus( 'uploaded' );
+
+				wait();
 			} );
 		}
 	} );

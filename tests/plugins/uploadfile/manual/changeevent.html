@@ -1,0 +1,28 @@
+<div id="editor">
+	<p>Drop some file here:</p>
+</div>
+
+<div id="changes"></div>
+
+<script>
+	( function() {
+		var changeLog = CKEDITOR.document.getById( 'changes' ),
+			i = 0;
+
+		CKEDITOR.once( 'instanceReady', function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'uploadfile' );
+		} );
+
+		CKEDITOR.replace( 'editor', {
+			uploadUrl: 'fakeUrl',
+			on: {
+				change: function( evt ) {
+					var change = CKEDITOR.dom.element.createFromHtml( '<p>Change #' + ( ++i ) + '</p>' );
+
+					changeLog.append( change );
+					console.log( 'change ' + i, evt.editor.getData() );
+				}
+			}
+		} );
+	} ) ();
+</script>
