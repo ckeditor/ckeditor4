@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
+# Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 # Updates cklangtool. This script should not be executed separately, it is included in other scripts.
