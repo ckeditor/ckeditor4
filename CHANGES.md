@@ -5,9 +5,9 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#698](https://github.com/ckeditor/ckeditor4/issues/698): Fixed: The error is thrown after applying formatting to the widget with inline editable and switching to the source mode. Thanks to [Glen](https://github.com/glen-84)!
+* [#698](https://github.com/ckeditor/ckeditor4/issues/698): Fixed: An error was thrown after applying formatting to the widget with inline editable and switching to the source mode. Thanks to [Glen](https://github.com/glen-84)!
 * [#439](https://github.com/ckeditor/ckeditor4/issues/439): Fixed: Incorrect <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> navigation for radio buttons inside the dialog.
-* [#4829](https://github.com/ckeditor/ckeditor4/issues/4829): Fixed: Undo reverses entire table content instead of a single cell. Thanks to that fix, multiple changes in a table can be undone one by one.
+* [#4829](https://github.com/ckeditor/ckeditor4/issues/4829): Fixed: Undo reversed entire table content instead of a single cell. Thanks to that fix, multiple changes in a table can be undone one by one.
 * [#5396](https://github.com/ckeditor/ckeditor4/issues/5396): Fixed: Event listeners for `popstate` and `hashchange` events on the `window`, added by the [Maximize](https://ckeditor.com/cke4/addon/maximize) plugin, were not removed when destroying the editor instance.
 
 API changes:
