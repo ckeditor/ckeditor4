@@ -224,9 +224,19 @@
 					listeners = this.listeners;
 
 				listeners.push( editor.widgets.on( 'instanceCreated', function( evt ) {
-					var widget = evt.data;
+					var widget = evt.data,
+						isUploaded = false;
+
 					if ( widget.name == 'easyimage' ) {
-						listeners.push( editor.once( 'change', function( evt ) {
+						widget.once( 'uploadDone', function() {
+							isUploaded = true;
+						} );
+
+						listeners.push( editor.on( 'change', function( evt ) {
+							if ( !isUploaded ) {
+								return;
+							}
+
 							resume( function() {
 								var editorData = evt.editor.getData(),
 									// To check if the change contains correct upload data,
