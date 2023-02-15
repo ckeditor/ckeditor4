@@ -12,13 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt-br', {
 		items: [
 			{
 			name: 'Barra de Ferramentas do Editor',
-			legend: 'Pressione ${toolbarFocus} para navegar para a barra de ferramentas. Mova para o anterior ou próximo grupo de ferramentas com TAB e SHIFT+TAB. Mova para o anterior ou próximo botão com SETA PARA DIREITA or SETA PARA ESQUERDA. Pressione ESPAÇO ou ENTER para ativar o botão da barra de ferramentas.'
+			legend: 'Pressione ${toolbarFocus} para navegar para a barra de ferramentas. mova para a próxima barra de ferramentas ou a anterior com TAB e SHIFT+TAB. mova para o próximo botão ou o anterior com SETA DIREITA or SETA ESQUERDA. Pressione ESPAÇO ou ENTER para ativar o botão da barra de ferramentas. O foco será movido de volta para a área de edição ao ativar o botão da barra de ferramentas.'
 		},
 
 			{
 			name: 'Diálogo do Editor',
 			legend:
-				'Dentro de um diálogo, pressione TAB para navegar para o próximo elemento. Pressione SHIFT+TAB para mover para o elemento anterior. Pressione ENTER ara enviar o diálogo. pressione ESC para cancelar o diálogo. Quando um diálogo tem múltiplas abas, a lista de abas pode ser acessada com ALT+F10 ou TAB, como parte da ordem de tabulação do diálogo. Com a lista de abas em foco, mova para a próxima aba e para a aba anterior com a SETA DIREITA ou SETA ESQUERDA, respectivamente.' 
+				'Dentro de um diálogo, pressione TAB para navegar para o próximo elemento, pressione SHIFT+TAB para mover para o elemento anterior, pressione ENTER para enviar o diálogo, pressione ESC para cancelar o diálogo. Quando um diálogo tem múltiplas abas, a lista de abas pode ser acessada com ALT+F10 ou TAB, como parte da ordem de tabulação do diálogo. Com a lista de abas em foco, mova para a próxima aba e para a aba anterior com a SETA DIREITA ou SETA ESQUERDA, respectivamente. Pressione ESC para descartar as mudanças e fechar o diálogo. O foco irá mover de volta para a área de edição após deixar o diálogo.' 
 		},
 
 			{
