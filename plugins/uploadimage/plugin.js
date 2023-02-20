@@ -66,7 +66,7 @@
 
 			// Handle images which are available in the dataTransfer.
 			fileTools.addUploadWidget( editor, 'uploadimage', {
-				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
+				supportedTypes: editor.config.uploadImage_supportedTypes,
 
 				uploadUrl: uploadUrl,
 
@@ -158,4 +158,17 @@
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]
 	 * @member CKEDITOR.config
 	 */
+
+	/**
+	 * A regular expression that defines which image types are supported
+	 * by upload image plugin.
+	 *
+	 *		// Accepts only png and jpeg image types.
+	 *		config.uploadImage_supportedTypes = /image\/(png|jpeg)/;
+	 *
+	 * @since 4.20.2
+	 * @cfg {RegExp} [uploadImage_supportedTypes=/image\/(jpeg|png|gif|bmp)/]
+	 * @member CKEDITOR.config
+	 */
+	 CKEDITOR.config.uploadImage_supportedTypes = /image\/(jpeg|png|gif|bmp)/;
 } )();

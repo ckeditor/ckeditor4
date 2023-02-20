@@ -24,6 +24,18 @@
 				pasteFilter: null
 			}
 		},
+		classicSupportingWebp: {
+			name: 'classic',
+			creator: 'replace',
+			config: {
+				extraPlugins: 'uploadimage,image',
+				removePlugins: 'image2',
+				imageUploadUrl: 'http://foo/upload',
+				uploadImage_supportedTypes: /image\/(jpeg|png|gif|bmp|webp)/,
+				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+				pasteFilter: null
+			}
+		},
 		inline: {
 			name: 'inline',
 			creator: 'inline',
@@ -297,6 +309,36 @@
 				} );
 
 				pasteFiles( editor, [ { name: 'test.bmp', type: 'image/bmp' } ] );
+
+				wait();
+			} );
+		},
+
+		'test supportedTypes webp': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classicSupportingWebp;
+
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.webp', type: 'image/webp' } ] );
+
+				wait();
+			} );
+		},
+
+		'test not supportedTypes webp': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
+
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.webp', type: 'image/webp' } ] );
 
 				wait();
 			} );
