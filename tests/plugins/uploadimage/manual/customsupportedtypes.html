@@ -1,0 +1,14 @@
+<div id="editor">
+	<p>Drop image here:</p>
+</div>
+
+<script>
+	CKEDITOR.once( 'instanceReady', function() {
+		bender.tools.ignoreUnsupportedEnvironment( 'uploadimage' );
+	} );
+
+	CKEDITOR.replace( 'editor', {
+		uploadUrl: '%BASE_PATH%',
+		uploadImage_supportedTypes: /^image\/jp(e)?g$/
+	} );
+</script>
