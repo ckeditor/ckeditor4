@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.20.3 [IN-DEVELOPMENT]
 
+New Features:
+
+* [#4400](https://github.com/ckeditor/ckeditor4/issues/4400): Added the [`config.uploadImage_supportedTypes`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-uploadImage_supportedTypes) configuration option allowing to change the image formats accepted by the [Upload Image](https://ckeditor.com/cke4/addon/uploadimage) plugin. Thanks to [SilverYoCha](https://github.com/SilverYoCha)!
+
 ## CKEditor 4.20.2
 
 Fixed Issues:
