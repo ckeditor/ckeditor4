@@ -25,7 +25,7 @@
 			}
 		},
 		classicSupportingWebp: {
-			name: 'classic',
+			name: 'classicSupportingWebp',
 			creator: 'replace',
 			config: {
 				extraPlugins: 'uploadimage,image',
@@ -314,21 +314,7 @@
 			} );
 		},
 
-		'test supportedTypes webp': function() {
-			var bot = this.editorBots.classic,
-				editor = this.editors.classicSupportingWebp;
-
-			bot.setData( '', function() {
-				resumeAfter( editor, 'paste', function() {
-					assertUploadingWidgets( editor, LOADING_IMG );
-				} );
-
-				pasteFiles( editor, [ { name: 'test.webp', type: 'image/webp' } ] );
-
-				wait();
-			} );
-		},
-
+		// (#4400)
 		'test not supportedTypes webp': function() {
 			var bot = this.editorBots.classic,
 				editor = this.editors.classic;
@@ -354,6 +340,22 @@
 				} );
 
 				pasteFiles( editor, [ { name: 'test.tiff', type: 'image/tiff' } ] );
+
+				wait();
+			} );
+		},
+
+		// (#4400)
+		'test setting config.uploadImage_supportedTypes allows uploading webp images': function() {
+			var bot = this.editorBots.classicSupportingWebp,
+				editor = this.editors.classicSupportingWebp;
+
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.webp', type: 'image/webp' } ] );
 
 				wait();
 			} );
