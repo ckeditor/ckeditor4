@@ -161,14 +161,16 @@
 
 	/**
 	 * A regular expression that defines which image types are supported
-	 * by upload image plugin.
+	 * by the [Upload Image](https://ckeditor.com/cke4/addon/uploadimage) plugin.
 	 *
-	 *		// Accepts only png and jpeg image types.
-	 *		config.uploadImage_supportedTypes = /image\/(png|jpeg)/;
+	 * ```javascript
+	 * // Accepts only png and jpeg image types.
+	 * config.uploadImage_supportedTypes = /image\/(png|jpeg)/;
+	 * ```
 	 *
-	 * @since 4.20.2
+	 * @since 4.20.3
 	 * @cfg {RegExp} [uploadImage_supportedTypes=/image\/(jpeg|png|gif|bmp)/]
 	 * @member CKEDITOR.config
 	 */
-	 CKEDITOR.config.uploadImage_supportedTypes = /image\/(jpeg|png|gif|bmp)/;
+	CKEDITOR.config.uploadImage_supportedTypes = /image\/(jpeg|png|gif|bmp)/;
 } )();
