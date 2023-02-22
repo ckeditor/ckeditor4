@@ -410,6 +410,14 @@
 			var editor = this.editor;
 
 			this.editorBot.setData( '<p></p>', function() {
+				// Force selection in Chrome (#5385).
+				if ( CKEDITOR.env.chrome && editor.getSelection().getType() === CKEDITOR.SELECTION_NONE ) {
+					var range = editor.createRange();
+
+					range.selectNodeContents( editor.editable() );
+					range.select();
+				}
+
 				editor.widgets.add( 'insertingwithoutdialog', {
 					// No dialog defined.
 					template: '<b>foo</b>'
