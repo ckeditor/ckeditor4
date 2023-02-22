@@ -142,6 +142,11 @@
 			range.setStart( rangeContainer, 0 );
 			range.setEnd( rangeContainer, rangeContainer.getChildCount() );
 
+			// Chrome requires selecting the range (#5385).
+			if ( CKEDITOR.env.chrome ) {
+				range.select();
+			}
+
 			rects = range.getClientRects( absolute );
 			assert.areEqual( widgetsCount, rects.length, 'Rect count' );
 
