@@ -249,7 +249,7 @@
 						var selection = editor.getSelection();
 
 						// Ensure there is selection in Chrome (#5385).
-						if ( CKEDITOR.env.chrome && selection.getType() === CKEDITOR.SELECTION_NONE ) {
+						if ( CKEDITOR.env.chrome && selection.getType() === CKEDITOR.SELECTION_NONE && !editor.editable().isInline() ) {
 							var range = editor.createRange();
 
 							range.selectNodeContents( editor.editable() );
