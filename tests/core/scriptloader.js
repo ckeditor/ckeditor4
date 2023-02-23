@@ -30,7 +30,7 @@ var tests = {
 
 		function callback() {
 			tc.resume( function() {
-				var script = CKEDITOR.document.findOne( 'src="../_assets/sample.js"' );
+				var script = CKEDITOR.document.findOne( 'script[src="../_assets/sample.js"]' );
 
 				assert.areSame( script.$.attr( 'type' ), 'module' );
 				assert.areSame( 'Test!', testVar );
