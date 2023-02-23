@@ -25,6 +25,23 @@ var tests = {
 		this.wait();
 	},
 
+	'test load with custom type attribute': function() {
+		var tc = this;
+
+		function callback() {
+			tc.resume( function() {
+				var script = CKEDITOR.document.findOne( 'src="../_assets/sample.js"' );
+
+				assert.areSame( script.$.attr( 'type' ), 'module' );
+				assert.areSame( 'Test!', testVar );
+			} );
+		}
+
+		CKEDITOR.scriptLoader.load( '../_assets/sample.js', callback, CKEDITOR, false, 'module' );
+
+		this.wait();
+	},
+
 	'test load event handling': function() {
 		var tc = this;
 
