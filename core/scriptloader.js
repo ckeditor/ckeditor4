@@ -36,6 +36,8 @@ CKEDITOR.scriptLoader = ( function() {
 		 *			alert( 'Number of failures: ' + failed.length );
 		 *		} );
 		 *
+		 *		CKEDITOR.scriptLoader.load( '/myscript.js', callback, CKEDITOR, false, 'module' );
+		 *
 		 * @param {String/Array} scriptUrl One or more URLs pointing to the
 		 * scripts to be loaded.
 		 * @param {Function} [callback] A function to be called when the script
@@ -48,8 +50,10 @@ CKEDITOR.scriptLoader = ( function() {
 		 * the callback call. Defaults to {@link CKEDITOR}.
 		 * @param {Boolean} [showBusy] Changes the cursor of the document while
 		 * the script is loaded.
+		 * @param {String} [typeAttribute] Set a custom type attribute on the
+		 * script tag. Defaults to `text/javascript`.
 		 */
-		load: function( scriptUrl, callback, scope, showBusy ) {
+		load: function( scriptUrl, callback, scope, showBusy, typeAttribute ) {
 			var isString = ( typeof scriptUrl == 'string' );
 
 			if ( isString )
@@ -57,6 +61,9 @@ CKEDITOR.scriptLoader = ( function() {
 
 			if ( !scope )
 				scope = CKEDITOR;
+
+			if ( !typeAttribute )
+				typeAttribute = 'text/javascript';
 
 			var scriptCount = scriptUrl.length,
 				scriptCountDoCallback = scriptCount,
@@ -115,7 +122,7 @@ CKEDITOR.scriptLoader = ( function() {
 					// Create the <script> element.
 					var script = new CKEDITOR.dom.element( 'script' );
 					script.setAttributes( {
-						type: 'text/javascript',
+						type: typeAttribute,
 						src: url
 					} );
 
