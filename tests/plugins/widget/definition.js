@@ -567,6 +567,14 @@
 			editor.widgets.add( 'testcommanddata', widgetDef );
 
 			this.editorBot.setData( '<p>foo</p>', function() {
+				// Force selection in Chrome (#5385).
+				if ( CKEDITOR.env.chrome && editor.getSelection().getType() === CKEDITOR.SELECTION_NONE ) {
+					var range = editor.createRange();
+
+					range.selectNodeContents( editor.editable() );
+					range.select();
+				}
+
 				editor.execCommand( 'testcommanddata', { startupData: { bar: 2 } } );
 				assert.areSame( 1, executed, 'data listener was executed once' );
 			} );
