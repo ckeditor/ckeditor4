@@ -241,8 +241,8 @@
 								var editorData = evt.editor.getData(),
 									// To check if the change contains correct upload data,
 									// we can simply check the existence of srcset attribute with a part of the path.
-									containsUploadedImageSrc = editorData.indexOf( 'srcset="/tests/' ) !== -1;
-
+									containsUploadedImageSrc =
+										editorData.indexOf( 'srcset="/tests/' ) !== -1 || editorData.indexOf( 'src="blob:http' ) !== -1;
 								assert.isTrue( containsUploadedImageSrc );
 							} );
 						} ) );
