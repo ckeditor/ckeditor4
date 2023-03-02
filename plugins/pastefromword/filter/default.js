@@ -72,7 +72,7 @@
 				root: function( element ) {
 					element.filterChildren( filter );
 
-					CKEDITOR.plugins.pastefromword.lists.cleanup( List.createLists( element ) );
+					CKEDITOR.plugins.pastefromword.lists.cleanup( List.createLists( element, editor ) );
 				},
 				elementNames: [
 					[ ( /^\?xml:namespace$/ ), '' ],
@@ -185,7 +185,7 @@
 								!container.attributes[ 'cke-list-level' ] &&
 								style[ 'mso-list' ] &&
 								style[ 'mso-list' ].match( /level/ ) ) {
-								container.attributes[ 'cke-list-level' ] = style[ 'mso-list' ].match( /level(\d+)/ )[1];
+								container.attributes[ 'cke-list-level' ] = style[ 'mso-list' ].match( /level(\d+)/ )[ 1 ];
 							}
 
 							// Adapt paragraph formatting to editor's convention according to enter-mode (#423).
@@ -270,7 +270,7 @@
 							Style.setStyle( element.parent, 'list-style-type', 'none' );
 						}
 
-						List.dissolveList( element );
+						List.dissolveList( element, editor );
 						return false;
 					},
 					'li': function( element ) {
@@ -296,7 +296,7 @@
 							Style.setStyle( element.parent, 'list-style-type', 'none' );
 						}
 
-						List.dissolveList( element );
+						List.dissolveList( element, editor );
 						return false;
 					},
 					'span': function( element ) {
@@ -861,7 +861,7 @@
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of created list items.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
-		createLists: function( root ) {
+		createLists: function( root, editor ) {
 			var element, level, i, j,
 				listElements = List.convertToRealListItems( root );
 
@@ -892,6 +892,13 @@
 
 				// Insert first known list item before the list wrapper.
 				innermostContainer.insertBefore( list[ 0 ] );
+
+				var keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' );
+
+				// Preserve keeping list margins zero when pasteTools_keepZeroMargins is ON. #5316
+				if ( keepZeroMargins ) {
+					innermostContainer.attributes.style = firstLevel1Element.attributes[ 'cke-list-style-margins' ];
+				}
 
 				for ( j = 0; j < list.length; j++ ) {
 					element = list[ j ];
@@ -930,6 +937,8 @@
 						}
 					}
 
+					delete element.attributes[ 'cke-list-style-margins' ];
+
 					// For future reference this is where the list elements are actually put into the lists.
 					element.remove();
 					innermostContainer.add( element );
@@ -941,7 +950,7 @@
 					level1Symbol = containerStack[ 0 ].children[ 0 ].attributes[ 'cke-symbol' ];
 
 					if ( !level1Symbol && containerStack[ 0 ].children.length > 1 ) {
-						level1Symbol = containerStack[0].children[1].attributes[ 'cke-symbol' ];
+						level1Symbol = containerStack[ 0 ].children[ 1 ].attributes[ 'cke-symbol' ];
 					}
 
 					if ( level1Symbol ) {
@@ -1122,7 +1131,7 @@
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
-		dissolveList: function( element ) {
+		dissolveList: function( element, editor ) {
 			var nameIs = function( name ) {
 					return function( element ) {
 						return element.name == name;
@@ -1192,6 +1201,11 @@
 
 					child.attributes[ 'cke-symbol' ] = symbol;
 					child.attributes[ 'cke-list-level' ] = level;
+
+					var keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' );
+					if ( keepZeroMargins ) {
+						child.attributes[ 'cke-list-style-margins' ] = getZeroMargins( child.attributes.style );
+					}
 				} );
 			} );
 
@@ -1264,6 +1278,26 @@
 				}
 			}
 
+			function getZeroMargins( styles ) {
+				var parsedStyles = CKEDITOR.tools.parseCssText( styles );
+				var keys = [ 'margin-top', 'margin-right', 'margin-bottom', 'margin-left' ],
+					zeroMargins = '';
+
+				CKEDITOR.tools.array.forEach( keys, function( key ) {
+					if ( !( key in parsedStyles ) ) {
+						return;
+					}
+
+					var value = CKEDITOR.tools.convertToPx( parsedStyles[ key ] );
+					if ( value === 0 ) {
+						zeroMargins += key + ': ' + value + 'px; ';
+					}
+				} );
+
+				if ( zeroMargins !== '' ) {
+					return zeroMargins;
+				}
+			}
 		},
 
 		groupLists: function( listElements ) {
@@ -1608,7 +1642,7 @@
 					if ( !css ) {
 						return false;
 					}
-					var fontSize = css.font || css['font-size'] || '',
+					var fontSize = css.font || css[ 'font-size' ] || '',
 						fontFamily = css[ 'font-family' ] || '';
 
 					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
