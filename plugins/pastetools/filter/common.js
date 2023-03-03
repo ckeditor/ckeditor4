@@ -1202,6 +1202,9 @@
 	 *	config.pasteTools_keepZeroMargins = true;
 	 * ```
 	 *
+	 * **Note**: Please remember to update the {@glink guide/dev_advanced_content_filter Advanced Content Filter}
+	 * when you want to keep margins that other plugins don't use like `top` and `bottom`.
+	 *
 	 * @since 4.13.0
 	 * @cfg {Boolean} [pasteTools_keepZeroMargins=false]
 	 * @member CKEDITOR.config
