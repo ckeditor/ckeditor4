@@ -19,15 +19,15 @@
  */
 CKEDITOR.lang[ 'bn' ] = {
 	// ARIA description.
-	application: 'Rich Text Editor', // MISSING
-	editor: 'Editor', // MISSING
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	application: 'উন্নত টেক্সট এডিটর',
+	editor: 'এডিটর',
+	editorPanel: 'উন্নত টেক্সট এডিটর প্যানেল',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'সাহায্যের জন্য ALT 0 টিপুন',
 
 		browseServer: 'ব্রাউজ সার্ভার',
 		url: 'URL',
@@ -57,20 +57,20 @@ CKEDITOR.lang[ 'bn' ] = {
 		cssStyle: 'স্টাইল',
 		ok: 'ওকে',
 		cancel: 'বাতিল',
-		close: 'Close', // MISSING
+		close: 'বন্ধ',
 		preview: 'প্রিভিউ',
-		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		resize: 'আকার পরিবর্তন',
+		generalTab: 'সাধারণ',
 		advancedTab: 'এডভান্সড',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING
-		options: 'Options', // MISSING
+		validateNumberFailed: 'এটি একটি সংখ্যা নয়',
+		confirmNewPage: 'এই কন্টেন্টের যেকোনও অসংরক্ষিত পরিবর্তন হারিয়ে যাবে। আপনি নতুন পৃষ্ঠা লোড করার বিষয়ে নিশ্চিত?',
+		confirmCancel: 'আপনি কিছু অপশন পরিবর্তন করেছেন। আপনি কি নিশ্চিত যে আপনি ডায়ালগ উইন্ডো বন্ধ করতে চান?',
+		options: 'অপশন',
 		target: 'টার্গেট',
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		targetNew: 'নতুন উইন্ডো (_খালি)',
+		targetTop: 'সর্বোচ্চ উইন্ডো (_টপ)',
+		targetSelf: 'একই উইন্ডো (_স্বয়ং)',
+		targetParent: 'প্যারেন্ট উইন্ডো (_প্যারেন্ট)',
 		langDirLTR: 'বাম থেকে ডান (LTR)',
 		langDirRTL: 'ডান থেকে বাম (RTL)',
 		styles: 'স্টাইল',
@@ -84,14 +84,14 @@ CKEDITOR.lang[ 'bn' ] = {
 		justify: 'ব্লক জাস্টিফাই',
 		alignLeft: 'বা দিকে ঘেঁষা',
 		alignRight: 'ডান দিকে ঘেঁষা',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'কেন্দ্রে',
 		alignTop: 'উপর',
 		alignMiddle: 'মধ্য',
 		alignBottom: 'নীচে',
-		alignNone: 'None', // MISSING
-		invalidValue: 'Invalid value.', // MISSING
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
+		alignNone: 'কোনটিই না',
+		invalidValue: 'ভুল মান।',
+		invalidHeight: 'উচ্চতা একটি সংখ্যা হতে হবে।',
+		invalidWidth: 'প্রস্থ একটি সংখ্যা হতে হবে।',
 		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
