@@ -26,7 +26,7 @@
 		init: function( editor ) {
 			var pluginName = 'iframe',
 				lang = editor.lang.iframe,
-				allowed = 'iframe[align,longdesc,tabindex,frameborder,height,name,scrolling,src,title,width]';
+				allowed = 'iframe[align,longdesc,tabindex,frameborder,height,name,scrolling,src,title,width,sandbox]';
 
 			if ( editor.plugins.dialogadvtab )
 				allowed += ';iframe' + editor.plugins.dialogadvtab.allowedContent( { id: 1, classes: 1, styles: 1 } );
@@ -75,11 +75,30 @@
 				dataFilter.addRules( {
 					elements: {
 						iframe: function( element ) {
+							var attributes = editor.plugins.iframe._.getIframeAttributes( editor, element );
+
+							if ( attributes !== undefined ) {
+								element.attributes = CKEDITOR.tools.object.merge( element.attributes, attributes );
+							}
+
 							return editor.createFakeParserElement( element, 'cke_iframe', 'iframe', true );
 						}
 					}
 				} );
 			}
+		},
+		_: {
+			getIframeAttributes: function( editor, iframe ) {
+				var attributes = editor.config.iframe_attributes;
+
+				if ( typeof attributes === 'function' ) {
+					return attributes( iframe );
+				} else if ( typeof attributes === 'object' ) {
+					return attributes;
+				}
+			}
 		}
 	} );
 } )();
+
+CKEDITOR.config.iframe_attributes = { sandbox: '' };

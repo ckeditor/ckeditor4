@@ -82,6 +82,10 @@
 					extraAttributes = {};
 				this.commitContent( iframeNode, extraStyles, extraAttributes );
 
+				var attributes = editor.plugins.iframe._.getIframeAttributes( editor, iframeNode );
+
+				iframeNode.setAttributes( attributes );
+
 				// Refresh the fake image.
 				var newFakeImage = editor.createFakeElement( iframeNode, 'cke_iframe', 'iframe', true );
 				newFakeImage.setAttributes( extraAttributes );

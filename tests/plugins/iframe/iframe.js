@@ -24,7 +24,7 @@
 
 		'test load iframe': function() {
 			var editor = this.editor,
-				expected = '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com"></iframe>';
+				expected = '<iframe frameborder="0" height="500" sandbox="" scrolling="no" src="http://ckeditor.com"></iframe>';
 
 			this.editorBot.setData( expected, function() {
 				assertHtml( expected, editor.getData() );
@@ -35,7 +35,7 @@
 			var editor = this.editor;
 
 			this.editorBot.setData( '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com">foobar</iframe>', function() {
-				assertHtml( '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com"></iframe>' , editor.getData() );
+				assertHtml( '<iframe frameborder="0" height="500" sandbox="" scrolling="no" src="http://ckeditor.com"></iframe>' , editor.getData() );
 			} );
 		},
 
@@ -49,7 +49,7 @@
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areEqual( '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com" ' +
+				assert.areEqual( '<iframe frameborder="0" height="500" sandbox="" scrolling="no" src="http://ckeditor.com" ' +
 					'style="height:100px;width:100px;" width="100%"></iframe>', bot.getData( true ) );
 			} );
 		},
@@ -68,7 +68,7 @@
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areEqual( '<iframe frameborder="0" scrolling="no" src="http://cksource.com" width="400"></iframe>', bot.getData( true ) );
+				assert.areEqual( '<iframe frameborder="0" sandbox="" scrolling="no" src="http://cksource.com" width="400"></iframe>', bot.getData( true ) );
 			} );
 		},
 
@@ -115,7 +115,7 @@
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areEqual( '<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" tabindex="-1" width="100%"></iframe>', bot.getData( true ) );
+				assert.areEqual( '<iframe frameborder="0" sandbox="" scrolling="no" src="http://ckeditor.com" tabindex="-1" width="100%"></iframe>', bot.getData( true ) );
 			} );
 		},
 
@@ -131,7 +131,7 @@
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areEqual( '<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" width="100%"></iframe>', bot.getData( true ) );
+				assert.areEqual( '<iframe frameborder="0" sandbox="" scrolling="no" src="http://ckeditor.com" width="100%"></iframe>', bot.getData( true ) );
 			} );
 		}
 	} );

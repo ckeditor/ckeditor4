@@ -12,7 +12,8 @@
 		requires: 'embedbase',
 
 		init: function( editor ) {
-			var widgetDefinition = CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor );
+			var widgetDefinition = CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor ),
+				embedBaseInitMethod = widgetDefinition.init;
 
 			if ( !editor.config.embed_provider ) {
 				CKEDITOR.error( 'embed-no-provider-url' );
@@ -44,9 +45,33 @@
 					};
 				},
 
+				init: function() {
+					embedBaseInitMethod.call( this );
+
+					if ( editor.config.embed_keepOriginalContent ) {
+						return;
+					}
+
+					this.on( 'ready', function() {
+						this.loadContent( this.data.url, {
+							callback: function() {
+								editor.fire( 'updateSnapshot' );
+							}
+						} );
+					} );
+				},
+
 				upcast: function( el, data ) {
+					var child;
+
 					if ( el.name == 'div' && el.attributes[ 'data-oembed-url' ] ) {
 						data.url = el.attributes[ 'data-oembed-url' ];
+
+						if ( !editor.config.embed_keepOriginalContent ) {
+							while ( child = el.getFirst() ) {
+								child.remove();
+							}
+						}
 
 						return true;
 					}
@@ -60,16 +85,20 @@
 			// Register the definition as 'embed' widget.
 			editor.widgets.add( 'embed', widgetDefinition );
 
-			// Do not filter contents of the div[data-oembed-url] at all.
-			editor.filter.addElementCallback( function( el ) {
-				if ( 'data-oembed-url' in el.attributes ) {
-					return CKEDITOR.FILTER_SKIP_TREE;
-				}
-			} );
+			if ( editor.config.embed_keepOriginalContent ) {
+				// Do not filter contents of the div[data-oembed-url] at all.
+				editor.filter.addElementCallback( function( el ) {
+					if ( 'data-oembed-url' in el.attributes ) {
+						return CKEDITOR.FILTER_SKIP_TREE;
+					}
+				} );
+			}
 		}
 	} );
 
 } )();
+
+CKEDITOR.config.embed_keepOriginalContent = false;
 
 /**
  * A template for the URL of the provider endpoint. This URL will be queried for each resource to be embedded.

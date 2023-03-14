@@ -10,6 +10,7 @@ bender.editors = {
 		name: 'editor_classic',
 		creator: 'replace',
 		config: {
+			embed_keepOriginalContent: true,
 			extraAllowedContent: 'div(a,b,c)',
 			removePlugins: 'div',
 			stylesSet: [
@@ -68,10 +69,39 @@ widgetTestsTools.addTests( tcs, {
 	widgetName: 'embed',
 	extraPlugins: 'embed',
 	initialInstancesNumber: 1,
+	editorConfig: {
+		embed_keepOriginalContent: true
+	},
 	newData: [
 		[ 'info', 'url', 'http://xxx' ]
 	],
 	newWidgetPattern: '<div data-oembed-url="http://xxx"><p>url:http%3A%2F%2Fxxx</p></div>'
+} );
+
+widgetTestsTools.addTests( tcs, {
+	name: 'regenerated',
+	widgetName: 'embed',
+	extraPlugins: 'embed',
+	initialInstancesNumber: 1,
+	newData: [
+		[ 'info', 'url', 'http://xxx' ]
+	],
+	newWidgetPattern: '<div data-oembed-url="http://xxx"><p>url:http%3A%2F%2Fxxx</p></div>',
+	checkData: false,
+	assertWidgets: function( editor ) {
+		var widgets = bender.tools.objToArray( editor.widgets.instances ),
+			fancyHtmlRegex = /<(strong|em)>/g,
+			widget;
+
+		while ( widget = widgets.pop() ) {
+			if ( widget.name !== 'embed' ) {
+				continue;
+			}
+
+			assert.areSame( 'http://xxx', widget.data.url, 'Widget has correct URL' );
+			assert.isFalse( fancyHtmlRegex.test( widget.element.getHtml() ), 'Widget content is filtered' );
+		}
+	}
 } );
 
 bender.test( tcs );
