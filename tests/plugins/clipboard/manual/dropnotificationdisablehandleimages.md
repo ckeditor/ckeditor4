@@ -2,9 +2,9 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, clipboard
 
-**Note** You may want to download a sample image. To do so, just right-click on the link and select `Save as`.
+**Note** You may want to download a sample image. To do so, just right-click on the link and select `Save Link As`.
 
-1. Paste [PNG image](%BASE_PATH%_assets/logo.png) into the editor.
+1. Drop [PNG image](%BASE_PATH%_assets/logo.png) into the editor.
 
 **Expected** The image is not inserted into the editor and the notification: `The image/png file format(s) are not supported.` is displayed.
 
