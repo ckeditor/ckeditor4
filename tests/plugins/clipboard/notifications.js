@@ -168,7 +168,7 @@
 			wait();
 		},
 
-		// #5431
+		// (#5431)
 		'test notification with information about unsupported file types should be displayed when the clipboard_handleImages is disabled': function( editor ) {
 			var originalClipboard_handleImages = CKEDITOR.config.clipboard_handleImages;
 			CKEDITOR.config.clipboard_handleImages = false;
