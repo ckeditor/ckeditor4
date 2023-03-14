@@ -236,6 +236,11 @@
 			}, null, null, 1 );
 
 			function testImageBase64Support( file ) {
+				// Check if turning images into base64 is disabled. #5431
+				if ( !editor.config.clipboard_handleImages ) {
+					return false;
+				}
+
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ];
 				return CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) !== -1;
 			}
