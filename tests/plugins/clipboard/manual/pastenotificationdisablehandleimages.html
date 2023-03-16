@@ -6,6 +6,13 @@
 	}
 
 	CKEDITOR.replace( 'editor', {
-		clipboard_handleImages: false
+		clipboard_handleImages: false,
+		on: {
+			loaded: function() {
+				if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+					bender.ignore();
+				}
+			}
+		}
 	} );
 </script>
