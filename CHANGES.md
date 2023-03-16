@@ -1,7 +1,7 @@
 CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.20.3 [IN-DEVELOPMENT]
+## CKEditor 4.21
 
 New Features:
 
@@ -9,7 +9,7 @@ New Features:
 
 Fixed Issues:
 
-* [#5431](https://github.com/ckeditor/ckeditor4/issues/5431): Fix: No notification is shown when pasting or dropping unsupported image types into the editor.
+* [#5431](https://github.com/ckeditor/ckeditor4/issues/5431): Fixed: No notification is shown when pasting or dropping unsupported image types into the editor.
 
 ## CKEditor 4.20.2
 

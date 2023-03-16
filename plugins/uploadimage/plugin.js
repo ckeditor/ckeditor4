@@ -168,7 +168,7 @@
 	 * config.uploadImage_supportedTypes = /image\/(png|jpeg)/;
 	 * ```
 	 *
-	 * @since 4.20.3
+	 * @since 4.21.0
 	 * @cfg {RegExp} [uploadImage_supportedTypes=/image\/(jpeg|png|gif|bmp)/]
 	 * @member CKEDITOR.config
 	 */
