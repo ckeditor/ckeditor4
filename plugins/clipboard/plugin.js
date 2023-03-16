@@ -236,7 +236,7 @@
 			}, null, null, 1 );
 
 			function testImageBase64Support( file ) {
-				// Check if turning images into base64 is disabled. #5431
+				// Check if turning images into base64 is disabled (#5431).
 				if ( !editor.config.clipboard_handleImages ) {
 					return false;
 				}
