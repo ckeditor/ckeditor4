@@ -166,6 +166,36 @@
 			}, 50 );
 
 			wait();
+		},
+
+		// (#5431)
+		'test notification with information about unsupported file types should be displayed when the clipboard_handleImages is disabled': function( editor ) {
+			var originalClipboard_handleImages = CKEDITOR.config.clipboard_handleImages;
+			CKEDITOR.config.clipboard_handleImages = false;
+
+			var notificationSpy = sinon.spy( editor, 'showNotification' ),
+				notificationMessage = 'The <em>image/jpeg, image/png, image/gif</em> file format(s) are not supported.',
+				files = [
+					{ name: 'test.jpeg', type: 'image/jpeg' },
+					{ name: 'test.png', type: 'image/png' },
+					{ name: 'test.gif', type: 'image/gif' }
+				];
+
+			pasteFiles( editor, files );
+
+			resume( function() {
+				CKEDITOR.config.clipboard_handleImages = originalClipboard_handleImages;
+
+				notificationSpy.restore();
+
+				assert.areSame( 1, notificationSpy.callCount, 'Notification should be called once' );
+				assert.areSame( notificationMessage, notificationSpy.getCall( 0 ).args[ 0 ],
+					'The notification has incorrect message' );
+				assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
+					'The notification type is incorrect' );
+			}, 50 );
+
+			wait();
 		}
 	};
 

@@ -1,0 +1,18 @@
+<div id="editor"></div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		clipboard_handleImages: false,
+		on: {
+			loaded: function() {
+				if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+					bender.ignore();
+				}
+			}
+		}
+	} );
+</script>

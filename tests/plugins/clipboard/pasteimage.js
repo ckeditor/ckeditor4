@@ -102,6 +102,40 @@
 			} );
 		},
 
+		// (#5431)
+		'test pasting image when the clipboard_handleImages configuration option is OFF displays notification about unsupported image type':
+			function() {
+				var originalClipboard_handleImages = CKEDITOR.config.clipboard_handleImages;
+				CKEDITOR.config.clipboard_handleImages = false;
+
+				var editor = this.editor,
+					expectedMsgRegex  = prepareNotificationRegex( this.editor.lang.clipboard.fileFormatNotSupportedNotification ),
+					expectedDuration = editor.config.clipboard_notificationDuration,
+					notificationSpy = sinon.spy( editor, 'showNotification' );
+
+				FileReader.setFileMockType( 'image/png' );
+				FileReader.setReadResult( 'load' );
+
+				bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here:{}</p>' );
+				this.assertPaste( {
+					type: 'image/png',
+					expected: '<p>Paste image here:^@</p>',
+					callback: function() {
+						notificationSpy.restore();
+
+						assert.areSame( 1, notificationSpy.callCount, 'There was only one notification' );
+						assert.isMatching( expectedMsgRegex, notificationSpy.getCall( 0 ).args[ 0 ],
+							'The notification had correct message' );
+						assert.areSame( 'info', notificationSpy.getCall( 0 ).args[ 1 ],
+							'The notification had correct type' );
+						assert.areSame( expectedDuration, notificationSpy.getCall( 0 ).args[ 2 ],
+							'The notification had correct duration' );
+					}
+				} );
+
+				CKEDITOR.config.clipboard_handleImages = originalClipboard_handleImages;
+			},
+
 		'test aborted paste': function() {
 			FileReader.setFileMockType( 'image/png' );
 			FileReader.setReadResult( 'abort' );

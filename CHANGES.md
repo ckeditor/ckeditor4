@@ -7,6 +7,10 @@ New Features:
 
 * [#4400](https://github.com/ckeditor/ckeditor4/issues/4400): Added the [`config.uploadImage_supportedTypes`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-uploadImage_supportedTypes) configuration option allowing to change the image formats accepted by the [Upload Image](https://ckeditor.com/cke4/addon/uploadimage) plugin. Thanks to [SilverYoCha](https://github.com/SilverYoCha)!
 
+Fixed Issues:
+
+* [#5431](https://github.com/ckeditor/ckeditor4/issues/5431): Fix: No notification is shown when pasting or dropping unsupported image types into the editor.
+
 ## CKEditor 4.20.2
 
 Fixed Issues:
