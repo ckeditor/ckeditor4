@@ -103,7 +103,8 @@
 			creator: 'inline',
 			name: 'test_editor2',
 			config: {
-				allowedContent: true
+				allowedContent: true,
+				removePlugins: 'iframe'
 			}
 		},
 		editor3: {
