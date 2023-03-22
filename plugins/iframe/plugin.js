@@ -115,7 +115,7 @@
  * Function-based configuration example:
  *
  * ```javascript
- * CKEDITOR.config.iframe_attributes = function( iframe ) {
+ * config.iframe_attributes = function( iframe ) {
  *     var youtubeOrigin = 'https://www.youtube.com'
  *
  *     if ( youtubeOrigin.indexOf( iframe.attributes.src ) !== -1 ) {
@@ -129,7 +129,7 @@
  * Object-based configuration example:
  *
  * ```javascript
- * CKEDITOR.config.iframe_attributes = {
+ * config.iframe_attributes = {
  *     sandbox: 'allow-scripts allow-same-origin',
  *     allow: 'autoplay'
  * }
