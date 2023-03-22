@@ -98,6 +98,19 @@
 
 } )();
 
+/**
+ * Decides if the content inside the Media Embed widget should be left as-is, without filtering (default behavior
+ * of the Embed plugin before v4.21). Since v4.21 the Media Embed widget content is regenerated
+ * every time when initializing the widget.
+ *
+ * **NOTE:** It's not recommended to enable this option. Accepting any content inside the embed plugin may open
+ * your application to security vulnerabilities. If, for some reason, you need to enable it, make sure to properly
+ * configure [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) on your web page.
+ *
+ * @since 4.21.0
+ * @cfg {Boolean} [embed_keepOriginalContent=false]
+ * @member CKEDITOR.config
+ */
 CKEDITOR.config.embed_keepOriginalContent = false;
 
 /**

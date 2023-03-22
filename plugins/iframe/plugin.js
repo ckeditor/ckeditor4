@@ -101,4 +101,42 @@
 	} );
 } )();
 
+/**
+ * Indicates the default iframe attributes.
+ *
+ * Starting from v4.21, iframe elements are sandboxed to secure web pages without proper
+ * [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) configuration.
+ *
+ * **NOTE:** Disabling that option may open your application to security vulnerabilities.
+ * If, for some reason, you need to enable it, make sure to properly
+ * configure [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+ * on your web page or use function-based configuration to allow trusted iframe elements only.
+ *
+ * Function-based configuration example:
+ *
+ * ```javascript
+ * CKEDITOR.config.iframe_attributes = function( iframe ) {
+ *     var youtubeOrigin = 'https://www.youtube.com'
+ *
+ *     if ( youtubeOrigin.indexOf( iframe.attributes.src ) !== -1 ) {
+ *         return { sandbox: "allow-scripts allow-same-origin" }
+ *     }
+ *
+ *     return: { sandbox: "" };
+ * }
+ * ```
+ *
+ * Object-based configuration example:
+ *
+ * ```javascript
+ * CKEDITOR.config.iframe_attributes = {
+ *     sandbox: 'allow-scripts allow-same-origin',
+ *     allow: 'autoplay'
+ * }
+ * ```
+ *
+ * @since 4.21.0
+ * @cfg {Function/Object} [iframe_attributes = { sandbox: '' }]
+ * @member CKEDITOR.config
+ */
 CKEDITOR.config.iframe_attributes = { sandbox: '' };
