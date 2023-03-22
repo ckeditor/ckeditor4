@@ -5,7 +5,9 @@ CKEditor 4 Changelog
 
 **Security Updates:**
 
-A cross-site scripting vulnerability has been discovered affecting [Iframe Dialog](https://ckeditor.com/cke4/addon/iframe) and [Media Embed](https://ckeditor.com/cke4/addon/embed) plugins. See [GitHub advisory](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-vh5c-xwqv-cv9g) for more details.
+A cross-site scripting vulnerability has been discovered affecting [Iframe Dialog](https://ckeditor.com/cke4/addon/iframe) and [Media Embed](https://ckeditor.com/cke4/addon/embed) plugins.
+
+This vulnerability might affect a small percentage of integrators that depend on dynamic editor initialization/destroy mechanism. See [GitHub advisory](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-vh5c-xwqv-cv9g) for more details.
 
 **Potential breaking changes**
 
