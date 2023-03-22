@@ -1,7 +1,24 @@
 CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.21 [IN DEVELOPMENT]
+## CKEditor 4.21.0
+
+**Security Updates:**
+
+A cross-site scripting vulnerability has been discovered affecting [Iframe Dialog](https://ckeditor.com/cke4/addon/iframe) and [Media Embed](https://ckeditor.com/cke4/addon/embed) plugins. See [GitHub advisory](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-vh5c-xwqv-cv9g) for more details.
+
+**Potential breaking changes**
+
+In some rare cases, a security release may introduce a breaking change to your application. We have provided configuration options that will help you mitigate any potential issues with the upgrade:
+
+- Starting from version 4.21, the [Iframe Dialog](https://ckeditor.com/cke4/addon/iframe) plugin applies the `sandbox` attribute by default, which restricts JavaScript code execution in the iframe element. To change this behavior, configure the [`config.iframe_attributes`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-iframe_attributes) option.
+- Starting from version 4.21, the [Media Embed](https://ckeditor.com/cke4/addon/embed) plugin regenerates the entire content of the embed widget by default. To change this behavior, configure the [`config.embed_keepOriginalContent`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-embed_keepOriginalContent) option.
+
+If you choose to change either of the above options, make sure to properly configure [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) to avoid any potential security issues that may arise from embedding iframe elements on your web page.
+
+You can read more details in the relevant security advisory and [contact us](security@cksource.com) if you have more questions.
+
+**An upgrade is highly recommended!**
 
 New Features:
 
