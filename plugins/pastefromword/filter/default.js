@@ -270,7 +270,7 @@
 							Style.setStyle( element.parent, 'list-style-type', 'none' );
 						}
 
-						List.dissolveList( element, editor );
+						List.dissolveList( element );
 						return false;
 					},
 					'li': function( element ) {
@@ -296,7 +296,7 @@
 							Style.setStyle( element.parent, 'list-style-type', 'none' );
 						}
 
-						List.dissolveList( element, editor );
+						List.dissolveList( element );
 						return false;
 					},
 					'span': function( element ) {
@@ -858,6 +858,7 @@
 		 * @private
 		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} root An element to be looked through for lists.
+		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of created list items.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
@@ -895,9 +896,9 @@
 
 				var keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' );
 
-				// Preserve keeping list margins zero when pasteTools_keepZeroMargins is ON. #5316
+				// Preserve keeping list margins zero when pasteTools_keepZeroMargins is ON. #53163
 				if ( keepZeroMargins ) {
-					innermostContainer.attributes.style = firstLevel1Element.attributes[ 'cke-list-style-margins' ];
+					innermostContainer.attributes.style = getZeroMargins( firstLevel1Element.attributes.style );
 				}
 
 				for ( j = 0; j < list.length; j++ ) {
@@ -936,8 +937,6 @@
 							List.setListSymbol( innermostContainer, element.attributes[ 'cke-symbol' ], level );
 						}
 					}
-
-					delete element.attributes[ 'cke-list-style-margins' ];
 
 					// For future reference this is where the list elements are actually put into the lists.
 					element.remove();
@@ -1018,6 +1017,27 @@
 					}
 					return marginLeft ? total + parseInt( marginLeft, 10 ) : total;
 				}, 0 );
+			}
+
+			function getZeroMargins( styles ) {
+				var parsedStyles = CKEDITOR.tools.parseCssText( styles );
+				var keys = [ 'margin-top', 'margin-right', 'margin-bottom', 'margin-left' ],
+					zeroMargins = '';
+
+				CKEDITOR.tools.array.forEach( keys, function( key ) {
+					if ( !( key in parsedStyles ) ) {
+						return;
+					}
+
+					var value = CKEDITOR.tools.convertToPx( parsedStyles[ key ] );
+					if ( value === 0 ) {
+						zeroMargins += key + ': ' + value + '; ';
+					}
+				} );
+
+				if ( zeroMargins !== '' ) {
+					return zeroMargins;
+				}
 			}
 		},
 
@@ -1131,7 +1151,7 @@
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
-		dissolveList: function( element, editor ) {
+		dissolveList: function( element ) {
 			var nameIs = function( name ) {
 					return function( element ) {
 						return element.name == name;
@@ -1201,11 +1221,6 @@
 
 					child.attributes[ 'cke-symbol' ] = symbol;
 					child.attributes[ 'cke-list-level' ] = level;
-
-					var keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' );
-					if ( keepZeroMargins ) {
-						child.attributes[ 'cke-list-style-margins' ] = getZeroMargins( child.attributes.style );
-					}
 				} );
 			} );
 
@@ -1275,27 +1290,6 @@
 					} else {
 						return count( parent.parent, number );
 					}
-				}
-			}
-
-			function getZeroMargins( styles ) {
-				var parsedStyles = CKEDITOR.tools.parseCssText( styles );
-				var keys = [ 'margin-top', 'margin-right', 'margin-bottom', 'margin-left' ],
-					zeroMargins = '';
-
-				CKEDITOR.tools.array.forEach( keys, function( key ) {
-					if ( !( key in parsedStyles ) ) {
-						return;
-					}
-
-					var value = CKEDITOR.tools.convertToPx( parsedStyles[ key ] );
-					if ( value === 0 ) {
-						zeroMargins += key + ': ' + value + 'px; ';
-					}
-				} );
-
-				if ( zeroMargins !== '' ) {
-					return zeroMargins;
 				}
 			}
 		},
