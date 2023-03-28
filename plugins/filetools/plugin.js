@@ -588,6 +588,7 @@
 
 			xhr.onerror = onError;
 			xhr.onabort = onAbort;
+			xhr.withCredentials = true;
 
 			// https://dev.ckeditor.com/ticket/13533 - When xhr.upload is present attach onprogress, onerror and onabort functions to get actual upload
 			// information.
