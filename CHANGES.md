@@ -1,6 +1,10 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.8
+- [#11](https://github.com/interviewstreet/ckeditor-dev/pull/11)
+  - Pass cookies in file upload option of `image2` plugin to support auth
+
 ## CKEditor 4.11.4.7
 - [#11](https://github.com/interviewstreet/ckeditor-dev/pull/11)
   - Apply the passed `uiColor` as it is on the editor skin without filtering the color value.
