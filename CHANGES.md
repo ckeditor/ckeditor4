@@ -6,7 +6,7 @@
   - Pass cookies in file upload option of `image2` plugin to support auth
 
 
-  ## CKEditor 4.11.4.8
+## CKEditor 4.11.4.8
 - [#12](https://github.com/interviewstreet/ckeditor-dev/pull/12)
   - Editorplaceholder plugin added to ckeditor. Now the ckeditor client can set placeholder string for the editor.
 
