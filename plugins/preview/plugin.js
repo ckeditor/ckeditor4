@@ -61,7 +61,6 @@
 				// For IE we should use window.location rather than setting url in window.open (https://dev.ckeditor.com/ticket/11146).
 				previewLocation = getPreviewLocation(),
 				nativePreviewWindow,
-				previewUrl = '',
 				previewWindow,
 				doc;
 
@@ -78,7 +77,7 @@
 				window._cke_htmlToLoad = eventData.dataValue;
 			}
 
-			nativePreviewWindow = window.open( previewUrl, null, generateWindowOptions( windowDimensions ) );
+			nativePreviewWindow = window.open( '', null, generateWindowOptions( windowDimensions ) );
 			previewWindow = new CKEDITOR.dom.window( nativePreviewWindow );
 
 			// For IE we want to assign whole js stored in previewLocation, but in case of
@@ -135,13 +134,11 @@
 			'</body></html>';
 
 		function generateBaseTag() {
-			var template = '<base href="{HREF}">';
-
-			if ( config.baseHref ) {
-				return template.replace( '{HREF}', config.baseHref );
+			if ( !config.baseHref ) {
+				return '';
 			}
 
-			return '';
+			return '<base href="' + config.baseHref + '">';
 		}
 
 		function createBodyHtml() {
