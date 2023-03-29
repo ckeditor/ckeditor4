@@ -626,13 +626,12 @@
 				loader.uploaded = loader.uploadTotal;
 
 				if ( xhr.status < 200 || xhr.status > 299 ) {
-					if(xhr.status === 401) {
-						loader.message = 'Something is not right here. Please refresh the page and try again.';
-					} else {
-						loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
-					}
+					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
 					if ( !loader.message ) {
 						loader.message = loader.lang.filetools.httpError.replace( '%1', xhr.status );
+					}
+					if(xhr.status === 401) {
+						loader.message = 'Something is not right here. Please refresh the page and try again.';
 					}
 					loader.changeStatus( 'error' );
 				} else {

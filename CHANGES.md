@@ -1,6 +1,10 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.10
+- [#14](https://github.com/interviewstreet/ckeditor-dev/pull/14)
+  - Update error message for auth errors
+
 ## CKEditor 4.11.4.9
 - [#13](https://github.com/interviewstreet/ckeditor-dev/pull/13)
   - Pass cookies in file upload option of `image2` plugin to support auth
