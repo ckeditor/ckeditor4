@@ -630,6 +630,9 @@
 					if ( !loader.message ) {
 						loader.message = loader.lang.filetools.httpError.replace( '%1', xhr.status );
 					}
+					if(xhr.status === 401) {
+						loader.message = 'Something is not right here. Please refresh the page and try again.';
+					}
 					loader.changeStatus( 'error' );
 				} else {
 					var data = {
