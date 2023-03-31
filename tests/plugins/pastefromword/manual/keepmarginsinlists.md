@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: toolbar, wysiwygarea, pastefromword, sourcearea, list
 
 1. Copy and paste content from unordered list between and including `Paragraph before` and `Paragraph after` of the following file into both editors:
-[keep zero margins.docx](_assets/keep-zero-margins.docx)
+[list with margins.docx](_assets/list_with_margins.docx)
 2. Switch to source mode.
 
 ## Expected
@@ -17,5 +17,6 @@
 * The first editor does not have styles mentioned in **Expected**.
 
 * The second editor has elements with a margins value of `32px`.
+
 
 3. Repeat above steps for the ordered list.

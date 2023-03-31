@@ -18,4 +18,5 @@
 
 * The second editor has elements with margin value of `0`.
 
+
 3. Repeat above steps for the ordered list.
