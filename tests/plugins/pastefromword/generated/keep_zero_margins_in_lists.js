@@ -31,7 +31,7 @@
 		],
 		wordVersions: [ 'word2016' ],
 		tests: {
-			'Keep_zero_margin_in_lists': true
+			'Keep_zero_margins_in_lists': true
 		},
 
 		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile,
