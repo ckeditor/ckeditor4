@@ -893,13 +893,7 @@
 
 				// Insert first known list item before the list wrapper.
 				innermostContainer.insertBefore( list[ 0 ] );
-
-				var keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' );
-
-				// Preserve keeping list margins zero when pasteTools_keepZeroMargins is ON. #53163
-				if ( keepZeroMargins ) {
-					innermostContainer.attributes.style = getZeroMargins( firstLevel1Element.attributes.style );
-				}
+				innermostContainer.attributes.style = getMargins( firstLevel1Element.attributes.style, editor );
 
 				for ( j = 0; j < list.length; j++ ) {
 					element = list[ j ];
@@ -1019,10 +1013,11 @@
 				}, 0 );
 			}
 
-			function getZeroMargins( styles ) {
+			function getMargins( styles ) {
 				var parsedStyles = CKEDITOR.tools.parseCssText( styles );
 				var keys = [ 'margin-top', 'margin-right', 'margin-bottom', 'margin-left' ],
-					zeroMargins = '';
+					keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' ),
+					margins = '';
 
 				CKEDITOR.tools.array.forEach( keys, function( key ) {
 					if ( !( key in parsedStyles ) ) {
@@ -1030,13 +1025,20 @@
 					}
 
 					var value = CKEDITOR.tools.convertToPx( parsedStyles[ key ] );
-					if ( value === 0 ) {
-						zeroMargins += key + ': ' + value + '; ';
+
+					// Preserve keeping zero list margins when pasteTools_keepZeroMargins is ON. #53163
+					if ( value === 0 && keepZeroMargins ) {
+						margins += key + ': ' + value + '; ';
+					}
+
+					// Preserve keeping margins by default.
+					if ( value > 0 ) {
+						margins += key + ': ' + value + 'px; ';
 					}
 				} );
 
-				if ( zeroMargins !== '' ) {
-					return zeroMargins;
+				if ( margins !== '' ) {
+					return margins;
 				}
 			}
 		},
