@@ -14,6 +14,7 @@ CKEDITOR.plugins.add( 'listblock', {
 					' draggable="false"' +
 					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
 					' href="javascript:void(\'{val}\')" ' +
+					' lang="{language}"' +
 					' onclick="{onclick}CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // https://dev.ckeditor.com/ticket/188
 						' role="option">' +
 					'{text}' +
@@ -83,7 +84,7 @@ CKEDITOR.plugins.add( 'listblock', {
 			},
 
 			proto: {
-				add: function( value, html, title ) {
+				add: function( value, html, title, language ) {
 					var id = CKEDITOR.tools.getNextId();
 
 					if ( !this._.started ) {
@@ -103,6 +104,10 @@ CKEDITOR.plugins.add( 'listblock', {
 						title: CKEDITOR.tools.htmlEncodeAttr( title || value ),
 						text: html || value
 					};
+
+					if ( language ) {
+						data.language = language;
+					}
 
 					this._.pendingList.push( listItem.output( data ) );
 				},

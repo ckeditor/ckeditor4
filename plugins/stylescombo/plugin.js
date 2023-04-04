@@ -26,7 +26,7 @@
 				if ( !stylesDefinitions )
 					return;
 
-				var style, styleName, styleType;
+				var style, styleName, styleType, styleLanguage;
 
 				// Put all styles into an Array.
 				for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
@@ -39,6 +39,8 @@
 					}
 
 					styleName = styleDefinition.name;
+					// In case when the style definition language is not defined, add the editor lang code (#5410).
+					styleLanguage = styleDefinition.language || editor.langCode;
 					style = new CKEDITOR.style( styleDefinition );
 
 					if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
@@ -49,7 +51,7 @@
 
 						// Weight is used to sort styles (https://dev.ckeditor.com/ticket/9029).
 						style._.weight = i + ( styleType == CKEDITOR.STYLE_OBJECT ? 1 : styleType == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
-
+						style._.language = styleLanguage;
 						styles[ styleName ] = style;
 						stylesList.push( style );
 						allowedContent.push( style );
@@ -89,7 +91,7 @@
 				},
 
 				init: function() {
-					var style, styleName, lastType, type, i, count;
+					var style, styleName, lastType, type, language, i, count;
 
 					// Loop over the Array, adding all items to the
 					// combo.
@@ -97,13 +99,19 @@
 						style = stylesList[ i ];
 						styleName = style._name;
 						type = style._.type;
+						language = style._.language;
 
 						if ( type != lastType ) {
 							this.startGroup( lang[ 'panelTitle' + String( type ) ] );
 							lastType = type;
 						}
 
-						this.add( styleName, style.type == CKEDITOR.STYLE_OBJECT ? styleName : style.buildPreview(), styleName );
+						this.add(
+							styleName,
+							style.type == CKEDITOR.STYLE_OBJECT ? styleName : style.buildPreview(),
+							styleName,
+							language
+						);
 					}
 
 					this.commit();
