@@ -5,6 +5,7 @@
 
 /**
 * @fileOverview
+* Swedish lang
 */
 
 /**#@+
