@@ -33,8 +33,8 @@
 					this.lists.setListSymbol( elements[ i ], '·', i + 1 );
 				}
 
-				assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
-				assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
+				assert.areSame( '<ul></ul>', elements[ 0 ].getOuterHtml() );
+				assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[ 1 ].getOuterHtml() );
 			},
 			'test set symbol ul 2': function() {
 				var elements = [
@@ -49,8 +49,8 @@
 				this.lists.setListSymbol( elements[ 0 ], 'o', 1 );
 				this.lists.setListSymbol( elements[ 1 ], 'o', 2 );
 
-				assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
-				assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
+				assert.areSame( '<ul></ul>', elements[ 0 ].getOuterHtml() );
+				assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[ 1 ].getOuterHtml() );
 			},
 			'test remove list symbol 1': function() {
 				var html = '<cke:li cke-list-level="1" cke-symbol="1.">1.       This</cke:li>',
@@ -135,7 +135,7 @@
 				assert.beautified.html( '<p><span style="color:red">The list below does not copy + paste correctly:</span></p>' +
 					'<p style="margin-left:24px"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
 					'<p style="margin-left:24px"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
-					'<ul style="list-style-type:circle">' +
+					'<ul style="margin-left:8px; list-style-type:circle">' +
 					'<li style="margin-left:8px"><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:8.0pt"></span>' +
 					'<span lang="EN-GB" style="font-size:8.0pt">This line is size 8, TNR</span></span></li>' +
 					'<li ><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:10.0pt">' +
