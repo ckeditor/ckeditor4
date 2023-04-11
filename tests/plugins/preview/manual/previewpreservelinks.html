@@ -1,0 +1,35 @@
+<div id="editor"></div>
+
+<button id="setContent">Set Content</button>
+
+<script>
+	if ( !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		lang: 'en',
+		on: {
+			instanceReady: function( evt ) {
+			var setContent = document.getElementById( 'setContent' ),
+				link = '<p><a id="testId" href="http://cksource.com" name="testName">http://cksource.com</a></p>',
+				editor = evt.editor;
+
+			setContent.addEventListener( 'click', function() {
+				editor.setData( link + '<p>&nbsp;</p>'.repeat( 150 ) );
+
+				setTimeout( function() {
+					editor.focus();
+
+					var range = editor.createRange();
+					range.moveToElementEditEnd( editor.editable() );
+					range.select();
+					editor.getSelection().scrollIntoView();
+				}, 50 );
+			} );
+			}
+		}
+	} );
+
+</script>
+

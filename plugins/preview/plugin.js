@@ -60,7 +60,6 @@
 				windowDimensions = getWindowDimensions(),
 				// For IE we should use window.location rather than setting url in window.open (https://dev.ckeditor.com/ticket/11146).
 				previewLocation = getPreviewLocation(),
-				previewUrl = getPreviewUrl(),
 				nativePreviewWindow,
 				previewWindow,
 				doc;
@@ -74,11 +73,11 @@
 			// In cases where we force reloading the location or setting concrete URL to open,
 			// we need a way to pass content to the opened window. We do it by hack with
 			// passing it through window's parent property.
-			if ( previewLocation || previewUrl ) {
+			if ( previewLocation ) {
 				window._cke_htmlToLoad = eventData.dataValue;
 			}
 
-			nativePreviewWindow = window.open( previewUrl, null, generateWindowOptions( windowDimensions ) );
+			nativePreviewWindow = window.open( '', null, generateWindowOptions( windowDimensions ) );
 			previewWindow = new CKEDITOR.dom.window( nativePreviewWindow );
 
 			// For IE we want to assign whole js stored in previewLocation, but in case of
@@ -135,25 +134,11 @@
 			'</body></html>';
 
 		function generateBaseTag() {
-			var template = '<base href="{HREF}">',
-				origin = location.origin,
-				pathname = location.pathname;
-
-			if ( !config.baseHref && !CKEDITOR.env.gecko ) {
+			if ( !config.baseHref ) {
 				return '';
 			}
 
-			if ( config.baseHref ) {
-				return template.replace( '{HREF}', config.baseHref );
-			}
-
-			// As we use HTML file in Gecko, we must fix the incorrect base for
-			// relative paths.
-			pathname = pathname.split( '/' );
-			pathname.pop();
-			pathname = pathname.join( '/' );
-
-			return template.replace( '{HREF}', origin + pathname + '/' );
+			return '<base href="' + config.baseHref + '">';
 		}
 
 		function createBodyHtml() {
@@ -212,8 +197,7 @@
 	}
 
 	function getPreviewLocation() {
-		// #(4444)
-		if ( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
+		if ( !CKEDITOR.env.ie ) {
 			return null;
 		}
 
@@ -226,18 +210,6 @@
 			'document.close();' +
 			'window.opener._cke_htmlToLoad = null;' +
 		'})() )';
-	}
-
-	function getPreviewUrl() {
-		var pluginPath = CKEDITOR.plugins.getPath( 'preview' );
-
-		if ( !CKEDITOR.env.gecko ) {
-			return '';
-		}
-
-		// With Firefox only, we need to open a special preview page, so
-		// anchors will work properly on it (https://dev.ckeditor.com/ticket/9047).
-		return CKEDITOR.getUrl( pluginPath + 'preview.html' );
 	}
 } )();
 

@@ -1,6 +1,12 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.21.1
+
+Other Changes:
+
+* [#5412](https://github.com/ckeditor/ckeditor4/issues/5412): Prevent using `document.domain` in Firefox in the [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
+
 ## CKEditor 4.21.0
 
 **Security Updates:**
