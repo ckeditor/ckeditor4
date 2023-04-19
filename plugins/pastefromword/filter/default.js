@@ -1015,7 +1015,7 @@
 
 			function getMargins( styles ) {
 				var parsedStyles = CKEDITOR.tools.parseCssText( styles );
-				var keys = [ 'margin-top', 'margin-right', 'margin-bottom', 'margin-left' ],
+				var keys = [ 'margin-top', 'margin-bottom' ],
 					keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' ),
 					margins = '';
 
