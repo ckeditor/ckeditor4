@@ -4,8 +4,9 @@
  */
 
 /**
-* @fileOverview
-*/
+ * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
+ * Swedish language.
+ */
 
 /**#@+
    @type String
