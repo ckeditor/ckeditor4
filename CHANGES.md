@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.21.1
 
+New Features:
+
+* [#5316](https://github.com/ckeditor/ckeditor4/issues/5316): Add vertical margins support for list elements in the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+
 Other Changes:
 
 * [#5412](https://github.com/ckeditor/ckeditor4/issues/5412): Prevent using `document.domain` in Firefox in the [Preview](https://ckeditor.com/cke4/addon/preview) plugin.

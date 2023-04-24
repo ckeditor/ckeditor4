@@ -1,0 +1,26 @@
+<p>Empty margins allowed:</p>
+<textarea id="editor1"></textarea>
+<p>No empty margins allowed:</p>
+<textarea id="editor2"></textarea>
+
+<script>
+	if ( bender.tools.env.mobile || CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	var allowedContent =
+		'p{text-indent,margin,margin-top,margin-bottom};' +
+		'ul{margin,margin-top,margin-bottom};' +
+		'ol{margin,margin-top,margin-bottom}'
+
+	CKEDITOR.replace( 'editor1', {
+		height: 250,
+		extraAllowedContent: allowedContent,
+		pasteTools_keepZeroMargins: true
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		height: 300,
+		extraAllowedContent: allowedContent
+	} );
+</script>

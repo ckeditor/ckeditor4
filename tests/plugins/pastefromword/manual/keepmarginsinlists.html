@@ -1,0 +1,24 @@
+<p>Margins allowed:</p>
+<textarea id="editor1"></textarea>
+<p>Margins disallowed:</p>
+<textarea id="editor2"></textarea>
+
+<script>
+	if ( bender.tools.env.mobile || CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	var allowedContent =
+		'p{text-indent,margin,margin-top,margin-bottom};' +
+		'ul{margin,margin-top,margin-bottom};' +
+		'ol{margin,margin-top,margin-bottom}'
+
+	CKEDITOR.replace( 'editor1', {
+		height: 250,
+		extraAllowedContent: allowedContent,
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		height: 300
+	} );
+</script>

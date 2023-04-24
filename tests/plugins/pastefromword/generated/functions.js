@@ -33,8 +33,8 @@
 					this.lists.setListSymbol( elements[ i ], '·', i + 1 );
 				}
 
-				assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
-				assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
+				assert.areSame( '<ul></ul>', elements[ 0 ].getOuterHtml() );
+				assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[ 1 ].getOuterHtml() );
 			},
 			'test set symbol ul 2': function() {
 				var elements = [
@@ -49,8 +49,8 @@
 				this.lists.setListSymbol( elements[ 0 ], 'o', 1 );
 				this.lists.setListSymbol( elements[ 1 ], 'o', 2 );
 
-				assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
-				assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
+				assert.areSame( '<ul></ul>', elements[ 0 ].getOuterHtml() );
+				assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[ 1 ].getOuterHtml() );
 			},
 			'test remove list symbol 1': function() {
 				var html = '<cke:li cke-list-level="1" cke-symbol="1.">1.       This</cke:li>',

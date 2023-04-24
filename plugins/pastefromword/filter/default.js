@@ -72,7 +72,7 @@
 				root: function( element ) {
 					element.filterChildren( filter );
 
-					CKEDITOR.plugins.pastefromword.lists.cleanup( List.createLists( element ) );
+					CKEDITOR.plugins.pastefromword.lists.cleanup( List.createLists( element, editor ) );
 				},
 				elementNames: [
 					[ ( /^\?xml:namespace$/ ), '' ],
@@ -185,7 +185,7 @@
 								!container.attributes[ 'cke-list-level' ] &&
 								style[ 'mso-list' ] &&
 								style[ 'mso-list' ].match( /level/ ) ) {
-								container.attributes[ 'cke-list-level' ] = style[ 'mso-list' ].match( /level(\d+)/ )[1];
+								container.attributes[ 'cke-list-level' ] = style[ 'mso-list' ].match( /level(\d+)/ )[ 1 ];
 							}
 
 							// Adapt paragraph formatting to editor's convention according to enter-mode (#423).
@@ -858,10 +858,11 @@
 		 * @private
 		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} root An element to be looked through for lists.
+		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of created list items.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
-		createLists: function( root ) {
+		createLists: function( root, editor ) {
 			var element, level, i, j,
 				listElements = List.convertToRealListItems( root );
 
@@ -888,10 +889,13 @@
 				var	containerStack = [ List.createList( firstLevel1Element ) ],
 					// List wrapper (ol/ul).
 					innermostContainer = containerStack[ 0 ],
-					allContainers = [ containerStack[ 0 ] ];
+					allContainers = [ containerStack[ 0 ] ],
+					marginTop = getMargin( list[ 0 ], 'top' ),
+					marginBottom = getMargin( list[ list.length - 1 ], 'bottom' );
 
 				// Insert first known list item before the list wrapper.
 				innermostContainer.insertBefore( list[ 0 ] );
+				innermostContainer.attributes.style = marginTop + marginBottom;
 
 				for ( j = 0; j < list.length; j++ ) {
 					element = list[ j ];
@@ -941,7 +945,7 @@
 					level1Symbol = containerStack[ 0 ].children[ 0 ].attributes[ 'cke-symbol' ];
 
 					if ( !level1Symbol && containerStack[ 0 ].children.length > 1 ) {
-						level1Symbol = containerStack[0].children[1].attributes[ 'cke-symbol' ];
+						level1Symbol = containerStack[ 0 ].children[ 1 ].attributes[ 'cke-symbol' ];
 					}
 
 					if ( level1Symbol ) {
@@ -1009,6 +1013,30 @@
 					}
 					return marginLeft ? total + parseInt( marginLeft, 10 ) : total;
 				}, 0 );
+			}
+
+			function getMargin( element, margin ) {
+				var parsedStyles = CKEDITOR.tools.parseCssText( element.attributes.style ),
+					keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' ),
+					searchedMargin = 'margin-' + margin;
+
+				if ( !( searchedMargin in parsedStyles ) ) {
+					return '';
+				}
+
+				var value = CKEDITOR.tools.convertToPx( parsedStyles[ searchedMargin ] );
+
+				// Preserve keeping zero list margins when pasteTools_keepZeroMargins is ON (#5316).
+				if ( value === 0 && keepZeroMargins ) {
+					return searchedMargin + ': ' + value + '; ';
+				}
+
+				// Preserve keeping margins by default.
+				if ( value > 0 ) {
+					return searchedMargin + ': ' + value + 'px; ';
+				}
+
+				return '';
 			}
 		},
 
@@ -1263,7 +1291,6 @@
 					}
 				}
 			}
-
 		},
 
 		groupLists: function( listElements ) {
@@ -1608,7 +1635,7 @@
 					if ( !css ) {
 						return false;
 					}
-					var fontSize = css.font || css['font-size'] || '',
+					var fontSize = css.font || css[ 'font-size' ] || '',
 						fontFamily = css[ 'font-family' ] || '';
 
 					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
