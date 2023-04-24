@@ -1028,7 +1028,7 @@
 
 				// Preserve keeping zero list margins when pasteTools_keepZeroMargins is ON (#5316).
 				if ( value === 0 && keepZeroMargins ) {
-					return searchedMargin + ': ' + value + ' ';
+					return searchedMargin + ': ' + value + '; ';
 				}
 
 				// Preserve keeping margins by default.
