@@ -889,11 +889,13 @@
 				var	containerStack = [ List.createList( firstLevel1Element ) ],
 					// List wrapper (ol/ul).
 					innermostContainer = containerStack[ 0 ],
-					allContainers = [ containerStack[ 0 ] ];
+					allContainers = [ containerStack[ 0 ] ],
+					marginTop = getMargin( list[ 0 ], 'top' ),
+					marginBottom = getMargin( list[ list.length - 1 ], 'bottom' );
 
 				// Insert first known list item before the list wrapper.
 				innermostContainer.insertBefore( list[ 0 ] );
-				innermostContainer.attributes.style = getMargins( firstLevel1Element.attributes.style, editor );
+				innermostContainer.attributes.style = marginTop + marginBottom;
 
 				for ( j = 0; j < list.length; j++ ) {
 					element = list[ j ];
@@ -1013,33 +1015,28 @@
 				}, 0 );
 			}
 
-			function getMargins( styles ) {
-				var parsedStyles = CKEDITOR.tools.parseCssText( styles );
-				var keys = [ 'margin-top', 'margin-bottom' ],
+			function getMargin( element, margin ) {
+				var parsedStyles = CKEDITOR.tools.parseCssText( element.attributes.style ),
 					keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' ),
-					margins = '';
+					searchedMargin = 'margin-' + margin;
 
-				CKEDITOR.tools.array.forEach( keys, function( key ) {
-					if ( !( key in parsedStyles ) ) {
-						return;
-					}
-
-					var value = CKEDITOR.tools.convertToPx( parsedStyles[ key ] );
-
-					// Preserve keeping zero list margins when pasteTools_keepZeroMargins is ON. #53163
-					if ( value === 0 && keepZeroMargins ) {
-						margins += key + ': ' + value + '; ';
-					}
-
-					// Preserve keeping margins by default.
-					if ( value > 0 ) {
-						margins += key + ': ' + value + 'px; ';
-					}
-				} );
-
-				if ( margins !== '' ) {
-					return margins;
+				if ( !( searchedMargin in parsedStyles ) ) {
+					return '';
 				}
+
+				var value = CKEDITOR.tools.convertToPx( parsedStyles[ searchedMargin ] );
+
+				// Preserve keeping zero list margins when pasteTools_keepZeroMargins is ON (#5316).
+				if ( value === 0 && keepZeroMargins ) {
+					return searchedMargin + ': ' + value + ' ';
+				}
+
+				// Preserve keeping margins by default.
+				if ( value > 0 ) {
+					return searchedMargin + ': ' + value + 'px; ';
+				}
+
+				return '';
 			}
 		},
 
