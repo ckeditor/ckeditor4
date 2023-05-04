@@ -215,7 +215,7 @@
  * @member CKEDITOR.config
  */
 CKEDITOR.config.font_names = 'Arial/Arial, Helvetica, sans-serif;' +
-	'Comic Sans MS/Comic Sans MS, cursive;' +
+	'Comic Sans MS/Comic Sans MS, ChalkboardSE-Regular, cursive;' +
 	'Courier New/Courier New, Courier, monospace;' +
 	'Georgia/Georgia, serif;' +
 	'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
