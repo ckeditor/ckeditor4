@@ -57,6 +57,7 @@
 
 			editor = new CKEDITOR.replace( 'editor_mathjax', {
 				mathJaxLib: mathJaxLibV3,
+				mathJaxVer: 'v3',
 				extraAllowedContent: 'p{font-size}',
 				extraPlugins: 'font',
 				on: {
