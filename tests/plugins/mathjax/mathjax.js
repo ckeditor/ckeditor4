@@ -7,6 +7,7 @@
 	CKEDITOR.disableAutoInline = true;
 
 	var mathJaxLib = bender.config.mathJaxLibPath;
+	var mathJaxLibV3 = bender.config.mathJaxLibPathV3;
 
 	if ( !mathJaxLib ) {
 		throw new Error( 'bender.config.mathJaxLibPath should be defined with the path to MathJax lib (MathJax.js?config=TeX-AMS_HTML).' );
@@ -49,8 +50,28 @@
 
 			wait();
 		},
+		'async:init:v3': function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'mathjax' );
 
-		'async:init': function() {
+			var tc = this;
+
+			editor = new CKEDITOR.replace( 'editor_mathjax', {
+				mathJaxLib: mathJaxLibV3,
+				extraAllowedContent: 'p{font-size}',
+				extraPlugins: 'font',
+				on: {
+					instanceReady: function() {
+						editor.setData( '<p>A<span class="math-tex">\\(1 + 1 = 2\\)</span>B</p>' );
+					}
+				}
+			} );
+
+			CKEDITOR.once( 'mathJaxUpdateDone', function() {
+				// Deffer executing test callback since calling it synchronously fails in Chrome (starting from 85 version) (#4232).
+				setTimeout( tc.callback, 0 );
+			} );
+		},
+		'async:init:v2': function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'mathjax' );
 
 			var tc = this;

@@ -159,7 +159,8 @@ var config = {
 		end_with_newline: true,
 		extra_liners: 'head, body, div, p, /html'
 	},
-	mathJaxLibPath: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML'
+	mathJaxLibPath: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
+	mathJaxLibPathV3: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
 };
 
 module.exports = config;
