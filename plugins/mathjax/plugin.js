@@ -289,8 +289,7 @@
 				// when you undo (https://dev.ckeditor.com/ticket/10930). If you have iFrame with javascript in src
 				// and call insertBefore on such element then IE9 will see crash.
 				if (CKEDITOR.env.ie) iFrame.removeAttribute('src')
-
-				var script = editor.config.mathJaxVer === 'v3' ? v3Script() : v2Script()
+				
 				doc.write(
 					`<!doctype html>
                           <html lang="${editor.lang}">
