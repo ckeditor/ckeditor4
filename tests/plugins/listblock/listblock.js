@@ -75,6 +75,28 @@
 			} );
 		},
 
+		// (#5437)
+		'test list block correctly marks selected element upon reopening': function() {
+			var bot = this.editorBot;
+
+			bot.combo( 'Styles', function( combo ) {
+				var block = combo._.panel.getBlock( combo.id ).element,
+					selectedItem = block.findOne( 'a[title="Big"]' );
+
+				selectedItem.$.click();
+				combo._.panel.hide();
+
+				bot.combo( 'Styles', function( combo ) {
+					combo._.panel.hide();
+
+					assert.areEqual( 'true', selectedItem.getAttribute( 'aria-selected' ),
+						'The aria-selected attribute of the selected item has the correct value' );
+					assert.isTrue( selectedItem.getParent().hasClass( 'cke_selected' ),
+						'The selected item has appropriate class applied' );
+				} );
+			} );
+		},
+
 		// Expects both object to have following structure:
 		// { value: 'foo', html: 'bar', title: 'baz' }
 		//
