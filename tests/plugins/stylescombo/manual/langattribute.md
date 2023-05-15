@@ -13,6 +13,6 @@
 
 **Unexpected**
 
-* Both panel items do not contain the lang attribute.
+* Both panel items have `Not defined` lang attribute.
 * Only the first element contains the lang attribute.
 * The applied lang attribute is invalid.

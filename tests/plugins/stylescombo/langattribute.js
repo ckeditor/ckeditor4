@@ -26,8 +26,8 @@ bender.test( {
 			config: {
 				stylesSet: [
 					{ name: 'testName1', element: 'strong', language: 'pl' },
-					{ name: 'testName1', element: 'strong', language: 'en' },
-					{ name: 'testName1', element: 'strong', language: 'de' }
+					{ name: 'testName2', element: 'strong', language: 'en' },
+					{ name: 'testName3', element: 'strong', language: 'de' }
 				]
 			}
 		}, function( bot ) {
@@ -44,11 +44,11 @@ bender.test( {
 		} );
 	},
 
-	'test adds the default editor lang code to the Styles combo box item if it is not defined': function() {
+	'test adds the editor language to the Styles combo box item if it is not defined': function() {
 		bender.editorBot.create( {
 			name: 'cb_2',
 			config: {
-				lang: 'en',
+				language: 'fi',
 				stylesSet: [
 					{ name: 'testName1', element: 'strong' }
 				]
@@ -61,7 +61,28 @@ bender.test( {
 
 			var lang = getLangAttributeFromPanelElements( stylesCombo._.list );
 
-			assert.areSame( editor.config.lang, lang[ 0 ] );
+			assert.areSame( editor.config.language, lang[ 0 ] );
+		} );
+	},
+
+	'test adds the default editor language to the Styles combo box item if it is not defined': function() {
+		bender.editorBot.create( {
+			name: 'cb_3',
+			config: {
+				defaultLanguage: 'it',
+				stylesSet: [
+					{ name: 'testName1', element: 'strong' }
+				]
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				stylesCombo = editor.ui.get( 'Styles' );
+
+			stylesCombo.createPanel( editor );
+
+			var lang = getLangAttributeFromPanelElements( stylesCombo._.list );
+
+			assert.areSame( editor.config.defaultLanguage, lang[ 0 ] );
 		} );
 	}
 } );
