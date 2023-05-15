@@ -84,8 +84,11 @@ CKEDITOR.plugins.add( 'listblock', {
 			},
 
 			proto: {
-				add: function( value, html, title, language ) {
-					var id = CKEDITOR.tools.getNextId();
+				add: function( value, html, title, language, editor ) {
+					var id = CKEDITOR.tools.getNextId(),
+						editorLanguage = editor.config.language ||
+							editor.config.defaultLanguage ||
+							editor.langCode;
 
 					if ( !this._.started ) {
 						this._.started = 1;
@@ -102,12 +105,9 @@ CKEDITOR.plugins.add( 'listblock', {
 							'return false;" onmouseup="CKEDITOR.tools.getMouseButton(event)===CKEDITOR.MOUSE_BUTTON_LEFT&&' : '',
 						clickFn: this._.getClick(),
 						title: CKEDITOR.tools.htmlEncodeAttr( title || value ),
-						text: html || value
+						text: html || value,
+						language: language || editorLanguage
 					};
-
-					if ( language ) {
-						data.language = language;
-					}
 
 					this._.pendingList.push( listItem.output( data ) );
 				},

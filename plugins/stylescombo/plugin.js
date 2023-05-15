@@ -99,7 +99,7 @@
 						style = stylesList[ i ];
 						styleName = style._name;
 						type = style._.type;
-						language = style._.language;
+						language = style._.definition.language;
 
 						if ( type != lastType ) {
 							this.startGroup( lang[ 'panelTitle' + String( type ) ] );

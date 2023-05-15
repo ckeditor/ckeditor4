@@ -368,8 +368,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * @param {String} language
 			 */
 			add: function( value, html, text, language ) {
+				var editor = this._.panel._.editor;
 				this._.items[ value ] = text || value;
-				this._.list.add( value, html, text, language );
+				this._.list.add( value, html, text, language, editor );
 			},
 
 			startGroup: function( title ) {
