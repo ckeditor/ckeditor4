@@ -1691,7 +1691,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		resizable: CKEDITOR.DIALOG_RESIZE_BOTH,
 		minWidth: 600,
 		minHeight: 400,
-		buttons: [ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ]
+		buttons: [ CKEDITOR.dialog.cancelButton, CKEDITOR.dialog.okButton ]
 	};
 
 	// Tool function used to return an item from an array based on its id
