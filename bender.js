@@ -160,7 +160,7 @@ var config = {
 		extra_liners: 'head, body, div, p, /html'
 	},
 	mathJaxLibPath: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
-	mathJaxLibPathV3: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+	mathJaxLibPathV3: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
 };
 
 module.exports = config;
