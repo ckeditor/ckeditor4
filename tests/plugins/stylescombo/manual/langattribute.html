@@ -1,0 +1,40 @@
+<div>
+	<div id="editor"></div>
+
+	<div>
+		<strong id="editorLang"></strong>
+		<div>Panel list lang attributes:</div>
+		<div id="result"></div>
+	</div>
+</div>
+
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		language: 'en',
+		stylesSet: [
+			{ name: 'testName1', element: 'strong', language: 'pl' },
+			{ name: 'testName2', element: 'span' }
+		],
+		on: {
+			instanceReady: function( evt ) {
+				var editorLangElement = CKEDITOR.document.getById( 'editorLang' );
+				editorLangElement.appendHtml( 'Editor language: ' + evt.editor.langCode );
+			},
+			panelShow: function( evt ) {
+				var panelItems = evt.data._.panel
+					.getHolderElement()
+					.find( 'a' )
+					.toArray(),
+				resultElement = CKEDITOR.document.getById( 'result' );
+				resultElement.setHtml( '' );
+
+				CKEDITOR.tools.array.forEach( panelItems, function( element, index ) {
+					var lang = element.getAttribute( 'lang' ) || 'Not defined';
+
+					resultElement.appendHtml( 'Item ' + ( index + 1 ) + ': <strong>' + lang + '</strong></br></br>' );
+				} );
+			}
+		}
+	} );
+</script>

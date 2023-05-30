@@ -365,10 +365,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * @param {String} value
 			 * @param {String} html
 			 * @param {String} text
+			 * @param {String} language
 			 */
-			add: function( value, html, text ) {
+			add: function( value, html, text, language ) {
 				this._.items[ value ] = text || value;
-				this._.list.add( value, html, text );
+				this._.list.add( value, html, text, language );
 			},
 
 			startGroup: function( title ) {
