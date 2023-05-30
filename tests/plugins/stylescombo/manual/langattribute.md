@@ -8,11 +8,10 @@
 
 **Expected**
 
-* Item 0 should have the lang attribute set to `pl`.
-* Item 1 should have the `lang` attribute set to the editor language value.
+* Item 1 should have the lang attribute set to `pl`.
+* Item 2 should have the `lang` attribute set to `Not defined`.
 
 **Unexpected**
 
 * Both panel items have `Not defined` lang attribute.
-* Only the first element contains the lang attribute.
 * The applied lang attribute is invalid.
