@@ -1396,9 +1396,6 @@ legend.cke_voice_label {
 	background: url(icons_hidpi.png) no-repeat 0 -1080px !important;
 	background-size: 16px !important;
 }
-.cke_hidpi .cke_button__oembed_icon {
-	background: url(icons_hidpi.png) no-repeat 0 -1104px !important;
-}
 .cke_chrome,
 .cke_top,
 .cke_toolgroup,
