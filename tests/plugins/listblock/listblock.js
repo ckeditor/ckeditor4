@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: toolbar, stylescombo */
+/* bender-ckeditor-plugins: toolbar, stylescombo, font */
 
 ( function() {
 	'use strict';
@@ -79,14 +79,14 @@
 		'test list block correctly marks selected element upon reopening': function() {
 			var bot = this.editorBot;
 
-			bot.combo( 'Styles', function( combo ) {
+			bot.combo( 'Font', function( combo ) {
 				var block = combo._.panel.getBlock( combo.id ).element,
-					selectedItem = block.findOne( 'a[title="Big"]' );
+					selectedItem = block.findOne( 'a[title="Comic Sans MS"]' );
 
 				selectedItem.$.click();
 				combo._.panel.hide();
 
-				bot.combo( 'Styles', function( combo ) {
+				bot.combo( 'Font', function( combo ) {
 					combo._.panel.hide();
 
 					assert.areEqual( 'true', selectedItem.getAttribute( 'aria-selected' ),
