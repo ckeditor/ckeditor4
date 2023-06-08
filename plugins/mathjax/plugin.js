@@ -309,7 +309,7 @@
 
 				doc.write(
 					`<!doctype html>
-                          <html lang="${editor.lang}">
+						'<html lang="' + editor.langCode + '">' +
                           <head>
                             <meta charset="utf-8">
                             <script>
