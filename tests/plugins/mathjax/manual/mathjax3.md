@@ -1,6 +1,6 @@
 @bender-tags: 1441, feature, 4.21.1, mathjax
 @bender-ui: collapsed
-@bender-ckeditor-plugins: widget, dialog, mathjax
+@bender-ckeditor-plugins: mathjax, wysiwygarea
 
 Open Editor
 
