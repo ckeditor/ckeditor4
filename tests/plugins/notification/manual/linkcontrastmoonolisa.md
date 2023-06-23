@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.21.1, 5495
+@bender-tags: bug, 4.22.0, 5495
 @bender-ckeditor-plugins: wysiwygarea, toolbar, notification
 
 1. Open notifications using the buttons under the editor.
