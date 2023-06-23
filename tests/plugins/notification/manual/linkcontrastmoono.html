@@ -1,0 +1,33 @@
+<div id="editor">
+	<p>Hi!</p>
+</div>
+
+<p>
+	<button id="info">Show info</button>
+	<button id="success">Show success</button>
+	<button id="warning">Show warning</button>
+</p>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		skin: 'moono',
+		on: {
+			instanceReady: function( evt ) {
+				var editor = evt.editor,
+					message = '<a href="https://ckeditor.com">link</a> text';
+
+				CKEDITOR.document.getById( 'info' ).on( 'click', function() {
+					editor.showNotification( message, 'info', 0 );
+				} );
+
+				CKEDITOR.document.getById( 'success' ).on( 'click', function() {
+					editor.showNotification( message, 'success', 0 );
+				} );
+
+				CKEDITOR.document.getById( 'warning' ).on( 'click', function() {
+					editor.showNotification( message, 'warning', 0 );
+				} );
+			}
+		}
+	} );
+</script>
