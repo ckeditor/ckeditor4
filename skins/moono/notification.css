@@ -68,7 +68,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 .cke_notification_message a
 {
-	color: #12306F;
+	color: inherit;
 }
 
 @-webkit-keyframes fadeIn
