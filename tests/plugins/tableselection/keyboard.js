@@ -48,7 +48,7 @@
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
 
-				bender.assert.beautified.html( expected, editor.editable().getHtml() );
+				bender.assert.beautified.html( expected, fixBogusBrs( editor.editable().getHtml() ) );
 			} );
 		},
 
@@ -210,3 +210,8 @@
 
 	bender.test( tests );
 } )();
+
+// Super dirty hack to fix #5497.
+function fixBogusBrs( html ) {
+	return html.replace( /<br type="_moz"/g, '<br' );
+}

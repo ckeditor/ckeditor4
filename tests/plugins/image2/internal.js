@@ -132,7 +132,7 @@
 						'<span class="cke_image_resizer( cke_image_resizer_left)?"></span>' +
 					'</span>' +
 					'<figcaption data-cke-display-name="caption" data-cke-filter="\\d+">[^<]+</figcaption>' +
-					'(<br />)?' +
+					'(<br(?: type="_moz")? />)?' +
 				'</figure>' ),
 			captionedCentered: new RegExp(
 				'<figure class="image"( data-cke-widget-upcasted="1")?( style="display:inline-block;")?>' +
@@ -141,7 +141,7 @@
 						'<span class="cke_image_resizer( cke_image_resizer_left)?"></span>' +
 					'</span>' +
 					'<figcaption data-cke-display-name="caption" data-cke-filter="\\d+">[^<]+</figcaption>' +
-					'(<br />)?' +
+					'(<br(?: type="_moz")? />)?' +
 				'</figure>' )
 		};
 
@@ -395,7 +395,7 @@
 							'<span class="cke_image_resizer"></span>' +
 						'</span>' +
 						'<figcaption data-cke-display-name="caption" data-cke-filter="\\d+">caption</figcaption>' +
-						'(<br />)?' +
+						'(<br(?: type="_moz")? />)?' +
 					'</figure>' )
 			} );
 		},
@@ -412,7 +412,7 @@
 							'<span class="cke_image_resizer"></span>' +
 						'</span>' +
 						'<figcaption data-cke-display-name="caption" data-cke-filter="\\d+">caption</figcaption>' +
-						'(<br />)?' +
+						'(<br(?: type="_moz")? />)?' +
 					'</figure>' +
 					'<p>xx</p>' )
 			} );
@@ -424,14 +424,14 @@
 				html: '<p>x' + htmls.image + 'x</p>',
 				data: { hasCaption: true },
 				dom: new RegExp(
-					'<p>x(<br />)?</p>' +
+					'<p>x(<br(?: type="_moz")? />)?</p>' +
 					'<figure class="image">' +
 						'<span class="cke_image_resizer_wrapper">' +
 							'<img alt="" data-cke-saved-src="_assets/foo.png" data-cke-widget-upcasted="1" id="x" src="_assets/foo.png" />' +
 							'<span class="cke_image_resizer"></span>' +
 						'</span>' +
 						'<figcaption data-cke-display-name="caption" data-cke-filter="\\d+">caption</figcaption>' +
-						'(<br />)?' +
+						'(<br(?: type="_moz")? />)?' +
 					'</figure>' +
 					'<p>x</p>' )
 			} );
@@ -490,7 +490,7 @@
 				html: '<p>x' + htmls.image + 'x</p>',
 				data: { align: 'center' },
 				dom: new RegExp(
-					'<p>x(<br />)?</p>' +
+					'<p>x(<br(?: type="_moz")? />)?</p>' +
 					'<p style="text-align:center;">' +
 						'<span class="cke_image_resizer_wrapper">' +
 							'<img alt="" data-cke-saved-src="_assets/foo.png" data-cke-widget-upcasted="1" id="x" src="_assets/foo.png" />' +

@@ -8,7 +8,7 @@
 		htmlTools = bender.tools.html,
 		fillerBr = CKEDITOR.env.needsBrFiller ? '<br />' : '',
 		fillerBoth = CKEDITOR.env.needsBrFiller ? '<br />' : '&nbsp;',
-		fillerBrPattern = fillerBr ? '(<br />)?' : '';
+		fillerBrPattern = fillerBr ? '(<br (?:type="_moz" )?/>)?' : '';
 
 	bender.tools.compatHtml = function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp, noTempElements ) {
 		compatHtmlArgs = {

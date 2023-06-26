@@ -250,7 +250,7 @@
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
 
 				// On Safari selection will be normalised to the inside of the <strong> tags.
-				assert.isMatching( /^<p>x(\[<strong>|<strong>\[)uploaded(\]<\/strong>|<\/strong>\])x(<br \/>)?<\/p>$/,
+				assert.isMatching( /^<p>x(\[<strong>|<strong>\[)uploaded(\]<\/strong>|<\/strong>\])x(<br(?: type="_moz")? \/>)?<\/p>$/,
 					bender.tools.html.prepareInnerHtmlForComparison( bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts ) );
 			} );
 		},

@@ -501,7 +501,7 @@
 					data2Attr( { 'classes': null } ) +
 					'" data-cke-widget-keep-attr="0" data-cke-widget-upcasted="1" data-widget="test_upcasted_pasting"><i class="upcasted_pasting">foo</i></span>' +
 					widgetTestsTools.widgetDragHanlder +
-				'</span>X?(<br />)?</p>' +
+				'</span>X?(<br(?: type="_moz")? />)?</p>' +
 				'(<div [^>]+>&nbsp;</div>)?$' // Hidden sel container.
 			);
 
@@ -1308,7 +1308,7 @@
 					widget = getWidgetById( editor, 'w' );
 
 				widget.focus();
-				var hasBogus = !!editable.getHtml().match( /foo<br><\/p>/ );
+				var hasBogus = !!editable.getHtml().match( /foo<br(?: type="_moz")?><\/p>/ );
 
 				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) ); // LEFT
 				assertCollapsedSelectionIn( editor, p1, hasBogus ? 2 : 1, 'Move left' ); // <p>foo^</p>

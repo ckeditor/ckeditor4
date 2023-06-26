@@ -57,7 +57,7 @@ bender.test( {
 		var data = '<p>foo</p>';
 		editor.setData( data, function() {
 			resume( function() {
-				assert.isMatching( /^<p>foo(<br \/>)?<\/p>$/, tools.compatHtml( editable.getHtml() ), 'set data' );
+				assert.isMatching( /^<p>foo(<br(?: type="_moz")? \/>)?<\/p>$/, tools.compatHtml( editable.getHtml() ), 'set data' );
 				assert.areSame( data, editor.getData(), 'retrieve data' );
 			} );
 		} );

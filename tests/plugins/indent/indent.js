@@ -730,7 +730,7 @@
 				var t = createIndentOutdentTester( bot.editor, 'x<ul><li>y^</li></ul>z' );
 
 				t.s( 2, 2 );
-				t.o( /xy\^(<br \/>)?z/,																			'Collapse entire list.' );
+				t.o( /xy\^(<br(?: type="_moz")? \/>)?z/,																			'Collapse entire list.' );
 				t.s( 2, 0 );
 			} );
 		},
