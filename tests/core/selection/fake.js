@@ -242,7 +242,7 @@ bender.test( {
 			editor.getSelection().fake( editor.document.getById( 'bar' ) );
 
 			bot.setData( '<p>foo!</p>', function() {
-				assert.isMatching( /^<p>foo!(<br(?: type="_moz")>)?<\/p>$/i, editor.editable().getHtml(), 'data' );
+				assert.isMatching( /^<p>foo!(<br(?: type="_moz")?>)?<\/p>$/i, editor.editable().getHtml(), 'data' );
 				assert.isFalse( !!editor._.hiddenSelectionContainer, 'hiddenSelectionContainer' );
 				assert.isFalse( !!editor.getSelection().isFake, 'isFake' );
 				assert.isTrue( !!editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) ), 'Key 37 should not be blocked' );
