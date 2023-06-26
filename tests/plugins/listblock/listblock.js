@@ -83,7 +83,7 @@
 				var block = combo._.panel.getBlock( combo.id ).element,
 					selectedItem = block.findOne( 'a[title="Comic Sans MS"]' );
 
-				selectedItem.$.click();
+				combo.onClick( 'Comic Sans MS' );
 				combo._.panel.hide();
 
 				bot.combo( 'Font', function( combo ) {
