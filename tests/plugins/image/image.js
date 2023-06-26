@@ -261,7 +261,7 @@
 		'test align=left attribute transformation': function() {
 			this.editorBot.assertInputOutput(
 				'<p><img align="left" src="http://test/x" /></p>',
-				/<p><img data-cke-saved-src="http:\/\/test\/x" src="http:\/\/test\/x" style="float: ?left;?" \/>(<br \/>)?<\/p>/i,
+				/<p><img data-cke-saved-src="http:\/\/test\/x" src="http:\/\/test\/x" style="float: ?left;?" \/>(<br(?: type="_moz")? \/>)?<\/p>/i,
 				'<p><img src="http://test/x" style="float:left" /></p>'
 			);
 		},

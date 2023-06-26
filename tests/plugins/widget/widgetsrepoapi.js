@@ -232,7 +232,7 @@
 			assert.areSame( el, wrapper.getFirst(), 'inline wrapper first child' );
 			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.isMatching(
-				new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><em data-cke-widget-keep-attr="1" data-widget="test">foo</em></span>bar(<br />)?</p>$' ),
+				new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><em data-cke-widget-keep-attr="1" data-widget="test">foo</em></span>bar(<br(?: type="_moz")? />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() )
 			);
 			assert.isTrue( wrapper.hasClass( 'cke_widget_inline' ), 'has cke_widget_inline class' );
@@ -252,7 +252,7 @@
 			assert.areSame( el, wrapper.getFirst(), 'block wrapper first child' );
 			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.isMatching(
-				new RegExp( '^<p>foo(<br />)?</p><div ' + widgetWrapperAttributes + '><div data-cke-widget-keep-attr="1" data-widget="test">foo</div></div><p>bar(<br />)?</p>$' ),
+				new RegExp( '^<p>foo(<br(?: type="_moz")? />)?</p><div ' + widgetWrapperAttributes + '><div data-cke-widget-keep-attr="1" data-widget="test">foo</div></div><p>bar(<br(?: type="_moz")? />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() ), 'HTML after 1st wrapElement()'
 			);
 			assert.isTrue( wrapper.hasClass( 'cke_widget_block' ), 'has cke_widget_block class' );
@@ -261,7 +261,7 @@
 
 			assert.areSame( wrapper, wrapper2, 'Do not wrap already wrapped element' );
 			assert.isMatching(
-				new RegExp( '^<p>foo(<br />)?</p><div ' + widgetWrapperAttributes + '><div data-cke-widget-keep-attr="1" data-widget="test">foo</div></div><p>bar(<br />)?</p>$' ),
+				new RegExp( '^<p>foo(<br(?: type="_moz")? />)?</p><div ' + widgetWrapperAttributes + '><div data-cke-widget-keep-attr="1" data-widget="test">foo</div></div><p>bar(<br(?: type="_moz")? />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() ), 'HTML after 2nd wrapElement()'
 			);
 		},
@@ -280,7 +280,7 @@
 			assert.areSame( el, wrapper.getFirst(), 'inline wrapper first child' );
 			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.isMatching(
-				new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><span data-cke-widget-keep-attr="0" data-widget="test">foo</span></span>bar(<br />)?</p>$' ),
+				new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><span data-cke-widget-keep-attr="0" data-widget="test">foo</span></span>bar(<br(?: type="_moz")? />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() )
 			);
 		},
@@ -586,7 +586,7 @@
 							data2Attr( { 'classes': null } ) +
 							'" data-cke-widget-keep-attr="1" data-widget="testinline" id="widget1">bar1</em>' +
 							widgetTestsTools.widgetDragHanlder +
-						'</span>boo(<br />)?</p>' +
+						'</span>boo(<br(?: type="_moz")? />)?</p>' +
 						'<div ' + widgetInitedWrapperAttributes + '>' +
 							'<div class="cke_widget_element" data-cke-widget-data="' +
 							data2Attr( { 'classes': null } ) + '" data-cke-widget-keep-attr="1" data-widget="testblock" id="widget2">bam</div>' +
@@ -612,7 +612,7 @@
 							'<em class="cke_widget_element" data-cke-widget-data="' +
 							data2Attr( { 'classes': null } ) + '" data-cke-widget-keep-attr="1" data-widget="testinline" id="widget1">bar1</em>' +
 							widgetTestsTools.widgetDragHanlder +
-						'</span>boo(<br />)?</p>' +
+						'</span>boo(<br(?: type="_moz")? />)?</p>' +
 						'<div data-widget="testblock" id="widget2">bam</div>',
 						fixHtml( editor.editable().getHtml() ), 'data after destroying 2nd widget' );
 					assert.isFalse( widget.isInited(), 'widget2.isInited' );
@@ -715,7 +715,7 @@
 
 					assert.areEqual( 0, keysLength( editor.widgets.instances ), '0 widgets reimained' );
 					assert.isMatching(
-						new RegExp( '^<p>foo<em data-widget="testinline" id="widget1">bar1</em>boo(<br />)?</p>' +
+						new RegExp( '^<p>foo<em data-widget="testinline" id="widget1">bar1</em>boo(<br(?: type="_moz")? />)?</p>' +
 						'<div data-widget="testblock" id="widget2">bam</div>$' ),
 						fixHtml( editor.editable().getHtml() ), 'data after destroying widgets' );
 					assert.areSame( 2, destroyedIds.length, 'destroyedIds' );

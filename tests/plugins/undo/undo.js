@@ -740,7 +740,7 @@ bender.test( {
 		// Manually fire selectionChange so autoParagraphing is executed.
 		editor.fire( 'selectionChange', { selection: sel, path: currentPath, element: firstElement } );
 
-		assert.isMatching( /<p>abc(<br>)?<\/p>/i, root.getHtml(), 'Auto paragraphing executed correctly' );
+		assert.isMatching( /<p>abc(<br(?: type="_moz")?>)?<\/p>/i, root.getHtml(), 'Auto paragraphing executed correctly' );
 		assert.isFalse( isActive( undo ), 'Auto paragraphing hasn\'t created undo snapshot' );
 
 		bot.execCommand( 'enter' );
@@ -751,7 +751,7 @@ bender.test( {
 
 			bot.execCommand( 'undo' );
 
-			assert.isMatching( /<p>abc(<br>)?<\/p>/i, root.getHtml(), 'Undid enter command correctly' );
+			assert.isMatching( /<p>abc(<br(?: type="_moz")?>)?<\/p>/i, root.getHtml(), 'Undid enter command correctly' );
 			assert.isFalse( isActive( undo ), 'No more undo snapshots avaiable' );
 			assert.isTrue( isActive( redo ), 'Redo snapshot available' );
 

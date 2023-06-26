@@ -116,8 +116,8 @@
 
 			bender.tools.selection.setWithHtml( editor, htmlWithRange );
 
-			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.selection.getWithHtml( editor ), 'getSelection' );
-			assert.isMatching( '<p>x(<br>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
+			assert.isMatching( /<p>[\[\{]x[\]\}](<br(?: type="_moz")?>)?<\/p>/gi, bender.tools.selection.getWithHtml( editor ), 'getSelection' );
+			assert.isMatching( '<p>x(<br(?: type="_moz")?>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
 		},
 
 		'test getSelection - text': function() {
@@ -126,8 +126,8 @@
 
 			bender.tools.selection.setWithHtml( editor, htmlWithRange );
 
-			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.selection.getWithHtml( editor ), 'getSelection' );
-			assert.isMatching( '<p>x(<br>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
+			assert.isMatching( /<p>[\[\{]x[\]\}](<br(?: type="_moz")?>)?<\/p>/gi, bender.tools.selection.getWithHtml( editor ), 'getSelection' );
+			assert.isMatching( '<p>x(<br(?: type="_moz")?>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
 		},
 
 		'test getSelection - multiple ranges': function() {

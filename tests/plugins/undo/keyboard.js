@@ -377,8 +377,6 @@
 
 				var undoManager = this.editor.undoManager,
 					textNode = this.editor.editable().getFirst().getFirst(),
-					// Some browsers inserts extra BR.
-					extraBr = ( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.version >= 11 ) ? '<br>' : '',
 					that = this;
 
 				assert.areEqual( 2, undoManager.snapshots.length, 'Invalid initial snapshots count' );
@@ -411,14 +409,14 @@
 
 				assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
 
-				assert.areEqual(
-					'<p>foo bar' + extraBr + '</p>',
+				assert.isMatching(
+					/<p>foo bar(<br(?: type="_moz")?>)?<\/p>/,
 					undoManager.snapshots[ 1 ].contents.toLowerCase(),
 					'Invalid content for undoManager.snapshot[1]'
 				);
 
-				assert.areEqual(
-					'<p>foo dbar' + extraBr + '</p>',
+				assert.isMatching(
+					/<p>foo dbar(<br(?: type="_moz")?>)?<\/p>/,
 					undoManager.snapshots[ 2 ].contents.toLowerCase(),
 					'Invalid content for undoManager.snapshot[2]'
 				);

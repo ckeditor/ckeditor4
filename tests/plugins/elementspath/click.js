@@ -13,7 +13,7 @@
 
 		assertHtmlEqual: function( expected, actual ) {
 			// Note: assertion removes brs from actual results (FF issue).
-			assert.areEqual( this.fixHtml( expected ), this.fixHtml( actual ).replace( /<br\s*\/\>/g, '' ) );
+			assert.areEqual( this.fixHtml( expected ), this.fixHtml( actual ).replace( /<br.*?\/\>/g, '' ) );
 		},
 
 		'test function availability': function() {

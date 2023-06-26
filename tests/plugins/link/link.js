@@ -393,14 +393,14 @@
 		'test link passes filter': function() {
 			this.editorBots.noValidation.assertInputOutput(
 				'<p><a href="http://ckeditor.com">text</a></p>',
-				/^<p><a data-cke-saved-href="http:\/\/ckeditor.com" href="http:\/\/ckeditor.com">text<\/a>(<br \/>)?<\/p>$/
+				/^<p><a data-cke-saved-href="http:\/\/ckeditor.com" href="http:\/\/ckeditor.com">text<\/a>(<br(?: type="_moz")? \/>)?<\/p>$/
 			);
 		},
 
 		'test anchor passes filter': function() {
 			this.editorBots.noValidation.assertInputOutput(
 				'<p><a name="#idid">text</a></p>',
-				/^<p><a( class="\s?cke_anchor")? data-cke-saved-name="#idid" name="#idid">text<\/a>(<br \/>)?<\/p>$/
+				/^<p><a( class="\s?cke_anchor")? data-cke-saved-name="#idid" name="#idid">text<\/a>(<br(?: type="_moz")? \/>)?<\/p>$/
 			);
 		},
 
@@ -408,7 +408,7 @@
 			// jscs:disable maximumLineLength
 			var matchRegex = CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
 				/^<p><img alt="[^"]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[^"]+" src="data:image[^"]+" title="[^"]+" \/><\/p>$/ :
-				/^<p><img align="" alt="[^"]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[^"]+" src="data:image[^"]+" title="[^"]+" \/>(<br \/>)?<\/p>$/;
+				/^<p><img align="" alt="[^"]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[^"]+" src="data:image[^"]+" title="[^"]+" \/>(<br(?: type="_moz")? \/>)?<\/p>$/;
 			// jscs:enable maximumLineLength
 
 			this.editorBots.noValidation.assertInputOutput(

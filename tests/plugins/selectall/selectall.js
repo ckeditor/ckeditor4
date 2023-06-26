@@ -10,7 +10,7 @@
 	};
 
 	// Either outside or inside paragraphs.
-	var acceptableResults = /^(\[<p>foo(<br \/>)?<\/p><p>bar<\/p>\]|<p>\[foo(<br \/>)?<\/p><p>bar\]<\/p>)$/;
+	var acceptableResults = /^(\[<p>foo(<br(?: type="_moz")? \/>)?<\/p><p>bar<\/p>\]|<p>\[foo(<br(?: type="_moz")? \/>)?<\/p><p>bar\]<\/p>)$/;
 
 	bender.editors = {
 		editorFramed: {

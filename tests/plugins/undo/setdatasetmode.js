@@ -79,38 +79,38 @@
 
 					editor.execCommand( 'bold' );
 
-					assert.isMatching( /<p><strong>bar(<br>)?<\/strong>(<br>)?<\/p>/i, editor.editable().getHtml(), 'begin' );
+					assert.isMatching( /<p><strong>bar(<br(?: type="_moz")?>)?<\/strong>(<br(?: type="_moz")?>)?<\/p>/i, editor.editable().getHtml(), 'begin' );
 					assert.areSame( CKEDITOR.TRISTATE_OFF, undo.state, 'before 1st undo' );
 
 					editor.execCommand( 'undo' );
 
-					assert.isMatching( /<p>bar(<br>)?<\/p>/i, editor.editable().getHtml() );
+					assert.isMatching( /<p>bar(<br(?: type="_moz")?>)?<\/p>/i, editor.editable().getHtml() );
 					assert.areSame( CKEDITOR.TRISTATE_OFF, undo.state, 'after 1st undo' );
 
 					editor.execCommand( 'undo' );
 
-					assert.isMatching( /<p><em>foo(<br>)?<\/em>(<br>)?<\/p>/i, editor.editable().getHtml() );
+					assert.isMatching( /<p><em>foo(<br(?: type="_moz")?>)?<\/em>(<br(?: type="_moz")?>)?<\/p>/i, editor.editable().getHtml() );
 					assert.areSame( CKEDITOR.TRISTATE_OFF, undo.state, 'after 2nd undo' );
 
 					editor.execCommand( 'undo' );
 
-					assert.isMatching( /<p>foo(<br>)?<\/p>/i, editor.editable().getHtml() );
+					assert.isMatching( /<p>foo(<br(?: type="_moz")?>)?<\/p>/i, editor.editable().getHtml() );
 					assert.areSame( CKEDITOR.TRISTATE_DISABLED, undo.state, 'after 3rd undo' );
 					assert.areSame( CKEDITOR.TRISTATE_OFF, redo.state, 'before 1st redo' );
 
 					editor.execCommand( 'redo' );
 
-					assert.isMatching( /<p><em>foo(<br>)?<\/em>(<br>)?<\/p>/i, editor.editable().getHtml() );
+					assert.isMatching( /<p><em>foo(<br(?: type="_moz")?>)?<\/em>(<br(?: type="_moz")?>)?<\/p>/i, editor.editable().getHtml() );
 					assert.areSame( CKEDITOR.TRISTATE_OFF, redo.state, 'after 1st redo' );
 
 					editor.execCommand( 'redo' );
 
-					assert.isMatching( /<p>bar(<br>)?<\/p>/i, editor.editable().getHtml() );
+					assert.isMatching( /<p>bar(<br(?: type="_moz")?>)?<\/p>/i, editor.editable().getHtml() );
 					assert.areSame( CKEDITOR.TRISTATE_OFF, redo.state, 'after 2nd redo' );
 
 					editor.execCommand( 'redo' );
 
-					assert.isMatching( /<p><strong>bar(<br>)?<\/strong>(<br>)?<\/p>/i, editor.editable().getHtml(), 'end' );
+					assert.isMatching( /<p><strong>bar(<br(?: type="_moz")?>)?<\/strong>(<br(?: type="_moz")?>)?<\/p>/i, editor.editable().getHtml(), 'end' );
 					assert.areSame( CKEDITOR.TRISTATE_DISABLED, redo.state, 'after 3rd redo' );
 				}, 0 );
 			} );
