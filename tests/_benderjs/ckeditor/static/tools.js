@@ -1691,9 +1691,9 @@
 		 */
 		prepareInnerHtmlPattern: function( pattern ) {
 			pattern = bender.tools.escapeRegExp( pattern )
-				.replace( /@@/g, CKEDITOR.env.needsBrFiller ? '(<br />)?' : '(&nbsp;)?' )
-				.replace( /@!/g, CKEDITOR.env.needsBrFiller ? '<br />' : '' )
-				.replace( /@/g, CKEDITOR.env.needsBrFiller ? '(<br />)?' : '' );
+				.replace( /@@/g, CKEDITOR.env.needsBrFiller ? '(<br (?:type="_moz" )?/>)?' : '(&nbsp;)?' )
+				.replace( /@!/g, CKEDITOR.env.needsBrFiller ? '<br (?:type="_moz" )?/>' : '' )
+				.replace( /@/g, CKEDITOR.env.needsBrFiller ? '(<br (?:type="_moz" )?/>)?' : '' );
 
 			return new RegExp( '^' + pattern + '$' );
 		}
