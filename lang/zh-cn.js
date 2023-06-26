@@ -143,5 +143,14 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		keyboardShortcut: '快捷键',
 
 		optionDefault: '默认'
+	},
+
+	versionCheck: {
+		notificationMessage: 'This CKEditor %current version is not secure. Consider <a target="_blank" href="%link">upgrading to the latest secure one</a>, %latest.', // MISSING
+		consoleMessage: 'This CKEditor %current version is not secure. Consider upgrading to the latest secure one, %latest: %link', // MISSING
+		about: {
+			insecure: 'This CKEditor %current version is not secure.<br>Consider upgrading to the latest secure one, %latest:<br><a target="_blank" href="%link">%link</a>', // MISSING
+			upgradeInfo: 'Consider upgrading to the latest editor version, %latest:<br><a target="_blank" href="%link">%link</a>', // MISSING
+		}
 	}
 };

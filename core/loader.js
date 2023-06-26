@@ -29,12 +29,13 @@ if ( !CKEDITOR.loader ) {
 				'dom/comment', 'dom/elementpath', 'dom/text', 'dom/rangelist', 'skin'
 			],
 			'ckeditor': [
-				'ckeditor_basic', 'log', 'dom', 'dtd', 'dom/document', 'dom/element', 'dom/iterator', 'editor', 'event',
-				'htmldataprocessor', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter',
-				'htmlparser/basicwriter', 'template', 'tools'
+				'ckeditor_basic', 'ckeditor_version-check', 'log', 'dom', 'dtd', 'dom/document', 'dom/element',
+				'dom/iterator', 'editor', 'event', 'htmldataprocessor', 'htmlparser', 'htmlparser/element',
+				'htmlparser/fragment', 'htmlparser/filter', 'htmlparser/basicwriter', 'template', 'tools'
 			],
 			'ckeditor_base': [],
 			'ckeditor_basic': [ 'editor_basic', 'env', 'event' ],
+			'ckeditor_version-check': [ 'ckeditor_basic', 'config', 'tools' ],
 			'command': [],
 			'config': [ 'ckeditor_base' ],
 			'dom': [],

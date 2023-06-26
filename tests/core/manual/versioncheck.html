@@ -1,0 +1,86 @@
+
+
+<body>
+	<p>
+		<label for="version">CKEditor version:</label>
+		<input type="text" id="version" value="4.21.0">
+	</p>
+	<p>
+		<label for="config">Config value:</label>
+		<select id="config">
+			<option value="-1">Not set</option>
+			<option value="1">True</option>
+			<option value="0">False</option>
+		</select>
+	</p>
+	<p>
+		<label for="drupal"><input type="checkbox" id="drupal"> Drupal</label>
+	</p>
+	<p>
+		<button id="create">Create editor</button>
+	</p>
+	<iframe id="editor-iframe" width="100%" height="400"></iframe>
+
+	<script>
+		( function() {
+			var versionInput = CKEDITOR.document.getById( 'version' ),
+				configInput = CKEDITOR.document.getById( 'config' ),
+				drupalInput = CKEDITOR.document.getById( 'drupal' ),
+				createButton = CKEDITOR.document.getById( 'create' ),
+				editorIframe = CKEDITOR.document.getById( 'editor-iframe' ),
+				iframeSrcTemplate = [
+					'<!DOCTYPE html><title>Test</title><script>',
+					'%DRUPAL%',
+					'( function updateVersion() {',
+						'if ( !window.CKEDITOR || !CKEDITOR.version ) {',
+							'return setTimeout( updateVersion, 0 );',
+						'}',
+
+						'CKEDITOR.version=\'%VERSION%\'',
+					'}() );',
+					'<\/scri' + 'pt>',
+					'<script src="' + getCke4Url() + '"><\/scri' + 'pt>',
+					'<div id="editor"></div>',
+					'<script>',
+						'CKEDITOR.replace(\'editor\', %CONFIG% );',
+					'<\/scri' + 'pt>',
+				].join( '\n' );
+
+			createButton.on( 'click', function() {
+				var iframeSrc = iframeSrcTemplate.replace( /%VERSION%/g, escapeVersion( versionInput.getValue() ) ).
+					replace( /%DRUPAL%/g, generateDrupalCode( drupalInput.$.checked ) ).
+					replace( /%CONFIG%/g, generateConfig( Number( configInput.getValue() ) ) );
+
+				editorIframe.$.src = 'data:text/html;charset=UTF-8;base64,' + btoa( iframeSrc );
+			} );
+
+			function getCke4Url() {
+				return location.origin + '/apps/ckeditor/ckeditor.js';
+			}
+
+			function escapeVersion( version ) {
+				return version.replace( /'/g, '\\\'' );
+			}
+
+			function generateDrupalCode( isDrupal ) {
+				if ( !isDrupal ) {
+					return '';
+				}
+
+				return 'window.Drupal = {};';
+			}
+
+			function generateConfig( configValue ) {
+				if ( configValue === -1 ) {
+					return '';
+				}
+
+				return JSON.stringify( {
+					versionCheck: Boolean( configValue )
+				} );
+			}
+		} )();
+	</script>
+</body>
+
+
