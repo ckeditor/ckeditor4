@@ -146,9 +146,9 @@ CKEDITOR.lang[ 'ro' ] = {
 	},
 
 	versionCheck: {
-		notificationMessage: 'This CKEditor %current version is not secure. Consider <a target="_blank" href="%link">upgrading to the latest secure one</a>, %latest.', // MISSING
-		consoleMessage: 'This CKEditor %current version is not secure. Consider upgrading to the latest secure one, %latest: %link', // MISSING
-		aboutDialogInsecureMessage: 'This CKEditor %current version is not secure.<br>Consider upgrading to the latest secure one, %latest:<br><a target="_blank" href="%link">%link</a>', // MISSING
+		notificationMessage: 'This CKEditor %current version is not secure. Consider <a target="_blank" href="%link">upgrading to the latest one</a>, %latest.', // MISSING
+		consoleMessage: 'This CKEditor %current version is not secure. Consider upgrading to the latest one, %latest: %link', // MISSING
+		aboutDialogInsecureMessage: 'This CKEditor %current version is not secure.<br>Consider upgrading to the latest one, %latest:<br><a target="_blank" href="%link">%link</a>', // MISSING
 		aboutDialogUpgradeMessage: 'Consider upgrading to the latest editor version, %latest:<br><a target="_blank" href="%link">%link</a>' // MISSING
 	}
 };
