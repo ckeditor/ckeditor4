@@ -9,16 +9,15 @@
 ( function() {
 	'use strict';
 
-	var config = {
-		extraAllowedContent:
-			'p{text-indent,margin,margin-top,margin-bottom};' +
-			'ul{margin,margin-top,margin-bottom};' +
-			'ol{margin,margin-top,margin-bottom}',
-		language: 'en'
-	};
+	var config = pfwTools.defaultConfig;
+
+	config.extraAllowedContent = 'p{text-indent,margin,margin-top,margin-bottom};' +
+		'ul{margin,margin-top,margin-bottom};' +
+		'ol{margin,margin-top,margin-bottom}';
+	config.disallowedContent = 'span;p{text-align,margin-left,margin-right}'
 
 	bender.editor = {
-		config: config
+		config: pfwTools.defaultConfig
 	};
 
 	bender.test( createTestSuite( {
