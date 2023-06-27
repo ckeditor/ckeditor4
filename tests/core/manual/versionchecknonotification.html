@@ -8,6 +8,10 @@
 
 	<script>
 		( function() {
+			if ( CKEDITOR.env.ie ) {
+				return bender.ignore();
+			}
+
 			var createButton = CKEDITOR.document.getById( 'create' ),
 				editorIframe = CKEDITOR.document.getById( 'editor-iframe' ),
 				iframeSrc = [

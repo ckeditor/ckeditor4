@@ -23,6 +23,10 @@
 
 	<script>
 		( function() {
+			if ( CKEDITOR.env.ie ) {
+				return bender.ignore();
+			}
+
 			var versionInput = CKEDITOR.document.getById( 'version' ),
 				configInput = CKEDITOR.document.getById( 'config' ),
 				drupalInput = CKEDITOR.document.getById( 'drupal' ),
