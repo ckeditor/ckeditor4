@@ -13,6 +13,7 @@
 		extraAllowedContent:
 			'ul{margin,margin-top,margin-bottom};' +
 			'ol{margin,margin-top,margin-bottom}',
+		disallowedContent: 'span;p{text-align,margin-left,margin-right}',
 		language: 'en'
 	};
 

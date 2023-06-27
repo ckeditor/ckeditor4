@@ -10,12 +10,12 @@
 	'use strict';
 
 	var config = {
-		extraAllowedContent:
-			'p{text-indent,margin,margin-top,margin-bottom};' +
+		extraAllowedContent: 'p{text-indent,margin,margin-top,margin-bottom};' +
 			'ul{margin,margin-top,margin-bottom};' +
 			'ol{margin,margin-top,margin-bottom}',
-		language: 'en',
-		pasteTools_keepZeroMargins: true
+		disallowedContent: 'span;p{text-align,margin-left,margin-right}',
+		pasteTools_keepZeroMargins: true,
+		language: 'en'
 	};
 
 	bender.editor = {
