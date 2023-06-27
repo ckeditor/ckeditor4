@@ -110,15 +110,15 @@
 	}
 
 	function getAboutMessage( editor ) {
-		var lang = editor.lang.versionCheck.about,
+		var lang = editor.lang.versionCheck,
 			msg = '';
 
 		if ( !versionInfo.isLatest ) {
-			msg = lang.upgradeInfo;
+			msg = lang.aboutDialogUpgradeMessage;
 		}
 
 		if ( !versionInfo.isSecure ) {
-			msg = lang.insecure;
+			msg = lang.aboutDialogInsecureMessage;
 		}
 
 		return msg.replace( '%current', versionInfo.current.original ).
