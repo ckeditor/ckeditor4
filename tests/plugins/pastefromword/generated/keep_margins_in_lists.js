@@ -14,7 +14,7 @@
 	config.extraAllowedContent = 'p{text-indent,margin,margin-top,margin-bottom};' +
 		'ul{margin,margin-top,margin-bottom};' +
 		'ol{margin,margin-top,margin-bottom}';
-	config.disallowedContent = 'span;p{text-align,margin-left,margin-right}'
+	config.disallowedContent = 'span;p{text-align,margin-left,margin-right}';
 
 	bender.editor = {
 		config: pfwTools.defaultConfig
