@@ -5,7 +5,7 @@
 
 ( function() {
 	var apiUrl = 'https://cke4.ckeditor.com/ckeditor4-secure-version/versions.json',
-		upgradeLink = 'https://ckeditor.com/ckeditor-4-support',
+		upgradeLink = 'https://ckeditor.com/ckeditor-4-support/',
 		versionRegex = /^4\.(\d+)\.(\d+)(-lts)?(?: \(?.+?\)?)?$/,
 		isDrupal = 'Drupal' in window,
 		versionInfo = {
