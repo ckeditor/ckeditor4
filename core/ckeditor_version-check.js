@@ -64,8 +64,8 @@
 				}
 			};
 
-			request.responseType = 'text';
 			request.open( 'GET', requestUrl );
+			request.responseType = 'text';
 			request.send();
 		} catch ( e ) {
 		}
