@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: feature, 4.21.1
+@bender-tags: feature, 4.22.0
 @bender-ckeditor-plugins: wysiwygarea,toolbar,about
 
 ## Scenarios
