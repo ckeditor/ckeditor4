@@ -180,7 +180,7 @@
 	 *
 	 * If the current version is below the latest published secure version,
 	 * a user will be prompted about the available update. This feature is integrated
-	 * with the [Notification](https://ckeditor.com/cke4/addon/about) plugin,
+	 * with the [Notification](https://ckeditor.com/cke4/addon/notification) plugin,
 	 * the [About](https://ckeditor.com/cke4/addon/about) dialog,
 	 * and developer console logs.
 	 *
