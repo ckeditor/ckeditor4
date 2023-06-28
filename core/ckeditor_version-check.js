@@ -3,11 +3,14 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+/* global console */
+
 ( function() {
 	var apiUrl = 'https://cke4.ckeditor.com/ckeditor4-secure-version/versions.json',
 		upgradeLink = 'https://ckeditor.com/ckeditor-4-support/',
 		versionRegex = /^4\.(\d+)\.(\d+)(-lts)?(?: \(?.+?\)?)?$/,
 		isDrupal = 'Drupal' in window,
+		consoleErrorDisplayed = false,
 		versionInfo = {
 			current: parseVersion( CKEDITOR.version )
 		};
@@ -49,7 +52,7 @@
 
 		try {
 			var request = new XMLHttpRequest(),
-				requestUrl = apiUrl + '?version=' + encodeURIComponent( versionInfo.current.original );
+				requestUrl = apiUrl + '?v=' + encodeURIComponent( versionInfo.current.original );
 
 			request.onreadystatechange = function() {
 				if ( request.readyState === 4 && request.status === 200 ) {
@@ -79,22 +82,31 @@
 		var notificationMessage =  editor.lang.versionCheck.notificationMessage.replace( '%current', versionInfo.current.original ).
 				replace( '%latest', versionInfo.latest.original ).
 				replace( /%link/g, upgradeLink ),
-			/* jshint ignore:start */
-			// Apparently ignore for console.error() makes JSHint skip the whole code and it does not
-			// note that this variable is actually used anywhere.
-			consoleMessage =  editor.lang.versionCheck.consoleMessage.replace( '%current', versionInfo.current.original ).
-				replace( '%latest', versionInfo.latest.original ).
-				replace( /%link/g, upgradeLink ),
-			/* jshint ignore:end */
 			isNotificationAvailable = 'notification' in editor.plugins;
 
-		/* jshint ignore:start */
-		console.error( consoleMessage );
-		/* jshint ignore:end */
+		showConsoleError( editor );
 
 		if ( isNotificationAvailable ) {
 			editor.showNotification( notificationMessage, 'warning' );
 		}
+	}
+
+	function showConsoleError( editor ) {
+		if ( !window.console || !window.console.error ) {
+			return;
+		}
+
+		if ( consoleErrorDisplayed ) {
+			return;
+		}
+
+		consoleErrorDisplayed = true;
+
+		var consoleMessage =  editor.lang.versionCheck.consoleMessage.replace( '%current', versionInfo.current.original ).
+			replace( '%latest', versionInfo.latest.original ).
+			replace( /%link/g, upgradeLink );
+
+		console.error( consoleMessage );
 	}
 
 	function addInfoToAboutDialog( editor, dialog ) {
