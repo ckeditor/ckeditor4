@@ -4,7 +4,7 @@ If you would like to keep access to future CKEditor 4 security patches, check th
 
 ## CKEditor 4.22.0
 
-⚠️ This is the last open source release of CKEditor 4. After the initial announcement at the end of 2018 about the end of life approaching in 2023, CKEditor 4 has finally reached the end of life.
+⚠️ This is the last open source release of CKEditor 4. As announced in 2018, CKEditor 4 has reached its End of Life in June 2023.
 
 
 New Features:
@@ -14,7 +14,7 @@ New Features:
 
 Fixed Issues:
 
-* [#5437](https://github.com/ckeditor/ckeditor4/issues/5437): Fixed: Incorrect indication of selected items in comboboxes. The selected item was unmarked upon each opening of the combobox.
+* [#5437](https://github.com/ckeditor/ckeditor4/issues/5437): Fixed: Incorrect indication of selected items in combo boxes. The selected item was unmarked upon each opening of the combo box.
 * [#5495](https://github.com/ckeditor/ckeditor4/issues/5495): Fixed: Insufficient color ratio for links inside [Notifications](https://ckeditor.com/cke4/addon/notification).
 
 Other Changes:
