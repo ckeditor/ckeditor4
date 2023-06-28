@@ -171,4 +171,27 @@
 			isLts: !!parts[ 3 ]
 		};
 	}
-}() );
+
+	/**
+	 * The version check feature adds a notification system to the editor that informs
+	 * the user if the editor version is secure. It is highly recommended to stay up to
+	 * date with the editor version to ensure that the editor is secure and provides
+	 * the best editing experience to users.
+	 *
+	 * If the current version is below the latest published secure version,
+	 * a user will be prompted about the available update. This feature is integrated
+	 * with the [Notification](https://ckeditor.com/cke4/addon/notification) plugin,
+	 * the [About](https://ckeditor.com/cke4/addon/about) dialog,
+	 * and developer console logs.
+	 *
+	 * You can manually disable this feature by setting the option to `false`,
+	 * but we strongly recommend upgrading the editor instead.
+	 *
+	 * - For CKEditor 4.22.* and below, this option is enabled by default.
+	 * - For CKEditor 4 LTS (4.23.0 and above), this option is disabled by default.
+	 *
+	 * @cfg {Boolean} [versionCheck]
+	 * @since 4.22.0
+	 * @member CKEDITOR.config
+	 */
+} )();
