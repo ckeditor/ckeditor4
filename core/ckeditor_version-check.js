@@ -52,7 +52,7 @@
 
 		try {
 			var request = new XMLHttpRequest(),
-				requestUrl = apiUrl + '?version=' + encodeURIComponent( versionInfo.current.original );
+				requestUrl = apiUrl + '?v=' + encodeURIComponent( versionInfo.current.original );
 
 			request.onreadystatechange = function() {
 				if ( request.readyState === 4 && request.status === 200 ) {
