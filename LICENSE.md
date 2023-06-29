@@ -1,4 +1,4 @@
-Software License Agreement for CKEditor 4 LTS (4.23.0) and above
+Software License Agreement for CKEditor 4 LTS (4.23.0 and above)
 ================================================================
 
 CKEditor - The text editor for Internet - https://ckeditor.com/ <br>
