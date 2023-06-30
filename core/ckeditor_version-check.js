@@ -174,7 +174,7 @@
 
 	/**
 	 * The version check feature adds a notification system to the editor that informs
-	 * the user if the editor version is secure. It is highly recommended to stay up to
+	 * users if the editor version is secure. It is highly recommended to stay up to
 	 * date with the editor version to ensure that the editor is secure and provides
 	 * the best editing experience to users.
 	 *

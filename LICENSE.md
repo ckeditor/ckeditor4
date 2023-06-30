@@ -1,7 +1,15 @@
-Software License Agreement
-==========================
+Software License Agreement for CKEditor 4 LTS (4.23.0 and above)
+================================================================
 
-CKEditor - The text editor for Internet - https://ckeditor.com/
+CKEditor - The text editor for Internet - https://ckeditor.com/ <br>
+Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+
+CKEditor 4 LTS ("Long Term Support") is available under exclusive terms of the [Extended Support Model](https://ckeditor.com/ckeditor-4-support/). [Contact us](https://ckeditor.com/contact/) to obtain a commercial license.
+
+Software License Agreement for CKEditor 4.22.* and below
+========================================================
+
+CKEditor - The text editor for Internet - https://ckeditor.com/ <br>
 Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
 
 Licensed under the terms of any of the following licenses at your
