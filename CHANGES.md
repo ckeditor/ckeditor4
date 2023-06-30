@@ -22,7 +22,7 @@ Other Changes:
 
 * [#5412](https://github.com/ckeditor/ckeditor4/issues/5412): Prevent using `document.domain` in Firefox in the [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
 
-Note: CKEditor 4.22.1 has been released immediately after 4.22.0 to fix the README issues on [npm](npmjs.com) and contains no changes vs 4.22.0.
+Note: CKEditor 4.22.1 has been released immediately after 4.22.0 to fix the README issues on [npm](https://www.npmjs.com/) and contains no changes vs 4.22.0.
 
 ## CKEditor 4.21.0
 
