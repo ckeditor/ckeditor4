@@ -79,6 +79,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	table-layout: auto;
 }
 
+.cke_button__templates{
+	padding: 4px 2px;
+}
+
 .cke_chrome {
 	display: block;
 	border: 1px solid #b6b6b6;
@@ -447,16 +451,6 @@ a.cke_button {
 a.cke_button:hover,
 a.cke_button:focus {
 	background-color: #F1F4F4;
-}
-
-.cke_button__templates {
-	padding: 4px 1px 7px 4px !important;
-}
-
-.cke_ltr .cke_button__templates_icon {
-	width: 24px;
-	height: 20px;
-	background-position: 0 -2882px !important;
 }
 
 .cke_ltr .cke_button:last-child,
