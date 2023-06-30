@@ -78,10 +78,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .cke_reset_all table {
 	table-layout: auto;
 }
-.cke_button__templates{
-	padding: 4px 2px;
-	margin-left: 10px;
-}
+
 .cke_chrome {
 	display: block;
 	border: 1px solid #b6b6b6;
@@ -448,10 +445,20 @@ a.cke_button {
 	margin: 0 2px;
 }
 a.cke_button:hover,
-a.cke_button:focus
-{
-	background: #F1F4F4;
+a.cke_button:focus {
+	background-color: #F1F4F4;
 }
+
+.cke_button__templates {
+	padding: 4px 1px 7px 4px !important;
+}
+
+.cke_ltr .cke_button__templates_icon {
+	width: 24px;
+	height: 20px;
+	background-position: 0 -2882px !important;
+}
+
 .cke_ltr .cke_button:last-child,
 .cke_rtl .cke_button:first-child {
 	-moz-border-radius: 0 2px 2px 0;
