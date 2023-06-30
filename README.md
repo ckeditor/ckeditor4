@@ -61,7 +61,7 @@ It supports a broad range of browsers, including legacy ones.
 
 ## Getting started
 
-### Using [npm package](https://www.npmjs.com/package/ckeditor)
+### Using [npm package](https://www.npmjs.com/package/ckeditor4)
 
 ```bash
 npm install --save ckeditor4
