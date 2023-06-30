@@ -11,7 +11,7 @@ New Features:
 
 * [#5316](https://github.com/ckeditor/ckeditor4/issues/5316): Added vertical margins support for list elements in the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 * [#5410](https://github.com/ckeditor/ckeditor4/issues/5410): Added the ability to indicate the language of styles in the [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin via the [`config.styleSet`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-stylesSet) configuration option.
-* [#5510](https://github.com/ckeditor/ckeditor4/issues/5510): Added notification system to the editor informing users that the editor version is up-to-date and secure. See [`config.versionCheck](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-versionCheck) configuration option to learn more.
+* [#5510](https://github.com/ckeditor/ckeditor4/issues/5510): Added notification system to the editor informing users that the editor version is up-to-date and secure. See [`config.versionCheck`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-versionCheck) configuration option to learn more.
 
 Fixed Issues:
 
