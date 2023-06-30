@@ -18,7 +18,7 @@
  */
 CKEDITOR.lang[ 'ug' ] = {
 	// ARIA description.
-	application: 'Rich Text Editor', // MISSING
+	application: 'مول تېكست تەھرىرلىگۈچ',
 	editor: 'تەھرىرلىگۈچ',
 	editorPanel: 'مول تېكست تەھرىرلىگۈچ تاختىسى',
 
@@ -83,7 +83,7 @@ CKEDITOR.lang[ 'ug' ] = {
 		justify: 'ئىككى تەرەپتىن توغرىلا',
 		alignLeft: 'سولغا توغرىلا',
 		alignRight: 'ئوڭغا توغرىلا',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'ئوتتۇرىغا توغرىلا',
 		alignTop: 'ئۈستى',
 		alignMiddle: 'ئوتتۇرا',
 		alignBottom: 'ئاستى',
