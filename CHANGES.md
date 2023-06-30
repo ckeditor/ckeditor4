@@ -2,7 +2,7 @@
 
 If you would like to keep access to future CKEditor 4 security patches, check the [Extended Support Model](https://ckeditor.com/ckeditor-4-support/), which guarantees **security updates and critical bug fixes until December 2026**. Alternatively, [upgrade to CKEditor 5](https://ckeditor.com/docs/ckeditor5/latest/updating/ckeditor4/migration-from-ckeditor-4.html).
 
-## CKEditor 4.22.0
+## CKEditor 4.22.0 / 4.22.1
 
 ⚠️ This is the last open source release of CKEditor 4. As announced in 2018, CKEditor 4 has reached its End of Life in June 2023.
 
@@ -21,6 +21,8 @@ Fixed Issues:
 Other Changes:
 
 * [#5412](https://github.com/ckeditor/ckeditor4/issues/5412): Prevent using `document.domain` in Firefox in the [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
+
+Note: CKEditor 4.22.1 has been released immediately after 4.22.0 to fix the README issues on [npm](npmjs.com) and contains no changes vs 4.22.0.
 
 ## CKEditor 4.21.0
 

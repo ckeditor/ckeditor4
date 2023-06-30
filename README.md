@@ -26,9 +26,9 @@ This repository now contains the source code of CKEditor 4 LTS that is protected
 
 ### Getting CKEditor 4 (Open Source)
 
-You may continue using CKEditor 4.22.0 and below under the open source license terms. Please note, however, that the open source version no longer comes with any security updates, so your application will be at risk.
+You may continue using CKEditor 4.22.1 and below under the open source license terms. Please note, however, that the open source version no longer comes with any security updates, so your application will be at risk.
 
-In order to download the open source version of CKEditor 4, use ****tags 4.22.0 and below****. CKEditor 4.22.0 was the last version of CKEditor 4 available under the open source license terms.
+In order to download the open source version of CKEditor 4, use ****tags 4.22.1 and below****. CKEditor 4.22.1 was the last version of CKEditor 4 available under the open source license terms.
 
 ## Summary of options after the CKEditor 4 End of Life
 
@@ -44,7 +44,7 @@ Before upgrading, please be aware of the following changes:
 
 ### Using an outdated, unsupported version
 
-You may continue using CKEditor 4.22.0 (or below). The license terms of the older CKEditor 4 versions have not changed. However, please note that by using software that is no longer maintained, you are introducing a **security risk to your application**.
+You may continue using CKEditor 4.22.1 (or below). The license terms of the older CKEditor 4 versions have not changed. However, please note that by using software that is no longer maintained, you are introducing a **security risk to your application**.
 
 ### Signing an "Extended Support Model" contract
 
@@ -87,7 +87,7 @@ Load the CKEditor 4 script from the CDN:
 <div id="editor">
     <p>This is the editor content.</p>
 </div>
-<script src="https://cdn.ckeditor.com/4.22.0/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor' );
 </script>
@@ -187,9 +187,9 @@ Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
 
 For licensing, see LICENSE.md or [https://ckeditor.com/legal/ckeditor-oss-license](https://ckeditor.com/legal/ckeditor-oss-license)
 
-#### CKEditor 4.22.0 and below
+#### CKEditor 4.22.1 and below
 
-CKEditor 4 until version 4.22.0 was licensed under the terms of any of the following licenses of your choice:
+CKEditor 4 until version 4.22.1 was licensed under the terms of any of the following licenses of your choice:
 
  - GNU General Public License Version 2 or later.
  - GNU Lesser General Public License Version 2.1 or later.
