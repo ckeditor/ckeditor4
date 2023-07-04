@@ -1,6 +1,6 @@
 blank_issues_enabled: false
 contact_links:
-  - name: "CKEditor 4 End of Life"
+  - name: "⚠ CKEditor 4 End of Life"
     about: CKEditor 4 reached its End of Life (EOL) on June 30, 2023. Open the link for available options.
     url:  https://github.com/ckeditor/ckeditor4/blob/master/README.md#summary-of-options-after-the-ckeditor-4-end-of-life
   - name: "\U0001F6A8 Security issue"
