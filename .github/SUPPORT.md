@@ -1,12 +1,14 @@
-If you feel you are unable to get going by yourself, you can use the following channels:
+⚠️️️ **CKEditor 4 (the open source edition) is no longer maintained.** ⚠️
+
+If you would like to keep access to future CKEditor 4 security patches, check the [Extended Support Model](https://ckeditor.com/ckeditor-4-support/), which guarantees **security updates and critical bug fixes until December 2026**. Alternatively, [upgrade to CKEditor 5](https://ckeditor.com/docs/ckeditor5/latest/updating/ckeditor4/migration-from-ckeditor-4.html).
 
 ## Community Support
 
 [Stack Overflow](https://stackoverflow.com/tags/ckeditor) – a place to share problems and solutions by CKEditor developers and integrators which you can use for usage and implementation issues. CKEditor has grown as an Open Source product, thanks to the amazing community of developers and users. Use the [[ckeditor](https://stackoverflow.com/tags/ckeditor)] tag to ask a question or to help fellow developers.
 
-[GitHub Issue Tracker](https://github.com/ckeditor/ckeditor4/issues) – a place to report bugs, and to request new features. Before you attempt to do so, please make sure you read [the issue tracker instructions](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_issues_tracker.html) and thus help us optimize the management of issues. Make sure that the bug you report is not caused by a third-party software or your customizations.
-
 Please refer to the [CONTRIBUTING](https://github.com/ckeditor/ckeditor4/blob/master/.github/CONTRIBUTING.md) file for more information on how to support the development of CKEditor.
+
+Note that CKEditor 4 no longer accepts code contributions.
 
 ## Commercial Support
 
