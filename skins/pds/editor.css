@@ -78,9 +78,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .cke_reset_all table {
 	table-layout: auto;
 }
-.cke_button__templates{
+
+SA-48236_Fix_icon_size
+.cke_button__templates {
 	padding: 4px 2px;
 }
+
 .cke_chrome {
 	display: block;
 	border: 1px solid #b6b6b6;
