@@ -425,6 +425,12 @@ a:active.cke_colormore {
 	background-image: linear-gradient(top, #fff, #e4e4e4);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#ffffff',endColorstr='#e4e4e4');
 }
+
+.cke_toolgroup a.cke_button__templates,
+.cke_toolgroup a.cke_button__sidebysideconverter {
+	padding-right: 1px;
+}
+
 .cke_hc .cke_toolgroup {
 	border: 0;
 	margin-right: 10px;
