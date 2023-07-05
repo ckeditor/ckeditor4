@@ -79,7 +79,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	table-layout: auto;
 }
 
-.cke_button__templates{
+SA-48236_Fix_icon_size
+.cke_button__templates {
 	padding: 4px 2px;
 }
 
@@ -162,9 +163,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	-webkit-overflow-scrolling: touch;
 }
 .cke_resizer {
-	width: 0;
-	height: 0;
-	overflow: hidden;
 	width: 0;
 	height: 0;
 	overflow: hidden;
