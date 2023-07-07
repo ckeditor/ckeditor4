@@ -139,17 +139,20 @@
 	}
 
 	function isLatestVersion() {
-		return versionInfo.current.minor === versionInfo.latest.minor &&
-			versionInfo.current.patch === versionInfo.latest.patch;
+		return isEqualOrHigherVersion( versionInfo.current, versionInfo.latest );
 	}
 
 	function isSecureVersion() {
-		if ( versionInfo.current.minor > versionInfo.secure.minor ) {
+		return isEqualOrHigherVersion( versionInfo.current, versionInfo.secure );
+	}
+
+	function isEqualOrHigherVersion( left, right ) {
+		if ( left.minor > right.minor ) {
 			return true;
 		}
 
-		if ( versionInfo.current.minor === versionInfo.secure.minor &&
-			versionInfo.current.patch >= versionInfo.secure.patch ) {
+		if ( left.minor === right.minor &&
+			left.patch >= right.patch ) {
 			return true;
 		}
 
