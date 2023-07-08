@@ -3,7 +3,7 @@ Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'zh-cn', {
-	bulletedTitle: '项目列表属性',
+	bulletedTitle: '无序列表属性',
 	circle: '空心圆',
 	decimal: '数字 (1, 2, 3, 等)',
 	disc: '实心圆',
@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'liststyle', 'zh-cn', {
 	lowerRoman: '小写罗马数字(i, ii, iii, iv, v, 等)',
 	none: '无标记',
 	notset: '<没有设置>',
-	numberedTitle: '编号列表属性',
+	numberedTitle: '有序列表属性',
 	square: '实心方块',
 	start: '开始序号',
 	type: '标记类型',
