@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "author": "CKSource (https://cksource.com/)",
-  "license": "For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license.",
+  "license": "CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model..",
   "devDependencies": {
     "benderjs": "~0.2.1",
     "benderjs-chai": "~0.2.0",

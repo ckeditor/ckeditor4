@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 			{
 			name: 'دیالۆگی دەستكاریكەر',
 			legend:
-				'لەناوەوەی دیالۆگ, کلیکی کلیلی TAB بۆ ڕابەری دیالۆگێکی تر, داگرتنی کلیلی SHIFT + TAB بۆ گواستنەوەی بۆ دیالۆگی پێشووتر, کلیكی کلیلی ENTER بۆ ڕازیکردنی دیالۆگەکە, کلیكی کلیلی ESC بۆ هەڵوەشاندنەوەی دیالۆگەکە. بۆ دیالۆگی بازدەری (تابی) زیاتر, کلیكی کلیلی ALT + F10 بۆ ڕابه‌ری لیستی بازده‌ره‌کان، یان کلیكی کلیلی TAB. بۆچوونه‌ بازده‌ری تابی پێشوو  یان دوواتر کلیلی تیری دەستی ڕاست یان چەپ بکە.' 
+				'لەناوەوەی دیالۆگ, کلیکی کلیلی TAB بۆ ڕابەری دیالۆگێکی تر, داگرتنی کلیلی SHIFT + TAB بۆ گواستنەوەی بۆ دیالۆگی پێشووتر, کلیكی کلیلی ENTER بۆ ڕازیکردنی دیالۆگەکە, کلیكی کلیلی ESC بۆ هەڵوەشاندنەوەی دیالۆگەکە. بۆ دیالۆگی بازدەری (تابی) زیاتر, کلیكی کلیلی ALT + F10 بۆ ڕابه‌ری لیستی بازده‌ره‌کان، یان کلیكی کلیلی TAB. بۆچوونه‌ بازده‌ری تابی پێشوو  یان دوواتر کلیلی تیری دەستی ڕاست یان چەپ بکە.'
 		},
 
 			{

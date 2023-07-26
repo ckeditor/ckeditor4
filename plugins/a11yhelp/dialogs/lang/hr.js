@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'hr', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'hr', {
 			{
 			name: 'Dijalog',
 			legend:
-				'Unutar dijaloga, pritisnite TAB kako bi navigirali do sljedećeg elementa dijaloga, pritisnite SHIFT+TAB kako bi se pomaknuli do prethodnog elementa, pritisnite ENTER kako bi poslali dijalog, pritisnite ESC za gašenje dijaloga. Kada dijalog ima više kartica, listi kartica se može pristupiti pomoću ALT+F10 ili sa TAB. Kada je fokusirana lista kartica, pomaknite se naprijed ili nazad pomoću strelica LIJEVO ili DESNO.' 
+				'Unutar dijaloga, pritisnite TAB kako bi navigirali do sljedećeg elementa dijaloga, pritisnite SHIFT+TAB kako bi se pomaknuli do prethodnog elementa, pritisnite ENTER kako bi poslali dijalog, pritisnite ESC za gašenje dijaloga. Kada dijalog ima više kartica, listi kartica se može pristupiti pomoću ALT+F10 ili sa TAB. Kada je fokusirana lista kartica, pomaknite se naprijed ili nazad pomoću strelica LIJEVO ili DESNO.'
 		},
 
 			{

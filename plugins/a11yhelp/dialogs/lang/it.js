@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 			{
 			name: 'Finestra Editor',
 			legend:
-				'All\'interno di una finestra di dialogo, premi TAB per passare all\'elemento della finestra di dialogo successivo, premi MAIUSC+TAB per passare all\'elemento della finestra di dialogo precedente, premi INVIO per inviare la finestra di dialogo, premi ESC per annullare la finestra di dialogo. Quando una finestra di dialogo ha più schede, l\'elenco delle schede può essere raggiunto con ALT+F10 o con TAB come parte dell\'ordine di tabulazione della finestra di dialogo. Mentre l\'elenco delle schede è attivo, passa alla scheda successiva o precedente rispettivamente con FRECCIA DESTRA o SINISTRA. Premi ESC per annullare le modifiche e chiudere la finestra di dialogo. Lo stato attivo verrà spostato nuovamente all\'area di modifica dopo aver lasciato la finestra di dialogo.' 
+				'All\'interno di una finestra di dialogo, premi TAB per passare all\'elemento della finestra di dialogo successivo, premi MAIUSC+TAB per passare all\'elemento della finestra di dialogo precedente, premi INVIO per inviare la finestra di dialogo, premi ESC per annullare la finestra di dialogo. Quando una finestra di dialogo ha più schede, l\'elenco delle schede può essere raggiunto con ALT+F10 o con TAB come parte dell\'ordine di tabulazione della finestra di dialogo. Mentre l\'elenco delle schede è attivo, passa alla scheda successiva o precedente rispettivamente con FRECCIA DESTRA o SINISTRA. Premi ESC per annullare le modifiche e chiudere la finestra di dialogo. Lo stato attivo verrà spostato nuovamente all\'area di modifica dopo aver lasciato la finestra di dialogo.'
 		},
 
 			{

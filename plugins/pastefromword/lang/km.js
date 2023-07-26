@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
-For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'km', {
 	confirmCleanup: 'អត្ថបទ​ដែល​អ្នក​ចង់​បិទ​ភ្ជាប់​នេះ ទំនង​ដូច​ជា​ចម្លង​មក​ពី Word។ តើ​អ្នក​ចង់​សម្អាត​វា​មុន​បិទ​ភ្ជាប់​ទេ?',

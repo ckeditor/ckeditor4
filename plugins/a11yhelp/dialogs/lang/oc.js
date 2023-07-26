@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'oc', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'oc', {
 			{
 			name: 'Fenèstra de l\'editor',
 			legend:
-				'Dins una bóstia de dialòg, quichar sus Tab per passar a l\'element seguent, quichar sus Maj+Tab per passar a l\'element precedent, quichar sus Entrada per validar, quichar sus Escap per anullar. Quand una bóstia de dialòg possedís des onglets, la lista pòt èsser atenta amb Alt+F10 o amb Tab. Dins la lista dels onglets, se desplaçar cap al seguent e lo precedent amb las tòcas Sageta dreita e Sageta esquèrra respectivament.' 
+				'Dins una bóstia de dialòg, quichar sus Tab per passar a l\'element seguent, quichar sus Maj+Tab per passar a l\'element precedent, quichar sus Entrada per validar, quichar sus Escap per anullar. Quand una bóstia de dialòg possedís des onglets, la lista pòt èsser atenta amb Alt+F10 o amb Tab. Dins la lista dels onglets, se desplaçar cap al seguent e lo precedent amb las tòcas Sageta dreita e Sageta esquèrra respectivament.'
 		},
 
 			{
