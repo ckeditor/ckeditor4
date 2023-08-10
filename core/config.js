@@ -111,6 +111,23 @@ CKEDITOR.config = {
 	language: '',
 
 	/**
+	 * The license key for the CKEditor 4 LTS ("Long Term Support") commercial license.
+	 *
+	 * The license is available under ["Extended Support Model"](https://ckeditor.com/ckeditor-4-support/)
+	 * for anyone looking to extend the coverage of security updates and critical bug fixes.
+	 *
+	 * If you do not have a key yet, please [contact us](https://ckeditor.com/contact/).
+	 *
+	 * ```js
+	 * config.licenseKey = 'your-license-key';
+	 * ```
+	 *
+	 * @since 4.23.0-lts
+	 * @cfg
+	 */
+	licenseKey: '',
+
+	/**
 	 * The language to be used if the {@link CKEDITOR.config#language}
 	 * setting is left empty and it is not possible to localize the editor to the user language.
 	 *
