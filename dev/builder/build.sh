@@ -9,7 +9,7 @@ set -e
 printf "CKBuilder - Builds a release version of ckeditor4.\n"
 printf "\n"
 
-CKBUILDER_VERSION="2.4.3"
+CKBUILDER_VERSION="2.4.4"
 CKBUILDER_URL="https://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuilder.jar"
 
 RED='\033[01;31m'
@@ -74,6 +74,11 @@ JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
 VERSION=$(grep '"version":' ./../../package.json | sed $'s/[\t\",: ]//g; s/version//g' | tr -d '[[:space:]]')
 REVISION=$(git rev-parse --verify --short HEAD)
 
+# Add suffix for LTS editor version.
+if [[ "$@" == *\-\-lts* ]]; then
+	VERSION="${VERSION}-lts"
+fi
+
 # If the current revision is not tagged with any CKE version, it means it's a "dirty" build. We
 # mark such builds with a " DEV" suffix. true is needed because of "set -e".
 TAG=$(git tag --points-at HEAD) || true
@@ -101,6 +106,7 @@ if [[ "$ARGS" == *\ \-t\ * ]]; then
 	cp -r ../../tests release/ckeditor/tests
 	cp -r ../../package.json release/ckeditor/package.json
 	cp -r ../../bender.js release/ckeditor/bender.js
+	cp -r ../../bender.js release/ckeditor/bender-runner.config.json
 
 	printf "\n"
 	printf "Installing tests...\n"
