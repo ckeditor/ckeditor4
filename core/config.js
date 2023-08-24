@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 /**
@@ -109,6 +109,23 @@ CKEDITOR.config = {
 	 * @cfg
 	 */
 	language: '',
+
+	/**
+	 * The license key for the CKEditor 4 LTS ("Long Term Support") commercial license.
+	 *
+	 * The license is available under ["Extended Support Model"](https://ckeditor.com/ckeditor-4-support/)
+	 * for anyone looking to extend the coverage of security updates and critical bug fixes.
+	 *
+	 * If you do not have a key yet, please [contact us](https://ckeditor.com/contact/).
+	 *
+	 * ```js
+	 * config.licenseKey = 'your-license-key';
+	 * ```
+	 *
+	 * @since 4.23.0-lts
+	 * @cfg
+	 */
+	licenseKey: '',
 
 	/**
 	 * The language to be used if the {@link CKEDITOR.config#language}

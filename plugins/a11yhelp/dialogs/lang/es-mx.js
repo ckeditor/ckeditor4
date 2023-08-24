@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'es-mx', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es-mx', {
 			{
 			name: 'Editor de diálogo',
 			legend:
-				'Dentro de un cuadro de diálogo, pulse TAB para desplazarse hasta el siguiente elemento de diálogo, pulse MAYÚS + TAB para desplazarse al elemento de diálogo anterior, pulse ENTER para enviar el diálogo, pulse ESC para cancelar el diálogo. Cuando un cuadro de diálogo tiene varias pestañas, se puede acceder a la lista de pestañas con ALT + F10 o con TAB como parte del orden de tabulación del diálogo. Con la lista de tabuladores enfocada, mueva a la pestaña siguiente y anterior con las flechas DERECHA y IZQUIERDA, respectivamente.' 
+				'Dentro de un cuadro de diálogo, pulse TAB para desplazarse hasta el siguiente elemento de diálogo, pulse MAYÚS + TAB para desplazarse al elemento de diálogo anterior, pulse ENTER para enviar el diálogo, pulse ESC para cancelar el diálogo. Cuando un cuadro de diálogo tiene varias pestañas, se puede acceder a la lista de pestañas con ALT + F10 o con TAB como parte del orden de tabulación del diálogo. Con la lista de tabuladores enfocada, mueva a la pestaña siguiente y anterior con las flechas DERECHA y IZQUIERDA, respectivamente.'
 		},
 
 			{

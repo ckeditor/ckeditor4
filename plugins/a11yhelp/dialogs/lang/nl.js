@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 			{
 			name: 'Dialoog tekstverwerker',
 			legend:
-				'In een dialoogvenster, druk op TAB om te navigeren naar het volgende veld. Druk op SHIFT+TAB om naar het vorige veld te navigeren. Druk op ENTER om het dialoogvenster te verzenden. Druk op ESC om het dialoogvenster te sluiten. Bij dialoogvensters met meerdere tabbladen kan de tabset bereikt worden met ALT+F10 of met TAB als onderdeel van de tabvolgorde in het dialoogvenster. Als de tabset focus heeft, kun je schakalen naar het volgende en vorige tabblad met respectievelijk PIJL RECHTS en PIJL LINKS.' 
+				'In een dialoogvenster, druk op TAB om te navigeren naar het volgende veld. Druk op SHIFT+TAB om naar het vorige veld te navigeren. Druk op ENTER om het dialoogvenster te verzenden. Druk op ESC om het dialoogvenster te sluiten. Bij dialoogvensters met meerdere tabbladen kan de tabset bereikt worden met ALT+F10 of met TAB als onderdeel van de tabvolgorde in het dialoogvenster. Als de tabset focus heeft, kun je schakalen naar het volgende en vorige tabblad met respectievelijk PIJL RECHTS en PIJL LINKS.'
 		},
 
 			{

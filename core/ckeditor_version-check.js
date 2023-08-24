@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 /* global console */
@@ -139,17 +139,20 @@
 	}
 
 	function isLatestVersion() {
-		return versionInfo.current.minor === versionInfo.latest.minor &&
-			versionInfo.current.patch === versionInfo.latest.patch;
+		return isEqualOrHigherVersion( versionInfo.current, versionInfo.latest );
 	}
 
 	function isSecureVersion() {
-		if ( versionInfo.current.minor > versionInfo.secure.minor ) {
+		return isEqualOrHigherVersion( versionInfo.current, versionInfo.secure );
+	}
+
+	function isEqualOrHigherVersion( left, right ) {
+		if ( left.minor > right.minor ) {
 			return true;
 		}
 
-		if ( versionInfo.current.minor === versionInfo.secure.minor &&
-			versionInfo.current.patch >= versionInfo.secure.patch ) {
+		if ( left.minor === right.minor &&
+			left.patch >= right.patch ) {
 			return true;
 		}
 

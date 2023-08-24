@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 			{
 			name: 'Editor de quadre de diàleg',
 			legend:
-				'Dins d\'un quadre de diàleg, premi la tecla TAB per desplaçar-se fins al següent element del quadre de diàleg, premi la tecla Shift + TAB per desplaçar-se a l\'anterior element del quadre de diàleg, premi la tecla ENTER per confirmar el quadre de diàleg, premi la tecla ESC per cancel·lar el quadre de diàleg. Quan un quadre de diàleg té diverses pestanyes, la llista de pestanyes pot ser assolit ja sigui amb ALT + F10 o TAB, com a part de l\'ordre de tabulació del quadre de diàleg. Amb la llista de pestanyes seleccionada, pot anar a la fitxa següent i anterior amb la tecla FLETXA DRETA i ESQUERRA, respectivament.' 
+				'Dins d\'un quadre de diàleg, premi la tecla TAB per desplaçar-se fins al següent element del quadre de diàleg, premi la tecla Shift + TAB per desplaçar-se a l\'anterior element del quadre de diàleg, premi la tecla ENTER per confirmar el quadre de diàleg, premi la tecla ESC per cancel·lar el quadre de diàleg. Quan un quadre de diàleg té diverses pestanyes, la llista de pestanyes pot ser assolit ja sigui amb ALT + F10 o TAB, com a part de l\'ordre de tabulació del quadre de diàleg. Amb la llista de pestanyes seleccionada, pot anar a la fitxa següent i anterior amb la tecla FLETXA DRETA i ESQUERRA, respectivament.'
 		},
 
 			{

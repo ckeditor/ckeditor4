@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ro', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ro', {
 			{
 			name: 'Dialog editor',
 			legend:
-				'În interiorul unui dialog, se apasă TAB pentru navigarea la următorul element de dialog, SHIFT+TAB pentru deplasarea la anteriorul element de dialog, ENTER pentru validare dialog, ESC pentru anulare dialog. Când un dialog are secțiuni multiple, lista secțiunilor este accesibilă cu ALT+F10 sau cu TAB ca parte a ordonării secționării dialogului. Cu lista secțiunii activată, deplasarea înainte înapoi se face cu tastele SĂGEATĂ DREAPTA și respectiv STÂNGA.' 
+				'În interiorul unui dialog, se apasă TAB pentru navigarea la următorul element de dialog, SHIFT+TAB pentru deplasarea la anteriorul element de dialog, ENTER pentru validare dialog, ESC pentru anulare dialog. Când un dialog are secțiuni multiple, lista secțiunilor este accesibilă cu ALT+F10 sau cu TAB ca parte a ordonării secționării dialogului. Cu lista secțiunii activată, deplasarea înainte înapoi se face cu tastele SĂGEATĂ DREAPTA și respectiv STÂNGA.'
 		},
 
 			{

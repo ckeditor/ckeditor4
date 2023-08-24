@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'sr-latn', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sr-latn', {
 			{
 			name: 'Uređivač dijaloga',
 			legend:
-				'Unutar dijaloga pritisnite TAB da pređjete na sledeći element dijaloga, pritisnite SHIFT+TAB da pređjete na prethodni element dijaloga, pritisnite ENTER da pošaljete dijalog, pritisnite ESC da otkažete dijalog. Kada dijalog ima više kartica, do liste kartica se može doći ili sa ALT+F10 ili sa TAB kao deo redosleda tabulatora dijaloga. Sa fokusiranom listom kartica, pređjite na sledeću i prethodnu karticu pomoću STRELICE NADESNO, odnosno NALEVO. Pritisnite ESC da odbacite promene i zatvorite dijalog. Fokus će se vratiti na oblast za uređivanje nakon napuštanja dijaloga.' 
+				'Unutar dijaloga pritisnite TAB da pređjete na sledeći element dijaloga, pritisnite SHIFT+TAB da pređjete na prethodni element dijaloga, pritisnite ENTER da pošaljete dijalog, pritisnite ESC da otkažete dijalog. Kada dijalog ima više kartica, do liste kartica se može doći ili sa ALT+F10 ili sa TAB kao deo redosleda tabulatora dijaloga. Sa fokusiranom listom kartica, pređjite na sledeću i prethodnu karticu pomoću STRELICE NADESNO, odnosno NALEVO. Pritisnite ESC da odbacite promene i zatvorite dijalog. Fokus će se vratiti na oblast za uređivanje nakon napuštanja dijaloga.'
 		},
 
 			{

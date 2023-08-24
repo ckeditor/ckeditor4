@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 			{
 			name: 'Dialogu i Redaktuesit',
 			legend:
-				'Në brendi të dialogut, shtyp TAB për të kaluar tek elementi tjetër i dialogut, shtyp SHIFT+TAB për të kaluar tek elementi paraprak i dialogut, shtyp ENTER për të shtuar dialogun, shtyp ESC për të anuluar dialogun.  Kur një dialog ka më shumë fletë, lista e fletëve mund të hapet përmes ALT+F10 ose përmes TAB si pjesë e radhitjes së fletëve të dialogut. Me listën e fokusuar të fletëve,kalo tek fleta paraprake dhe pasuese përmes SHIGJETËS MAJSA ose DJATHTAS.' 
+				'Në brendi të dialogut, shtyp TAB për të kaluar tek elementi tjetër i dialogut, shtyp SHIFT+TAB për të kaluar tek elementi paraprak i dialogut, shtyp ENTER për të shtuar dialogun, shtyp ESC për të anuluar dialogun.  Kur një dialog ka më shumë fletë, lista e fletëve mund të hapet përmes ALT+F10 ose përmes TAB si pjesë e radhitjes së fletëve të dialogut. Me listën e fokusuar të fletëve,kalo tek fleta paraprake dhe pasuese përmes SHIGJETËS MAJSA ose DJATHTAS.'
 		},
 
 			{

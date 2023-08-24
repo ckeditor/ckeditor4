@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'az', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'az', {
 			{
 			name: 'Redaktorun pəncərəsi',
 			legend:
-				'Pəncərə içində növbəti element seçmək üçün TAB düyməni basın, əvvəlki isə - SHIFT+TAB. Təsdiq edilməsi üçün ENTER, imtina edilməsi isə ESC diymələri istifadə edin. Pəncərədə bir neçə vərəq olanda olnarın siyahı ALT+F10 ilə aça bilərsiz. Vərəqlərin siyahı fokus altında olanda ox düymələr vasitəsi ilə onların arasında keçid edə bilərsiz.' 
+				'Pəncərə içində növbəti element seçmək üçün TAB düyməni basın, əvvəlki isə - SHIFT+TAB. Təsdiq edilməsi üçün ENTER, imtina edilməsi isə ESC diymələri istifadə edin. Pəncərədə bir neçə vərəq olanda olnarın siyahı ALT+F10 ilə aça bilərsiz. Vərəqlərin siyahı fokus altında olanda ox düymələr vasitəsi ilə onların arasında keçid edə bilərsiz.'
 		},
 
 			{

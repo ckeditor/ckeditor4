@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'pt-br', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt-br', {
 			{
 			name: 'Diálogo do Editor',
 			legend:
-				'Dentro de um diálogo, pressione TAB para navegar para o próximo elemento, pressione SHIFT+TAB para mover para o elemento anterior, pressione ENTER para enviar o diálogo, pressione ESC para cancelar o diálogo. Quando um diálogo tem múltiplas abas, a lista de abas pode ser acessada com ALT+F10 ou TAB, como parte da ordem de tabulação do diálogo. Com a lista de abas em foco, mova para a próxima aba e para a aba anterior com a SETA DIREITA ou SETA ESQUERDA, respectivamente. Pressione ESC para descartar as mudanças e fechar o diálogo. O foco irá mover de volta para a área de edição após deixar o diálogo.' 
+				'Dentro de um diálogo, pressione TAB para navegar para o próximo elemento, pressione SHIFT+TAB para mover para o elemento anterior, pressione ENTER para enviar o diálogo, pressione ESC para cancelar o diálogo. Quando um diálogo tem múltiplas abas, a lista de abas pode ser acessada com ALT+F10 ou TAB, como parte da ordem de tabulação do diálogo. Com a lista de abas em foco, mova para a próxima aba e para a aba anterior com a SETA DIREITA ou SETA ESQUERDA, respectivamente. Pressione ESC para descartar as mudanças e fechar o diálogo. O foco irá mover de volta para a área de edição após deixar o diálogo.'
 		},
 
 			{

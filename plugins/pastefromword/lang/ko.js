@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
-For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'ko', {
 	confirmCleanup: '붙여 넣을 내용은 MS Word에서 복사 한 것입니다. 붙여 넣기 전에 정리 하시겠습니까?',
