@@ -3,6 +3,7 @@
 /**
  * Bender configuration file
  *
+ * @param {Object}   licenseKey         CKEditor 4 license key, enabled globally for testing.
  * @param {Object}   applications       Applications used in current project
  * @param {Array}    browsers           List of browsers used for testing
  * @param {Number}   captureTimeout     Timeout before which a launched browser should connect to the server
@@ -28,6 +29,7 @@
 'use strict';
 
 var config = {
+	licenseKey: '',
 
 	applications: {
 		ckeditor: {
