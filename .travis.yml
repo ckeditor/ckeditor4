@@ -18,6 +18,7 @@ env:
     - REPO_NAME=$(IFS='/' read -r -a array <<< "$TRAVIS_REPO_SLUG"; echo ${array[1]};)
     - TARGET_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "$TRAVIS_BRANCH^"; else echo "$TRAVIS_BRANCH"; fi)
     - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "$TRAVIS_BRANCH"; else echo "$TRAVIS_PULL_REQUEST_BRANCH"; fi)
+    - secure: "Bm/gL4RFkV9DIpofb2v6Arao8bH21FsVeapb8OyLmFCjW2bmESJ0+5UNfa/pQYthskLHigKSqN1SgKoFQ+Vab5bV/1k0+oepSLz0Q4QibfZOeGCBiG9UeBxU7+2e0Z+QGGjbbv9iLXhlXss8tWhdQTU7Rz55z52Lc5y8M6/nxNyVRavXQezn4KTKZA+k9CE2s9ETbPUN1HmY60TxSdPnZr65KAfHJVFtRyZjOBU8gKwbO8o8ye9EE6KS0eg/YDGtIXYI9A5NDnKCjF+vtE113cGI9f2Bxxci3Us123LeEm2PFd20u0xCeTDpizWPvinQC6dItsnwaYmGaXCU36gjfdegagOO3JYblHlQvUlzHFHiQPKMyjBwiMC1pPZzJZ5c96dr0kc6RPgv3mR1bielQ3pHxRNrip6KLWn8zVlULYBuW7JERo1golrCzaFxFnW6bnwnJzvpZzLar9fCEAgRwqA2OVi4u9na0pogd0XDMNphfmZs/XnXlkGni96dxYjqXXIA1mgKFz5w/I0DNUo3U0K02ptcJ7bm983KZbl8q8k1kTd4hWjCvdWTSy6Q2zrD8plCZTjUHm19fvrtPo2p/M/xa93H20QBMLPSpjYqSYyGbGX0OlM0k/VGFpg8aSaP3QRVuQibwMVs8PjRjozTA9myBe8YgAcKwzW/Jj1OrSs="
 
 jobs:
   exclude:
