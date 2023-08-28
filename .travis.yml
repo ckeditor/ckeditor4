@@ -18,6 +18,7 @@ env:
     - REPO_NAME=$(IFS='/' read -r -a array <<< "$TRAVIS_REPO_SLUG"; echo ${array[1]};)
     - TARGET_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "$TRAVIS_BRANCH^"; else echo "$TRAVIS_BRANCH"; fi)
     - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "$TRAVIS_BRANCH"; else echo "$TRAVIS_PULL_REQUEST_BRANCH"; fi)
+    - secure: "QkTA5VVRwAi1/uAh1LFZUkMrBKn/z/li4qEFZZuLHmV1QWoPTnWZBPVld04aC2rv13CbAjz4MLrbL5HVAloUjDuMFxn/2XogSlfLVMl7SdkZNFgTgnb1FKQ6M52ChANNa7Oyft7Fo5H8EywpYev8me0FPOVKdR/Ep5LLdhXgkEM="
 
 jobs:
   exclude:

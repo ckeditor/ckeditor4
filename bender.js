@@ -29,7 +29,7 @@
 'use strict';
 
 var config = {
-	licenseKey: '',
+	licenseKey: process.env.CKEDITOR_LICENSE_KEY,
 
 	applications: {
 		ckeditor: {
