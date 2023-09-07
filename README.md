@@ -97,6 +97,20 @@ Load the CKEditor 4 script from the CDN:
 
 Since the introduction of the LTS version of CKEditor (`4.23.0-lts`) in June 2023, all future versions of CKEditor 4 contain `-lts` in their version number.
 
+If you acquired the [Extended Support Model](https://ckeditor.com/ckeditor-4-support/) for CKEditor 4 LTS, please read [the CKEditor 4 LTS key activation guide.](https://ckeditor.com/docs/ckeditor4/latest/support/licensing/license-key-and-activation.html)
+
+**CKEditor LTS 4.23.0 and higher requires a valid license key to properly initialize the editor!**
+
+In order to activate CKEditor 4 LTS, add `licenseKey` configure the editor with a valid license key:
+
+```html
+<script>
+    CKEDITOR.replace( 'editor', {
+        licenseKey: 'your license key'
+    } );
+</script>
+```
+
 ### Integrating with Angular, React, and Vue.js
 
 Refer to the official usage guides for the [`ckeditor4-angular`](https://www.npmjs.com/package/ckeditor4-angular#usage), [`ckeditor4-react`](https://www.npmjs.com/package/ckeditor4-react#usage), and [`ckeditor4-vue`](https://www.npmjs.com/package/ckeditor4-vue#installation-and-usage) packages.
