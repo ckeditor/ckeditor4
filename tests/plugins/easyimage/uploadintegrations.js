@@ -132,9 +132,6 @@
 					assert.ignore();
 				}
 
-				if ( bender.config.isTravis && CKEDITOR.env.gecko ) {
-					assert.ignore();
-				}
 				this.sandbox.stub( window, 'alert' );
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
