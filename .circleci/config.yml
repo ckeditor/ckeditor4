@@ -11,7 +11,7 @@ workflows:
 jobs:
   test_chrome:
     docker:
-      - image: cimg/node:10.24.0-browsers
+      - image: cimg/node:10.24.1-browsers
     steps:
       - browser-tools/install-browser-tools
       - checkout
