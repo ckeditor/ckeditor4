@@ -6,6 +6,8 @@
 
 # All "dot directories".
 .*/**
+# Ok, almost all – we need CircleCI config.
+!.circleci/**
 
 node_modules/**
 build/**

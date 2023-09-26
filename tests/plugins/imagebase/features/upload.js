@@ -130,10 +130,6 @@
 			},
 
 			setUp: function() {
-				if ( bender.config.isTravis && CKEDITOR.env.gecko ) {
-					assert.ignore();
-				}
-
 				bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );

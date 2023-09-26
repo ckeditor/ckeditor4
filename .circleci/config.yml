@@ -1,0 +1,70 @@
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.4.6
+
+workflows:
+  test:
+    jobs:
+      - test_chrome
+      - test_firefox
+
+jobs:
+  test_chrome:
+    docker:
+      - image: cimg/node:10.24.1-browsers
+    steps:
+      - browser-tools/install-browser-tools
+      - checkout
+      - run:
+          name: Install npm
+          command: npm install --prefix=$HOME/.local install npm@7 -g
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Install Bender.js CLI
+          command: npm install --prefix=$HOME/.local benderjs-cli -g
+      - run:
+          name: Setup Bender.js test runner
+          command: |
+            cd ..
+            git clone https://github.com/ckeditor/ckeditor4-benderjs-runner.git --branch v1.2.0 --single-branch
+            cd ckeditor4-benderjs-runner
+            npm i
+            pwd
+      - run:
+          name: Run tests on Chrome
+          command: |
+            cd ../ckeditor4-benderjs-runner
+            pwd
+            npm run start -- --configFile "../../project/bender-runner.config.json" --browser "chrome" --fullRun "fullRun" --repoPath "../project/"
+  test_firefox:
+    docker:
+      - image: cimg/node:10.24.0-browsers
+    steps:
+      - browser-tools/install-browser-tools
+      - checkout
+      - run:
+          name: Install npm
+          command: npm install --prefix=$HOME/.local install npm@7 -g
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Install Bender.js CLI
+          command: npm install --prefix=$HOME/.local benderjs-cli -g
+      - run:
+          name: Setup Bender.js test runner
+          command: |
+            cd ..
+            git clone https://github.com/ckeditor/ckeditor4-benderjs-runner.git --branch v1.2.0 --single-branch
+            cd ckeditor4-benderjs-runner
+            npm i
+            pwd
+      - run:
+          name: Run tests on Chrome
+          command: |
+            cd ../ckeditor4-benderjs-runner
+            pwd
+            npm run start -- --configFile "../../project/bender-runner.config.json" --browser "firefox" --fullRun "fullRun" --repoPath "../project/"
+

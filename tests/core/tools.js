@@ -633,11 +633,6 @@
 		},
 
 		'test buffers.throttle': function() {
-			if ( bender.config.isTravis && CKEDITOR.env.gecko ) {
-				// test randomly fails on FF on Travis.
-				assert.ignore();
-			}
-
 			var foo = 'foo',
 				baz = 'baz',
 				inputSpy = sinon.spy(),

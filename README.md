@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/ckeditor4.svg)](https://www.npmjs.com/package/ckeditor4)
 [![GitHub tag](https://img.shields.io/github/tag/ckeditor/ckeditor4.svg)](https://github.com/ckeditor/ckeditor4)
-[![Build Status](https://app.travis-ci.com/ckeditor/ckeditor4.svg?branch=master)](https://app.travis-ci.com/ckeditor/ckeditor4)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/ckeditor/ckeditor4/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/ckeditor/ckeditor4/tree/master)
 
 
 [![Join newsletter](https://img.shields.io/badge/join-newsletter-00cc99.svg)](http://eepurl.com/c3zRPr)
