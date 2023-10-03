@@ -3,14 +3,23 @@
 		lang: 'en',
 		icons: 'awesome',
 		hidpi: false,
-		requires: 'widget,qti_common',
-		onLoad: function() {
-			CKEDITOR.addCss('.cke_button_label.cke_button__generatepassage { display: inline; }');
-		},
+		requires: '',
 		init: function (editor) {
 			editor.addCommand('generatePassage', {
 				exec: function(editor) {
 					editor.insertText('Generated passage here.');
+				}
+			});
+
+			// required to override ckeditor's display: none for text
+			CKEDITOR.on('instanceReady', function(event) {
+				let button = event.editor.container.$.querySelector('.cke_button__generatepassage');
+				if (button) {
+					let label = button.querySelector('.cke_button_label');
+					if (label) {
+						label.style.display = 'inline';
+						label.style.cursor = 'pointer';
+					}
 				}
 			});
 
