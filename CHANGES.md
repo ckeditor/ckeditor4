@@ -1,6 +1,10 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.11
+- [#15](https://github.com/interviewstreet/ckeditor-dev/pull/15)
+  - Added new languages for internationalization
+
 ## CKEditor 4.11.4.10
 - [#14](https://github.com/interviewstreet/ckeditor-dev/pull/14)
   - Update error message for auth errors
