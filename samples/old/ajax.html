@@ -19,7 +19,19 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 				return;
 
 			// Create a new editor inside the <div id="editor">, setting its value to html
-			var config = {};
+			var config = {
+				on: {
+					contentPreview: function( evt ) {
+						evt.data.dataValue = '<div style="padding: 1.5em;border: 3px #f00 solid">' +
+								'<h1>Content Preview was blocked</h1>' +
+								'<p>To ensure the highest security, the content preview in samples was blocked.</p>' +
+								'<p>Please refer to our ' +
+									'<a href="https://ckeditor.com/docs/ckeditor4/latest/guide/dev_best_practices.html#validate-preview-content">' +
+									'best practices on security</a> to learn more how to properly configure and secure the content preview.</p>' +
+							'</div>';
+					}
+				}
+			};
 			editor = CKEDITOR.appendTo( 'editor', config, html );
 		}
 
@@ -29,7 +41,7 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 
 			// Retrieve the editor contents. In an Ajax application, this data would be
 			// sent to the server or used in any other way.
-			document.getElementById( 'editorcontents' ).innerHTML = html = editor.getData();
+			document.getElementById( 'editorcontents' ).value = html = editor.getData();
 			document.getElementById( 'contents' ).style.display = '';
 
 			// Destroy the editor.
@@ -69,8 +81,7 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 			Edited Contents:
 		</p>
 		<!-- This div will be used to display the editor contents. -->
-		<div id="editorcontents">
-		</div>
+		<textarea id="editorcontents" style="width: 100%;min-height: 2em;"></textarea>
 	</div>
 	<div id="footer">
 		<hr>

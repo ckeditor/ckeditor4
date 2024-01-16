@@ -106,9 +106,31 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 			// window.onload event handler.
 
 			CKEDITOR.replace( 'editor1', {
+				plugins: [
+					'wysiwygarea',
+					'sourcearea',
+					'clipboard',
+					'basicstyles',
+					'pastefromword',
+					'pastefromlibreoffice',
+					'pastefromgdocs',
+					'undo',
+					'stylescombo',
+					'format',
+					'font',
+					'colorbutton',
+					'removeformat',
+					'link',
+					'list',
+					'justify',
+					'blockquote',
+					'table',
+					'tabletools',
+					'image',
+					'horizontalrule'
+				],
 				extraPlugins: 'magicline',	// Ensure that magicline plugin, which is required for this sample, is loaded.
-				allowedContent: true		// Switch off the ACF, so very complex content created to
-											// show magicline's power isn't filtered.
+				extraAllowedContent: 'div{*}'
 			} );
 
 		</script>
@@ -188,10 +210,32 @@ CKEDITOR.replace( 'editor2', {
 			// window.onload event handler.
 
 			CKEDITOR.replace( 'editor2', {
+				plugins: [
+					'wysiwygarea',
+					'sourcearea',
+					'clipboard',
+					'basicstyles',
+					'pastefromword',
+					'pastefromlibreoffice',
+					'pastefromgdocs',
+					'undo',
+					'stylescombo',
+					'format',
+					'font',
+					'colorbutton',
+					'removeformat',
+					'link',
+					'list',
+					'justify',
+					'blockquote',
+					'table',
+					'tabletools',
+					'image',
+					'horizontalrule'
+				],
 				extraPlugins: 'magicline',	// Ensure that magicline plugin, which is required for this sample, is loaded.
 				magicline_color: 'blue',	// Blue line
-				allowedContent: true		// Switch off the ACF, so very complex content created to
-											// show magicline's power isn't filtered.
+				extraAllowedContent: 'div{*}'
 			});
 
 		</script>

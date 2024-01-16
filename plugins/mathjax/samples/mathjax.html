@@ -25,6 +25,47 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 	<div class="warning deprecated">
 		This sample is not maintained anymore. Check out its <a href="https://ckeditor.com/docs/ckeditor4/latest/examples/mathjax.html">brand new version in CKEditor Examples</a>.
 	</div>
+	<form action="../../../samples/sample_posteddata.php" method="post">
+		<div class="description">
+			<p>
+				This editor allows displaying mathematical formulas, enabled by the <strong>Mathjax</strong> plugin.
+			</p>
+<pre class="samples">
+CKEDITOR.replace( '<em>textarea_id</em>', {
+	extraPlugins: 'mathjax',
+	mathJaxLib: '<em>&lt;URL to the MathJax library&gt;</em>'
+} );</pre>
+		</div>
+		<div id="editor1">
+			<p>The following equations are represented in the HTML source code as LaTeX expressions.</p>
+			<h1>The Cauchy-Schwarz Inequality</h1>
+			<p><span class="math-tex">\( \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) \)</span></p>
+			<h1>The probability of getting <span class="math-tex">\(k\)</span> heads when flipping <span class="math-tex">\(n\)</span> coins is</h1>
+			<p><span class="math-tex">\(P(E) = {n \choose k} p^k (1-p)^{ n-k} \)</span></p>
+			<p>Finally, while displaying equations is useful for demonstration purposes, the ability to mix math and text in a paragraph is also important. This expression <span class="math-tex">\(\sqrt{3x-1}+(1+x)^2\)</span> is an example of an inline equation. As you see, MathJax equations can be used this way as well, without disturbing the spacing between the lines.</p>
+		</div>
+		<script>
+
+			// This call can be placed at any point after the
+			// <textarea>, or inside a <head><script> in a
+			// window.onload event handler.
+
+			// Replace the <textarea id="editor"> with an CKEditor
+			// instance, using default configurations.
+			CKEDITOR.replace( 'editor1', {
+				plugins: [
+					'wysiwygarea',
+					'sourcearea',
+					'clipboard',
+					'basicstyles',
+					'undo',
+					'format'
+				],
+				extraPlugins: 'mathjax',
+				mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML'
+			} );
+
+		</script>
 	<div id="footer">
 		<hr>
 		<p>

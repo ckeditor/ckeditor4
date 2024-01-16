@@ -24,6 +24,28 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 
 			// Create the editor again, with the appropriate settings.
 			editor = CKEDITOR.replace( 'editor1', {
+				plugins: [
+					'wysiwygarea',
+					'sourcearea',
+					'clipboard',
+					'basicstyles',
+					'pastefromword',
+					'pastefromlibreoffice',
+					'pastefromgdocs',
+					'undo',
+					'stylescombo',
+					'format',
+					'font',
+					'colorbutton',
+					'removeformat',
+					'link',
+					'list',
+					'justify',
+					'blockquote',
+					'table',
+					'tabletools',
+					'image'
+				],
 				extraPlugins: 'enterkey',
 				enterMode: Number( document.getElementById( 'xEnter' ).value ),
 				shiftEnterMode: Number( document.getElementById( 'xShiftEnter' ).value )

@@ -121,10 +121,7 @@ CKEDITOR.htmlParser = function() {
 				if ( tagIndex > nextIndex ) {
 					var text = html.substring( nextIndex, tagIndex );
 
-					if ( cdata )
-						cdata.push( text );
-					else
-						this.onText( text );
+					this.onText( text );
 				}
 
 				nextIndex = this._.htmlPartsRegex.lastIndex;
@@ -142,7 +139,7 @@ CKEDITOR.htmlParser = function() {
 
 					if ( cdata && CKEDITOR.dtd.$cdata[ tagName ] ) {
 						// Send the CDATA data.
-						this.onCDATA( cdata.join( '' ) );
+						this.onCDATA( cdata );
 						cdata = null;
 					}
 
@@ -152,20 +149,15 @@ CKEDITOR.htmlParser = function() {
 					}
 				}
 
-				// If CDATA is enabled, just save the raw match.
-				if ( cdata ) {
-					cdata.push( parts[ 0 ] );
-					continue;
-				}
-
 				// Opening tag
 				if ( ( tagName = parts[ 3 ] ) ) {
 					tagName = tagName.toLowerCase();
 
 					// There are some tag names that can break things, so let's
 					// simply ignore them when parsing. (https://dev.ckeditor.com/ticket/5224)
-					if ( /="/.test( tagName ) )
+					if ( /="/.test( tagName ) ) {
 						continue;
+					}
 
 					var attribs = {},
 						attribMatch,
@@ -186,9 +178,22 @@ CKEDITOR.htmlParser = function() {
 
 					this.onTagOpen( tagName, attribs, selfClosing );
 
-					// Open CDATA mode when finding the appropriate tags.
-					if ( !cdata && CKEDITOR.dtd.$cdata[ tagName ] )
-						cdata = [];
+					// CDATA
+					if ( CKEDITOR.dtd.$cdata[ tagName ] ) {
+						var closingTagRegex = new RegExp( '<\/' + tagName + '>', 'i' ),
+							htmlPart = html.substring( nextIndex ),
+							closingTagIndex = htmlPart.search( closingTagRegex );
+
+						// If closing tag was not found, treat all remaining text as CDATA.
+						if ( closingTagIndex === -1 ) {
+							closingTagIndex = htmlPart.length;
+						}
+
+						cdata = htmlPart.substring( 0, closingTagIndex );
+
+						this._.htmlPartsRegex.lastIndex = nextIndex + cdata.length;
+						nextIndex = this._.htmlPartsRegex.lastIndex;
+					}
 
 					continue;
 				}
