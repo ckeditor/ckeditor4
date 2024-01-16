@@ -147,7 +147,9 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					on: {
 						pluginsLoaded: configureTransformations,
 						loaded: configureHtmlWriter
-					}
+					},
+
+					removePlugins: 'preview, print'
 				});
 
 				/*

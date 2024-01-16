@@ -30,10 +30,34 @@ var initSample = ( function() {
 
 		// Depending on the wysiwygarea plugin availability initialize classic or inline editor.
 		if ( wysiwygareaAvailable ) {
-			CKEDITOR.replace( 'editor' );
+			CKEDITOR.replace( 'editor', {
+				on: {
+					contentPreview: function( evt ) {
+						evt.data.dataValue = '<div style="padding: 1.5em;border: 3px #f00 solid">' +
+								'<h1>Content Preview was blocked</h1>' +
+								'<p>To ensure the highest security, the content preview in samples was blocked.</p>' +
+								'<p>Please refer to our ' +
+									'<a href="https://ckeditor.com/docs/ckeditor4/latest/guide/dev_best_practices.html#validate-preview-content">' +
+									'best practices on security</a> to learn more how to properly configure and secure the content preview.</p>' +
+							'</div>';
+					}
+				}
+			} );
 		} else {
 			editorElement.setAttribute( 'contenteditable', 'true' );
-			CKEDITOR.inline( 'editor' );
+			CKEDITOR.inline( 'editor', {
+				on: {
+					contentPreview: function( evt ) {
+						evt.data.dataValue = '<div style="padding: 1.5em;border: 3px #f00 solid">' +
+								'<h1>Content Preview was blocked</h1>' +
+								'<p>To ensure the highest security, the content preview in samples was blocked.</p>' +
+								'<p>Please refer to our ' +
+									'<a href="https://ckeditor.com/docs/ckeditor4/latest/guide/dev_best_practices.html#validate-preview-content">' +
+									'best practices on security</a> to learn more how to properly configure and secure the content preview.</p>' +
+							'</div>';
+					}
+				}
+			} );
 
 			// TODO we can consider displaying some info box that
 			// without wysiwygarea the classic editor may not work.

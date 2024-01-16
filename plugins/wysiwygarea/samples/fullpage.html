@@ -33,17 +33,12 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 		</p>
 <pre class="samples">
 CKEDITOR.replace( '<em>textarea_id</em>', {
-	<strong>fullPage: true</strong>,
-	<strong>allowedContent: true</strong>
+	<strong>fullPage: true</strong>
 });
 </pre>
 		<p>
 			Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
 			the <code>&lt;textarea&gt;</code> element to be replaced.
-		</p>
-		<p>
-			The <code><em>allowedContent</em></code> in the code above is set to <code>true</code> to disable content filtering.
-			Setting this option is not obligatory, but in full page mode there is a strong chance that one may want be able to freely enter any HTML content in source mode without any limitations.
 		</p>
 	</div>
 	<form action="../../../samples/sample_posteddata.php" method="post">
@@ -58,9 +53,19 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 
 			CKEDITOR.replace( 'editor1', {
 				fullPage: true,
-				allowedContent: true,
-				extraPlugins: 'wysiwygarea'
-			});
+				extraPlugins: 'wysiwygarea',
+				on: {
+					contentPreview: function( evt ) {
+						evt.data.dataValue = '<div style="padding: 1.5em;border: 3px #f00 solid">' +
+								'<h1>Content Preview was blocked</h1>' +
+								'<p>To ensure the highest security, the content preview in samples was blocked.</p>' +
+								'<p>Please refer to our ' +
+									'<a href="https://ckeditor.com/docs/ckeditor4/latest/guide/dev_best_practices.html#validate-preview-content">' +
+									'best practices on security</a> to learn more how to properly configure and secure the content preview.</p>' +
+							'</div>';
+					}
+				}
+			} );
 
 		</script>
 		<p>

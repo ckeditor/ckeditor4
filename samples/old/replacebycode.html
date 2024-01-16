@@ -39,7 +39,19 @@ CKEDITOR.replace( '<em>textarea_id</em>' )
 			// Replace the <textarea id="editor"> with an CKEditor
 			// instance, using default configurations.
 
-			CKEDITOR.replace( 'editor1' );
+			CKEDITOR.replace( 'editor1', {
+				on: {
+					contentPreview: function( evt ) {
+						evt.data.dataValue = '<div style="padding: 1.5em;border: 3px #f00 solid">' +
+								'<h1>Content Preview was blocked</h1>' +
+								'<p>To ensure the highest security, the content preview in samples was blocked.</p>' +
+								'<p>Please refer to our ' +
+									'<a href="https://ckeditor.com/docs/ckeditor4/latest/guide/dev_best_practices.html#validate-preview-content">' +
+									'best practices on security</a> to learn more how to properly configure and secure the content preview.</p>' +
+							'</div>';
+					}
+				}
+			} );
 
 		</script>
 		<p>

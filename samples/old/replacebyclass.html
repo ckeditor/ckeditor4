@@ -8,6 +8,19 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 	<meta charset="utf-8">
 	<title>Replace Textareas by Class Name &mdash; CKEditor Sample</title>
 	<script src="../../ckeditor.js"></script>
+	<script>
+		CKEDITOR.on( 'instanceCreated', function( evt ) {
+			evt.editor.on( 'contentPreview',function( evt ) {
+				evt.data.dataValue = '<div style="padding: 1.5em;border: 3px #f00 solid">' +
+						'<h1>Content Preview was blocked</h1>' +
+						'<p>To ensure the highest security, the content preview in samples was blocked.</p>' +
+						'<p>Please refer to our ' +
+							'<a href="https://ckeditor.com/docs/ckeditor4/latest/guide/dev_best_practices.html#validate-preview-content">' +
+							'best practices on security</a> to learn more how to properly configure and secure the content preview.</p>' +
+					'</div>';
+			} );
+		} );
+	</script>
 	<link rel="stylesheet" href="sample.css">
 	<meta name="description" content="Try the latest sample of CKEditor 4 and learn more about customizing your WYSIWYG editor with endless possibilities.">
 </head>
