@@ -20,11 +20,11 @@ If you would like to keep access to future CKEditor 4 security patches, check th
 
 You can read more details in the relevant security advisories. [Contact us](security@cksource.com) if you have more questions.
 
+**An upgrade is highly recommended!**
+
 Fixed Issues:
 
 * Fixed: The CDATA parsing mechanism incorrectly detects the end of CDATA content. This fix unifies how style and script elements are parsed with the browser's behavior.
-
-**An upgrade is highly recommended!**
 
 ## CKEditor 4.23.0-lts
 
