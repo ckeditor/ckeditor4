@@ -14,7 +14,7 @@ If you would like to keep access to future CKEditor 4 security patches, check th
 
 	Issue summary: The vulnerability allowed to execute JavaScript code by abusing the AJAX sample. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-wh5w-82f3-wrxh) for more details.
 
-* Cross-site scripting (XSS) vulnerability in samples with enabled preview.
+* Cross-site scripting (XSS) vulnerability in samples with enabled the preview feature.
 
 	Issue summary: The vulnerability allowed to execute JavaScript code by abusing the misconfigured preview feature. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-mw2c-vx6j-mg76) for more details.
 
