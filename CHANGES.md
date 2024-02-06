@@ -2,6 +2,32 @@
 
 If you would like to keep access to future CKEditor 4 security patches, check the [Extended Support Model](https://ckeditor.com/ckeditor-4-support/), which guarantees **security updates and critical bug fixes until December 2026**. Alternatively, [upgrade to CKEditor 5](https://ckeditor.com/docs/ckeditor5/latest/updating/ckeditor4/migration-from-ckeditor-4.html).
 
+## CKEditor 4.24.0-lts
+
+⚠️️️ Please note that this release is a part of [CKEditor 4 Extended Support Model](https://ckeditor.com/ckeditor-4-support/), only available to customers who decided to acquire the LTS (Long Term Support) version of the editor. **All editor versions below 4.24.0-lts can no longer be considered as secure!** ⚠️
+
+**Security Updates:**
+
+* Fixed cross-site scripting (XSS) vulnerability caused by incorrect CDATA detection.
+
+	Issue summary: The vulnerability allowed to inject malformed HTML content bypassing Advanced Content Filtering mechanism, which could result in executing JavaScript code. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-fq6h-4g8v-qqvm) for more details.
+
+* Fixed cross-site scripting (XSS) vulnerability in AJAX sample.
+
+	Issue summary: The vulnerability allowed to execute JavaScript code by abusing the AJAX sample. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-wh5w-82f3-wrxh) for more details.
+
+* Cross-site scripting (XSS) vulnerability in samples with enabled the preview feature.
+
+	Issue summary: The vulnerability allowed to execute JavaScript code by abusing the misconfigured preview feature. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-mw2c-vx6j-mg76) for more details.
+
+You can read more details in the relevant security advisories. [Contact us](security@cksource.com) if you have more questions.
+
+**An upgrade is highly recommended!**
+
+Fixed Issues:
+
+* Fixed: The CDATA parsing mechanism incorrectly detects the end of CDATA content. This fix unifies how style and script elements are parsed with the browser's behavior.
+
 ## CKEditor 4.23.0-lts
 
 This release introduces the LTS (”Long Term Support”) version of the editor, available under commercial terms (["Extended Support Model"](https://ckeditor.com/ckeditor-4-support/)).
