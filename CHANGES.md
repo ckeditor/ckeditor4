@@ -4,6 +4,8 @@ If you would like to keep access to future CKEditor 4 security patches, check th
 
 ## CKEditor 4.24.0-lts
 
+⚠️️️ Please note that this release is a part of [CKEditor 4 Extended Support Model](https://ckeditor.com/ckeditor-4-support/), only available to customers who decided to acquire the LTS (Long Term Support) version of the editor. **All editor versions below 4.24.0-lts can no longer be considered as secure!** ⚠️
+
 **Security Updates:**
 
 * Fixed cross-site scripting (XSS) vulnerability caused by incorrect CDATA detection.
