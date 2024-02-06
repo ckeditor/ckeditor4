@@ -8,15 +8,15 @@ If you would like to keep access to future CKEditor 4 security patches, check th
 
 **Security Updates:**
 
-* Fixed cross-site scripting (XSS) vulnerability caused by incorrect CDATA detection.
+* Fixed cross-site scripting (XSS) vulnerability caused by incorrect CDATA detection reported by [Michal Frýba](https://cz.linkedin.com/in/michal-fryba), [ALEF NULA](https://www.alefnula.com/).
 
 	Issue summary: The vulnerability allowed to inject malformed HTML content bypassing Advanced Content Filtering mechanism, which could result in executing JavaScript code. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-fq6h-4g8v-qqvm) for more details.
 
-* Fixed cross-site scripting (XSS) vulnerability in AJAX sample.
+* Fixed cross-site scripting (XSS) vulnerability in AJAX sample reported by Rafael Pedrero, see [INCIBE](https://www.incibe.es/en/incibe-cert/notices/aviso/cross-site-scripting-vulnerability-cksource-ckeditor) report.
 
 	Issue summary: The vulnerability allowed to execute JavaScript code by abusing the AJAX sample. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-wh5w-82f3-wrxh) for more details.
 
-* Cross-site scripting (XSS) vulnerability in samples with enabled the preview feature.
+* Cross-site scripting (XSS) vulnerability in samples with enabled the preview feature reported by Marcin Wyczechowski & Michał Majchrowicz, AFINE Team.
 
 	Issue summary: The vulnerability allowed to execute JavaScript code by abusing the misconfigured preview feature. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-mw2c-vx6j-mg76) for more details.
 
