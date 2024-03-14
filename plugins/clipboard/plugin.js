@@ -157,6 +157,13 @@
 						data = dataObj.dataValue,
 						dataTransfer = dataObj.dataTransfer;
 
+					var pastedText = evt.data.dataTransfer.getData( 'text/plain' );
+					var onPasteCallback = editor.config.onPasteCallback;
+					if (typeof onPasteCallback === 'function') {
+						onPasteCallback(pastedText);
+					}
+
+
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
 					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
 						var file = dataTransfer.getFile( 0 );
@@ -196,6 +203,12 @@
 					evt.data.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 				}
 
+
+				var pastedText = evt.data.dataTransfer.getData( 'text/plain' );
+				var onPasteCallback = editor.config.onPasteCallback;
+				if (typeof onPasteCallback === 'function') {
+					onPasteCallback(pastedText);
+				}
 				// If dataValue is already set (manually or by paste bin), so do not override it.
 				if ( evt.data.dataValue ) {
 					return;
@@ -623,6 +636,11 @@
 					// If user tries to cut in read-only editor, we must prevent default action (https://dev.ckeditor.com/ticket/13872).
 					if ( !editor.readOnly || evt.name != 'cut' ) {
 						clipboard.initPasteDataTransfer( evt, editor );
+					}
+					var copiedText = evt.data.$.clipboardData.getData( 'text/plain' );
+					var onCopyCallback = editor.config.onCopyCallback;
+					if (typeof onCopyCallback === 'function') {
+						onCopyCallback(copiedText);
 					}
 					evt.data.preventDefault();
 				};
