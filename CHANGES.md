@@ -5,7 +5,7 @@
 - [#15](https://github.com/interviewstreet/ckeditor-dev/pull/17)
   - Support added for executing callback functions
 ## CKEditor 4.11.4.12
-- [#15](https://github.com/interviewstreet/ckeditor-dev/pull/16)
+- [#19](https://github.com/interviewstreet/ckeditor-dev/pull/19)
   - Added new content templates for accessiblity
 
 ## CKEditor 4.11.4.11
