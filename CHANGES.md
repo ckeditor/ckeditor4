@@ -1,6 +1,10 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.13
+- [#15](https://github.com/interviewstreet/ckeditor-dev/pull/17)
+  - Support added for executing callback functions
+
 ## CKEditor 4.11.4.11
 - [#15](https://github.com/interviewstreet/ckeditor-dev/pull/15)
   - Added new languages for internationalization
