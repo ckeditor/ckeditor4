@@ -1,9 +1,13 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.14
+- [#20](https://github.com/interviewstreet/ckeditor-dev/pull/17)
+	- Adding 17 more languages for candidate site i18n(codesnippet plugin)
+
 ## CKEditor 4.11.4.13
 - [#15](https://github.com/interviewstreet/ckeditor-dev/pull/17)
-  - Support added for executing callback functions
+  - Support added for executing callback functions on paste and copy activity
 ## CKEditor 4.11.4.12
 - [#19](https://github.com/interviewstreet/ckeditor-dev/pull/19)
   - Added new content templates for accessiblity
