@@ -16,6 +16,10 @@ A special edition, **[CKEditor 4 LTS](https://ckeditor.com/ckeditor-4-support/)*
 
 With CKEditor 4 LTS, security updates and critical bug fixes are guaranteed until December 2026.
 
+### Important update for CKEditor 4 Users
+
+Starting July 1, 2024, on the first anniversary of the end of life of CKEditor 4, we will activate security notifications for CKEditor 4. This change will impact the open-source version 4.22 and all earlier versions served via our CDN. Read more about the planned changes in a [dedicated article](https://ckeditor.com/blog/important-update-for-ckeditor-4-users/).
+
 ## About this repository
 
 ### Master branch = CKEditor 4 LTS
