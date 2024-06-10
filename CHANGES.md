@@ -1,6 +1,10 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.15
+- [#20](https://github.com/interviewstreet/ckeditor-dev/pull/21)
+	- Fixed whitespace issue in templates
+
 ## CKEditor 4.11.4.14
 - [#20](https://github.com/interviewstreet/ckeditor-dev/pull/17)
 	- Adding 17 more languages for candidate site i18n(codesnippet plugin)
