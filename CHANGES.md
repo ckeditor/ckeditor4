@@ -1,17 +1,25 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.16
+  - [#22](https://github.com/interviewstreet/ckeditor-dev/pull/22)
+    - Feature
+      - Add Support for Test Name and Test Link.
+    - Patch
+      - Allow consumer application to configure className, contentsCss and title property for the plugin.
+
 ## CKEditor 4.11.4.15
-- [#20](https://github.com/interviewstreet/ckeditor-dev/pull/21)
+- [#21](https://github.com/interviewstreet/ckeditor-dev/pull/21)
 	- Fixed whitespace issue in templates
 
 ## CKEditor 4.11.4.14
-- [#20](https://github.com/interviewstreet/ckeditor-dev/pull/17)
+- [#20](https://github.com/interviewstreet/ckeditor-dev/pull/20)
 	- Adding 17 more languages for candidate site i18n(codesnippet plugin)
 
 ## CKEditor 4.11.4.13
-- [#15](https://github.com/interviewstreet/ckeditor-dev/pull/17)
+- [#17](https://github.com/interviewstreet/ckeditor-dev/pull/17)
   - Support added for executing callback functions on paste and copy activity
+
 ## CKEditor 4.11.4.12
 - [#19](https://github.com/interviewstreet/ckeditor-dev/pull/19)
   - Added new content templates for accessiblity
@@ -27,7 +35,6 @@
 ## CKEditor 4.11.4.9
 - [#13](https://github.com/interviewstreet/ckeditor-dev/pull/13)
   - Pass cookies in file upload option of `image2` plugin to support auth
-
 
 ## CKEditor 4.11.4.8
 - [#12](https://github.com/interviewstreet/ckeditor-dev/pull/12)

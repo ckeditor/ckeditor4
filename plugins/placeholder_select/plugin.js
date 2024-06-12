@@ -42,15 +42,14 @@ CKEDITOR.plugins.add('placeholder_select',
       // add the menu to the editor
       editor.ui.addRichCombo('placeholder_select', {
         voiceLabel: 'Insert placeholder',
-        className: ['cke_format', config.className].filter(cls => cls.trim().length > 0).join(' '),
+        className: ['cke_format', config.className].join(' ').trim(),
         title: config.title,
         multiSelect: false,
         panel: {
           css: [
             editor.config.contentsCss,
             CKEDITOR.skin.getPath('editor'),
-            ...config.contentsCss,
-          ],
+          ].concat(config.contentsCss),
           voiceLabel: editor.lang.panelVoiceLabel
         },
 
