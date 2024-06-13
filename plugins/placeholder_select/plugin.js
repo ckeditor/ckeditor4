@@ -49,7 +49,8 @@ CKEDITOR.plugins.add('placeholder_select',
           css: [
             editor.config.contentsCss,
             CKEDITOR.skin.getPath('editor'),
-          ].concat(config.contentsCss),
+            config.contentsCss,
+          ].flat(),
           voiceLabel: editor.lang.panelVoiceLabel
         },
 

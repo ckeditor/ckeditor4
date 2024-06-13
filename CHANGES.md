@@ -1,12 +1,17 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.17
+  - [#23](https://github.com/interviewstreet/ckeditor-dev/pull/23)
+    - Patch
+      - plugins/placeholder_select: Fix Stylesheet Parser logic to flatten the CSS filepath list.
+
 ## CKEditor 4.11.4.16
   - [#22](https://github.com/interviewstreet/ckeditor-dev/pull/22)
     - Feature
-      - Add Support for Test Name and Test Link.
+      - plugins/placeholder_select: Add Support for Test Name and Test Link.
     - Patch
-      - Allow consumer application to configure className, contentsCss and title property for the plugin.
+      - plugins/placeholder_select: Allow consumer application to configure className, contentsCss and title property for the plugin.
 
 ## CKEditor 4.11.4.15
 - [#21](https://github.com/interviewstreet/ckeditor-dev/pull/21)
