@@ -166,12 +166,17 @@
 			return null;
 		}
 
+		var minor = parseInt( parts[ 1 ] ),
+			patch = parseInt( parts[ 2 ] ),
+			isIts = !!parts[ 3 ],
+			name = '4.' + minor + '.' + patch + ( isIts ? '-lts' : '' );
+
 		return {
-			original: version,
+			name: name,
 			major: 4,
-			minor: Number( parts[ 1 ] ),
-			patch: Number( parts[ 2 ] ),
-			isLts: !!parts[ 3 ]
+			minor: minor,
+			patch: patch,
+			isLts: isIts
 		};
 	}
 
