@@ -205,17 +205,24 @@
 	};
 
 	/**
-	 * Trims MathJax value from '\(1+1=2\)' to '1+1=2'.
+	 * Trims MathJax value from '\(1+1=2\)' , '\[1+1=2\]' or `1+1=2` to '1+1=2'.
 	 *
 	 * @private
 	 * @param {String} value String to trim.
 	 * @returns {String} Trimed string.
 	 */
 	CKEDITOR.plugins.mathjax.trim = function( value ) {
-		var begin = value.indexOf( '\\(' ) + 2,
-			end = value.lastIndexOf( '\\)' );
-
-		return value.substring( begin, end );
+		if (value.indexOf('\\(') !== -1 && value.indexOf('\\)') !== -1)
+			var begin = value.indexOf( '\\(' ) + 2,
+				end = value.lastIndexOf( '\\)' );
+		else
+			if (value.indexOf('\\[') !== -1 && value.indexOf('\\]') !== -1)
+				var begin = value.indexOf('\\[') + 2,
+					end = value.lastIndexOf('\\]');
+		if (value.indexOf('`') !== -1 && value.indexOf('`') !== -1)
+			var begin = value.indexOf('`') + 2,
+				end = value.lastIndexOf('`');
+		return value.substring(begin, end);
 	};
 
 	/**
