@@ -1,6 +1,10 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.18
+  - [#23](https://github.com/interviewstreet/ckeditor-dev/pull/23)
+    - Update: Content templates for coding questions
+
 ## CKEditor 4.11.4.17
   - [#23](https://github.com/interviewstreet/ckeditor-dev/pull/23)
     - Patch
