@@ -12,7 +12,7 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 	<!-- %REMOVE_LINE%
 	<link href="../../../plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
 	%REMOVE_LINE% -->
-	<link href="../lib/highlight/styles/monokai_sublime.css" rel="stylesheet"><!-- %REMOVE_LINE% -->
+	<link href="../lib/highlight/styles/monokai-sublime.css" rel="stylesheet"><!-- %REMOVE_LINE% -->
 	<meta name="ckeditor-sample-name" content="Code Snippet plugin">
 	<meta name="ckeditor-sample-group" content="Plugins">
 	<meta name="ckeditor-sample-description" content="View and modify code using the Code Snippet plugin.">
@@ -55,7 +55,7 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 <pre class="samples" id="sampleConfig">
 CKEDITOR.replace( 'editor1', {
 	<strong>extraPlugins: 'codesnippet',</strong>
-	codeSnippet_theme: 'monokai_sublime'
+	codeSnippet_theme: 'monokai-sublime'
 } );
 </pre>
 
@@ -118,7 +118,7 @@ CKEDITOR.inline( 'editable', {
 <pre class="samples">
 &lt;head&gt;
 	...
-	&lt;link href="path/to/highlight.js/styles/monokai_sublime.css" rel="stylesheet"&gt;
+	&lt;link href="path/to/highlight.js/styles/monokai-sublime.css" rel="stylesheet"&gt;
 &lt;/head&gt;
 </pre>
 
@@ -174,7 +174,7 @@ CKEDITOR.inline( 'editable', {
 				toolbar: [
 					[ 'Source' ], [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
 				],
-				codeSnippet_theme: 'monokai_sublime',
+				codeSnippet_theme: 'monokai-sublime',
 				height: 400
 			};
 
@@ -188,7 +188,7 @@ CKEDITOR.inline( 'editable', {
 
 			function initThemeChange() {
 				var templates = [
-						'monokai_sublime', 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn'
+						'monokai-sublime', 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn'
 					],
 					pre = CKEDITOR.document.getById( 'sampleConfig' ),
 					select = CKEDITOR.document.getById( 'select' ),

@@ -19,7 +19,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		isSupportedEnvironment: function() {
-			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
+			return !CKEDITOR.env.ie;
 		},
 
 		beforeInit: function( editor ) {
@@ -110,7 +110,7 @@
 						var that = this;
 
 						if ( editor.plugins.codesnippet.isSupportedEnvironment() ) {
-							CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js', function() {
+							CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.min.js', function() {
 								that.hljs = window.hljs;
 								callback();
 							} );
@@ -118,7 +118,7 @@
 
 						// Method is available only if wysiwygarea exists.
 						if ( editor.addContentsCss ) {
-							editor.addContentsCss( path + 'lib/highlight/styles/' + editor.config.codeSnippet_theme + '.css' );
+							editor.addContentsCss( path + 'lib/highlight/styles/' + editor.config.codeSnippet_theme + '.min.css' );
 						}
 					},
 
