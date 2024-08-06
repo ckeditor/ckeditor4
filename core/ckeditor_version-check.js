@@ -52,7 +52,7 @@
 
 		try {
 			var request = new XMLHttpRequest(),
-				requestUrl = apiUrl + '?v=' + encodeURIComponent( versionInfo.current.original );
+				requestUrl = apiUrl + '?v=' + encodeURIComponent( versionInfo.current.name );
 
 			request.onreadystatechange = function() {
 				if ( request.readyState === 4 && request.status === 200 ) {
@@ -79,8 +79,8 @@
 			return;
 		}
 
-		var notificationMessage =  editor.lang.versionCheck.notificationMessage.replace( '%current', versionInfo.current.original ).
-				replace( '%latest', versionInfo.latest.original ).
+		var notificationMessage =  editor.lang.versionCheck.notificationMessage.replace( '%current', versionInfo.current.name ).
+				replace( '%latest', versionInfo.latest.name ).
 				replace( /%link/g, upgradeLink ),
 			isNotificationAvailable = 'notification' in editor.plugins;
 
@@ -102,8 +102,8 @@
 
 		consoleErrorDisplayed = true;
 
-		var consoleMessage =  editor.lang.versionCheck.consoleMessage.replace( '%current', versionInfo.current.original ).
-			replace( '%latest', versionInfo.latest.original ).
+		var consoleMessage =  editor.lang.versionCheck.consoleMessage.replace( '%current', versionInfo.current.name ).
+			replace( '%latest', versionInfo.latest.name ).
 			replace( /%link/g, upgradeLink );
 
 		console.error( consoleMessage );
@@ -133,8 +133,8 @@
 			msg = lang.aboutDialogInsecureMessage;
 		}
 
-		return msg.replace( '%current', versionInfo.current.original ).
-				replace( '%latest', versionInfo.latest.original ).
+		return msg.replace( '%current', versionInfo.current.name ).
+				replace( '%latest', versionInfo.latest.name ).
 				replace( /%link/g, upgradeLink );
 	}
 
