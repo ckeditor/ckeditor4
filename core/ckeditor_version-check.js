@@ -56,14 +56,16 @@
 
 			request.onreadystatechange = function() {
 				if ( request.readyState === 4 && request.status === 200 ) {
-					var response = JSON.parse( request.responseText );
+					try {
+						var response = JSON.parse( request.responseText );
 
-					versionInfo.latest = parseVersion( response.latestVersion );
-					versionInfo.secure = parseVersion( response.secureVersion );
-					versionInfo.isLatest = isLatestVersion();
-					versionInfo.isSecure = isSecureVersion();
+						versionInfo.latest = parseVersion( response.latestVersion );
+						versionInfo.secure = parseVersion( response.secureVersion );
+						versionInfo.isLatest = isLatestVersion();
+						versionInfo.isSecure = isSecureVersion();
 
-					callback();
+						callback();
+					} catch ( e ) {}
 				}
 			};
 
