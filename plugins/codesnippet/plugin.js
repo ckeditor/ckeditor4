@@ -110,7 +110,7 @@
 						var that = this;
 
 						if ( editor.plugins.codesnippet.isSupportedEnvironment() ) {
-							CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.min.js', function() {
+							CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js', function() {
 								that.hljs = window.hljs;
 								callback();
 							} );
@@ -118,7 +118,7 @@
 
 						// Method is available only if wysiwygarea exists.
 						if ( editor.addContentsCss ) {
-							editor.addContentsCss( path + 'lib/highlight/styles/' + editor.config.codeSnippet_theme + '.min.css' );
+							editor.addContentsCss( path + 'lib/highlight/styles/' + editor.config.codeSnippet_theme + '.css' );
 						}
 					},
 
