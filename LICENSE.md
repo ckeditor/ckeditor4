@@ -73,10 +73,13 @@ The following libraries are included only in the development version of CKEditor
 * Tmp - Copyright (c) 2014 KARASZI István.
 * Mkdirp - Copyright 2010 James Halliday (mail@substack.net).
 * Bender.js - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
+* benderjs-chai – Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
 * benderjs-coverage - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
 * benderjs-jquery - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
+* benderjs-mocha – Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
 * benderjs-sinon - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
 * benderjs-yui - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
+* benderjs-yui-beautified – Copyright (c) 2016 Marek Lewandowski
 * Grunt - Copyright (c) 2015 "Cowboy" Ben Alman.
 * grunt-contrib-imagemin - Copyright (c) 2014 Sindre Sorhus, contributors.
 * grunt-jscs - Copyright (c) 2014 Gustavo Henke, contributors.
@@ -87,6 +90,8 @@ The following libraries are included only in the development version of CKEditor
 * grunt-jsduck - Copyright (c) 2012 Dmitry Pashkevich, contributors.
 * grunt-githooks - Copyright (c) 2013 Romaric Pascal.
 * jQuery Form Plugin (used in jquery adapter test) - Copyright (c) 2012 M. Alsup
+* lesshat – Copyright (c) 2013 Petr Brzek
+* Q – Copyright 2009–2017 Kristopher Michael Kowal.
 * RequireJS - Copyright jQuery Foundation and other contributors.
 * Replace in File - Copyright 2015-2020, Adam Reis, Co-founder at Hello Club.
 
