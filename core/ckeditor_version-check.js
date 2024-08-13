@@ -192,6 +192,7 @@
 	 *
 	 * - For CKEditor 4.22.* and below, this option is enabled by default.
 	 * - For CKEditor 4 LTS (4.23.0 and above), this option is disabled by default.
+	 * - For all CDN versions of CKEditor 4 below 4.23.0, this option is enabled by default.
 	 *
 	 * @cfg {Boolean} [versionCheck]
 	 * @since 4.22.0
