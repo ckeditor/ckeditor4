@@ -9,7 +9,7 @@
   To save the content created with CKEditor you need to read the POST data on the server
   side and write it to a file or the database.
 
-  Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+  Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
   CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
 -------------------------------------------------------------------------------------------
 
