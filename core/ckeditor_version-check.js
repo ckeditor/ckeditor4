@@ -52,18 +52,20 @@
 
 		try {
 			var request = new XMLHttpRequest(),
-				requestUrl = apiUrl + '?v=' + encodeURIComponent( versionInfo.current.original );
+				requestUrl = apiUrl + '?v=' + encodeURIComponent( versionInfo.current.name );
 
 			request.onreadystatechange = function() {
 				if ( request.readyState === 4 && request.status === 200 ) {
-					var response = JSON.parse( request.responseText );
+					try {
+						var response = JSON.parse( request.responseText );
 
-					versionInfo.latest = parseVersion( response.latestVersion );
-					versionInfo.secure = parseVersion( response.secureVersion );
-					versionInfo.isLatest = isLatestVersion();
-					versionInfo.isSecure = isSecureVersion();
+						versionInfo.latest = parseVersion( response.latestVersion );
+						versionInfo.secure = parseVersion( response.secureVersion );
+						versionInfo.isLatest = isLatestVersion();
+						versionInfo.isSecure = isSecureVersion();
 
-					callback();
+						callback();
+					} catch ( e ) {}
 				}
 			};
 
@@ -79,8 +81,8 @@
 			return;
 		}
 
-		var notificationMessage =  editor.lang.versionCheck.notificationMessage.replace( '%current', versionInfo.current.original ).
-				replace( '%latest', versionInfo.latest.original ).
+		var notificationMessage =  editor.lang.versionCheck.notificationMessage.replace( '%current', versionInfo.current.name ).
+				replace( '%latest', versionInfo.latest.name ).
 				replace( /%link/g, upgradeLink ),
 			isNotificationAvailable = 'notification' in editor.plugins;
 
@@ -102,8 +104,8 @@
 
 		consoleErrorDisplayed = true;
 
-		var consoleMessage =  editor.lang.versionCheck.consoleMessage.replace( '%current', versionInfo.current.original ).
-			replace( '%latest', versionInfo.latest.original ).
+		var consoleMessage =  editor.lang.versionCheck.consoleMessage.replace( '%current', versionInfo.current.name ).
+			replace( '%latest', versionInfo.latest.name ).
 			replace( /%link/g, upgradeLink );
 
 		console.error( consoleMessage );
@@ -133,8 +135,8 @@
 			msg = lang.aboutDialogInsecureMessage;
 		}
 
-		return msg.replace( '%current', versionInfo.current.original ).
-				replace( '%latest', versionInfo.latest.original ).
+		return msg.replace( '%current', versionInfo.current.name ).
+				replace( '%latest', versionInfo.latest.name ).
 				replace( /%link/g, upgradeLink );
 	}
 
@@ -166,12 +168,17 @@
 			return null;
 		}
 
+		var minor = parseInt( parts[ 1 ] ),
+			patch = parseInt( parts[ 2 ] ),
+			isIts = !!parts[ 3 ],
+			name = '4.' + minor + '.' + patch + ( isIts ? '-lts' : '' );
+
 		return {
-			original: version,
+			name: name,
 			major: 4,
-			minor: Number( parts[ 1 ] ),
-			patch: Number( parts[ 2 ] ),
-			isLts: !!parts[ 3 ]
+			minor: minor,
+			patch: patch,
+			isLts: isIts
 		};
 	}
 
