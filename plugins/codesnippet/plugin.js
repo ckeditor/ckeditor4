@@ -19,7 +19,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		isSupportedEnvironment: function() {
-			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
+			return !CKEDITOR.env.ie;
 		},
 
 		beforeInit: function( editor ) {

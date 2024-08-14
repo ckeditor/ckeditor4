@@ -10,9 +10,9 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/old/sample.css" rel="stylesheet">
 	<!-- %REMOVE_LINE%
-	<link href="../../../plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
+	<link href="../../../plugins/codesnippet/lib/highlight/styles/monokai-sublime.css" rel="stylesheet">
 	%REMOVE_LINE% -->
-	<link href="../lib/highlight/styles/monokai_sublime.css" rel="stylesheet"><!-- %REMOVE_LINE% -->
+	<link href="../lib/highlight/styles/monokai-sublime.css" rel="stylesheet"><!-- %REMOVE_LINE% -->
 	<meta name="ckeditor-sample-name" content="Code Snippet plugin">
 	<meta name="ckeditor-sample-group" content="Plugins">
 	<meta name="ckeditor-sample-description" content="View and modify code using the Code Snippet plugin.">
@@ -55,12 +55,12 @@ CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extende
 <pre class="samples" id="sampleConfig">
 CKEDITOR.replace( 'editor1', {
 	<strong>extraPlugins: 'codesnippet',</strong>
-	codeSnippet_theme: 'monokai_sublime'
+	codeSnippet_theme: 'monokai-sublime'
 } );
 </pre>
 
 		<p id="ie8-warning">
-			Please note that this plugin is not compatible with Internet Explorer 8.
+			Please note that this plugin is not compatible with Internet Explorer.
 		</p>
 	</div>
 
@@ -118,7 +118,7 @@ CKEDITOR.inline( 'editable', {
 <pre class="samples">
 &lt;head&gt;
 	...
-	&lt;link href="path/to/highlight.js/styles/monokai_sublime.css" rel="stylesheet"&gt;
+	&lt;link href="path/to/highlight.js/styles/monokai-sublime.css" rel="stylesheet"&gt;
 &lt;/head&gt;
 </pre>
 
@@ -174,7 +174,7 @@ CKEDITOR.inline( 'editable', {
 				toolbar: [
 					[ 'Source' ], [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
 				],
-				codeSnippet_theme: 'monokai_sublime',
+				codeSnippet_theme: 'monokai-sublime',
 				height: 400
 			};
 
@@ -188,7 +188,79 @@ CKEDITOR.inline( 'editable', {
 
 			function initThemeChange() {
 				var templates = [
-						'monokai_sublime', 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn'
+						'1c-light',
+						'a11y-dark',
+						'a11y-light',
+						'agate',
+						'an-old-hope',
+						'androidstudio',
+						'arduino-light',
+						'arta',
+						'ascetic',
+						'atom-one-dark-reasonable',
+						'atom-one-dark',
+						'atom-one-light',
+						'brown-paper',
+						'codepen-embed',
+						'color-brewer',
+						'dark',
+						'default',
+						'devibeans',
+						'docco',
+						'far',
+						'felipec',
+						'foundation',
+						'github-dark-dimmed',
+						'github-dark',
+						'github',
+						'gml',
+						'googlecode',
+						'gradient-dark',
+						'gradient-light',
+						'grayscale',
+						'hybrid',
+						'idea',
+						'intellij-light',
+						'ir-black',
+						'isbl-editor-dark',
+						'isbl-editor-light',
+						'kimbie-dark',
+						'kimbie-light',
+						'lightfair',
+						'lioshi',
+						'magula',
+						'mono-blue',
+						'monokai-sublime',
+						'monokai',
+						'night-owl',
+						'nnfx-dark',
+						'nnfx-light',
+						'nord',
+						'obsidian',
+						'panda-syntax-dark',
+						'panda-syntax-light',
+						'paraiso-dark',
+						'paraiso-light',
+						'pojoaque',
+						'purebasic',
+						'qtcreator-dark',
+						'qtcreator-light',
+						'rainbow',
+						'routeros',
+						'school-book',
+						'shades-of-purple',
+						'srcery',
+						'stackoverflow-dark',
+						'stackoverflow-light',
+						'sunburst',
+						'tokyo-night-dark',
+						'tokyo-night-light',
+						'tomorrow-night-blue',
+						'tomorrow-night-bright',
+						'vs',
+						'vs2015',
+						'xcode',
+						'xt256'
 					],
 					pre = CKEDITOR.document.getById( 'sampleConfig' ),
 					select = CKEDITOR.document.getById( 'select' ),
