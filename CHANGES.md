@@ -2,6 +2,32 @@
 
 If you would like to keep access to future CKEditor 4 security patches, check the [Extended Support Model](https://ckeditor.com/ckeditor-4-support/), which guarantees **security updates and critical bug fixes until December 2026**. Alternatively, [upgrade to CKEditor 5](https://ckeditor.com/docs/ckeditor5/latest/updating/ckeditor4/migration-from-ckeditor-4.html).
 
+## CKEditor 4.25.0-lts
+
+⚠️️️ Please note that this release is a part of [CKEditor 4 Extended Support Model](https://ckeditor.com/ckeditor-4-support/), only available to customers who decided to acquire the LTS (Long Term Support) version of the editor. **All editor versions below 4.25.0-lts can no longer be considered as secure!** ⚠️
+
+**Security Updates:**
+
+* Fixed reflected cross-site scripting (XSS) vulnerability in [Code Snippet GeSHi](https://ckeditor.com/cke4/addon/codesnippetgeshi) plugin reported by [Jiasheng He](https://github.com/Hebing123) from Qihoo 360.
+
+	Issue summary: The vulnerability allowed a reflected XSS attack by exploiting a flaw in the [GeSHi syntax highlighter library](https://github.com/GeSHi/geshi-1.0) hosted by the victim. The GeSHi library was included as a vendor dependency in CKEditor 4 source files. In a specific scenario, an attacker could craft a malicious script that could be executed by sending a request to the GeSHi library hosted on a PHP web server. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-7r32-vfj5-c2jv) for more details.
+
+* Fixed low-risk cross-site scripting (XSS) vulnerability linked to potential domain takeover
+
+	Issue summery: A theoretical vulnerability has been identified in CKEditor 4.22 (and above). In a highly unlikely scenario where an attacker gains control over the https://cke4.ckeditor.com domain, they could potentially execute an attack on CKEditor 4 instances. Although the vulnerability is purely hypothetical, we have addressed it in CKEditor 4.25.0-lts to ensure compliance with security best practices. See [GHA](https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-6v96-m24v-f58j) for more details.
+
+You can read more details in the relevant security advisories. [Contact us](security@cksource.com) if you have more questions.
+
+**An upgrade is highly recommended!**
+
+Updated dependencies:
+
+* **CodeMirror** (used only in the [Toolbar Configurator](https://ckeditor.com/docs/ckeditor4/latest/features/toolbar.html#toolbar-configurator) in samples) has been updated to v5.65.17 for improved stability and performance.
+
+* **Highlight.js** (used by the [Code Snippet](https://ckeditor.com/cke4/addon/codesnippet) plugin) has been updated to v11.9.0, introducing **two breaking changes**:
+  * dropped support for Internet Explorer,
+  * updated list of the supported themes – some of the themes are no longer officially supported, others may have their names changed (e.g. `monokai_sublime` is now `monokai-sublime`). Please verify the value of your [`config.codeSnippet_theme`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-codeSnippet_theme) configuration option and adjust theme names as needed. The list of available themes can be checked in the `plugins/codesnippet/lib/highlight/styles` directory.
+
 ## CKEditor 4.24.0-lts
 
 ⚠️️️ Please note that this release is a part of [CKEditor 4 Extended Support Model](https://ckeditor.com/ckeditor-4-support/), only available to customers who decided to acquire the LTS (Long Term Support) version of the editor. **All editor versions below 4.24.0-lts can no longer be considered as secure!** ⚠️
