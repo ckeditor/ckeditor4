@@ -200,6 +200,10 @@
 	 * - For CKEditor 4.22.* and below, this option is enabled by default.
 	 * - For CKEditor 4 LTS (4.23.0 and above), this option is disabled by default.
 	 *
+	 * Starting July 1st, 2024, we have enabled security notifications for editor instances accessed through https://cdn.ckeditor.com/.
+	 * To learn more about these changes, please read this article: https://ckeditor.com/blog/important-update-for-ckeditor-4-users.
+	 * You can control security notifications for CDN-based editors using the `config.versionCheck` option.
+	 *
 	 * @cfg {Boolean} [versionCheck]
 	 * @since 4.22.0
 	 * @member CKEDITOR.config
