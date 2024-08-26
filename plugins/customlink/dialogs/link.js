@@ -391,7 +391,7 @@
             {
               id: 'uploadLinkIcon',
               type: 'html',
-              html: '<div style="margin-top:10px;"tabindex="0"><i class="icon2-upload image-upload"/>Upload a document<input type="text" readonly id="file-name-link" class="file-name" tabindex="-1"/></div>',
+              html: '<div style="margin-top:10px; padding-top: 10px;"tabindex="0"><i class="icon2-upload image-upload"/>Upload a document<input type="text" readonly id="file-name-link" class="file-name" tabindex="-1" aria-hidden="true"/></div>',
               focus:true,
               onClick: function(event) {
                 CKEDITOR.dialog

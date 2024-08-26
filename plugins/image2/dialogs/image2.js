@@ -457,7 +457,7 @@ CKEDITOR.dialog.add('image2', function(editor) {
           {
             id: 'uploadImageIcon',
             type: 'html',
-            html: '<div style="margin-top:10px;"tabindex="0"><i class="icon2-upload image-upload"/>Upload an Image<input type="text" id="file-name-image" readonly class="file-name" tabindex="-1"/></div>',
+            html: '<div style="margin-top:10px; padding-top: 10px;"tabindex="0"><i class="icon2-upload image-upload"/>Upload an Image<input type="text" id="file-name-image" readonly class="file-name" tabindex="-1" aria-hidden="true"/></div>',
             focus: true,
             onClick: function(event) {
               CKEDITOR.dialog
