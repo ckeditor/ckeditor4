@@ -457,14 +457,26 @@ CKEDITOR.dialog.add('image2', function(editor) {
           {
             id: 'uploadImageIcon',
             type: 'html',
-            html: '<div style="margin-top:10px;"><i class="icon2-upload image-upload"/>Upload an Image<input type="text" id="file-name-image" readonly class="file-name"/></div>',
+            html: '<div style="margin-top:10px;"tabindex="0"><i class="icon2-upload image-upload"/>Upload an Image<input type="text" id="file-name-image" readonly class="file-name" tabindex="-1"/></div>',
+            focus: true,
             onClick: function(event) {
               CKEDITOR.dialog
                 .getCurrent()
                 .getContentElement('info', 'upload')
                 .getInputElement()
                 .$.click();
-            }
+            },
+            onKeyDown: function(event) {
+              event.data.stopPropagation();
+              if(event.data.getKey()===13) //Check for Enter keyDown
+              {
+                CKEDITOR.dialog
+                .getCurrent()
+                .getContentElement('info', 'upload')
+                .getInputElement()
+                .$.click();
+              }
+            },
           },
           {
             type: 'file',
