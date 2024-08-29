@@ -32,7 +32,7 @@
         i,
         j;
 
-      style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why
+      style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
 
       for (i = 0; i < ranges.length; i++) {
         range = ranges[i];
