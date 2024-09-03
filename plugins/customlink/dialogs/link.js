@@ -391,14 +391,26 @@
             {
               id: 'uploadLinkIcon',
               type: 'html',
-              html: '<div style="margin-top:10px;"><i class="icon2-upload image-upload"/>Upload a document<input type="text" readonly id="file-name-link" class="file-name"/></div>',
+              html: '<div style="margin-top:10px; padding-top: 10px;"tabindex="0"><i class="icon2-upload image-upload"/>Upload a document<input type="text" readonly id="file-name-link" class="file-name" tabindex="-1" aria-hidden="true"/></div>',
+              focus:true,
               onClick: function(event) {
                 CKEDITOR.dialog
                   .getCurrent()
                   .getContentElement('info', 'upload')
                   .getInputElement()
                   .$.click();
-              }
+              },
+              onKeyDown: function(event) {
+                event.data.stopPropagation();
+                if(event.data.getKey()===13) //Check for Enter keyDown
+                {
+                  CKEDITOR.dialog
+                  .getCurrent()
+                  .getContentElement('info', 'upload')
+                  .getInputElement()
+                  .$.click();
+                }
+              },
             },
 
             {
