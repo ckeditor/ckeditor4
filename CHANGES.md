@@ -1,6 +1,11 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.4.19
+  - [#26](https://github.com/interviewstreet/ckeditor-dev/pull/26)
+    - Update: Content templates for accessibility
+    - Update: Internal logic for dialogs for link and image for accessibility
+
 ## CKEditor 4.11.4.18
   - [#23](https://github.com/interviewstreet/ckeditor-dev/pull/23)
     - Update: Content templates for coding questions
