@@ -577,11 +577,17 @@ CKEDITOR.dialog.add('image2', function(editor) {
             id: 'alignment',
             style: 'padding:5px 0px 5px 0px; display:flex;align-items:center;',
             requiredContent: features.align.requiredContent,
+            onLoad: function() {
+              if (window.innerWidth > 576) return;
+              var css = '.image-properties .cke_dialog_ui_hbox { display: flex !important; flex-direction: column !important }';
+              CKEDITOR.document.appendStyleText(css);
+            },
             children: [
               {
                 id: 'align',
                 type: 'radio',
                 style: 'margin-top:10px',
+                className: 'image-properties',
                 items: [
                   [commonLang.alignNone, 'none'],
                   [commonLang.alignLeft, 'left'],
