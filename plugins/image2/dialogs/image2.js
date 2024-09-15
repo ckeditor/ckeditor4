@@ -492,21 +492,18 @@ CKEDITOR.dialog.add('image2', function(editor) {
               var input = this.getInputElement();
               var fileNameLinkElement = CKEDITOR.dialog.getCurrent().getElement().findOne('#file-name-image');
 
-              debugger;
               if (input.$.files[0].type.match(/^image\/.*/)) { // check if valid image type
                 if (fileNameLinkElement) {
                   fileNameLinkElement.$.value = event.data.value
                   .split('\\')
                   .pop();
                   fileNameLinkElement.$.style.display = 'block';
-                  debugger;
                 }
                 CKEDITOR.dialog
                   .getCurrent()
                   .getContentElement('info', 'uploadButton')
                   .getInputElement()
                   .$.click();
-                debugger;
               } else {
                 input.$.value = ""; //resetting the value of file input element
                 alert('Please upload an image file');

@@ -421,12 +421,10 @@
               onChange: function(event) {
                 var fileNameLinkElement = CKEDITOR.dialog.getCurrent().getElement().findOne('#file-name-link');
 
-                debugger;
                 if (fileNameLinkElement) {
                   fileNameLinkElement.$.value = event.data.value
                   .split('\\')
                   .pop();
-                  debugger;
                   fileNameLinkElement.$.style.display = 'block';
                 }
 
