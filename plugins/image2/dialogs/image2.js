@@ -587,7 +587,7 @@ CKEDITOR.dialog.add('image2', function(editor) {
                 id: 'align',
                 type: 'radio',
                 style: 'margin-top:10px',
-                className: 'image-properties',
+                className: 'align-image-options',
                 items: [
                   [commonLang.alignNone, 'none'],
                   [commonLang.alignLeft, 'left'],
