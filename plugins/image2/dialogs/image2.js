@@ -139,10 +139,11 @@ CKEDITOR.dialog.add('image2', function(editor) {
   // dimensions lock is adjusted.
   function onChangeSrc() {
     var value = this.getValue();
-    var fileNameLinkElement = document.getElementById('file-name-link');
+    var fileNameLinkElement = CKEDITOR.dialog.getCurrent().getElement().findOne('#file-name-image');
 
     if (value == '' && fileNameLinkElement) {
-      fileNameLinkElement.value = '';
+      fileNameLinkElement.$.value = '';
+      fileNameLinkElement.$.style.display = 'none';
     }
     toggleDimensions(false);
 
@@ -457,7 +458,7 @@ CKEDITOR.dialog.add('image2', function(editor) {
           {
             id: 'uploadImageIcon',
             type: 'html',
-            html: '<div style="margin-top:10px; padding-top: 10px;"tabindex="0"><i class="icon2-upload image-upload"/>Upload an Image<input type="text" id="file-name-image" readonly class="file-name" tabindex="-1" aria-hidden="true"/></div>',
+            html: '<div class="file-upload-wrapper" "tabindex="0"><i class="icon2-upload image-upload">Upload an Image</i><div class="file-name-wrapper"><input type="text" id="file-name-image" readonly class="file-name" tabindex="-1" aria-hidden="true"/></div></div>',
             focus: true,
             onClick: function(event) {
               CKEDITOR.dialog
@@ -489,13 +490,14 @@ CKEDITOR.dialog.add('image2', function(editor) {
             },
             onChange: function(event) {
               var input = this.getInputElement();
-              var fileNameLinkElement = document.getElementById('file-name-link');
+              var fileNameLinkElement = CKEDITOR.dialog.getCurrent().getElement().findOne('#file-name-image');
 
               if (input.$.files[0].type.match(/^image\/.*/)) { // check if valid image type
                 if (fileNameLinkElement) {
-                  fileNameLinkElement.value = event.data.value
+                  fileNameLinkElement.$.value = event.data.value
                   .split('\\')
                   .pop();
+                  fileNameLinkElement.$.style.display = 'block';
                 }
                 CKEDITOR.dialog
                   .getCurrent()
@@ -582,6 +584,7 @@ CKEDITOR.dialog.add('image2', function(editor) {
                 id: 'align',
                 type: 'radio',
                 style: 'margin-top:10px',
+                className: 'align-image-options',
                 items: [
                   [commonLang.alignNone, 'none'],
                   [commonLang.alignLeft, 'left'],

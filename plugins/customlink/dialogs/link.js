@@ -354,11 +354,12 @@
                       },
                       setup: function(data) {
                         this.allowOnChange = false;
-                        var fileNameLinkElement = document.getElementById('file-name-link');
+                        var fileNameLinkElement = CKEDITOR.dialog.getCurrent().getElement().findOne('#file-name-link');
                         if (data.url) {
                           this.setValue(data.url.url);
                         } else if (fileNameLinkElement) {
-                          fileNameLinkElement.value = '';
+                          fileNameLinkElement.$.value = '';
+                          fileNameLinkElement.$.style.display = 'none';
                         }
                         this.allowOnChange = true;
                       },
@@ -391,7 +392,7 @@
             {
               id: 'uploadLinkIcon',
               type: 'html',
-              html: '<div style="margin-top:10px; padding-top: 10px;"tabindex="0"><i class="icon2-upload image-upload"/>Upload a document<input type="text" readonly id="file-name-link" class="file-name" tabindex="-1" aria-hidden="true"/></div>',
+              html: '<div class="file-upload-wrapper" "tabindex="0"><i class="icon2-upload image-upload">Upload a document</i><div class="file-name-wrapper"><input type="text" id="file-name-link" readonly class="file-name" tabindex="-1" aria-hidden="true"/></div></div>',
               focus:true,
               onClick: function(event) {
                 CKEDITOR.dialog
@@ -418,12 +419,13 @@
               id: 'upload',
               label: 'Upload',
               onChange: function(event) {
-                var fileNameLinkElement = document.getElementById('file-name-link');
+                var fileNameLinkElement = CKEDITOR.dialog.getCurrent().getElement().findOne('#file-name-link');
 
                 if (fileNameLinkElement) {
-                  fileNameLinkElement.value = event.data.value
+                  fileNameLinkElement.$.value = event.data.value
                   .split('\\')
                   .pop();
+                  fileNameLinkElement.$.style.display = 'block';
                 }
 
                 CKEDITOR.dialog
