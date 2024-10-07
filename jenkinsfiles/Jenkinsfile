@@ -2,6 +2,6 @@
 
 def pipelineParams = params
 ckeditorPipeline {
-  agentLabel             = 'hackerrank'
+  agentLabel             = 'slave'
   repoName               = 'ckeditor-dev'
 }
