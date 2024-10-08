@@ -1,4 +1,4 @@
-@Library(["hackerrank-jenkins-library/ckeditor-pipelines@OP-2535"]) _
+@Library(["hackerrank-jenkins-library/ckeditor-pipelines@master"]) _
 
 def pipelineParams = params
 ckeditorPipeline {
