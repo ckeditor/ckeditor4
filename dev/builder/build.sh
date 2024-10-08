@@ -57,11 +57,6 @@ echo "Starting CKBuilder..."
 
 JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
 
-# VERSION="$1"
-# if [ -z "$VERSION" ]; then
-#     VERSION=$(grep '"version":' ./../../package.json | sed $'s/[\t\",: ]//g; s/version//g' | tr -d '[[:space:]]')
-# fi
-
 VERSION=$(grep '"version":' ./../../package.json | sed $'s/[\t\",: ]//g; s/version//g' | tr -d '[[:space:]]')
 REVISION=$(git rev-parse --verify --short HEAD)
 
