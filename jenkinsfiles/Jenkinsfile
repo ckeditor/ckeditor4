@@ -1,0 +1,7 @@
+@Library(["hackerrank-jenkins-library/ckeditor-pipelines@master"]) _
+
+def pipelineParams = params
+ckeditorPipeline {
+  agentLabel             = 'slave'
+  repoName               = 'ckeditor-dev'
+}
