@@ -82,6 +82,29 @@ Here are steps on how to locally test your code changes in this repo.
 
 **Note** :- After making any code changes, you need to follow the above steps, starting from step-2 and for each change you made, follow one iteration of the above steps.
 
+## CICD for ckeditor-dev
+
+The jenkins job for building and deploying ckeditor-dev in private and production environments can be found [here](https://jenkins.adminext.hackerrank.link/job/ckeditor-dev/job/ckeditor/)
+
+
+Private: 
+1. For private environment, build artifacts are deployed in [hackerrank-private-cdn](https://us-east-1.console.aws.amazon.com/s3/buckets/hackerrank-private-cdn?region=us-east-1&bucketType=general&prefix=ckeditor-dev/&showversions=false) S3 bucket. 
+2. The pipeline would deploy to private only when 2 conditions are met:
+  - The version name in package.json file contains `-beta` suffix. If for PR builds , `-beta` suffix is absent, all the further stages are skipped.
+  - It should be a change request i.e. a PR. The pipeline should run on a PR. 
+3. In case a build with same version name already exists, it will be overriden. 
+4. The artifact can be accessed on this URL https://d1ncy0v3du7k5q.cloudfront.net/ckeditor-dev/VERSION/ckeditor.js 
+
+Production: 
+1. For production environment, build artifacts are deployed on the cdn `nano` server. 
+2. The pipeline would deploy to production only when 3 conditions are met:
+  - The version name in package.json file does not contain `-beta` suffix. 
+  - It should be a master build. 
+  - The same version should not already exist on the nano server. 
+  In any of the above situations the pipeline would error out/deemed unstable. 
+3. The artifact can be accessed on this URL https://hrcdn.net/ckeditor/VERSION/ckeditor.js
+
+
 ## Testing Environment
 
 Read more on how to set up the environment and execute tests in the [CKEditor 4 Testing Environment](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_tests.html) guide.
