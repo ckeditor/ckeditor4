@@ -433,7 +433,10 @@
                   .getContentElement('info', 'uploadButton')
                   .getInputElement()
                   .$.click();
-              }
+              },
+			 onError: function(event) {
+				alert('Error uploading file');
+			 }
             },
 
             {
