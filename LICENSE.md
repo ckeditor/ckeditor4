@@ -2,7 +2,7 @@ Software License Agreement for CKEditor 4 LTS (4.23.0 and above)
 ================================================================
 
 CKEditor - The text editor for Internet - https://ckeditor.com/ <br>
-Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
+Copyright (c) 2003-2025, CKSource Holding sp. z o.o. All rights reserved.
 
 CKEditor 4 LTS ("Long Term Support") is available under exclusive terms of the [Extended Support Model](https://ckeditor.com/ckeditor-4-support/). [Contact us](https://ckeditor.com/contact/) to obtain a commercial license.
 
@@ -10,7 +10,7 @@ Software License Agreement for CKEditor 4.22.* and below
 ========================================================
 
 CKEditor - The text editor for Internet - https://ckeditor.com/ <br>
-Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
+Copyright (c) 2003-2025, CKSource Holding sp. z o.o. All rights reserved.
 
 Licensed under the terms of any of the following licenses at your
 choice:
@@ -45,7 +45,7 @@ done by developers outside of CKSource with their express permission.
 
 The following libraries are included in CKEditor under the MIT license (see Appendix D):
 
-* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
+* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2025, CKSource Holding sp. z o.o.
 * PicoModal (included in `samples/js/sf.js`) - Copyright (c) 2012 James Frasca.
 * CodeMirror (included in the samples) - Copyright (C) 2017 by Marijn Haverbeke <marijn@haverbeke.berlin> and others.
 * ES6Promise - Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors.
@@ -67,18 +67,18 @@ The following libraries are included in CKEditor under the BSD-3 License (see Ap
 
 The following libraries are included only in the development version of CKEditor under the MIT license (see Appendix D):
 
-* CKBuilder - Copyright (c) 2012-2024, CKSource Holding sp. z o.o.
-* CKLangTool - Copyright (c) 2012-2024, CKSource Holding sp. z o.o.
+* CKBuilder - Copyright (c) 2012-2025, CKSource Holding sp. z o.o.
+* CKLangTool - Copyright (c) 2012-2025, CKSource Holding sp. z o.o.
 * Optimist - Copyright 2010 James Halliday (mail@substack.net).
 * Tmp - Copyright (c) 2014 KARASZI István.
 * Mkdirp - Copyright 2010 James Halliday (mail@substack.net).
-* Bender.js - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
-* benderjs-chai – Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
-* benderjs-coverage - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
-* benderjs-jquery - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
-* benderjs-mocha – Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
-* benderjs-sinon - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
-* benderjs-yui - Copyright (c) 2014-2024, CKSource Holding sp. z o.o.
+* Bender.js - Copyright (c) 2014-2025, CKSource Holding sp. z o.o.
+* benderjs-chai – Copyright (c) 2014-2025, CKSource Holding sp. z o.o.
+* benderjs-coverage - Copyright (c) 2014-2025, CKSource Holding sp. z o.o.
+* benderjs-jquery - Copyright (c) 2014-2025, CKSource Holding sp. z o.o.
+* benderjs-mocha – Copyright (c) 2014-2025, CKSource Holding sp. z o.o.
+* benderjs-sinon - Copyright (c) 2014-2025, CKSource Holding sp. z o.o.
+* benderjs-yui - Copyright (c) 2014-2025, CKSource Holding sp. z o.o.
 * benderjs-yui-beautified – Copyright (c) 2016 Marek Lewandowski
 * Grunt - Copyright (c) 2015 "Cowboy" Ben Alman.
 * grunt-contrib-imagemin - Copyright (c) 2014 Sindre Sorhus, contributors.
