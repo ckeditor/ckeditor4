@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
+# Copyright (c) 2003-2025, CKSource Holding sp. z o.o. All rights reserved.
 # CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
 
 # Fix language files by adding missing entries from en.js to other language files.
