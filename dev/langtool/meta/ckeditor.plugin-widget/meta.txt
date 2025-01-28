@@ -1,4 +1,4 @@
-# Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
+# Copyright (c) 2003-2025, CKSource Holding sp. z o.o. All rights reserved.
 # CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
 
 label = Generic template for a label, read by a screen reader once the widget gets focused. %1 sequence is replaced either with a widget path name or it's main element tag name.
