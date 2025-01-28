@@ -8,13 +8,13 @@
 [![Join newsletter](https://img.shields.io/badge/join-newsletter-00cc99.svg)](http://eepurl.com/c3zRPr)
 [![Follow Twitter](https://img.shields.io/badge/follow-twitter-00cc99.svg)](https://twitter.com/ckeditor)
 
-## ⚠️ CKEditor 4: End of Life and Extended Support Model until Dec 2026
+## ⚠️ CKEditor 4: End of Life and Extended Support Model until Dec 2028
 
 CKEditor 4 was launched in 2012 and reached its End of Life (EOL) on June 30, 2023.
 
 A special edition, **[CKEditor 4 LTS](https://ckeditor.com/ckeditor-4-support/)** ("Long Term Support"), is available under commercial terms (["Extended Support Model"](https://ckeditor.com/ckeditor-4-support/)) for anyone looking to **extend the coverage of security updates and critical bug fixes**.
 
-With CKEditor 4 LTS, security updates and critical bug fixes are guaranteed until December 2026.
+With CKEditor 4 LTS, security updates and critical bug fixes are guaranteed until December 2028.
 
 ### Important update for CKEditor 4 Users
 
@@ -52,7 +52,7 @@ You may continue using CKEditor 4.22.1 (or below). The license terms of the olde
 
 ### Signing an "Extended Support Model" contract
 
-If you are not ready to replace CKEditor 4 in your application yet, you may continue using CKEditor 4 until December 2026.
+If you are not ready to replace CKEditor 4 in your application yet, you may continue using CKEditor 4 until December 2028.
 CKEditor 4 LTS, available under the "Extended Support Model", will ship all important security updates and critical bug fixes, providing an interrupted editing experience for your end users. Please note that this version of CKEditor 4 is available only under a special agreement and requires a license key.
 
 ## About CKEditor 4
