@@ -2,6 +2,17 @@
 
 If you would like to keep access to future CKEditor 4 security patches, check the [Extended Support Model](https://ckeditor.com/ckeditor-4-support/), which guarantees **security updates and critical bug fixes until December 2028**. Alternatively, [upgrade to CKEditor 5](https://ckeditor.com/docs/ckeditor5/latest/updating/ckeditor4/migration-from-ckeditor-4.html).
 
+## CKEditor 4.25.1-lts
+
+⚠️️️ Please note that this release is a part of [CKEditor 4 Extended Support Model](https://ckeditor.com/ckeditor-4-support/), only available to customers who decided to acquire the LTS (Long Term Support) version of the editor.
+
+Other Changes:
+
+* Updated license headers to 2025.
+* Updated readme files to reflect the new CKEditor 4 Extended Support Model end date.
+
+Please note that this patch release doesn't provide any security fixes. It's a part of our administrative maintenance updates.
+
 ## CKEditor 4.25.0-lts
 
 ⚠️️️ Please note that this release is a part of [CKEditor 4 Extended Support Model](https://ckeditor.com/ckeditor-4-support/), only available to customers who decided to acquire the LTS (Long Term Support) version of the editor. **All editor versions below 4.25.0-lts can no longer be considered as secure!** ⚠️
