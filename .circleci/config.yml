@@ -38,6 +38,7 @@ jobs:
             cd ../ckeditor4-benderjs-runner
             pwd
             npm run start -- --configFile "../../project/bender-runner.config.json" --browser "chrome" --fullRun "fullRun" --repoPath "../project/"
+          no_output_timeout: 15m
   test_firefox:
     docker:
       - image: cimg/node:10.24.0-browsers
@@ -62,9 +63,10 @@ jobs:
             npm i
             pwd
       - run:
-          name: Run tests on Chrome
+          name: Run tests on Firefox
           command: |
             cd ../ckeditor4-benderjs-runner
             pwd
             npm run start -- --configFile "../../project/bender-runner.config.json" --browser "firefox" --fullRun "fullRun" --repoPath "../project/"
+          no_output_timeout: 15m
 
