@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  browser-tools: circleci/browser-tools@1.4.6
+  browser-tools: circleci/browser-tools@1.5.2
 
 workflows:
   test:
@@ -62,7 +62,7 @@ jobs:
             npm i
             pwd
       - run:
-          name: Run tests on Chrome
+          name: Run tests on Firefox
           command: |
             cd ../ckeditor4-benderjs-runner
             pwd
