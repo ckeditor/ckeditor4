@@ -307,7 +307,7 @@
                         var url = this.getValue(),
                           urlOnChangeProtocol = /^(http|https|ftp|news):\/\/(?=.)/i,
                           urlOnChangeTestOther = /^((javascript:)|[#\/\.\?])/i;
-
+						console.log(url)
                         var protocol = urlOnChangeProtocol.exec(url);
                         //will be used later
                         if (protocol) {
@@ -323,6 +323,7 @@
                         if (
                           this.allowOnChange // Dont't call on dialog load.
                         )
+						console.log(event);
                           this.onKeyUp();
                       },
                       validate: function() {
@@ -444,6 +445,13 @@
               for: ['info', 'upload'],
               style: 'display:none'
             },
+
+			{
+				type: 'html',
+				id: 'warningText',
+				html: '<i class="icon-info-circled"></i><span style="color:red; font-size:14px">The file format you selected is not supported.</span>',
+				style: 'display:none'
+			},
 
             {
               type: 'vbox',
