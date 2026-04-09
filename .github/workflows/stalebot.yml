@@ -8,7 +8,7 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/stale@v3
+    - uses: actions/stale@98ed4cb500039dbcccf4bd9bedada4d0187f2757 #v3
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: "It's been a while since we last heard from you. We are marking this issue as stale due to inactivity. Please provide the requested feedback or the issue will be closed after next 7 days."

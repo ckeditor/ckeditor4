@@ -21,13 +21,13 @@ jobs:
     steps:
       - name: Setup node
         # https://github.com/marketplace/actions/setup-node-js-environment
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e #v1
         with:
           node-version: '12'
 
       - name: Checkout default branch
         # https://github.com/marketplace/actions/checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 #v2
 
       - name: Read config
         run: |
@@ -88,7 +88,7 @@ jobs:
       - name: Push changes
         if: env.HAS_CHANGES == 1
         # https://github.com/marketplace/actions/github-push
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@4cc74773234f74829a8c21bc4d69dd4be9cfa599 #v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.BRANCH_UPDATE }}
@@ -96,7 +96,7 @@ jobs:
       - name: Create PR
         if: env.HAS_CHANGES == 1
         # https://github.com/marketplace/actions/github-pull-request-action
-        uses: repo-sync/pull-request@v2
+        uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
         with:
           source_branch: "${{ env.BRANCH_UPDATE }}"
           destination_branch: "${{ env.BRANCH_TARGET }}"
