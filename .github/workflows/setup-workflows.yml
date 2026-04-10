@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout default branch
         # https://github.com/marketplace/actions/checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 #v2
         with:
           token: ${{ secrets.GH_WORKFLOWS_TOKEN }}
 
@@ -56,18 +56,18 @@ jobs:
       - name: Cancel build if update branch already exists
         if: env.SHOULD_CANCEL == 1
         # https://github.com/marketplace/actions/cancel-this-build
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@8f8510d9dea52fcc8eb6ca10d6ce47fd5fc43cd8 #0.2
 
       - name: Wait for cancellation
         if: env.SHOULD_CANCEL == 1
         # https://github.com/marketplace/actions/wait-sleep
-        uses: jakejarvis/wait-action@master
+        uses: jakejarvis/wait-action@919fc193e07906705e5b7a50f90ea9e74d20b2b0 #v0.1.1
         with:
           time: '60s'
 
       - name: Checkout common workflows repository
         # https://github.com/marketplace/actions/checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 #v2
         with:
           path: ckeditor4-workflows-common
           repository: ckeditor/ckeditor4-workflows-common
@@ -104,7 +104,7 @@ jobs:
       - name: Push changes
         if: env.HAS_CHANGES == 1
         # https://github.com/marketplace/actions/github-push
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@4cc74773234f74829a8c21bc4d69dd4be9cfa599 #v1.0.0
         with:
           github_token: ${{ secrets.GH_WORKFLOWS_TOKEN }}
           branch: ${{ env.BRANCH_SOURCE }}
@@ -112,7 +112,7 @@ jobs:
       - name: Create PR
         if: env.HAS_CHANGES == 1 && env.AS_PR == 1
         # https://github.com/marketplace/actions/github-pull-request-action
-        uses: repo-sync/pull-request@v2
+        uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
         with:
           source_branch: "${{ env.BRANCH_SOURCE }}"
           destination_branch: "${{ github.ref }}"
